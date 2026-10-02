@@ -61,10 +61,12 @@ impl std::error::Error for Error {}
 pub type Result<T> = std::result::Result<T, Error>;
 
 mod execution;
+mod invocation;
 mod persistence;
 mod query;
 mod resource;
 pub use execution::*;
+pub use invocation::*;
 pub use persistence::*;
 pub use query::*;
 pub use resource::*;

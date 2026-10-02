@@ -297,9 +297,14 @@ impl Runtime {
         actor: &Actor,
         cmd: Command<R>,
     ) -> Result<Snapshot<R>> {
+        typed(self.invoke(actor, cmd.into()).await?)
+    }
+    pub async fn invoke(&self, actor: &Actor, invocation: Invocation) -> Result<Row> {
+        let identity = invocation.durable_identity(actor);
+        let cmd = invocation.into_command();
         self.check_actor(actor)?;
         if cmd.identity.is_empty() || cmd.id.is_empty() {
-            return Err(Error::invalid(R::KIND, "identity"));
+            return Err(Error::invalid(&cmd.kind, "identity"));
         }
         let size = match &cmd.mutation {
             Mutation::Create(v) | Mutation::Replace(v) | Mutation::Action(_, v) => {
@@ -319,39 +324,28 @@ impl Runtime {
         let row = self
             .io(move |runtime| {
                 let _permit = permit;
-                runtime.run::<R>(&a, cmd)
+                runtime.run(&a, cmd, identity)
             })
             .await?;
         let a = actor.clone();
         self.observe(actor, move |runtime| {
-            let def = runtime.0.registry.get(R::KIND).ok_or(Error::Unregistered)?;
+            let def = runtime
+                .0
+                .registry
+                .get(&row.key.kind)
+                .ok_or(Error::Unregistered)?;
             let current = runtime.0.storage.load(&row.key)?;
             runtime.disclose(&a, &(), def.as_ref(), current.as_ref(), &row)?;
-            typed(row.clone())
+            Ok(row.clone())
         })
         .await
     }
-    fn run<R: Resource>(&self, actor: &Actor, cmd: Command<R>) -> Result<Row> {
-        let def = self.0.registry.get(R::KIND).ok_or(Error::Unregistered)?;
+    fn run(&self, actor: &Actor, cmd: invocation::ErasedCommand, identity: String) -> Result<Row> {
+        let def = self.0.registry.get(&cmd.kind).ok_or(Error::Unregistered)?;
         let key = Key {
-            kind: R::KIND.into(),
+            kind: cmd.kind.clone(),
             id: cmd.id.clone(),
         };
-        let operation = match &cmd.mutation {
-            Mutation::Create(_) => json!(["standard", "create"]),
-            Mutation::Replace(_) => json!(["standard", "replace"]),
-            Mutation::Delete => json!(["standard", "delete"]),
-            Mutation::Action(n, _) => json!(["custom", n]),
-        };
-        let identity = json!([
-            actor.authority,
-            actor.subject,
-            R::KIND,
-            cmd.id,
-            operation,
-            cmd.identity
-        ])
-        .to_string();
         let input = match &cmd.mutation {
             Mutation::Create(v) | Mutation::Replace(v) => def.normalize(v.clone())?,
             Mutation::Delete => Value::Null,
@@ -456,7 +450,7 @@ impl Runtime {
         };
         // No-op effects are rejected: an external effect needs a committed transition in this slice.
         if !changed && !effects.is_empty() {
-            return Err(Error::invalid(R::KIND, "no-op effects"));
+            return Err(Error::invalid(&cmd.kind, "no-op effects"));
         }
         let bundle = Bundle {
             expected: cmd.expected,
