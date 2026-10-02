@@ -30,6 +30,8 @@
 ## 4. Extend and verify
 
 - [ ] 4.1 Specify separate HTTP and RabbitMQ integrations; verify core dependency independence.
+- [ ] 4.5 Trial Tower-style composition against core transport capabilities, including readiness, cancellation and bounded stream lifetime; compare with direct focused Rust interfaces before selecting the implementation.
+- [ ] 4.6 Verify shared invocation vectors through embedded calls and actual HTTP/broker bindings, including unsupported profiles, lost replies, current authorization and distinct live/journal recovery.
 - [ ] 4.2 Add schema-evolution and compatibility tests before any persisted format is released.
 - [ ] 4.3 Verify all capability scenarios and adopted quality gates before marking implementation complete.
 - [ ] 4.4 Archive the implemented change and promote requirements to baseline specifications.

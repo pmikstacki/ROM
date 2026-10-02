@@ -84,6 +84,12 @@ Per-resource event ordering is required; global ordering is not. Consumers need 
 
 Expose operations to register resource kinds/field types, execute actions, read resources, observe live reads, and subscribe to committed changes. Concrete Rust signatures will follow the research and a minimal vertical slice. HTTP and RabbitMQ adapt this interface; neither becomes part of the core dependency graph.
 
+The owner approved a core-owned transport layer expressed through capabilities, with separate invocation, live-observation and journal-subscription contracts. Resource remains the application domain entity; invocation and subscription values are protocol machinery. Bindings declare supported operation families, codecs, limits and recovery semantics. Validate required combinations at registration and reject unsupported calls before effects. Capability support describes technical ability, not caller authority.
+
+Feathers supplies the reference pattern of equivalent local and transported operations. Tower's generic Service/Layer composition is a candidate implementation mechanism, not an adopted core dependency or a substitute for ROM's lifecycle and durability rules. A focused trial must check readiness, cancellation, admission ownership and stream lifetime before adoption. Do not force all operations into one universal request/response object. See the [transport review](../../../docs/research/transport-layer-review.md), [Feathers services](https://feathersjs.com/api/services) and [Tower Service](https://docs.rs/tower/latest/tower/trait.Service.html).
+
+Keep trusted identity context separate from serialized input. HTTP status codes and broker acknowledgments map to core outcomes; they do not define commit status. Live results can refresh/coalesce, whereas journal delivery requires explicit history cursors and gap handling. A binding can support only a subset, but each supported operation preserves the shared semantics. Durable queued acceptance requires a persisted recovery obligation and is not implied by transport receipt.
+
 ### Reactive reads and durable facts
 
 Live reads answer what the current authorized result is; committed-event streams answer what happened; reactions request subsequent actions. They share the resource model but require distinct delivery semantics. A live query may coalesce intermediate states, whereas a durable consumer resumes through an explicit cursor and retention contract. A transient notification is a wake-up hint, not the authoritative history.
