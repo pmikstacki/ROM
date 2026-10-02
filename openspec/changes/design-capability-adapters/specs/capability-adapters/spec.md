@@ -95,3 +95,33 @@ Supported adapter profiles SHALL pass shared semantic and resilience tests with 
 - **GIVEN** tests pass against one local S3-compatible server
 - **WHEN** the adapter's supported profiles are documented
 - **THEN** the report names the exercised endpoint implementation and does not claim all S3-compatible deployments were tested
+
+### Requirement: Internal deduplication preserves authoritative guarantees
+Any pre-persistence cache or request-coalescing optimization SHALL remain an internal ROM mechanism. It SHALL preserve scoped command identity, input equivalence, current authorization and durable atomic arbitration. Eviction, expiry, cancellation or process-local state loss SHALL NOT authorize a duplicate committed transition. Unknown outcomes SHALL NOT be cached as confirmed success or terminal rollback.
+
+ROM SHALL bound admitted work, waiting callers and accepted input sizes independently of completed-cache capacity. Cached results SHALL have an absolute validity horizon consistent with durable identity retention and storage generation. Reads or rehydration SHALL NOT extend that horizon. Current authorization MAY require authoritative reads even when a receipt is cached.
+
+#### Scenario: Conflicting request joins an in-flight key
+- **GIVEN** a command is running under a scoped identity
+- **WHEN** another caller supplies different canonical input under that identity
+- **THEN** ROM rejects the mismatch rather than joining the work or returning its result
+
+#### Scenario: Original caller disconnects
+- **GIVEN** an admitted command has multiple authorized callers waiting for its result
+- **WHEN** the original caller disconnects
+- **THEN** ROM retains supervision of the work and resolves remaining callers without releasing its execution capacity before completion
+
+#### Scenario: Cached outcome after permission change
+- **GIVEN** a confirmed outcome is present in the internal cache
+- **WHEN** a caller no longer has permission to receive it
+- **THEN** ROM denies disclosure even if the cache entry has not expired
+
+#### Scenario: Independent instances retry one identity
+- **GIVEN** two ROM instances have independent caches
+- **WHEN** they concurrently retry the same command identity and input
+- **THEN** the durable persistence contract still arbitrates one committed transition
+
+#### Scenario: Cached identity exceeds its authoritative horizon
+- **GIVEN** a completed entry remains physically resident after its authoritative validity horizon or namespace generation changes
+- **WHEN** a caller retries that identity
+- **THEN** ROM does not return the stale cached result or silently renew its validity, and follows the durable identity resolution policy

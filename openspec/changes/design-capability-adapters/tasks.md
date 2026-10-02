@@ -6,6 +6,7 @@
 - [x] 1.4 Execute folder and actual loopback S3-compatible blob probes, including response loss and explicit unsupported conditions; evidence in docs/research/capability-prototype-results.md.
 - [x] 1.5 Execute durable notification intent, retry, recovery and duplicate-effect controls using local receivers; evidence in docs/research/capability-prototype-results.md.
 - [ ] 1.6 Stabilize async interfaces, profiles, typed query semantics, limits and retention with a downstream human authoring walkthrough.
+- [x] 1.7 Compare cache-disabled, single-flight, Moka and quick_cache paths with shared correctness tests and repeated end-to-end measurements; evaluate Salsa separately for pure derived reads. Evidence and untested production limits: docs/research/cache-prototype-results.md.
 
 ## 2. Introduce production contracts
 

@@ -10,6 +10,8 @@ Application authors declare resources and write business functions. ROM owns the
 
 Subsequent [adapter experiments](capability-prototype-results.md) now add real SQLite/redb substitution, folder/MinIO blob interoperability and durable function-channel delivery. Production integration must still commit effect intentions with the full resource bundle, enforce public policy and combine these seams with typed authoring and supervision. No engine becomes part of the core contract.
 
+The [internal-cache experiments](cache-prototype-results.md) additionally separate supervised in-flight actions from evictable confirmed results. Cache selection stays private to ROM. Salsa demonstrates precise reuse for explicitly tracked pure reads, but a generated projection, bounded lifetime and authoritative policy freshness are still needed before integration. Neither experiment changes the single-resource authoring premise or replaces durable idempotency.
+
 ## First reusable milestone
 
 | Work package | Concrete acceptance | Uncertainty |
