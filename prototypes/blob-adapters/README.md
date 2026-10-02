@@ -46,4 +46,3 @@ Conditional writes are explicitly unsupported on both configured adapters, even 
 Keys use bounded lowercase ASCII path segments. Traversal, backslashes, absolute paths and empty segments are rejected. **The folder adapter is for an exclusively trusted directory, not a sandbox.** `object_store` follows symlinks, including outside its prefix; an executable characterization test demonstrates this. Key validation cannot stop another process inserting symlinks. The local adapter enables fsync; no crash/power-cut verification was performed, and this probe was run on Linux only.
 
 Multipart/resumable upload, range reads, listing, signed URLs, metadata/revision APIs, content digests, retries, database/blob coordination and durable cleanup are deliberately absent. No test claims partial multipart recovery or compatibility with AWS/all S3-compatible products.
-

@@ -7,4 +7,3 @@ publish.workspace = true
 
 [dependencies]
 futures-core.workspace = true
-

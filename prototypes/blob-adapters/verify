@@ -11,4 +11,3 @@ if rg -q 'object_store|reqwest|aws|tokio' <<<"$dependencies"; then
     echo 'Provider/runtime dependency leaked into the core contract' >&2
     exit 1
 fi
-
