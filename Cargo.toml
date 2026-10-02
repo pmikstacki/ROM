@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/rom-identity", "crates/rom-auth", "crates/rom", "crates/rom-derive", "crates/rom-sqlite", "crates/rom-redb", "examples/consumer", "tests/persistence"]
+members = ["crates/rom-http", "crates/rom-identity", "crates/rom-auth", "crates/rom", "crates/rom-derive", "crates/rom-sqlite", "crates/rom-redb", "examples/consumer", "tests/persistence"]
 exclude = ["tests/compile"]
 resolver = "3"
 [workspace.package]

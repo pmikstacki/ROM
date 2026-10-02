@@ -240,6 +240,20 @@ impl Storage for Redb {
     fn supports_journal(&self) -> bool {
         true
     }
+    fn journal_head(&self, kind: &str) -> Result<JournalCursor> {
+        self.available()?;
+        let tx = self.db.begin_read().map_err(|_| Error::Storage)?;
+        let table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
+        let s: StorageState = serde_json::from_str(
+            table
+                .get("state")
+                .map_err(|_| Error::Storage)?
+                .ok_or(Error::Storage)?
+                .value(),
+        )
+        .map_err(|_| Error::Storage)?;
+        Ok(s.journal_head(kind))
+    }
     fn journal(
         &self,
         kind: &str,

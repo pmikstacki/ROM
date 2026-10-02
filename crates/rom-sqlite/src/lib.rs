@@ -195,6 +195,9 @@ impl Storage for Sqlite {
     fn supports_journal(&self) -> bool {
         true
     }
+    fn journal_head(&self, kind: &str) -> Result<JournalCursor> {
+        Ok(state(&*self.connection.lock().map_err(|_| Error::Panicked)?)?.journal_head(kind))
+    }
     fn journal(
         &self,
         kind: &str,

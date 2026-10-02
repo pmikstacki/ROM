@@ -118,6 +118,13 @@ impl StorageState {
         *self = next;
         Ok(removed)
     }
+    pub fn journal_head(&self, kind: &str) -> JournalCursor {
+        JournalCursor {
+            generation: self.generation.clone(),
+            kind: kind.into(),
+            position: self.head,
+        }
+    }
     pub fn journal(
         &self,
         kind: &str,

@@ -56,6 +56,10 @@ pub trait Storage: Send + Sync + 'static {
     fn supports_journal(&self) -> bool {
         false
     }
+    /// Explicit checkpoint at the current coherent head; never implies facts were processed.
+    fn journal_head(&self, _kind: &str) -> Result<JournalCursor> {
+        Err(Error::Unsupported("journal".into()))
+    }
     /// Read a coherent page ordered by the persisted global commit sequence.
     /// None starts at position zero. Wrong kind/generation, future positions and
     /// positions below the retained floor return HistoryGap. Empty bounds fail.
