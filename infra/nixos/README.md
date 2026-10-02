@@ -37,15 +37,17 @@ AUTO_START=1
 EXTRA_NSPAWN_FLAGS="--bind=/absolute/path/to/ROM:/workspace/ROM"
 ```
 
-Then establish the persistent systemd startup dependency and start it:
+On this host `/etc/systemd/system` is an immutable Nix-managed link. Establish the persistent startup dependency in the writable systemd control path and start it (skip creating the link if it already exists):
 
 ```sh
-systemctl add-wants multi-user.target container@rom-dev.service
+mkdir -p /etc/systemd/system.control/multi-user.target.wants
+ln -s /etc/systemd/system/container@.service \
+  /etc/systemd/system.control/multi-user.target.wants/container@rom-dev.service
 systemctl daemon-reload
 nixos-container start rom-dev
 ```
 
-Container state is stored by NixOS under `/var/lib/nixos-containers/rom-dev`. Stopping or restarting preserves it; destroying a container does not. Host rebuilds that regenerate service links should retain or reapply the startup dependency; a future declarative host module can own it.
+Container state is stored by NixOS under `/var/lib/nixos-containers/rom-dev`. Stopping or restarting preserves it; destroying a container does not. The startup dependency lives outside the immutable system unit tree and was verified with `WantedBy=multi-user.target`; a future declarative host module can own it.
 
 Verified during bootstrap: tool versions, outbound HTTPS, local OpenSpec checks inside the container, and a marker file surviving container restart. Host reboot was not performed.
 

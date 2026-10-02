@@ -34,3 +34,9 @@ Confirmed direction: backend only, one main Rust library, resource/action/event 
 ## Local verification
 
 Run `./scripts/check` before committing and `./scripts/build` when a Rust workspace exists. GitHub is used for code hosting only; Actions is disabled. The check script explicitly reports when Rust checks are not yet applicable. Build exits with an explanatory error until implementation begins.
+
+## Research-led development
+
+Before locking a substantial core abstraction, compare primary-source precedents and test alternatives in a small, disposable experiment. Record the question, acceptance criteria, findings and selected tradeoff in the relevant OpenSpec design. An experiment does not become production code merely because it runs. Favor the smallest interface that makes downstream application development straightforward.
+
+The `demo/` application begins only after the first core milestone is ready. Releases are built and verified locally in NixOS; GitHub hosts source, not the build pipeline.

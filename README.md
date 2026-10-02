@@ -25,3 +25,7 @@ Start with the [OpenSpec proposal](openspec/changes/establish-rom/proposal.md), 
 [Framework comparisons and Rust crate candidates](docs/research/frameworks-and-rust-crates.md) inform the design; they are not an approved dependency list.
 
 [Quality gates](docs/quality.md) turn the [Beskid baseline audit](docs/research/beskid-quality-baseline.md) into concrete delivery criteria.
+
+## Development
+
+Use `./scripts/check` for local verification and `./scripts/build` once the Rust workspace exists. See the [persistent NixOS environment](infra/nixos/README.md). GitHub Actions is disabled. The [demo](demo/README.md) is reserved for an application built after the first core milestone.
