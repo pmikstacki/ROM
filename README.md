@@ -12,6 +12,8 @@ Actions request changes. The core validates and commits transitions. Events desc
 
 With Rust 1.99, run `./demo/run smoke` from this repository. It exercises the complete local flow with SQLite; `./demo/run smoke redb` uses the other adapter. Follow the [author workshop](demo/README.md) for resource declarations, live queries and a persistent local server.
 
+The generic [command-line client](docs/cli.md) now supports discovery, queries, mutations, live snapshots and journal streams. Run `cargo run --locked -p rom-cli -- --help` to start. See the [core/CLI verification results](docs/research/core-cli-results.md). Studio implementation remains deferred.
+
 ## Design
 
 - One main ROM library with typed resources and extensible field types.
@@ -34,6 +36,8 @@ Research informs the design; candidate crates are not an approved dependency lis
 - [Complete research and prototype index](docs/research/completion-index.md)
 - [All 37 deferred capabilities: research, recommendations and acceptance probes](docs/research/deferred-capabilities-roadmap.md)
 - [CLI implementation choices and failure boundaries](docs/research/cli-implementation-research.md)
+- [Core/API/CLI results and remaining scope](docs/research/core-cli-results.md)
+- [Independent core and CLI review](docs/research/core-cli-independent-review.md)
 - [Authorized Resource discovery](docs/discovery.md)
 - [Executable author workshop](demo/README.md)
 - [Configuration ingestion](docs/research/maintained-configuration-results.md)
@@ -103,8 +107,8 @@ The [maintained verification record](docs/research/maintained-foundation-results
 and [storage contract](docs/storage-adapters.md) supersede the corresponding
 limitations of the original disposable probe.
 
-Package verification builds every extracted library archive and runs a consumer
-outside this workspace: `node scripts/check-packages.mjs` inside `rom-dev`.
+Package verification builds all twelve extracted package archives, runs the CLI
+and a library consumer outside this workspace: `node scripts/check-packages.mjs` inside `rom-dev`.
 This does not publish packages to crates.io.
 
 [Research and prototype program](docs/research/prototype-program.md) records the fixed premise and the experiments used to validate implementation choices.

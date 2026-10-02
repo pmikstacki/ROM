@@ -66,6 +66,16 @@ for (const p of packages) {
   run('cargo', ['--config', join(app, '.cargo', 'config.toml'), 'check', '--offline', '--all-features',
     '--manifest-path', join(archivePath(p), 'Cargo.toml')], app);
 }
+// The optional CLI must also run from its extracted package, not from workspace
+// paths or a previously built binary. Other packages are library-only here.
+const cli = packages.find(p => p.name === 'rom-cli');
+if (cli) {
+  const help = run('cargo', ['--config', join(app, '.cargo', 'config.toml'), 'run', '--offline',
+    '--manifest-path', join(archivePath(cli), 'Cargo.toml'), '--bin', 'rom', '--', '--help'], app, true);
+  if (!help.includes('Usage:') || !help.includes('discover')) {
+    throw Error('Packaged CLI did not expose its expected public commands');
+  }
+}
 run('cargo', ['run', '--offline'], app);
 const external = JSON.parse(run('cargo', ['metadata', '--locked', '--offline', '--format-version', '1'], app, true));
 for (const p of external.packages.filter(p => packages.some(lib => lib.name === p.name))) {

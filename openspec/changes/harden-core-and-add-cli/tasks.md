@@ -10,11 +10,11 @@
 - [x] 2.4 Bind discovery to HTTP and deliberately authorize demo metadata.
 
 ## 3. CLI
-- [ ] 3.1 Implement generic finite commands, strict bounded input and credential-safe client.
-- [ ] 3.2 Implement bounded live/journal parsing, outputs and shutdown.
-- [ ] 3.3 Verify real binary/TCP journeys on SQLite/redb and adverse outcomes.
+- [x] 3.1 Implement generic finite commands, strict bounded input and credential-safe client.
+- [x] 3.2 Implement bounded live/journal parsing, outputs and shutdown.
+- [x] 3.3 Verify real binary/TCP journeys on SQLite/redb and adverse outcomes.
 
 ## 4. Integrate and release
-- [ ] 4.1 Independent core/CLI/research review; resolve demonstrated defects.
-- [ ] 4.2 Full local checks, dependency/notices and standalone package verification.
-- [ ] 4.3 Update author docs, evidence and publish coherent source changes.
+- [x] 4.1 Independent core/CLI/research review; resolve demonstrated defects.
+- [x] 4.2 Full local checks, dependency/notices and standalone package verification.
+- [x] 4.3 Update author docs, evidence and publish coherent source changes.

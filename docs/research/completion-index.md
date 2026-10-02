@@ -4,7 +4,7 @@ This index connects the owner's questions to evidence. A source review, a dispos
 
 ## Current follow-on scope
 
-The owner narrowed the follow-on goal to full deferred-topic research, core API ergonomics/resilience, and a generic CLI. Studio implementation is excluded. The [37-topic roadmap](deferred-capabilities-roadmap.md) records every deferred area with primary sources, alternatives, dependencies, proposed experiments and decision ownership; completing research does not implement those future capabilities. The [CLI choices](cli-implementation-research.md), [discovery contract](../discovery.md) and [current checklist](../../openspec/changes/harden-core-and-add-cli/tasks.md) track this work separately from the completed MVP below.
+The owner narrowed the follow-on goal to full deferred-topic research, core API ergonomics/resilience, and a generic CLI. Studio implementation is excluded. The [37-topic roadmap](deferred-capabilities-roadmap.md) records every deferred area with primary sources, alternatives, dependencies, proposed experiments and decision ownership; completing research does not implement those future capabilities. The [CLI choices](cli-implementation-research.md), [discovery contract](../discovery.md) and [current checklist](../../openspec/changes/harden-core-and-add-cli/tasks.md) track this work separately from the completed MVP below. The [follow-on results](core-cli-results.md) and [independent review](core-cli-independent-review.md) record its completed core/CLI checks and exact evidence boundaries.
 
 ## Questions and recommendations
 
