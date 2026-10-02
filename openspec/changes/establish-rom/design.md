@@ -12,6 +12,26 @@ A resource declaration is the single application-facing definition for standard 
 
 Avoid mandatory per-kind storage schemas and repositories. A generic persisted envelope with typed payload validation is a candidate, with physical layout and indexing still to be decided. Changes to declared fields may need value compatibility rules, but do not imply handwritten endpoints or a new database table per kind.
 
+## Human developer experience
+
+Human usability is a first-class design criterion. Resource declarations should be readable, standard operations discoverable, and custom business behavior expressible in ordinary Rust. Reducing line count is useful only when the result remains understandable. Generated behavior must be inspectable; users should be able to identify the responsible resource, action and policy without tracing opaque macro expansion or incidental hook ordering.
+
+ROM deliberately absorbs difficult implementation work. Complex code generation, typed helpers and execution machinery are justified when they give application authors a simple, reliable interface. Evaluate complexity at the application interface separately from implementation effort inside ROM. Before rejecting a useful typed design for awkward helper signatures, investigate whether framework-owned helpers can hide those signatures. Application developers should not have to reconstruct the framework's internal machinery to define and manage ordinary resources.
+
+Provide a small documented path from resource declaration to persisted operations and live observation. Routine application code must not assemble executor pools, capacity permits, event cursors or publication machinery for each resource. Keep advanced controls available through explicit host configuration. Errors should identify the failed operation and a safe corrective next step, retaining structured details for code and avoiding disclosure of protected values.
+
+Before stabilizing the public API, review a human-facing walkthrough: add a resource, add a custom action, observe a filtered live query, diagnose a rejected mutation, and test the behavior without an HTTP server. Record confusing steps and required infrastructure knowledge; a short declaration alone is not evidence of a pleasant API.
+
+The owner's preferred authoring direction is a hybrid: a resource derive for structural bindings and a fluent Rust interface for composition. Both must feed the same resource contract. Generated helpers may provide typed fields, codecs and action bindings; they must not create separate implementations of authorization or transaction semantics for each kind. Statically knowable checks should become compiler checks where useful, while registration checks the composed application and runtime execution checks actual values, permissions and state. Exact syntax and helper crates remain subject to the [authoring research and crate trials](../../../docs/research/rust-resource-authoring.md).
+
+## Registration and generated-contract integrity
+
+Derived and manual definitions enter one registration gate. It checks unique identities, complete field/action bindings, codec consistency and required adapter capabilities, then freezes accepted definitions. A validated registry establishes these configuration invariants; it does not certify future input values, permissions or database revisions. Preserve resource/field/action provenance through generated bindings, registration and runtime diagnostics, with safe public errors distinct from internal invariant failures.
+
+ROM's descriptor governs its public field names, presence, nullability and defaults. Protocol adapters use codecs consistent with that contract. Independent Serde derives may serve application purposes, but do not redefine ROM's protocol. A future direct-Serde codec mode needs explicit supported settings and rejects incompatible ones. Conformance tests must exercise actual encoding, decoding and validation, including manual extensions; metadata equality alone is insufficient.
+
+These decisions apply [Beskid's compiler and Rust lessons](../../../docs/research/beskid-compiler-lessons.md) to ROM without importing compiler-specific infrastructure. Keep a capability matrix with explicit negative tests and source-local diagnostics. Public authoring remains ordinary Rust; internal phase machinery belongs inside ROM.
+
 ## Runtime direction: Tokio and Rayon
 
 Selected by the project owner: Tokio handles asynchronous execution, networking and database I/O; Rayon handles substantial CPU-bound work. ROM owns domain types, action semantics, authorization, validation, persistence and durable events. Applications use ROM interfaces rather than executor task identities as domain identities.

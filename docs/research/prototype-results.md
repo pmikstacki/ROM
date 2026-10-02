@@ -1,6 +1,6 @@
 # ROM prototype findings
 
-Date: 2026-10-02. Status: current research/prototype batch completed and independently verified. These are disposable experiments, not a ROM release. The two prototypes exercise complementary layers and are not competing implementations of the complete framework. The fixed product premise is one resource definition supplying generic storage, operations, endpoints and reactive behavior.
+Date: 2026-10-02. Status: initial execution/resource-flow batch and subsequent authoring/library experiments completed and independently verified. These are disposable experiments, not a ROM release. The prototypes exercise complementary layers and are not competing implementations of the complete framework. The fixed product premise is one resource definition supplying generic storage, operations, endpoints and reactive behavior.
 
 ## Execution contract: verified
 
@@ -42,11 +42,29 @@ The implementer and parent independently passed the final twelve real loopback H
 
 Independent review found an actual counterexample: a valid maximum-length source ID produced an invalid longer reaction target ID, blocking later work on the shared cursor. The regression reproduced zero target events instead of two. The corrected implementation uses a bounded, startup-validated declaration namespace plus journal sequence; the final probe confirms both that event and a later short-ID event are processed. Review also caught lost nullability metadata and an earlier fault location that did not exercise receipt insertion; both were corrected and verified. This distinguishes exercised weaknesses from speculative production gaps.
 
+## Reusable library and live queries: subsequent experiment
+
+Source: [library slice](https://github.com/pmikstacki/ROM/tree/prototype/library-slice/prototypes/library-slice), with its [implementer assessment](https://github.com/pmikstacki/ROM/blob/prototype/library-slice/prototypes/library-slice/ASSESSMENT.md). The coordinator independently passed formatting, Clippy with warnings denied, nine public integration tests, two internal regressions and the application example on Rust/Cargo 1.99.0. The example observes one open task, completes it through a custom action, and observes an empty result without application subscription plumbing.
+
+- A second resource kind uses the same storage, actions and reads with only declaration/registration.
+- Create, update, custom action and deletion change filtered query membership through one mutation path.
+- Default-deny host policy governs operations. Policy replacement without a data event removes rows or terminates access; this is a trusted actor/policy seam, not authentication.
+- Snapshot creation and subscription registration share the mutation lock. An explicit gate exercises concurrent initialization; its scheduling signal does not prove which OS instruction a writer reached.
+- Two subscribers share one actor/query registration; 24 commits coalesce into a latest snapshot while the journal retains all 24 events. Channel versions/query count are bounded; row counts, bytes and history retention are not.
+- An injected SQL trigger failure during event insertion rolls back the preceding resource write and publishes no changed snapshot.
+- Shutdown joins the shared worker, closes streams and rejects further operations. Temporary admission pressure preserves a retryable pending delivery.
+
+Review caught stale authorization: the first implementation checked current policy against a buffered historical row. Changing a visibility/ownership field could therefore leave an old result readable before refresh. Delivery now recomputes from authoritative state whenever its generation or policy epoch is stale. The coordinator removed that refresh temporarily: the deterministic stale-buffer test failed at the assertion that revoked data is absent. Restoring it passed the full verifier. Journal inspection additionally requires both current and historical row visibility under current policy.
+
+This is a transport-free library, with no HTTP dependency, but it remains disposable: a declarative descriptor macro, JSON business functions and string selectors are not the final typed derive/fluent interface. It supports one boolean equality predicate, a single runtime owning writes and serialized SQLite access. Worker-panic propagation, total memory bounds, real identity providers, field redaction, idempotency receipts and reactions are not implemented in this slice. Separate earlier prototypes are not automatically integrated guarantees.
+
+The [derive/builder trials](authoring-crate-trials.md) supply complementary authoring evidence. They too were independently rerun on Rust1.99. The earlier execution executable and twelve resource-flow probes also passed after that toolchain upgrade; their original lockfiles remain experimental.
+
 ## What the research adds
 
 [The six-framework comparison](state-of-art-resource-frameworks.md) supports borrowing different patterns for different jobs: Ash for declarative resource/action/type contracts, Feathers for uniform in-process and transport invocation, and Convex for automatically refreshed queries and transactional effect separation. This is a judgement from primary documentation; upstream frameworks were not installed or benchmarked.
 
-The important next reactivity experiment is a filtered live query, not just event delivery. It must handle records entering/leaving the result, deletion, the initial snapshot/subscription race, permission changes and slow consumers. A durable event cursor is useful groundwork but does not itself prove these behaviors.
+The subsequent reusable-library experiment below exercises filtered live queries. A durable event cursor alone did not prove membership changes, setup races, policy freshness or slow-consumer behavior.
 
 ## Decisions and remaining evidence
 

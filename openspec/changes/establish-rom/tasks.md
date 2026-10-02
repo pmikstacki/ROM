@@ -6,7 +6,11 @@
 
 - [x] 1.4 Validate Tokio/Rayon integration, async I/O and CPU completion with a bounded execution probe and retain a tested dependency lockfile.
 - [ ] 1.5 Select the production dependency versions and supported toolchain; prototype pins are experimental.
-- [ ] 1.6 Prototype generic live queries, including filter membership, snapshot/setup races, authorization changes and bounded slow consumers.
+- [x] 1.6 Prototype generic live queries, including filter membership, snapshot/setup races, authorization changes and bounded slow-consumer channel retention; evidence: docs/research/prototype-results.md. Query/result byte limits and multi-process behavior remain production work.
+- [ ] 1.7 Validate human-facing authoring ergonomics: resource declaration, custom action, live query, actionable failure diagnostics and transport-free testing. Compare fluent APIs and resource derives before stabilizing syntax.
+
+- [x] 1.8 Execute current derive and builder crate trials, including negative diagnostics and reusable helpers; evidence: docs/research/authoring-crate-trials.md. This does not complete the human walkthrough or production dependency selection.
+- [x] 1.9 Review Beskid compiler/Rust lessons and align registration, diagnostics and codec-conformance requirements; evidence: docs/research/beskid-compiler-lessons.md.
 
 ## 2. Introduce the core
 
