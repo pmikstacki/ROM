@@ -1,12 +1,12 @@
 # Maintained Resource foundation verification
 
-Date: 2026-10-02. Runtime source: `d2068767dd3881d6b11c798a61656064eee58199` on `codex/integrated-mvp`. This implements the first three packages of the [foundation plan](../../openspec/changes/integrate-resource-mvp/implementation-plan.md). It does not complete the broader integrated MVP, its authentication/field-projection requirements, durable worker, providers or transports.
+Date: 2026-10-02. Runtime source after review correction: `6a7a19f7a211c1e2e59739382d0850ddb8425b58` on `codex/integrated-mvp`. This implements the first three packages of the [foundation plan](../../openspec/changes/integrate-resource-mvp/implementation-plan.md). It does not complete the broader integrated MVP, its authentication/field-projection requirements, durable worker, providers or transports.
 
 ## Source and verification boundaries
 
-The maintained workspace starts from the tracked [integrated probe](integrated-core-probe-results.md), promoted as `4d3f10d`. Review fixes are separate in `042c4d1`; bounded I/O and runtime-owned drain are `c8c0381`; expiry is `d206876`. These are source-branch identities, which may differ from later coordinator cherry-picks. All changes in this worker were confined to `/root/ROM/.worktrees/mvp-library`; no push or main-branch merge was performed.
+The maintained workspace starts from the tracked [integrated probe](integrated-core-probe-results.md), promoted as `4d3f10d`. Review fixes are separate in `042c4d1`; bounded I/O and runtime-owned drain are `c8c0381`; expiry is `d206876`; the live-delivery review correction is `6a7a19f`. These are source-branch identities, which may differ from later coordinator cherry-picks. All changes in this worker were confined to `/root/ROM/.worktrees/mvp-library`; no push or main-branch merge was performed.
 
-The final native command passed against `d206876`'s runtime source immediately before its commit:
+The final native command passed against `6a7a19f`'s runtime source immediately before its commit:
 
 ```sh
 nixos-container run rom-dev -- sh -lc 'cd /workspace/ROM/.worktrees/mvp-library && ./scripts/check'
@@ -14,7 +14,7 @@ nixos-container run rom-dev -- sh -lc 'cd /workspace/ROM/.worktrees/mvp-library 
 
 Executed environment: `rustc 1.99.0 (b940084d7 2026-09-28)`, Cargo 1.99, `CARGO_BUILD_JOBS=2`, target directory `/workspace/ROM/.worktrees/mvp-library/target`, locked dependencies. The verifier explicitly checks Rust **1.99.0**, the declared initial tested floor; no older compiler claim follows.
 
-The command passed four strict OpenSpec change validations, formatting, Clippy with warnings denied, **34 integration tests**, **one runnable doctest**, rustdoc with warnings denied, core `--no-default-features`, the two-Resource example, a driver/HTTP/derive-free normal core graph with derive disabled, five intended compiler failures checked at their primary source lines, and the separately locked renamed-dependency fixture. The 34 integration cases comprise 17 original shared-flow tests, one external custom-field/manual-definition test, three promotion regressions, four bounds tests and nine lifecycle tests.
+The command passed four strict OpenSpec change validations, formatting, Clippy with warnings denied, **37 integration tests**, **one runnable doctest**, rustdoc with warnings denied, core `--no-default-features`, the two-Resource example, a driver/HTTP/derive-free normal core graph with derive disabled, five intended compiler failures checked at their primary source lines, and the separately locked renamed-dependency fixture. The 37 integration cases comprise 17 original shared-flow tests, one external custom-field/manual-definition test, three promotion regressions, four bounds tests and twelve lifecycle tests.
 
 This worker did not perform the coordinator's separate advisory/license audit or extracted-archive packaged-consumer smoke. The maintained manifests now have versioned path dependencies, SPDX MIT metadata, descriptions and an actual copied MIT license in each library package. The example is a distinct downstream Cargo package; artifact packaging and human usability remain separately evidenced gates.
 
@@ -82,3 +82,9 @@ Two execution decisions were recorded rather than hidden:
 2. I/O permits remain occupied during the associated Rayon proposal. This deliberately conservative policy preserves hard accounting bounds; its cost is potential throughput loss. No performance claim or permanent scheduler choice is made.
 
 The coordinator owns the fresh whole-branch review before integrating these stages. No requirement is waived merely because the tests pass. Still required by the broader MVP are field-level policy/projection and trusted provider/User mapping; versioned inputs, PATCH/presence and wider fields/queries; durable bounded continuation workers and callback registration; receipt/journal retention and recovery budgets; shared SQLite/redb conformance; configuration/blob/notification integration; generic HTTP and journal transport profiles; completed dependency/packaging evidence; and a human author walkthrough. This foundation supplies the common library boundary for those packages rather than implementing competing per-resource engines.
+
+## Fresh review correction
+
+The coordinator’s independent review reproduced a P1 live-read bug in `d206876`: `Live::changed` consumed the initial/invalidation marker before awaiting its query, so Overloaded or cancellation could make the next call wait forever for a new mutation instead of delivering existing unobserved rows. Both new public-API regressions failed with timeouts on that source.
+
+Commit `6a7a19f` separates watch notification tracking from the handle’s delivered generation. The latter advances only after successful query return, to the generation captured before that query. Failure or cancellation leaves an undelivered generation available for retry; an event during the query remains pending, allowing a harmless conservative refresh. The two reproductions now pass, and a third test protects the event-during-query edge. The full verifier passes with the revised 37-test count above. Coordinator reproduction of the corrected immutable source remains a separate review gate.
