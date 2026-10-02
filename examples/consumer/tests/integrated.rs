@@ -369,7 +369,12 @@ fn blocked_runtime(capacity: usize) -> (Runtime, Arc<Sqlite>) {
     let store = Arc::new(Sqlite::open(":memory:").unwrap());
     let rom = Runtime::builder()
         .capacity(capacity)
-        .resource(Task::definition().policy(task_policy).action(BLOCKED))
+        .resource(
+            Task::definition()
+                .allow_all_fields()
+                .policy(task_policy)
+                .action(BLOCKED),
+        )
         .build(store.clone(), Runtime::shared_cpu_pool(2).unwrap())
         .unwrap();
     (rom, store)
@@ -478,7 +483,12 @@ async fn pure_action_panic_releases_permit_without_committing() {
     let store = Arc::new(Sqlite::open(":memory:").unwrap());
     let rom = Runtime::builder()
         .capacity(1)
-        .resource(Task::definition().policy(task_policy).action(action))
+        .resource(
+            Task::definition()
+                .allow_all_fields()
+                .policy(task_policy)
+                .action(action),
+        )
         .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     create(&rom).await;
@@ -616,8 +626,8 @@ impl Storage for Unsupported {
 #[test]
 fn derived_and_manual_definitions_share_registration_and_capability_checks() {
     for builder in [
-        Runtime::builder().resource(Manual::definition()),
-        Runtime::builder().resource(Task::definition()),
+        Runtime::builder().resource(Manual::definition().allow_all_fields()),
+        Runtime::builder().resource(Task::definition().allow_all_fields()),
     ] {
         assert!(matches!(
             builder.build(Arc::new(Unsupported), Runtime::shared_cpu_pool(1).unwrap()),
@@ -626,15 +636,19 @@ fn derived_and_manual_definitions_share_registration_and_capability_checks() {
     }
     let store = Arc::new(Sqlite::open(":memory:").unwrap());
     assert!(
-        matches!(declarations().resource(Task::definition()).build(store,Runtime::shared_cpu_pool(1).unwrap()),Err(Error::Duplicate(k)) if k=="tasks")
+        matches!(declarations().resource(Task::definition().allow_all_fields()).build(store,Runtime::shared_cpu_pool(1).unwrap()),Err(Error::Duplicate(k)) if k=="tasks")
     );
 }
 #[tokio::test]
 async fn missing_policy_is_default_deny_and_authorities_are_distinct() {
     let store = Arc::new(Sqlite::open(":memory:").unwrap());
     let rom = Runtime::builder()
-        .resource(Task::definition())
-        .resource(Setting::definition().policy(setting_policy))
+        .resource(Task::definition().allow_all_fields())
+        .resource(
+            Setting::definition()
+                .allow_all_fields()
+                .policy(setting_policy),
+        )
         .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     assert!(matches!(

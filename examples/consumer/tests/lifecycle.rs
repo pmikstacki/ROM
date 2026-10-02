@@ -85,7 +85,7 @@ async fn blocked() -> (
         block: AtomicBool::new(false),
     });
     let rom = Runtime::builder()
-        .resource(Task::definition().policy(task_policy))
+        .resource(Task::definition().allow_all_fields().policy(task_policy))
         .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     rom.execute(&actor(), Command::create("t", task()).idempotency("create"))
@@ -171,7 +171,7 @@ async fn blocking_storage_does_not_block_tokio_heartbeat() {
         block: AtomicBool::new(false),
     });
     let rom = Runtime::builder()
-        .resource(Task::definition().policy(task_policy))
+        .resource(Task::definition().allow_all_fields().policy(task_policy))
         .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     rom.execute(&actor(), Command::create("t", task()).idempotency("create"))
@@ -207,7 +207,7 @@ async fn cancelled_read_keeps_io_capacity_until_storage_completes() {
             io_jobs: 1,
             ..rom::Limits::default()
         })
-        .resource(Task::definition().policy(task_policy))
+        .resource(Task::definition().allow_all_fields().policy(task_policy))
         .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     rom.execute(&actor(), Command::create("t", task()).idempotency("create"))
@@ -251,7 +251,7 @@ async fn adapter_panic_is_terminal_and_never_success() {
         }
     }
     let rom = Runtime::builder()
-        .resource(Task::definition().policy(task_policy))
+        .resource(Task::definition().allow_all_fields().policy(task_policy))
         .build(
             Arc::new(PanicStore(Sqlite::open(":memory:").unwrap())),
             Runtime::shared_cpu_pool(1).unwrap(),
@@ -285,7 +285,7 @@ async fn expired_actor_denied_at_result_and_live_delivery() {
     });
     let rom = Runtime::builder()
         .clock(clock.clone())
-        .resource(Task::definition().policy(task_policy))
+        .resource(Task::definition().allow_all_fields().policy(task_policy))
         .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     let actor = actor().expires_at(10);
@@ -329,7 +329,7 @@ async fn expired_actor_cannot_commit_an_already_admitted_proposal() {
     });
     let rom = Runtime::builder()
         .clock(clock.clone())
-        .resource(Task::definition().policy(task_policy))
+        .resource(Task::definition().allow_all_fields().policy(task_policy))
         .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     let actor = actor().expires_at(10);
@@ -363,7 +363,7 @@ async fn expired_actor_cannot_commit_an_already_admitted_proposal() {
 async fn shutdown_races_admission_without_orphan() {
     let store = Arc::new(Sqlite::open(":memory:").unwrap());
     let rom = Runtime::builder()
-        .resource(Task::definition().policy(task_policy))
+        .resource(Task::definition().allow_all_fields().policy(task_policy))
         .build(store.clone(), Runtime::shared_cpu_pool(2).unwrap())
         .unwrap();
     let barrier = Arc::new(tokio::sync::Barrier::new(17));
@@ -399,7 +399,11 @@ async fn shutdown_races_admission_without_orphan() {
 async fn policy_panic_stops_runtime_without_partial_state() {
     let store = Arc::new(Sqlite::open(":memory:").unwrap());
     let rom = Runtime::builder()
-        .resource(Task::definition().policy(|_, _, _| panic!("injected policy panic")))
+        .resource(
+            Task::definition()
+                .allow_all_fields()
+                .policy(|_, _, _| panic!("injected policy panic")),
+        )
         .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     assert!(matches!(
@@ -425,7 +429,7 @@ async fn live_setup() -> (Runtime, Arc<Blocking>, rom::Live<Task>) {
             io_jobs: 1,
             ..rom::Limits::default()
         })
-        .resource(Task::definition().policy(task_policy))
+        .resource(Task::definition().allow_all_fields().policy(task_policy))
         .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     rom.execute(&actor(), Command::create("t", task()).idempotency("create"))

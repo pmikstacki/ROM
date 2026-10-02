@@ -17,7 +17,7 @@ fn setup(limits: Limits) -> (Runtime, Arc<Sqlite>) {
     let store = Arc::new(Sqlite::open(":memory:").unwrap());
     let runtime = Runtime::builder()
         .limits(limits)
-        .resource(Task::definition().policy(task_policy))
+        .resource(Task::definition().allow_all_fields().policy(task_policy))
         .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     (runtime, store)

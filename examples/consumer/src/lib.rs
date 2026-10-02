@@ -42,6 +42,16 @@ pub const COMPLETE: Action<Task, ()> = Action::new("complete", complete);
 pub const ENABLE: Action<Setting, bool> = Action::new("enable", enable);
 pub fn declarations() -> rom::Builder {
     rom::Runtime::builder()
-        .resource(Task::definition().policy(task_policy).action(COMPLETE))
-        .resource(Setting::definition().policy(setting_policy).action(ENABLE))
+        .resource(
+            Task::definition()
+                .allow_all_fields()
+                .policy(task_policy)
+                .action(COMPLETE),
+        )
+        .resource(
+            Setting::definition()
+                .allow_all_fields()
+                .policy(setting_policy)
+                .action(ENABLE),
+        )
 }

@@ -326,7 +326,11 @@ async fn shared_core_typed_actions_work_without_application_repositories() {
         let store = backend.open(&scratch.path());
         let storage: Arc<dyn Storage> = store.clone();
         let runtime = Runtime::builder()
-            .resource(Record::definition().policy(|_, _, _| true))
+            .resource(
+                Record::definition()
+                    .allow_all_fields()
+                    .policy(|_, _, _| true),
+            )
             .build(storage, Runtime::shared_cpu_pool(2).unwrap())
             .unwrap();
         let actor = Actor::trusted("host", "owner");

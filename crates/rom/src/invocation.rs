@@ -46,8 +46,17 @@ impl Invocation {
             }
         }
         // Count escaping and routing strings without allocating a serialized request.
-        serde_json::to_writer(Budget(limit), &(self, &actor.authority, &actor.subject))
-            .map_err(|_| Error::TooLarge)
+        serde_json::to_writer(
+            Budget(limit),
+            &(
+                self,
+                &actor.authority,
+                actor.principal_kind(),
+                &actor.subject,
+                actor.host_stamp(),
+            ),
+        )
+        .map_err(|_| Error::TooLarge)
     }
 
     pub(crate) fn durable_identity(&self, actor: &Actor) -> String {

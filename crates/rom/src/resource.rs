@@ -273,10 +273,13 @@ impl<R: Resource, I: Input> Action<R, I> {
 pub(crate) type ErasedAction =
     Arc<dyn Fn(Value, Value) -> Result<(Value, Vec<Intent>)> + Send + Sync>;
 type Policy<R> = fn(&Actor, Access, &R) -> bool;
+type FieldPolicy<R> = fn(&Actor, Access, &str, &R) -> bool;
 pub struct Definition<R: Resource> {
     descriptor: Descriptor,
     actions: BTreeMap<String, ErasedAction>,
     policy: Option<Policy<R>>,
+    field_policy: Option<FieldPolicy<R>>,
+    query_policy: Option<fn(&Actor, &str) -> bool>,
     pub(crate) duplicate: bool,
 }
 impl<R: Resource> Default for Definition<R> {
@@ -290,12 +293,29 @@ impl<R: Resource> Definition<R> {
             descriptor: R::descriptor(),
             actions: BTreeMap::new(),
             policy: None,
+            field_policy: None,
+            query_policy: None,
             duplicate: false,
         }
     }
     pub fn policy(mut self, policy: Policy<R>) -> Self {
         self.policy = Some(policy);
         self
+    }
+    /// Explicit per-field permission. Missing field policy denies every field.
+    pub fn field_policy(mut self, policy: FieldPolicy<R>) -> Self {
+        self.field_policy = Some(policy);
+        self
+    }
+    /// Authorizes predicate use before consulting any rows, including empty sets.
+    pub fn query_policy(mut self, policy: fn(&Actor, &str) -> bool) -> Self {
+        self.query_policy = Some(policy);
+        self
+    }
+    /// Explicit whole-record field and predicate grant; row policy still applies.
+    pub fn allow_all_fields(self) -> Self {
+        self.field_policy(|_, _, _, _| true)
+            .query_policy(|_, _| true)
     }
     pub fn action<I: Input>(mut self, action: Action<R, I>) -> Self {
         let f: ErasedAction = Arc::new(move |state, input| {
@@ -312,6 +332,8 @@ pub(crate) trait Registered: Send + Sync {
     fn descriptor(&self) -> Descriptor;
     fn normalize(&self, v: Value) -> Result<Value>;
     fn allows(&self, actor: &Actor, access: Access, v: &Value) -> bool;
+    fn allows_field(&self, actor: &Actor, access: Access, field: &str, v: &Value) -> bool;
+    fn allows_query(&self, actor: &Actor, field: &str) -> bool;
     fn action(&self, name: &str) -> Result<ErasedAction>;
 }
 impl<R: Resource> Registered for Definition<R> {
@@ -347,6 +369,15 @@ impl<R: Resource> Registered for Definition<R> {
             .get(name)
             .cloned()
             .ok_or_else(|| Error::invalid(R::KIND, name))
+    }
+    fn allows_field(&self, actor: &Actor, access: Access, field: &str, value: &Value) -> bool {
+        R::decode(value.clone()).ok().is_some_and(|r| {
+            self.field_policy
+                .is_some_and(|p| p(actor, access, field, &r))
+        })
+    }
+    fn allows_query(&self, actor: &Actor, field: &str) -> bool {
+        self.query_policy.is_some_and(|p| p(actor, field))
     }
 }
 

@@ -76,3 +76,5 @@ pub use resource::*;
 
 mod policy;
 pub use policy::*;
+mod projection;
+pub use projection::*;

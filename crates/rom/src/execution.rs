@@ -333,6 +333,16 @@ impl Runtime {
         typed(self.invoke(actor, cmd.into()).await?)
     }
     pub async fn invoke(&self, actor: &Actor, invocation: Invocation) -> Result<Row> {
+        let row = self.invoke_row(actor, invocation).await?;
+        let a = actor.clone();
+        self.observe(actor, move |runtime| {
+            let current = runtime.0.storage.load(&row.key)?;
+            runtime.require_complete(&a, current.as_ref(), &row)?;
+            Ok(row.clone())
+        })
+        .await
+    }
+    pub(crate) async fn invoke_row(&self, actor: &Actor, invocation: Invocation) -> Result<Row> {
         self.check_actor(actor)?;
         invocation.check_size(actor, self.0.limits.command_bytes)?;
         if invocation.idempotency.is_empty() || invocation.id.is_empty() {
@@ -372,6 +382,7 @@ impl Runtime {
             Mutation::Delete => Value::Null,
             Mutation::Action(_, v) => v.clone(),
         };
+        let explicit_fields = !matches!(cmd.mutation, Mutation::Action(_, _));
         let fingerprint = json!([cmd.expected, input]).to_string();
         let prior = {
             let denied = self.0.gate.lock().unwrap();
@@ -427,6 +438,13 @@ impl Runtime {
         {
             return Err(Error::Denied);
         }
+        self.authorize_fields(
+            actor,
+            def.as_ref(),
+            prior.as_ref().and_then(|r| r.value.as_ref()),
+            new_value.as_ref(),
+            explicit_fields,
+        )?;
         if effects.len() > 8
             || effects
                 .iter()
@@ -458,6 +476,13 @@ impl Runtime {
         if current.as_ref().map(|r| r.revision) != cmd.expected {
             return Err(Error::Conflict);
         }
+        self.authorize_fields(
+            actor,
+            def.as_ref(),
+            current.as_ref().and_then(|r| r.value.as_ref()),
+            new_value.as_ref(),
+            explicit_fields,
+        )?;
         let changed = current.as_ref().and_then(|r| r.value.as_ref()) != new_value.as_ref();
         let revision = cmd
             .expected
@@ -499,7 +524,7 @@ impl Runtime {
         )?;
         Ok(receipt.row)
     }
-    fn disclose(
+    pub(crate) fn disclose(
         &self,
         actor: &Actor,
         _guard: &(),
@@ -530,7 +555,31 @@ impl Runtime {
         def: &dyn Registered,
         row: &Row,
     ) -> Result<()> {
-        self.disclose(actor, &(), def, Some(row), row)
+        self.disclose(actor, &(), def, Some(row), row)?;
+        self.require_complete(actor, Some(row), row)
+    }
+    fn authorize_fields(
+        &self,
+        actor: &Actor,
+        def: &dyn Registered,
+        prior: Option<&Value>,
+        proposed: Option<&Value>,
+        explicit: bool,
+    ) -> Result<()> {
+        for field in def.descriptor().fields {
+            if !explicit
+                && prior.and_then(|v| v.get(&field.name))
+                    == proposed.and_then(|v| v.get(&field.name))
+            {
+                continue;
+            }
+            for value in [prior, proposed].into_iter().flatten() {
+                if !def.allows_field(actor, Access::Write, &field.name, value) {
+                    return Err(Error::Denied);
+                }
+            }
+        }
+        Ok(())
     }
     /// Every caller observes the same runtime-owned drain condition. Cancelling a waiter cannot lose work.
     pub async fn shutdown(&self) -> Result<()> {

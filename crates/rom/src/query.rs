@@ -35,6 +35,9 @@ impl Runtime {
             if !matches_shape(&query.value, &field.shape) {
                 return Err(Error::invalid(R::KIND, &query.field));
             }
+            if !def.allows_query(&a, &query.field) {
+                return Err(Error::Denied);
+            }
             let rows = runtime.0.storage.snapshot(
                 R::KIND,
                 runtime.0.limits.snapshot_rows,
@@ -59,7 +62,10 @@ impl Runtime {
                         def.allows(&a, Access::Read, v) && v.get(&query.field) == Some(&query.value)
                     })
                 })
-                .map(typed)
+                .map(|row| {
+                    runtime.require_complete(&a, Some(&row), &row)?;
+                    typed(row)
+                })
                 .collect()
         })
         .await

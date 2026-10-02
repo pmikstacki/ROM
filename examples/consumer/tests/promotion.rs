@@ -22,7 +22,12 @@ async fn built_in_and_custom_operation_names_have_distinct_durable_identity() {
     let custom = Action::new("delete", fake_delete);
     let store = Arc::new(Sqlite::open(":memory:").unwrap());
     let rom = Runtime::builder()
-        .resource(Task::definition().policy(task_policy).action(custom))
+        .resource(
+            Task::definition()
+                .allow_all_fields()
+                .policy(task_policy)
+                .action(custom),
+        )
         .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     rom.execute(&actor(), Command::create("t", task()).idempotency("create"))
@@ -54,7 +59,7 @@ async fn built_in_and_custom_operation_names_have_distinct_durable_identity() {
 async fn revoked_read_does_not_reveal_resource_existence() {
     let store = Arc::new(Sqlite::open(":memory:").unwrap());
     let rom = Runtime::builder()
-        .resource(Task::definition().policy(task_policy))
+        .resource(Task::definition().allow_all_fields().policy(task_policy))
         .build(store, Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     rom.execute(&actor(), Command::create("t", task()).idempotency("create"))
@@ -79,7 +84,7 @@ fn unsupported_nested_nullable_is_rejected_instead_of_losing_presence() {
     let store = Arc::new(Sqlite::open(":memory:").unwrap());
     assert!(matches!(
         Runtime::builder()
-            .resource(Nested::definition())
+            .resource(Nested::definition().allow_all_fields())
             .build(store, Runtime::shared_cpu_pool(1).unwrap()),
         Err(Error::Unsupported(_))
     ));

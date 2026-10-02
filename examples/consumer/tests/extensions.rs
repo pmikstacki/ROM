@@ -43,7 +43,11 @@ async fn downstream_custom_field_and_manual_definition_use_identical_contract() 
     assert_eq!(Custom::descriptor(), Manual::descriptor());
     let store = Arc::new(Sqlite::open(":memory:").unwrap());
     let rom = Runtime::builder()
-        .resource(Custom::definition().policy(|_, _, _| true))
+        .resource(
+            Custom::definition()
+                .allow_all_fields()
+                .policy(|_, _, _| true),
+        )
         .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     let actor = Actor::trusted("host", "service");
@@ -86,7 +90,11 @@ async fn downstream_custom_field_and_manual_definition_use_identical_contract() 
     assert_eq!(store.counts().unwrap(), [1, 1, 1, 0]);
     rom.shutdown().await.unwrap();
     let manual = Runtime::builder()
-        .resource(Manual::definition().policy(|_, _, _| true))
+        .resource(
+            Manual::definition()
+                .allow_all_fields()
+                .policy(|_, _, _| true),
+        )
         .build(store, Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     assert_eq!(

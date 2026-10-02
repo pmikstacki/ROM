@@ -23,7 +23,7 @@ fn task() -> Task {
 #[tokio::test]
 async fn principal_kind_separates_receipt_and_revocation_identity() {
     let runtime = Runtime::builder()
-        .resource(Task::definition().policy(task_policy))
+        .resource(Task::definition().allow_all_fields().policy(task_policy))
         .build(
             Arc::new(Sqlite::open(":memory:").unwrap()),
             Runtime::shared_cpu_pool(1).unwrap(),
@@ -75,7 +75,7 @@ impl ActorGate for Gate {
 async fn gate_runs_on_bounded_io_and_denies_cached_receipt_and_live_delivery() {
     let allowed = Arc::new(AtomicBool::new(true));
     let runtime = Runtime::builder()
-        .resource(Task::definition().policy(task_policy))
+        .resource(Task::definition().allow_all_fields().policy(task_policy))
         .actor_gate(Arc::new(Gate {
             allowed: allowed.clone(),
             async_thread: std::thread::current().id(),
@@ -126,7 +126,7 @@ impl ActorGate for BadGate {
 async fn gate_reads_are_bounded_and_policy_panic_fails_closed() {
     for panic in [false, true] {
         let runtime = Runtime::builder()
-            .resource(Task::definition().policy(task_policy))
+            .resource(Task::definition().allow_all_fields().policy(task_policy))
             .actor_gate(Arc::new(BadGate(panic)))
             .build(
                 Arc::new(Sqlite::open(":memory:").unwrap()),
