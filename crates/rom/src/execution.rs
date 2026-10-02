@@ -241,6 +241,13 @@ impl Runtime {
     pub fn available_io_capacity(&self) -> usize {
         self.0.io.available_permits()
     }
+    /// Cheap observer lifecycle, expiry and local-revocation check for transport
+    /// keepalives. This does not evaluate the authoritative actor gate or Resource
+    /// policies; only the ordinary observation APIs authorize data delivery.
+    pub fn observation_status(&self, actor: &Actor) -> Result<()> {
+        self.ensure_open()?;
+        self.check_actor(actor)
+    }
     pub(crate) fn check_actor(&self, actor: &Actor) -> Result<()> {
         let now = match catch_unwind(AssertUnwindSafe(|| self.0.clock.now())) {
             Ok(now) => now,

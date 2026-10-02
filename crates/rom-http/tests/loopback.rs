@@ -8,6 +8,43 @@ use tokio::{
     net::{TcpListener, TcpStream},
     sync::oneshot,
 };
+struct SlowGate;
+impl rom::ActorGate for SlowGate {
+    fn check(&self, _: &Actor, _: &mut dyn rom::AuthorizationRead) -> rom::Result<()> {
+        std::thread::sleep(Duration::from_millis(20));
+        Ok(())
+    }
+}
+async fn slow_observation_delivers(path: &str, payload: &str) {
+    let store = Arc::new(Sqlite::open(":memory:").unwrap());
+    let runtime = declarations()
+        .actor_gate(Arc::new(SlowGate))
+        .build(store.clone(), Runtime::shared_cpu_pool(2).unwrap())
+        .unwrap();
+    let server = Server::with_runtime(
+        runtime,
+        store,
+        Limits {
+            observation_poll: Duration::from_millis(10),
+            ..Default::default()
+        },
+    )
+    .await;
+    let mut socket = server.stream(path, payload).await;
+    let response = until(&mut socket, "event: data").await;
+    assert!(response.contains("keepalive"));
+    assert!(!response.contains("overloaded"));
+    drop(socket);
+    server.finish().await;
+}
+#[tokio::test]
+async fn live_keeps_one_pending_read_across_keepalives() {
+    slow_observation_delivers("/live", r#"{"kind":"tasks","field":"done","value":false}"#).await;
+}
+#[tokio::test]
+async fn journal_keeps_one_pending_read_across_keepalives() {
+    slow_observation_delivers("/subscribe", r#"{"kind":"tasks","after":null}"#).await;
+}
 struct Server {
     address: std::net::SocketAddr,
     runtime: Runtime,
