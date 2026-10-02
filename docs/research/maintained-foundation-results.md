@@ -88,3 +88,18 @@ The coordinator owns the fresh whole-branch review before integrating these stag
 The coordinator’s independent review reproduced a P1 live-read bug in `d206876`: `Live::changed` consumed the initial/invalidation marker before awaiting its query, so Overloaded or cancellation could make the next call wait forever for a new mutation instead of delivering existing unobserved rows. Both new public-API regressions failed with timeouts on that source.
 
 Commit `6a7a19f` separates watch notification tracking from the handle’s delivered generation. The latter advances only after successful query return, to the generation captured before that query. Failure or cancellation leaves an undelivered generation available for retry; an event during the query remains pending, allowing a harmless conservative refresh. The two reproductions now pass, and a third test protects the event-during-query edge. The full verifier passes with the revised 37-test count above. Coordinator reproduction of the corrected immutable source remains a separate review gate.
+
+## Coordinator integration evidence
+
+The coordinator independently reran the corrected `6a7a19f` source, then
+combined it with SQLite/redb conformance and format corrections at main
+`d228c13`. The combined complete verifier passed 54 integration tests and one
+doctest, five negative compiler fixtures, renamed consumer, Clippy, docs and
+core dependency exclusions. A separate reviewer reran all five original live
+and format reproductions and closed those findings.
+
+On the same maintained sources, `scripts/check-packages.mjs` packaged all four
+library crates, extracted them outside the workspace, compiled each with all
+features, and ran the example using only those extracted ROM packages. The
+repository lockfile remained unchanged. This proves archive consumption without
+registry publication; it does not claim a crates.io release or a completed MVP.

@@ -58,3 +58,21 @@ nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM/.worktrees/transport-
 ```
 
 Focused conformance: `cargo test -p rom-storage-conformance --locked` from the workspace. No power-loss/storage-device fault, multi-process writers, disk-full engine commit failure, backup/restore, bounded global receipt storage, authenticated journal or worker claim/checkpoint protocol is proven by these tests. Process exit tests preserve the operating-system/filesystem process environment and therefore are weaker than machine failure tests.
+
+## Combined main-branch verification
+
+The coordinator integrated bounded asynchronous core `6a7a19f` with the
+adapters and reran the complete verifier at main `d228c13` on 2026-10-02.
+All 54 integration tests and one doctest passed, alongside compiler fixtures,
+Clippy, docs and no-default-feature checks. The 17 persistence tests include
+three additional format regressions: SQLite containing only a view, a legitimate
+`sqliteXlegacy` table, and redb containing only a multimap. Each must be rejected
+without writing a ROM marker or tables. They failed against the preceding
+adapter source and pass after `e60160e`; independent review confirmed the fixes.
+
+The maintained rerun command is now from the repository root, not a reused
+experimental worktree:
+
+```sh
+nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM && CARGO_NET_OFFLINE=true ./scripts/check'
+```

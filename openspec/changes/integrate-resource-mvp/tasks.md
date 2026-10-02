@@ -9,7 +9,7 @@
 - [ ] 2.3 Verify codec/presence/custom-field conformance and compile-failure diagnostics through the public API.
 
 ## 3. Integrate durable behavior
-- [ ] 3.1 Run atomic state/revision/receipt/event/effect conformance on SQLite and redb, including lost replies and restart.
+- [x] 3.1 Run atomic state/revision/receipt/event/effect conformance on SQLite and redb, including lost replies and restart.
 - [ ] 3.2 Implement recoverable reaction work with service identity, step idempotency, dependency/no-op suppression and causal/retry/work budgets.
 - [ ] 3.3 Integrate notification delivery and blob lifecycle contracts with their tested adapters and explicit external-effect limits.
 - [ ] 3.4 Integrate configuration Resource ingestion, source authority/provenance and visible activation state; test failed reload and restart.

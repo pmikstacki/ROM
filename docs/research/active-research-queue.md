@@ -10,12 +10,15 @@ replace that premise or silently select production dependencies.
 | --- | --- | --- |
 | Configuration trials | Complete, independently verified | [24 tests and recommendations](configuration-trial-results.md); production source reconciliation remains integration work. |
 | Transport trials | Complete, independently verified | [15 tests and recommendations](transport-trial-results.md); actual transport bindings remain integration work. |
-| Integrated core probe | Complete, independently verified; promotion review running | [18 tests plus compiler fixtures](integrated-core-probe-results.md); two typed Resources share the pipeline. Production gaps remain explicit. |
+| Integrated core probe | Complete, independently verified; promotion findings corrected | [18 tests plus compiler fixtures](integrated-core-probe-results.md); two typed Resources share the pipeline. Production gaps remain explicit. |
 | Reaction-chain experiments | Complete, independently verified | [19 tests, 110 model result rows](reaction-chain-results.md); combined guards recommended. Actual durable worker remains integration work. |
 | Authentication provider probe | Complete, independently verified | [19 runtime tests plus one compile-fail](auth-provider-probe-results.md); synthetic signed JWT and real loopback introspection, not deployed IdP interoperability. |
-| Maintained core foundation | Running: integrated_core_probe | Root Cargo workspace; bounded async reads/live, cancellation-safe drain, actor expiry and promotion defect regressions. |
+| Maintained core foundation | Complete, integrated and independently verified | Bounded async reads/live, cancellation-safe drain, actor expiry and corrected promotion regressions; [verification](maintained-foundation-results.md). |
 | Dependency baseline audit | Complete | [Executed audit](mvp-dependency-audit.md): zero RustSec findings for initial pins; final maintained lockfile delta and native SQLite patch decision remain gates. |
-| Maintained persistence conformance | Running: transport_trials | redb adapter implements the same maintained bundle as SQLite; shared rollback/recovery/limit tests, including real subprocess exit. |
+| Maintained persistence conformance | Complete, integrated and independently verified | [SQLite/redb conformance](../storage-adapters.md), real process exit and foreign-format rejection. |
+| Maintained authentication | Review correction in progress: configuration_trials | Feature-isolated JWT/introspection crate; exact string issuer regression before integration, then User/provider mapping. |
+| Durable reaction integration | Running: integrated_core_probe | Typed registration, recoverable work, stable step identities and bounded chains using the maintained core/adapters. |
+| Generic transport integration | Running: transport_trials | Shared invocation/live/journal contracts and actual HTTP extension with embedded/wire conformance. |
 | Integrated MVP | Coordinator, active goal | Decision register, explicit acceptance profile, combined conformance and packaged consumer. Separate experiments alone cannot complete this goal. |
 
 Each agent uses an isolated worktree and prototype branch. Reports separate

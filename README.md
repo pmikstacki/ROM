@@ -11,7 +11,7 @@ Actions request changes. The core validates and commits transitions. Events desc
 ## Design
 
 - One main ROM library with typed resources and extensible field types.
-- Tokio for asynchronous execution and I/O, Rayon for CPU-heavy work; work-owned supervision has been tested in prototypes.
+- Tokio for asynchronous execution and I/O, Rayon for CPU-heavy work; the maintained core supervises accepted work independently of caller cancellation.
 - Persistence contracts owned by the core, database implementations supplied by adapters.
 - Rust extension interfaces first; optional WASM implementations later.
 - HTTP and RabbitMQ integrations remain separate extensions.
@@ -31,6 +31,8 @@ Research informs the design; candidate crates are not an approved dependency lis
 - [Six-framework comparison and ranked recommendations](docs/research/state-of-art-resource-frameworks.md)
 - [Prototype findings and implementation tradeoffs](docs/research/prototype-results.md)
 - [Integrated typed core: executed evidence and promotion gaps](docs/research/integrated-core-probe-results.md)
+- [Maintained bounded execution, expiry and live delivery results](docs/research/maintained-foundation-results.md)
+- [SQLite/redb shared atomic bundle and process-exit conformance](docs/storage-adapters.md)
 - [Independent promotion review and regression requirements](docs/research/integrated-core-promotion-review.md)
 - [Reactive chains: 19 tests, 110 comparisons and loop-control recommendations](docs/research/reaction-chain-results.md)
 - [Configuration loaders: 24 executed tests and critique](docs/research/configuration-trial-results.md)
@@ -70,10 +72,17 @@ nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM && ./scripts/check'
 nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM && cargo run -p rom-consumer --locked'
 ```
 
-Current foundation limitations include unbounded synchronous reads/live queries,
-incomplete field policy and actor expiry, retained but undispatched effect
-intentions, and no generic HTTP binding. Hardening is underway; the original
-probe's [promotion gaps](docs/research/integrated-core-probe-results.md) remain
-applicable unless a later verification record explicitly closes them.
+The maintained foundation now has bounded asynchronous reads, actions and live
+queries, cancellation-safe shutdown, actor expiry, and SQLite/redb conformance.
+Field projection, verified-identity mapping to User Resources, durable reaction
+workers, and generic HTTP integration remain active work. Effect intentions are
+persisted atomically but are not yet dispatched by the main-branch runtime.
+The [maintained verification record](docs/research/maintained-foundation-results.md)
+and [storage contract](docs/storage-adapters.md) supersede the corresponding
+limitations of the original disposable probe.
+
+Package verification builds every extracted library archive and runs a consumer
+outside this workspace: `node scripts/check-packages.mjs` inside `rom-dev`.
+This does not publish packages to crates.io.
 
 [Research and prototype program](docs/research/prototype-program.md) records the fixed premise and the experiments used to validate implementation choices.
