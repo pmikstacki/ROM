@@ -1,0 +1,26 @@
+warning: use of deprecated method `authoring_builders::typed::ResourceConfigBuilder::<((), __retries, __description)>::build`: Missing required field name
+ --> src/bin/typed_missing.rs:2:47
+  |
+2 | fn main() { let _ = ResourceConfig::builder().build(); }
+  |                                               ^^^^^
+  |
+  = note: `#[warn(deprecated)]` on by default
+
+error[E0061]: this method takes 1 argument but 0 arguments were supplied
+ --> src/bin/typed_missing.rs:2:47
+  |
+2 | fn main() { let _ = ResourceConfig::builder().build(); }
+  |                                               ^^^^^-- argument #1 of type `authoring_builders::typed::ResourceConfigBuilder_Error_Missing_required_field_name` is missing
+  |
+note: method defined here
+ --> /workspace/ROM/.worktrees/authoring-builders/prototypes/authoring-builders/src/typed.rs:1:28
+  |
+1 | #[derive(Debug, PartialEq, typed_builder::TypedBuilder)]
+  |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  = note: this error originates in the derive macro `typed_builder::TypedBuilder` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: provide the argument
+  |
+2 | fn main() { let _ = ResourceConfig::builder().build(/* ResourceConfigBuilder_Error_Missing_required_field_name */); }
+  |                                                     +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+For more information about this error, try `rustc --explain E0061`.

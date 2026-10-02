@@ -1,0 +1,98 @@
+[
+  {
+    "name": "authoring-builders",
+    "version": "0.0.0",
+    "edition": "2021",
+    "rust_version": null
+  },
+  {
+    "name": "bon",
+    "version": "3.10.1",
+    "edition": "2024",
+    "rust_version": "1.88.0"
+  },
+  {
+    "name": "bon-macros",
+    "version": "3.10.1",
+    "edition": "2024",
+    "rust_version": "1.88.0"
+  },
+  {
+    "name": "darling",
+    "version": "0.24.1",
+    "edition": "2021",
+    "rust_version": "1.88.0"
+  },
+  {
+    "name": "darling_core",
+    "version": "0.24.1",
+    "edition": "2021",
+    "rust_version": "1.88.0"
+  },
+  {
+    "name": "darling_macro",
+    "version": "0.24.1",
+    "edition": "2021",
+    "rust_version": "1.88.0"
+  },
+  {
+    "name": "ident_case",
+    "version": "1.0.1",
+    "edition": "2015",
+    "rust_version": null
+  },
+  {
+    "name": "prettyplease",
+    "version": "0.3.0",
+    "edition": "2021",
+    "rust_version": "1.71"
+  },
+  {
+    "name": "proc-macro2",
+    "version": "1.0.107",
+    "edition": "2021",
+    "rust_version": "1.71"
+  },
+  {
+    "name": "quote",
+    "version": "1.0.47",
+    "edition": "2021",
+    "rust_version": "1.71"
+  },
+  {
+    "name": "strsim",
+    "version": "0.11.1",
+    "edition": "2015",
+    "rust_version": "1.56"
+  },
+  {
+    "name": "syn",
+    "version": "2.0.119",
+    "edition": "2021",
+    "rust_version": "1.71"
+  },
+  {
+    "name": "syn",
+    "version": "3.0.6",
+    "edition": "2021",
+    "rust_version": "1.71"
+  },
+  {
+    "name": "typed-builder",
+    "version": "0.23.2",
+    "edition": "2024",
+    "rust_version": null
+  },
+  {
+    "name": "typed-builder-macro",
+    "version": "0.23.2",
+    "edition": "2024",
+    "rust_version": null
+  },
+  {
+    "name": "unicode-ident",
+    "version": "1.0.26",
+    "edition": "2021",
+    "rust_version": "1.71"
+  }
+]

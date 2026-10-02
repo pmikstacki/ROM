@@ -1,0 +1,17 @@
+error[E0308]: mismatched types
+ --> src/bin/typed_strip_none.rs:6:43
+  |
+6 | fn main() { let _ = Input::builder().note(None).build(); }
+  |                                      ---- ^^^^ expected `String`, found `Option<_>`
+  |                                      |
+  |                                      arguments to this method are incorrect
+  |
+  = note: expected struct `String`
+               found enum `Option<_>`
+note: method defined here
+ --> src/bin/typed_strip_none.rs:4:5
+  |
+4 |     note: Option<String>,
+  |     ^^^^---------------
+
+For more information about this error, try `rustc --explain E0308`.

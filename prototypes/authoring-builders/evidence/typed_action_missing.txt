@@ -1,0 +1,26 @@
+warning: use of deprecated method `authoring_builders::typed::ActionInputBuilder::<((std::string::String,), (), __note)>::build`: Missing required field expected_revision
+ --> src/bin/typed_action_missing.rs:2:62
+  |
+2 | fn main() { let _ = ActionInput::builder().resource_id("s1").build(); }
+  |                                                              ^^^^^
+  |
+  = note: `#[warn(deprecated)]` on by default
+
+error[E0061]: this method takes 1 argument but 0 arguments were supplied
+  --> src/bin/typed_action_missing.rs:2:62
+   |
+ 2 | fn main() { let _ = ActionInput::builder().resource_id("s1").build(); }
+   |                                                              ^^^^^-- argument #1 of type `authoring_builders::typed::ActionInputBuilder_Error_Missing_required_field_expected_revision` is missing
+   |
+note: method defined here
+  --> /workspace/ROM/.worktrees/authoring-builders/prototypes/authoring-builders/src/typed.rs:12:28
+   |
+12 | #[derive(Debug, PartialEq, typed_builder::TypedBuilder)]
+   |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   = note: this error originates in the derive macro `typed_builder::TypedBuilder` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: provide the argument
+   |
+ 2 | fn main() { let _ = ActionInput::builder().resource_id("s1").build(/* ActionInputBuilder_Error_Missing_required_field_expected_revision */); }
+   |                                                                    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+For more information about this error, try `rustc --explain E0061`.

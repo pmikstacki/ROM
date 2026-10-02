@@ -1,0 +1,12 @@
+error[E0308]: mismatched types
+ --> src/bin/bon_conditional.rs:5:28
+  |
+4 |     let mut builder = ResourceConfig::builder().name("sensor");
+  |                       ---------------------------------------- expected due to this value
+5 |     if enabled { builder = builder.retries(5); }
+  |                            ^^^^^^^^^^^^^^^^^^ expected `ResourceConfigBuilder<SetName>`, found `ResourceConfigBuilder<SetRetries<_>>`
+  |
+  = note: expected struct `ResourceConfigBuilder<SetName>`
+             found struct `ResourceConfigBuilder<bon_style::resource_config_builder::SetRetries<SetName>>`
+
+For more information about this error, try `rustc --explain E0308`.

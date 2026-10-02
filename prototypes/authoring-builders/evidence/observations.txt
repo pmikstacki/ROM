@@ -1,0 +1,24 @@
+rustc 1.99.0 (b940084d7 2026-09-28)
+cargo 1.99.0 (5f94df478 2026-08-27)
+PASS bon: defaults, external reusable helper, conditional optional value, absent/null/value
+PASS typed-builder: defaults, external reusable helper, conditional optional value, absent/null/value
+PASS handwritten: defaults, reusable helper, conditional reassignment, absent/null/value
+PASS expected compile failure bon_missing: E0277
+PASS expected compile failure bon_duplicate: E0277
+PASS expected compile failure bon_wrong_type: E0308
+PASS expected compile failure bon_action_missing: E0277
+PASS expected compile failure bon_conditional: E0308
+PASS expected compile failure typed_missing: E0061
+PASS expected compile failure typed_duplicate: E0308
+PASS expected compile failure typed_wrong_type: E0308
+PASS expected compile failure typed_action_missing: E0061
+PASS expected compile failure typed_conditional: E0308
+PASS expected compile failure manual_wrong_type: E0308
+PASS expected compile failure typed_strip_none: E0308
+PASS runtime control manual_missing
+PASS runtime control manual_action_missing
+PASS runtime control manual_duplicate
+PASS runtime control manual_conditional
+OBSERVE manual: fresh-target check 79 ms; incremental check 16 ms; target files 327001 bytes
+OBSERVE typed: fresh-target check 2246 ms; incremental check 17 ms; target files 47237773 bytes
+OBSERVE bon: fresh-target check 3946 ms; incremental check 20 ms; target files 87026161 bytes

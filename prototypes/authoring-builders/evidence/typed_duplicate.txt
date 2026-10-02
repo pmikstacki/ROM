@@ -1,0 +1,23 @@
+warning: use of deprecated method `authoring_builders::typed::ResourceConfigBuilder::<((std::string::String,), __retries, __description)>::name`: Repeated field name
+ --> src/bin/typed_duplicate.rs:2:61
+  |
+2 | fn main() { let _ = ResourceConfig::builder().name("first").name("second").build(); }
+  |                                                             ^^^^
+  |
+  = note: `#[warn(deprecated)]` on by default
+
+error[E0308]: mismatched types
+ --> src/bin/typed_duplicate.rs:2:66
+  |
+2 | fn main() { let _ = ResourceConfig::builder().name("first").name("second").build(); }
+  |                                                             ---- ^^^^^^^^ expected `ResourceConfigBuilder_Error_Repeated_field_name`, found `&str`
+  |                                                             |
+  |                                                             arguments to this method are incorrect
+  |
+note: method defined here
+ --> /workspace/ROM/.worktrees/authoring-builders/prototypes/authoring-builders/src/typed.rs:4:9
+  |
+4 |     pub name: String,
+  |         ^^^^
+
+For more information about this error, try `rustc --explain E0308`.

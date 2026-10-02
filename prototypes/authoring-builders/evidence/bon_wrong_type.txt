@@ -1,0 +1,15 @@
+error[E0308]: mismatched types
+ --> src/bin/bon_wrong_type.rs:2:70
+  |
+2 | fn main() { let _ = ResourceConfig::builder().name("sensor").retries("many").build(); }
+  |                                                              ------- ^^^^^^ expected `u32`, found `&str`
+  |                                                              |
+  |                                                              arguments to this method are incorrect
+  |
+note: method defined here
+ --> /workspace/ROM/.worktrees/authoring-builders/prototypes/authoring-builders/src/bon_style.rs:6:9
+  |
+6 |     pub retries: u32,
+  |         ^^^^^^^
+
+For more information about this error, try `rustc --explain E0308`.

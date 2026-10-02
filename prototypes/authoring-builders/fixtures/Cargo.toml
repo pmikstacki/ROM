@@ -1,0 +1,11 @@
+[package]
+name = "authoring-builder-fixtures"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+authoring-builders = { path = ".." }
+typed-builder = "=0.23.2"
+
+[workspace]

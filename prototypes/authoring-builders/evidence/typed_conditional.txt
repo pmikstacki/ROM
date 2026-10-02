@@ -1,0 +1,12 @@
+error[E0308]: mismatched types
+ --> src/bin/typed_conditional.rs:5:28
+  |
+4 |     let mut builder = ResourceConfig::builder().name("sensor");
+  |                       ---------------------------------------- expected due to this value
+5 |     if enabled { builder = builder.retries(5); }
+  |                            ^^^^^^^^^^^^^^^^^^ expected `ResourceConfigBuilder<(_, (), ())>`, found `ResourceConfigBuilder<(_, _, ())>`
+  |
+  = note: expected struct `ResourceConfigBuilder<((String,), (), ())>`
+             found struct `ResourceConfigBuilder<((String,), (u32,), ())>`
+
+For more information about this error, try `rustc --explain E0308`.
