@@ -1,5 +1,7 @@
 # Disposable provider-neutral authentication probe
 
+For reruns after agent worktrees have been reused, see [immutable experiment reproduction](reproducing-experiments.md).
+
 Date: 2026-10-02. Branch: `codex/prototype-auth-provider-probe`, based on `main` commit `e3e6a37`. **Disposable executable evidence; no production authentication, login service or policy-engine adoption.** Source: [auth-provider-probe](https://github.com/pmikstacki/ROM/tree/codex/prototype-auth-provider-probe/prototypes/auth-provider-probe/README.md).
 
 ## Question and recommendation

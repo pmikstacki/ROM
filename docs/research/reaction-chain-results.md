@@ -1,5 +1,7 @@
 # After-commit reaction chains: executable policy comparison
 
+For reruns after agent worktrees have been reused, see [immutable experiment reproduction](reproducing-experiments.md).
+
 Date: 2026-10-02. Disposable deterministic Rust simulation on `codex/prototype-reaction-chains`. This follows the owner's decision: reactions run **after the upstream commit**, a failed downstream action retries under bounded policy, and the upstream transition stays committed. There is no implicit chain rollback. Resource remains the only domain entity; causal identities, receipts and delivery records are runtime/protocol values.
 
 ## Recommendation

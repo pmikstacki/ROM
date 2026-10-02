@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Reproduce an immutable experiment without reusing any agent worktree.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+case "${1:-}" in
+  configuration) source_ref=66854f5708; verifier=prototypes/configuration-trials/verify ;;
+  transport) source_ref=789201201c6388a44d9d33fe2045d0dd075f33cc; verifier=prototypes/transport-trials/verify.sh ;;
+  chains) source_ref=c95a2a2d; verifier=prototypes/reaction-chains/verify.sh ;;
+  auth) source_ref=58d4c9deb; verifier=prototypes/auth-provider-probe/verify ;;
+  *) echo 'Usage: scripts/run-prototype configuration|transport|chains|auth' >&2; exit 2 ;;
+esac
+commit=$(git rev-parse --verify "${source_ref}^{commit}")
+experiment_dir=$(mktemp -d "${TMPDIR:-/tmp}/rom-${1}-XXXXXX")
+git archive "$commit" | tar -x -C "$experiment_dir"
+echo "Reproducing $1 at $commit in $experiment_dir"
+cd "$experiment_dir"
+"./$verifier"
+echo "Experiment passed; immutable sources and results retained in $experiment_dir"

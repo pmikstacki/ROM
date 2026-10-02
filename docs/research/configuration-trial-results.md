@@ -1,5 +1,7 @@
 # Disposable configuration loader trials
 
+For reruns after agent worktrees have been reused, see [immutable experiment reproduction](reproducing-experiments.md).
+
 Date: 2026-10-02. Branch: `codex/prototype-configuration-trials`, based on `main` commit `e3e6a37`. **Executable experiment, not a production implementation or dependency adoption.** The source is in [prototypes/configuration-trials](https://github.com/pmikstacki/ROM/tree/codex/prototype-configuration-trials/prototypes/configuration-trials/README.md); keep it off main unless deliberately retaining research artifacts.
 
 ## Question and answer

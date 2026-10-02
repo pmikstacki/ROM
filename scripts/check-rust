@@ -17,3 +17,4 @@ if rg -i 'rusqlite|redb|axum|hyper|reqwest|tower|bevy|rom-derive' "$CARGO_TARGET
   exit 1
 fi
 node tests/compile/check.mjs
+./crates/rom-auth/verify

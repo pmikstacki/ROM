@@ -201,3 +201,38 @@ This audit does not establish freedom from undisclosed vulnerabilities, maliciou
 The final maintained workspace must be compared against this exact package/version/checksum inventory and native feature graph. Run the advisory audit again on its own Cargo.lock, regenerate license/MSRV metadata, repeat core-only and packaged-consumer checks, and record any changed bundled native-library version. No dependency changes, suppressions, commits or pushes were performed by this audit.
 
 After writing this report, `./scripts/check` passed all four strict OpenSpec validations; at that execution point the main checkout had no Cargo workspace, so the script correctly skipped main-workspace Rust checks. This does not extend the core-only build evidence above to the maintained implementation being developed separately.
+
+## Maintained auth delta and native SQLite patch profile
+
+At maintained `041ee12` the coordinator reran cargo-audit 0.22.2 with
+`--deny warnings --no-fetch` against the same RustSec commit above: 211 locked
+dependencies scanned, no findings. JWT now selects AWS-LC and the tested Rustls
+version is 0.23.45. This updates the earlier probe audit without treating an
+advisory scan as a review of all native source.
+
+The default rusqlite 0.40.2 bundle is still SQLite 3.53.2. A separate, reproducible
+native profile now tests SQLite 3.53.4 using `scripts/check-sqlite-native`. It
+fetches the official amalgamation archive, verifies both archive SHA-256 and the
+release page's independent `sqlite3.c` SHA3-256, builds a static library in a
+fresh temporary directory, and uses libsqlite3-sys's supported pkg-config override.
+It does not replace the system library or vendor a modified driver. Sources:
+[SQLite 3.53.4 release](https://sqlite.org/releaselog/3_53_4.html),
+[libsqlite3-sys build source](https://github.com/rusqlite/rusqlite/blob/v0.40.2/libsqlite3-sys/build.rs).
+
+The coordinator executed that profile: the Rust-linked engine identified itself
+as **3.53.4**, and all 55 consumer/persistence tests passed, including the 14
+actual subprocess exits within the persistence parent test. The baseline engine
+check also passed with the ordinary bundled **3.53.2** build. No performance or
+machine-power-loss comparison was performed. Patch-release conformance is thus
+measured rather than assumed; default Cargo consumers still receive the version
+bundled by the pinned upstream crate. A packaged executable release using the
+native profile must carry its tested engine and notices; a Cargo source package
+cannot force that environment override on downstream hosts.
+
+```sh
+nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM && CARGO_NET_OFFLINE=true ./scripts/check-sqlite-native'
+```
+
+The command requires network access for the hash-pinned SQLite archive even with
+Cargo offline. It intentionally does not turn an existing cached old library
+into a silent fallback if download or verification fails.

@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Optional pinned SQLite patch profile; never replaces the host's SQLite install.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+native_dir=$(mktemp -d "${TMPDIR:-/tmp}/rom-sqlite-3530400-XXXXXX")
+archive="$native_dir/sqlite.tar.gz"
+curl --fail --location --silent --show-error --connect-timeout 10 --max-time 120 \
+  https://sqlite.org/2026/sqlite-autoconf-3530400.tar.gz -o "$archive"
+echo "0e9483900e92cd5de8fd48d16bf9200145a61f7fd5be542a5ac81d8a9516eb9c  $archive" | sha256sum --check --status
+tar -xzf "$archive" -C "$native_dir"
+src="$native_dir/sqlite-autoconf-3530400"
+# Independently bind sqlite3.c to the upstream release page's SHA3-256.
+[[ "$(openssl dgst -sha3-256 "$src/sqlite3.c" | awk '{print $NF}')" == \
+  '67f423e9ebbbdc473cbc4772c872ee6b89f31fde4ed0279a5c25d5f65c043a16' ]]
+mkdir -p "$native_dir/lib/pkgconfig" "$native_dir/include"
+cp "$src/sqlite3.h" "$src/sqlite3ext.h" "$native_dir/include/"
+cc -O2 -fPIC -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_USE_URI=1 \
+  -c "$src/sqlite3.c" -o "$native_dir/sqlite3.o"
+ar rcs "$native_dir/lib/libsqlite3.a" "$native_dir/sqlite3.o"
+cat > "$native_dir/lib/pkgconfig/sqlite3.pc" <<PC
+prefix=$native_dir
+libdir=\${prefix}/lib
+includedir=\${prefix}/include
+Name: SQLite
+Description: ROM pinned SQLite patch verification profile
+Version: 3.53.4
+Libs: -L\${libdir} -lsqlite3
+Libs.private: -lm -ldl -lpthread
+Cflags: -I\${includedir}
+PC
+export LIBSQLITE3_SYS_USE_PKG_CONFIG=1 SQLITE3_STATIC=1
+export PKG_CONFIG_PATH="$native_dir/lib/pkgconfig"
+export CARGO_BUILD_JOBS=2 CARGO_TARGET_DIR="$native_dir/target"
+export ROM_EXPECT_SQLITE_VERSION=3.53.4
+# Test the actual Rust-linked engine, not only pkg-config's claimed version.
+cargo test --locked -p rom-storage-conformance -p rom-consumer -- --nocapture
+printf 'Native SQLite 3.53.4 profile passed; sources and build retained: %s\n' "$native_dir"

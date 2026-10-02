@@ -1,5 +1,7 @@
 # Transport composition trials and remaining operational contracts
 
+For reruns after agent worktrees have been reused, see [immutable experiment reproduction](reproducing-experiments.md).
+
 Date: 2026-10-02. Executed disposable Rust experiment plus primary-source research. Retained on `codex/prototype-transport-trials`, based on main `e3e6a37`; not merged or deployed. Resource remains the sole domain entity. This evaluates implementation choices under the [transport review](transport-layer-review.md), [cohesion review](architecture-cohesion-review.md), [technology review](technology-fit-review.md), and [boundary specification](../../openspec/changes/establish-rom/specs/boundary-adapters/spec.md). It does not select production dependencies or complete actual HTTP/RabbitMQ conformance.
 
 ## Recommendation
