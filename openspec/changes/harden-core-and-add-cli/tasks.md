@@ -1,13 +1,13 @@
 ## 1. Scope and research
 - [x] 1.1 Record owner steering: deferred research, core/API/resilience and CLI; exclude Studio.
-- [ ] 1.2 Complete primary-source coverage, recommendations and dependency order for all deferred topics.
-- [ ] 1.3 Record CLI dependency selection and threat/failure boundaries.
+- [x] 1.2 Complete primary-source coverage, recommendations and dependency order for all deferred topics.
+- [x] 1.3 Record CLI dependency selection and threat/failure boundaries.
 
 ## 2. Core
-- [ ] 2.1 Reproduce oversized semaphore panics; return errors and verify all boundary counts.
-- [ ] 2.2 Add typed Query::all/Default and conformance to existing reads/live/policy/pagination.
-- [ ] 2.3 Add explicit bounded discovery with current-authority and hidden-reference tests.
-- [ ] 2.4 Bind discovery to HTTP and deliberately authorize demo metadata.
+- [x] 2.1 Reproduce oversized semaphore panics; return errors and verify all boundary counts.
+- [x] 2.2 Add typed Query::all/Default and conformance to existing reads/live/policy/pagination.
+- [x] 2.3 Add explicit bounded discovery with current-authority and hidden-reference tests.
+- [x] 2.4 Bind discovery to HTTP and deliberately authorize demo metadata.
 
 ## 3. CLI
 - [ ] 3.1 Implement generic finite commands, strict bounded input and credential-safe client.

@@ -12,13 +12,21 @@ application-specific command handlers. Human and JSON outputs MUST be distinct.
 
 ### Requirement: Honest mutation recovery
 The client MUST NOT automatically retry mutations or infer rollback from a lost
-reply, cancellation or post-commit denial.
+reply, cancellation or post-commit denial. Once a mutation is submitted, every
+non-success response MUST be classified as unresolved until a phase-bearing
+protocol can prove otherwise; raw HTTP categories do not provide that proof.
 
 #### Scenario: Acknowledgement is lost
 - **GIVEN** a submitted action committed before its response disappeared
 - **WHEN** the CLI reports the failure
 - **THEN** it identifies unresolved outcome and preserves the original recovery identity
 - **AND** authorized explicit replay causes no second mutation
+
+#### Scenario: Host policy fails after commit
+- **GIVEN** a trusted ActorGate returns Conflict or TooLarge during post-commit observation
+- **WHEN** the CLI receives that HTTP failure
+- **THEN** it reports unresolved outcome rather than a definitive rejection
+- **AND** the committed Resource and its receipt remain available for authorized recovery
 
 ### Requirement: Bounded distinct streams
 Live snapshots and journal batches SHALL retain their own lifecycle and cursor

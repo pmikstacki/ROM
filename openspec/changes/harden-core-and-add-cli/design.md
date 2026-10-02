@@ -86,10 +86,13 @@ stdout pipe closure terminates cleanly. No terminal control sequences from data.
 Ctrl-C stops waiting/observing; it does not assert accepted mutations rolled back.
 
 Exit codes: 0 success/intentional stream stop, 2 usage/local validation, 3 explicit
-remote rejection, 4 transport/protocol failure for reads, 5 mutation outcome
+remote rejection for reads/streams, 4 transport/protocol failure for reads, 5 mutation outcome
 unresolved, 6 history gap, 130 interrupt while waiting for a mutation (uncertain).
-After submission, transport loss, timeout, denied/internal/unknown/ambiguous HTTP
-responses can represent a committed mutation: describe unresolved outcome and
+After submission, every non-success mutation response or transport/protocol
+failure is classified as unresolved. HTTP error categories carry no execution
+phase: even Invalid, Conflict, TooLarge or NotCommitted may originate from a
+trusted ActorGate during post-commit observation. Do not infer rollback from a
+category or status. Describe unresolved outcome and
 same-principal replay with original key/revision/input. No automatic replay or
 credential-scoped recovery store. The client cannot certify an unchanged principal.
 
