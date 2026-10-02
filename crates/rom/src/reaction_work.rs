@@ -176,7 +176,7 @@ impl WorkLedger {
             };
         };
         limits.validate()?;
-        self.check_bounds()?;
+        self.check_compatible_capacity()?;
         if self.roots.values().any(|used| *used > limits.max_work) {
             return Err(Error::Storage);
         }
@@ -215,6 +215,7 @@ impl WorkLedger {
     }
     pub fn enqueue(&mut self, limits: &ReactionLimits, work: Vec<PendingWork>) -> Result<()> {
         limits.validate()?;
+        self.check_compatible_capacity()?;
         if self.limits.as_ref().is_some_and(|prior| prior != limits) {
             return Err(Error::Unsupported(
                 "reaction policy differs from persisted policy".into(),
@@ -246,9 +247,41 @@ impl WorkLedger {
         *self = next;
         Ok(())
     }
+    /// Frozen payloads and record/root keys do not change during lifecycle updates.
+    /// Reserve maximum numeric widths and the largest serialized state/outcome shapes
+    /// even for terminal records, so later progress never competes with new admission.
+    fn reserved_bytes(&self) -> Result<usize> {
+        let mut reserved = self.clone();
+        for count in reserved.roots.values_mut() {
+            *count = u32::MAX;
+        }
+        for record in reserved.work.values_mut() {
+            record.attempts = u32::MAX;
+            record.generation = u64::MAX;
+            record.due = u64::MAX;
+            record.state = WorkState::Leased {
+                until: u64::MAX,
+                generation: u64::MAX,
+                resolution_only: Some(StopReason::DefinitionChanged),
+            };
+            record.delivery = Some(DeliveryOutcome::Retryable);
+        }
+        Ok(serde_json::to_vec(&reserved)
+            .map_err(|_| Error::Storage)?
+            .len())
+    }
+    /// Pre-reservation experimental data is compatible only when its frozen payloads
+    /// already leave full lifecycle headroom under the persisted limit. Never raise it.
+    pub(crate) fn check_compatible_capacity(&self) -> Result<()> {
+        match self.check_bounds() {
+            Err(Error::Overloaded)=>Err(Error::Unsupported("persisted work ledger lacks lifecycle capacity; automatic migration is unavailable".into())),
+            result=>result,
+        }
+    }
     fn check_bounds(&self) -> Result<()> {
         if let Some(l) = &self.limits
             && (self.work.len() > l.max_records
+                || self.reserved_bytes()? > l.max_bytes
                 || serde_json::to_vec(self).map_err(|_| Error::Storage)?.len() > l.max_bytes)
         {
             return Err(Error::Overloaded);
@@ -256,6 +289,7 @@ impl WorkLedger {
         Ok(())
     }
     pub fn apply(&mut self, update: WorkUpdate) -> Result<WorkResult> {
+        self.check_compatible_capacity()?;
         let mut next = self.clone();
         let result = next.update(update)?;
         next.check_bounds()?;

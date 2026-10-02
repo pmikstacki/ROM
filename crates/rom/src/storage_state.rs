@@ -106,14 +106,17 @@ impl StorageState {
     }
     /// Fence pre-restore cursors and claims, retaining identities, attempts and outcomes.
     pub fn prepare_restore(&mut self) -> Result<()> {
-        self.generation = Self::new(self.limits.clone())?.generation;
-        self.work.prepare_restore()
+        let mut restored = self.clone();
+        restored.work.prepare_restore()?;
+        restored.generation = Self::new(self.limits.clone())?.generation;
+        *self = restored;
+        Ok(())
     }
     pub fn check_limits(&self, limits: &StorageLimits) -> Result<()> {
         if &self.limits != limits {
             Err(Error::Unsupported("persisted storage limits differ".into()))
         } else {
-            Ok(())
+            self.work.check_compatible_capacity()
         }
     }
     /// Apply only after native identity/revision arbitration. Returned identities left journal retention.
