@@ -61,12 +61,14 @@ impl std::fmt::Display for Error {
 impl std::error::Error for Error {}
 pub type Result<T> = std::result::Result<T, Error>;
 
+mod discovery;
 mod execution;
 mod invocation;
 mod journal;
 mod persistence;
 mod query;
 mod resource;
+pub use discovery::*;
 pub use execution::*;
 pub use invocation::*;
 pub use journal::*;

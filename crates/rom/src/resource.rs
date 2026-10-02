@@ -1,5 +1,6 @@
 use super::*;
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[serde(tag = "type", content = "value", rename_all = "snake_case")]
 pub enum Shape {
     String,
     Bool,
@@ -335,6 +336,7 @@ pub struct Definition<R: Resource> {
     query_policy: Option<fn(&Actor, &str) -> bool>,
     source_owner: Option<String>,
     source_metadata_policy: Option<fn(&Actor) -> bool>,
+    discovery_policy: Option<discovery::DiscoveryPolicy>,
     pub(crate) duplicate: bool,
 }
 impl<R: Resource> Default for Definition<R> {
@@ -352,6 +354,7 @@ impl<R: Resource> Definition<R> {
             query_policy: None,
             source_owner: None,
             source_metadata_policy: None,
+            discovery_policy: None,
             duplicate: false,
         }
     }
@@ -384,6 +387,16 @@ impl<R: Resource> Definition<R> {
         self.source_metadata_policy = Some(policy);
         self
     }
+    /// Explicit metadata visibility, independent of row and operation permissions.
+    /// Missing policy denies all discovery. The Resource grant is required before
+    /// fields or actions can be disclosed. Callbacks run in supervised bounded I/O.
+    pub fn discovery_policy<F>(mut self, policy: F) -> Self
+    where
+        F: Fn(&Actor, DiscoveryTarget<'_>) -> bool + Send + Sync + 'static,
+    {
+        self.discovery_policy = Some(Arc::new(policy));
+        self
+    }
     pub fn action<I: Input>(mut self, action: Action<R, I>) -> Self {
         let f: ErasedAction = Arc::new(move |state, input| {
             let mut r = R::decode(state)?;
@@ -397,6 +410,9 @@ impl<R: Resource> Definition<R> {
 }
 pub(crate) trait Registered: Send + Sync {
     fn descriptor(&self) -> Descriptor;
+    fn descriptor_ref(&self) -> &Descriptor;
+    fn allows_discovery(&self, actor: &Actor, target: DiscoveryTarget<'_>) -> bool;
+    fn actions(&self) -> &BTreeMap<String, ErasedAction>;
     fn normalize(&self, v: Value) -> Result<Value>;
     fn normalize_field(&self, name: &str, value: Value) -> Result<Value>;
     fn allows(&self, actor: &Actor, access: Access, v: &Value) -> bool;
@@ -407,6 +423,17 @@ pub(crate) trait Registered: Send + Sync {
     fn action(&self, name: &str) -> Result<ErasedAction>;
 }
 impl<R: Resource> Registered for Definition<R> {
+    fn descriptor_ref(&self) -> &Descriptor {
+        &self.descriptor
+    }
+    fn allows_discovery(&self, actor: &Actor, target: DiscoveryTarget<'_>) -> bool {
+        self.discovery_policy
+            .as_ref()
+            .is_some_and(|policy| policy(actor, target))
+    }
+    fn actions(&self) -> &BTreeMap<String, ErasedAction> {
+        &self.actions
+    }
     fn source_owner(&self) -> Option<&str> {
         self.source_owner.as_deref()
     }
