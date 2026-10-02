@@ -6,7 +6,7 @@ Declare a resource once; the framework supplies standard storage, operations, en
 
 Actions request changes. The core validates and commits transitions. Events describe committed facts. Reactions can submit further actions through the same core.
 
-**Status:** verified experiments and an integrated typed prototype; a maintained MVP library is in progress. No production ROM core is released. The [MVP acceptance plan](openspec/changes/integrate-resource-mvp/tasks.md) and [decision register](docs/research/mvp-decision-register.md) distinguish completed evidence from remaining implementation.
+**Status:** a maintained experimental Rust workspace now implements the typed Resource foundation. The complete MVP is still in progress; this is not a production release. The [MVP acceptance plan](openspec/changes/integrate-resource-mvp/tasks.md) and [decision register](docs/research/mvp-decision-register.md) distinguish verified behavior from remaining implementation.
 
 ## Design
 
@@ -63,6 +63,17 @@ Research informs the design; candidate crates are not an approved dependency lis
 
 ## Development
 
-Use `./scripts/check` for local verification and `./scripts/build` once the Rust workspace exists. See the [persistent NixOS environment](infra/nixos/README.md). GitHub Actions is disabled. The [demo](demo/README.md) is reserved for an application built after the first core milestone.
+Use `./scripts/check` for local verification and `./scripts/build` to build. The initial tested Rust floor is 1.99.0. See the [persistent NixOS environment](infra/nixos/README.md). GitHub Actions is disabled. The [consumer](examples/consumer/src/main.rs) exercises two Resources through the public library; the [demo](demo/README.md) remains reserved for the completed first core milestone.
+
+```sh
+nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM && ./scripts/check'
+nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM && cargo run -p rom-consumer --locked'
+```
+
+Current foundation limitations include unbounded synchronous reads/live queries,
+incomplete field policy and actor expiry, retained but undispatched effect
+intentions, and no generic HTTP binding. Hardening is underway; the original
+probe's [promotion gaps](docs/research/integrated-core-probe-results.md) remain
+applicable unless a later verification record explicitly closes them.
 
 [Research and prototype program](docs/research/prototype-program.md) records the fixed premise and the experiments used to validate implementation choices.

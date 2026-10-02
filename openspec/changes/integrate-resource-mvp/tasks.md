@@ -1,10 +1,10 @@
 ## 1. Validate and inventory
 - [x] 1.1 Independently verify and publish configuration, transport, integrated-core, auth-provider and reaction-chain trials. Evidence: docs/research/*-trial-results.md, integrated-core-probe-results.md, auth-provider-probe-results.md and reaction-chain-results.md.
 - [ ] 1.2 Complete the decision register: behavior decisions, configurable policy, tested implementation choices and deferred profiles.
-- [ ] 1.3 Review the probe for promotion defects and record the integrated acceptance plan.
+- [x] 1.3 Review the probe for promotion defects and record the integrated acceptance plan. Three reproduced findings have maintained regressions and independently verified fixes; docs/research/integrated-core-promotion-review.md.
 
 ## 2. Introduce maintained authoring and execution
-- [ ] 2.1 Promote a root Cargo workspace with rom, derive, database adapters and an external consumer; preserve one accepted descriptor.
+- [x] 2.1 Promote a root Cargo workspace with rom, optional derive, a reference database adapter and an external consumer; preserve one accepted descriptor. Additional adapter conformance remains 3.1.
 - [ ] 2.2 Implement bounded asynchronous reads, actions, live queries and shutdown; verify caller cancellation, actor expiry and field projection.
 - [ ] 2.3 Verify codec/presence/custom-field conformance and compile-failure diagnostics through the public API.
 

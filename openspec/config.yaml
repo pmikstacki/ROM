@@ -8,7 +8,8 @@ context: |
   Tokio handles asynchronous execution and I/O; Rayon handles CPU-bound work.
   Rust extensions first. HTTP and RabbitMQ adapters are separate. WASM is deferred.
   OpenSpec is the normative source. README and design documents are informative.
-  This repository is at specification stage; proposed behavior is not implemented.
+  A maintained experimental Cargo workspace exists. Broader proposed behavior
+  remains incomplete; consult integrate-resource-mvp tasks and recorded evidence.
 
 rules:
   proposal:

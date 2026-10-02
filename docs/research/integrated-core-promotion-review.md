@@ -18,7 +18,12 @@ Locations in the reviewed source: core/src/lib.rs lines 584–604, 753–767 and
 rom-dev. It is supplemental reviewer evidence, not a retained release test;
 maintained regression tests must be committed with the fixes.
 
-Status: sent to the maintained-foundation implementer. These are promotion
-blockers until verified fixed. Broader lifecycle/auth/query/chain gaps remain in
+Status: all three findings fixed in maintained foundation source `042c4d1`
+(main equivalent `5edbb87`). The coordinator independently ran the complete
+verifier from an immutable export: 21 runtime tests, one doctest, five intended
+compiler failures, renamed consumer, fmt, Clippy, rustdoc and macro-free core
+check passed. New tests exercise both built-in/custom operation orders across
+SQLite reopen, revoked reads and rejection of ambiguous nested-nullable
+declarations. Broader lifecycle/auth/query/chain gaps remain in
 the [probe report](integrated-core-probe-results.md) and the
 [implementation plan](../../openspec/changes/integrate-resource-mvp/implementation-plan.md).

@@ -14,7 +14,7 @@ replace that premise or silently select production dependencies.
 | Reaction-chain experiments | Complete, independently verified | [19 tests, 110 model result rows](reaction-chain-results.md); combined guards recommended. Actual durable worker remains integration work. |
 | Authentication provider probe | Complete, independently verified | [19 runtime tests plus one compile-fail](auth-provider-probe-results.md); synthetic signed JWT and real loopback introspection, not deployed IdP interoperability. |
 | Maintained core foundation | Running: integrated_core_probe | Root Cargo workspace; bounded async reads/live, cancellation-safe drain, actor expiry and promotion defect regressions. |
-| Dependency audit | Running: mvp_promotion_review | Pinned dependency licenses/features/MSRV and current advisory checks; distinguish actual tool output from source review. |
+| Dependency baseline audit | Complete | [Executed audit](mvp-dependency-audit.md): zero RustSec findings for initial pins; final maintained lockfile delta and native SQLite patch decision remain gates. |
 | Maintained persistence conformance | Running: transport_trials | redb adapter implements the same maintained bundle as SQLite; shared rollback/recovery/limit tests, including real subprocess exit. |
 | Integrated MVP | Coordinator, active goal | Decision register, explicit acceptance profile, combined conformance and packaged consumer. Separate experiments alone cannot complete this goal. |
 
