@@ -6,6 +6,24 @@ ROM is Resource Oriented Meta Framework. The first product is a backend library,
 
 One main library owns the public contract. Database and transport integrations are separate implementations behind focused extension interfaces. Rust extensions are compiled with the host initially. WASM is deferred.
 
+## Defining premise: declare once
+
+A resource declaration is the single application-facing definition for standard operations, persistence, query metadata and committed-change subscriptions. With a generic HTTP adapter enabled, it also supplies endpoints and live streaming without per-kind handlers. Adapters are selected once by the host, not reimplemented for each resource kind. Custom actions add domain behavior; they do not force reimplementation of ordinary resource CRUD.
+
+Avoid mandatory per-kind storage schemas and repositories. A generic persisted envelope with typed payload validation is a candidate, with physical layout and indexing still to be decided. Changes to declared fields may need value compatibility rules, but do not imply handwritten endpoints or a new database table per kind.
+
+## Runtime direction: Tokio and Rayon
+
+Selected by the project owner: Tokio handles asynchronous execution, networking and database I/O; Rayon handles substantial CPU-bound work. ROM owns domain types, action semantics, authorization, validation, persistence and durable events. Applications use ROM interfaces rather than executor task identities as domain identities.
+
+The embedding host owns a long-lived Tokio runtime and a bounded Rayon pool, or explicitly delegates their construction to ROM. Do not construct a new runtime or thread pool per action or resource. Expose lifecycle and capacity configuration through a small execution interface. Exact versions, feature flags and minimum Rust version must be pinned after a compatible-stack probe.
+
+Use bounded admission before spawning async tasks or submitting CPU jobs. Limits cover pending jobs and retained payloads as well as running work. Await CPU completion asynchronously through a result channel; do not block a Tokio worker waiting for Rayon. CPU work receives owned inputs and returns a proposed result, leaving persistence and domain authorization in the action pipeline. Small field checks remain synchronous when offloading would add overhead.
+
+Cancellation is stage-aware. A started CPU task may continue after its caller stops waiting, so its capacity permit remains held until actual completion. A cancelled database commit may have an uncertain outcome: use idempotency and durable outcome lookup rather than assuming rollback. Shutdown stops intake, signals cooperative cancellation and supervises remaining work under a documented deadline. Neither executor supplies durable transaction or event-delivery semantics automatically.
+
+Preserve explicit stages for intake, validation, durable commit, publication and reactions. Independent resources may progress concurrently; state-dependent decisions are checked against the revision committed. See [concurrency research](../../../docs/research/rust-concurrency.md) for evidence and proposed acceptance probes.
+
 ## Goals / Non-Goals
 
 Goals: reusable resource behavior, reliable mutation, recoverable reactions, database persistence, built-in field types and custom Rust field types.
@@ -21,6 +39,8 @@ Authenticate at the boundary; carry a trusted actor context into the core. The c
 Validation and transition computation must not perform external side effects. Effects occur after commit through recoverable work. Actions and events carry schema versions and causal references. Logs and diagnostics must avoid raw protected values.
 
 ### Fields and extension contracts
+
+Use explicit Rust registration for extensions. ROM defines focused contracts for field types, persistence adapters and transports; registered implementations use the shared action and execution interfaces. No general-purpose dynamic plugin loader is required initially.
 
 Use separate contracts for field types, persistence and transport integrations. A field type supplies stable type identity and version, validation, canonical encoding/decoding, and declared capabilities such as comparison. Database adapters explicitly advertise support; unsupported querying fails rather than silently behaving differently.
 

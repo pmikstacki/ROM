@@ -5,6 +5,7 @@ context: |
   Resource is the sole domain entity. Actions request mutations; events describe
   committed transitions; reactions submit actions through the core.
   Core owns resource and field contracts, persistence guarantees and reactivity.
+  Tokio handles asynchronous execution and I/O; Rayon handles CPU-bound work.
   Rust extensions first. HTTP and RabbitMQ adapters are separate. WASM is deferred.
   OpenSpec is the normative source. README and design documents are informative.
   This repository is at specification stage; proposed behavior is not implemented.

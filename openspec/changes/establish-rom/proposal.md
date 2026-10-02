@@ -22,6 +22,8 @@ Resource definitions should carry reliable behavior across every caller. ROM wil
 - `persistence`: Atomic persistence and a database adapter contract.
 - `boundary-adapters`: Transport-independent access and separate integrations.
 
+- `execution-engine`: Tokio and Rayon execution with independent ROM semantics and bounded scheduling.
+
 ### Modified Capabilities
 
 None. There is no implemented ROM baseline.

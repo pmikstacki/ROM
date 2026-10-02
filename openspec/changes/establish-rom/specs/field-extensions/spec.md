@@ -37,3 +37,27 @@ The registry SHALL reject conflicting registrations of the same type identity an
 - **GIVEN** a type version is already registered
 - **WHEN** a different implementation attempts to register that identity and version
 - **THEN** startup fails with a diagnostic identifying the collision
+
+### Requirement: Recursive type fidelity
+The registered descriptor model SHALL preserve complete nested type information across schema and storage adapters. Unsupported nesting SHALL be rejected explicitly rather than degraded to an unconstrained value.
+
+#### Scenario: Nested integer lists
+- **GIVEN** a field is declared as a list of lists of integers
+- **WHEN** its schema is exported or its stored value is validated
+- **THEN** both collection levels and the integer element constraint remain represented
+
+### Requirement: Unique descriptor identity
+The registry SHALL validate resource identities, field paths and any generated identifiers before publishing a descriptor generation. Distinct resource namespaces SHALL NOT silently collapse into one identity or generated symbol.
+
+#### Scenario: Equal short names
+- **GIVEN** two resource kinds have the same short name in different namespaces
+- **WHEN** the registry prepares their descriptors
+- **THEN** it preserves both full identities or rejects an unsupported naming collision explicitly before publication
+
+### Requirement: Immutable descriptor snapshots
+Published descriptor snapshots SHALL be immutable to ordinary consumers. Reconfiguration SHALL publish a validated generation rather than expose partially mutated shared metadata.
+
+#### Scenario: Concurrent metadata readers
+- **GIVEN** two consumers hold the same published descriptor generation
+- **WHEN** a new registration generation is prepared
+- **THEN** both readers continue to see their complete original generation until they explicitly acquire a newer snapshot

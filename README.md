@@ -9,6 +9,7 @@ Actions request changes. The core validates and commits transitions. Events desc
 ## Design
 
 - One main ROM library with typed resources and extensible field types.
+- Tokio for asynchronous execution and I/O, Rayon for CPU-heavy work; integration is still being designed.
 - Persistence contracts owned by the core, database implementations supplied by adapters.
 - Rust extension interfaces first; optional WASM implementations later.
 - HTTP and RabbitMQ integrations remain separate extensions.
@@ -22,7 +23,12 @@ Start with the [OpenSpec proposal](openspec/changes/establish-rom/proposal.md), 
 
 ## Design research
 
-[Framework comparisons and Rust crate candidates](docs/research/frameworks-and-rust-crates.md) inform the design; they are not an approved dependency list.
+Research informs the design; candidate crates are not an approved dependency list.
+
+- [Framework comparisons and Rust crate candidates](docs/research/frameworks-and-rust-crates.md)
+- [Concurrency experiments and guarantees](docs/research/rust-concurrency.md)
+- [Provider-neutral authentication and authorization](docs/research/auth-architecture.md)
+- [Auth specification proposal](openspec/changes/design-provider-neutral-auth/proposal.md)
 
 [Quality gates](docs/quality.md) turn the [Beskid baseline audit](docs/research/beskid-quality-baseline.md) into concrete delivery criteria.
 

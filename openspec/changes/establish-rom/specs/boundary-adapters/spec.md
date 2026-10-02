@@ -29,3 +29,11 @@ The initial extension contract SHALL support native Rust implementations without
 - **GIVEN** an application uses a custom Rust field type
 - **WHEN** the application starts and validates that field
 - **THEN** no WASM runtime is required
+
+### Requirement: Descriptor-driven endpoints and streaming
+An enabled transport adapter SHALL expose registered resource kinds through shared handlers and stream integration derived from their definitions and policies. Adding a kind SHALL NOT require application-authored endpoints or a separate live-update implementation. Core operations SHALL remain available without a transport adapter.
+
+#### Scenario: HTTP-enabled host registers a resource
+- **GIVEN** the host enables the generic HTTP adapter and its streaming transport
+- **WHEN** a valid resource definition is registered
+- **THEN** its permitted standard endpoints and committed-change subscription become available without writing per-kind HTTP or streaming handlers

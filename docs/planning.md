@@ -27,7 +27,9 @@ Node is planning tooling, not a ROM runtime dependency.
 
 ## Origin of the design
 
-The project begins with lessons from a prior Go resource framework: preserve explicit false values, prevent observer updates from overwriting desired configuration, and enforce protected-field handling across storage and events. The available historical evidence was partial, so complete legacy compatibility is not claimed. The public repository contains newly written generic requirements, not private source excerpts, operational records, or credentials.
+The project develops the owner's original vision of a reactive resource framework. The earlier Go implementation was deliberately narrowed to a schema/metadata generator after a scope reduction. Its lack of runtime, persistence and event-delivery machinery is not classified as a defect. The ROM review concerns the standalone generator, not applications built on it.
+
+Static source review suggests preserving an explicit resource/field descriptor model, centralized type capabilities and field policies. ROM should strengthen recursive type fidelity, stable identity, validation of ambiguous definitions, immutable metadata and consumer-level conformance tests. No legacy code was executed. Private source and detailed source evidence remain outside this public repository.
 
 Confirmed direction: backend only, one main Rust library, resource/action/event model, persistence, extensible fields and Rust extension contracts. HTTP/RabbitMQ are separate; WASM is future work. Storage engine, event-sourcing strategy and concrete crates remain design decisions, not accepted dependencies.
 

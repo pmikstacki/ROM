@@ -6,3 +6,5 @@
 *.key
 *.pem
 .DS_Store
+
+/.worktrees/

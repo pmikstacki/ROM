@@ -29,3 +29,19 @@ Resource state SHALL conform to its registered, versioned field definitions.
 - **GIVEN** a field declared as boolean
 - **WHEN** an action provides an incompatible value
 - **THEN** the core rejects the action without changing stored state
+
+### Requirement: Unambiguous input normalization
+Resource operations SHALL normalize supported field and query identifiers deterministically and reject conflicting aliases. Unsupported input constructs SHALL produce explicit diagnostics rather than silently dropping declared fields.
+
+#### Scenario: Conflicting aliases
+- **GIVEN** two supported input spellings normalize to the same field operation but supply different values
+- **WHEN** the input is normalized
+- **THEN** it is rejected as ambiguous rather than choosing a value according to map iteration order
+
+### Requirement: One declaration supplies standard resource behavior
+Registering a resource definition SHALL supply its standard create, read, update, delete, query and subscription behavior through shared ROM machinery. Applications SHALL NOT need resource-specific repositories, CRUD handlers or event-publication plumbing for those standard operations. Explicit policy may disable or restrict operations.
+
+#### Scenario: Additional resource kind
+- **GIVEN** an application has configured a persistence adapter and registered one resource kind
+- **WHEN** it registers another valid resource definition with fields and policy
+- **THEN** the standard operations, persistence and committed-change subscriptions become available without adding a repository or standard-operation implementation for that kind

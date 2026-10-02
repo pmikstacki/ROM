@@ -4,11 +4,15 @@
 - [x] 1.2 Audit representative Beskid code and quality gates; propose measurable ROM gates.
 - [ ] 1.3 Resolve core public signatures, field encodings, reference database and reaction semantics in follow-up specifications.
 
+- [ ] 1.4 Validate Tokio/Rayon integration, async I/O and CPU completion with a bounded execution probe; select and pin compatible versions and a supported toolchain.
+
 ## 2. Introduce the core
 
 - [ ] 2.1 Implement resource identity, versioned kinds and field validation with resource-model scenarios.
 - [ ] 2.2 Implement the Rust field registry and conformance harness with custom-type round-trip and capability rejection tests.
 - [ ] 2.3 Implement the action pipeline with presence, authorization, no-op, conflict and idempotency tests.
+
+- [ ] 2.4 Implement the Tokio/Rayon execution seam with host-owned pools, bounded admission, nonblocking CPU completion, cancellation and stable domain identity tests.
 
 ## 3. Introduce durable reactivity
 
