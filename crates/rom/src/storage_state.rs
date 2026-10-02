@@ -1,0 +1,166 @@
+//! Driver-independent bounded metadata persisted inside each native bundle transaction.
+use super::*;
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct StorageLimits {
+    pub receipts: usize,
+    pub effects: usize,
+    pub journal_rows: usize,
+    pub journal_bytes: usize,
+}
+impl Default for StorageLimits {
+    fn default() -> Self {
+        Self {
+            receipts: 100_000,
+            effects: 100_000,
+            journal_rows: 1024,
+            journal_bytes: 4 * 1024 * 1024,
+        }
+    }
+}
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct StorageState {
+    pub work: WorkLedger,
+    limits: StorageLimits,
+    generation: String,
+    head: u64,
+    floor: u64,
+    receipts: usize,
+    effects: usize,
+    events: Vec<JournalEvent>,
+}
+impl StorageState {
+    pub fn new(limits: StorageLimits) -> Result<Self> {
+        if [
+            limits.receipts,
+            limits.effects,
+            limits.journal_rows,
+            limits.journal_bytes,
+        ]
+        .contains(&0)
+        {
+            return Err(Error::TooLarge);
+        }
+        static SEQUENCE: AtomicU64 = AtomicU64::new(0);
+        let generation = format!(
+            "{}-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .map_err(|_| Error::Storage)?
+                .as_nanos(),
+            SEQUENCE.fetch_add(1, Ordering::Relaxed)
+        );
+        Ok(Self {
+            work: WorkLedger::default(),
+            limits,
+            generation,
+            head: 0,
+            floor: 0,
+            receipts: 0,
+            effects: 0,
+            events: vec![],
+        })
+    }
+    pub fn check_limits(&self, limits: &StorageLimits) -> Result<()> {
+        if &self.limits != limits {
+            Err(Error::Unsupported("persisted storage limits differ".into()))
+        } else {
+            Ok(())
+        }
+    }
+    /// Apply only after native identity/revision arbitration. Returned identities left journal retention.
+    pub fn bundle(&mut self, b: &Bundle) -> Result<Vec<String>> {
+        let mut next = self.clone();
+        next.receipts = next.receipts.checked_add(1).ok_or(Error::TooLarge)?;
+        next.effects = next
+            .effects
+            .checked_add(b.effects.len())
+            .ok_or(Error::TooLarge)?;
+        if next.receipts > next.limits.receipts || next.effects > next.limits.effects {
+            return Err(Error::Overloaded);
+        }
+        if !b.reactions.is_empty() {
+            if !b.changed {
+                return Err(Error::NotCommitted);
+            }
+            next.work.enqueue(
+                b.reaction_limits.as_ref().ok_or(Error::NotCommitted)?,
+                b.reactions.clone(),
+            )?;
+        }
+        let mut removed = vec![];
+        if b.changed {
+            next.head = next.head.checked_add(1).ok_or(Error::TooLarge)?;
+            let event = JournalEvent {
+                position: next.head,
+                identity: b.receipt.identity.clone(),
+                row: b.receipt.row.clone(),
+            };
+            if serde_json::to_vec(&event)
+                .map_err(|_| Error::Storage)?
+                .len()
+                > next.limits.journal_bytes
+            {
+                return Err(Error::TooLarge);
+            }
+            next.events.push(event);
+            while next.events.len() > next.limits.journal_rows
+                || next.events.iter().try_fold(0usize, |sum, e| {
+                    sum.checked_add(serde_json::to_vec(e).map_err(|_| Error::Storage)?.len())
+                        .ok_or(Error::TooLarge)
+                })? > next.limits.journal_bytes
+            {
+                let old = next.events.remove(0);
+                next.floor = old.position;
+                removed.push(old.identity);
+            }
+        }
+        *self = next;
+        Ok(removed)
+    }
+    pub fn journal(
+        &self,
+        kind: &str,
+        after: Option<&JournalCursor>,
+        max_rows: usize,
+        max_bytes: usize,
+    ) -> Result<JournalPage> {
+        if max_rows == 0 || max_bytes == 0 {
+            return Err(Error::TooLarge);
+        }
+        let position = after.map_or(0, |c| c.position);
+        if position < self.floor
+            || position > self.head
+            || after.is_some_and(|c| c.kind != kind || c.generation != self.generation)
+        {
+            return Err(Error::HistoryGap);
+        }
+        let mut cursor = JournalCursor {
+            generation: self.generation.clone(),
+            kind: kind.into(),
+            position,
+        };
+        let mut events = vec![];
+        let mut bytes = 0usize;
+        for e in self.events.iter().filter(|e| e.position > position) {
+            if e.row.key.kind == kind {
+                let next = bytes
+                    .checked_add(serde_json::to_vec(e).map_err(|_| Error::Storage)?.len())
+                    .ok_or(Error::TooLarge)?;
+                if next > max_bytes {
+                    if events.is_empty() {
+                        return Err(Error::TooLarge);
+                    }
+                    break;
+                }
+                if events.len() == max_rows {
+                    break;
+                }
+                bytes = next;
+                events.push(e.clone());
+            }
+            cursor.position = e.position;
+        }
+        Ok(JournalPage { events, cursor })
+    }
+}

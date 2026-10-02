@@ -6,7 +6,10 @@
 use redb::{
     Database, Durability, ReadableDatabase, ReadableTable, ReadableTableMetadata, TableDefinition,
 };
-use rom::{Bundle, Capabilities, Error, Intent, Key, Receipt, Result, Row, Storage};
+use rom::{
+    Bundle, Capabilities, Error, Intent, JournalCursor, JournalPage, Key, Receipt, Result, Row,
+    Storage, StorageLimits, StorageState, WorkRecord, WorkResult, WorkUpdate,
+};
 use std::{
     path::Path,
     sync::atomic::{AtomicBool, Ordering},
@@ -17,7 +20,8 @@ const RECEIPTS: TableDefinition<&str, &str> = TableDefinition::new("receipts");
 const EVENTS: TableDefinition<&str, &str> = TableDefinition::new("events");
 const EFFECTS: TableDefinition<(&str, u64), &str> = TableDefinition::new("effects");
 const META: TableDefinition<&str, u64> = TableDefinition::new("rom_metadata");
-const FORMAT: u64 = 1;
+const FORMAT: u64 = 2;
+const STATE: TableDefinition<&str, &str> = TableDefinition::new("rom_state");
 #[cfg(feature = "test-support")]
 type Observer = std::sync::Arc<dyn Fn(usize) -> Result<()> + Send + Sync>;
 
@@ -32,6 +36,9 @@ pub struct Redb {
 impl Redb {
     /// Open format one, or initialize a new empty database. Never upgrade implicitly.
     pub fn open(path: impl AsRef<Path>) -> Result<Self> {
+        Self::open_with_limits(path, StorageLimits::default())
+    }
+    pub fn open_with_limits(path: impl AsRef<Path>, limits: StorageLimits) -> Result<Self> {
         let db = Database::create(path).map_err(|_| Error::Storage)?;
         let read = db.begin_read().map_err(|_| Error::Storage)?;
         let empty = read
@@ -56,6 +63,16 @@ impl Redb {
             {
                 return Err(Error::Unsupported("redb storage format".into()));
             }
+            let state_table = read.open_table(STATE).map_err(|_| Error::Storage)?;
+            let state: StorageState = serde_json::from_str(
+                state_table
+                    .get("state")
+                    .map_err(|_| Error::Storage)?
+                    .ok_or(Error::Storage)?
+                    .value(),
+            )
+            .map_err(|_| Error::Storage)?;
+            state.check_limits(&limits)?;
             read.open_table(ROWS).map_err(|_| Error::Storage)?;
             read.open_table(RECEIPTS).map_err(|_| Error::Storage)?;
             read.open_table(EVENTS).map_err(|_| Error::Storage)?;
@@ -65,6 +82,12 @@ impl Redb {
         if empty {
             let mut tx = db.begin_write().map_err(|_| Error::Storage)?;
             tx.set_durability(Durability::Immediate)
+                .map_err(|_| Error::Storage)?;
+            let state =
+                serde_json::to_string(&StorageState::new(limits)?).map_err(|_| Error::Storage)?;
+            tx.open_table(STATE)
+                .map_err(|_| Error::Storage)?
+                .insert("state", state.as_str())
                 .map_err(|_| Error::Storage)?;
             tx.open_table(ROWS).map_err(|_| Error::Storage)?;
             tx.open_table(RECEIPTS).map_err(|_| Error::Storage)?;
@@ -164,6 +187,80 @@ impl Redb {
     }
 }
 impl Storage for Redb {
+    fn supports_reactions(&self) -> bool {
+        true
+    }
+    fn reaction_records(&self) -> Result<Vec<WorkRecord>> {
+        self.available()?;
+        let tx = self.db.begin_read().map_err(|_| Error::Storage)?;
+        let table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
+        let s: StorageState = serde_json::from_str(
+            table
+                .get("state")
+                .map_err(|_| Error::Storage)?
+                .ok_or(Error::Storage)?
+                .value(),
+        )
+        .map_err(|_| Error::Storage)?;
+        Ok(s.work.records())
+    }
+    fn reaction_update(&self, update: WorkUpdate) -> Result<WorkResult> {
+        let _gate = self.commit_gate.lock().map_err(|_| Error::Panicked)?;
+        self.available()?;
+        let mut tx = self.db.begin_write().map_err(|_| Error::Storage)?;
+        tx.set_durability(Durability::Immediate)
+            .map_err(|_| Error::Storage)?;
+        let result = {
+            let mut table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
+            let mut s: StorageState = serde_json::from_str(
+                table
+                    .get("state")
+                    .map_err(|_| Error::Storage)?
+                    .ok_or(Error::Storage)?
+                    .value(),
+            )
+            .map_err(|_| Error::Storage)?;
+            let result = s.work.apply(update)?;
+            table
+                .insert(
+                    "state",
+                    serde_json::to_string(&s)
+                        .map_err(|_| Error::Storage)?
+                        .as_str(),
+                )
+                .map_err(|_| Error::NotCommitted)?;
+            result
+        };
+        if tx.commit().is_err() {
+            self.uncertain.store(true, Ordering::Release);
+            return Err(Error::Unknown);
+        }
+        Ok(result)
+    }
+    fn supports_journal(&self) -> bool {
+        true
+    }
+    fn journal(
+        &self,
+        kind: &str,
+        after: Option<&JournalCursor>,
+        max_rows: usize,
+        max_bytes: usize,
+    ) -> Result<JournalPage> {
+        self.available()?;
+        let tx = self.db.begin_read().map_err(|_| Error::Storage)?;
+        let table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
+        let s: StorageState = serde_json::from_str(
+            table
+                .get("state")
+                .map_err(|_| Error::Storage)?
+                .ok_or(Error::Storage)?
+                .value(),
+        )
+        .map_err(|_| Error::Storage)?;
+        s.journal(kind, after, max_rows, max_bytes)
+    }
+
     fn capabilities(&self) -> Capabilities {
         Capabilities {
             atomic_bundle: true,
@@ -236,6 +333,16 @@ impl Storage for Redb {
                     Err(Error::IdentityMismatch)
                 };
             }
+            let mut state_table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
+            let mut state: StorageState = serde_json::from_str(
+                state_table
+                    .get("state")
+                    .map_err(|_| Error::Storage)?
+                    .ok_or(Error::Storage)?
+                    .value(),
+            )
+            .map_err(|_| Error::Storage)?;
+            let retired = state.bundle(b)?;
             let mut rows = tx.open_table(ROWS).map_err(|_| Error::Storage)?;
             let key = (
                 b.receipt.row.key.kind.as_str(),
@@ -282,6 +389,20 @@ impl Storage for Redb {
                 .map_err(|_| Error::NotCommitted)?;
             ordinal += 1;
             self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
+            for id in retired {
+                tx.open_table(EVENTS)
+                    .map_err(|_| Error::Storage)?
+                    .remove(id.as_str())
+                    .map_err(|_| Error::NotCommitted)?;
+            }
+            state_table
+                .insert(
+                    "state",
+                    serde_json::to_string(&state)
+                        .map_err(|_| Error::Storage)?
+                        .as_str(),
+                )
+                .map_err(|_| Error::NotCommitted)?;
             let mut effects = tx.open_table(EFFECTS).map_err(|_| Error::NotCommitted)?;
             for (i, intent) in b.effects.iter().enumerate() {
                 let payload = serde_json::to_string(intent).map_err(|_| Error::NotCommitted)?;

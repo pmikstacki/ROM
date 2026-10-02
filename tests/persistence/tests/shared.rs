@@ -80,6 +80,8 @@ impl Drop for Scratch {
 }
 fn create(id: &str) -> Bundle {
     Bundle {
+        reactions: vec![],
+        reaction_limits: None,
         expected: None,
         receipt: Receipt {
             identity: format!("create-{id}"),

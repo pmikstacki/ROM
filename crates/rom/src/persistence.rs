@@ -22,6 +22,8 @@ pub struct Bundle {
     pub receipt: Receipt,
     pub changed: bool,
     pub effects: Vec<Intent>,
+    pub reactions: Vec<PendingWork>,
+    pub reaction_limits: Option<ReactionLimits>,
 }
 #[derive(Clone, Copy)]
 pub struct Capabilities {
@@ -33,6 +35,16 @@ pub struct Capabilities {
 /// arbitrate expected revision and identity and atomically persist row/event/receipt/effects.
 /// Implementations must not claim rollback for uncertain acknowledgment.
 pub trait Storage: Send + Sync + 'static {
+    fn supports_reactions(&self) -> bool {
+        false
+    }
+    fn reaction_update(&self, _update: WorkUpdate) -> Result<WorkResult> {
+        Err(Error::Unsupported("durable reactions".into()))
+    }
+    /// Trusted host inspection, bounded by the persisted ledger policy.
+    fn reaction_records(&self) -> Result<Vec<WorkRecord>> {
+        Err(Error::Unsupported("durable reactions".into()))
+    }
     fn capabilities(&self) -> Capabilities;
     fn load(&self, key: &Key) -> Result<Option<Row>>;
     /// Reject overflow without truncation. Charge serialized full Row bytes,

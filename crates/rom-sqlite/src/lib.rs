@@ -1,5 +1,8 @@
 //! SQLite reference persistence capability. The deployment database remains host-configured.
-use rom::{Bundle, Capabilities, Error, Key, Receipt, Result, Row, Storage};
+use rom::{
+    Bundle, Capabilities, Error, JournalCursor, JournalPage, Key, Receipt, Result, Row, Storage,
+    StorageLimits, StorageState, WorkRecord, WorkResult, WorkUpdate,
+};
 use rusqlite::{Connection, OptionalExtension, params};
 #[cfg(feature = "test-support")]
 use std::sync::atomic::{AtomicU8, Ordering};
@@ -16,6 +19,9 @@ pub struct Sqlite {
 type Observer = std::sync::Arc<dyn Fn(usize) -> Result<()> + Send + Sync>;
 impl Sqlite {
     pub fn open(path: impl AsRef<Path>) -> Result<Self> {
+        Self::open_with_limits(path, StorageLimits::default())
+    }
+    pub fn open_with_limits(path: impl AsRef<Path>, limits: StorageLimits) -> Result<Self> {
         let c = Connection::open(path).map_err(|_| Error::Storage)?;
         let version: u32 = c
             .pragma_query_value(None, "user_version", |r| r.get(0))
@@ -27,11 +33,11 @@ impl Sqlite {
                 |r| r.get(0),
             )
             .map_err(|_| Error::Storage)?;
-        if version != 1 && (version != 0 || objects != 0) {
+        if version != 2 && (version != 0 || objects != 0) {
             return Err(Error::Unsupported("SQLite storage format".into()));
         }
-        if version == 1 {
-            for name in ["resources", "receipts", "events", "effects"] {
+        if version == 2 {
+            for name in ["resources", "receipts", "events", "effects", "rom_state"] {
                 c.prepare(&format!("SELECT * FROM {name} LIMIT 0"))
                     .map_err(|_| Error::Storage)?;
             }
@@ -42,7 +48,17 @@ impl Sqlite {
             CREATE TABLE IF NOT EXISTS receipts(identity TEXT PRIMARY KEY,data TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS events(identity TEXT PRIMARY KEY,data TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS effects(identity TEXT NOT NULL,ordinal INTEGER NOT NULL,data TEXT NOT NULL,PRIMARY KEY(identity,ordinal));
-            PRAGMA user_version=1; COMMIT;").map_err(|_|Error::Storage)?;
+            CREATE TABLE IF NOT EXISTS rom_state(id INTEGER PRIMARY KEY CHECK(id=1),data TEXT NOT NULL); PRAGMA user_version=2;").map_err(|_|Error::Storage)?;
+        if version == 0 {
+            c.execute(
+                "INSERT INTO rom_state VALUES (1,?)",
+                [serde_json::to_string(&StorageState::new(limits.clone())?)
+                    .map_err(|_| Error::Storage)?],
+            )
+            .map_err(|_| Error::Storage)?;
+        }
+        state(&c)?.check_limits(&limits)?;
+        c.execute_batch("COMMIT").map_err(|_| Error::Unknown)?;
         Ok(Self {
             connection: Mutex::new(c),
             #[cfg(feature = "test-support")]
@@ -140,7 +156,56 @@ fn receipt(c: &Connection, id: &str) -> Result<Option<Receipt>> {
     text.map(|t| serde_json::from_str(&t).map_err(|_| Error::Storage))
         .transpose()
 }
+fn state(c: &Connection) -> Result<StorageState> {
+    let text: String = c
+        .query_row("SELECT data FROM rom_state WHERE id=1", [], |r| r.get(0))
+        .map_err(|_| Error::Storage)?;
+    serde_json::from_str(&text).map_err(|_| Error::Storage)
+}
+fn save_state(c: &Connection, state: &StorageState) -> Result<()> {
+    c.execute(
+        "UPDATE rom_state SET data=? WHERE id=1",
+        [serde_json::to_string(state).map_err(|_| Error::Storage)?],
+    )
+    .map_err(|_| Error::NotCommitted)?;
+    Ok(())
+}
 impl Storage for Sqlite {
+    fn supports_reactions(&self) -> bool {
+        true
+    }
+    fn reaction_records(&self) -> Result<Vec<WorkRecord>> {
+        Ok(
+            state(&*self.connection.lock().map_err(|_| Error::Panicked)?)?
+                .work
+                .records(),
+        )
+    }
+    fn reaction_update(&self, update: WorkUpdate) -> Result<WorkResult> {
+        let mut c = self.connection.lock().map_err(|_| Error::Panicked)?;
+        let tx = c
+            .transaction_with_behavior(rusqlite::TransactionBehavior::Immediate)
+            .map_err(|_| Error::Storage)?;
+        let mut s = state(&tx)?;
+        let result = s.work.apply(update)?;
+        save_state(&tx, &s)?;
+        tx.commit().map_err(|_| Error::Unknown)?;
+        Ok(result)
+    }
+    fn supports_journal(&self) -> bool {
+        true
+    }
+    fn journal(
+        &self,
+        kind: &str,
+        after: Option<&JournalCursor>,
+        max_rows: usize,
+        max_bytes: usize,
+    ) -> Result<JournalPage> {
+        state(&*self.connection.lock().map_err(|_| Error::Panicked)?)?
+            .journal(kind, after, max_rows, max_bytes)
+    }
+
     fn capabilities(&self) -> Capabilities {
         Capabilities {
             atomic_bundle: true,
@@ -207,6 +272,8 @@ impl Storage for Sqlite {
         {
             return Err(Error::NotCommitted);
         }
+        let mut metadata = state(&tx)?;
+        let retired = metadata.bundle(b)?;
         #[cfg(feature = "test-support")]
         let f = self.fault.swap(0, Ordering::SeqCst);
         #[cfg(not(feature = "test-support"))]
@@ -265,6 +332,11 @@ impl Storage for Sqlite {
         if f == 4 {
             return Err(Error::NotCommitted);
         }
+        for id in retired {
+            tx.execute("DELETE FROM events WHERE identity=?", [id])
+                .map_err(|_| Error::NotCommitted)?;
+        }
+        save_state(&tx, &metadata)?;
         self.checkpoint(0).map_err(|_| Error::NotCommitted)?;
         tx.commit().map_err(|_| Error::Unknown)?;
         self.checkpoint(usize::MAX).map_err(|_| Error::Unknown)?;

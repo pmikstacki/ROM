@@ -499,6 +499,8 @@ impl Runtime {
             return Err(Error::invalid(&cmd.kind, "no-op effects"));
         }
         let bundle = Bundle {
+            reactions: vec![],
+            reaction_limits: None,
             expected: cmd.expected,
             receipt: Receipt {
                 identity,
