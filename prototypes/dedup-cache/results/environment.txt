@@ -1,0 +1,45 @@
+Fri Oct  2 11:31:50 AM UTC 2026
+rustc 1.99.0 (b940084d7 2026-09-28)
+cargo 1.99.0 (5f94df478 2026-08-27)
+Linux rom-dev 6.6.94 #1-NixOS SMP PREEMPT_DYNAMIC Thu Jun 19 13:28:47 UTC 2025 x86_64 GNU/Linux
+100
+processor	: 0
+vendor_id	: AuthenticAMD
+cpu family	: 25
+model		: 97
+model name	: AMD Ryzen 7 7700 8-Core Processor
+stepping	: 2
+microcode	: 0xa601209
+cpu MHz		: 5322.873
+cache size	: 1024 KB
+physical id	: 0
+siblings	: 16
+core id		: 0
+cpu cores	: 8
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 16
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good amd_lbr_v2 nopl nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba perfmon_v2 ibrs ibpb stibp ibrs_enhanced vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local user_shstk avx512_bf16 clzero irperf xsaveerptr rdpru wbnoinvd cppc arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave_vmload vgif x2avic v_spec_ctrl vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid overflow_recov succor smca fsrm flush_l1d amd_lbr_pmc_freeze
+bugs		: sysret_ss_attrs spectre_v1 spectre_v2 spec_store_bypass srso
+bogomips	: 7585.55
+TLB size	: 3584 4K pages
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 48 bits physical, 48 bits virtual
+power management: ts ttp tm hwpstate cpb eff_freq_ro [13] [14]
+
+MemTotal:       64963728 kB
+MemFree:         2464192 kB
+MemAvailable:   36955276 kB
+Buffers:         5221368 kB
+Cached:         23052048 kB
+moka = "0.12.16"    # A fast and concurrent cache library inspired by Java Caffeine
+... and 263 crates more (use --limit N to see more)
+quick_cache = "0.7.0"    # Lightweight and high performance concurrent cache
+... and 8333 crates more (use --limit N to see more)
+Filesystem                                             Type   1K-blocks       Used Available Use% Mounted on
+tmpfs                                                  tmpfs    6496376      65092   6431284   2% /tmp
+/dev/disk/by-uuid/53216c16-d2b0-4429-b852-418dd29577c4 ext4  1966842196 1668740796 198117564  90% /workspace/ROM
