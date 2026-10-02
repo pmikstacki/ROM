@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+export OPENSPEC_TELEMETRY=0
+npm exec --yes --package=@fission-ai/openspec@1.14.0 -- openspec validate --all --strict
+if [[ -f Cargo.toml ]]; then
+  cargo fmt --all -- --check
+  cargo clippy --workspace --all-targets --locked -- -D warnings
+  cargo test --workspace --locked
+  RUSTDOCFLAGS="${RUSTDOCFLAGS:-} -D warnings" cargo doc --workspace --no-deps --locked
+else
+  echo 'Specification checks passed. Rust checks are not applicable: no Cargo workspace exists yet.'
+fi

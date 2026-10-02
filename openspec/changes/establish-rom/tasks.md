@@ -1,7 +1,7 @@
 ## 1. Validate the design
 
-- [ ] 1.1 Compare relevant frameworks and Rust crates using primary sources; document the smallest suitable stack.
-- [ ] 1.2 Audit representative Beskid code and quality gates; propose measurable ROM gates.
+- [x] 1.1 Compare relevant frameworks and Rust crates using primary sources; document the smallest suitable stack.
+- [x] 1.2 Audit representative Beskid code and quality gates; propose measurable ROM gates.
 - [ ] 1.3 Resolve core public signatures, field encodings, reference database and reaction semantics in follow-up specifications.
 
 ## 2. Introduce the core

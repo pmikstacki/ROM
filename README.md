@@ -23,3 +23,5 @@ Start with the [OpenSpec proposal](openspec/changes/establish-rom/proposal.md), 
 ## Design research
 
 [Framework comparisons and Rust crate candidates](docs/research/frameworks-and-rust-crates.md) inform the design; they are not an approved dependency list.
+
+[Quality gates](docs/quality.md) turn the [Beskid baseline audit](docs/research/beskid-quality-baseline.md) into concrete delivery criteria.

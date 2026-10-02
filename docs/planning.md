@@ -30,3 +30,7 @@ Node is planning tooling, not a ROM runtime dependency.
 The project begins with lessons from a prior Go resource framework: preserve explicit false values, prevent observer updates from overwriting desired configuration, and enforce protected-field handling across storage and events. The available historical evidence was partial, so complete legacy compatibility is not claimed. The public repository contains newly written generic requirements, not private source excerpts, operational records, or credentials.
 
 Confirmed direction: backend only, one main Rust library, resource/action/event model, persistence, extensible fields and Rust extension contracts. HTTP/RabbitMQ are separate; WASM is future work. Storage engine, event-sourcing strategy and concrete crates remain design decisions, not accepted dependencies.
+
+## Local verification
+
+Run `./scripts/check` before committing and `./scripts/build` when a Rust workspace exists. GitHub is used for code hosting only; Actions is disabled. The check script explicitly reports when Rust checks are not yet applicable. Build exits with an explanatory error until implementation begins.
