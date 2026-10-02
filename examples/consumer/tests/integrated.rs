@@ -49,8 +49,14 @@ async fn create(rom: &Runtime) {
 async fn two_resources_share_actions_codec_and_live_membership() {
     let (rom, store) = setup();
     let a = alice();
-    let mut tasks = rom.live(&a, Task::done_field().equals(false)).unwrap();
-    let mut settings = rom.live(&a, Setting::enabled_field().equals(true)).unwrap();
+    let mut tasks = rom
+        .live(&a, Task::done_field().equals(false))
+        .await
+        .unwrap();
+    let mut settings = rom
+        .live(&a, Setting::enabled_field().equals(true))
+        .await
+        .unwrap();
     assert!(tasks.changed().await.unwrap().is_empty());
     assert!(settings.changed().await.unwrap().is_empty());
     create(&rom).await;
@@ -183,7 +189,14 @@ async fn rollback_after_each_real_sql_write_leaves_full_bundle_absent() {
             Err(Error::NotCommitted)
         ));
         assert_eq!(store.counts().unwrap(), [1, 1, 1, 0]);
-        assert!(!rom.read::<Task>(&alice(), "t").unwrap().value.unwrap().done);
+        assert!(
+            !rom.read::<Task>(&alice(), "t")
+                .await
+                .unwrap()
+                .value
+                .unwrap()
+                .done
+        );
         assert_eq!(rom.execute(&alice(), cmd).await.unwrap().revision, 2);
         assert_eq!(store.counts().unwrap(), [1, 2, 2, 1]);
         rom.shutdown().await.unwrap();
@@ -231,7 +244,10 @@ async fn revoke_buffered_live_signal_and_durable_replay() {
     let (rom, store) = setup();
     create(&rom).await;
     let a = alice();
-    let mut live = rom.live(&a, Task::done_field().equals(false)).unwrap();
+    let mut live = rom
+        .live(&a, Task::done_field().equals(false))
+        .await
+        .unwrap();
     // Initial delivery has not happened yet; policy changes before the consumer polls.
     rom.revoke(&a);
     assert!(matches!(live.changed().await, Err(Error::Denied)));
@@ -240,7 +256,10 @@ async fn revoke_buffered_live_signal_and_durable_replay() {
             .await,
         Err(Error::Denied)
     ));
-    assert!(matches!(rom.read::<Task>(&a, "t"), Err(Error::Denied)));
+    assert!(matches!(
+        rom.read::<Task>(&a, "t").await,
+        Err(Error::Denied)
+    ));
     assert_eq!(store.counts().unwrap(), [1, 1, 1, 0]);
     rom.shutdown().await.unwrap();
 }
@@ -249,7 +268,10 @@ async fn owner_change_removes_live_membership_and_denies_old_outcome() {
     let (rom, store) = setup();
     create(&rom).await;
     let a = alice();
-    let mut live = rom.live(&a, Task::done_field().equals(false)).unwrap();
+    let mut live = rom
+        .live(&a, Task::done_field().equals(false))
+        .await
+        .unwrap();
     assert_eq!(live.changed().await.unwrap().len(), 1);
     let mut moved = task();
     moved.owner = "bob".into();
@@ -274,7 +296,10 @@ async fn owner_change_removes_live_membership_and_denies_old_outcome() {
 async fn live_initialization_coalescing_delete_and_tombstone_retry() {
     let (rom, store) = setup();
     let a = alice();
-    let mut live = rom.live(&a, Task::done_field().equals(false)).unwrap();
+    let mut live = rom
+        .live(&a, Task::done_field().equals(false))
+        .await
+        .unwrap();
     create(&rom).await;
     assert_eq!(live.changed().await.unwrap().len(), 1);
     for i in 1..=20 {
@@ -498,9 +523,17 @@ async fn downstream_failure_preserves_upstream_and_recovery_retries_same_action_
         rom.execute(&alice(), continuation.clone()).await,
         Err(Error::NotCommitted)
     ));
-    assert!(rom.read::<Task>(&alice(), "t").unwrap().value.unwrap().done);
+    assert!(
+        rom.read::<Task>(&alice(), "t")
+            .await
+            .unwrap()
+            .value
+            .unwrap()
+            .done
+    );
     assert!(
         !rom.read::<Setting>(&alice(), "s")
+            .await
             .unwrap()
             .value
             .unwrap()
@@ -519,6 +552,7 @@ async fn downstream_failure_preserves_upstream_and_recovery_retries_same_action_
     );
     assert_eq!(
         rom.read::<Setting>(&alice(), "s")
+            .await
             .unwrap()
             .value
             .unwrap()
@@ -569,7 +603,7 @@ impl Storage for Unsupported {
     fn load(&self, _: &Key) -> Result<Option<Row>> {
         unreachable!()
     }
-    fn snapshot(&self, _: &str) -> Result<Vec<Row>> {
+    fn snapshot(&self, _: &str, _: usize, _: usize) -> Result<Vec<Row>> {
         unreachable!()
     }
     fn receipt(&self, _: &str) -> Result<Option<Receipt>> {
@@ -625,12 +659,19 @@ async fn negative_control_cached_payload_would_leak_after_revoke() {
     let (rom, _) = setup();
     let a = alice();
     create(&rom).await;
-    let previously_authorized = rom.query(&a, &Task::done_field().equals(false)).unwrap();
+    let previously_authorized = rom
+        .query(&a, &Task::done_field().equals(false))
+        .await
+        .unwrap();
     rom.revoke(&a);
     assert_eq!(
         previously_authorized[0].value.as_ref().unwrap().title,
         "private title"
     );
-    assert!(rom.query(&a, &Task::done_field().equals(false)).is_err());
+    assert!(
+        rom.query(&a, &Task::done_field().equals(false))
+            .await
+            .is_err()
+    );
     rom.shutdown().await.unwrap();
 }

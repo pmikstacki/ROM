@@ -65,6 +65,7 @@ async fn downstream_custom_field_and_manual_definition_use_identical_contract() 
             &actor,
             &Custom::label_field().equals(Label("custom typed value".into())),
         )
+        .await
         .unwrap();
     assert_eq!(rows.len(), 1);
     let invalid = rom
@@ -91,6 +92,7 @@ async fn downstream_custom_field_and_manual_definition_use_identical_contract() 
     assert_eq!(
         manual
             .read::<Manual>(&actor, "c")
+            .await
             .unwrap()
             .value
             .unwrap()

@@ -7,7 +7,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let store = Arc::new(Sqlite::open(":memory:")?);
     let rom = declarations().build(store.clone(), Runtime::shared_cpu_pool(2)?)?;
     let actor = Actor::trusted("local", "alice");
-    let mut open = rom.live(&actor, Task::done_field().equals(false))?;
+    let mut open = rom.live(&actor, Task::done_field().equals(false)).await?;
     assert!(open.changed().await?.is_empty());
     rom.execute(
         &actor,
@@ -54,7 +54,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     .await?;
     println!(
         "settings: {:?}",
-        rom.query(&actor, &Setting::enabled_field().equals(true))?
+        rom.query(&actor, &Setting::enabled_field().equals(true))
+            .await?
     );
     println!("state/event/receipt/effect counts: {:?}", store.counts()?);
     rom.shutdown().await?;

@@ -94,18 +94,33 @@ impl Storage for Sqlite {
     fn load(&self, key: &Key) -> Result<Option<Row>> {
         row(&self.connection.lock().unwrap(), key)
     }
-    fn snapshot(&self, kind: &str) -> Result<Vec<Row>> {
-        let c = self.connection.lock().unwrap();
-        let mut s = c
-            .prepare("SELECT data FROM resources WHERE kind=? ORDER BY id")
+    fn snapshot(&self, kind: &str, max_rows: usize, max_bytes: usize) -> Result<Vec<Row>> {
+        let c = self.connection.lock().map_err(|_| Error::Panicked)?;
+        let mut statement = c
+            .prepare("SELECT data FROM resources WHERE kind=? ORDER BY id LIMIT ?")
             .map_err(|_| Error::Storage)?;
-        let rows = s
-            .query_map([kind], |r| r.get::<_, String>(0))
+        let limit = i64::try_from(max_rows.saturating_add(1)).unwrap_or(i64::MAX);
+        let mut cursor = statement
+            .query(params![kind, limit])
             .map_err(|_| Error::Storage)?;
-        rows.map(|r| {
-            serde_json::from_str(&r.map_err(|_| Error::Storage)?).map_err(|_| Error::Storage)
-        })
-        .collect()
+        let mut result = Vec::new();
+        let mut bytes = 0usize;
+        while let Some(row) = cursor.next().map_err(|_| Error::Storage)? {
+            if result.len() == max_rows {
+                return Err(Error::TooLarge);
+            }
+            let text = row
+                .get_ref(0)
+                .map_err(|_| Error::Storage)?
+                .as_str()
+                .map_err(|_| Error::Storage)?;
+            bytes = bytes.checked_add(text.len()).ok_or(Error::TooLarge)?;
+            if bytes > max_bytes {
+                return Err(Error::TooLarge);
+            }
+            result.push(serde_json::from_str(text).map_err(|_| Error::Storage)?);
+        }
+        Ok(result)
     }
     fn receipt(&self, id: &str) -> Result<Option<Receipt>> {
         receipt(&self.connection.lock().unwrap(), id)

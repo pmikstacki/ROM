@@ -62,7 +62,10 @@ async fn revoked_read_does_not_reveal_resource_existence() {
         .unwrap();
     rom.revoke(&actor());
     for id in ["t", "missing"] {
-        assert!(matches!(rom.read::<Task>(&actor(), id), Err(Error::Denied)));
+        assert!(matches!(
+            rom.read::<Task>(&actor(), id).await,
+            Err(Error::Denied)
+        ));
     }
     rom.shutdown().await.unwrap();
 }
