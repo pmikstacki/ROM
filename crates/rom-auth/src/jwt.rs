@@ -29,16 +29,33 @@ use serde::Deserialize;
 use std::collections::BTreeMap;
 
 #[derive(Deserialize)]
+#[serde(untagged)]
+enum Audience {
+    One(String),
+    Many(Vec<String>),
+}
+impl Audience {
+    fn contains(&self, expected: &str) -> bool {
+        match self {
+            Self::One(value) => value == expected,
+            Self::Many(values) => values.iter().any(|value| value == expected),
+        }
+    }
+}
+
+#[derive(Deserialize)]
 struct JwtClaims {
+    iss: String,
+    aud: Audience,
     sub: String,
     exp: u64,
     iat: u64,
     jti: String,
     client_id: String,
     principal_kind: String,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::present_claim")]
     nbf: Option<u64>,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::present_claim")]
     cnf: Option<serde_json::Value>,
 }
 
@@ -57,6 +74,8 @@ pub trait TrustedKeys {
 /// at most 8 keys. These profile limits are fixed, not production-wide ROM policy.
 pub struct JwtAdapter<K> {
     authority: String,
+    expected_issuer: String,
+    audience: String,
     validation: Validation,
     source: K,
     keys: BTreeMap<String, DecodingKey>,
@@ -87,6 +106,8 @@ impl<K: TrustedKeys> JwtAdapter<K> {
         validation.validate_nbf = false;
         Ok(Self {
             authority: authority.into(),
+            expected_issuer: expected_issuer.into(),
+            audience: audience.into(),
             validation,
             source,
             keys: BTreeMap::new(),
@@ -144,6 +165,11 @@ impl<K: TrustedKeys> JwtAdapter<K> {
         let claims = decode::<JwtClaims>(token, key, &self.validation)
             .map_err(|_| AuthError::Invalid)?
             .claims;
+        // Require an exact string issuer independently of the JWT library
+        // (its validation model also permits issuer arrays via set intersection).
+        if claims.iss != self.expected_issuer || !claims.aud.contains(&self.audience) {
+            return Err(AuthError::Binding);
+        }
         if claims.exp <= now
             || claims.nbf.is_some_and(|nbf| nbf > now)
             || claims.iat > now

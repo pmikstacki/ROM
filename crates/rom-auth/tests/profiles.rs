@@ -713,3 +713,85 @@ fn introspection_basic_credentials_use_oauth_form_encoding() {
     assert!(adapter.authenticate("opaque", now).is_ok());
     assert!(fixture.valid_request.load(Ordering::SeqCst));
 }
+
+#[test]
+fn jwt_issuer_must_be_one_exact_string_not_a_matching_array() {
+    let now = get_current_timestamp();
+    let mut verifier = jwt(Source::new());
+    assert!(
+        verifier
+            .authenticate(&token(&claims(now), header("k1"), 0), now)
+            .is_ok()
+    );
+    for issuer in [
+        json!(["https://jwt.example"]),
+        json!(["https://unrelated.example", "https://jwt.example"]),
+        json!(null),
+        json!(42),
+        json!({"issuer":"https://jwt.example"}),
+    ] {
+        let mut c = claims(now);
+        c["iss"] = issuer;
+        assert!(
+            verifier
+                .authenticate(&token(&c, header("k1"), 0), now)
+                .is_err(),
+            "non-string issuer admitted"
+        );
+    }
+}
+#[test]
+fn jwt_claim_shapes_reject_wrong_types_and_explicit_null_optional_claims() {
+    let now = get_current_timestamp();
+    let mut verifier = jwt(Source::new());
+    for audience in [json!("rom-api"), json!(["other-api", "rom-api"])] {
+        let mut c = claims(now);
+        c["aud"] = audience;
+        assert!(
+            verifier
+                .authenticate(&token(&c, header("k1"), 0), now)
+                .is_ok()
+        );
+    }
+    for (field, value) in [
+        ("aud", json!(["rom-api", 7])),
+        ("aud", json!({"rom-api":true})),
+        ("sub", json!(["same-subject"])),
+        ("exp", json!("9999999999")),
+        ("iat", json!(null)),
+        ("jti", json!(7)),
+        ("client_id", json!(["browser-client"])),
+        ("principal_kind", json!(true)),
+        ("nbf", json!(null)),
+        ("cnf", json!(null)),
+    ] {
+        let mut c = claims(now);
+        c[field] = value;
+        assert!(
+            verifier
+                .authenticate(&token(&c, header("k1"), 0), now)
+                .is_err(),
+            "invalid shape admitted for {field}"
+        );
+    }
+    let mut c = claims(now);
+    c.as_object_mut().unwrap().remove("nbf");
+    assert!(
+        verifier
+            .authenticate(&token(&c, header("k1"), 0), now)
+            .is_ok()
+    );
+}
+#[test]
+fn introspection_present_time_or_proof_claim_cannot_be_null() {
+    let now = get_current_timestamp();
+    for field in ["nbf", "iat", "cnf"] {
+        let mut r = introspection(now);
+        r[field] = json!(null);
+        let fixture = Fixture::new(vec![Reply::json(r)]);
+        assert!(
+            fixture.adapter().authenticate("opaque", now).is_err(),
+            "null {field} admitted"
+        );
+    }
+}

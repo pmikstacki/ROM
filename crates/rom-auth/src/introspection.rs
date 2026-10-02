@@ -42,25 +42,25 @@ impl Audience {
 #[derive(Deserialize)]
 struct IntrospectionResponse {
     active: bool,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::present_claim")]
     sub: Option<String>,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::present_claim")]
     iss: Option<String>,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::present_claim")]
     aud: Option<Audience>,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::present_claim")]
     exp: Option<u64>,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::present_claim")]
     nbf: Option<u64>,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::present_claim")]
     iat: Option<u64>,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::present_claim")]
     client_id: Option<String>,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::present_claim")]
     principal_kind: Option<String>,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::present_claim")]
     token_type: Option<String>,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::present_claim")]
     cnf: Option<serde_json::Value>,
 }
 /// Blocking authenticated introspection with five-second, expiry-bounded evidence cache.
