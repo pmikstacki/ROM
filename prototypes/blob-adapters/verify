@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+cargo fmt --all -- --check
+cargo clippy --workspace --all-targets --locked -- -D warnings
+cargo test --workspace --locked
+RUSTDOCFLAGS='-D warnings' cargo doc --workspace --no-deps --locked
+dependencies=$(cargo tree -p blob-contract --edges normal --prefix none --locked)
+printf '%s\n' "$dependencies"
+if rg -q 'object_store|reqwest|aws|tokio' <<<"$dependencies"; then
+    echo 'Provider/runtime dependency leaked into the core contract' >&2
+    exit 1
+fi
+

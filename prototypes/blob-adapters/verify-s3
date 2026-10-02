@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+minio_bin=${MINIO_BIN:-minio}
+api_port=${ROM_BLOB_API_PORT:-19080}
+console_port=${ROM_BLOB_CONSOLE_PORT:-19081}
+for port in "$api_port" "$console_port"; do
+    if curl --noproxy '*' --max-time 1 -sS "http://127.0.0.1:$port/" >/dev/null 2>&1; then
+        echo "Refusing occupied loopback port $port; choose different probe ports" >&2
+        exit 1
+    fi
+done
+scratch=$(mktemp -d -t rom-blob-probe.XXXXXXXX)
+server_pid=''
+cleanup() {
+    if [[ -n "$server_pid" ]]; then
+        kill "$server_pid" 2>/dev/null || true
+        wait "$server_pid" 2>/dev/null || true
+    fi
+    rm -rf -- "$scratch"
+}
+trap cleanup EXIT INT TERM
+mkdir -p "$scratch/data/rom-probe"
+MINIO_ROOT_USER=rom-probe MINIO_ROOT_PASSWORD=rom-probe-local-only \
+    MINIO_BROWSER=off MINIO_UPDATE=off \
+    "$minio_bin" server "$scratch/data" \
+    --address "127.0.0.1:$api_port" --console-address "127.0.0.1:$console_port" \
+    >"$scratch/server.log" 2>&1 &
+server_pid=$!
+ready=false
+for _ in {1..100}; do
+    if ! kill -0 "$server_pid" 2>/dev/null; then
+        cat "$scratch/server.log" >&2
+        exit 1
+    fi
+    if rg -q "API: http://127.0.0.1:$api_port" "$scratch/server.log" && \
+        curl --noproxy '*' -fsS "http://127.0.0.1:$api_port/minio/health/live" >/dev/null 2>&1; then
+        ready=true
+        break
+    fi
+    sleep 0.1
+done
+if [[ "$ready" != true ]]; then
+    cat "$scratch/server.log" >&2
+    exit 1
+fi
+"$minio_bin" --version
+ROM_BLOB_S3_ENDPOINT="127.0.0.1:$api_port" \
+    cargo test --workspace --locked -- --include-ignored

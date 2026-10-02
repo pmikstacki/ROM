@@ -1,0 +1,16 @@
+[package]
+name = "blob-adapters"
+version = "0.0.0"
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+blob-contract = { path = "../core" }
+futures-util.workspace = true
+object_store = { version = "=0.14.2", features = ["aws"] }
+
+[dev-dependencies]
+tempfile = "3.27"
+tokio.workspace = true
+
