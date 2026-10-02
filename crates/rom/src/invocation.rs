@@ -28,10 +28,28 @@ pub(crate) struct ErasedCommand {
     pub(crate) kind: String,
     pub(crate) id: String,
     pub(crate) expected: Option<u64>,
-    pub(crate) identity: String,
     pub(crate) mutation: Mutation,
 }
 impl Invocation {
+    pub(crate) fn check_size(&self, actor: &Actor, limit: usize) -> Result<()> {
+        struct Budget(usize);
+        impl std::io::Write for Budget {
+            fn write(&mut self, bytes: &[u8]) -> std::io::Result<usize> {
+                self.0 = self
+                    .0
+                    .checked_sub(bytes.len())
+                    .ok_or_else(|| std::io::Error::other("size limit"))?;
+                Ok(bytes.len())
+            }
+            fn flush(&mut self) -> std::io::Result<()> {
+                Ok(())
+            }
+        }
+        // Count escaping and routing strings without allocating a serialized request.
+        serde_json::to_writer(Budget(limit), &(self, &actor.authority, &actor.subject))
+            .map_err(|_| Error::TooLarge)
+    }
+
     pub(crate) fn durable_identity(&self, actor: &Actor) -> String {
         let operation = match &self.operation {
             Operation::Create(_) => json!(["standard", "create"]),
@@ -55,7 +73,6 @@ impl Invocation {
             kind: self.kind,
             id: self.id,
             expected: self.expected,
-            identity: self.idempotency,
             mutation: match self.operation {
                 Operation::Create(v) => Mutation::Create(v),
                 Operation::Replace(v) => Mutation::Replace(v),

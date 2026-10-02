@@ -58,3 +58,45 @@ async fn typed_and_erased_invocation_share_identity_policy_and_custom_actions() 
     assert_eq!(store.counts().unwrap(), [1, 2, 2, 1]);
     runtime.shutdown().await.unwrap();
 }
+
+#[tokio::test]
+async fn routing_and_host_identity_are_bounded_before_identity_encoding() {
+    let store = Arc::new(Sqlite::open(":memory:").unwrap());
+    let runtime = declarations()
+        .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
+        .unwrap();
+    let actor = Actor::trusted("local", "alice");
+    let base = Invocation {
+        kind: Task::KIND.into(),
+        id: "x".into(),
+        expected: None,
+        idempotency: "k".into(),
+        operation: Operation::Delete,
+    };
+    for invocation in [
+        Invocation {
+            kind: "x".repeat(20_000),
+            ..base.clone()
+        },
+        Invocation {
+            operation: Operation::Action {
+                name: "x".repeat(20_000),
+                input: json!(null),
+            },
+            ..base.clone()
+        },
+    ] {
+        assert_eq!(
+            runtime.invoke(&actor, invocation).await,
+            Err(Error::TooLarge)
+        );
+    }
+    assert_eq!(
+        runtime
+            .invoke(&Actor::trusted(&"x".repeat(20_000), "alice"), base)
+            .await,
+        Err(Error::TooLarge)
+    );
+    assert_eq!(store.counts().unwrap(), [0, 0, 0, 0]);
+    runtime.shutdown().await.unwrap();
+}

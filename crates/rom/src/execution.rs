@@ -300,25 +300,13 @@ impl Runtime {
         typed(self.invoke(actor, cmd.into()).await?)
     }
     pub async fn invoke(&self, actor: &Actor, invocation: Invocation) -> Result<Row> {
+        self.check_actor(actor)?;
+        invocation.check_size(actor, self.0.limits.command_bytes)?;
+        if invocation.idempotency.is_empty() || invocation.id.is_empty() {
+            return Err(Error::invalid(&invocation.kind, "identity"));
+        }
         let identity = invocation.durable_identity(actor);
         let cmd = invocation.into_command();
-        self.check_actor(actor)?;
-        if cmd.identity.is_empty() || cmd.id.is_empty() {
-            return Err(Error::invalid(&cmd.kind, "identity"));
-        }
-        let size = match &cmd.mutation {
-            Mutation::Create(v) | Mutation::Replace(v) | Mutation::Action(_, v) => {
-                v.to_string().len()
-            }
-            Mutation::Delete => 0,
-        };
-        if size
-            .checked_add(cmd.id.len())
-            .and_then(|n| n.checked_add(cmd.identity.len()))
-            .is_none_or(|n| n > self.0.limits.command_bytes)
-        {
-            return Err(Error::TooLarge);
-        }
         let permit = acquire(&self.0.admission)?;
         let a = actor.clone();
         let row = self
