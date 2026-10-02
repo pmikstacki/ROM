@@ -1,0 +1,8 @@
+[package]
+name = "fixture-renamed"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+rom = { package = "resource-contract", path = "../../facade", features = ["derive"] }

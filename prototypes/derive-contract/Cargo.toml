@@ -1,0 +1,15 @@
+[workspace]
+resolver = "2"
+members = ["core", "derive", "facade", "fixtures/pass", "fixtures/manual", "fixtures/renamed", "fixtures/fail"]
+default-members = ["core", "derive", "facade", "fixtures/pass", "fixtures/manual", "fixtures/renamed"]
+
+[workspace.package]
+version = "0.0.0"
+edition = "2021"
+rust-version = "1.82"
+publish = false
+
+[workspace.dependencies]
+syn = { version = "=3.0.6", features = ["full"] }
+quote = "=1.0.47"
+proc-macro2 = "=1.0.107"
