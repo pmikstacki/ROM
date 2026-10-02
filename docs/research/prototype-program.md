@@ -1,6 +1,6 @@
 # ROM research and prototype program
 
-Status: this research/prototype batch is complete. See [verified findings and limits](prototype-results.md) and the [ranked framework comparison](state-of-art-resource-frameworks.md). The resource premise is fixed; the experiments test implementation choices, not whether to replace that premise. Runtime: Tokio for async execution and I/O, Rayon for CPU work. All experimental code is disposable and isolated on prototype branches. Main remains a specification/research repository; the later `demo/` application has not started.
+Status: this research/prototype batch is complete. See [verified findings and limits](prototype-results.md) and the [ranked framework comparison](state-of-art-resource-frameworks.md). The resource premise is fixed; the experiments test implementation choices, not whether to replace that premise. Runtime: Tokio for async execution and I/O, Rayon for CPU work. All experimental code is disposable and isolated on prototype branches. This describes the original experiment batch. Main now contains maintained libraries; current integration status is in the [completion index](completion-index.md) and MVP checklist.
 
 ## Fixed product premise
 
