@@ -1,7 +1,7 @@
 # ROM 0.1.0-alpha.1: integrated MVP acceptance
 
 Date: 2026-10-02. Implementation revision: `463f78cc121d21632f5e9073ed7c9b5c7aafd42a`.
-Subsequent completion/report changes are documentation and notice updates.
+Subsequent completion changes are documentation, upstream license notices and their offline collector; runtime, adapter, demo and lockfile sources are unchanged.
 
 ## Result and scope
 
@@ -59,7 +59,7 @@ The final workspace lock SHA-256 is
 | Blob S3 verifier | Five real folder/MinIO tests passed, including an object committed before the response was lost. The explicit MinIO fixture version is recorded in the Blob report; no arbitrary S3 implementation is certified. |
 | Native SQLite patch profile | Official pinned SQLite 3.53.4 archive and amalgamation hashes checked; actual linked version asserted. After the last code change, consumer and persistence suites passed 134 test invocations, including backup and ledger boundaries. Default bundled SQLite remains 3.53.2 through pinned rusqlite; the alternative profile is explicit. |
 | Dependency advisory audit | cargo-audit with warnings denied, no ignored advisories, retained RustSec database commit `117edb3bed98e9be112f277b7615eea3252e7c43`: 269 lock entries scanned, no vulnerabilities/warnings reported. This does not certify native engine patch coverage. |
-| License/source inventory | 255 external packages in the all-features/target/dev graph, declarations and available upstream notices retained in [inventory](maintained-dependencies.md) and [THIRD_PARTY_NOTICES](../../THIRD_PARTY_NOTICES.md). See [notice review](maintained-license-review.md) for distribution limits. |
+| License/source inventory | 255 external packages in the all-features/target/dev graph, declarations and available upstream notices retained in [inventory](maintained-dependencies.md) and [THIRD_PARTY_NOTICES](../../THIRD_PARTY_NOTICES.md). Six collector gaps were corrected using archive notices and pinned upstream MIT supplements; two offline collector tests and regenerated output passed. See [notice review](maintained-license-review.md) for distribution limits. |
 | `./scripts/release` | Clean code checkout passed verifier, optimized workspace build, all eleven extracted library archives built with all features, and a consumer outside the repository ran using only extracted ROM sources. Root lockfile stayed unchanged. Source tarball and SHA-256 generated locally; no crates.io publication or GitHub Actions. |
 
 The complete check/demo/S3 run contains repeated package-specific verifier runs;
