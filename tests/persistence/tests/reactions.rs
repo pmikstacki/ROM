@@ -104,6 +104,7 @@ fn bundle(id: &str) -> rom::Bundle {
         effects: vec![],
         reactions: vec![],
         reaction_limits: None,
+        completed_work: None,
         receipt: rom::Receipt {
             identity: id.into(),
             fingerprint: id.into(),
@@ -192,5 +193,56 @@ fn saturated_work_rejects_entire_upstream_bundle() {
         );
         drop(db);
         let _ = std::fs::remove_file(path);
+    }
+}
+#[test]
+fn native_precommit_failure_and_postcommit_loss_keep_obligations_atomic() {
+    for redb in [false, true] {
+        for after in [false, true] {
+            let path = std::env::temp_dir().join(format!(
+                "rom-react-atomic-{}-{redb}-{after}",
+                std::process::id()
+            ));
+            let _ = std::fs::remove_file(&path);
+            let hook: std::sync::Arc<dyn Fn(usize) -> rom::Result<()> + Send + Sync> =
+                std::sync::Arc::new(move |point| {
+                    if point == if after { usize::MAX } else { 0 } {
+                        Err(rom::Error::Storage)
+                    } else {
+                        Ok(())
+                    }
+                });
+            let db: Box<dyn rom::Storage> = if redb {
+                let d = rom_redb::Redb::open(&path).unwrap();
+                d.on_commit(Some(hook));
+                Box::new(d)
+            } else {
+                let d = rom_sqlite::Sqlite::open(&path).unwrap();
+                d.on_commit(Some(hook));
+                Box::new(d)
+            };
+            let mut b = bundle("one");
+            b.reactions = vec![pending("one")];
+            b.reaction_limits = Some(ReactionLimits::default());
+            assert_eq!(
+                db.commit(&b),
+                Err(if after {
+                    rom::Error::Unknown
+                } else {
+                    rom::Error::NotCommitted
+                })
+            );
+            drop(db);
+            let db = database(redb, &path, Default::default());
+            assert_eq!(db.reaction_records().unwrap().len(), usize::from(after));
+            assert_eq!(db.receipt("one").unwrap().is_some(), after);
+            assert_eq!(db.load(&b.receipt.row.key).unwrap().is_some(), after);
+            assert_eq!(
+                db.journal("things", None, 10, 4096).unwrap().events.len(),
+                usize::from(after)
+            );
+            drop(db);
+            let _ = std::fs::remove_file(path);
+        }
     }
 }

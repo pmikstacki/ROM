@@ -24,6 +24,7 @@ pub struct Bundle {
     pub effects: Vec<Intent>,
     pub reactions: Vec<PendingWork>,
     pub reaction_limits: Option<ReactionLimits>,
+    pub completed_work: Option<(ClaimKey, u64)>,
 }
 #[derive(Clone, Copy)]
 pub struct Capabilities {

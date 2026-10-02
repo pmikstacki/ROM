@@ -24,12 +24,33 @@ impl Default for Limits {
 #[derive(Default)]
 pub struct Builder {
     registry: BTreeMap<String, Arc<dyn Registered>>,
+    reactions: BTreeMap<String, Arc<reactions::RegisteredReaction>>,
+    reaction_limits: ReactionLimits,
     error: Option<Error>,
     limits: Limits,
-    clock: Option<Arc<dyn Clock>>,
+    pub(crate) clock: Option<Arc<dyn Clock>>,
     actor_gate: Option<Arc<dyn ActorGate>>,
 }
 impl Builder {
+    pub fn reaction<S: Resource, T: Resource, I: Input>(
+        mut self,
+        reaction: Reaction<S, T, I>,
+    ) -> Self {
+        let d = reaction.erase();
+        if d.name.is_empty() || d.version == 0 || d.actor.principal_kind() != PrincipalKind::Service
+        {
+            self.error = Some(Error::invalid("reaction", "name/version/service"));
+        }
+        if self.reactions.insert(d.name.clone(), Arc::new(d)).is_some() {
+            self.error = Some(Error::Duplicate("reaction".into()));
+        }
+        self
+    }
+    pub fn reaction_limits(mut self, limits: ReactionLimits) -> Self {
+        self.reaction_limits = limits;
+        self
+    }
+
     pub fn resource<R: Resource>(mut self, d: Definition<R>) -> Self {
         let desc = d.descriptor();
         let mut names = BTreeSet::new();
@@ -79,6 +100,23 @@ impl Builder {
                 validate_shape(&field.shape, 0, Some(&kinds))?;
             }
         }
+        self.reaction_limits.validate()?;
+        if !self.reactions.is_empty() && !storage.supports_reactions() {
+            return Err(Error::Unsupported("durable reactions".into()));
+        }
+        for d in self.reactions.values() {
+            let source = self.registry.get(&d.source).ok_or(Error::Unregistered)?;
+            self.registry
+                .get(&d.target)
+                .ok_or(Error::Unregistered)?
+                .action(&d.action)?;
+            if d.dependencies
+                .iter()
+                .any(|name| !source.descriptor().fields.iter().any(|f| &f.name == name))
+            {
+                return Err(Error::invalid(&d.source, "reaction dependency"));
+            }
+        }
         let c = storage.capabilities();
         if !c.atomic_bundle || !c.snapshots || !c.effects {
             return Err(Error::Unsupported(
@@ -104,6 +142,9 @@ impl Builder {
             storage,
             pool,
             registry: self.registry,
+            reactions: self.reactions,
+            reaction_limits: self.reaction_limits,
+            reaction_worker: Arc::new(Semaphore::new(1)),
             gate: Mutex::new(()),
             denied: Mutex::new(BTreeSet::new()),
             admission: Arc::new(Semaphore::new(l.actions)),
@@ -127,11 +168,14 @@ struct Lifecycle {
 }
 pub(crate) struct Inner {
     pub(crate) storage: Arc<dyn Storage>,
-    pool: Arc<rayon::ThreadPool>,
+    pub(crate) pool: Arc<rayon::ThreadPool>,
     pub(crate) registry: BTreeMap<String, Arc<dyn Registered>>,
-    gate: Mutex<()>,
+    pub(crate) reactions: BTreeMap<String, Arc<reactions::RegisteredReaction>>,
+    pub(crate) reaction_limits: ReactionLimits,
+    pub(crate) reaction_worker: Arc<Semaphore>,
+    pub(crate) gate: Mutex<()>,
     denied: Mutex<BTreeSet<String>>,
-    admission: Arc<Semaphore>,
+    pub(crate) admission: Arc<Semaphore>,
     io: Arc<Semaphore>,
     pub(crate) subscriptions: Arc<Semaphore>,
     lifecycle: Mutex<Lifecycle>,
@@ -139,11 +183,11 @@ pub(crate) struct Inner {
     drained: watch::Sender<u64>,
     generation: AtomicU64,
     pub(crate) limits: Limits,
-    clock: Arc<dyn Clock>,
+    pub(crate) clock: Arc<dyn Clock>,
     actor_gate: Option<Arc<dyn ActorGate>>,
 }
 /// Tracked by the runtime, owned by actual blocking work, never a caller future.
-struct Work {
+pub(crate) struct Work {
     runtime: Runtime,
     _io: Option<OwnedSemaphorePermit>,
 }
@@ -160,13 +204,27 @@ impl Drop for Work {
 }
 #[derive(Clone)]
 pub struct Runtime(pub(crate) Arc<Inner>);
-fn acquire(pool: &Arc<Semaphore>) -> Result<OwnedSemaphorePermit> {
+pub(crate) fn acquire(pool: &Arc<Semaphore>) -> Result<OwnedSemaphorePermit> {
     pool.clone().try_acquire_owned().map_err(|e| match e {
         tokio::sync::TryAcquireError::Closed => Error::Closed,
         tokio::sync::TryAcquireError::NoPermits => Error::Overloaded,
     })
 }
 impl Runtime {
+    pub(crate) fn track_worker(&self) -> Result<Work> {
+        let mut state = self.0.lifecycle.lock().map_err(|_| Error::Panicked)?;
+        if let Some(e) = &state.terminal {
+            return Err(e.clone());
+        }
+        if state.closed {
+            return Err(Error::Closed);
+        }
+        state.active += 1;
+        Ok(Work {
+            runtime: self.clone(),
+            _io: None,
+        })
+    }
     pub fn builder() -> Builder {
         Builder::default()
     }
@@ -260,7 +318,7 @@ impl Runtime {
         drop(state);
         self.invalidate();
     }
-    async fn io<T: Send + 'static, F: FnOnce(&Runtime) -> Result<T> + Send + 'static>(
+    pub(crate) async fn io<T: Send + 'static, F: FnOnce(&Runtime) -> Result<T> + Send + 'static>(
         &self,
         f: F,
     ) -> Result<T> {
@@ -385,7 +443,7 @@ impl Runtime {
         let row = self
             .io(move |runtime| {
                 let _permit = permit;
-                runtime.run(&a, cmd, identity)
+                runtime.run(&a, cmd, identity, None)
             })
             .await?;
         let a = actor.clone();
@@ -401,7 +459,17 @@ impl Runtime {
         })
         .await
     }
-    fn run(&self, actor: &Actor, cmd: invocation::ErasedCommand, identity: String) -> Result<Row> {
+    pub(crate) fn run(
+        &self,
+        actor: &Actor,
+        cmd: invocation::ErasedCommand,
+        identity: String,
+        causal: Option<(Cause, ClaimKey)>,
+    ) -> Result<Row> {
+        let mut causal = causal;
+        if let Some((cause, claim)) = &mut causal {
+            cause.parent = Some(claim.id.clone());
+        }
         let def = self.0.registry.get(&cmd.kind).ok_or(Error::Unregistered)?;
         let key = Key {
             kind: cmd.kind.clone(),
@@ -529,8 +597,18 @@ impl Runtime {
             return Err(Error::invalid(&cmd.kind, "no-op effects"));
         }
         let bundle = Bundle {
-            reactions: vec![],
-            reaction_limits: None,
+            reactions: if changed {
+                self.reaction_intents(
+                    current.as_ref(),
+                    &row,
+                    &identity,
+                    causal.as_ref().map(|(cause, _)| cause),
+                )?
+            } else {
+                vec![]
+            },
+            reaction_limits: Some(self.0.reaction_limits.clone()),
+            completed_work: causal.map(|(_, claim)| (claim, self.0.clock.now())),
             expected: cmd.expected,
             receipt: Receipt {
                 identity,

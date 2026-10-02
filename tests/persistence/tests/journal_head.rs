@@ -21,6 +21,7 @@ fn explicit_head_survives_reopen_and_allows_recovery_after_retention_gap() {
         assert_eq!(beginning.position, 0);
         for i in 1..=2 {
             db.commit(&Bundle {
+                completed_work: None,
                 expected: None,
                 changed: true,
                 effects: vec![],

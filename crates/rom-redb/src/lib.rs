@@ -1,7 +1,7 @@
 //! redb persistence adapter with atomic Resource/event/receipt/effect bundles.
 //!
 //! The host must run these synchronous methods on its bounded storage executor.
-//! Format version one stores JSON ROM values, using tuple keys for kind/id isolation.
+//! Format version two stores JSON ROM values, using tuple keys for kind/id isolation.
 //! A commit error is uncertain; discard the adapter and reopen before recovery.
 use redb::{
     Database, Durability, ReadableDatabase, ReadableTable, ReadableTableMetadata, TableDefinition,
@@ -34,7 +34,7 @@ pub struct Redb {
     observer: std::sync::Mutex<Option<Observer>>,
 }
 impl Redb {
-    /// Open format one, or initialize a new empty database. Never upgrade implicitly.
+    /// Open format two, or initialize a new empty database. Never upgrade implicitly.
     pub fn open(path: impl AsRef<Path>) -> Result<Self> {
         Self::open_with_limits(path, StorageLimits::default())
     }
@@ -408,6 +408,8 @@ impl Storage for Redb {
                     .map_err(|_| Error::Storage)?
                     .remove(id.as_str())
                     .map_err(|_| Error::NotCommitted)?;
+                ordinal += 1;
+                self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
             }
             state_table
                 .insert(
@@ -417,6 +419,8 @@ impl Storage for Redb {
                         .as_str(),
                 )
                 .map_err(|_| Error::NotCommitted)?;
+            ordinal += 1;
+            self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
             let mut effects = tx.open_table(EFFECTS).map_err(|_| Error::NotCommitted)?;
             for (i, intent) in b.effects.iter().enumerate() {
                 let payload = serde_json::to_string(intent).map_err(|_| Error::NotCommitted)?;

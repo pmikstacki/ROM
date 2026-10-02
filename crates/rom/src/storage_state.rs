@@ -71,6 +71,13 @@ impl StorageState {
     /// Apply only after native identity/revision arbitration. Returned identities left journal retention.
     pub fn bundle(&mut self, b: &Bundle) -> Result<Vec<String>> {
         let mut next = self.clone();
+        if let Some((claim, now)) = &b.completed_work {
+            next.work.apply(WorkUpdate::Finish {
+                claim: claim.clone(),
+                now: *now,
+                outcome: WorkOutcome::Done,
+            })?;
+        }
         next.receipts = next.receipts.checked_add(1).ok_or(Error::TooLarge)?;
         next.effects = next
             .effects

@@ -338,8 +338,12 @@ impl Storage for Sqlite {
         for id in retired {
             tx.execute("DELETE FROM events WHERE identity=?", [id])
                 .map_err(|_| Error::NotCommitted)?;
+            ordinal += 1;
+            self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
         }
         save_state(&tx, &metadata)?;
+        ordinal += 1;
+        self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
         self.checkpoint(0).map_err(|_| Error::NotCommitted)?;
         tx.commit().map_err(|_| Error::Unknown)?;
         self.checkpoint(usize::MAX).map_err(|_| Error::Unknown)?;

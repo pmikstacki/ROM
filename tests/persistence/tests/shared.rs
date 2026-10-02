@@ -82,6 +82,7 @@ fn create(id: &str) -> Bundle {
     Bundle {
         reactions: vec![],
         reaction_limits: None,
+        completed_work: None,
         expected: None,
         receipt: Receipt {
             identity: format!("create-{id}"),
@@ -170,7 +171,7 @@ fn shared_atomic_bundle_and_noop_identity_validation() {
 #[test]
 fn shared_rollback_after_every_write_and_before_commit() {
     for backend in BACKENDS {
-        for fail in [1, 2, 3, 4, 5, 0] {
+        for fail in [1, 2, 3, 4, 5, 6, 0] {
             let scratch = Scratch::new();
             let store = backend.open(&scratch.path());
             let initial = create("one");
@@ -366,7 +367,7 @@ async fn shared_core_typed_actions_work_without_application_repositories() {
 #[test]
 fn shared_actual_subprocess_exit_at_every_write_and_commit_boundary() {
     for backend in BACKENDS {
-        for point in [1, 2, 3, 4, 5, 0, usize::MAX] {
+        for point in [1, 2, 3, 4, 5, 6, 0, usize::MAX] {
             let scratch = Scratch::new();
             {
                 let store = backend.open(&scratch.path());

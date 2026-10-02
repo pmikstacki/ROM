@@ -156,6 +156,7 @@ fn redb_atomic_bundle_available_through_storage() {
     let bundle = Bundle {
         reactions: vec![],
         reaction_limits: None,
+        completed_work: None,
         expected: None,
         receipt: receipt.clone(),
         changed: true,
