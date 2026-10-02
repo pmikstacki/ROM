@@ -8,6 +8,10 @@ Proposed follow-up to `establish-rom`; no runtime exists. The confirmed requirem
 
 Credential verification belongs to trusted adapters; the core enforces access. Resources remain the sole domain entity. Principal, actor context, and decision are supporting values. The core does not require an identity-provider client, HTTP server, broker, policy engine, login UI, user database, or WASM runtime.
 
+The owner explicitly confirmed that **User is a Resource**. ROM user records use the same definition, field, action, persistence and observation contracts as other resources; there is no parallel account entity engine. A curated Studio user screen is a specialized view over that resource and its permitted actions. The generic core need not require an account store for every embedded or service-only use, but representing users in ROM uses the Resource model.
+
+External authentication and the User resource are complementary: a configured linking rule maps verified authority-qualified identities to the local user where required. Matching email or caller-supplied user IDs do not establish that link. ActorContext remains trusted invocation data, not a second persisted user model. Provisioning, first-administrator bootstrap, linking and disablement freshness need explicit policies before implementation. Profile access does not imply role or credential administration; credentials are not ordinary discoverable resource fields.
+
 The embedding host owns adapter configuration and policy selection. Native extensions run as trusted application code; Rust type privacy is useful against accidental misuse but does not sandbox the host or its dependencies.
 
 ## Proposed interfaces and ownership

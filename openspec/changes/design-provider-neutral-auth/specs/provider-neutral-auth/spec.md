@@ -6,6 +6,22 @@ Provider-independent identity and access enforcement for the resource library. T
 
 ## ADDED Requirements
 
+### Requirement: User uses the Resource model
+
+Users represented by ROM SHALL be User resources using the shared definition, action, persistence, authorization and observation contracts. Dedicated account-management views SHALL invoke permitted resource actions rather than use a separate entity engine. Trusted actor context SHALL remain separate from stored profile data, and caller-supplied user identifiers SHALL NOT establish authentication.
+
+#### Scenario: External identity linked to a User resource
+
+- **GIVEN** a trusted adapter verifies an external authority-qualified identity
+- **WHEN** an explicit host linking policy resolves that identity to a User resource
+- **THEN** user operations use the shared resource pipeline and authentication does not grant unrestricted profile, role or credential administration
+
+#### Scenario: Generic profile editing cannot elevate privileges
+
+- **GIVEN** an actor may edit their own User resource's permitted profile fields
+- **WHEN** a request attempts a protected privilege change without permission
+- **THEN** the shared authorization contract rejects the mutation without a partial commit
+
 ### Requirement: Trusted provider-independent actors
 
 The core SHALL accept actor context through an explicit trusted host integration contract independent of provider protocols. Principal identity SHALL distinguish authority, subject, and human or service kind. The core SHALL NOT treat caller-supplied serialized actor metadata as authenticated evidence.

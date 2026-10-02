@@ -4,6 +4,7 @@
 - [ ] 1.2 Select two provider profiles and demonstrate distinct issuer and human/service mappings in disposable examples.
 - [ ] 1.3 Resolve actor validity, field paths, policy snapshot/freshness, safe query behavior, and deleted-resource retry outcomes.
 - [ ] 1.4 Validate conceptual interfaces with an in-process caller and a transport adapter before fixing public Rust signatures.
+- [ ] 1.5 Specify User as a Resource, verified identity linking/provisioning, first-administrator bootstrap, protected account actions and disablement freshness; test the shared pipeline without a parallel user entity engine.
 
 ## 2. Introduce trusted context and authorization
 
