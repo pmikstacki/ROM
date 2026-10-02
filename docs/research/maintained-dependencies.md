@@ -1,11 +1,16 @@
 # Maintained dependency inventory
 
 Generated from the all-features Cargo graph (including target-specific and dev dependencies).
-Lockfile SHA-256: `93f51f4bfa2a95d96becf960cb8e00ae32c5767c82c7d5ba8891397637681610`. This records declarations, not a blanket license or vulnerability certification. Native vendored code may carry additional notices.
+Lockfile SHA-256: `35a128d90a9c31bc03f0e073cdba52e819bffb565bfb05cfd34a8261bf112e7d`. This records declarations, not a blanket license or vulnerability certification. Native vendored code may carry additional notices.
 
 | Crate | Version | Declared license | Declared Rust floor |
 |---|---|---|---|
 | android_system_properties | 0.1.6 | MIT OR Apache-2.0 | not declared |
+| anstream | 1.0.0 | MIT OR Apache-2.0 | 1.66.0 |
+| anstyle | 1.0.14 | MIT OR Apache-2.0 | 1.66.0 |
+| anstyle-parse | 1.0.0 | MIT OR Apache-2.0 | 1.66.0 |
+| anstyle-query | 1.1.5 | MIT OR Apache-2.0 | 1.66.0 |
+| anstyle-wincon | 3.0.11 | MIT OR Apache-2.0 | 1.66.0 |
 | async-trait | 0.1.92 | MIT OR Apache-2.0 | 1.71 |
 | atomic-waker | 1.1.2 | Apache-2.0 OR MIT | 1.36 |
 | autocfg | 1.5.1 | Apache-2.0 OR MIT | 1.0 |
@@ -25,7 +30,12 @@ Lockfile SHA-256: `93f51f4bfa2a95d96becf960cb8e00ae32c5767c82c7d5ba8891397637681
 | cfg-if | 1.0.5 | MIT OR Apache-2.0 | 1.32 |
 | chacha20 | 0.10.2 | MIT OR Apache-2.0 | 1.85 |
 | chrono | 0.4.45 | MIT OR Apache-2.0 | 1.62.0 |
+| clap | 4.6.7 | MIT OR Apache-2.0 | 1.85 |
+| clap_builder | 4.6.7 | MIT OR Apache-2.0 | 1.85 |
+| clap_derive | 4.6.7 | MIT OR Apache-2.0 | 1.85 |
+| clap_lex | 1.1.1 | MIT OR Apache-2.0 | 1.85 |
 | cmake | 0.1.58 | MIT OR Apache-2.0 | 1.65 |
+| colorchoice | 1.0.5 | MIT OR Apache-2.0 | 1.66.0 |
 | combine | 4.6.8 | MIT | not declared |
 | config | 0.15.27 | MIT OR Apache-2.0 | 1.88.0 |
 | core-foundation | 0.10.1 | MIT OR Apache-2.0 | 1.65 |
@@ -67,6 +77,7 @@ Lockfile SHA-256: `93f51f4bfa2a95d96becf960cb8e00ae32c5767c82c7d5ba8891397637681
 | hashbrown | 0.16.1 | MIT OR Apache-2.0 | 1.65.0 |
 | hashbrown | 0.17.1 | MIT OR Apache-2.0 | 1.85.0 |
 | hashlink | 0.12.2 | MIT OR Apache-2.0 | 1.85 |
+| heck | 0.5.0 | MIT OR Apache-2.0 | 1.56 |
 | http | 1.5.0 | MIT OR Apache-2.0 | 1.57.0 |
 | http-body | 1.1.0 | MIT | 1.61 |
 | http-body-util | 0.1.5 | MIT | 1.61 |
@@ -90,6 +101,7 @@ Lockfile SHA-256: `93f51f4bfa2a95d96becf960cb8e00ae32c5767c82c7d5ba8891397637681
 | idna_adapter | 1.2.2 | Apache-2.0 OR MIT | 1.86 |
 | indexmap | 2.14.2 | Apache-2.0 OR MIT | 1.85 |
 | ipnet | 2.12.2 | MIT OR Apache-2.0 | not declared |
+| is_terminal_polyfill | 1.70.2 | MIT OR Apache-2.0 | 1.70.0 |
 | itertools | 0.15.0 | MIT OR Apache-2.0 | 1.63.0 |
 | itoa | 1.0.18 | MIT OR Apache-2.0 | 1.68 |
 | jni | 0.22.4 | MIT OR Apache-2.0 | 1.85.0 |
@@ -117,6 +129,7 @@ Lockfile SHA-256: `93f51f4bfa2a95d96becf960cb8e00ae32c5767c82c7d5ba8891397637681
 | num-traits | 0.2.19 | MIT OR Apache-2.0 | 1.60 |
 | object_store | 0.14.2 | MIT/Apache-2.0 | 1.85 |
 | once_cell | 1.21.4 | MIT OR Apache-2.0 | 1.65 |
+| once_cell_polyfill | 1.70.2 | MIT OR Apache-2.0 | 1.70.0 |
 | openssl-probe | 0.2.1 | MIT OR Apache-2.0 | 1.60.0 |
 | parking_lot | 0.12.5 | MIT OR Apache-2.0 | 1.71 |
 | parking_lot_core | 0.9.12 | MIT OR Apache-2.0 | 1.71.0 |
@@ -182,6 +195,7 @@ Lockfile SHA-256: `93f51f4bfa2a95d96becf960cb8e00ae32c5767c82c7d5ba8891397637681
 | spin | 0.10.1 | MIT | 1.60 |
 | sqlite-wasm-rs | 0.5.5 | MIT | 1.81.0 |
 | stable_deref_trait | 1.2.1 | MIT OR Apache-2.0 | not declared |
+| strsim | 0.11.1 | MIT | 1.56 |
 | subtle | 2.6.1 | BSD-3-Clause | not declared |
 | syn | 2.0.119 | MIT OR Apache-2.0 | 1.71 |
 | syn | 3.0.6 | MIT OR Apache-2.0 | 1.71 |
@@ -216,6 +230,7 @@ Lockfile SHA-256: `93f51f4bfa2a95d96becf960cb8e00ae32c5767c82c7d5ba8891397637681
 | untrusted | 0.9.0 | ISC | not declared |
 | url | 2.5.8 | MIT OR Apache-2.0 | 1.63 |
 | utf8_iter | 1.0.4 | Apache-2.0 OR MIT | not declared |
+| utf8parse | 0.2.2 | Apache-2.0 OR MIT | not declared |
 | vcpkg | 0.2.15 | MIT/Apache-2.0 | not declared |
 | version_check | 0.9.5 | MIT/Apache-2.0 | not declared |
 | walkdir | 2.5.0 | Unlicense/MIT | not declared |
