@@ -22,10 +22,13 @@ pub struct ProtectedMetadata {
     /// logical removal, not physical erasure of this protected policy context.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub deletion_authorization: Option<Value>,
+    /// Accepted source attribution, committed with the target value and receipt.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub source_provenance: Option<SourceProvenance>,
 }
 impl ProtectedMetadata {
     pub fn is_empty(&self) -> bool {
-        self.deletion_authorization.is_none()
+        self.deletion_authorization.is_none() && self.source_provenance.is_none()
     }
 }
 impl Row {

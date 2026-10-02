@@ -15,6 +15,7 @@ pub struct Actor {
     expires_at: Option<u64>,
     kind: PrincipalKind,
     host_stamp: Option<String>,
+    pub(crate) source: Option<SourcePermit>,
 }
 impl Actor {
     /// Trusted embedded/adapter boundary; this constructor does not verify credentials.
@@ -25,6 +26,7 @@ impl Actor {
             expires_at: None,
             kind: PrincipalKind::Embedded,
             host_stamp: None,
+            source: None,
         }
     }
     /// Trusted host classification; never infer this from a request's actor fields.

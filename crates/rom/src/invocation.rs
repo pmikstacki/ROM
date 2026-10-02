@@ -55,6 +55,7 @@ impl Invocation {
                 actor.principal_kind(),
                 &actor.subject,
                 actor.host_stamp(),
+                &actor.source,
             ),
         )
         .map_err(|_| Error::TooLarge)

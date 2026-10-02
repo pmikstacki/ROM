@@ -354,7 +354,12 @@ impl Runtime {
                 return Err(Error::Panicked);
             }
         };
-        if actor.valid_until().is_some_and(|end| now >= end) {
+        if actor.valid_until().is_some_and(|end| now >= end)
+            || actor
+                .source
+                .as_ref()
+                .is_some_and(|permit| now >= permit.valid_until)
+        {
             return Err(Error::Denied);
         }
         if self
@@ -384,6 +389,20 @@ impl Runtime {
     /// with other managed Resource mutations matters.
     pub(crate) fn check_authority(&self, actor: &Actor) -> Result<()> {
         self.check_actor(actor)?;
+        if let Some(permit) = &actor.source {
+            let current = policy::GateRead {
+                storage: self.0.storage.as_ref(),
+                reads: 1,
+                bytes: self.0.limits.command_bytes,
+            }
+            .load(&permit.condition.key)?;
+            if current
+                .as_ref()
+                .is_none_or(|row| row.revision != permit.condition.revision || row.value.is_none())
+            {
+                return Err(Error::Conflict);
+            }
+        }
         if let Some(gate) = &self.0.actor_gate {
             gate.check(
                 actor,
@@ -582,6 +601,12 @@ impl Runtime {
             kind: cmd.kind.clone(),
             id: cmd.id.clone(),
         };
+        match (def.source_owner(), actor.source.as_ref()) {
+            (None, None) => {}
+            (Some(owner), Some(permit))
+                if owner == permit.provenance.source && permit.target == key => {}
+            _ => return Err(Error::Denied),
+        }
         let input = match &cmd.mutation {
             Mutation::Create(v) | Mutation::Replace(v) => def.normalize(v.clone())?,
             Mutation::Patch(fields) => serde_json::to_value(normalize_patch(def.as_ref(), fields)?)
@@ -594,7 +619,10 @@ impl Runtime {
             Mutation::Patch(fields) => Some(fields.keys().cloned().collect::<Vec<_>>()),
             _ => None,
         };
-        let fingerprint = json!([cmd.expected, input]).to_string();
+        let fingerprint = match &actor.source {
+            Some(permit) => json!([cmd.expected, input, permit.provenance]).to_string(),
+            None => json!([cmd.expected, input]).to_string(),
+        };
         let prior = {
             let denied = self.0.gate.lock().unwrap();
             self.check_authority(actor)?;
@@ -727,7 +755,32 @@ impl Runtime {
             new_value.as_ref(),
             explicit_fields,
         )?;
-        let changed = current.as_ref().and_then(|r| r.value.as_ref()) != new_value.as_ref();
+        let source_provenance = actor
+            .source
+            .as_ref()
+            .map(|permit| permit.provenance.clone())
+            .or_else(|| {
+                current
+                    .as_ref()
+                    .and_then(|row| row.protected.source_provenance.clone())
+            });
+        if let (Some(permit), Some(value)) = (&actor.source, &new_value) {
+            let fields = value
+                .as_object()
+                .ok_or_else(|| Error::invalid(&cmd.kind, "fields"))?;
+            if fields.len() != permit.provenance.field_origins.len()
+                || fields
+                    .keys()
+                    .any(|key| !permit.provenance.field_origins.contains_key(key))
+            {
+                return Err(Error::invalid(&cmd.kind, "source origins"));
+            }
+        }
+        let changed = current.as_ref().and_then(|r| r.value.as_ref()) != new_value.as_ref()
+            || current
+                .as_ref()
+                .and_then(|r| r.protected.source_provenance.as_ref())
+                != source_provenance.as_ref();
         let revision = cmd
             .expected
             .unwrap_or(0)
@@ -737,6 +790,7 @@ impl Runtime {
             key,
             revision,
             protected: ProtectedMetadata {
+                source_provenance,
                 deletion_authorization: if new_value.is_none() {
                     current.as_ref().and_then(|r| r.value.clone())
                 } else {

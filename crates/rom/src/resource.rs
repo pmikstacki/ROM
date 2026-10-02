@@ -321,6 +321,8 @@ pub struct Definition<R: Resource> {
     policy: Option<Policy<R>>,
     field_policy: Option<FieldPolicy<R>>,
     query_policy: Option<fn(&Actor, &str) -> bool>,
+    source_owner: Option<String>,
+    source_metadata_policy: Option<fn(&Actor) -> bool>,
     pub(crate) duplicate: bool,
 }
 impl<R: Resource> Default for Definition<R> {
@@ -336,6 +338,8 @@ impl<R: Resource> Definition<R> {
             policy: None,
             field_policy: None,
             query_policy: None,
+            source_owner: None,
+            source_metadata_policy: None,
             duplicate: false,
         }
     }
@@ -358,6 +362,16 @@ impl<R: Resource> Definition<R> {
         self.field_policy(|_, _, _, _| true)
             .query_policy(|_, _| true)
     }
+    /// Freeze whole-Resource source ownership in the accepted definition.
+    pub fn source_owner(mut self, source: &str) -> Self {
+        self.source_owner = Some(source.into());
+        self
+    }
+    /// Grant protected provenance inspection separately from field reads.
+    pub fn source_metadata_policy(mut self, policy: fn(&Actor) -> bool) -> Self {
+        self.source_metadata_policy = Some(policy);
+        self
+    }
     pub fn action<I: Input>(mut self, action: Action<R, I>) -> Self {
         let f: ErasedAction = Arc::new(move |state, input| {
             let mut r = R::decode(state)?;
@@ -376,9 +390,17 @@ pub(crate) trait Registered: Send + Sync {
     fn allows(&self, actor: &Actor, access: Access, v: &Value) -> bool;
     fn allows_field(&self, actor: &Actor, access: Access, field: &str, v: &Value) -> bool;
     fn allows_query(&self, actor: &Actor, field: &str) -> bool;
+    fn source_owner(&self) -> Option<&str>;
+    fn allows_source_metadata(&self, actor: &Actor) -> bool;
     fn action(&self, name: &str) -> Result<ErasedAction>;
 }
 impl<R: Resource> Registered for Definition<R> {
+    fn source_owner(&self) -> Option<&str> {
+        self.source_owner.as_deref()
+    }
+    fn allows_source_metadata(&self, actor: &Actor) -> bool {
+        self.source_metadata_policy.is_some_and(|p| p(actor))
+    }
     fn descriptor(&self) -> Descriptor {
         self.descriptor.clone()
     }
