@@ -43,6 +43,7 @@ pub enum Error {
     Panicked,
     Storage,
     TooLarge,
+    HistoryGap,
 }
 impl Error {
     pub fn invalid(kind: &str, field: &str) -> Self {
@@ -62,11 +63,13 @@ pub type Result<T> = std::result::Result<T, Error>;
 
 mod execution;
 mod invocation;
+mod journal;
 mod persistence;
 mod query;
 mod resource;
 pub use execution::*;
 pub use invocation::*;
+pub use journal::*;
 pub use persistence::*;
 pub use query::*;
 pub use resource::*;

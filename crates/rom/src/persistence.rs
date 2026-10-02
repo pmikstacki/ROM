@@ -40,4 +40,25 @@ pub trait Storage: Send + Sync + 'static {
     fn snapshot(&self, kind: &str, max_rows: usize, max_bytes: usize) -> Result<Vec<Row>>;
     fn receipt(&self, identity: &str) -> Result<Option<Receipt>>;
     fn commit(&self, bundle: &Bundle) -> Result<Receipt>;
+    /// Capability is availability, never authority to disclose historical facts.
+    fn supports_journal(&self) -> bool {
+        false
+    }
+    /// Read a coherent page ordered by the persisted global commit sequence.
+    /// None starts at position zero. Wrong kind/generation, future positions and
+    /// positions below the retained floor return HistoryGap. Empty bounds fail.
+    /// Charge serialized whole JournalEvent bytes before decoding/appending.
+    /// Return at most max_rows matching facts; paginate at whole-event boundaries.
+    /// If the next matching event alone exceeds max_bytes, return TooLarge.
+    /// Cursor advances across inspected nonmatching facts to the page boundary
+    /// or coherent head. Adapters must never silently reset a missing cursor.
+    fn journal(
+        &self,
+        _kind: &str,
+        _after: Option<&JournalCursor>,
+        _max_rows: usize,
+        _max_bytes: usize,
+    ) -> Result<JournalPage> {
+        Err(Error::Unsupported("journal".into()))
+    }
 }
