@@ -19,7 +19,7 @@ This index connects the owner's questions to evidence. A source review, a dispos
 | Pre-write deduplication and temporary caches | [Moka/quick_cache/Salsa critique](internal-cache-research.md) | [22 tests and 288 benchmark samples](cache-prototype-results.md); no unsupported universal cache winner or zero-overhead claim |
 | Studio, generic rendering and controls | [Product](rom-studio-product-research.md), [Svelte](rom-studio-frontend-research.md), [controls maintenance](rom-studio-controls-research.md), [client contract](rom-studio-client-contract.md) | Preserved Studio mock; production Studio remains a separate milestone, not a completed frontend |
 | Cohesion and integration quality | [Architecture review](architecture-cohesion-review.md), [technology fit](technology-fit-review.md), [readiness](core-implementation-readiness.md) | [Promotion defects and regressions](integrated-core-promotion-review.md), root workspace verifier and packaged-consumer checks |
-| Release, maintenance and dependency risk | [Quality gates](../quality.md), [advisory/native baseline](mvp-dependency-audit.md) | [Native recovery](maintained-backup-results.md), [assembled author demo](maintained-demo-results.md); dependency inventory and final integrated verification remain release gates |
+| Release, maintenance and dependency risk | [Quality gates](../quality.md), [advisory/native baseline](mvp-dependency-audit.md) | [Native recovery](maintained-backup-results.md), [assembled author demo](maintained-demo-results.md); [dependency inventory](maintained-dependencies.md), [independent review](maintained-mvp-independent-review.md) and [final release evidence](mvp-release-results.md) complete the scoped gates |
 
 ## Immutable prototype sources
 

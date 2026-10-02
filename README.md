@@ -6,7 +6,11 @@ Declare a resource once; the framework supplies standard storage, operations, en
 
 Actions request changes. The core validates and commits transitions. Events describe committed facts. Reactions can submit further actions through the same core.
 
-**Status:** a maintained experimental Rust workspace now implements the typed Resource foundation. The complete MVP is still in progress; this is not a production release. The [MVP acceptance plan](openspec/changes/integrate-resource-mvp/tasks.md) and [decision register](docs/research/mvp-decision-register.md) distinguish verified behavior from remaining implementation.
+**Status: integrated MVP, 0.1.0-alpha.1.** The maintained library, interchangeable adapters and executable demo pass the scoped acceptance checks. This is experimental software, not a production readiness claim. See the [release evidence and limitations](docs/research/mvp-release-results.md), [completed checklist](openspec/changes/integrate-resource-mvp/tasks.md) and [decision register](docs/research/mvp-decision-register.md).
+
+## Try the MVP
+
+With Rust 1.99, run `./demo/run smoke` from this repository. It exercises the complete local flow with SQLite; `./demo/run smoke redb` uses the other adapter. Follow the [author workshop](demo/README.md) for resource declarations, live queries and a persistent local server.
 
 ## Design
 
@@ -91,7 +95,7 @@ Field projection, verified-identity mapping to User Resources, durable reaction
 workers, notification channels and generic HTTP are integrated. Partial changes
 preserve missing/null/removal, and queries share typed and wire semantics.
 Configuration ingestion, Blob lifecycle, native backup/recovery and the assembled
-demo are integrated. Final review and release checks cover their combined behavior.
+demo are integrated. [Final review](docs/research/maintained-mvp-independent-review.md) and release checks cover their combined behavior.
 The [maintained verification record](docs/research/maintained-foundation-results.md)
 and [storage contract](docs/storage-adapters.md) supersede the corresponding
 limitations of the original disposable probe.

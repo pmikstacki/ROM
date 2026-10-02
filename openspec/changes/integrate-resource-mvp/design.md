@@ -73,8 +73,12 @@ is evaluated by core before execution and disclosure.
 Default deny; no email-based identity auto-link. Untrusted transports cannot
 construct trusted actors from request fields. Expiry, disablement, row access
 and field visibility apply to cached results and buffered deliveries too.
-Secrets are references or protected fields and do not enter public descriptors,
-events, logs or receipts. Configuration of a provider is not its credential.
+Provider credentials are host secret references, never configuration values.
+Public descriptors, events, logs and receipt responses must omit protected data
+according to current policy. Trusted persistence and private backups contain full
+application values and protected metadata; core does not claim encryption at rest
+or physical erasure. The host protects these stores. Configuration of a provider
+is not its credential.
 
 Retain receipts conservatively in this MVP with a finite configured budget and
 refuse new obligations at the limit. Do not silently purge identities then
