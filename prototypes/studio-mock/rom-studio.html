@@ -1,0 +1,163 @@
+<!-- Disposable ROM Studio design study: Explorer, Workspace and Inspector. Sample data only. -->
+<div id="rom-studio-preview">
+  <div class="viz-carousel" aria-label="ROM Studio layout directions" data-previous-label="Poprzedni wariant" data-next-label="Następny wariant">
+    <section data-variant="Explorer" aria-label="ROM Studio Explorer"><div class="rom-app" data-layout="explorer"></div></section>
+    <section data-variant="Workspace" aria-label="ROM Studio Workspace" hidden><div class="rom-app" data-layout="workspace"></div></section>
+    <section data-variant="Inspector" aria-label="ROM Studio Inspector" hidden><div class="rom-app" data-layout="inspector"></div></section>
+  </div>
+</div>
+<style>
+#rom-studio-preview .rom-app{--rom-bg:light-dark(#ffffff,#191a1d);--rom-soft:light-dark(#f7f7f5,#202125);--rom-text:light-dark(#242629,#eeefef);--rom-muted:light-dark(#666b73,#a5a9b1);--rom-line:light-dark(#e5e6e7,#37393f);--rom-strong:light-dark(#27292d,#eceeef);--rom-on:light-dark(#fff,#242629);--rom-tint:light-dark(#f0f1f2,#2a2d33);--rom-green:light-dark(#286348,#9bd1b0);font:400 14px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--rom-text);background:var(--rom-bg);border:1px solid var(--rom-line);border-radius:14px;overflow:hidden;min-height:650px;box-sizing:border-box}
+#rom-studio-preview *{box-sizing:border-box}
+#rom-studio-preview .rom-app h1{font:500 25px/1.3 ui-sans-serif,system-ui,sans-serif;margin:0 0 7px;letter-spacing:-.7px}
+#rom-studio-preview .rom-app h2{font:500 17px/1.4 ui-sans-serif,system-ui,sans-serif;margin:0 0 12px}
+#rom-studio-preview .rom-app p{margin:0}
+#rom-studio-preview .rom-app button,#rom-studio-preview .rom-app input,#rom-studio-preview .rom-app select{font:inherit}
+#rom-studio-preview .rom-app button{cursor:pointer}
+#rom-studio-preview .rom-app button:focus-visible,#rom-studio-preview .rom-app input:focus-visible,#rom-studio-preview .rom-app select:focus-visible{outline:2px solid var(--rom-text);outline-offset:3px}
+#rom-studio-preview .rom-app .rom-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:18px 22px;border-bottom:1px solid var(--rom-line)}
+#rom-studio-preview .rom-brand{display:flex;gap:10px;align-items:center;font-weight:500;letter-spacing:-.3px}
+#rom-studio-preview .rom-symbol{display:grid;place-items:center;width:28px;height:28px;border-radius:7px;background:var(--rom-strong);color:var(--rom-on);font-weight:500}
+#rom-studio-preview .rom-app .rom-small{font-size:12px;color:var(--rom-muted)}
+#rom-studio-preview .rom-app .rom-sub{color:var(--rom-muted)}
+#rom-studio-preview .rom-app .rom-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#rom-studio-preview .rom-app .rom-button{border:1px solid var(--rom-line);border-radius:7px;background:var(--rom-bg);color:var(--rom-text);padding:7px 11px;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+#rom-studio-preview .rom-app .rom-button:hover{background:var(--rom-tint)}
+#rom-studio-preview .rom-app .rom-button.strong{background:var(--rom-strong);color:var(--rom-on);border-color:var(--rom-strong)}
+#rom-studio-preview .rom-app .rom-button:disabled{opacity:.5;cursor:default}
+#rom-studio-preview .rom-app .rom-shell{display:grid;grid-template-columns:190px minmax(0,1fr);min-height:574px}
+#rom-studio-preview .rom-app .rom-nav{background:var(--rom-soft);padding:23px 13px;border-right:1px solid var(--rom-line)}
+#rom-studio-preview .rom-app .rom-nav-label{padding:0 9px 12px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--rom-muted)}
+#rom-studio-preview .rom-app .rom-nav button{width:100%;display:flex;align-items:center;gap:10px;text-align:left;border:0;border-radius:7px;background:transparent;padding:10px;color:var(--rom-muted);margin-bottom:4px}
+#rom-studio-preview .rom-app .rom-nav button.active{background:var(--rom-bg);color:var(--rom-text);box-shadow:0 1px 3px light-dark(#0000000d,#00000030)}
+#rom-studio-preview .rom-app .rom-nav-note{padding:28px 10px 0;font-size:12px;color:var(--rom-muted)}
+#rom-studio-preview .rom-app .rom-content{padding:26px;min-width:0}
+#rom-studio-preview .rom-app .rom-heading{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:24px}
+#rom-studio-preview .rom-app .rom-tabs{display:flex;gap:18px;flex-wrap:wrap;border-bottom:1px solid var(--rom-line);margin-bottom:18px}
+#rom-studio-preview .rom-app .rom-tabs button{border:0;background:transparent;color:var(--rom-muted);padding:0 0 10px;border-bottom:2px solid transparent}
+#rom-studio-preview .rom-app .rom-tabs button.active{color:var(--rom-text);border-bottom-color:var(--rom-text)}
+#rom-studio-preview .rom-app .rom-browser{display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
+#rom-studio-preview .rom-app .rom-table-wrap{overflow:auto;max-width:100%}
+#rom-studio-preview .rom-app table{width:100%;border-collapse:collapse;text-align:left;font-size:13px}
+#rom-studio-preview .rom-app th{font-weight:400;font-size:12px;color:var(--rom-muted);padding:11px 12px;background:var(--rom-soft);white-space:nowrap}
+#rom-studio-preview .rom-app td{padding:13px 12px;border-bottom:1px solid var(--rom-line)}
+#rom-studio-preview .rom-app tr.selected td{background:var(--rom-tint)}
+#rom-studio-preview .rom-app .rom-link{background:transparent;border:0;padding:0;color:var(--rom-text);text-align:left;font-weight:500}
+#rom-studio-preview .rom-app .rom-pill{display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:5px;background:var(--rom-soft);color:var(--rom-muted);font-size:11px;white-space:nowrap}
+#rom-studio-preview .rom-app .rom-pill.live{color:var(--rom-green)}
+#rom-studio-preview .rom-app .rom-editor{border:1px solid var(--rom-line);border-radius:9px;padding:20px;background:var(--rom-bg);min-width:0}
+#rom-studio-preview .rom-app .rom-editor-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:16px}
+#rom-studio-preview .rom-app .rom-editor-head h2{margin:0}
+#rom-studio-preview .rom-app .rom-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+#rom-studio-preview .rom-app label{display:flex;flex-direction:column;gap:7px;font-size:12px;font-weight:500;min-width:0}
+#rom-studio-preview .rom-app input:not([type=checkbox]),#rom-studio-preview .rom-app select{width:100%;border:1px solid var(--rom-line);border-radius:6px;background:var(--rom-bg);color:var(--rom-text);padding:9px 10px;min-width:0;font-size:13px}
+#rom-studio-preview .rom-app .rom-check{flex-direction:row;align-items:center;font-size:13px;padding:10px 0}
+#rom-studio-preview .rom-app .rom-check input{accent-color:var(--rom-strong);width:17px;height:17px}
+#rom-studio-preview .rom-app .rom-full{grid-column:1/-1}
+#rom-studio-preview .rom-app .rom-actions{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--rom-line);padding-top:16px;margin-top:20px}
+#rom-studio-preview .rom-app .rom-notice{margin-top:15px;color:var(--rom-green);font-size:12px;min-height:18px}
+#rom-studio-preview .rom-app .rom-definition{display:grid;gap:10px;padding:8px 0}
+#rom-studio-preview .rom-app .rom-def-row{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid var(--rom-line);padding:9px 0}
+#rom-studio-preview .rom-app .rom-cardgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#rom-studio-preview .rom-app .rom-record-card{border:1px solid var(--rom-line);border-radius:9px;padding:15px;background:var(--rom-bg)}
+#rom-studio-preview .rom-app .rom-record-card.selected{border-color:var(--rom-text)}
+#rom-studio-preview .rom-app .rom-record-card .rom-row{justify-content:space-between;margin-bottom:12px}
+#rom-studio-preview .rom-app .rom-record-card dl{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px}
+#rom-studio-preview .rom-app .rom-record-card dt{color:var(--rom-muted)}
+#rom-studio-preview .rom-app .rom-record-card dd{margin:0;text-align:right;overflow-wrap:anywhere}
+#rom-studio-preview .rom-app[data-layout=workspace] .rom-shell{display:block}
+#rom-studio-preview .rom-app[data-layout=workspace] .rom-nav{display:flex;gap:9px;flex-wrap:wrap;border-right:0;border-bottom:1px solid var(--rom-line);padding:12px 22px}
+#rom-studio-preview .rom-app[data-layout=workspace] .rom-nav button{width:auto;margin:0}
+#rom-studio-preview .rom-app[data-layout=workspace] .rom-nav-note,#rom-studio-preview .rom-app[data-layout=workspace] .rom-nav-label{display:none}
+#rom-studio-preview .rom-app[data-layout=workspace] .rom-content{padding:28px 38px}
+#rom-studio-preview .rom-app[data-layout=inspector] .rom-shell{grid-template-columns:150px minmax(0,1fr)}
+#rom-studio-preview .rom-app[data-layout=inspector] .rom-browser{grid-template-columns:minmax(0,1fr) minmax(250px,.85fr);gap:15px}
+#rom-studio-preview .rom-app[data-layout=inspector] .rom-fields{grid-template-columns:1fr}
+#rom-studio-preview .rom-app[data-layout=inspector] .rom-content{padding:23px 18px}
+#rom-studio-preview .rom-app .rom-login{display:grid;grid-template-columns:1fr 1fr;min-height:565px}
+#rom-studio-preview .rom-app .rom-login-brand{padding:54px 38px;background:var(--rom-soft);display:flex;flex-direction:column;justify-content:space-between}
+#rom-studio-preview .rom-app .rom-login-brand h1{font-size:38px;letter-spacing:-1.4px;max-width:320px;margin-top:80px}
+#rom-studio-preview .rom-app .rom-login-form{padding:60px 36px;display:flex;flex-direction:column;justify-content:center;gap:16px;max-width:440px;width:100%;margin:auto}
+#rom-studio-preview .rom-app .rom-login-form .rom-button{width:100%;padding:12px}
+#rom-studio-preview .rom-app .rom-login-divider{border-top:1px solid var(--rom-line);margin:8px 0}
+#rom-studio-preview .rom-app .rom-provider-block{border:1px solid var(--rom-line);padding:20px;border-radius:9px}
+#rom-studio-preview .rom-app .rom-foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:12px 22px;border-top:1px solid var(--rom-line);font-size:11px;color:var(--rom-muted)}
+@media(max-width:800px){#rom-studio-preview .rom-app[data-layout=inspector] .rom-browser{grid-template-columns:1fr}#rom-studio-preview .rom-app .rom-shell,#rom-studio-preview .rom-app[data-layout=inspector] .rom-shell{grid-template-columns:155px minmax(0,1fr)}#rom-studio-preview .rom-app .rom-content{padding:20px}#rom-studio-preview .rom-app .rom-login-brand{padding:32px 24px}}
+@media(max-width:560px){#rom-studio-preview .rom-app .rom-shell,#rom-studio-preview .rom-app[data-layout=inspector] .rom-shell{display:block}#rom-studio-preview .rom-app .rom-nav{display:flex;gap:5px;flex-wrap:wrap;padding:10px;border-right:0;border-bottom:1px solid var(--rom-line)}#rom-studio-preview .rom-app .rom-nav button{width:auto;font-size:12px;padding:9px}#rom-studio-preview .rom-app .rom-nav-label,#rom-studio-preview .rom-app .rom-nav-note{display:none}#rom-studio-preview .rom-app .rom-content,#rom-studio-preview .rom-app[data-layout=workspace] .rom-content{padding:18px 12px}#rom-studio-preview .rom-app .rom-fields,#rom-studio-preview .rom-app .rom-cardgrid,#rom-studio-preview .rom-app .rom-login{grid-template-columns:1fr}#rom-studio-preview .rom-app .rom-login-brand{display:none}#rom-studio-preview .rom-app .rom-login-form{padding:35px 24px}#rom-studio-preview .rom-app .rom-top{padding:14px 12px}#rom-studio-preview .rom-app input:not([type=checkbox]),#rom-studio-preview .rom-app select{font-size:16px}#rom-studio-preview .rom-app .rom-button{min-height:40px}}
+</style>
+<script>
+(() => {
+  const root = document.getElementById('rom-studio-preview');
+  const escape = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const definitions = {
+    Task:{label:'Tasks',description:'A shared view of your team’s work.',fields:[['title','Title','text'],['owner','Owner','text'],['priority','Priority','select',['Normal','High']],['done','Completed','boolean']],rows:[{title:'Prepare client workspace',owner:'Alex Morgan',priority:'High',done:false},{title:'Review onboarding flow',owner:'Sam Chen',priority:'Normal',done:false},{title:'Connect identity provider',owner:'Alex Morgan',priority:'High',done:true}]},
+    Asset:{label:'Assets',description:'A second Resource, using the same views.',fields:[['name','Name','text'],['location','Location','text'],['category','Category','select',['Equipment','Vehicle']],['active','Active','boolean']],rows:[{name:'Field sensor',location:'North site',category:'Equipment',active:true},{name:'Service vehicle',location:'Main office',category:'Vehicle',active:true}]},
+    User:{label:'Users',description:'People, access and account actions.',fields:[['name','Full name','text'],['email','Email','email'],['role','Role','select',['Member','Manager']],['active','Active','boolean']],rows:[{name:'Alex Morgan',email:'alex@example.test',role:'Manager',active:true},{name:'Sam Chen',email:'sam@example.test',role:'Member',active:true}]},
+    IdentityProvider:{label:'Identity providers',description:'Configure how people sign in to this workspace.',fields:[['name','Display name','text'],['issuer','Issuer','text'],['client','Client ID','text'],['enabled','Enabled','boolean']],rows:[{name:'Workspace SSO',issuer:'https://identity.example.test',client:'rom-studio',enabled:true},{name:'Partner SSO',issuer:'https://partner.example.test',client:'rom-partner',enabled:true}]},
+    AppSettings:{label:'Settings',description:'Application configuration, represented as a Resource.',fields:[['name','Workspace name','text'],['locale','Language','select',['English','Polski']],['registration','Invitations enabled','boolean']],rows:[{name:'Client workspace',locale:'English',registration:true}]}
+  };
+  const navigation = [['Task','Resources','boxes'],['User','Users','users'],['IdentityProvider','Identity providers','key-round'],['AppSettings','Settings','settings-2']];
+  const icon = (n) => `<i data-lucide="${n}" aria-hidden="true"></i>`;
+  root.querySelectorAll('.rom-app').forEach(app => {
+    const data = JSON.parse(JSON.stringify(definitions));
+    const state = {kind:'Task',selected:0,tab:'records',login:false,primary:0,direct:false,chooser:false,authenticated:false,notice:'',revision:1};
+    function fieldHtml(field, row) {
+      const [name,label,type,options] = field;
+      if(type==='boolean') return `<label class="rom-check"><input name="${name}" type="checkbox" ${row[name]?'checked':''}>${label}</label>`;
+      if(type==='select') return `<label>${label}<select name="${name}">${options.map(v=>`<option ${v===row[name]?'selected':''}>${escape(v)}</option>`).join('')}</select></label>`;
+      return `<label>${label}<input name="${name}" type="${type}" value="${escape(row[name])}" required></label>`;
+    }
+    function display(v){return typeof v==='boolean'?`<span class="rom-pill ${v?'live':''}">${v?'Yes':'No'}</span>`:escape(v);}
+    function recordList(d){
+      const fields=app.dataset.layout==='inspector'?d.fields.slice(0,2):d.fields.slice(0,3);
+      if(app.dataset.layout==='workspace') return `<div class="rom-cardgrid">${d.rows.map((r,i)=>`<article class="rom-record-card ${i===state.selected?'selected':''}"><div class="rom-row"><button class="rom-link" data-record="${i}">${escape(r[d.fields[0][0]])}</button>${state.kind==='IdentityProvider'&&state.primary===i?'<span class="rom-pill">Primary</span>':icon('arrow-up-right')}</div><dl>${d.fields.slice(1).map(f=>`<dt>${f[1]}</dt><dd>${display(r[f[0]])}</dd>`).join('')}</dl></article>`).join('')}</div>`;
+      return `<div class="rom-table-wrap"><table><thead><tr>${fields.map(f=>`<th>${f[1]}</th>`).join('')}</tr></thead><tbody>${d.rows.map((r,i)=>`<tr class="${i===state.selected?'selected':''}">${fields.map((f,j)=>`<td>${j===0?`<button class="rom-link" data-record="${i}">${escape(r[f[0]])}</button>${state.kind==='IdentityProvider'&&state.primary===i?' <span class="rom-pill">Primary</span>':''}`:display(r[f[0]])}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    }
+    function editor(d){
+      const row=d.rows[state.selected];
+      let extra='';
+      if(state.kind==='IdentityProvider') extra=`<div class="rom-full"><label class="rom-check"><input name="primary" type="checkbox" ${state.primary===state.selected?'checked':''}>Primary sign-in provider</label><label class="rom-check"><input name="direct" type="checkbox" ${state.direct&&state.primary===state.selected?'checked':''}>Open this provider directly at sign-in</label><div class="rom-small">Credentials are managed separately.</div></div>`;
+      if(state.kind==='AppSettings') extra='<div class="rom-full"><div class="rom-small">Value source</div><div class="rom-row"><span class="rom-pill">File defaults</span>→<span class="rom-pill">Workspace override</span></div></div>';
+      return `<form class="rom-editor"><div class="rom-editor-head"><h2>${state.kind==='User'?'Account':state.kind==='IdentityProvider'?'Provider settings':'Details'}</h2><span class="rom-pill">${state.kind}</span></div><div class="rom-fields">${d.fields.map(f=>fieldHtml(f,row)).join('')}${extra}</div><div class="rom-actions"><span class="rom-small">Revision ${state.revision} · Sample record</span><div class="rom-row">${state.kind==='Task'?`<button type="button" class="rom-button" data-complete>${row.done?'Reopen':'Complete'}</button>`:''}${state.kind==='User'?`<button type="button" class="rom-button" data-disable>${row.active?'Suspend access':'Restore access'}</button>`:''}<button type="submit" class="rom-button strong">Save changes</button></div></div></form>`;
+    }
+    function login(){
+      const provider=state.primary===null?null:data.IdentityProvider.rows[state.primary];
+      const direct=state.direct&&provider&&provider.enabled&&!state.chooser;
+      return `<div class="rom-login"><div class="rom-login-brand"><div class="rom-brand"><span class="rom-symbol">R</span>ROM Studio</div><div><h1>Your resources.<br>Your workspace.</h1><p class="rom-sub">One place to manage your application.</p></div><span class="rom-small">Client workspace · Design preview</span></div><div class="rom-login-form">${state.authenticated?`<h1>You're signed in.</h1><p class="rom-sub">Preview session only.</p><button class="rom-button strong" data-enter>Open Studio ${icon('arrow-right')}</button>`:direct?`<span class="rom-pill">Primary provider</span><h1>Continue with ${escape(provider.name)}</h1><p class="rom-sub">Direct sign-in is enabled for this workspace.</p><div class="rom-provider-block"><div class="rom-brand">${icon('shield-check')}${escape(provider.name)}</div><p class="rom-small">External sign-in · Simulated in this preview</p></div><button class="rom-button strong" data-auth>Simulate provider return ${icon('arrow-right')}</button><button class="rom-button" data-chooser>Use another sign-in method</button>`:`<h1>Welcome to Studio</h1><p class="rom-sub">Choose how to sign in to Client workspace.</p>${data.IdentityProvider.rows.map((p,i)=>p.enabled?`<button class="rom-button ${i===state.primary?'strong':''}" data-auth>${icon('key-round')}Continue with ${escape(p.name)}</button>`:'').join('')}<div class="rom-login-divider"></div><span class="rom-small">Sign-in is simulated. No credentials are collected.</span>`}</div></div>`;
+    }
+    function render(){
+      const d=data[state.kind];
+      const definition=`<div class="rom-editor"><div class="rom-editor-head"><h2>${state.kind}</h2><span class="rom-pill">Definition · read-only</span></div><div class="rom-definition">${d.fields.map(f=>`<div class="rom-def-row"><span>${f[1]}</span><span class="rom-small">${f[2]}</span></div>`).join('')}</div><div class="rom-small">Declared in code · Shared Resource contract</div></div>`;
+      app.innerHTML=`<header class="rom-top"><div class="rom-brand"><span class="rom-symbol">R</span>ROM <span class="rom-sub">/ Studio</span><span class="rom-pill">Preview</span></div><div class="rom-row"><span class="rom-small">Client workspace</span><button class="rom-button" data-login>${icon(state.login?'arrow-left':'log-in')}${state.login?'Back to Studio':'Preview sign-in'}</button></div></header>${state.login?login():`<div class="rom-shell"><nav class="rom-nav" aria-label="Studio sections"><div class="rom-nav-label">Workspace</div>${navigation.map(([k,l,ic])=>`<button class="${(state.kind===k||(k==='Task'&&state.kind==='Asset'))?'active':''}" data-kind="${k}" ${state.kind===k?'aria-current="page"':''}>${icon(ic)}${l}</button>`).join('')}<div class="rom-nav-note">All managed objects<br>are Resources.</div></nav><main class="rom-content"><div class="rom-heading"><div><div class="rom-small">Workspace / ${d.label}</div><h1>${d.label}</h1><p class="rom-sub">${d.description}</p></div>${state.kind==='Task'||state.kind==='Asset'?`<label>Resource<select data-resource><option value="Task" ${state.kind==='Task'?'selected':''}>Task</option><option value="Asset" ${state.kind==='Asset'?'selected':''}>Asset</option></select></label>`:`<span class="rom-pill">${state.kind}</span>`}</div><div class="rom-tabs"><button class="${state.tab==='records'?'active':''}" data-tab="records">${state.kind==='AppSettings'?'Configuration':'Records'} <span class="rom-small">${d.rows.length}</span></button><button class="${state.tab==='definition'?'active':''}" data-tab="definition">Definition</button></div>${state.tab==='definition'?definition:`<div class="rom-browser">${state.kind==='AppSettings'?'':recordList(d)}${editor(d)}</div>`}<div class="rom-notice" role="status" aria-live="polite">${escape(state.notice)}</div></main></div>`}<footer class="rom-foot"><span>Design preview · Sample data · No backend connection</span><span>${app.dataset.layout==='explorer'?'Explorer':app.dataset.layout==='workspace'?'Workspace':'Inspector'}</span></footer>`;
+      if(globalThis.lucide)globalThis.lucide.createIcons({attrs:{width:16,height:16}});
+    }
+    app.addEventListener('click',e=>{
+      const b=e.target.closest('button');if(!b)return;
+      if(b.hasAttribute('data-kind')){state.kind=b.dataset.kind;state.selected=0;state.tab='records';state.notice='';}
+      else if(b.hasAttribute('data-record')){state.selected=Number(b.dataset.record);state.notice='';}
+      else if(b.hasAttribute('data-tab')){state.tab=b.dataset.tab;state.notice='';}
+      else if(b.hasAttribute('data-login')){state.login=!state.login;state.chooser=false;state.authenticated=false;}
+      else if(b.hasAttribute('data-complete')){const r=data.Task.rows[state.selected];r.done=!r.done;state.revision++;state.notice=`Task ${r.done?'completed':'reopened'} in preview.`;}
+      else if(b.hasAttribute('data-disable')){const r=data.User.rows[state.selected];r.active=!r.active;state.revision++;state.notice=`Access ${r.active?'restored':'suspended'} in preview.`;}
+      else if(b.hasAttribute('data-chooser'))state.chooser=true;
+      else if(b.hasAttribute('data-auth'))state.authenticated=true;
+      else if(b.hasAttribute('data-enter')){state.login=false;state.authenticated=false;state.notice='Preview session opened.';}
+      else return;
+      render();
+    });
+    app.addEventListener('change',e=>{if(e.target.hasAttribute('data-resource')){state.kind=e.target.value;state.selected=0;state.notice='';render();}});
+    app.addEventListener('submit',e=>{
+      e.preventDefault();const form=e.target;const values=new FormData(form);const d=data[state.kind];const row=d.rows[state.selected];
+      if(state.kind==='IdentityProvider'&&values.has('direct')&&(!values.has('primary')||!values.has('enabled'))){state.notice='Direct sign-in requires an enabled primary provider.';app.querySelector('.rom-notice').textContent=state.notice;return;}
+      d.fields.forEach(([name,,type])=>row[name]=type==='boolean'?values.has(name):String(values.get(name)||''));
+      if(state.kind==='IdentityProvider'){
+        if(values.has('primary')){state.primary=state.selected;state.direct=values.has('direct');}
+        else if(state.primary===state.selected){state.primary=null;state.direct=false;}
+        if(state.primary===state.selected&&!row.enabled)state.direct=false;
+      }
+      state.revision++;state.notice='Saved in preview. No backend was changed.';render();
+    });
+    render();
+  });
+})();
+</script>
