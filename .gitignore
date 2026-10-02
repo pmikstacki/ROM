@@ -12,3 +12,5 @@
 /tests/compile/target/
 
 /target-*/
+
+/dist/
