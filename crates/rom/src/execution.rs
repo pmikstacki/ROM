@@ -1,4 +1,32 @@
 use super::*;
+/// Whether intake accepts work or shutdown is draining/completed.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+pub enum IntakeState {
+    Open,
+    Draining,
+    Stopped,
+}
+/// Payload-free host operations snapshot. Permit availability is advisory under
+/// concurrent work; the intake/owned-work pair is sampled under the lifecycle lock.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+pub struct RuntimeStatus {
+    pub intake: IntakeState,
+    pub failed: bool,
+    /// Tracked I/O batches and worker-loop lifetimes, not detached host tasks.
+    pub owned_work: usize,
+    pub available_action_permits: usize,
+    pub available_io_permits: usize,
+    pub available_subscription_permits: usize,
+    pub registered_resources: usize,
+    pub registered_reactions: usize,
+    pub registered_channels: usize,
+}
+impl RuntimeStatus {
+    /// Ready means configured intake is open. Capacity/backpressure is reported separately.
+    pub fn is_ready(&self) -> bool {
+        self.intake == IntakeState::Open && !self.failed
+    }
+}
 /// Conservative host policy. Counts include work whose caller stopped waiting.
 #[derive(Clone, Copy, Debug)]
 pub struct Limits {
@@ -281,6 +309,29 @@ impl Runtime {
             .build()
             .map(Arc::new)
             .map_err(|_| Error::Storage)
+    }
+    /// Host-only operational state with no actor, Resource identity or payload data.
+    /// Stopped is published only after tracked work releases its adapter-owning references.
+    pub fn status(&self) -> Result<RuntimeStatus> {
+        let state = self.0.lifecycle.lock().map_err(|_| Error::Panicked)?;
+        let intake = if !state.closed {
+            IntakeState::Open
+        } else if state.active > 0 {
+            IntakeState::Draining
+        } else {
+            IntakeState::Stopped
+        };
+        Ok(RuntimeStatus {
+            intake,
+            failed: state.terminal.is_some(),
+            owned_work: state.active,
+            available_action_permits: self.0.admission.available_permits(),
+            available_io_permits: self.0.io.available_permits(),
+            available_subscription_permits: self.0.subscriptions.available_permits(),
+            registered_resources: self.0.registry.len(),
+            registered_reactions: self.0.reactions.len(),
+            registered_channels: self.0.channels.len(),
+        })
     }
     pub fn available_capacity(&self) -> usize {
         self.0.admission.available_permits()

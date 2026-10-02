@@ -888,3 +888,96 @@ async fn drained_work_releases_its_database_handle_before_reopen() {
     }
     let _ = std::fs::remove_file(p);
 }
+#[tokio::test]
+async fn status_distinguishes_ready_draining_and_fully_stopped() {
+    let p = path("status", false);
+    let store = db(false, &p);
+    let started = Arc::new(tokio::sync::Notify::new());
+    let notify = started.clone();
+    let (release, wait) = tokio::sync::oneshot::channel::<()>();
+    let wait = Arc::new(std::sync::Mutex::new(Some(wait)));
+    let rt = build(
+        builder(Arc::new(TestClock(AtomicU64::new(0)))).channel(
+            MAIL,
+            service(),
+            move |_: Delivery<String>| {
+                let wait = wait.lock().unwrap().take().unwrap();
+                let notify = notify.clone();
+                async move {
+                    notify.notify_one();
+                    wait.await.unwrap();
+                    DeliveryOutcome::Accepted
+                }
+            },
+        ),
+        store.clone(),
+    );
+    let initial = rt.status().unwrap();
+    assert_eq!(initial.intake, IntakeState::Open);
+    assert!(initial.is_ready());
+    assert_eq!(initial.registered_resources, 1);
+    assert_eq!(initial.registered_channels, 1);
+    assert_eq!(initial.registered_reactions, 0);
+    assert_eq!(initial.owned_work, 0);
+    enqueue(&rt).await;
+    let background = rt.clone();
+    let work = tokio::spawn(async move { background.process_work(1).await });
+    started.notified().await;
+    let during = rt.status().unwrap();
+    assert_eq!(during.owned_work, 1);
+    assert_eq!(during.available_action_permits, 7);
+    assert_eq!(during.available_io_permits, 7);
+    let background = rt.clone();
+    let shutdown = tokio::spawn(async move { background.shutdown().await });
+    tokio::task::yield_now().await;
+    let draining = rt.status().unwrap();
+    assert_eq!(draining.intake, IntakeState::Draining);
+    assert!(!draining.is_ready());
+    release.send(()).unwrap();
+    work.await.unwrap().unwrap();
+    shutdown.await.unwrap().unwrap();
+    let stopped = rt.status().unwrap();
+    assert_eq!(stopped.intake, IntakeState::Stopped);
+    assert_eq!(stopped.owned_work, 0);
+    assert_eq!(stopped.available_action_permits, 8);
+    assert_eq!(stopped.available_io_permits, 8);
+    assert_eq!(stopped.available_subscription_permits, 64);
+    assert!(!stopped.failed);
+    drop(rt);
+    assert_eq!(Arc::strong_count(&store), 1);
+    drop(store);
+    let _ = std::fs::remove_file(p);
+}
+#[tokio::test]
+async fn status_reports_terminal_failure_without_error_payload() {
+    struct PanicGate;
+    impl ActorGate for PanicGate {
+        fn check(&self, _: &Actor, _: &mut dyn AuthorizationRead) -> Result<()> {
+            panic!("fixture policy failure")
+        }
+    }
+    let p = path("status-failed", false);
+    let store = db(false, &p);
+    let rt = build(
+        builder(Arc::new(TestClock(AtomicU64::new(0)))).actor_gate(Arc::new(PanicGate)),
+        store.clone(),
+    );
+    assert!(matches!(
+        rt.execute(
+            &actor(),
+            Command::create("one", Notice { count: 0 }).idempotency("seed")
+        )
+        .await,
+        Err(Error::Panicked)
+    ));
+    let status = rt.status().unwrap();
+    assert_eq!(status.intake, IntakeState::Stopped);
+    assert!(status.failed);
+    assert!(!status.is_ready());
+    assert_eq!(status.owned_work, 0);
+    assert_eq!(rt.shutdown().await, Err(Error::Panicked));
+    drop(rt);
+    assert_eq!(Arc::strong_count(&store), 1);
+    drop(store);
+    let _ = std::fs::remove_file(p);
+}

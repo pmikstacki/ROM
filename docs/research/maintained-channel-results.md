@@ -68,3 +68,11 @@ The disposable 12-test notification prototype remains useful prior evidence; the
 The full workspace run intermittently failed a redb reopen with Storage. Temporary diagnostic output identified DatabaseAlreadyOpen; a 20 ms delay after the I/O response made the failure deterministic. The tracked work guard had decremented active work before the closure released its Runtime clone. Thus shutdown could return while completed work still retained the database.
 
 The guard now owns only an independent lifecycle mutex/watch signal and its permit. I/O jobs explicitly drop their adapter-owning Runtime before dropping the guard, and the shared async loop follows the same order. The amplified regression passed after this fix, then diagnostic code was removed. A permanent 32-cycle actual redb reopen test verifies the external storage handle is the sole strong reference after shutdown/drop. This corrects the previously documented drain guarantee; it does not require sleeps or retries to open a database.
+
+## Payload-free host readiness
+
+The follow-up `Runtime::status() -> Result<RuntimeStatus>` reports Open, Draining or Stopped intake, a failure flag, tracked work count, available action/I/O/subscription permits and configured Resource/reaction/channel counts. It contains no actor IDs, Resource IDs, payloads, error strings or per-resource metric labels, and needs no metrics backend.
+
+`is_ready()` means configured intake is open and has not failed. Temporary capacity pressure is reported separately through permit availability. Intake and owned work are sampled under the lifecycle mutex; semaphore availability can change concurrently and is advisory. Owned work counts supervised I/O batches and the generic worker lifetime, not arbitrary detached tasks created by applications. Stopped does not mean the durable backlog is empty: deferred retries remain recoverable after restart. Stopped is reached only after tracked jobs release adapter-owning references; unrelated host-held Runtime or Storage references remain the host's responsibility.
+
+A gated delivery test observes Open→Draining→Stopped and restored permits, while a failing authorization-hook test observes terminal failure without returning its error payload. The status API is a trusted host seam; this package does not publish another HTTP route.
