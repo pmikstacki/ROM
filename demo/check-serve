@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$PWD/target/author-demo}"
+mkdir -p "$CARGO_TARGET_DIR"
+serve_check_dir=$(mktemp -d "$CARGO_TARGET_DIR/serve-check.XXXXXX")
+serve_check_pid=''
+cleanup() {
+  if [[ -n "$serve_check_pid" ]]; then kill -INT "$serve_check_pid" 2>/dev/null || true; wait "$serve_check_pid" 2>/dev/null || true; fi
+  rm -rf "$serve_check_dir"
+}
+trap cleanup EXIT
+for backend in sqlite redb; do
+  for run in 1 2; do
+    "$CARGO_TARGET_DIR/debug/rom-demo" serve "$backend" "$serve_check_dir/$backend.db" 0 > "$serve_check_dir/output" 2>&1 &
+    serve_check_pid=$!
+    ready=false
+    for attempt in {1..100}; do
+      if grep -q 'Local synthetic demo at' "$serve_check_dir/output"; then ready=true; break; fi
+      if ! kill -0 "$serve_check_pid" 2>/dev/null; then cat "$serve_check_dir/output"; exit 1; fi
+      sleep 0.05
+    done
+    if [[ "$ready" != true ]]; then cat "$serve_check_dir/output"; exit 1; fi
+    kill -INT "$serve_check_pid"
+    # Bound shutdown independently so verifier cannot hang on a lifecycle regression.
+    for attempt in {1..100}; do
+      if ! kill -0 "$serve_check_pid" 2>/dev/null; then break; fi
+      sleep 0.05
+    done
+    if kill -0 "$serve_check_pid" 2>/dev/null; then kill -KILL "$serve_check_pid"; cat "$serve_check_dir/output"; exit 1; fi
+    wait "$serve_check_pid"
+    serve_check_pid=''
+    grep -q '"intake":"Stopped"' "$serve_check_dir/output"
+    grep -q '"owned_work":0' "$serve_check_dir/output"
+  done
+done
+printf '%s\n' 'Serve/reopen/SIGINT drain passed (SQLite and redb).'

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+export CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-2}"
+export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$PWD/target/author-demo}"
+exec cargo run --locked -p rom-demo -- "$@"

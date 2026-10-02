@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+export CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-2}"
+export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$PWD/target/author-demo}"
+export ROM_DEMO_TMP="${ROM_DEMO_TMP:-$CARGO_TARGET_DIR/smoke-data}"
+cargo fmt -p rom-demo --check
+cargo clippy -p rom-demo --all-targets --locked -- -D warnings
+cargo test -p rom-demo --locked
+cargo run -p rom-demo --locked -- smoke sqlite
+cargo run -p rom-demo --locked -- smoke redb
+./demo/check-serve
+RUSTDOCFLAGS='-D warnings' cargo doc -p rom-demo --no-deps --locked
