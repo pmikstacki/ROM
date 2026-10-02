@@ -32,6 +32,9 @@ Start with the [OpenSpec proposal](openspec/changes/establish-rom/proposal.md), 
 Research informs the design; candidate crates are not an approved dependency list.
 
 - [Complete research and prototype index](docs/research/completion-index.md)
+- [All 37 deferred capabilities: research, recommendations and acceptance probes](docs/research/deferred-capabilities-roadmap.md)
+- [CLI implementation choices and failure boundaries](docs/research/cli-implementation-research.md)
+- [Authorized Resource discovery](docs/discovery.md)
 - [Executable author workshop](demo/README.md)
 - [Configuration ingestion](docs/research/maintained-configuration-results.md)
 - [Blob lifecycle and real storage trials](docs/research/mvp-blob-results.md)

@@ -2,6 +2,10 @@
 
 This index connects the owner's questions to evidence. A source review, a disposable prototype and a maintained acceptance test answer different questions. The [decision register](mvp-decision-register.md) records accepted choices, reversible MVP defaults, host policy and deferred profiles. The [MVP checklist](../../openspec/changes/integrate-resource-mvp/tasks.md) is the completion gate.
 
+## Current follow-on scope
+
+The owner narrowed the follow-on goal to full deferred-topic research, core API ergonomics/resilience, and a generic CLI. Studio implementation is excluded. The [37-topic roadmap](deferred-capabilities-roadmap.md) records every deferred area with primary sources, alternatives, dependencies, proposed experiments and decision ownership; completing research does not implement those future capabilities. The [CLI choices](cli-implementation-research.md), [discovery contract](../discovery.md) and [current checklist](../../openspec/changes/harden-core-and-add-cli/tasks.md) track this work separately from the completed MVP below.
+
 ## Questions and recommendations
 
 | Area | Research / critique | Executed experiment or maintained evidence |
