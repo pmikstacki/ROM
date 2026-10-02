@@ -118,28 +118,6 @@ pub struct Query<R> {
     marker: PhantomData<fn() -> R>,
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub struct Actor {
-    pub authority: String,
-    pub subject: String,
-}
-impl Actor {
-    /// Trusted host construction; not a credential verifier.
-    pub fn trusted(authority: &str, subject: &str) -> Self {
-        Self {
-            authority: authority.into(),
-            subject: subject.into(),
-        }
-    }
-    pub(crate) fn key(&self) -> String {
-        serde_json::to_string(self).unwrap()
-    }
-}
-#[derive(Clone, Copy, Debug)]
-pub enum Access {
-    Read,
-    Write,
-}
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Intent {
     pub channel: String,
     pub payload: Value,

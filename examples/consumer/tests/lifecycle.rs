@@ -265,3 +265,149 @@ async fn adapter_panic_is_terminal_and_never_success() {
         Err(rom::Error::Closed) | Err(rom::Error::Panicked)
     ));
 }
+#[derive(Default)]
+struct TestClock(std::sync::atomic::AtomicU64);
+impl rom::Clock for TestClock {
+    fn now(&self) -> u64 {
+        self.0.load(Ordering::SeqCst)
+    }
+}
+#[tokio::test]
+async fn expired_actor_denied_at_result_and_live_delivery() {
+    let clock = Arc::new(TestClock::default());
+    let store = Arc::new(Blocking {
+        inner: Sqlite::open(":memory:").unwrap(),
+        gate: Gate::new(),
+        block: AtomicBool::new(false),
+    });
+    let rom = Runtime::builder()
+        .clock(clock.clone())
+        .resource(Task::definition().policy(task_policy))
+        .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
+        .unwrap();
+    let actor = actor().expires_at(10);
+    rom.execute(&actor, Command::create("t", task()).idempotency("create"))
+        .await
+        .unwrap();
+    let mut live = rom
+        .live(&actor, Task::done_field().equals(false))
+        .await
+        .unwrap();
+    store.block.store(true, Ordering::SeqCst);
+    let r = rom.clone();
+    let a = actor.clone();
+    let read = tokio::spawn(async move { r.read::<Task>(&a, "t").await });
+    tokio::time::timeout(Duration::from_secs(5), store.gate.started.notified())
+        .await
+        .unwrap();
+    clock.0.store(10, Ordering::SeqCst);
+    store.gate.release();
+    assert!(matches!(read.await.unwrap(), Err(rom::Error::Denied)));
+    assert!(matches!(live.changed().await, Err(rom::Error::Denied)));
+    assert!(matches!(
+        rom.read::<Task>(&actor, "missing").await,
+        Err(rom::Error::Denied)
+    ));
+    assert!(matches!(
+        rom.execute(&actor, Command::create("t", task()).idempotency("create"))
+            .await,
+        Err(rom::Error::Denied)
+    ));
+    assert_eq!(store.inner.counts().unwrap(), [1, 1, 1, 0]);
+    rom.shutdown().await.unwrap();
+}
+#[tokio::test]
+async fn expired_actor_cannot_commit_an_already_admitted_proposal() {
+    let clock = Arc::new(TestClock::default());
+    let store = Arc::new(Blocking {
+        inner: Sqlite::open(":memory:").unwrap(),
+        gate: Gate::new(),
+        block: AtomicBool::new(false),
+    });
+    let rom = Runtime::builder()
+        .clock(clock.clone())
+        .resource(Task::definition().policy(task_policy))
+        .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
+        .unwrap();
+    let actor = actor().expires_at(10);
+    rom.execute(&actor, Command::create("t", task()).idempotency("create"))
+        .await
+        .unwrap();
+    store.block.store(true, Ordering::SeqCst);
+    let r = rom.clone();
+    let a = actor.clone();
+    let work = tokio::spawn(async move {
+        let mut value = task();
+        value.done = true;
+        r.execute(
+            &a,
+            Command::replace("t", value)
+                .at_revision(1)
+                .idempotency("replace"),
+        )
+        .await
+    });
+    tokio::time::timeout(Duration::from_secs(5), store.gate.started.notified())
+        .await
+        .unwrap();
+    clock.0.store(10, Ordering::SeqCst);
+    store.gate.release();
+    assert!(matches!(work.await.unwrap(), Err(rom::Error::Denied)));
+    assert_eq!(store.inner.counts().unwrap(), [1, 1, 1, 0]);
+    rom.shutdown().await.unwrap();
+}
+#[tokio::test]
+async fn shutdown_races_admission_without_orphan() {
+    let store = Arc::new(Sqlite::open(":memory:").unwrap());
+    let rom = Runtime::builder()
+        .resource(Task::definition().policy(task_policy))
+        .build(store.clone(), Runtime::shared_cpu_pool(2).unwrap())
+        .unwrap();
+    let barrier = Arc::new(tokio::sync::Barrier::new(17));
+    let mut jobs = Vec::new();
+    for i in 0..16 {
+        let r = rom.clone();
+        let b = barrier.clone();
+        jobs.push(tokio::spawn(async move {
+            b.wait().await;
+            r.execute(
+                &actor(),
+                Command::create(&format!("t{i}"), task()).idempotency("create"),
+            )
+            .await
+        }));
+    }
+    barrier.wait().await;
+    rom.shutdown().await.unwrap();
+    for job in jobs {
+        assert!(matches!(
+            job.await.unwrap(),
+            Ok(_) | Err(rom::Error::Closed) | Err(rom::Error::Overloaded)
+        ));
+    }
+    let counts = store.counts().unwrap();
+    assert_eq!(counts[0], counts[1]);
+    assert_eq!(counts[1], counts[2]);
+    assert_eq!(counts[3], 0);
+    assert_eq!(rom.available_capacity(), 8);
+    assert_eq!(rom.available_io_capacity(), 8);
+}
+#[tokio::test]
+async fn policy_panic_stops_runtime_without_partial_state() {
+    let store = Arc::new(Sqlite::open(":memory:").unwrap());
+    let rom = Runtime::builder()
+        .resource(Task::definition().policy(|_, _, _| panic!("injected policy panic")))
+        .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
+        .unwrap();
+    assert!(matches!(
+        rom.execute(&actor(), Command::create("t", task()).idempotency("create"))
+            .await,
+        Err(rom::Error::Panicked)
+    ));
+    assert_eq!(store.counts().unwrap(), [0; 4]);
+    assert!(matches!(
+        rom.read::<Task>(&actor(), "t").await,
+        Err(rom::Error::Panicked)
+    ));
+    assert!(matches!(rom.shutdown().await, Err(rom::Error::Panicked)));
+}

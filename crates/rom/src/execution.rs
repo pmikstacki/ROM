@@ -26,6 +26,7 @@ pub struct Builder {
     registry: BTreeMap<String, Arc<dyn Registered>>,
     error: Option<Error>,
     limits: Limits,
+    clock: Option<Arc<dyn Clock>>,
 }
 impl Builder {
     pub fn resource<R: Resource>(mut self, d: Definition<R>) -> Self {
@@ -49,6 +50,10 @@ impl Builder {
     }
     pub fn capacity(mut self, n: usize) -> Self {
         self.limits.actions = n;
+        self
+    }
+    pub fn clock(mut self, clock: Arc<dyn Clock>) -> Self {
+        self.clock = Some(clock);
         self
     }
     pub fn limits(mut self, limits: Limits) -> Self {
@@ -94,6 +99,7 @@ impl Builder {
             drained,
             generation: AtomicU64::new(0),
             limits: l,
+            clock: self.clock.unwrap_or_else(|| Arc::new(SystemClock)),
         })))
     }
 }
@@ -117,6 +123,7 @@ pub(crate) struct Inner {
     drained: watch::Sender<u64>,
     generation: AtomicU64,
     pub(crate) limits: Limits,
+    clock: Arc<dyn Clock>,
 }
 /// Tracked by the runtime, owned by actual blocking work, never a caller future.
 struct Work {
@@ -160,6 +167,16 @@ impl Runtime {
         self.0.io.available_permits()
     }
     pub(crate) fn check_actor(&self, actor: &Actor) -> Result<()> {
+        let now = match catch_unwind(AssertUnwindSafe(|| self.0.clock.now())) {
+            Ok(now) => now,
+            Err(_) => {
+                self.fail_terminal();
+                return Err(Error::Panicked);
+            }
+        };
+        if actor.valid_until().is_some_and(|end| now >= end) {
+            return Err(Error::Denied);
+        }
         if self
             .0
             .denied
@@ -368,6 +385,7 @@ impl Runtime {
             }
             prior
         };
+        self.check_actor(actor)?;
         // Native business functions compute proposals off Tokio. They must be pure w.r.t. external effects.
         let (new_value, effects) = match cmd.mutation {
             Mutation::Create(v) | Mutation::Replace(v) => (Some(def.normalize(v)?), vec![]),
@@ -450,6 +468,7 @@ impl Runtime {
             changed,
             effects,
         };
+        self.check_actor(actor)?;
         let receipt = self.0.storage.commit(&bundle);
         // Unknown may mean committed: invalidate even when the adapter loses its acknowledgment.
         if receipt.is_ok() || receipt == Err(Error::Unknown) {
