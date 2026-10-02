@@ -1,0 +1,25 @@
+[package]
+name = "rom-persistence-adapters"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[features]
+fault-injection = []
+
+[[bin]]
+name = "crash-probe"
+path = "src/bin/crash_probe.rs"
+required-features = ["fault-injection"]
+
+[dependencies]
+rom-persistence-core = { path = "../core" }
+serde.workspace = true
+serde_json.workspace = true
+rusqlite = { version = "=0.40.2", features = ["bundled"] }
+redb = "=4.3.0"
+getrandom = "=0.4.3"
+
+[dev-dependencies]
+tempfile = "=3.27.0"

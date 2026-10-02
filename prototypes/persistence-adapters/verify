@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")"
+rustc --version
+cargo --version
+cargo fmt --all --check
+cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
+cargo test --locked --workspace --all-features
+cargo check --locked --workspace --no-default-features
+cargo run --locked --example app
+# Positive allowlist: a new core dependency must be consciously reviewed.
+cargo tree --locked -p rom-persistence-core --edges normal --prefix none --format '{p}' > target/core-dependencies.txt
+cat target/core-dependencies.txt
+awk '$1 !~ /^(rom-persistence-core|serde|serde_core|serde_derive|proc-macro2|quote|syn|unicode-ident)$/ { bad=1; print "Unexpected core dependency: " $0 } END { exit bad }' target/core-dependencies.txt
