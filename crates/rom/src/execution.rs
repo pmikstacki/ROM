@@ -592,6 +592,13 @@ impl Runtime {
         identity: String,
         causal: Option<(Cause, ClaimKey)>,
     ) -> Result<Row> {
+        // run executes in bounded I/O. Resolve current authority under the commit
+        // gate before exposing registry membership or invoking application codecs.
+        // Later checks still protect receipt disclosure and commit after proposal work.
+        {
+            let _guard = self.0.gate.lock().map_err(|_| Error::Panicked)?;
+            self.check_authority(actor)?;
+        }
         let mut causal = causal;
         if let Some((cause, claim)) = &mut causal {
             cause.parent = Some(claim.id.clone());
