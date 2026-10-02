@@ -33,7 +33,11 @@ impl Builder {
     pub fn resource<R: Resource>(mut self, d: Definition<R>) -> Self {
         let desc = d.descriptor();
         let mut names = BTreeSet::new();
-        if let Some(field)=desc.fields.iter().find(|f|matches!(&f.shape,Shape::Nullable(inner) if matches!(inner.as_ref(),Shape::Nullable(_)))) {self.error=Some(Error::Unsupported(format!("{}: {}: nested nullable has no unambiguous codec",R::KIND,field.name)));}
+        for field in &desc.fields {
+            if let Err(error) = validate_shape(&field.shape, 0, None) {
+                self.error = Some(error);
+            }
+        }
         if desc.kind != R::KIND
             || desc.kind.is_empty()
             || desc.version != 1
@@ -68,6 +72,12 @@ impl Builder {
     pub fn build(self, storage: Arc<dyn Storage>, pool: Arc<rayon::ThreadPool>) -> Result<Runtime> {
         if let Some(error) = self.error {
             return Err(error);
+        }
+        let kinds: BTreeSet<String> = self.registry.keys().cloned().collect();
+        for definition in self.registry.values() {
+            for field in &definition.descriptor().fields {
+                validate_shape(&field.shape, 0, Some(&kinds))?;
+            }
         }
         let c = storage.capabilities();
         if !c.atomic_bundle || !c.snapshots || !c.effects {
