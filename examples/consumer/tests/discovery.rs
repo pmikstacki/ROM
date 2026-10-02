@@ -45,6 +45,41 @@ const SAFE: Action<Public, ()> = Action::new("safe", |_, ()| panic!("discovery e
 const HIDDEN_ACTION: Action<Public, ()> =
     Action::new("hidden-action", |_, ()| panic!("discovery executed action"));
 
+// Independent review probe: accounting across multiple metadata arrays.
+#[tokio::test]
+async fn reviewer_catalog_budget_matches_wire_for_every_smaller_limit() {
+    fn definitions() -> Builder {
+        Runtime::builder()
+            .resource(
+                Public::definition()
+                    .action(SAFE)
+                    .action(HIDDEN_ACTION)
+                    .discovery_policy(|_, _| true),
+            )
+            .resource(Hidden::definition().discovery_policy(|_, _| true))
+    }
+    let baseline = build(definitions());
+    let catalog = baseline.discover(&actor()).await.unwrap();
+    let wire_bytes = serde_json::to_vec(&catalog).unwrap().len();
+    baseline.shutdown().await.unwrap();
+    for limit in 1..=wire_bytes + 1 {
+        let runtime = build(definitions().limits(Limits {
+            snapshot_bytes: limit,
+            ..Limits::default()
+        }));
+        let result = runtime.discover(&actor()).await;
+        if limit < wire_bytes {
+            assert!(
+                matches!(result, Err(Error::TooLarge)),
+                "accepted limit {limit} below {wire_bytes}"
+            );
+        } else {
+            assert_eq!(result.unwrap(), catalog);
+        }
+        runtime.shutdown().await.unwrap();
+    }
+}
+
 struct NoStorageReads;
 impl Storage for NoStorageReads {
     fn capabilities(&self) -> Capabilities {
