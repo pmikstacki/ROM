@@ -1,6 +1,6 @@
 [package]
-name = "rom-redb"
-description = "Transactional redb persistence adapter for ROM Resources"
+name = "rom-backup"
+description = "Private bounded maintenance archives for ROM persistence adapters"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -10,9 +10,7 @@ repository.workspace = true
 [lints]
 workspace = true
 [dependencies]
-rom-backup = {version="=0.1.0-alpha.1",path="../rom-backup"}
 rom.workspace = true
-redb.workspace = true
+serde.workspace = true
 serde_json.workspace = true
-[features]
-test-support = []
+sha2 = "=0.10.9"

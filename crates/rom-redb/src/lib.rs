@@ -3,6 +3,7 @@
 //! The host must run these synchronous methods on its bounded storage executor.
 //! Format version three stores JSON ROM values, using tuple keys for kind/id isolation.
 //! A commit error is uncertain; discard the adapter and reopen before recovery.
+mod maintenance;
 use redb::{
     Database, Durability, ReadableDatabase, ReadableTable, ReadableTableMetadata, TableDefinition,
 };

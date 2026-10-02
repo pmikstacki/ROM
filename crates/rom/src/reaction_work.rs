@@ -167,6 +167,49 @@ pub struct WorkLedger {
     roots: BTreeMap<String, u32>,
 }
 impl WorkLedger {
+    pub(crate) fn validate_archive(&self) -> Result<()> {
+        let Some(limits) = &self.limits else {
+            return if self.work.is_empty() && self.roots.is_empty() {
+                Ok(())
+            } else {
+                Err(Error::Storage)
+            };
+        };
+        limits.validate()?;
+        self.check_bounds()?;
+        if self.roots.values().any(|used| *used > limits.max_work) {
+            return Err(Error::Storage);
+        }
+        let mut used = BTreeMap::<String, u32>::new();
+        for (id, record) in &self.work {
+            if id.is_empty()
+                || id != &record.pending.id
+                || !self.roots.contains_key(&record.pending.cause.root)
+                || record.attempts > limits.max_attempts
+                || record.generation < u64::from(record.attempts)
+                || matches!(record.state, WorkState::Leased{generation,..} if generation != record.generation)
+            {
+                return Err(Error::Storage);
+            }
+            let sum = used.entry(record.pending.cause.root.clone()).or_default();
+            *sum = sum.checked_add(record.attempts).ok_or(Error::TooLarge)?;
+        }
+        if used != self.roots {
+            return Err(Error::Storage);
+        }
+        Ok(())
+    }
+    pub(crate) fn prepare_restore(&mut self) -> Result<()> {
+        self.validate_archive()?;
+        for record in self.work.values_mut() {
+            if matches!(record.state, WorkState::Leased { .. }) {
+                record.generation = record.generation.checked_add(1).ok_or(Error::TooLarge)?;
+                record.state = WorkState::Pending;
+                record.due = 0;
+            }
+        }
+        self.check_bounds()
+    }
     pub fn records(&self) -> Vec<WorkRecord> {
         self.work.values().cloned().collect()
     }

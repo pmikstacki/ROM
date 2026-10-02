@@ -1433,6 +1433,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "rom-backup"
+version = "0.1.0-alpha.1"
+dependencies = [
+ "rom",
+ "serde",
+ "serde_json",
+ "sha2",
+]
+
+[[package]]
 name = "rom-blob"
 version = "0.1.0-alpha.1"
 dependencies = [
@@ -1522,6 +1532,7 @@ version = "0.1.0-alpha.1"
 dependencies = [
  "redb",
  "rom",
+ "rom-backup",
  "serde_json",
 ]
 
@@ -1530,6 +1541,7 @@ name = "rom-sqlite"
 version = "0.1.0-alpha.1"
 dependencies = [
  "rom",
+ "rom-backup",
  "rusqlite",
  "serde_json",
 ]
@@ -1540,6 +1552,7 @@ version = "0.1.0-alpha.1"
 dependencies = [
  "redb",
  "rom",
+ "rom-backup",
  "rom-redb",
  "rom-sqlite",
  "rusqlite",

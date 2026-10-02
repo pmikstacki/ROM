@@ -61,6 +61,54 @@ impl StorageState {
             events: vec![],
         })
     }
+    /// Maintenance only: validate full logical table consistency before archive/restore.
+    pub fn validate_archive(
+        &self,
+        receipts: usize,
+        effects: usize,
+        events: &[(String, Row)],
+    ) -> Result<()> {
+        Self::new(self.limits.clone())?;
+        if self.generation.is_empty()
+            || self.floor > self.head
+            || self.receipts != receipts
+            || self.effects != effects
+            || receipts > self.limits.receipts
+            || effects > self.limits.effects
+            || self.events.len() > self.limits.journal_rows
+            || self.head - self.floor != self.events.len() as u64
+            || events.len() != self.events.len()
+        {
+            return Err(Error::Storage);
+        }
+        let native: BTreeMap<_, _> = events.iter().map(|(id, row)| (id, row)).collect();
+        let mut bytes = 0usize;
+        let mut identities = BTreeSet::new();
+        for (i, event) in self.events.iter().enumerate() {
+            if !identities.insert(&event.identity)
+                || event.position != self.floor + i as u64 + 1
+                || native.get(&event.identity) != Some(&&event.row)
+            {
+                return Err(Error::Storage);
+            }
+            bytes = bytes
+                .checked_add(serde_json::to_vec(event).map_err(|_| Error::Storage)?.len())
+                .ok_or(Error::TooLarge)?;
+        }
+        if bytes > self.limits.journal_bytes {
+            return Err(Error::Storage);
+        }
+        self.work.validate_archive()
+    }
+    /// Persisted maintenance limits; restore does not silently replace them with defaults.
+    pub fn storage_limits(&self) -> StorageLimits {
+        self.limits.clone()
+    }
+    /// Fence pre-restore cursors and claims, retaining identities, attempts and outcomes.
+    pub fn prepare_restore(&mut self) -> Result<()> {
+        self.generation = Self::new(self.limits.clone())?.generation;
+        self.work.prepare_restore()
+    }
     pub fn check_limits(&self, limits: &StorageLimits) -> Result<()> {
         if &self.limits != limits {
             Err(Error::Unsupported("persisted storage limits differ".into()))

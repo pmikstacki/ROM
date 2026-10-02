@@ -9,6 +9,7 @@ publish = false
 [lints]
 workspace = true
 [dev-dependencies]
+rom-backup = {version="=0.1.0-alpha.1",path="../../crates/rom-backup"}
 rom.workspace = true
 rom-sqlite = { workspace = true, features = ["test-support"] }
 rom-redb = { workspace = true, features = ["test-support"] }

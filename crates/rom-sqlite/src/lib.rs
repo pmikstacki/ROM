@@ -1,4 +1,5 @@
 //! SQLite reference persistence capability. The deployment database remains host-configured.
+mod maintenance;
 use rom::{
     Bundle, Capabilities, Error, JournalCursor, JournalPage, Key, Receipt, Result, Row, Storage,
     StorageLimits, StorageState, WorkRecord, WorkResult, WorkUpdate,
