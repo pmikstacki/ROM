@@ -1,5 +1,5 @@
 use rom::{Runtime, Storage};
-use rom_demo::{Notices, bootstrap, build, resolver, smoke};
+use rom_demo::{Notices, attachments, bootstrap, build, resolver, smoke};
 use std::sync::Arc;
 #[tokio::main]
 async fn main() -> smoke::SmokeResult<()> {
@@ -17,7 +17,7 @@ async fn main() -> smoke::SmokeResult<()> {
             }
             smoke::run(redb).await?;
             println!(
-                "Smoke passed ({backend}): two Resource kinds, codec rejection, typed patch, TCP query/live/journal, configuration, reaction, typed notification, access denial, graceful shutdown."
+                "Smoke passed ({backend}): two Resource kinds, codec rejection, typed patch, TCP query/live/journal, configuration, reaction, typed notification, access denial, folder attachment/reopen/detach, graceful shutdown."
             );
         }
         "serve" => {
@@ -33,6 +33,18 @@ async fn main() -> smoke::SmokeResult<()> {
             };
             let runtime: Runtime = build(storage, Notices::default())?;
             bootstrap(&runtime).await?;
+            let blobs = attachments::open(
+                runtime.clone(),
+                std::path::Path::new(&format!("{path}.objects")),
+            )?;
+            match runtime
+                .read::<rom_blob::Blob>(&rom_demo::session_actor(), attachments::ID)
+                .await
+            {
+                Err(rom::Error::Missing) => attachments::attach(&blobs).await?,
+                Ok(_) => {}
+                Err(error) => return Err(error.into()),
+            }
             let _worker = runtime.start_work()?;
             let listener =
                 tokio::net::TcpListener::bind((std::net::Ipv4Addr::LOCALHOST, port)).await?;
@@ -41,13 +53,18 @@ async fn main() -> smoke::SmokeResult<()> {
                 listener.local_addr()?
             );
             println!("Status: {}", serde_json::to_string(&runtime.status()?)?);
+            let draining_blobs = blobs.clone();
             rom_http::Http::new(runtime.clone(), resolver(), Default::default())?
-                .serve(listener, async {
+                .serve(listener, async move {
                     if let Err(error) = tokio::signal::ctrl_c().await {
                         eprintln!("Signal listener failed: {error}");
                     }
+                    if let Err(error) = draining_blobs.shutdown().await {
+                        eprintln!("Attachment drain failed: {error}");
+                    }
                 })
                 .await?;
+            blobs.shutdown().await?;
             println!("Stopped: {}", serde_json::to_string(&runtime.status()?)?);
         }
         _ => return Err("usage: rom-demo [smoke|serve] [sqlite|redb] [database] [port]".into()),

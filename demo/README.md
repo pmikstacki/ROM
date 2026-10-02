@@ -78,7 +78,7 @@ The typed receiver records deliveries in an in-process sink and deduplicates sta
 
 Host-only `bootstrap()` creates SourceActivation and loads [`settings.toml`](settings.toml) via config-rs `ReloadTicket`. Settings remain a normal Resource. Whole-kind source ownership, normal field/row policy, expected revisions, source generation, and protected provenance all apply. A failed reload preserves accepted values. The session can read Settings but cannot write Settings or read/update its SourceActivation. The bundled source write permit expires in 2100; it does not make accepted data expire. There is no filesystem watcher or automatic environment overlay.
 
-Bootstrap also creates a User, a **disabled** synthetic IdentityProvider, and an explicit authority/subject/kind IdentityLink. These are ordinary Resources. They are not a working login and do not give the demo session Human authority. `IdentityGate` permits only three explicitly configured host principals. The app has no privileged public bootstrap endpoint, first-caller admin rule, or email auto-linking.
+Bootstrap also creates a User, a **disabled** synthetic IdentityProvider, and an explicit authority/subject/kind IdentityLink. These are ordinary Resources. They are not a working login and do not give the demo session Human authority. `IdentityGate` permits only explicitly configured host principals (including the Blob worker). The app has no privileged public bootstrap endpoint, first-caller admin rule, or email auto-linking.
 
 For actual verified Human/Service actors, follow `rom-identity`'s ProviderActivation → verifier proof → bind flow and its executable signed-token tests. A production host must choose its provider configuration, key/secret acquisition, login/session handling, tenant policy and revocation behavior. The demo resolver must be replaced before deployment.
 
@@ -87,3 +87,18 @@ For actual verified Human/Service actors, follow `rom-identity`'s ProviderActiva
 `smoke` creates a fresh database, opens real loopback TCP, checks both kinds, rejects invalid custom input and forbidden administrative access, observes typed patch and completion updates, checks journal resume, processes the reaction/notification chain, then verifies drained shutdown. Integration tests repeat the application on SQLite and redb. No external credentials, mail service, or accounts are required.
 
 This alpha demo deliberately keeps policy and domain functions small. Its local session shares Task/Inventory access; it is not a tenant isolation example. No production UI, distributed consistency, infinite journal, durable external notification deduplication, or blob storage completeness is implied.
+
+## 6. Attach real bytes without another controller
+
+`attachments.rs` registers no endpoint. `declarations()` registers the ordinary maintained Blob definition and explicitly trusts its Service worker in IdentityGate. The host opens an exclusively trusted folder through `rom-blob-object-store`, then uses BlobService to reserve metadata, upload a bounded stream, verify digest/length, and read authorized bytes.
+
+`smoke` persists an attachment, stops BlobService before stopping the runtime, reopens **the same database and folder**, and reads it without uploading again. It then denies another principal, detaches the attachment, and checks that byte reads fail. Both SQLite and redb run this path. The private fixture directory is removed only after all services stop; normal detachment does not physically erase bytes.
+
+`serve` stores the synthetic guide in `<database>.objects` and keeps BlobService alive until Ctrl-C. The shutdown trigger first drains BlobService, which may still need the core to finalize accepted uploads; HTTP/runtime shutdown follows. The metadata can be read through the existing generic route:
+
+```sh
+curl -s http://127.0.0.1:8080/read -H 'Authorization: Demo local' \
+  -d '{"kind":"blobs","id":"workshop-guide"}'
+```
+
+There is no public byte upload/download route. Keep the folder and all ancestors exclusively host-owned: the filesystem adapter is not a symlink sandbox. Backup must account for both metadata and referenced external bytes; a database copy alone is not a complete attachment backup. Physical cleanup requires host-established detachment, grace and quiescence.

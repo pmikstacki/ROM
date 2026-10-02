@@ -80,9 +80,12 @@ pub async fn run(redb: bool) -> SmokeResult<()> {
     } else {
         Arc::new(rom_sqlite::Sqlite::open(&path)?)
     };
+    let objects = path.with_extension("objects");
     let notices = Notices::default();
     let runtime = build(storage.clone(), notices.clone())?;
     bootstrap(&runtime).await?;
+    let blobs = attachments::open(runtime.clone(), &objects)?;
+    attachments::attach(&blobs).await?;
     let listener = TcpListener::bind("127.0.0.1:0").await?;
     let client = Client(listener.local_addr()?);
     let (stop, stopped) = oneshot::channel();
@@ -91,14 +94,48 @@ pub async fn run(redb: bool) -> SmokeResult<()> {
         let _ = stopped.await;
     }));
     let result = journey(&client, &runtime, &notices).await;
+    // Blob accepted work may still need the runtime to finalize metadata.
+    let blob_drain = blobs.shutdown().await;
     let _ = stop.send(());
     tokio::time::timeout(Duration::from_secs(5), server).await???;
     assert_eq!(runtime.status()?.intake, rom::IntakeState::Stopped);
     assert_eq!(runtime.status()?.owned_work, 0);
+    blob_drain?;
+    drop(blobs);
     drop(runtime);
     drop(storage);
+    result?;
+    let storage: Arc<dyn Storage> = if redb {
+        Arc::new(rom_redb::Redb::open(&path)?)
+    } else {
+        Arc::new(rom_sqlite::Sqlite::open(&path)?)
+    };
+    let reopened = build(storage, Notices::default())?;
+    let blobs = attachments::open(reopened.clone(), &objects)?;
+    assert_eq!(
+        blobs.read(&session_actor(), attachments::ID).await?,
+        attachments::CONTENT
+    );
+    // A different trusted principal is still not the attachment owner.
+    assert!(
+        blobs
+            .read(&bootstrap_actor(), attachments::ID)
+            .await
+            .is_err()
+    );
+    let _maintenance_receipt = blobs.detach(&session_actor(), attachments::ID).await?;
+    assert!(matches!(
+        blobs.read(&session_actor(), attachments::ID).await,
+        Err(rom_blob::Error::Missing)
+    ));
+    blobs.shutdown().await?;
+    reopened.shutdown().await?;
+    drop(blobs);
+    drop(reopened);
     std::fs::remove_file(path)?;
-    result
+    // This fixture owns the entire private directory and has stopped all services.
+    std::fs::remove_dir_all(objects)?;
+    Ok(())
 }
 async fn journey(client: &Client, runtime: &Runtime, notices: &Notices) -> SmokeResult<()> {
     assert_eq!(

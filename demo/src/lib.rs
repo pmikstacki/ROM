@@ -116,9 +116,11 @@ pub fn declarations(notices: Notices) -> Result<rom::Builder> {
     let gate = IdentityGate::default()
         .allow_host("demo-host", PrincipalKind::Embedded, "bootstrap")?
         .allow_host("demo-host", PrincipalKind::Embedded, "local-session")?
-        .allow_host("demo-host", PrincipalKind::Service, "worker")?;
+        .allow_host("demo-host", PrincipalKind::Service, "worker")?
+        .allow_host("rom-blob-host", PrincipalKind::Service, "attachments")?;
     Ok(Runtime::builder()
         .actor_gate(Arc::new(gate))
+        .resource(rom_blob::definition())
         .resource(
             Task::definition()
                 .policy(|a, _, _| domain(a))
@@ -298,3 +300,6 @@ pub fn resolver() -> rom_http::AuthResolver {
 }
 /// Finite, actual TCP smoke scenario shared by the command and integration test.
 pub mod smoke;
+
+/// Host-owned folder adapter and attachment lifecycle.
+pub mod attachments;

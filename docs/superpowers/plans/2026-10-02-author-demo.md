@@ -8,3 +8,7 @@ The author should see ordinary Rust Resource declarations and small business fun
 4. Add one-command launch and verifier (locked Rust1.99, bounded jobs, persistent target), README author walkthrough and supported boundaries. Run smoke against both SQLite and redb, fmt/clippy, workspace check as feasible. No production UI, external accounts, credentials or mail delivery claims.
 
 Future provider proof verification is already executable in rom-identity integration tests; demo synthetic trust is explicitly bounded. Blob attachment integration is optional after the independent blob package lands. No core/adapter edits are planned.
+
+## Folder attachment follow-up
+
+Register maintained `rom_blob::definition()` and allow its exact Service worker in IdentityGate. Add a tiny public-API host helper creating a folder adapter and BlobService. The same smoke database will reserve/upload/read, stop BlobService before HTTP/runtime shutdown, reopen database and folder, read persisted Ready attachment without reupload, detach and prove reads stop. Serve exposes no new byte endpoint; it manages the service lifecycle and a synthetic startup attachment. Keep folder roots exclusively host-owned. Apply the parent's blob shutdown-race fix before final combined verification.

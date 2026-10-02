@@ -1504,7 +1504,10 @@ dependencies = [
 name = "rom-demo"
 version = "0.1.0-alpha.1"
 dependencies = [
+ "futures-util",
  "rom",
+ "rom-blob",
+ "rom-blob-object-store",
  "rom-config",
  "rom-http",
  "rom-identity",
