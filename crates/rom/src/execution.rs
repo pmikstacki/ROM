@@ -208,6 +208,14 @@ impl Builder {
         {
             return Err(Error::Unsupported("limits must be nonzero".into()));
         }
+        if [l.actions, l.io_jobs, l.subscriptions]
+            .iter()
+            .any(|n| *n > Semaphore::MAX_PERMITS)
+        {
+            return Err(Error::Unsupported(
+                "concurrency exceeds semaphore limit".into(),
+            ));
+        }
         let (changes, _) = watch::channel(0);
         let (drained, _) = watch::channel(0);
         Ok(Runtime(Arc::new(Inner {

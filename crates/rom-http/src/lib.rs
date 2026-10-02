@@ -53,6 +53,7 @@ impl Http {
     pub fn new(runtime: Runtime, auth: AuthResolver, limits: Limits) -> rom::Result<Self> {
         if limits.body_bytes == 0
             || limits.bodies == 0
+            || limits.bodies > Semaphore::MAX_PERMITS
             || limits.body_timeout.is_zero()
             || limits.observation_poll.is_zero()
         {

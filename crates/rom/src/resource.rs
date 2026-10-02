@@ -259,6 +259,13 @@ pub struct Query<R> {
     marker: PhantomData<fn() -> R>,
 }
 impl<R: Resource> Query<R> {
+    /// Select all currently authorized rows, subject to the usual snapshot bounds.
+    pub fn all() -> Self {
+        Self {
+            spec: QuerySpec::all(),
+            marker: PhantomData,
+        }
+    }
     pub fn and<T: Field>(mut self, field: FieldRef<R, T>, value: T) -> Self {
         self.spec = if value.is_present() {
             self.spec.and(field.name, Field::encode(&value))
@@ -277,6 +284,11 @@ impl<R: Resource> Query<R> {
     }
     pub fn spec(&self) -> &QuerySpec {
         &self.spec
+    }
+}
+impl<R: Resource> Default for Query<R> {
+    fn default() -> Self {
+        Self::all()
     }
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
