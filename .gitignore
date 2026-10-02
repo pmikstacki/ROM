@@ -10,3 +10,5 @@
 /.worktrees/
 
 /tests/compile/target/
+
+/target-*/

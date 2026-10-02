@@ -16,9 +16,14 @@ replace that premise or silently select production dependencies.
 | Maintained core foundation | Complete, integrated and independently verified | Bounded async reads/live, cancellation-safe drain, actor expiry and corrected promotion regressions; [verification](maintained-foundation-results.md). |
 | Dependency baseline audit | Complete | [Executed audit](mvp-dependency-audit.md): zero RustSec findings for initial pins; final maintained lockfile delta and native SQLite patch decision remain gates. |
 | Maintained persistence conformance | Complete, integrated and independently verified | [SQLite/redb conformance](../storage-adapters.md), real process exit and foreign-format rejection. |
-| Maintained authentication | Review correction in progress: configuration_trials | Feature-isolated JWT/introspection crate; exact string issuer regression before integration, then User/provider mapping. |
-| Durable reaction integration | Running: integrated_core_probe | Typed registration, recoverable work, stable step identities and bounded chains using the maintained core/adapters. |
-| Generic transport integration | Running: transport_trials | Shared invocation/live/journal contracts and actual HTTP extension with embedded/wire conformance. |
+| Maintained authentication | Integrated and verified | JWT/introspection plus native User/provider/link Resources, current revocation and protected field projection; [results](maintained-identity-projection.md). |
+| Durable reaction integration | Integrated and verified | [Typed durable chains](maintained-reaction-results.md) run through current authorization and both storage adapters. Delivery channels and final drain correction are being integrated separately. |
+| Generic transport integration | Integrated and verified | [HTTP](maintained-http-journal.md), structured queries and partial changes, 16 loopback tests; keepalive starvation corrected. |
+| Field/presence/query integration | Integrated and verified | [Presence/PATCH](../presence-and-patch.md), canonical predicates, bounded conjunction/keyset pagination, typed and wire APIs. |
+| Configuration ingestion | Running: configuration_trials | Native SourceActivation, authority/provenance, failed reload and restart reconciliation. |
+| Notification channels | Running: integrated_core_probe | Atomic obligations, ordinary Rust async functions, durable retries and uncertain delivery evidence. |
+| Blob lifecycle | Running: mvp_promotion_review | Maintained Blob Resource plus bounded folder/S3-compatible adapter, attachment/access and orphan semantics. |
+| Backup, final demo and release gates | Coordinator, remaining | Preserve complete durable state, run packaged consumer and complete dependency review, then independent combined review. |
 | Integrated MVP | Coordinator, active goal | Decision register, explicit acceptance profile, combined conformance and packaged consumer. Separate experiments alone cannot complete this goal. |
 
 Each agent uses an isolated worktree and prototype branch. Reports separate
