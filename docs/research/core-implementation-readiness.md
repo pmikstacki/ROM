@@ -2,6 +2,12 @@
 
 Date: 2026-10-02. This is a work breakdown and uncertainty assessment, not a calendar estimate or a claim that production ROM exists.
 
+Update: the [integrated typed probe](integrated-core-probe-results.md) now supplies
+18 independently rerun tests across two Resources, plus compiler fixtures. The
+historical integration gaps below are narrowed by that result, not all resolved.
+Current implementation scope is tracked in the [MVP decision register](mvp-decision-register.md)
+and [acceptance tasks](../../openspec/changes/integrate-resource-mvp/tasks.md).
+
 ## Direction supported by evidence
 
 Combine the resource descriptor/shared mutation pattern with work-owned execution supervision. Use a derive for structural Rust bindings, fluent composition for behavior, and one runtime for dynamic guarantees. The [authoring trials](authoring-crate-trials.md) support this split; the [earlier execution and resource-flow experiments](prototype-results.md) support its execution and persistence seams. The subsequent transport-free library slice passed eleven tests for mutations, filtered reads and policy changes, including a reproduced stale-authorization defect and its fix. These are separate experiments, not yet one integrated typed library.

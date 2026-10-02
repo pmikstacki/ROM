@@ -6,12 +6,12 @@ Declare a resource once; the framework supplies standard storage, operations, en
 
 Actions request changes. The core validates and commits transitions. Events describe committed facts. Reactions can submit further actions through the same core.
 
-**Status:** architecture and specification stage, with executable experiments on separate prototype branches. No production ROM core is released.
+**Status:** verified experiments and an integrated typed prototype; a maintained MVP library is in progress. No production ROM core is released. The [MVP acceptance plan](openspec/changes/integrate-resource-mvp/tasks.md) and [decision register](docs/research/mvp-decision-register.md) distinguish completed evidence from remaining implementation.
 
 ## Design
 
 - One main ROM library with typed resources and extensible field types.
-- Tokio for asynchronous execution and I/O, Rayon for CPU-heavy work; integration is still being designed.
+- Tokio for asynchronous execution and I/O, Rayon for CPU-heavy work; work-owned supervision has been tested in prototypes.
 - Persistence contracts owned by the core, database implementations supplied by adapters.
 - Rust extension interfaces first; optional WASM implementations later.
 - HTTP and RabbitMQ integrations remain separate extensions.
@@ -30,6 +30,12 @@ Research informs the design; candidate crates are not an approved dependency lis
 - [Framework comparisons and Rust crate candidates](docs/research/frameworks-and-rust-crates.md)
 - [Six-framework comparison and ranked recommendations](docs/research/state-of-art-resource-frameworks.md)
 - [Prototype findings and implementation tradeoffs](docs/research/prototype-results.md)
+- [Integrated typed core: executed evidence and promotion gaps](docs/research/integrated-core-probe-results.md)
+- [Independent promotion review and regression requirements](docs/research/integrated-core-promotion-review.md)
+- [Reactive chains: 19 tests, 110 comparisons and loop-control recommendations](docs/research/reaction-chain-results.md)
+- [Configuration loaders: 24 executed tests and critique](docs/research/configuration-trial-results.md)
+- [Tower/direct transport contracts: 15 executed tests and critique](docs/research/transport-trial-results.md)
+- [All MVP decisions, recommendations and completion inventory](docs/research/mvp-decision-register.md)
 - [Interchangeable adapters and resilience: executed findings](docs/research/capability-prototype-results.md)
 - [Internal cache, single-flight and Salsa: executed findings](docs/research/cache-prototype-results.md)
 - [Cache crate contracts and selection criteria](docs/research/internal-cache-research.md)

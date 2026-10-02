@@ -13,7 +13,9 @@ replace that premise or silently select production dependencies.
 | Integrated core probe | Complete, independently verified; promotion review running | [18 tests plus compiler fixtures](integrated-core-probe-results.md); two typed Resources share the pipeline. Production gaps remain explicit. |
 | Reaction-chain experiments | Complete, independently verified | [19 tests, 110 model result rows](reaction-chain-results.md); combined guards recommended. Actual durable worker remains integration work. |
 | Authentication provider probe | Running: configuration_trials | Cryptographic JWT and loopback introspection profiles; verified identities, revocation, freshness and failure tests. |
-| Integrated MVP | Coordinator, active goal | Decision register, explicit acceptance profile, promoted library, combined conformance and packaged consumer. Separate experiments alone cannot complete this goal. |
+| Maintained core foundation | Running: integrated_core_probe | Root Cargo workspace; bounded async reads/live, cancellation-safe drain, actor expiry and promotion defect regressions. |
+| Dependency audit | Running: mvp_promotion_review | Pinned dependency licenses/features/MSRV and current advisory checks; distinguish actual tool output from source review. |
+| Integrated MVP | Coordinator, active goal | Decision register, explicit acceptance profile, combined conformance and packaged consumer. Separate experiments alone cannot complete this goal. |
 
 Each agent uses an isolated worktree and prototype branch. Reports separate
 primary-source claims, executed evidence and proposals. A worker finishing is
