@@ -38,7 +38,12 @@ impl Redb {
             .list_tables()
             .map_err(|_| Error::Storage)?
             .next()
-            .is_none();
+            .is_none()
+            && read
+                .list_multimap_tables()
+                .map_err(|_| Error::Storage)?
+                .next()
+                .is_none();
         if !empty {
             let meta = read
                 .open_table(META)

@@ -20,8 +20,14 @@ impl Sqlite {
         let version: u32 = c
             .pragma_query_value(None, "user_version", |r| r.get(0))
             .map_err(|_| Error::Storage)?;
-        let tables: i64 = c.query_row("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'", [], |r| r.get(0)).map_err(|_| Error::Storage)?;
-        if version != 1 && (version != 0 || tables != 0) {
+        let objects: i64 = c
+            .query_row(
+                "SELECT COUNT(*) FROM sqlite_master WHERE name NOT GLOB 'sqlite_*'",
+                [],
+                |r| r.get(0),
+            )
+            .map_err(|_| Error::Storage)?;
+        if version != 1 && (version != 0 || objects != 0) {
             return Err(Error::Unsupported("SQLite storage format".into()));
         }
         if version == 1 {
