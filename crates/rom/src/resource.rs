@@ -209,6 +209,7 @@ pub struct Descriptor {
 pub trait Resource: Clone + Send + Sync + 'static {
     const KIND: &'static str;
     fn descriptor() -> Descriptor;
+    fn normalize_field(name: &str, value: Value) -> Result<Value>;
     fn encode(&self) -> Value;
     fn decode(value: Value) -> Result<Self>;
     fn definition() -> Definition<Self> {
@@ -229,17 +230,32 @@ impl<R: Resource, T: Field> FieldRef<R, T> {
     }
     pub fn equals(self, value: T) -> Query<R> {
         Query {
-            field: self.name.into(),
-            value: Field::encode(&value),
+            spec: QuerySpec::equal(self.name, Field::encode(&value)),
             marker: PhantomData,
         }
     }
 }
 #[derive(Clone)]
 pub struct Query<R> {
-    pub(crate) field: String,
-    pub(crate) value: Value,
+    pub(crate) spec: QuerySpec,
     marker: PhantomData<fn() -> R>,
+}
+impl<R: Resource> Query<R> {
+    pub fn and<T: Field>(mut self, field: FieldRef<R, T>, value: T) -> Self {
+        self.spec = self.spec.and(field.name, Field::encode(&value));
+        self
+    }
+    pub fn after_id(mut self, id: impl Into<String>) -> Self {
+        self.spec = self.spec.after_id(id);
+        self
+    }
+    pub fn limit(mut self, limit: usize) -> Self {
+        self.spec = self.spec.limit(limit);
+        self
+    }
+    pub fn spec(&self) -> &QuerySpec {
+        &self.spec
+    }
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Intent {
@@ -331,6 +347,7 @@ impl<R: Resource> Definition<R> {
 pub(crate) trait Registered: Send + Sync {
     fn descriptor(&self) -> Descriptor;
     fn normalize(&self, v: Value) -> Result<Value>;
+    fn normalize_field(&self, name: &str, value: Value) -> Result<Value>;
     fn allows(&self, actor: &Actor, access: Access, v: &Value) -> bool;
     fn allows_field(&self, actor: &Actor, access: Access, field: &str, v: &Value) -> bool;
     fn allows_query(&self, actor: &Actor, field: &str) -> bool;
@@ -339,6 +356,9 @@ pub(crate) trait Registered: Send + Sync {
 impl<R: Resource> Registered for Definition<R> {
     fn descriptor(&self) -> Descriptor {
         self.descriptor.clone()
+    }
+    fn normalize_field(&self, name: &str, value: Value) -> Result<Value> {
+        R::normalize_field(name, value)
     }
     fn normalize(&self, v: Value) -> Result<Value> {
         let value = R::decode(v)?.encode();

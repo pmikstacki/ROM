@@ -589,6 +589,12 @@ impl Resource for Manual {
             }],
         }
     }
+    fn normalize_field(name: &str, value: Value) -> Result<Value> {
+        if name != "flag" {
+            return Err(Error::invalid(Self::KIND, name));
+        }
+        <bool as rom::Field>::decode(value).map(|v| rom::Field::encode(&v))
+    }
     fn encode(&self) -> Value {
         json!({"flag":self.flag})
     }

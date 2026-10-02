@@ -1128,6 +1128,7 @@ version = "0.1.0-alpha.1"
 dependencies = [
  "rom",
  "rom-sqlite",
+ "serde_json",
  "tokio",
 ]
 

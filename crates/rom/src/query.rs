@@ -25,43 +25,9 @@ impl Runtime {
         let query = query.clone();
         let a = actor.clone();
         self.observe(actor, move |runtime| {
-            let def = runtime.0.registry.get(R::KIND).ok_or(Error::Unregistered)?;
-            let descriptor = def.descriptor();
-            let field = descriptor
-                .fields
-                .iter()
-                .find(|f| f.name == query.field)
-                .ok_or_else(|| Error::invalid(R::KIND, &query.field))?;
-            if !matches_shape(&query.value, &field.shape) {
-                return Err(Error::invalid(R::KIND, &query.field));
-            }
-            if !def.allows_query(&a, &query.field) {
-                return Err(Error::Denied);
-            }
-            let rows = runtime.0.storage.snapshot(
-                R::KIND,
-                runtime.0.limits.snapshot_rows,
-                runtime.0.limits.snapshot_bytes,
-            )?;
-            // Enforce the contract defensively for native adapters, as well as inside each provider.
-            let mut bytes = 0usize;
-            if rows.len() > runtime.0.limits.snapshot_rows {
-                return Err(Error::TooLarge);
-            }
-            for row in &rows {
-                bytes = bytes
-                    .checked_add(serde_json::to_vec(row).map_err(|_| Error::Storage)?.len())
-                    .ok_or(Error::TooLarge)?;
-                if bytes > runtime.0.limits.snapshot_bytes {
-                    return Err(Error::TooLarge);
-                }
-            }
-            rows.into_iter()
-                .filter(|r| {
-                    r.value.as_ref().is_some_and(|v| {
-                        def.allows(&a, Access::Read, v) && v.get(&query.field) == Some(&query.value)
-                    })
-                })
+            runtime
+                .select_rows(&a, R::KIND, &query.spec)?
+                .into_iter()
                 .map(|row| {
                     runtime.require_complete(&a, Some(&row), &row)?;
                     typed(row)

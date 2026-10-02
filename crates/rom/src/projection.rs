@@ -100,48 +100,23 @@ impl Runtime {
         field: &str,
         value: Value,
     ) -> Result<Vec<ProjectedView>> {
+        self.query_spec_projected(actor, kind, QuerySpec::equal(field, value))
+            .await
+    }
+    pub async fn query_spec_projected(
+        &self,
+        actor: &Actor,
+        kind: &str,
+        spec: QuerySpec,
+    ) -> Result<Vec<ProjectedView>> {
         let kind = kind.to_owned();
-        let field = field.to_owned();
         let a = actor.clone();
         self.observe(actor, move |runtime| {
-            let def = runtime.0.registry.get(&kind).ok_or(Error::Unregistered)?;
-            let descriptor = def.descriptor();
-            let shape = &descriptor
-                .fields
+            runtime
+                .select_rows(&a, &kind, &spec)?
                 .iter()
-                .find(|f| f.name == field)
-                .ok_or_else(|| Error::invalid(&kind, &field))?
-                .shape;
-            if !matches_shape(&value, shape) {
-                return Err(Error::invalid(&kind, &field));
-            }
-            if !def.allows_query(&a, &field) {
-                return Err(Error::Denied);
-            }
-            let rows = runtime.0.storage.snapshot(
-                &kind,
-                runtime.0.limits.snapshot_rows,
-                runtime.0.limits.snapshot_bytes,
-            )?;
-            if rows.len() > runtime.0.limits.snapshot_rows {
-                return Err(Error::TooLarge);
-            }
-            let mut bytes = 0usize;
-            let mut out = vec![];
-            for row in rows {
-                bytes = bytes
-                    .checked_add(serde_json::to_vec(&row).map_err(|_| Error::Storage)?.len())
-                    .ok_or(Error::TooLarge)?;
-                if bytes > runtime.0.limits.snapshot_bytes {
-                    return Err(Error::TooLarge);
-                }
-                if row.value.as_ref().is_some_and(|v| {
-                    def.allows(&a, Access::Read, v) && v.get(&field) == Some(&value)
-                }) {
-                    out.push(runtime.project_outcome(&a, Some(&row), &row)?);
-                }
-            }
-            Ok(out)
+                .map(|row| runtime.project_outcome(&a, Some(row), row))
+                .collect()
         })
         .await
     }
@@ -151,6 +126,15 @@ impl Runtime {
         kind: &str,
         field: &str,
         value: Value,
+    ) -> Result<LiveProjected> {
+        self.live_spec_projected(actor, kind, QuerySpec::equal(field, value))
+            .await
+    }
+    pub async fn live_spec_projected(
+        &self,
+        actor: &Actor,
+        kind: &str,
+        spec: QuerySpec,
     ) -> Result<LiveProjected> {
         self.ensure_open()?;
         self.check_actor(actor)?;
@@ -164,14 +148,12 @@ impl Runtime {
                 tokio::sync::TryAcquireError::NoPermits => Error::Overloaded,
             })?;
         let changes = self.0.changes.subscribe();
-        self.query_projected(actor, kind, field, value.clone())
-            .await?;
+        self.query_spec_projected(actor, kind, spec.clone()).await?;
         Ok(LiveProjected {
             runtime: self.clone(),
             actor: actor.clone(),
             kind: kind.into(),
-            field: field.into(),
-            value,
+            spec,
             changes,
             delivered_generation: None,
             _permit: permit,
@@ -183,8 +165,7 @@ pub struct LiveProjected {
     runtime: Runtime,
     actor: Actor,
     kind: String,
-    field: String,
-    value: Value,
+    spec: QuerySpec,
     changes: watch::Receiver<u64>,
     delivered_generation: Option<u64>,
     _permit: OwnedSemaphorePermit,
@@ -202,7 +183,7 @@ impl LiveProjected {
             }
             let rows = self
                 .runtime
-                .query_projected(&self.actor, &self.kind, &self.field, self.value.clone())
+                .query_spec_projected(&self.actor, &self.kind, self.spec.clone())
                 .await?;
             self.delivered_generation = Some(generation);
             return Ok(rows);

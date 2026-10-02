@@ -56,6 +56,7 @@ fn expand(input: DeriveInput) -> syn::Result<proc_macro2::TokenStream> {
     let mut encodes = vec![];
     let mut decodes = vec![];
     let mut selectors = vec![];
+    let mut field_codecs = vec![];
     for f in fields {
         let id = f.ident.as_ref().unwrap();
         let ty = &f.ty;
@@ -87,6 +88,7 @@ fn expand(input: DeriveInput) -> syn::Result<proc_macro2::TokenStream> {
         descriptors.push(quote_spanned!(ty.span()=> #facade::FieldDescriptor { name:#wire.into(), shape:<#ty as #facade::Field>::shape() }));
         encodes.push(quote_spanned!(ty.span()=> map.insert(#wire.into(),<#ty as #facade::Field>::encode(&self.#id));));
         decodes.push(quote_spanned!(ty.span()=> #id:<#ty as #facade::Field>::decode(map.remove(#wire).ok_or_else(||#facade::Error::invalid(Self::KIND,#wire))?).map_err(|_|#facade::Error::invalid(Self::KIND,#wire))?));
+        field_codecs.push(quote_spanned!(ty.span()=> #wire => <#ty as #facade::Field>::decode(value).map(|decoded|<#ty as #facade::Field>::encode(&decoded)),));
         let sel = format_ident!("{}_field", id);
         let selector_doc = format!(
             "Select the `{}` field for a typed Resource query.",
@@ -98,6 +100,9 @@ fn expand(input: DeriveInput) -> syn::Result<proc_macro2::TokenStream> {
         impl #facade::Resource for #name {
             const KIND:&'static str=#kind;
             fn descriptor()->#facade::Descriptor { #facade::Descriptor {kind:Self::KIND.into(),version:1,fields:vec![#(#descriptors),*]} }
+            fn normalize_field(name:&str,value:#facade::Value)->#facade::Result<#facade::Value> {
+                match name { #(#field_codecs)* _=>Err(#facade::Error::invalid(Self::KIND,name)) }
+            }
             fn encode(&self)->#facade::Value { let mut map=#facade::Map::new(); #(#encodes)* #facade::Value::Object(map) }
             fn decode(value:#facade::Value)->::std::result::Result<Self,#facade::Error> {
                 let mut map=value.as_object().cloned().ok_or_else(||#facade::Error::invalid(Self::KIND,"$"))?;

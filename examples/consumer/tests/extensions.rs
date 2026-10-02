@@ -31,6 +31,9 @@ impl Resource for Manual {
     fn descriptor() -> Descriptor {
         Custom::descriptor()
     }
+    fn normalize_field(name: &str, value: Value) -> Result<Value> {
+        Custom::normalize_field(name, value)
+    }
     fn encode(&self) -> Value {
         self.0.encode()
     }
