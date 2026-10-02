@@ -36,6 +36,11 @@ Research informs the design; candidate crates are not an approved dependency lis
 - [Independent promotion review and regression requirements](docs/research/integrated-core-promotion-review.md)
 - [Reactive chains: 19 tests, 110 comparisons and loop-control recommendations](docs/research/reaction-chain-results.md)
 - [Configuration loaders: 24 executed tests and critique](docs/research/configuration-trial-results.md)
+- [Native User/provider mapping and field projection](docs/research/maintained-identity-projection.md)
+- [Maintained HTTP and durable journal](docs/research/maintained-http-journal.md)
+- [Maintained typed reactive chains](docs/research/maintained-reaction-results.md)
+- [Durable notification channels](docs/research/maintained-channel-results.md)
+- [Presence, null and typed partial changes](docs/presence-and-patch.md)
 - [Maintained authentication: reviewed profiles and integration boundary](docs/research/maintained-auth-results.md)
 - [Immutable experiment reproduction](docs/research/reproducing-experiments.md)
 - [JWT and introspection profiles: executed verification and remaining integration](docs/research/auth-provider-probe-results.md)
@@ -77,8 +82,11 @@ nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM && cargo run -p rom-c
 The maintained foundation now has bounded asynchronous reads, actions and live
 queries, cancellation-safe shutdown, actor expiry, and SQLite/redb conformance.
 Field projection, verified-identity mapping to User Resources, durable reaction
-workers, and generic HTTP integration remain active work. Effect intentions are
-persisted atomically but are not yet dispatched by the main-branch runtime.
+workers, notification channels and generic HTTP are integrated. Partial changes
+preserve missing/null/removal, and queries share typed and wire semantics.
+Configuration ingestion, Blob lifecycle, backup/recovery and the final assembled
+demo are the remaining integration packages. The dependency and packaging checks
+are rerun as those packages enter the workspace.
 The [maintained verification record](docs/research/maintained-foundation-results.md)
 and [storage contract](docs/storage-adapters.md) supersede the corresponding
 limitations of the original disposable probe.
