@@ -1,0 +1,20 @@
+[workspace]
+members = ["core", "derive", "sqlite", "consumer"]
+resolver = "3"
+[workspace.package]
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.99"
+publish = false
+[workspace.dependencies]
+rom-probe = { path = "core" }
+rom-probe-derive = { path = "derive" }
+rom-probe-sqlite = { path = "sqlite" }
+tokio = { version = "=1.53.1", features = ["rt-multi-thread", "macros", "sync", "time"] }
+rayon = "=1.12.0"
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.151"
+rusqlite = { version = "=0.40.2", features = ["bundled"] }
+syn = "=3.0.6"
+quote = "=1.0.47"
+proc-macro2 = "=1.0.107"

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+export CARGO_BUILD_JOBS=2
+export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$PWD/target}"
+rustc --version
+cargo --version
+cargo fmt --all -- --check
+cargo clippy --workspace --all-targets --locked -- -D warnings
+cargo test --workspace --locked
+RUSTDOCFLAGS='-D warnings' cargo doc --workspace --no-deps --locked
+cargo run -p probe-consumer --locked
+cargo tree -p rom-probe --edges normal --locked > "$CARGO_TARGET_DIR/core-dependencies.txt"
+if rg -i 'rusqlite|redb|axum|hyper|reqwest|tower|bevy' "$CARGO_TARGET_DIR/core-dependencies.txt"; then
+  echo 'Core imported a concrete DB or transport dependency' >&2
+  exit 1
+fi
+node fixtures/check.mjs

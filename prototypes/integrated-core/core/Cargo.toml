@@ -1,0 +1,12 @@
+[package]
+name = "rom-probe"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+[dependencies]
+rom-probe-derive.workspace = true
+tokio.workspace = true
+rayon.workspace = true
+serde.workspace = true
+serde_json.workspace = true

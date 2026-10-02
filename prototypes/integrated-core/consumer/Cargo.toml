@@ -1,0 +1,10 @@
+[package]
+name = "probe-consumer"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+[dependencies]
+rom-probe.workspace = true
+rom-probe-sqlite.workspace = true
+tokio.workspace = true
