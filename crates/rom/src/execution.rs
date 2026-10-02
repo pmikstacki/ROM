@@ -27,6 +27,7 @@ pub struct Builder {
     error: Option<Error>,
     limits: Limits,
     clock: Option<Arc<dyn Clock>>,
+    actor_gate: Option<Arc<dyn ActorGate>>,
 }
 impl Builder {
     pub fn resource<R: Resource>(mut self, d: Definition<R>) -> Self {
@@ -54,6 +55,10 @@ impl Builder {
     }
     pub fn clock(mut self, clock: Arc<dyn Clock>) -> Self {
         self.clock = Some(clock);
+        self
+    }
+    pub fn actor_gate(mut self, gate: Arc<dyn ActorGate>) -> Self {
+        self.actor_gate = Some(gate);
         self
     }
     pub fn limits(mut self, limits: Limits) -> Self {
@@ -100,6 +105,7 @@ impl Builder {
             generation: AtomicU64::new(0),
             limits: l,
             clock: self.clock.unwrap_or_else(|| Arc::new(SystemClock)),
+            actor_gate: self.actor_gate,
         })))
     }
 }
@@ -124,6 +130,7 @@ pub(crate) struct Inner {
     generation: AtomicU64,
     pub(crate) limits: Limits,
     clock: Arc<dyn Clock>,
+    actor_gate: Option<Arc<dyn ActorGate>>,
 }
 /// Tracked by the runtime, owned by actual blocking work, never a caller future.
 struct Work {
@@ -199,6 +206,22 @@ impl Runtime {
         } else {
             Ok(())
         }
+    }
+    /// Only call from bounded I/O work, holding the commit gate when consistency
+    /// with other managed Resource mutations matters.
+    pub(crate) fn check_authority(&self, actor: &Actor) -> Result<()> {
+        self.check_actor(actor)?;
+        if let Some(gate) = &self.0.actor_gate {
+            gate.check(
+                actor,
+                &mut policy::GateRead {
+                    storage: self.0.storage.as_ref(),
+                    reads: 8,
+                    bytes: self.0.limits.command_bytes,
+                },
+            )?;
+        }
+        Ok(())
     }
     fn invalidate(&self) {
         self.0.generation.fetch_add(1, Ordering::SeqCst);
@@ -278,9 +301,9 @@ impl Runtime {
             let (result, generation) = self
                 .io(move |runtime| {
                     let _guard = runtime.0.gate.lock().map_err(|_| Error::Panicked)?;
-                    runtime.check_actor(&a)?;
+                    runtime.check_authority(&a)?;
                     let result = operation(runtime)?;
-                    runtime.check_actor(&a)?;
+                    runtime.check_authority(&a)?;
                     Ok((result, runtime.0.generation.load(Ordering::SeqCst)))
                 })
                 .await?;
@@ -342,7 +365,7 @@ impl Runtime {
         let fingerprint = json!([cmd.expected, input]).to_string();
         let prior = {
             let denied = self.0.gate.lock().unwrap();
-            self.check_actor(actor)?;
+            self.check_authority(actor)?;
             let prior = self.0.storage.load(&key)?;
             if let Some(receipt) = self.0.storage.receipt(&identity)? {
                 self.disclose(actor, &denied, def.as_ref(), prior.as_ref(), &receipt.row)?;
@@ -407,7 +430,7 @@ impl Runtime {
             return Err(Error::TooLarge);
         }
         let denied = self.0.gate.lock().unwrap();
-        self.check_actor(actor)?;
+        self.check_authority(actor)?;
         let current = self.0.storage.load(&key)?;
         if let Some(receipt) = self.0.storage.receipt(&identity)? {
             self.disclose(actor, &denied, def.as_ref(), current.as_ref(), &receipt.row)?;
@@ -450,7 +473,7 @@ impl Runtime {
             changed,
             effects,
         };
-        self.check_actor(actor)?;
+        self.check_authority(actor)?;
         let receipt = self.0.storage.commit(&bundle);
         // Unknown may mean committed: invalidate even when the adapter loses its acknowledgment.
         if receipt.is_ok() || receipt == Err(Error::Unknown) {
@@ -474,7 +497,7 @@ impl Runtime {
         current: Option<&Row>,
         outcome: &Row,
     ) -> Result<()> {
-        self.check_actor(actor)?;
+        self.check_authority(actor)?;
         if current.is_some_and(|r| r.value.is_none()) && outcome.value.is_some() {
             return Err(Error::Denied);
         }

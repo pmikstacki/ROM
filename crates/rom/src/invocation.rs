@@ -59,6 +59,7 @@ impl Invocation {
         };
         json!([
             actor.authority,
+            actor.principal_kind(),
             actor.subject,
             self.kind,
             self.id,
