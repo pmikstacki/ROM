@@ -6,6 +6,19 @@ Resource identity, typed fields, revisions and lifecycle. This capability define
 
 ## ADDED Requirements
 
+### Requirement: Managed configuration uses Resources
+ROM-managed users, identity-provider configuration and application settings SHALL use the same Resource model as application data. Built-in kinds SHALL follow the same registration, field validation, action, authorization, revision and observation contracts. External configuration sources SHALL supply values for accepted definitions rather than create a competing schema authority or bypass normal mutation checks. Executable provider implementations SHALL remain distinct from their managed configuration.
+
+#### Scenario: Identity-provider configuration supplied by a file
+- **GIVEN** an accepted identity-provider Resource definition and an authorized configuration source
+- **WHEN** the source supplies new configuration values
+- **THEN** ROM validates and applies those values through the shared Resource contract, while the configured adapter implements the external protocol
+
+#### Scenario: Studio edits externally owned configuration
+- **GIVEN** a configuration field is owned by an external source under the configured ownership policy
+- **WHEN** Studio attempts to change it
+- **THEN** ROM rejects the unsupported write or applies an explicitly supported overlay or writeback action rather than silently acknowledging a value that the source immediately overwrites
+
 ### Requirement: Uniform identity
 The library SHALL identify every resource by a stable identity and declared resource kind, independent of any transport.
 

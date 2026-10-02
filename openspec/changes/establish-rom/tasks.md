@@ -11,6 +11,8 @@
 
 - [x] 1.8 Execute current derive and builder crate trials, including negative diagnostics and reusable helpers; evidence: docs/research/authoring-crate-trials.md. This does not complete the human walkthrough or production dependency selection.
 - [x] 1.9 Review Beskid compiler/Rust lessons and align registration, diagnostics and codec-conformance requirements; evidence: docs/research/beskid-compiler-lessons.md.
+- [x] 1.10 Research configuration Resources, hierarchical source providers and Beskid's implemented precedence; evidence: docs/research/configuration-*-*.md. No configuration-provider trials have run.
+- [ ] 1.11 Specify and probe configuration import, source ownership, provenance, bootstrap and validated activation; compare config-rs and Figment without adding a second Resource schema.
 
 ## 2. Introduce the core
 

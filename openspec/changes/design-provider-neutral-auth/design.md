@@ -28,6 +28,8 @@ Configure each accepted authority and its issuer, audience, access-token profile
 
 OIDC login is optional application integration. ID tokens are not API access tokens. Unknown providers or principal kinds are denied rather than guessed. An explicit custom adapter can cover a different protocol without weakening the core contract.
 
+For ROM Studio, the owner requested a branded sign-in screen and an optional direct handoff to a configured primary identity provider. The provider's managed configuration is a Resource, using the shared permissions and action path. This presentation/routing preference does not authenticate the visitor or bypass core policy. A visual mock explores primary selection separately from automatic handoff; exact uniqueness scope, trusted public login discovery, callback validation and failure/recovery behavior remain to be specified before implementing login. No provider credentials may be exposed through public discovery.
+
 ## Enforcement and transaction semantics
 
 All entrypoints call the same authorization seam, including observers and reactions. Apply action/resource/field checks before committing; authorize the response independently where it discloses data. Evaluate state-dependent policy against the revision committed, with conflict detection protecting that relationship. External policy changes are not automatically transactional with ROM persistence: define policy snapshot version/freshness at the operation boundary before implementation.

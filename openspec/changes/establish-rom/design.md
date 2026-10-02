@@ -82,6 +82,8 @@ Per-resource event ordering is required; global ordering is not. Consumers need 
 
 ### Public interface shape
 
+All managed application entities use Resource, including built-in User, identity-provider configuration and application settings. Configuration sources load values for the same accepted definitions. Executable plugins implement behavior while their managed settings remain Resources. Source precedence, provenance, write ownership, bootstrap and activation require explicit contracts; parsing a file is not equivalent to a successful runtime change. See the [configuration Resource research](../../../docs/research/configuration-resource-contract.md), [provider comparison](../../../docs/research/configuration-provider-research.md) and [Beskid hierarchy review](../../../docs/research/configuration-beskid-lessons.md). Exact precedence and loader selection remain proposals pending a focused probe.
+
 Expose operations to register resource kinds/field types, execute actions, read resources, observe live reads, and subscribe to committed changes. Concrete Rust signatures will follow the research and a minimal vertical slice. HTTP and RabbitMQ adapt this interface; neither becomes part of the core dependency graph.
 
 The owner approved a core-owned transport layer expressed through capabilities, with separate invocation, live-observation and journal-subscription contracts. Resource remains the application domain entity; invocation and subscription values are protocol machinery. Bindings declare supported operation families, codecs, limits and recovery semantics. Validate required combinations at registration and reject unsupported calls before effects. Capability support describes technical ability, not caller authority.
