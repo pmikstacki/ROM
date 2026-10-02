@@ -1,7 +1,7 @@
 ## 1. Validate the proposed design
 
 - [x] 1.1 Research primary protocol and Rust crate sources and record trust boundaries and alternatives.
-- [ ] 1.2 Select two provider profiles and demonstrate distinct issuer and human/service mappings in disposable examples.
+- [x] 1.2 Select two provider profiles and demonstrate distinct issuer and human/service mappings in disposable examples. Synthetic RS256 JWT and actual loopback introspection profiles; docs/research/auth-provider-probe-results.md. Real-provider and maintained-core integration remain unchecked.
 - [ ] 1.3 Resolve actor validity, field paths, policy snapshot/freshness, safe query behavior, and deleted-resource retry outcomes.
 - [ ] 1.4 Validate conceptual interfaces with an in-process caller and a transport adapter before fixing public Rust signatures.
 - [ ] 1.5 Specify User as a Resource, verified identity linking/provisioning, first-administrator bootstrap, protected account actions and disablement freshness; test the shared pipeline without a parallel user entity engine.

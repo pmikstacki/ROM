@@ -34,6 +34,7 @@ Research informs the design; candidate crates are not an approved dependency lis
 - [Independent promotion review and regression requirements](docs/research/integrated-core-promotion-review.md)
 - [Reactive chains: 19 tests, 110 comparisons and loop-control recommendations](docs/research/reaction-chain-results.md)
 - [Configuration loaders: 24 executed tests and critique](docs/research/configuration-trial-results.md)
+- [JWT and introspection profiles: executed verification and remaining integration](docs/research/auth-provider-probe-results.md)
 - [Tower/direct transport contracts: 15 executed tests and critique](docs/research/transport-trial-results.md)
 - [All MVP decisions, recommendations and completion inventory](docs/research/mvp-decision-register.md)
 - [Interchangeable adapters and resilience: executed findings](docs/research/capability-prototype-results.md)

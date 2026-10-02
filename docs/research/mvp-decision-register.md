@@ -63,9 +63,9 @@ must explain them; this MVP must not claim to implement them.
 | Execution, authoring, persistence/blob/notification/cache trials | Published executable evidence | Carry applicable cases into integrated tests; no wholesale prototype-copy claim. |
 | Configuration and transport trials | Independently verified 24 + 15 tests, published prototype branches | Reports on main; integrated seams still pending. |
 | Integrated typed core probe | Independently verified 18 tests and five compiler fixtures | [Report](integrated-core-probe-results.md); promotion review running. |
-| Auth provider profiles | Running | Locked executable verification and critique report. |
+| Auth provider profiles | Independently verified 19 runtime tests and one compile-fail | [Report](auth-provider-probe-results.md); provider verification must still connect to the maintained User/configuration lifecycle. |
 | Reactive chains | Independently verified 19 tests and 110 deterministic comparison rows | [Report](reaction-chain-results.md); actual durable worker still to integrate. |
-| Maintained reusable MVP | Not yet implemented | All tasks in integrate-resource-mvp pass, packaged consumer, review, documented boundaries. |
+| Maintained reusable MVP | Foundation implementation and persistence conformance running | All tasks in integrate-resource-mvp pass, packaged consumer, review, documented boundaries. |
 
 Keep this register current when evidence changes. It is a completion aid, not a
 substitute for executable acceptance or an assertion that all broad OpenSpec

@@ -1,5 +1,5 @@
 ## 1. Validate and inventory
-- [ ] 1.1 Independently verify and publish configuration, transport, integrated-core, auth-provider and reaction-chain trials.
+- [x] 1.1 Independently verify and publish configuration, transport, integrated-core, auth-provider and reaction-chain trials. Evidence: docs/research/*-trial-results.md, integrated-core-probe-results.md, auth-provider-probe-results.md and reaction-chain-results.md.
 - [ ] 1.2 Complete the decision register: behavior decisions, configurable policy, tested implementation choices and deferred profiles.
 - [ ] 1.3 Review the probe for promotion defects and record the integrated acceptance plan.
 
