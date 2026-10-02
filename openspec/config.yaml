@@ -1,0 +1,24 @@
+schema: spec-driven
+
+context: |
+  ROM means Resource Oriented Meta Framework, an MIT-licensed backend Rust library.
+  Resource is the sole domain entity. Actions request mutations; events describe
+  committed transitions; reactions submit actions through the core.
+  Core owns resource and field contracts, persistence guarantees and reactivity.
+  Rust extensions first. HTTP and RabbitMQ adapters are separate. WASM is deferred.
+  OpenSpec is the normative source. README and design documents are informative.
+  This repository is at specification stage; proposed behavior is not implemented.
+
+rules:
+  proposal:
+    - Describe compatibility, migration and reversion implications.
+  specs:
+    - Use SHALL or MUST for every normative requirement.
+    - Use GIVEN, WHEN and THEN bullets in every scenario.
+    - Keep extension-specific mechanisms outside core requirements.
+  design:
+    - State transaction, ownership, security and source-of-truth boundaries.
+    - Separate agreed direction from proposed or unresolved decisions.
+  tasks:
+    - Order work as validate, introduce, migrate, delete, then verify where applicable.
+    - Tie implementation tasks to observable acceptance scenarios.
