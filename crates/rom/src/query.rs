@@ -83,7 +83,7 @@ impl Runtime {
             actor: actor.clone(),
             query,
             changes,
-            initial: true,
+            delivered_generation: None,
             _permit: permit,
         })
     }
@@ -93,18 +93,26 @@ pub struct Live<R> {
     actor: Actor,
     query: Query<R>,
     changes: watch::Receiver<u64>,
-    initial: bool,
+    delivered_generation: Option<u64>,
     _permit: OwnedSemaphorePermit,
 }
 impl<R: Resource> Live<R> {
     pub async fn changed(&mut self) -> Result<Vec<Snapshot<R>>> {
-        self.runtime.check_actor(&self.actor)?;
-        self.runtime.ensure_open()?;
-        if !self.initial {
-            self.changes.changed().await.map_err(|_| Error::Closed)?;
+        loop {
+            self.runtime.check_actor(&self.actor)?;
+            self.runtime.ensure_open()?;
+            // watch tracks notifications; this handle separately tracks successful disclosure.
+            // Clearing watch's marker must not acknowledge a failed or cancelled query.
+            let generation = *self.changes.borrow_and_update();
+            if self.delivered_generation == Some(generation) {
+                self.changes.changed().await.map_err(|_| Error::Closed)?;
+                continue;
+            }
+            let rows = self.runtime.query(&self.actor, &self.query).await?;
+            // Capture before the query, so changes during it remain pending even if the
+            // returned snapshot happened to include them. A redundant refresh is safe.
+            self.delivered_generation = Some(generation);
+            return Ok(rows);
         }
-        self.initial = false;
-        self.changes.borrow_and_update();
-        self.runtime.query(&self.actor, &self.query).await
     }
 }

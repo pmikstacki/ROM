@@ -51,6 +51,9 @@ impl Storage for Blocking {
         self.inner.load(key)
     }
     fn snapshot(&self, kind: &str, max_rows: usize, max_bytes: usize) -> Result<Vec<Row>> {
+        if self.block.swap(false, Ordering::SeqCst) {
+            self.gate.wait();
+        }
         self.inner.snapshot(kind, max_rows, max_bytes)
     }
     fn receipt(&self, id: &str) -> Result<Option<Receipt>> {
@@ -410,4 +413,93 @@ async fn policy_panic_stops_runtime_without_partial_state() {
         Err(rom::Error::Panicked)
     ));
     assert!(matches!(rom.shutdown().await, Err(rom::Error::Panicked)));
+}
+async fn live_setup() -> (Runtime, Arc<Blocking>, rom::Live<Task>) {
+    let store = Arc::new(Blocking {
+        inner: Sqlite::open(":memory:").unwrap(),
+        gate: Gate::new(),
+        block: AtomicBool::new(false),
+    });
+    let rom = Runtime::builder()
+        .limits(rom::Limits {
+            io_jobs: 1,
+            ..rom::Limits::default()
+        })
+        .resource(Task::definition().policy(task_policy))
+        .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
+        .unwrap();
+    rom.execute(&actor(), Command::create("t", task()).idempotency("create"))
+        .await
+        .unwrap();
+    let live = rom
+        .live(&actor(), Task::done_field().equals(false))
+        .await
+        .unwrap();
+    (rom, store, live)
+}
+#[tokio::test]
+async fn overloaded_live_refresh_can_retry_without_another_mutation() {
+    let (rom, store, mut live) = live_setup().await;
+    store.block.store(true, Ordering::SeqCst);
+    let r = rom.clone();
+    let read = tokio::spawn(async move { r.read::<Task>(&actor(), "t").await });
+    tokio::time::timeout(Duration::from_secs(5), store.gate.started.notified())
+        .await
+        .unwrap();
+    assert!(matches!(live.changed().await, Err(rom::Error::Overloaded)));
+    store.gate.release();
+    read.await.unwrap().unwrap();
+    let retried = tokio::time::timeout(Duration::from_millis(50), live.changed()).await;
+    rom.shutdown().await.unwrap();
+    assert_eq!(
+        retried
+            .expect("unobserved state was forgotten after Overloaded")
+            .unwrap()
+            .len(),
+        1
+    );
+}
+#[tokio::test]
+async fn cancelled_live_refresh_can_retry_without_another_mutation() {
+    let (rom, store, mut live) = live_setup().await;
+    store.block.store(true, Ordering::SeqCst);
+    let mut refresh = Box::pin(live.changed());
+    tokio::select! {_=&mut refresh=>panic!("gated refresh completed"),_=store.gate.started.notified()=>{}}
+    drop(refresh);
+    store.gate.release();
+    tokio::time::timeout(Duration::from_secs(5), async {
+        while rom.available_io_capacity() == 0 {
+            tokio::task::yield_now().await;
+        }
+    })
+    .await
+    .unwrap();
+    let retried = tokio::time::timeout(Duration::from_millis(50), live.changed()).await;
+    rom.shutdown().await.unwrap();
+    assert_eq!(
+        retried
+            .expect("unobserved state was forgotten after cancellation")
+            .unwrap()
+            .len(),
+        1
+    );
+}
+#[tokio::test]
+async fn invalidation_during_live_query_remains_pending_after_success() {
+    let (rom, store, mut live) = live_setup().await;
+    store.block.store(true, Ordering::SeqCst);
+    let mut refresh = Box::pin(live.changed());
+    tokio::select! {_=&mut refresh=>panic!("gated refresh completed"),_=store.gate.started.notified()=>{}}
+    rom.revoke(&Actor::trusted("local", "unrelated"));
+    store.gate.release();
+    assert_eq!(refresh.await.unwrap().len(), 1);
+    let retried = tokio::time::timeout(Duration::from_millis(50), live.changed()).await;
+    rom.shutdown().await.unwrap();
+    assert_eq!(
+        retried
+            .expect("event during query was consumed without being observed")
+            .unwrap()
+            .len(),
+        1
+    );
 }
