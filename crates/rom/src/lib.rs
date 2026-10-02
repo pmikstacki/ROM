@@ -446,6 +446,9 @@ impl Default for Builder {
 impl Builder {
     pub fn resource<R: Resource>(mut self, d: Definition<R>) -> Self {
         let desc = d.descriptor();
+        if let Some(field)=desc.fields.iter().find(|f|matches!(&f.shape,Shape::Nullable(inner) if matches!(inner.as_ref(),Shape::Nullable(_)))) {
+            self.error=Some(Error::Unsupported(format!("{}: {}: nested nullable has no unambiguous codec",R::KIND,field.name)));
+        }
         let mut names = BTreeSet::new();
         if desc.kind != R::KIND
             || desc.kind.is_empty()
@@ -594,10 +597,10 @@ impl Runtime {
             id: cmd.id.clone(),
         };
         let operation = match &cmd.mutation {
-            Mutation::Create(_) => "create",
-            Mutation::Replace(_) => "replace",
-            Mutation::Delete => "delete",
-            Mutation::Action(n, _) => n,
+            Mutation::Create(_) => json!(["standard", "create"]),
+            Mutation::Replace(_) => json!(["standard", "replace"]),
+            Mutation::Delete => json!(["standard", "delete"]),
+            Mutation::Action(n, _) => json!(["custom", n]),
         };
         let identity = json!([
             actor.authority,
@@ -764,6 +767,9 @@ impl Runtime {
     }
     pub fn read<R: Resource>(&self, actor: &Actor, id: &str) -> Result<Snapshot<R>> {
         let denied = self.0.gate.lock().unwrap();
+        if denied.contains(&actor.key()) {
+            return Err(Error::Denied);
+        }
         let def = self.0.registry.get(R::KIND).ok_or(Error::Unregistered)?;
         let row = self
             .0
