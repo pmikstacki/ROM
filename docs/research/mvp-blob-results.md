@@ -103,3 +103,13 @@ quiescence; unknown metadata acknowledgment must be reconciled first. A successf
 publication followed by failed attachment can leave an orphan. Current reads are
 authorized again before disclosure; accepted finalization may run under the explicitly
 trusted worker as documented, and does not pretend to be an atomic SQL/S3 transaction.
+
+### Final drain review
+
+Independent review found that the active-work counter could reach zero before the
+supervised task released its last adapter/runtime owner. The lifecycle guard now
+owns only accounting state; task-owned services are dropped before signaling drain.
+A 32-iteration multithreaded regression checks adapter weak ownership after caller
+cancellation and shutdown. A temporary post-signal scheduling delay reproduced the
+old failure and passed with the fix; the delay is absent from production code.
+The coordinator reran all 12 lifecycle tests, the doctest and warning-free Clippy.

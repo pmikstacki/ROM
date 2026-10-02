@@ -52,18 +52,18 @@ struct Inner {
     stores: BTreeMap<String, Arc<dyn BlobStore>>,
     limits: Limits,
     admission: Arc<Semaphore>,
-    lifecycle: Mutex<Lifecycle>,
+    lifecycle: Arc<Mutex<Lifecycle>>,
     changed: watch::Sender<u64>,
 }
 struct Work {
-    inner: Arc<Inner>,
+    lifecycle: Arc<Mutex<Lifecycle>>,
+    changed: watch::Sender<u64>,
     _permit: OwnedSemaphorePermit,
 }
 impl Drop for Work {
     fn drop(&mut self) {
-        self.inner.lifecycle.lock().unwrap().active -= 1;
-        self.inner
-            .changed
+        self.lifecycle.lock().unwrap().active -= 1;
+        self.changed
             .send_modify(|value| *value = value.wrapping_add(1));
     }
 }
@@ -126,7 +126,7 @@ impl BlobService {
             stores,
             limits,
             admission: Arc::new(Semaphore::new(limits.operations)),
-            lifecycle: Mutex::new(Lifecycle::default()),
+            lifecycle: Arc::new(Mutex::new(Lifecycle::default())),
             changed: watch::channel(0).0,
         })))
     }
@@ -148,7 +148,8 @@ impl BlobService {
                 .map_err(|_| Error::Overloaded)?;
             state.active += 1;
             let work = Work {
-                inner: self.0.clone(),
+                lifecycle: self.0.lifecycle.clone(),
+                changed: self.0.changed.clone(),
                 _permit: permit,
             };
             let inner = self.0.clone();
@@ -166,6 +167,8 @@ impl BlobService {
                         Err(Error::Panicked)
                     }
                 };
+                // Release runtime/provider ownership before advertising quiescence.
+                drop(inner);
                 drop(work);
                 let _ = sender.send(result);
             });

@@ -476,3 +476,29 @@ async fn conflicting_or_partial_input_never_publishes() {
     assert!(service.upload(&alice, "one", failed).await.is_err());
     assert!(store.0.lock().unwrap().is_empty());
 }
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn shutdown_releases_all_adapter_owners_before_return() {
+    for _ in 0..32 {
+        let (runtime, service, store) = controlled(Limits::default());
+        let actor = Actor::trusted("test", "alice");
+        reserve(&service, &actor).await;
+        store.block_create.store(true, Ordering::SeqCst);
+        let (s, a) = (service.clone(), actor.clone());
+        let caller = tokio::spawn(async move { s.upload(&a, "one", upload(b"hello")).await });
+        store.started.notified().await;
+        caller.abort();
+        let _ = caller.await;
+        let weak = Arc::downgrade(&store);
+        store.release.notify_one();
+        service.shutdown().await.unwrap();
+        runtime.shutdown().await.unwrap();
+        drop(service);
+        drop(runtime);
+        drop(store);
+        assert!(
+            weak.upgrade().is_none(),
+            "drained service still retains backend owner"
+        );
+    }
+}
