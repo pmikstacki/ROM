@@ -1,5 +1,32 @@
 # Maintained persistence adapters
 
+## Current maintained profile
+
+Both adapters currently use **format 3**, with no implicit migration from earlier
+experimental formats. The core-owned bundle includes state/revision, durable
+receipt, journal and effect/work records in one native transaction. Journal
+retention and receipt/effect/work capacities are bounded; cursor gaps and
+unsupported formats fail explicitly. Runtime owns asynchronous scheduling over
+these synchronous ports. Exactly one Runtime owns writes and invalidation per
+deployment; sharing a Storage handle across independent runtimes is unsupported
+host misuse, not automatically prevented by registration.
+
+See the current [journal](research/maintained-http-journal.md),
+[reactions](research/maintained-reaction-results.md),
+[channels](research/maintained-channel-results.md), and
+[backup/recovery](research/maintained-backup-results.md) reports. Both adapters
+provide a bounded, checksummed native backup and fresh-destination restore.
+External blob bytes and original-host cutover fencing remain operator duties.
+Deletion is a logical tombstone, not physical erasure.
+
+Run `cargo test -p rom-storage-conformance --locked` from the repository root.
+The sections below preserve the original format-one milestone and its test
+results; their then-missing journal/worker/backup features are superseded by the
+current profile and linked reports. Machine power-loss and multiple-writer
+certification remain outside the evidence.
+
+## Historical foundation milestone
+
 The maintained `rom-sqlite` and `rom-redb` crates implement the same core-owned `Storage` contract. Resource remains the only application domain entity. A `Bundle` contains an expected revision, a receipt with canonical action fingerprint and resulting row, a changed flag, and zero or more effect intentions. Driver types stay outside `rom`.
 
 ## Public boundary

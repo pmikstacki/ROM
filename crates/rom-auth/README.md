@@ -16,9 +16,22 @@ All time checks use the supplied **trusted host** Unix time. Never accept that a
 
 ## Host integration boundary
 
-There is deliberately no compiled `Actor::trusted` conversion. The maintained core expiry API provides `.expires_at(verified.valid_until())`, but its current actor identity still lacks principal kind. Integration must either extend actor/receipt identity with that kind or apply a validated host mapping from `(verified.authority(), verified.principal_kind())` to a distinct authority namespace **before** calling `Actor::trusted(mapped_authority, verified.subject()).expires_at(verified.valid_until())`. An unqualified direct conversion would silently merge human/service namespaces. The core must enforce expiry on every action/read/retry/event delivery and resolve explicit User bindings through its Resource derive and shared persistence/actions. Disabling a User or changing IdentityProvider trust needs current policy/configuration generation checks. Do not create another User store or promote the disposable prototype's Core.
+The maintained integration is [rom-identity](../rom-identity/README.md).
+`ProviderActivation` binds verification to a particular authorized provider
+configuration revision; its verified evidence resolves an explicit IdentityLink
+and User into an Actor. Actor identity includes authority, principal kind and
+subject, with exclusive expiry. Core checks current provider/link/User state
+before Resource lookup and at subsequent authorization checkpoints, including
+commit, receipt replay and live delivery. Configuration changes invalidate old
+bindings. There is no implicit email linking or separate User store.
 
-Only the host should construct adapters from authorized, validated IdentityProvider Resource state. Changing a configuration Resource is not yet wired to verifier replacement or existing-proof invalidation. First-admin recovery, durable linking uniqueness, issuer generations, real provider interoperability, TLS failure tests, discovery, secret rotation and delegated client identity remain separate integration work. This crate implements two narrow profiles, not universal OIDC login, sessions, JWE, mTLS or DPoP.
+The native host must construct the verifier from the exact configuration supplied
+to the activation callback. Credentials remain host secret references. Bootstrap
+identities are explicitly allow-listed; automatic first-admin enrollment, remote
+OIDC discovery, universal login/sessions, tenant policy, secret rotation and real
+provider interoperability remain outside these tested verification profiles.
+The profile tests use generated keys and local introspection fixtures, not a
+production provider certification.
 
 ## Verification and dependencies
 

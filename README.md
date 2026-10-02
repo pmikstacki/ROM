@@ -27,6 +27,11 @@ Start with the [OpenSpec proposal](openspec/changes/establish-rom/proposal.md), 
 
 Research informs the design; candidate crates are not an approved dependency list.
 
+- [Complete research and prototype index](docs/research/completion-index.md)
+- [Executable author workshop](demo/README.md)
+- [Configuration ingestion](docs/research/maintained-configuration-results.md)
+- [Blob lifecycle and real storage trials](docs/research/mvp-blob-results.md)
+- [Backup and recovery](docs/research/maintained-backup-results.md)
 - [RIM source assessment and ideas carried into ROM](docs/research/rim-source-assessment.md)
 - [Framework comparisons and Rust crate candidates](docs/research/frameworks-and-rust-crates.md)
 - [Six-framework comparison and ranked recommendations](docs/research/state-of-art-resource-frameworks.md)
@@ -73,7 +78,7 @@ Research informs the design; candidate crates are not an approved dependency lis
 
 ## Development
 
-Use `./scripts/check` for local verification and `./scripts/build` to build. The initial tested Rust floor is 1.99.0. See the [persistent NixOS environment](infra/nixos/README.md). GitHub Actions is disabled. The [consumer](examples/consumer/src/main.rs) exercises two Resources through the public library; the [demo](demo/README.md) remains reserved for the completed first core milestone.
+Use `./scripts/check` for local verification and `./scripts/build` to build. The initial tested Rust floor is 1.99.0. See the [persistent NixOS environment](infra/nixos/README.md). GitHub Actions is disabled. The [consumer](examples/consumer/src/main.rs) exercises two Resources through the public library; the [demo](demo/README.md) now combines the maintained packages in an executable author workshop.
 
 ```sh
 nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM && ./scripts/check'
@@ -85,9 +90,8 @@ queries, cancellation-safe shutdown, actor expiry, and SQLite/redb conformance.
 Field projection, verified-identity mapping to User Resources, durable reaction
 workers, notification channels and generic HTTP are integrated. Partial changes
 preserve missing/null/removal, and queries share typed and wire semantics.
-Configuration ingestion, Blob lifecycle, backup/recovery and the final assembled
-demo are the remaining integration packages. The dependency and packaging checks
-are rerun as those packages enter the workspace.
+Configuration ingestion, Blob lifecycle, native backup/recovery and the assembled
+demo are integrated. Final review and release checks cover their combined behavior.
 The [maintained verification record](docs/research/maintained-foundation-results.md)
 and [storage contract](docs/storage-adapters.md) supersede the corresponding
 limitations of the original disposable probe.
