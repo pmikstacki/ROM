@@ -80,6 +80,8 @@ Proposed starting point: current state plus durable event journal and pending-wo
 
 Per-resource event ordering is required; global ordering is not. Consumers need bounded buffering, retry limits and an inspectable failed-work state. Cross-resource reactions must carry causal context and be bounded to prevent infinite feedback loops. Exact scheduling and replay contracts need a follow-up spec.
 
+The owner selected reactive chains as the default cross-resource behavior: a committed mutation triggers a reaction that submits the next action through the same core. A failed downstream step does not revert upstream commits; retryable work is retried under bounded policy. Compensation, if later exposed, is an explicit authorized action. Multi-resource atomic transactions are not implied by this decision. Exact retry, causal-depth and elapsed-time budgets remain configuration/design questions.
+
 ### Public interface shape
 
 All managed application entities use Resource, including built-in User, identity-provider configuration and application settings. Configuration sources load values for the same accepted definitions. Executable plugins implement behavior while their managed settings remain Resources. Source precedence, provenance, write ownership, bootstrap and activation require explicit contracts; parsing a file is not equivalent to a successful runtime change. See the [configuration Resource research](../../../docs/research/configuration-resource-contract.md), [provider comparison](../../../docs/research/configuration-provider-research.md) and [Beskid hierarchy review](../../../docs/research/configuration-beskid-lessons.md). Exact precedence and loader selection remain proposals pending a focused probe.

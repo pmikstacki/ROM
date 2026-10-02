@@ -22,6 +22,15 @@ Reaction progress SHALL survive process restart and permit safe retry of unackno
 - **WHEN** the process restarts
 - **THEN** the pending event can be delivered again with the same identity
 
+### Requirement: Reaction chains preserve prior commits
+A committed mutation MAY trigger registered reactions that submit actions for other Resources. Failure of a downstream action SHALL NOT implicitly revert earlier committed mutations in the chain. Retryable failed steps SHALL remain recoverable under an explicit bounded retry policy. Exhausted or non-retryable work SHALL have an inspectable terminal outcome. Any compensation SHALL be a separate authorized action, not an implicit rollback of committed history.
+
+#### Scenario: A downstream mutation fails
+- **GIVEN** a mutation of Resource A committed and triggered a reaction targeting Resource B
+- **WHEN** the action on B fails with a retryable error
+- **THEN** A retains its committed revision and the downstream work remains eligible for bounded retry
+- **AND** no successful mutation event for B is published before its commit
+
 ### Requirement: Ordered resource history
 Committed events SHALL preserve revision order within each resource.
 

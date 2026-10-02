@@ -11,8 +11,8 @@
 
 - [x] 1.8 Execute current derive and builder crate trials, including negative diagnostics and reusable helpers; evidence: docs/research/authoring-crate-trials.md. This does not complete the human walkthrough or production dependency selection.
 - [x] 1.9 Review Beskid compiler/Rust lessons and align registration, diagnostics and codec-conformance requirements; evidence: docs/research/beskid-compiler-lessons.md.
-- [x] 1.10 Research configuration Resources, hierarchical source providers and Beskid's implemented precedence; evidence: docs/research/configuration-*-*.md. No configuration-provider trials have run.
-- [ ] 1.11 Specify and probe configuration import, source ownership, provenance, bootstrap and validated activation; compare config-rs and Figment without adding a second Resource schema.
+- [x] 1.10 Research configuration Resources, hierarchical source providers and Beskid's implemented precedence; evidence: docs/research/configuration-*-*.md.
+- [x] 1.11 Specify and probe configuration import, source ownership, provenance, bootstrap and validated activation; compare config-rs and Figment without adding a second Resource schema. Evidence: docs/research/configuration-trial-results.md; durable reconciliation and real provider activation remain implementation work.
 
 ## 2. Introduce the core
 
@@ -32,7 +32,7 @@
 ## 4. Extend and verify
 
 - [ ] 4.1 Specify separate HTTP and RabbitMQ integrations; verify core dependency independence.
-- [ ] 4.5 Trial Tower-style composition against core transport capabilities, including readiness, cancellation and bounded stream lifetime; compare with direct focused Rust interfaces before selecting the implementation.
+- [x] 4.5 Trial Tower-style composition against core transport capabilities, including readiness, cancellation and bounded stream lifetime; compare with direct focused Rust interfaces before selecting the implementation. Evidence: docs/research/transport-trial-results.md; Tower stays optional, actual bindings remain 4.6.
 - [ ] 4.6 Verify shared invocation vectors through embedded calls and actual HTTP/broker bindings, including unsupported profiles, lost replies, current authorization and distinct live/journal recovery.
 - [ ] 4.2 Add schema-evolution and compatibility tests before any persisted format is released.
 - [ ] 4.3 Verify all capability scenarios and adopted quality gates before marking implementation complete.
