@@ -1,0 +1,72 @@
+{
+  "supplements": [
+    {
+      "name": "jni",
+      "version": "0.22.4",
+      "revision": "5ae9458a4ec44c5318f37ddc7569c1d4ae8a69e7",
+      "url": "https://raw.githubusercontent.com/jni-rs/jni-rs/5ae9458a4ec44c5318f37ddc7569c1d4ae8a69e7/LICENSE-MIT",
+      "file": "jni-0.22.4-MIT.txt",
+      "sha256": "fea1d5bf3dd71605ce5d7d2ff695c1837e914c77195e523a86b5391716477960",
+      "license": "MIT",
+      "reason": "Repository-root license omitted from published Cargo archive"
+    },
+    {
+      "name": "jni-macros",
+      "version": "0.22.4",
+      "revision": "33045a124105c939d1e2cbdcb5a39e5d868ffa03",
+      "url": "https://raw.githubusercontent.com/jni-rs/jni-rs/33045a124105c939d1e2cbdcb5a39e5d868ffa03/LICENSE-MIT",
+      "file": "jni-macros-0.22.4-MIT.txt",
+      "sha256": "fea1d5bf3dd71605ce5d7d2ff695c1837e914c77195e523a86b5391716477960",
+      "license": "MIT",
+      "reason": "Repository-root license omitted from published Cargo archive"
+    },
+    {
+      "name": "jni-sys-macros",
+      "version": "0.4.1",
+      "revision": "64d77b7a5f119d7b55b4e2c169a4668067ff59e6",
+      "url": "https://raw.githubusercontent.com/jni-rs/jni-sys/64d77b7a5f119d7b55b4e2c169a4668067ff59e6/LICENSE-MIT",
+      "file": "jni-sys-macros-0.4.1-MIT.txt",
+      "sha256": "1d85bd754b04ceec93e98e890edd1fa3c6a22e81bcb32135806beeccefa51cd1",
+      "license": "MIT",
+      "reason": "Repository-root license omitted from published Cargo archive"
+    },
+    {
+      "name": "rsqlite-vfs",
+      "version": "0.1.1",
+      "revision": "1bb309784f25c401ddf95131dcde4c4cdad7aee7",
+      "url": "https://raw.githubusercontent.com/Spxg/sqlite-wasm-rs/1bb309784f25c401ddf95131dcde4c4cdad7aee7/LICENSE",
+      "file": "rsqlite-vfs-0.1.1-MIT.txt",
+      "sha256": "e1c1975c3474cce31722836f101a40ffaf1cc784e4d2f38ce3e77b9712934e78",
+      "license": "MIT",
+      "reason": "Repository-root license omitted from published Cargo archive"
+    },
+    {
+      "name": "rustls-platform-verifier-android",
+      "version": "0.2.0",
+      "revision": "252e25161a91af476cbea620e29d277592d27ec7",
+      "url": "https://raw.githubusercontent.com/rustls/rustls-platform-verifier/252e25161a91af476cbea620e29d277592d27ec7/LICENSE-MIT",
+      "file": "rustls-platform-verifier-android-0.2.0-MIT.txt",
+      "sha256": "1c7cf76689c837a68ed8d704994e52a0f2940c087958f860d17f3186afbdcc0c",
+      "license": "MIT",
+      "reason": "Repository-root license omitted from published Cargo archive"
+    }
+  ],
+  "archiveFiles": [
+    {
+      "name": "r-efi",
+      "version": "6.0.0",
+      "files": [
+        "AUTHORS"
+      ]
+    },
+    {
+      "name": "ring",
+      "version": "0.17.14",
+      "files": [
+        "src/polyfill/once_cell/LICENSE-APACHE",
+        "src/polyfill/once_cell/LICENSE-MIT",
+        "third_party/fiat/LICENSE"
+      ]
+    }
+  ]
+}
