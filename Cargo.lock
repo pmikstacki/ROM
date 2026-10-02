@@ -1074,6 +1074,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "rom-identity"
+version = "0.1.0-alpha.1"
+dependencies = [
+ "jsonwebtoken",
+ "rom",
+ "rom-auth",
+ "rom-sqlite",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
 name = "rom-redb"
 version = "0.1.0-alpha.1"
 dependencies = [

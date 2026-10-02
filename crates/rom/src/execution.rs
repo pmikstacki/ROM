@@ -325,6 +325,36 @@ impl Runtime {
         }
         Err(Error::Overloaded)
     }
+    /// Trusted host identity integration, not a transport endpoint. Resolves a
+    /// candidate through bounded read-only I/O, then applies current actor checks.
+    /// The callback may be retried after a concurrent managed Resource mutation.
+    pub async fn establish_actor<F>(&self, resolve: F) -> Result<Actor>
+    where
+        F: Fn(&mut dyn AuthorizationRead) -> Result<Actor> + Send + Sync + 'static,
+    {
+        let resolve = Arc::new(resolve);
+        for _ in 0..8 {
+            let resolve = resolve.clone();
+            let (actor, generation) = self
+                .io(move |runtime| {
+                    let _guard = runtime.0.gate.lock().map_err(|_| Error::Panicked)?;
+                    let actor = resolve(&mut policy::GateRead {
+                        storage: runtime.0.storage.as_ref(),
+                        reads: 8,
+                        bytes: runtime.0.limits.command_bytes,
+                    })?;
+                    runtime.check_authority(&actor)?;
+                    Ok((actor, runtime.0.generation.load(Ordering::SeqCst)))
+                })
+                .await?;
+            self.check_actor(&actor)?;
+            self.ensure_open()?;
+            if generation == self.0.generation.load(Ordering::SeqCst) {
+                return Ok(actor);
+            }
+        }
+        Err(Error::Overloaded)
+    }
     pub async fn execute<R: Resource>(
         &self,
         actor: &Actor,

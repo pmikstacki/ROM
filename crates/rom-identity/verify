@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/../.."
+export CARGO_BUILD_JOBS=2
+export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$PWD/target/identity}"
+[[ "$(rustc --version)" == "rustc 1.99.0 "* ]]
+command -v openssl >/dev/null
+cargo fmt -p rom-identity -p rom -- --check
+cargo clippy -p rom-identity --all-targets --locked -- -D warnings
+cargo test -p rom-identity --locked
+RUSTDOCFLAGS='-D warnings' cargo doc -p rom-identity --no-deps --locked
+cargo tree -p rom-identity --edges normal --locked > "$CARGO_TARGET_DIR/identity-dependencies.txt"
+if rg 'jsonwebtoken|reqwest|rusqlite|redb|aws-lc' "$CARGO_TARGET_DIR/identity-dependencies.txt"; then
+  echo 'Provider or database driver entered identity normal dependency graph' >&2
+  exit 1
+fi

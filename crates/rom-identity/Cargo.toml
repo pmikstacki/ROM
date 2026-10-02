@@ -1,0 +1,24 @@
+[package]
+name = "rom-identity"
+description = "Native identity Resources and current verified-identity bindings for ROM hosts"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+license.workspace = true
+repository.workspace = true
+readme = "README.md"
+[lints]
+workspace = true
+[features]
+default = []
+[dependencies]
+rom.workspace = true
+rom-auth = { version = "=0.1.0-alpha.1", path = "../rom-auth", default-features = false }
+serde.workspace = true
+serde_json.workspace = true
+[dev-dependencies]
+rom-auth = { version = "=0.1.0-alpha.1", path = "../rom-auth", default-features = false, features = ["jwt"] }
+jsonwebtoken = { version = "=11.1.0", default-features = false, features = ["aws_lc_rs", "use_pem"] }
+rom-sqlite.workspace = true
+tokio.workspace = true
