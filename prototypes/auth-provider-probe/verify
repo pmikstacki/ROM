@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+export CARGO_BUILD_JOBS=2
+export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$PWD/target}"
+rustc --version
+cargo --version
+command -v openssl >/dev/null
+cargo fmt --check
+cargo clippy --workspace --all-targets --locked -- -D warnings
+cargo test --workspace --locked
+cargo tree --locked -p rom-auth-probe-core --edges normal
