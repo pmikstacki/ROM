@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+rustc --version
+cargo --version
+cargo fmt --all -- --check
+cargo clippy --workspace --all-targets --locked -- -D warnings
+cargo build --workspace --all-targets --locked
+cargo test --workspace --locked
+cargo run --locked -p notification-sqlite-probe --example custom_function
+cargo tree --locked -p notification-core
