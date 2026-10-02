@@ -86,8 +86,8 @@ fn expand(input: DeriveInput) -> syn::Result<proc_macro2::TokenStream> {
             ));
         }
         descriptors.push(quote_spanned!(ty.span()=> #facade::FieldDescriptor { name:#wire.into(), shape:<#ty as #facade::Field>::shape() }));
-        encodes.push(quote_spanned!(ty.span()=> map.insert(#wire.into(),<#ty as #facade::Field>::encode(&self.#id));));
-        decodes.push(quote_spanned!(ty.span()=> #id:<#ty as #facade::Field>::decode(map.remove(#wire).ok_or_else(||#facade::Error::invalid(Self::KIND,#wire))?).map_err(|_|#facade::Error::invalid(Self::KIND,#wire))?));
+        encodes.push(quote_spanned!(ty.span()=> if <#ty as #facade::Field>::is_present(&self.#id) { map.insert(#wire.into(),<#ty as #facade::Field>::encode(&self.#id)); }));
+        decodes.push(quote_spanned!(ty.span()=> #id:match map.remove(#wire) { Some(value) => <#ty as #facade::Field>::decode(value), None => <#ty as #facade::Field>::decode_missing() }.map_err(|_|#facade::Error::invalid(Self::KIND,#wire))?));
         field_codecs.push(quote_spanned!(ty.span()=> #wire => <#ty as #facade::Field>::decode(value).map(|decoded|<#ty as #facade::Field>::encode(&decoded)),));
         let sel = format_ident!("{}_field", id);
         let selector_doc = format!(

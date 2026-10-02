@@ -50,6 +50,22 @@ impl Runtime {
         outcome: &Row,
     ) -> Result<()> {
         let projected = self.project_outcome(actor, current, outcome)?;
+        let def = self
+            .0
+            .registry
+            .get(&outcome.key.kind)
+            .ok_or(Error::Unregistered)?;
+        if let Some(value) = outcome.value.as_ref() {
+            for field in def.descriptor().fields {
+                if !def.allows_field(actor, Access::Read, &field.name, value)
+                    || current
+                        .and_then(|r| r.value.as_ref())
+                        .is_some_and(|v| !def.allows_field(actor, Access::Read, &field.name, v))
+                {
+                    return Err(Error::Denied);
+                }
+            }
+        }
         if projected.value.as_ref().map(|m| m.len())
             != outcome
                 .value

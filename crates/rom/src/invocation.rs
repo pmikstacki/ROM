@@ -21,6 +21,7 @@ pub struct Invocation {
 pub enum Operation {
     Create(Value),
     Replace(Value),
+    Patch(BTreeMap<String, FieldUpdate>),
     Delete,
     Action { name: String, input: Value },
 }
@@ -63,6 +64,7 @@ impl Invocation {
         let operation = match &self.operation {
             Operation::Create(_) => json!(["standard", "create"]),
             Operation::Replace(_) => json!(["standard", "replace"]),
+            Operation::Patch(_) => json!(["standard", "patch"]),
             Operation::Delete => json!(["standard", "delete"]),
             Operation::Action { name, .. } => json!(["custom", name]),
         };
@@ -86,6 +88,7 @@ impl Invocation {
             mutation: match self.operation {
                 Operation::Create(v) => Mutation::Create(v),
                 Operation::Replace(v) => Mutation::Replace(v),
+                Operation::Patch(v) => Mutation::Patch(v),
                 Operation::Delete => Mutation::Delete,
                 Operation::Action { name, input } => Mutation::Action(name, input),
             },
@@ -102,6 +105,7 @@ impl<R: Resource> From<Command<R>> for Invocation {
             operation: match command.mutation {
                 Mutation::Create(v) => Operation::Create(v),
                 Mutation::Replace(v) => Operation::Replace(v),
+                Mutation::Patch(v) => Operation::Patch(v),
                 Mutation::Delete => Operation::Delete,
                 Mutation::Action(name, input) => Operation::Action { name, input },
             },

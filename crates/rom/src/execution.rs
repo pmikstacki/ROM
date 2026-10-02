@@ -484,10 +484,16 @@ impl Runtime {
         };
         let input = match &cmd.mutation {
             Mutation::Create(v) | Mutation::Replace(v) => def.normalize(v.clone())?,
+            Mutation::Patch(fields) => serde_json::to_value(normalize_patch(def.as_ref(), fields)?)
+                .map_err(|_| Error::Storage)?,
             Mutation::Delete => Value::Null,
             Mutation::Action(_, v) => v.clone(),
         };
-        let explicit_fields = !matches!(cmd.mutation, Mutation::Action(_, _));
+        let explicit_fields = !matches!(cmd.mutation, Mutation::Action(_, _) | Mutation::Patch(_));
+        let patch_fields = match &cmd.mutation {
+            Mutation::Patch(fields) => Some(fields.keys().cloned().collect::<Vec<_>>()),
+            _ => None,
+        };
         let fingerprint = json!([cmd.expected, input]).to_string();
         let prior = {
             let denied = self.0.gate.lock().unwrap();
@@ -520,6 +526,24 @@ impl Runtime {
         // Native business functions compute proposals off Tokio. They must be pure w.r.t. external effects.
         let (new_value, effects) = match cmd.mutation {
             Mutation::Create(v) | Mutation::Replace(v) => (Some(def.normalize(v)?), vec![]),
+            Mutation::Patch(fields) => {
+                let mut value = prior
+                    .as_ref()
+                    .and_then(|r| r.value.clone())
+                    .ok_or(Error::Missing)?;
+                let map = value.as_object_mut().ok_or(Error::Storage)?;
+                for (name, update) in normalize_patch(def.as_ref(), &fields)? {
+                    match update {
+                        FieldUpdate::Set(v) => {
+                            map.insert(name, v);
+                        }
+                        FieldUpdate::Remove => {
+                            map.remove(&name);
+                        }
+                    }
+                }
+                (Some(def.normalize(value)?), vec![])
+            }
             Mutation::Delete => (None, vec![]),
             Mutation::Action(name, input) => {
                 let value = prior
@@ -542,6 +566,21 @@ impl Runtime {
             .is_some_and(|v| !def.allows(actor, Access::Write, v))
         {
             return Err(Error::Denied);
+        }
+        if let Some(fields) = patch_fields.as_ref() {
+            for field in fields {
+                for value in [
+                    prior.as_ref().and_then(|r| r.value.as_ref()),
+                    new_value.as_ref(),
+                ]
+                .into_iter()
+                .flatten()
+                {
+                    if !def.allows_field(actor, Access::Write, field, value) {
+                        return Err(Error::Denied);
+                    }
+                }
+            }
         }
         self.authorize_fields(
             actor,

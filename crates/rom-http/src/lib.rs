@@ -165,10 +165,30 @@ struct Read {
 }
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Query {
+struct EqualityQuery {
     kind: String,
     field: String,
     value: Value,
+}
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct StructuredQuery {
+    kind: String,
+    query: rom::QuerySpec,
+}
+#[derive(Deserialize)]
+#[serde(untagged)]
+enum Query {
+    Structured(StructuredQuery),
+    Equality(EqualityQuery),
+}
+impl Query {
+    fn into_spec(self) -> (String, rom::QuerySpec) {
+        match self {
+            Self::Structured(q) => (q.kind, q.query),
+            Self::Equality(q) => (q.kind, rom::QuerySpec::equal(q.field, q.value)),
+        }
+    }
 }
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -186,12 +206,8 @@ async fn read(State(s): State<Shared>, r: Request) -> Result<Response, Failure> 
 }
 async fn query(State(s): State<Shared>, r: Request) -> Result<Response, Failure> {
     let (a, c, _permit) = decode::<Query>(&s, r).await?;
-    Ok(Json(
-        s.runtime
-            .query_projected(&a, &c.kind, &c.field, c.value)
-            .await?,
-    )
-    .into_response())
+    let (kind, spec) = c.into_spec();
+    Ok(Json(s.runtime.query_spec_projected(&a, &kind, spec).await?).into_response())
 }
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -208,10 +224,8 @@ async fn journal(State(s): State<Shared>, r: Request) -> Result<Response, Failur
 }
 async fn live(State(s): State<Shared>, r: Request) -> Result<Response, Failure> {
     let (a, c, _permit) = decode::<Query>(&s, r).await?;
-    let handle = s
-        .runtime
-        .live_projected(&a, &c.kind, &c.field, c.value)
-        .await?;
+    let (kind, spec) = c.into_spec();
+    let handle = s.runtime.live_spec_projected(&a, &kind, spec).await?;
     Ok(observe(s, a, handle, |handle| {
         Box::pin(async move { handle.changed().await })
     }))

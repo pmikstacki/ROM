@@ -873,3 +873,45 @@ async fn expired_history_requires_explicit_head_then_snapshot_recovery() {
     assert_eq!(body(&resumed)["events"], json!([]));
     server.finish().await;
 }
+#[tokio::test]
+async fn structured_queries_and_patches_use_the_generic_wire_contract() {
+    let server = Server::start(Limits::default()).await;
+    assert_eq!(
+        status(
+            &server
+                .post(
+                    "/invoke",
+                    "owner-secret",
+                    &serde_json::to_string(&create()).unwrap()
+                )
+                .await
+        ),
+        200
+    );
+    let query =
+        r#"{"kind":"tasks","query":{"filters":[{"field":"done","value":false}],"limit":1}}"#;
+    let response = server.post("/query", "owner-secret", query).await;
+    assert_eq!(status(&response), 200);
+    assert_eq!(body(&response).as_array().unwrap().len(), 1);
+    let patch = r#"{"kind":"tasks","id":"one","expected":1,"idempotency":"patch","operation":{"type":"patch","input":{"done":{"op":"set","value":true}}}}"#;
+    assert_eq!(
+        status(&server.post("/invoke", "owner-secret", patch).await),
+        200
+    );
+    assert_eq!(
+        body(&server.post("/query", "owner-secret", query).await)
+            .as_array()
+            .unwrap()
+            .len(),
+        0
+    );
+    let mut stream = server.stream("/live", query).await;
+    assert!(until(&mut stream, "event: data").await.contains("data: []"));
+    drop(stream);
+    let ambiguous = r#"{"kind":"tasks","field":"done","value":true,"query":{"filters":[]}}"#;
+    assert_eq!(
+        status(&server.post("/query", "owner-secret", ambiguous).await),
+        400
+    );
+    server.finish().await;
+}

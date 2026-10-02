@@ -7,6 +7,7 @@ pub enum Shape {
     I64,
     F64,
     Nullable(Box<Shape>),
+    Optional(Box<Shape>),
     List(Box<Shape>),
     Map(Box<Shape>),
     Enum(Vec<String>),
@@ -16,6 +17,18 @@ pub trait Field: Clone + Send + Sync + 'static {
     fn shape() -> Shape;
     fn encode(&self) -> Value;
     fn decode(value: Value) -> Result<Self>;
+    fn is_present(&self) -> bool {
+        true
+    }
+    fn decode_missing() -> Result<Self> {
+        Err(Error::invalid("input", "missing field"))
+    }
+    fn encode_input(&self) -> Value {
+        self.encode()
+    }
+    fn decode_input(value: Value) -> Result<Self> {
+        Self::decode(value)
+    }
 }
 macro_rules! scalar {
     ($ty:ty,$shape:ident,$get:ident,$map:expr) => {
@@ -177,10 +190,11 @@ pub trait Input: Clone + Send + Sync + 'static {
 }
 impl<T: Field> Input for T {
     fn encode(&self) -> Value {
-        Field::encode(self)
+        Field::encode_input(self)
     }
     fn decode(v: Value) -> Result<Self> {
-        T::decode(v)
+        validate_shape(&T::shape(), 0, None)?;
+        T::decode_input(v)
     }
 }
 impl Input for () {
@@ -230,7 +244,11 @@ impl<R: Resource, T: Field> FieldRef<R, T> {
     }
     pub fn equals(self, value: T) -> Query<R> {
         Query {
-            spec: QuerySpec::equal(self.name, Field::encode(&value)),
+            spec: if value.is_present() {
+                QuerySpec::equal(self.name, Field::encode(&value))
+            } else {
+                QuerySpec::absent(self.name)
+            },
             marker: PhantomData,
         }
     }
@@ -242,7 +260,11 @@ pub struct Query<R> {
 }
 impl<R: Resource> Query<R> {
     pub fn and<T: Field>(mut self, field: FieldRef<R, T>, value: T) -> Self {
-        self.spec = self.spec.and(field.name, Field::encode(&value));
+        self.spec = if value.is_present() {
+            self.spec.and(field.name, Field::encode(&value))
+        } else {
+            self.spec.and_absent(field.name)
+        };
         self
     }
     pub fn after_id(mut self, id: impl Into<String>) -> Self {
@@ -366,13 +388,18 @@ impl<R: Resource> Registered for Definition<R> {
         let map = value
             .as_object()
             .ok_or_else(|| Error::invalid(R::KIND, "codec object"))?;
-        if map.len() != descriptor.fields.len() {
+        if map
+            .keys()
+            .any(|key| !descriptor.fields.iter().any(|f| &f.name == key))
+        {
             return Err(Error::invalid(R::KIND, "codec fields"));
         }
         for field in &descriptor.fields {
             if !map
                 .get(&field.name)
-                .is_some_and(|v| matches_shape(v, &field.shape))
+                .map_or(matches!(field.shape, Shape::Optional(_)), |v| {
+                    matches_shape(v, &field.shape)
+                })
             {
                 return Err(Error::invalid(R::KIND, &field.name));
             }
@@ -409,6 +436,7 @@ pub(crate) fn matches_shape(value: &Value, shape: &Shape) -> bool {
         Shape::I64 => value.as_i64().is_some(),
         Shape::F64 => value.as_f64().is_some_and(f64::is_finite),
         Shape::Nullable(inner) => value.is_null() || matches_shape(value, inner),
+        Shape::Optional(inner) => matches_shape(value, inner),
         Shape::List(inner) => value
             .as_array()
             .is_some_and(|vs| vs.iter().all(|v| matches_shape(v, inner))),
@@ -431,6 +459,14 @@ pub(crate) fn validate_shape(
         return Err(Error::Unsupported("field shape nesting exceeds 16".into()));
     }
     match shape {
+        Shape::Optional(inner) => {
+            if depth != 0 {
+                return Err(Error::Unsupported(
+                    "presence is only valid on a top-level Resource field".into(),
+                ));
+            }
+            validate_shape(inner, depth + 1, kinds)
+        }
         Shape::Nullable(inner) => {
             if matches!(inner.as_ref(), Shape::Nullable(_)) {
                 return Err(Error::Unsupported(
@@ -471,6 +507,7 @@ pub(crate) fn validate_shape(
 pub(crate) enum Mutation {
     Create(Value),
     Replace(Value),
+    Patch(BTreeMap<String, FieldUpdate>),
     Delete,
     Action(String, Value),
 }
@@ -498,6 +535,15 @@ impl<R: Resource> Command<R> {
             expected: None,
             identity: String::new(),
             mutation: Mutation::Replace(value.encode()),
+            marker: PhantomData,
+        }
+    }
+    pub fn patch(id: &str, patch: Patch<R>) -> Self {
+        Self {
+            id: id.into(),
+            expected: None,
+            identity: String::new(),
+            mutation: Mutation::Patch(patch.fields),
             marker: PhantomData,
         }
     }

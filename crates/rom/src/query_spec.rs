@@ -4,6 +4,8 @@ use super::*;
 pub struct Equality {
     pub field: String,
     pub value: Value,
+    #[serde(default)]
+    pub absent: bool,
 }
 /// Conjunctive equality and moving-view ID keyset pagination. No snapshot is retained.
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
@@ -27,6 +29,18 @@ impl QuerySpec {
         self.filters.push(Equality {
             field: field.into(),
             value,
+            absent: false,
+        });
+        self
+    }
+    pub fn absent(field: impl Into<String>) -> Self {
+        Self::all().and_absent(field)
+    }
+    pub fn and_absent(mut self, field: impl Into<String>) -> Self {
+        self.filters.push(Equality {
+            field: field.into(),
+            value: Value::Null,
+            absent: true,
         });
         self
     }
@@ -66,6 +80,13 @@ impl Runtime {
             if !def.allows_query(actor, &filter.field) {
                 return Err(Error::Denied);
             }
+            if filter.absent {
+                if !filter.value.is_null() || !matches!(field.shape, Shape::Optional(_)) {
+                    return Err(Error::invalid(kind, &filter.field));
+                }
+                filters.push(filter.clone());
+                continue;
+            }
             if !matches_shape(&filter.value, &field.shape) {
                 return Err(Error::invalid(kind, &filter.field));
             }
@@ -76,6 +97,7 @@ impl Runtime {
             filters.push(Equality {
                 field: filter.field.clone(),
                 value,
+                absent: false,
             });
         }
         let mut rows = self.0.storage.snapshot(
@@ -108,7 +130,13 @@ impl Runtime {
                 query.after_id.as_ref().is_none_or(|id| row.key.id > *id)
                     && row.value.as_ref().is_some_and(|v| {
                         def.allows(actor, Access::Read, v)
-                            && filters.iter().all(|f| v.get(&f.field) == Some(&f.value))
+                            && filters.iter().all(|f| {
+                                if f.absent {
+                                    v.get(&f.field).is_none()
+                                } else {
+                                    v.get(&f.field) == Some(&f.value)
+                                }
+                            })
                     })
             })
             .take(query.limit.unwrap_or(self.0.limits.snapshot_rows))
