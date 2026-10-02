@@ -27,6 +27,7 @@ Start with the [OpenSpec proposal](openspec/changes/establish-rom/proposal.md), 
 
 Research informs the design; candidate crates are not an approved dependency list.
 
+- [RIM source assessment and ideas carried into ROM](docs/research/rim-source-assessment.md)
 - [Framework comparisons and Rust crate candidates](docs/research/frameworks-and-rust-crates.md)
 - [Six-framework comparison and ranked recommendations](docs/research/state-of-art-resource-frameworks.md)
 - [Prototype findings and implementation tradeoffs](docs/research/prototype-results.md)
