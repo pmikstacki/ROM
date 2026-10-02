@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/../.."
+export CARGO_BUILD_JOBS=2
+export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$PWD/target/configuration}"
+[[ "$(rustc --version)" == "rustc 1.99.0 "* ]]
+cargo fmt -p rom -p rom-config -- --check
+cargo clippy -p rom-config -p rom --all-targets --locked -- -D warnings
+cargo test -p rom-config --locked
+cargo test -p rom-consumer --test source_authority --locked
+RUSTDOCFLAGS='-D warnings' cargo doc -p rom-config --no-deps --locked
+cargo tree -p rom --no-default-features --edges normal --locked > "$CARGO_TARGET_DIR/config-core-dependencies.txt"
+if rg 'config v|toml v|pathdiff v' "$CARGO_TARGET_DIR/config-core-dependencies.txt"; then
+  echo 'Loader dependencies entered the core graph' >&2
+  exit 1
+fi
