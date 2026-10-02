@@ -9,6 +9,36 @@ pub struct Row {
     pub key: Key,
     pub revision: u64,
     pub value: Option<Value>,
+    /// Persistence-only policy context. Runtime public outcomes remove this data.
+    #[serde(default, skip_serializing_if = "ProtectedMetadata::is_empty")]
+    pub protected: ProtectedMetadata,
+}
+/// Trusted persistence metadata, never projected as Resource fields or public history.
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ProtectedMetadata {
+    /// Last live canonical value, retained only to authorize deletion facts.
+    /// Older stored tombstones without this context cannot authorize public
+    /// history or receipt disclosure and therefore fail closed. Deletion is
+    /// logical removal, not physical erasure of this protected policy context.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub deletion_authorization: Option<Value>,
+}
+impl ProtectedMetadata {
+    pub fn is_empty(&self) -> bool {
+        self.deletion_authorization.is_none()
+    }
+}
+impl Row {
+    pub(crate) fn authorization_value(&self) -> Option<&Value> {
+        self.value
+            .as_ref()
+            .or(self.protected.deletion_authorization.as_ref())
+    }
+    /// Strip all persistence-only context after current authorization succeeds.
+    pub fn public_outcome(mut self) -> Self {
+        self.protected = ProtectedMetadata::default();
+        self
+    }
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Receipt {

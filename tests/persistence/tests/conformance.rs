@@ -145,6 +145,7 @@ fn redb_atomic_bundle_available_through_storage() {
         identity: "one".into(),
         fingerprint: "create-one".into(),
         row: Row {
+            protected: Default::default(),
             key: Key {
                 kind: "records".into(),
                 id: "one".into(),

@@ -433,7 +433,7 @@ impl Runtime {
         self.observe(actor, move |runtime| {
             let current = runtime.0.storage.load(&row.key)?;
             runtime.require_complete(&a, current.as_ref(), &row)?;
-            Ok(row.clone())
+            Ok(row.clone().public_outcome())
         })
         .await
     }
@@ -597,6 +597,13 @@ impl Runtime {
         let row = Row {
             key,
             revision,
+            protected: ProtectedMetadata {
+                deletion_authorization: if new_value.is_none() {
+                    current.as_ref().and_then(|r| r.value.clone())
+                } else {
+                    None
+                },
+            },
             value: new_value,
         };
         // No-op effects are rejected: an external effect needs a committed transition in this slice.
@@ -653,16 +660,13 @@ impl Runtime {
         if current.is_some_and(|r| r.value.is_none()) && outcome.value.is_some() {
             return Err(Error::Denied);
         }
-        // Tombstone replay returns revision only and uses host revocation. Historical field projection omitted.
-        if let Some(v) = current.and_then(|r| r.value.as_ref())
-            && !def.allows(actor, Access::Read, v)
-        {
-            return Err(Error::Denied);
-        }
-        if let Some(v) = &outcome.value
-            && !def.allows(actor, Access::Read, v)
-        {
-            return Err(Error::Denied);
+        // A deletion still discloses an identity and revision. Require both current
+        // and historical row authorization; legacy tombstones without context deny.
+        for row in current.into_iter().chain(std::iter::once(outcome)) {
+            let value = row.authorization_value().ok_or(Error::Denied)?;
+            if !def.allows(actor, Access::Read, value) {
+                return Err(Error::Denied);
+            }
         }
         Ok(())
     }

@@ -57,7 +57,180 @@ impl Backend {
     }
 }
 const BACKENDS: [Backend; 2] = [Backend::Sqlite, Backend::Redb];
+
+#[derive(Clone, Resource)]
+#[resource(name = "private-records")]
+struct PrivateRecord {
+    owner: String,
+    secret: String,
+}
+fn private_runtime(storage: Arc<dyn Storage>) -> Runtime {
+    Runtime::builder()
+        .resource(
+            PrivateRecord::definition()
+                .policy(|actor, _, row| actor.subject == row.owner)
+                .field_policy(|_, access, field, _| {
+                    matches!(access, rom::Access::Write) || field != "secret"
+                }),
+        )
+        .build(storage, Runtime::shared_cpu_pool(2).unwrap())
+        .unwrap()
+}
+#[tokio::test]
+async fn shared_deleted_history_retains_private_authorization_across_restart() {
+    for backend in BACKENDS {
+        let scratch = Scratch::new();
+        let store = backend.open(&scratch.path());
+        let runtime = private_runtime(store.clone());
+        let alice = Actor::trusted("local", "alice");
+        let mallory = Actor::trusted("local", "mallory");
+        let created = runtime
+            .invoke_projected(
+                &alice,
+                Command::create(
+                    "private-alice-id",
+                    PrivateRecord {
+                        owner: "alice".into(),
+                        secret: "NEVER-DISCLOSE".into(),
+                    },
+                )
+                .idempotency("create")
+                .into(),
+            )
+            .await
+            .unwrap();
+        assert!(
+            !serde_json::to_string(&created)
+                .unwrap()
+                .contains("NEVER-DISCLOSE")
+        );
+        assert!(
+            runtime
+                .journal(&mallory, "private-records", None)
+                .await
+                .unwrap()
+                .events
+                .is_empty()
+        );
+        let delete: rom::Invocation = Command::<PrivateRecord>::delete("private-alice-id")
+            .at_revision(1)
+            .idempotency("delete")
+            .into();
+        let outcome = runtime.invoke(&alice, delete.clone()).await.unwrap();
+        assert_eq!(
+            serde_json::to_value(&outcome).unwrap(),
+            json!({
+                "key":{"kind":"private-records","id":"private-alice-id"},"revision":2,"value":null
+            })
+        );
+        assert!(
+            runtime
+                .journal(&mallory, "private-records", None)
+                .await
+                .unwrap()
+                .events
+                .is_empty()
+        );
+        let mut subscription = runtime
+            .subscribe(&mallory, "private-records", None)
+            .await
+            .unwrap();
+        assert!(subscription.next().await.unwrap().events.is_empty());
+        drop(subscription);
+        runtime.shutdown().await.unwrap();
+        drop(runtime);
+        drop(store);
+        let runtime = private_runtime(backend.open(&scratch.path()));
+        let replay = runtime.invoke(&alice, delete).await.unwrap();
+        assert_eq!(
+            serde_json::to_value(&replay).unwrap(),
+            serde_json::to_value(&outcome).unwrap()
+        );
+        let owner_history = runtime
+            .journal(&alice, "private-records", None)
+            .await
+            .unwrap();
+        assert_eq!(owner_history.events.len(), 1);
+        assert_eq!(owner_history.events[0].view.revision, 2);
+        assert!(owner_history.events[0].view.value.is_none());
+        assert!(
+            !serde_json::to_string(&owner_history)
+                .unwrap()
+                .contains("NEVER-DISCLOSE")
+        );
+        assert!(
+            runtime
+                .journal(&mallory, "private-records", None)
+                .await
+                .unwrap()
+                .events
+                .is_empty()
+        );
+        runtime
+            .invoke_projected(
+                &mallory,
+                Command::create(
+                    "private-alice-id",
+                    PrivateRecord {
+                        owner: "mallory".into(),
+                        secret: "NEW-PRIVATE-VALUE".into(),
+                    },
+                )
+                .at_revision(2)
+                .idempotency("recreate")
+                .into(),
+            )
+            .await
+            .unwrap();
+        let new_owner_history = runtime
+            .journal(&mallory, "private-records", None)
+            .await
+            .unwrap();
+        assert_eq!(new_owner_history.events.len(), 1);
+        assert_eq!(new_owner_history.events[0].view.revision, 3);
+        assert!(
+            !serde_json::to_string(&new_owner_history)
+                .unwrap()
+                .contains("NEW-PRIVATE-VALUE")
+        );
+        assert!(
+            runtime
+                .journal(&alice, "private-records", None)
+                .await
+                .unwrap()
+                .events
+                .is_empty()
+        );
+        runtime.shutdown().await.unwrap();
+    }
+}
 struct Scratch(PathBuf);
+#[tokio::test]
+async fn shared_legacy_tombstones_without_policy_context_fail_closed() {
+    for backend in BACKENDS {
+        let scratch = Scratch::new();
+        let store = backend.open(&scratch.path());
+        let mut legacy = create("legacy");
+        legacy.receipt.row.key.kind = "private-records".into();
+        legacy.receipt.row.value = Some(json!({"owner":"alice","secret":"legacy-secret"}));
+        store.commit(&legacy).unwrap();
+        legacy.expected = Some(1);
+        legacy.receipt.identity = "legacy-delete".into();
+        legacy.receipt.row.revision = 2;
+        legacy.receipt.row.value = None;
+        store.commit(&legacy).unwrap();
+        let runtime = private_runtime(store);
+        assert!(
+            runtime
+                .journal(&Actor::trusted("local", "alice"), "private-records", None)
+                .await
+                .unwrap()
+                .events
+                .is_empty()
+        );
+        runtime.shutdown().await.unwrap();
+    }
+}
 impl Scratch {
     fn new() -> Self {
         static NEXT: AtomicU64 = AtomicU64::new(0);
@@ -88,6 +261,7 @@ fn create(id: &str) -> Bundle {
             identity: format!("create-{id}"),
             fingerprint: format!("create-{id}-false"),
             row: Row {
+                protected: Default::default(),
                 key: Key {
                     kind: "records".into(),
                     id: id.into(),

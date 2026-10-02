@@ -109,6 +109,7 @@ fn bundle(id: &str) -> rom::Bundle {
             identity: id.into(),
             fingerprint: id.into(),
             row: rom::Row {
+                protected: Default::default(),
                 key: rom::Key {
                     kind: "things".into(),
                     id: id.into(),
