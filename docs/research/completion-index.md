@@ -37,6 +37,8 @@ These commits preserve the actual experiments. Historical reports may refer to a
 | Notification channels | `1dad6fb82e3ac67f7e697282735e941e1bfae81a` | [Capabilities](capability-prototype-results.md) |
 | Dedup cache | `6153d99384148a7773a35dd0870435c553e7d8be` | [Cache results](cache-prototype-results.md) |
 | Salsa derived reads | `5af9ca66f4cb76165e4b5895c8e93ab83de86f09` | [Cache results](cache-prototype-results.md) |
+| Integrated core | `86780041a9824c434054fae25509dff0e56a7212` | [Integrated probe](integrated-core-probe-results.md) |
+| Studio mock | `9be7c653f23e2a0e304be5d5f7c0f07cc2d194ef` | [Studio research](rom-studio-product-research.md) |
 | Configuration trials | `66854f5708` | [Configuration](configuration-trial-results.md) |
 | Transport trials | `789201201c6388a44d9d33fe2045d0dd075f33cc` | [Transport](transport-trial-results.md) |
 | Provider trials | `58d4c9deb` | [Auth](auth-provider-probe-results.md) |

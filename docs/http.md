@@ -15,8 +15,8 @@ these POST streams are not the browser's GET-only `EventSource` API.
 | --- | --- | --- |
 | `/invoke` | `Invocation` | `ProjectedView` |
 | `/read` | `{kind,id}` | `ProjectedView` |
-| `/query` | `{kind,field,value}` | Array of projected views |
-| `/live` | `{kind,field,value}` | SSE current snapshots, initial then changes |
+| `/query` | `{kind,query} or legacy {kind,field,value}` | Array of projected views |
+| `/live` | `{kind,query} or legacy {kind,field,value}` | SSE current snapshots, initial then changes |
 | `/journal/head` | `{kind}` | Explicit current `JournalCursor` |
 | `/journal` | `{kind,after}` | Bounded `JournalBatch` |
 | `/subscribe` | `{kind,after}` | SSE ordered journal batches |
@@ -27,9 +27,9 @@ Example invocation:
 {"kind":"tasks","id":"one","expected":1,"idempotency":"finish-1","operation":{"type":"action","input":{"name":"complete","input":null}}}
 ```
 
-Operation tags are `create`, `replace`, `delete`, and `action`. Create/replace
+Operation tags are `create`, `replace`, `patch`, `delete`, and `action`. Create/replace
 carry a complete Resource value in `input`; delete has no input. Replacement is
-not a partial patch. Custom action input is checked by its registered codec.
+not a partial patch. [Explicit PATCH](presence-and-patch.md) distinguishes omission, null and removal. Custom action input is checked by its registered codec.
 Unknown request fields and duplicate JSON keys, including nested duplicates,
 fail before dispatch. All results use the current row and field projection
 policy. Predicate authority is checked even when no row matches.
@@ -65,7 +65,7 @@ SSE `data` events contain JSON; `error` events contain one safe error category a
 terminate the stream. Keepalive comments carry no Resource information. Each
 stream owns a ROM subscription permit until drop. Polling also rechecks expiry
 without requiring a Resource write; the default poll interval is 100ms. This
-adds bounded periodic observation work, especially for journal streams. Tune it
+performs cheap lifecycle/expiry/local-revocation checks while retaining one pending read across ticks; it does not cancel and restart a slow query. Tune it
 against the host's required revocation latency and capacity.
 
 `Limits` independently bounds body bytes, accepted concurrent bodies and body
@@ -84,3 +84,5 @@ Host connection/header limits, TLS, reverse proxy behavior, origin policy and
 external-provider interoperation remain deployment responsibilities. This MVP
 runs one ROM owner per storage instance; it does not coordinate cross-process
 live notifications or worker ownership.
+
+An error or lost response after submission is not blanket proof that no commit occurred. In particular, permissions can be revoked after commit and before disclosure, yielding `denied`; the committed bundle remains. Keep the same idempotency identity for reconciliation, never invent another identity solely because a result was unavailable. There is no unauthenticated receipt-status escape hatch.
