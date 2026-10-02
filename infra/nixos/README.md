@@ -1,5 +1,7 @@
 # Persistent development container
 
+For the separately hosted Studio mock, see [Persistent ROM Studio preview](studio-preview.md).
+
 The current development host runs the native NixOS container `rom-dev`, with autostart and persistent state. It shares the host network to support dependency downloads and mounts the host checkout at `/workspace/ROM`. No ROM server, broker, database, SSH service or public listener is configured.
 
 `container.nix` declares its packages and user. The container retains the host's existing NixOS 24.11 package source and Node 22, while Rust is independently pinned to **1.99.0** through a fixed, hash-checked rust-overlay revision. The default Rust profile includes matching Cargo, rustfmt, and Clippy. This development toolchain is not a declaration of ROM's minimum supported Rust version or supported production OS.

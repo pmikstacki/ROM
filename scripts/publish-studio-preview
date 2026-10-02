@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Publish an already rendered, self-contained preview. No repository mount.
+if [[ $# != 1 || ! -f "$1" ]]; then
+  echo "Usage: $0 /absolute/path/to/rendered/index.html" >&2
+  exit 2
+fi
+if [[ $EUID != 0 ]]; then
+  echo "Publishing the host preview requires root." >&2
+  exit 1
+fi
+destination=/var/lib/rom-studio-preview/site
+install -d -m 0755 "$destination"
+staged=$(mktemp "$destination/.index.XXXXXX")
+trap 'rm -f "$staged"' EXIT
+install -m 0644 "$1" "$staged"
+mv -f "$staged" "$destination/index.html"
+echo "Published Studio preview to $destination/index.html"
