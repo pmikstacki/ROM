@@ -13,6 +13,7 @@ these POST streams are not the browser's GET-only `EventSource` API.
 
 | Route | Request | Response |
 | --- | --- | --- |
+| `/discover` | `{}` | Authorized `Discovery` catalog |
 | `/invoke` | `Invocation` | `ProjectedView` |
 | `/read` | `{kind,id}` | `ProjectedView` |
 | `/query` | `{kind,query} or legacy {kind,field,value}` | Array of projected views |
@@ -26,6 +27,10 @@ Example invocation:
 ```json
 {"kind":"tasks","id":"one","expected":1,"idempotency":"finish-1","operation":{"type":"action","input":{"name":"complete","input":null}}}
 ```
+
+The [discovery catalog](discovery.md) requires explicit metadata grants, defaults
+to no visible Resources, and does not assert permission to read or mutate rows.
+Custom action inputs remain opaque. Hidden reference targets are not disclosed.
 
 Operation tags are `create`, `replace`, `patch`, `delete`, and `action`. Create/replace
 carry a complete Resource value in `input`; delete has no input. Replacement is
@@ -69,8 +74,10 @@ performs cheap lifecycle/expiry/local-revocation checks while retaining one pend
 against the host's required revocation latency and capacity.
 
 `Limits` independently bounds body bytes, accepted concurrent bodies and body
-read time. Core limits bound accepted actions, I/O jobs, subscriptions and
-snapshot rows/bytes. Slow request bodies time out as `overloaded` (429), and
+read time. Core limits bound accepted actions, I/O jobs, subscriptions and snapshot
+rows/bytes. Concurrency counts above Tokio's semaphore maximum return configuration
+errors before constructing a runtime or HTTP binding. Slow request bodies time out
+as `overloaded` (429), and
 oversized declared or chunked bodies are `too_large` (413). Other mappings are
 403 denied, 404 missing/unregistered, 409 conflict or identity mismatch, 400
 invalid/unsupported, 503 closed/not committed/outcome unknown, and 500 internal.

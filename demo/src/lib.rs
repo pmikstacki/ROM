@@ -123,12 +123,30 @@ pub fn declarations(notices: Notices) -> Result<rom::Builder> {
         .resource(rom_blob::definition())
         .resource(
             Task::definition()
+                .discovery_policy(|a, target| {
+                    domain(a)
+                        && match target {
+                            rom::DiscoveryTarget::Resource => true,
+                            rom::DiscoveryTarget::Field(name) => matches!(name, "title" | "done"),
+                            rom::DiscoveryTarget::Action(name) => name == "complete",
+                        }
+                })
                 .policy(|a, _, _| domain(a))
                 .allow_all_fields()
                 .action(COMPLETE),
         )
         .resource(
             InventoryItem::definition()
+                .discovery_policy(|a, target| {
+                    domain(a)
+                        && match target {
+                            rom::DiscoveryTarget::Resource => true,
+                            rom::DiscoveryTarget::Field(name) => {
+                                matches!(name, "code" | "quantity")
+                            }
+                            rom::DiscoveryTarget::Action(_) => false,
+                        }
+                })
                 .policy(|a, _, _| domain(a))
                 .allow_all_fields(),
         )

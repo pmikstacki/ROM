@@ -22,6 +22,10 @@ For dynamic bindings, `QuerySpec::equal("owner", json!("alice"))`
 complete typed queries require access to every returned field. Existing
 single-equality projected entrypoints delegate to this same implementation.
 `QuerySpec::all()` has no predicate; row and returned-field policies still apply.
+Typed callers use `Query::<Task>::all()` or `Query::<Task>::default()` for the
+same unfiltered selection, and may add `.and`, `.limit` and `.after_id` normally.
+No predicate permission is needed without predicates; complete typed results
+still require every field grant, including fields absent from stored values.
 
 Predicate values first pass the accepted field shape and its actual codec.
 `Resource::normalize_field` is generated from the same field list as decode,

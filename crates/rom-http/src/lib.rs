@@ -71,6 +71,7 @@ impl Http {
     }
     pub fn router(&self) -> Router {
         Router::new()
+            .route("/discover", post(discover))
             .route("/invoke", post(invoke))
             .route("/read", post(read))
             .route("/query", post(query))
@@ -200,6 +201,13 @@ struct Journal {
 async fn invoke(State(s): State<Shared>, r: Request) -> Result<Response, Failure> {
     let (a, c, _permit) = decode::<Invocation>(&s, r).await?;
     Ok(Json(s.runtime.invoke_projected(&a, c).await?).into_response())
+}
+async fn discover(State(s): State<Shared>, r: Request) -> Result<Response, Failure> {
+    let (actor, request, _permit) = decode::<serde_json::Map<String, Value>>(&s, r).await?;
+    if !request.is_empty() {
+        return Err(Error::invalid("discovery", "request").into());
+    }
+    Ok(Json(s.runtime.discover(&actor).await?).into_response())
 }
 async fn read(State(s): State<Shared>, r: Request) -> Result<Response, Failure> {
     let (a, c, _permit) = decode::<Read>(&s, r).await?;
