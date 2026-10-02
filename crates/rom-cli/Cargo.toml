@@ -1,0 +1,27 @@
+[package]
+name = "rom-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+description = "Generic ROM HTTP command-line client"
+[lints]
+workspace = true
+[[bin]]
+name = "rom"
+path = "src/main.rs"
+[dependencies]
+rom = { workspace = true, default-features = false }
+clap = { version = "=4.6.7", features = ["derive"] }
+reqwest = { version = "=0.13.5", default-features = false, features = ["rustls", "stream"] }
+serde.workspace = true
+serde_json.workspace = true
+tokio = { workspace = true, features = ["signal"] }
+[dev-dependencies]
+rom-http = { path = "../rom-http" }
+rom-demo = { path = "../../demo" }
+rom-sqlite = { workspace = true, features = ["test-support"] }
+rom-redb.workspace = true
+tokio = { workspace = true, features = ["process", "io-util"] }
