@@ -56,6 +56,7 @@ pub struct Cause {
 pub enum WorkPayload {
     Source(Row),
     Action(Value),
+    Notification { source: Row, payload: Value },
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct PendingWork {
@@ -80,6 +81,7 @@ pub enum StopReason {
     DefinitionChanged,
     CallbackPanicked,
     Unavailable,
+    DeliveryPermanent,
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum WorkState {
@@ -99,6 +101,8 @@ pub struct WorkRecord {
     pub attempts: u32,
     pub generation: u64,
     pub due: u64,
+    #[serde(default)]
+    pub delivery: Option<DeliveryOutcome>,
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ClaimKey {
@@ -127,6 +131,15 @@ pub enum WorkOutcome {
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum WorkUpdate {
+    DeliveryStarted {
+        claim: ClaimKey,
+        now: u64,
+    },
+    DeliveryFinished {
+        claim: ClaimKey,
+        now: u64,
+        outcome: DeliveryOutcome,
+    },
     Claim {
         now: u64,
     },
@@ -178,6 +191,7 @@ impl WorkLedger {
                 pending.id.clone(),
                 WorkRecord {
                     due: pending.cause.started_at,
+                    delivery: None,
                     pending,
                     state: WorkState::Pending,
                     attempts: 0,
@@ -218,6 +232,48 @@ impl WorkLedger {
             return Ok(WorkResult::Idle);
         };
         match update {
+            WorkUpdate::DeliveryStarted { claim, now } => {
+                let record = self.validate_claim(&claim, now)?;
+                if !matches!(record.pending.payload, WorkPayload::Notification { .. })
+                    || matches!(
+                        record.state,
+                        WorkState::Leased {
+                            resolution_only: Some(_),
+                            ..
+                        }
+                    )
+                {
+                    return Err(Error::Conflict);
+                }
+                self.work.get_mut(&claim.id).ok_or(Error::Storage)?.delivery =
+                    Some(DeliveryOutcome::Unknown);
+                Ok(WorkResult::Changed)
+            }
+            WorkUpdate::DeliveryFinished {
+                claim,
+                now,
+                outcome,
+            } => {
+                let record = self.validate_claim(&claim, now)?;
+                if !matches!(record.pending.payload, WorkPayload::Notification { .. }) {
+                    return Err(Error::Conflict);
+                }
+                let finish = match outcome {
+                    DeliveryOutcome::Accepted => WorkOutcome::Done,
+                    DeliveryOutcome::Permanent => WorkOutcome::Stop(StopReason::DeliveryPermanent),
+                    DeliveryOutcome::Panicked => WorkOutcome::Stop(StopReason::CallbackPanicked),
+                    DeliveryOutcome::Unknown
+                    | DeliveryOutcome::Retryable
+                    | DeliveryOutcome::TimedOut => WorkOutcome::Retry,
+                };
+                self.work.get_mut(&claim.id).ok_or(Error::Storage)?.delivery = Some(outcome);
+                self.update(WorkUpdate::Finish {
+                    claim,
+                    now,
+                    outcome: finish,
+                })
+            }
+
             WorkUpdate::Claim { now } => {
                 for record in self.work.values_mut() {
                     let eligible = match record.state {

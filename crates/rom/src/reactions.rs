@@ -84,8 +84,7 @@ impl Runtime {
         let mut changes = self.0.changes.subscribe();
         let task = tokio::spawn(async move {
             let _permit = permit;
-            let _lifetime = lifetime;
-            loop {
+            let result=async {loop {
                 if runtime.ensure_open() == Err(Error::Closed) {
                     return Ok(());
                 }
@@ -100,7 +99,11 @@ impl Runtime {
                     Err(e) => return Err(e),
                 }
                 tokio::select! {_ = changes.changed()=>{},_ = tokio::time::sleep(std::time::Duration::from_millis(100))=>{}}
-            }
+            }}.await;
+            drop(runtime);
+            drop(_permit);
+            drop(lifetime);
+            result
         });
         Ok(ReactionWorker { task })
     }
@@ -135,6 +138,9 @@ impl Runtime {
         .await
     }
     fn process_claim(&self, claim: WorkClaim) -> Result<()> {
+        if matches!(claim.work.pending.payload, WorkPayload::Notification { .. }) {
+            return self.process_notification(claim);
+        }
         let pending = &claim.work.pending;
         let Some(def) = self
             .0
@@ -273,7 +279,7 @@ impl Runtime {
             }
         }
     }
-    fn finish_claim(&self, claim: &WorkClaim, outcome: WorkOutcome) -> Result<()> {
+    pub(crate) fn finish_claim(&self, claim: &WorkClaim, outcome: WorkOutcome) -> Result<()> {
         match self.0.storage.reaction_update(WorkUpdate::Finish {
             claim: claim.key(),
             now: self.0.clock.now(),

@@ -26,12 +26,41 @@ pub struct Builder {
     registry: BTreeMap<String, Arc<dyn Registered>>,
     reactions: BTreeMap<String, Arc<reactions::RegisteredReaction>>,
     reaction_limits: ReactionLimits,
+    channels: BTreeMap<String, Arc<channels::RegisteredChannel>>,
+    delivery_timeout: Option<std::time::Duration>,
     error: Option<Error>,
     limits: Limits,
     pub(crate) clock: Option<Arc<dyn Clock>>,
     actor_gate: Option<Arc<dyn ActorGate>>,
 }
 impl Builder {
+    pub fn channel<P, F, Fut>(mut self, channel: Channel<P>, actor: Actor, send: F) -> Self
+    where
+        P: Input,
+        F: Fn(Delivery<P>) -> Fut + Send + Sync + 'static,
+        Fut: std::future::Future<Output = DeliveryOutcome> + Send + 'static,
+    {
+        if channel.name.is_empty()
+            || channel.version == 0
+            || actor.principal_kind() != PrincipalKind::Service
+        {
+            self.error = Some(Error::invalid("channel", "name/version/service"));
+        }
+        let def = channels::RegisteredChannel::new(channel, actor, send);
+        if self
+            .channels
+            .insert(def.name.clone(), Arc::new(def))
+            .is_some()
+        {
+            self.error = Some(Error::Duplicate("channel".into()));
+        }
+        self
+    }
+    pub fn delivery_timeout(mut self, timeout: std::time::Duration) -> Self {
+        self.delivery_timeout = Some(timeout);
+        self
+    }
+
     pub fn reaction<S: Resource, T: Resource, I: Input>(
         mut self,
         reaction: Reaction<S, T, I>,
@@ -101,7 +130,22 @@ impl Builder {
             }
         }
         self.reaction_limits.validate()?;
-        if !self.reactions.is_empty() && !storage.supports_reactions() {
+        let delivery_timeout = self
+            .delivery_timeout
+            .unwrap_or_else(channels::default_timeout);
+        if !self.channels.is_empty()
+            && (delivery_timeout.is_zero()
+                || delivery_timeout
+                    >= std::time::Duration::from_secs(self.reaction_limits.lease_seconds))
+        {
+            return Err(Error::invalid(
+                "channel",
+                "timeout must be positive and shorter than lease",
+            ));
+        }
+        if (!self.reactions.is_empty() || !self.channels.is_empty())
+            && !storage.supports_reactions()
+        {
             return Err(Error::Unsupported("durable reactions".into()));
         }
         for d in self.reactions.values() {
@@ -144,13 +188,15 @@ impl Builder {
             registry: self.registry,
             reactions: self.reactions,
             reaction_limits: self.reaction_limits,
+            channels: self.channels,
+            delivery_timeout,
             reaction_worker: Arc::new(Semaphore::new(1)),
             gate: Mutex::new(()),
             denied: Mutex::new(BTreeSet::new()),
             admission: Arc::new(Semaphore::new(l.actions)),
             io: Arc::new(Semaphore::new(l.io_jobs)),
             subscriptions: Arc::new(Semaphore::new(l.subscriptions)),
-            lifecycle: Mutex::new(Lifecycle::default()),
+            lifecycle: Arc::new(Mutex::new(Lifecycle::default())),
             changes,
             drained,
             generation: AtomicU64::new(0),
@@ -172,13 +218,15 @@ pub(crate) struct Inner {
     pub(crate) registry: BTreeMap<String, Arc<dyn Registered>>,
     pub(crate) reactions: BTreeMap<String, Arc<reactions::RegisteredReaction>>,
     pub(crate) reaction_limits: ReactionLimits,
+    pub(crate) channels: BTreeMap<String, Arc<channels::RegisteredChannel>>,
+    pub(crate) delivery_timeout: std::time::Duration,
     pub(crate) reaction_worker: Arc<Semaphore>,
     pub(crate) gate: Mutex<()>,
     denied: Mutex<BTreeSet<String>>,
     pub(crate) admission: Arc<Semaphore>,
     io: Arc<Semaphore>,
     pub(crate) subscriptions: Arc<Semaphore>,
-    lifecycle: Mutex<Lifecycle>,
+    lifecycle: Arc<Mutex<Lifecycle>>,
     pub(crate) changes: watch::Sender<u64>,
     drained: watch::Sender<u64>,
     generation: AtomicU64,
@@ -188,18 +236,16 @@ pub(crate) struct Inner {
 }
 /// Tracked by the runtime, owned by actual blocking work, never a caller future.
 pub(crate) struct Work {
-    runtime: Runtime,
+    lifecycle: Arc<Mutex<Lifecycle>>,
+    drained: watch::Sender<u64>,
     _io: Option<OwnedSemaphorePermit>,
 }
 impl Drop for Work {
     fn drop(&mut self) {
         drop(self._io.take());
-        let mut state = self.runtime.0.lifecycle.lock().unwrap();
+        let mut state = self.lifecycle.lock().unwrap();
         state.active -= 1;
-        self.runtime
-            .0
-            .drained
-            .send_modify(|v| *v = v.wrapping_add(1));
+        self.drained.send_modify(|v| *v = v.wrapping_add(1));
     }
 }
 #[derive(Clone)]
@@ -221,7 +267,8 @@ impl Runtime {
         }
         state.active += 1;
         Ok(Work {
-            runtime: self.clone(),
+            lifecycle: self.0.lifecycle.clone(),
+            drained: self.0.drained.clone(),
             _io: None,
         })
     }
@@ -341,7 +388,8 @@ impl Runtime {
             let permit = acquire(&self.0.io)?;
             state.active += 1;
             let work = Work {
-                runtime: self.clone(),
+                lifecycle: self.0.lifecycle.clone(),
+                drained: self.0.drained.clone(),
                 _io: Some(permit),
             };
             let runtime = self.clone();
@@ -353,7 +401,8 @@ impl Runtime {
                         Err(Error::Panicked)
                     }
                 };
-                // Drop all work-owned permits and decrement active before notifying the waiter.
+                // Release the adapter-owning Runtime before publishing the drain condition.
+                drop(runtime);
                 drop(work);
                 let _ = sender.send(result);
             });
@@ -649,17 +698,24 @@ impl Runtime {
         if !changed && !effects.is_empty() {
             return Err(Error::invalid(&cmd.kind, "no-op effects"));
         }
+        let mut reactions = if changed {
+            self.reaction_intents(
+                current.as_ref(),
+                &row,
+                &identity,
+                causal.as_ref().map(|(cause, _)| cause),
+            )?
+        } else {
+            vec![]
+        };
+        reactions.extend(self.notification_intents(
+            &row,
+            &effects,
+            &identity,
+            causal.as_ref().map(|(cause, _)| cause),
+        )?);
         let bundle = Bundle {
-            reactions: if changed {
-                self.reaction_intents(
-                    current.as_ref(),
-                    &row,
-                    &identity,
-                    causal.as_ref().map(|(cause, _)| cause),
-                )?
-            } else {
-                vec![]
-            },
+            reactions,
             reaction_limits: Some(self.0.reaction_limits.clone()),
             completed_work: causal.map(|(_, claim)| (claim, self.0.clock.now())),
             expected: cmd.expected,

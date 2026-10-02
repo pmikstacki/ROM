@@ -283,12 +283,15 @@ impl<R: Resource> Query<R> {
 pub struct Intent {
     pub channel: String,
     pub payload: Value,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub delivery_version: Option<u32>,
 }
 impl Intent {
     pub fn new(channel: &str, payload: Value) -> Self {
         Self {
             channel: channel.into(),
             payload,
+            delivery_version: None,
         }
     }
 }

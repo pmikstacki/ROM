@@ -33,10 +33,10 @@ impl Sqlite {
                 |r| r.get(0),
             )
             .map_err(|_| Error::Storage)?;
-        if version != 2 && (version != 0 || objects != 0) {
+        if version != 3 && (version != 0 || objects != 0) {
             return Err(Error::Unsupported("SQLite storage format".into()));
         }
-        if version == 2 {
+        if version == 3 {
             for name in ["resources", "receipts", "events", "effects", "rom_state"] {
                 c.prepare(&format!("SELECT * FROM {name} LIMIT 0"))
                     .map_err(|_| Error::Storage)?;
@@ -48,7 +48,7 @@ impl Sqlite {
             CREATE TABLE IF NOT EXISTS receipts(identity TEXT PRIMARY KEY,data TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS events(identity TEXT PRIMARY KEY,data TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS effects(identity TEXT NOT NULL,ordinal INTEGER NOT NULL,data TEXT NOT NULL,PRIMARY KEY(identity,ordinal));
-            CREATE TABLE IF NOT EXISTS rom_state(id INTEGER PRIMARY KEY CHECK(id=1),data TEXT NOT NULL); PRAGMA user_version=2;").map_err(|_|Error::Storage)?;
+            CREATE TABLE IF NOT EXISTS rom_state(id INTEGER PRIMARY KEY CHECK(id=1),data TEXT NOT NULL); PRAGMA user_version=3;").map_err(|_|Error::Storage)?;
         if version == 0 {
             c.execute(
                 "INSERT INTO rom_state VALUES (1,?)",

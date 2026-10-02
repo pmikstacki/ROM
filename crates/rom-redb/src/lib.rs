@@ -1,7 +1,7 @@
 //! redb persistence adapter with atomic Resource/event/receipt/effect bundles.
 //!
 //! The host must run these synchronous methods on its bounded storage executor.
-//! Format version two stores JSON ROM values, using tuple keys for kind/id isolation.
+//! Format version three stores JSON ROM values, using tuple keys for kind/id isolation.
 //! A commit error is uncertain; discard the adapter and reopen before recovery.
 use redb::{
     Database, Durability, ReadableDatabase, ReadableTable, ReadableTableMetadata, TableDefinition,
@@ -20,7 +20,7 @@ const RECEIPTS: TableDefinition<&str, &str> = TableDefinition::new("receipts");
 const EVENTS: TableDefinition<&str, &str> = TableDefinition::new("events");
 const EFFECTS: TableDefinition<(&str, u64), &str> = TableDefinition::new("effects");
 const META: TableDefinition<&str, u64> = TableDefinition::new("rom_metadata");
-const FORMAT: u64 = 2;
+const FORMAT: u64 = 3;
 const STATE: TableDefinition<&str, &str> = TableDefinition::new("rom_state");
 #[cfg(feature = "test-support")]
 type Observer = std::sync::Arc<dyn Fn(usize) -> Result<()> + Send + Sync>;
@@ -34,7 +34,7 @@ pub struct Redb {
     observer: std::sync::Mutex<Option<Observer>>,
 }
 impl Redb {
-    /// Open format two, or initialize a new empty database. Never upgrade implicitly.
+    /// Open format three, or initialize a new empty database. Never upgrade implicitly.
     pub fn open(path: impl AsRef<Path>) -> Result<Self> {
         Self::open_with_limits(path, StorageLimits::default())
     }
