@@ -10,5 +10,7 @@ for(const [name,message,line] of [['unsupported','Field',5],['serde','rejects in
 }
 const result=spawnSync('cargo',['run','--manifest-path',manifest,'--locked','--bin','renamed'],{stdio:'inherit'});
 if(result.status!==0)process.exit(result.status??1);
+const documented=spawnSync('cargo',['check','--manifest-path',manifest,'--locked','--bin','documented'],{stdio:'inherit'});
+if(documented.status!==0)process.exit(documented.status??1);
 const manifestText=readFileSync('Cargo.toml','utf8');
 if(!manifestText.includes('rust-version = "1.99"'))throw Error('toolchain floor changed without verifier update');

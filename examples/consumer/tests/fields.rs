@@ -18,8 +18,16 @@ struct Measurement {
 #[tokio::test]
 async fn standard_fields_roundtrip_through_the_same_resource_pipeline() {
     let runtime = Runtime::builder()
-        .resource(Person::definition().policy(|_, _, _| true))
-        .resource(Measurement::definition().policy(|_, _, _| true))
+        .resource(
+            Person::definition()
+                .policy(|_, _, _| true)
+                .allow_all_fields(),
+        )
+        .resource(
+            Measurement::definition()
+                .policy(|_, _, _| true)
+                .allow_all_fields(),
+        )
         .build(
             Arc::new(Sqlite::open(":memory:").unwrap()),
             Runtime::shared_cpu_pool(1).unwrap(),
@@ -148,7 +156,11 @@ struct State {
 async fn enum_metadata_enforces_the_custom_codec_contract() {
     let store = Arc::new(Sqlite::open(":memory:").unwrap());
     let runtime = Runtime::builder()
-        .resource(State::definition().policy(|_, _, _| true))
+        .resource(
+            State::definition()
+                .policy(|_, _, _| true)
+                .allow_all_fields(),
+        )
         .build(store.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     let actor = Actor::trusted("test", "owner");

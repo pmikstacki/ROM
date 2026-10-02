@@ -88,7 +88,11 @@ fn expand(input: DeriveInput) -> syn::Result<proc_macro2::TokenStream> {
         encodes.push(quote_spanned!(ty.span()=> map.insert(#wire.into(),<#ty as #facade::Field>::encode(&self.#id));));
         decodes.push(quote_spanned!(ty.span()=> #id:<#ty as #facade::Field>::decode(map.remove(#wire).ok_or_else(||#facade::Error::invalid(Self::KIND,#wire))?).map_err(|_|#facade::Error::invalid(Self::KIND,#wire))?));
         let sel = format_ident!("{}_field", id);
-        selectors.push(quote_spanned!(ty.span()=> #[allow(dead_code)] pub fn #sel()->#facade::FieldRef<Self,#ty> { #facade::FieldRef::new(#wire) }));
+        let selector_doc = format!(
+            "Select the `{}` field for a typed Resource query.",
+            wire.value()
+        );
+        selectors.push(quote_spanned!(ty.span()=> #[doc = #selector_doc] #[allow(dead_code)] pub fn #sel()->#facade::FieldRef<Self,#ty> { #facade::FieldRef::new(#wire) }));
     }
     Ok(quote! {
         impl #facade::Resource for #name {
