@@ -1,0 +1,20 @@
+[package]
+name = "rom-blob-object-store"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Immutable folder and S3-compatible adapters for ROM blobs"
+[lints]
+workspace = true
+[dependencies]
+rom-blob = { path = "../rom-blob", version = "=0.1.0-alpha.1" }
+object_store = { version = "=0.14.2", features = ["aws"] }
+futures-util = { version = "=0.3.34", default-features = false, features = ["std"] }
+url = "=2.5.8"
+[dev-dependencies]
+tokio = { workspace = true, features = ["net", "io-util"] }
+rom.workspace = true
+rom-sqlite.workspace = true

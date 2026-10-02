@@ -1,0 +1,18 @@
+[package]
+name = "rom-blob"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Authorized bounded Blob Resource lifecycle and provider-neutral byte storage"
+[lints]
+workspace = true
+[dependencies]
+rom.workspace = true
+tokio.workspace = true
+sha2 = "=0.10.9"
+futures-util = { version = "=0.3.34", default-features = false, features = ["std"] }
+[dev-dependencies]
+rom-sqlite = { workspace = true, features = ["test-support"] }
