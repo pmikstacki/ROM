@@ -1,35 +1,86 @@
 //! SQLite reference persistence capability. The deployment database remains host-configured.
 use rom::{Bundle, Capabilities, Error, Key, Receipt, Result, Row, Storage};
 use rusqlite::{Connection, OptionalExtension, params};
-use std::{
-    path::Path,
-    sync::{
-        Mutex,
-        atomic::{AtomicU8, Ordering},
-    },
-};
+#[cfg(feature = "test-support")]
+use std::sync::atomic::{AtomicU8, Ordering};
+use std::{path::Path, sync::Mutex};
 
 pub struct Sqlite {
     connection: Mutex<Connection>,
+    #[cfg(feature = "test-support")]
     fault: AtomicU8,
+    #[cfg(feature = "test-support")]
+    observer: Mutex<Option<Observer>>,
 }
+#[cfg(feature = "test-support")]
+type Observer = std::sync::Arc<dyn Fn(usize) -> Result<()> + Send + Sync>;
 impl Sqlite {
     pub fn open(path: impl AsRef<Path>) -> Result<Self> {
         let c = Connection::open(path).map_err(|_| Error::Storage)?;
+        let version: u32 = c
+            .pragma_query_value(None, "user_version", |r| r.get(0))
+            .map_err(|_| Error::Storage)?;
+        let tables: i64 = c.query_row("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'", [], |r| r.get(0)).map_err(|_| Error::Storage)?;
+        if version != 1 && (version != 0 || tables != 0) {
+            return Err(Error::Unsupported("SQLite storage format".into()));
+        }
+        if version == 1 {
+            for name in ["resources", "receipts", "events", "effects"] {
+                c.prepare(&format!("SELECT * FROM {name} LIMIT 0"))
+                    .map_err(|_| Error::Storage)?;
+            }
+        }
         c.execute_batch("PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;
+            BEGIN IMMEDIATE;
             CREATE TABLE IF NOT EXISTS resources(kind TEXT NOT NULL,id TEXT NOT NULL,revision INTEGER NOT NULL,data TEXT NOT NULL,PRIMARY KEY(kind,id));
             CREATE TABLE IF NOT EXISTS receipts(identity TEXT PRIMARY KEY,data TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS events(identity TEXT PRIMARY KEY,data TEXT NOT NULL);
-            CREATE TABLE IF NOT EXISTS effects(identity TEXT NOT NULL,ordinal INTEGER NOT NULL,data TEXT NOT NULL,PRIMARY KEY(identity,ordinal));").map_err(|_|Error::Storage)?;
+            CREATE TABLE IF NOT EXISTS effects(identity TEXT NOT NULL,ordinal INTEGER NOT NULL,data TEXT NOT NULL,PRIMARY KEY(identity,ordinal));
+            PRAGMA user_version=1; COMMIT;").map_err(|_|Error::Storage)?;
         Ok(Self {
             connection: Mutex::new(c),
+            #[cfg(feature = "test-support")]
             fault: AtomicU8::new(0),
+            #[cfg(feature = "test-support")]
+            observer: Mutex::new(None),
         })
     }
     /// 1: after state; 2: after event; 3: after receipt; 4: after effects;
     /// 5: actual commit succeeds but acknowledgment is lost. One next commit only.
+    #[cfg(feature = "test-support")]
     pub fn inject_fault(&self, point: u8) {
         self.fault.store(point, Ordering::SeqCst);
+    }
+    /// Test-only observer: 1-based write ordinal, 0 before commit, usize::MAX after commit.
+    #[cfg(feature = "test-support")]
+    pub fn on_commit(&self, observer: Option<Observer>) {
+        *self.observer.lock().unwrap() = observer;
+    }
+    fn checkpoint(&self, point: usize) -> Result<()> {
+        #[cfg(feature = "test-support")]
+        {
+            let observer = self.observer.lock().map_err(|_| Error::Storage)?.clone();
+            if let Some(observer) = observer {
+                observer(point)?;
+            }
+        }
+        let _ = point;
+        Ok(())
+    }
+    /// Test inspection, not an ordered journal cursor API.
+    #[cfg(feature = "test-support")]
+    pub fn event_rows(&self) -> Result<Vec<Row>> {
+        let c = self.connection.lock().map_err(|_| Error::Storage)?;
+        let mut s = c
+            .prepare("SELECT data FROM events ORDER BY identity")
+            .map_err(|_| Error::Storage)?;
+        let rows = s
+            .query_map([], |r| r.get::<_, String>(0))
+            .map_err(|_| Error::Storage)?;
+        rows.map(|r| {
+            serde_json::from_str(&r.map_err(|_| Error::Storage)?).map_err(|_| Error::Storage)
+        })
+        .collect()
     }
     pub fn counts(&self) -> Result<[u64; 4]> {
         let c = self.connection.lock().unwrap();
@@ -150,10 +201,16 @@ impl Storage for Sqlite {
         {
             return Err(Error::NotCommitted);
         }
+        #[cfg(feature = "test-support")]
         let f = self.fault.swap(0, Ordering::SeqCst);
+        #[cfg(not(feature = "test-support"))]
+        let f = 0;
+        let mut ordinal = 0;
         if b.changed {
             let r = &b.receipt.row;
             tx.execute("INSERT INTO resources(kind,id,revision,data) VALUES (?,?,?,?) ON CONFLICT(kind,id) DO UPDATE SET revision=excluded.revision,data=excluded.data",params![r.key.kind,r.key.id,i64::try_from(r.revision).map_err(|_|Error::TooLarge)?,serde_json::to_string(r).unwrap()]).map_err(|_|Error::NotCommitted)?;
+            ordinal += 1;
+            self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
         }
         if f == 1 {
             return Err(Error::NotCommitted);
@@ -167,6 +224,8 @@ impl Storage for Sqlite {
                 ],
             )
             .map_err(|_| Error::NotCommitted)?;
+            ordinal += 1;
+            self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
         }
         if f == 2 {
             return Err(Error::NotCommitted);
@@ -179,6 +238,8 @@ impl Storage for Sqlite {
             ],
         )
         .map_err(|_| Error::NotCommitted)?;
+        ordinal += 1;
+        self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
         if f == 3 {
             return Err(Error::NotCommitted);
         }
@@ -192,11 +253,15 @@ impl Storage for Sqlite {
                 ],
             )
             .map_err(|_| Error::NotCommitted)?;
+            ordinal += 1;
+            self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
         }
         if f == 4 {
             return Err(Error::NotCommitted);
         }
+        self.checkpoint(0).map_err(|_| Error::NotCommitted)?;
         tx.commit().map_err(|_| Error::Unknown)?;
+        self.checkpoint(usize::MAX).map_err(|_| Error::Unknown)?;
         if f == 5 {
             Err(Error::Unknown)
         } else {

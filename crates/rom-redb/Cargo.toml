@@ -1,17 +1,16 @@
 [package]
-name = "rom-sqlite"
+name = "rom-redb"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 publish.workspace = true
 license.workspace = true
-description = "Typed Resource framework rom-sqlite foundation"
 repository.workspace = true
 [lints]
 workspace = true
 [dependencies]
 rom.workspace = true
-rusqlite.workspace = true
+redb.workspace = true
 serde_json.workspace = true
 [features]
 test-support = []

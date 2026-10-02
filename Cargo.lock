@@ -129,6 +129,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "libc"
+version = "0.2.189"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3eaf3ede3fee6db1a4c2ee091bf8a8b4dccdc6d17f656fb07896ee72867612f2"
+
+[[package]]
 name = "libsqlite3-sys"
 version = "0.38.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -202,6 +208,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "redb"
+version = "4.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fb338a6c67830a61bed824b78c2bb034ab1ff401a20616bd7957524f4fdc2f22"
+dependencies = [
+ "libc",
+]
+
+[[package]]
 name = "rom"
 version = "0.1.0-alpha.1"
 dependencies = [
@@ -231,12 +246,34 @@ dependencies = [
 ]
 
 [[package]]
+name = "rom-redb"
+version = "0.1.0-alpha.1"
+dependencies = [
+ "redb",
+ "rom",
+ "serde_json",
+]
+
+[[package]]
 name = "rom-sqlite"
 version = "0.1.0-alpha.1"
 dependencies = [
  "rom",
  "rusqlite",
  "serde_json",
+]
+
+[[package]]
+name = "rom-storage-conformance"
+version = "0.1.0-alpha.1"
+dependencies = [
+ "redb",
+ "rom",
+ "rom-redb",
+ "rom-sqlite",
+ "rusqlite",
+ "serde_json",
+ "tokio",
 ]
 
 [[package]]

@@ -12,3 +12,5 @@ workspace = true
 rom.workspace = true
 rom-sqlite.workspace = true
 tokio.workspace = true
+[dev-dependencies]
+rom-sqlite = { workspace = true, features = ["test-support"] }
