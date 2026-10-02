@@ -2,9 +2,11 @@
 
 A backend-first Rust library built around one domain entity: the **resource**.
 
+Declare a resource once; the framework supplies standard storage, operations, endpoints and reactive reads. Applications add domain behavior without writing a repository, controller or broadcaster for each resource kind.
+
 Actions request changes. The core validates and commits transitions. Events describe committed facts. Reactions can submit further actions through the same core.
 
-**Status:** architecture and specification stage; no runtime implementation yet.
+**Status:** architecture and specification stage, with executable experiments on separate prototype branches. No production ROM core is released.
 
 ## Design
 
@@ -26,6 +28,8 @@ Start with the [OpenSpec proposal](openspec/changes/establish-rom/proposal.md), 
 Research informs the design; candidate crates are not an approved dependency list.
 
 - [Framework comparisons and Rust crate candidates](docs/research/frameworks-and-rust-crates.md)
+- [Six-framework comparison and ranked recommendations](docs/research/state-of-art-resource-frameworks.md)
+- [Prototype findings and implementation tradeoffs](docs/research/prototype-results.md)
 - [Concurrency experiments and guarantees](docs/research/rust-concurrency.md)
 - [Provider-neutral authentication and authorization](docs/research/auth-architecture.md)
 - [Auth specification proposal](openspec/changes/design-provider-neutral-auth/proposal.md)
@@ -35,3 +39,5 @@ Research informs the design; candidate crates are not an approved dependency lis
 ## Development
 
 Use `./scripts/check` for local verification and `./scripts/build` once the Rust workspace exists. See the [persistent NixOS environment](infra/nixos/README.md). GitHub Actions is disabled. The [demo](demo/README.md) is reserved for an application built after the first core milestone.
+
+[Research and prototype program](docs/research/prototype-program.md) records the fixed premise and the experiments used to validate implementation choices.

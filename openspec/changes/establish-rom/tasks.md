@@ -4,7 +4,9 @@
 - [x] 1.2 Audit representative Beskid code and quality gates; propose measurable ROM gates.
 - [ ] 1.3 Resolve core public signatures, field encodings, reference database and reaction semantics in follow-up specifications.
 
-- [ ] 1.4 Validate Tokio/Rayon integration, async I/O and CPU completion with a bounded execution probe; select and pin compatible versions and a supported toolchain.
+- [x] 1.4 Validate Tokio/Rayon integration, async I/O and CPU completion with a bounded execution probe and retain a tested dependency lockfile.
+- [ ] 1.5 Select the production dependency versions and supported toolchain; prototype pins are experimental.
+- [ ] 1.6 Prototype generic live queries, including filter membership, snapshot/setup races, authorization changes and bounded slow consumers.
 
 ## 2. Introduce the core
 
@@ -19,6 +21,7 @@
 - [ ] 3.1 Implement a reference persistence adapter and verify rollback, concurrency and restart durability.
 - [ ] 3.2 Implement committed-event subscriptions and durable reaction progress; test interruption and duplicate delivery.
 - [ ] 3.3 Demonstrate a reaction changing a second resource exclusively through the core action interface.
+- [ ] 3.4 Implement live resource reads from the shared resource/query definition with dependency invalidation and explicit recovery semantics.
 
 ## 4. Extend and verify
 

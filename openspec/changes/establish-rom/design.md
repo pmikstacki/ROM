@@ -8,7 +8,7 @@ One main library owns the public contract. Database and transport integrations a
 
 ## Defining premise: declare once
 
-A resource declaration is the single application-facing definition for standard operations, persistence, query metadata and committed-change subscriptions. With a generic HTTP adapter enabled, it also supplies endpoints and live streaming without per-kind handlers. Adapters are selected once by the host, not reimplemented for each resource kind. Custom actions add domain behavior; they do not force reimplementation of ordinary resource CRUD.
+A resource declaration is the single application-facing definition for standard operations, persistence, query metadata, live reads and committed-change subscriptions. With a generic HTTP adapter enabled, it also supplies endpoints and live streaming without per-kind handlers. Adapters are selected once by the host, not reimplemented for each resource kind. Custom actions add domain behavior; they do not force reimplementation of ordinary resource CRUD.
 
 Avoid mandatory per-kind storage schemas and repositories. A generic persisted envelope with typed payload validation is a candidate, with physical layout and indexing still to be decided. Changes to declared fields may need value compatibility rules, but do not imply handwritten endpoints or a new database table per kind.
 
@@ -58,7 +58,15 @@ Per-resource event ordering is required; global ordering is not. Consumers need 
 
 ### Public interface shape
 
-Expose operations to register resource kinds/field types, execute actions, read resources, and subscribe to committed changes. Concrete Rust signatures will follow the research and a minimal vertical slice. HTTP and RabbitMQ adapt this interface; neither becomes part of the core dependency graph.
+Expose operations to register resource kinds/field types, execute actions, read resources, observe live reads, and subscribe to committed changes. Concrete Rust signatures will follow the research and a minimal vertical slice. HTTP and RabbitMQ adapt this interface; neither becomes part of the core dependency graph.
+
+### Reactive reads and durable facts
+
+Live reads answer what the current authorized result is; committed-event streams answer what happened; reactions request subsequent actions. They share the resource model but require distinct delivery semantics. A live query may coalesce intermediate states, whereas a durable consumer resumes through an explicit cursor and retention contract. A transient notification is a wake-up hint, not the authoritative history.
+
+Generate live forms of standard resource queries without per-kind subscription code. The initial implementation may invalidate all dependent reads of a kind and rerun them; precise dependency tracking is an optimization. Changes must account for filter membership, deletion, ordering and supported pagination. Subscription startup needs a consistent snapshot/change boundary or explicit refresh to close the setup race. Custom reads require declared or tracked dependencies; arbitrary external state cannot be automatically observed without an integration contract.
+
+Authorization and field projection apply to initial results and subsequent delivery. Policy changes must be reflected under an explicit freshness rule. Bounded buffering and a defined resync path are required for slow consumers. These are intended contracts: event replay in a prototype does not establish live-query correctness. See the [research comparison](../../../docs/research/state-of-art-resource-frameworks.md) and [prototype findings](../../../docs/research/prototype-results.md).
 
 ## Risks / Trade-offs
 

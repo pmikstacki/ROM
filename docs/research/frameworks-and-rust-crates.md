@@ -2,6 +2,8 @@
 
 Research date: 2026-10-02. Status: design input, not an approved dependency list or implementation specification. Sources are public first-party documentation. Recommendations below are architectural judgments, distinguished from documented upstream behavior. No performance benchmarks, compatibility build, or dependency-license audit were performed.
 
+This note records the initial literature review. Subsequent [prototype findings](prototype-results.md) separately record actual compatibility builds and executable probes; the broader candidate list below remains untested.
+
 ## Recommendation
 
 Build ROM as a small resource engine with its own contracts. Borrow Ash's resource/action/type organization, Kubernetes' reconciliation discipline, and CQRS libraries' separation of intent from committed facts. Start with persisted current state plus a transactional event outbox; do not require full event sourcing. Use compiled Rust extensions first. HTTP, RabbitMQ, and a future WASM host belong outside the core.

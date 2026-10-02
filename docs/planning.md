@@ -31,7 +31,7 @@ The project develops the owner's original vision of a reactive resource framewor
 
 Static source review suggests preserving an explicit resource/field descriptor model, centralized type capabilities and field policies. ROM should strengthen recursive type fidelity, stable identity, validation of ambiguous definitions, immutable metadata and consumer-level conformance tests. No legacy code was executed. Private source and detailed source evidence remain outside this public repository.
 
-Confirmed direction: backend only, one main Rust library, resource/action/event model, persistence, extensible fields and Rust extension contracts. HTTP/RabbitMQ are separate; WASM is future work. Storage engine, event-sourcing strategy and concrete crates remain design decisions, not accepted dependencies.
+Confirmed direction: backend only, one main Rust library, resource/action/event model, persistence, extensible fields and Rust extension contracts, with Tokio and Rayon for execution. HTTP/RabbitMQ are separate; WASM is future work. The production storage engine, state/history strategy, dependency releases and remaining crates still need decisions. Tested prototype pins do not freeze the production dependency graph.
 
 ## Local verification
 

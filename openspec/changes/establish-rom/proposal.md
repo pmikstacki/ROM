@@ -17,7 +17,7 @@ Resource definitions should carry reliable behavior across every caller. ROM wil
 ### New Capabilities
 - `resource-model`: Resource identity, typed fields, revisions and lifecycle.
 - `action-runtime`: One mutation path with validation and concurrency guarantees.
-- `event-reactivity`: Committed events and recoverable reactions.
+- `event-reactivity`: Generic live reads, committed events and recoverable reactions.
 - `field-extensions`: Built-in field families and Rust extension contracts.
 - `persistence`: Atomic persistence and a database adapter contract.
 - `boundary-adapters`: Transport-independent access and separate integrations.

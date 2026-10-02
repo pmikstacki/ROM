@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Committed events and recoverable reactions. This capability defines the observable contract for ROM implementations.
+Live resource reads, committed events and recoverable reactions. These are observable behaviors of the same resource, with distinct delivery contracts.
 
 ## ADDED Requirements
 
@@ -37,3 +37,35 @@ Reactions SHALL request resource changes through the core action contract.
 - **GIVEN** a reaction receives an event
 - **WHEN** its resulting action fails validation
 - **THEN** no partial resource change is committed
+
+### Requirement: Generic live reads
+Standard resource reads SHALL have a live form supplied by the framework from the resource definition and query. Applications SHALL NOT need a separate per-kind subscription resolver or broadcaster. Committed changes affecting query membership SHALL cause the authorized result to converge to the current query result, including additions, removals and deletions.
+
+#### Scenario: A mutation changes filter membership
+- **GIVEN** a client observes resources whose completed field is false
+- **WHEN** an action commits completed as true on a matching resource
+- **THEN** the live result removes that resource without application-specific subscription code
+
+### Requirement: Snapshot and subscription consistency
+Starting or resuming a live read SHALL establish a consistent snapshot/change boundary or detect the gap and refresh. The runtime SHALL NOT silently miss a committed change between the initial read and subscription setup. Conservative dependency invalidation MAY be used before more precise tracking is implemented.
+
+#### Scenario: A write races subscription setup
+- **GIVEN** a resource changes after the initial read and before live delivery is established
+- **WHEN** the subscription becomes active
+- **THEN** the change is reflected through delivery or a refreshed snapshot
+
+### Requirement: Distinct delivery semantics
+Live reads MAY coalesce intermediate results. Committed-event consumers SHALL have explicit cursor, ordering, retention and gap semantics and SHALL NOT depend on best-effort in-memory notifications for recovery. A slow consumer SHALL trigger bounded buffering, recovery or termination rather than unbounded memory growth.
+
+#### Scenario: A transient notification is lost
+- **GIVEN** a committed event exists but its in-memory notification is lost
+- **WHEN** a durable consumer resumes from its last acknowledged cursor
+- **THEN** the event remains recoverable within the declared retention contract
+
+### Requirement: Authorized live projections
+Live delivery SHALL apply the resource's current authorization and field projection rules under a documented authorization freshness contract. Dependency changes that affect visibility SHALL invalidate or terminate the subscription as required by that contract.
+
+#### Scenario: Subscription access is revoked
+- **GIVEN** an active subscription and a policy change that removes its access
+- **WHEN** the authorization freshness boundary is reached
+- **THEN** subsequent protected results are withheld and the subscription is terminated or recomputed safely
