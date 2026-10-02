@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/../.."
+export CARGO_BUILD_JOBS=2
+export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$PWD/target/auth}"
+[[ "$(rustc --version)" == "rustc 1.99.0 "* ]]
+command -v openssl >/dev/null
+cargo fmt -p rom-auth -- --check
+cargo clippy -p rom-auth --all-targets --all-features --locked -- -D warnings
+cargo test -p rom-auth --all-features --locked
+cargo check -p rom-auth --no-default-features --locked
+cargo check -p rom-auth --no-default-features --features jwt --locked
+cargo check -p rom-auth --no-default-features --features introspection --locked
+RUSTDOCFLAGS='-D warnings' cargo doc -p rom-auth --all-features --no-deps --locked
+cargo tree -p rom-auth --no-default-features --edges normal --locked
+cargo tree -p rom --no-default-features --edges normal --locked > "$CARGO_TARGET_DIR/auth-core-dependencies.txt"
+if rg 'jsonwebtoken|reqwest|aws-lc|rom-auth' "$CARGO_TARGET_DIR/auth-core-dependencies.txt"; then
+  echo 'Authentication dependencies entered the core graph' >&2
+  exit 1
+fi
