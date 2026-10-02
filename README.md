@@ -30,6 +30,8 @@ Research informs the design; candidate crates are not an approved dependency lis
 - [Framework comparisons and Rust crate candidates](docs/research/frameworks-and-rust-crates.md)
 - [Six-framework comparison and ranked recommendations](docs/research/state-of-art-resource-frameworks.md)
 - [Prototype findings and implementation tradeoffs](docs/research/prototype-results.md)
+- [Interchangeable adapters and resilience: executed findings](docs/research/capability-prototype-results.md)
+- [Generic persistence, blob and notification contracts](openspec/changes/design-capability-adapters/design.md)
 - [Human-friendly Rust authoring: derives and fluent APIs](docs/research/rust-resource-authoring.md)
 - [Executed derive and builder crate trials](docs/research/authoring-crate-trials.md)
 - [Reusable core work packages and estimation readiness](docs/research/core-implementation-readiness.md)

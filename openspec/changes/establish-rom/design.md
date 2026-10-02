@@ -68,6 +68,10 @@ Proposed initial families: boolean; signed/unsigned integers with explicit range
 
 Rust extensions are trusted application code; a trait does not sandbox them. WASM can later implement selected contracts through a bridge without forcing a WASM ABI into the initial public API.
 
+### Provider-independent infrastructure
+
+The owner requires generic contracts across infrastructure: persistence implementations, folder/S3 blob stores and named notification channels. Core owns semantic operations and guarantees; adapters own provider protocols, physical layout and driver types. Resource definitions do not select engines. The [capability-adapter design](../design-capability-adapters/design.md) specifies this separation and resilience boundaries; its experiments include SQL/key-value substitution, actual S3-compatible interoperability and durable function-channel delivery. These are separate proofs, not an integrated production runtime.
+
 ### Persistence and reactions
 
 The core owns the transaction semantics; a database adapter owns storage mechanics. Resource revisions provide optimistic concurrency. Reaction execution is at least once, with durable progress and stable deduplication identities. There is no claim of exactly-once remote effects.

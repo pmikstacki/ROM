@@ -8,6 +8,8 @@ Combine the resource descriptor/shared mutation pattern with work-owned executio
 
 Application authors declare resources and write business functions. ROM owns the difficult registration, codecs, transactions, task supervision, policy checks and subscriptions. A production public interface should not expose the experiments' string field selectors, JSON mutation code or executor bookkeeping as the normal typed authoring path.
 
+Subsequent [adapter experiments](capability-prototype-results.md) now add real SQLite/redb substitution, folder/MinIO blob interoperability and durable function-channel delivery. Production integration must still commit effect intentions with the full resource bundle, enforce public policy and combine these seams with typed authoring and supervision. No engine becomes part of the core contract.
+
 ## First reusable milestone
 
 | Work package | Concrete acceptance | Uncertainty |
