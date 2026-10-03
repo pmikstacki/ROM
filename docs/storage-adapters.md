@@ -27,6 +27,10 @@ changed descriptors until an explicit migration occurs.
 Custom persistence adapters must implement this method. Its default returns
 `Unsupported`. Transparent wrappers must forward registration to their backing store.
 
+Query selection now uses the [owned adapter query contract](query-adapters.md).
+Its default delegates to one bounded snapshot, so both maintained adapters retain their current execution path.
+Native candidate support requires the separate profile and integrity obligations in that contract.
+
 Declared references now enforce target existence and restrict deletion inside
 the native commit transaction. See [reference integrity](references.md).
 Existing stores receive a complete bounded validation at open. The default budget

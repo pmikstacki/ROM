@@ -133,6 +133,34 @@ the shared authorization, filter, ordering and admission contracts.
 - **THEN** the adapter does not invoke that code while holding its native connection mutex
 - **AND** observation retains the existing current-authority and generation rechecks
 
+#### Scenario: Explicit uniform read authorization
+- **GIVEN** a Resource with an actor-only read policy
+- **WHEN** ROM selects rows after query grants and normalization
+- **THEN** it evaluates that policy once for this selection attempt before adapter access
+- **AND** a denial returns Denied even for an empty or oversized kind
+- **AND** accepted selection skips the Resource decode used only for an opaque row policy
+- **AND** returned values still pass current disclosure, field and codec checks
+
+#### Scenario: A later definition clears optimization permission
+- **GIVEN** a definition with an actor-only read policy and explicit unconditional field grants
+- **WHEN** its author supplies a later opaque row policy or field policy
+- **THEN** that later declaration clears the corresponding uniform permission
+- **AND** ROM requests reference rows when uniform read and field permissions are not both present
+- **AND** a later actor-only read policy overrides reads without replacing the write policy
+
+#### Scenario: Adapter returns candidates for a different request
+- **GIVEN** a normalized request permitted to use native candidates
+- **WHEN** its adapter returns a different request binding, unsupported profile or inconsistent admission metadata
+- **THEN** ROM rejects the response instead of disclosing rows or performing a fallback read
+- **AND** excessive whole-kind row or byte counts return TooLarge even if few candidates match
+
+#### Scenario: Cost estimates cannot authorize a native path
+- **GIVEN** optional native estimates for a query
+- **WHEN** the policy mode, scalar profile, request binding or snapshot identity does not match
+- **THEN** the shared selector chooses reference execution
+- **AND** absent estimates, checked-cost overflow and equal costs also choose reference execution
+- **AND** only matching complete candidate support with a strictly lower cost can select native execution
+
 ### Requirement: Release readiness includes operational recovery
 ROM SHALL provide tested CLI recovery, single-writer ownership, documented identity
 and secrets setup, versioned extension conformance and locally verified packages.

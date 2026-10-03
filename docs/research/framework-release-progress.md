@@ -4,6 +4,11 @@ Active owner goal: complete the four sequential stages in
 [the release checklist](../../openspec/changes/prepare-framework-release/tasks.md).
 This is an implementation ledger, not a release readiness declaration.
 
+The latest stage-three step adds the [owned query read contract](query-read-contract-results.md),
+explicit actor-only read policies and a pure checked-cost selector.
+The combined core seam passes the full local verifier. Both maintained stores still use
+the bounded snapshot fallback; native index maintenance and measurements remain pending.
+
 ## Stage 1: reference application and author ergonomics
 
 The first maintained slice extends the existing application with `./demo/run reference sqlite` and `./demo/run reference redb`. Its public API journey combines inventory filtering/sorting/moving pages, pending checkout compensation, replay, live membership and Task-to-Dashboard reactions. The journey also reads actual folder attachments after a reopen, without another upload.

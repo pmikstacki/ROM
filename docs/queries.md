@@ -39,7 +39,7 @@ Typed `Presence::Missing` comparisons encode explicit `absent:true`. Here, `eq` 
 
 ## Authority and moving pages
 
-Before the query consults any rows, every predicate must have `query_policy` permission. Ordering separately needs default-denied `Definition::sort_policy`. `allow_all_fields()` explicitly grants field reads, predicate use and ordering. Even after a sort grant, every row-readable candidate must grant read access to each ordered field. Otherwise, the query returns `Denied` before filtering/pagination.
+Before the query consults any rows, every predicate must have `query_policy` permission. Ordering separately needs default-denied `Definition::sort_policy`. `allow_all_fields()` explicitly grants field reads, predicate use and ordering. Under an opaque policy, every row-readable candidate must also pass read authorization for each ordered field. Otherwise, the query returns `Denied` before filtering/pagination.
 
 This prevents hidden values influencing observable ranks. Row-hidden resources never supply sort keys. Complete typed results still need every field grant. Projected results can omit other protected fields. Live refreshes perform the same current checks.
 
@@ -51,6 +51,40 @@ Clients can choose different valid boundary values just as they can choose filte
 
 These are moving views with current data/current authority. Updates can move a row across the boundary and cause repeats or omissions. Inserts before the boundary can be missed. Deletion of the anchor row does not invalidate its observed keys. No transactional snapshot is retained, and a full page does not prove another authorized row exists.
 
-Every call still loads the bounded kind snapshot. A small result limit does not bypass snapshot row/byte limits. If those bounds are exceeded, the call returns `TooLarge` rather than a partial page.
+Every call retains whole-kind row and byte limits. A small result limit does not bypass these limits. If those bounds are exceeded, the call returns `TooLarge` rather than a partial page.
 
-Shared SQLite/redb conformance covers exact numeric and codec behavior, missing/null, sort grants, binding and malformed anchors, typed/projected/live behavior, and mutation-driven continuation. HTTP tests exercise the same structured query through query/live routes. Indexed execution and cost-based strategy selection remain separately measured experiments until a reviewed storage planning contract is introduced.
+## Explicit uniform reads
+
+Use `read_policy` when the read decision depends on the actor and does not need the Resource value:
+
+```rust,ignore
+let definition = Inventory::definition()
+    .policy(|actor, _, _| actor.subject == "inventory-writer")
+    .read_policy(|actor| actor.subject == "inventory-reader"
+        || actor.subject == "inventory-writer")
+    .allow_all_fields();
+```
+
+The ordinary policy still controls writes. A later `policy(...)` clears the separate read rule.
+A later `read_policy(...)` replaces read authorization only.
+Direct reads, receipt disclosure and live queries use that same current read rule.
+
+For each query-selection attempt, the actor-only rule runs once after query grants and operand normalization, before query storage access.
+A denial returns `Denied`, including on an empty or oversized kind.
+The accepted rule removes the per-row Resource decode used only for opaque row authorization.
+With `allow_all_fields()`, selection also omits the sort-field callback preflight.
+A later `field_policy(...)` clears that uniform field permission and restores the field preflight.
+
+Returned rows still pass the normal current-authority, field-disclosure and codec checks.
+Those final checks can invoke the read rule again. An observation retry starts another selection attempt.
+Keep policy functions bounded and deterministic; the number of final checks is not an application event contract.
+
+This explicit mode permits a persistence adapter to return a complete native candidate set.
+Opaque row policies or opaque field policies request reference rows in the initial profile.
+The selector compares costs only after semantic eligibility; an estimate never grants access.
+Both maintained database adapters currently use the default bounded snapshot operation.
+Native index persistence and its performance measurements remain separate stage-three work.
+
+Shared SQLite/redb conformance covers exact numeric and codec behavior, missing/null, sort grants, binding and malformed anchors, typed/projected/live behavior, and mutation-driven continuation.
+HTTP tests exercise the same structured query through query/live routes.
+See the [adapter query contract](query-adapters.md) for the owned read operation and its trust boundaries.

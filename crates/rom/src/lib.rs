@@ -76,3 +76,10 @@ pub use channels::*;
 #[doc(hidden)]
 #[path = "input_codec.rs"]
 pub mod __private;
+
+mod query_storage;
+pub use query_storage::{
+    KindAdmission, QUERY_ENCODING_VERSION, QUERY_PROFILE_VERSION, QUERY_SEMANTICS_VERSION,
+    QueryBounds, QueryCost, QueryEstimates, QueryRead, QuerySnapshot, QueryStrategy, ReadBinding,
+    SelectionMode, StorageQuery, select_query_strategy,
+};

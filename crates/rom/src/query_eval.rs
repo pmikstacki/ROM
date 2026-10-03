@@ -1,5 +1,6 @@
 //! Private canonical plan shared by typed, projected and live observations.
 use super::*;
+use crate::query_storage::{scalar_shape, validate_query_read};
 use std::cmp::Ordering as Cmp;
 pub(crate) struct Plan {
     pub(crate) spec: QuerySpec,
@@ -11,13 +12,6 @@ fn field<'a>(d: &'a Descriptor, name: &str) -> Result<&'a Shape> {
         .find(|f| f.name == name)
         .map(|f| &f.shape)
         .ok_or_else(|| Error::invalid(&d.kind, name))
-}
-fn scalar(shape: &Shape) -> bool {
-    match shape {
-        Shape::Optional(s) | Shape::Nullable(s) => scalar(s),
-        Shape::List(_) | Shape::Map(_) => false,
-        _ => true,
-    }
 }
 fn normalized(
     d: &Descriptor,
@@ -72,7 +66,7 @@ pub(crate) fn normalize(
         } else {
             p.value = normalized(d, &p.field, p.value.clone(), &codec)?;
             if !matches!(p.op, CompareOp::Eq | CompareOp::Ne)
-                && (!scalar(shape) || p.value.is_null())
+                && (!scalar_shape(shape) || p.value.is_null())
             {
                 return Err(Error::invalid(&d.kind, &p.field));
             }
@@ -81,7 +75,7 @@ pub(crate) fn normalize(
     let mut sorted = BTreeSet::new();
     for o in &spec.order {
         let shape = field(d, &o.field)?;
-        if !scalar(shape) || !sorted.insert(&o.field) {
+        if !scalar_shape(shape) || !sorted.insert(&o.field) {
             return Err(Error::invalid(&d.kind, &o.field));
         }
         shapes.insert(o.field.clone(), shape.clone());
@@ -179,7 +173,7 @@ fn compare_value(a: Option<&Value>, b: Option<&Value>, shape: &Shape) -> Result<
     })
 }
 fn equal(a: &Value, b: &Value, shape: &Shape) -> Result<bool> {
-    if scalar(shape) {
+    if scalar_shape(shape) {
         Ok(compare_value(Some(a), Some(b), shape)? == Cmp::Equal)
     } else {
         Ok(a == b)
@@ -316,30 +310,32 @@ impl Runtime {
     ) -> Result<Vec<Row>> {
         let plan = self.query_plan(actor, kind, query)?;
         let def = self.0.registry.get(kind).ok_or(Error::Unregistered)?;
-        let mut rows = self.0.storage.snapshot(
-            kind,
-            self.0.limits.snapshot_rows,
-            self.0.limits.snapshot_bytes,
+        // Explicit actor-only authorization is one decision per selection attempt.
+        // Final disclosure still performs its normal current-authority checks.
+        let uniform_read = def.uniform_read(actor);
+        if uniform_read == Some(false) {
+            return Err(Error::Denied);
+        }
+        let uniform_fields = uniform_read.is_some() && def.uniform_fields();
+        let request = StorageQuery {
+            spec: plan.spec.clone(),
+            descriptor: def.descriptor(),
+            semantics: QUERY_SEMANTICS_VERSION,
+            selection: if uniform_fields {
+                SelectionMode::UniformReadAndFields
+            } else {
+                SelectionMode::ReferenceOnly
+            },
+        };
+        let bounds = QueryBounds {
+            max_rows: self.0.limits.snapshot_rows,
+            max_bytes: self.0.limits.snapshot_bytes,
+        };
+        let rows = validate_query_read(
+            &request,
+            bounds,
+            self.0.storage.query_read(&request, bounds)?,
         )?;
-        if rows.len() > self.0.limits.snapshot_rows {
-            return Err(Error::TooLarge);
-        }
-        let mut bytes = 0usize;
-        for row in &rows {
-            if row.key.kind != kind {
-                return Err(Error::Storage);
-            }
-            bytes = bytes
-                .checked_add(serde_json::to_vec(row).map_err(|_| Error::Storage)?.len())
-                .ok_or(Error::TooLarge)?;
-            if bytes > self.0.limits.snapshot_bytes {
-                return Err(Error::TooLarge);
-            }
-        }
-        rows.sort_by(|a, b| a.key.id.cmp(&b.key.id));
-        if rows.windows(2).any(|r| r[0].key.id == r[1].key.id) {
-            return Err(Error::Storage);
-        }
         let mut selected = Vec::new();
         for row in rows {
             if plan.spec.order.is_empty()
@@ -355,12 +351,14 @@ impl Runtime {
             let Some(value) = row.value.as_ref() else {
                 continue;
             };
-            if !def.allows(actor, Access::Read, value) {
+            if uniform_read.is_none() && !def.allows(actor, Access::Read, value) {
                 continue;
             }
-            for o in &plan.spec.order {
-                if !def.allows_field(actor, Access::Read, &o.field, value) {
-                    return Err(Error::Denied);
+            if !uniform_fields {
+                for o in &plan.spec.order {
+                    if !def.allows_field(actor, Access::Read, &o.field, value) {
+                        return Err(Error::Denied);
+                    }
                 }
             }
             if !plan.matches(value)?

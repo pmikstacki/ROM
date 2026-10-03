@@ -1,6 +1,8 @@
 # Maintained query strategies
 
-Status: design under technical review. Stage 3.2 is not implemented.
+Status: the owned core read seam and explicit read-policy contract are implemented.
+Native index integration in stage 3.2 remains pending.
+See the [core seam plan](../plans/2026-10-03-query-read-contract.md) for exact types and tests.
 
 ## Intent
 
@@ -121,7 +123,7 @@ StorageQuery: normalized QuerySpec, Descriptor and semantic version,
 QueryBounds: max_rows, max_bytes
 QueryRead: Reference { rows: Vec<Row> }
          | NativeCandidates { rows: Vec<Row>, admission: KindAdmission,
-                              binding: ReadBinding }
+                              binding: Box<ReadBinding> }
 ```
 
 `KindAdmission` contains exact row count, persisted Row-text bytes and canonical
@@ -187,6 +189,6 @@ Choose a strategy only from these supported paths; do not promise a universal wi
 
 ## Remaining design work
 
-The native layout and semantic-gate reviews will resolve the exact adapter types,
-index declaration/configuration contract and actor-only policy API. This document
-does not mark release task 3.1 complete while those interfaces remain open.
+The core seam fixes the adapter types, actor-only policy API and scalar eligibility gate.
+The native layout still needs its index configuration, transactional maintenance and recovery implementation.
+Release task 3.1 remains open until that physical integration contract is final.

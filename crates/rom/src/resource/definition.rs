@@ -6,6 +6,10 @@ use crate::{
 use serde::{Deserialize, Serialize};
 use std::{collections::BTreeMap, sync::Arc};
 
+#[cfg(test)]
+#[path = "definition_tests.rs"]
+mod tests;
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Intent {
     pub channel: String,
@@ -47,8 +51,10 @@ pub struct Definition<R: Resource> {
     descriptor: Descriptor,
     actions: BTreeMap<String, ErasedAction>,
     policy: Option<Policy<R>>,
+    read_policy: Option<fn(&Actor) -> bool>,
     transition_validator: Option<TransitionValidator<R>>,
     field_policy: Option<FieldPolicy<R>>,
+    uniform_fields: bool,
     query_policy: Option<fn(&Actor, &str) -> bool>,
     sort_policy: Option<fn(&Actor, &str) -> bool>,
     source_owner: Option<String>,
@@ -69,8 +75,10 @@ impl<R: Resource> Definition<R> {
             descriptor: R::descriptor(),
             actions: BTreeMap::new(),
             policy: None,
+            read_policy: None,
             transition_validator: None,
             field_policy: None,
+            uniform_fields: false,
             query_policy: None,
             sort_policy: None,
             source_owner: None,
@@ -96,8 +104,19 @@ impl<R: Resource> Definition<R> {
             .is_some();
         self
     }
+    /// Set the row policy for reads and writes, replacing any actor-only read rule.
     pub fn policy(mut self, policy: Policy<R>) -> Self {
         self.policy = Some(policy);
+        self.read_policy = None;
+        self
+    }
+    /// Replace read authorization with an actor-only rule; writes retain the row policy.
+    /// Read selection can omit Resource decoding used only by the opaque row policy.
+    /// Returned values still require field disclosure and normal decoding. A later
+    /// `policy(...)` restores opaque reads. Queries evaluate this rule after query
+    /// grants and normalization, before storage access; final disclosure rechecks it.
+    pub fn read_policy(mut self, policy: fn(&Actor) -> bool) -> Self {
+        self.read_policy = Some(policy);
         self
     }
     /// Validate every proposed Resource transition after authority and revision checks.
@@ -116,8 +135,10 @@ impl<R: Resource> Definition<R> {
         self
     }
     /// Explicit per-field permission. Missing field policy denies every field.
+    /// Replaces the unconditional field grant established by `allow_all_fields()`.
     pub fn field_policy(mut self, policy: FieldPolicy<R>) -> Self {
         self.field_policy = Some(policy);
+        self.uniform_fields = false;
         self
     }
     /// Authorizes predicate use before consulting any rows, including empty sets.
@@ -130,11 +151,14 @@ impl<R: Resource> Definition<R> {
         self.sort_policy = Some(policy);
         self
     }
-    /// Explicit whole-record field, predicate and sort grant; row policy still applies.
+    /// Explicit whole-record field, predicate and sort grant; Resource policies still apply.
     pub fn allow_all_fields(self) -> Self {
-        self.field_policy(|_, _, _, _| true)
+        let mut definition = self
+            .field_policy(|_, _, _, _| true)
             .query_policy(|_, _| true)
-            .sort_policy(|_, _| true)
+            .sort_policy(|_, _| true);
+        definition.uniform_fields = true;
+        definition
     }
     /// Freeze whole-Resource source ownership in the accepted definition.
     pub fn source_owner(mut self, source: &str) -> Self {
@@ -183,6 +207,8 @@ pub(crate) trait Registered: Send + Sync {
     fn normalize(&self, v: Value) -> Result<Value>;
     fn normalize_field(&self, name: &str, value: Value) -> Result<Value>;
     fn allows(&self, actor: &Actor, access: Access, v: &Value) -> bool;
+    fn uniform_read(&self, actor: &Actor) -> Option<bool>;
+    fn uniform_fields(&self) -> bool;
     fn allows_field(&self, actor: &Actor, access: Access, field: &str, v: &Value) -> bool;
     fn allows_query(&self, actor: &Actor, field: &str) -> bool;
     fn allows_sort(&self, actor: &Actor, field: &str) -> bool;
@@ -242,9 +268,20 @@ impl<R: Resource> Registered for Definition<R> {
         Ok(value)
     }
     fn allows(&self, a: &Actor, access: Access, v: &Value) -> bool {
+        if matches!(access, Access::Read)
+            && let Some(allowed) = self.uniform_read(a)
+        {
+            return allowed;
+        }
         R::decode(v.clone())
             .ok()
             .is_some_and(|r| self.policy.is_some_and(|p| p(a, access, &r)))
+    }
+    fn uniform_read(&self, actor: &Actor) -> Option<bool> {
+        self.read_policy.map(|policy| policy(actor))
+    }
+    fn uniform_fields(&self) -> bool {
+        self.uniform_fields
     }
     fn action(&self, name: &str) -> Result<ErasedAction> {
         self.actions

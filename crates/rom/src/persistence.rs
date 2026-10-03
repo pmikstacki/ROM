@@ -102,6 +102,14 @@ pub trait Storage: Send + Sync + 'static {
     /// Reject overflow without truncation. Charge serialized full Row bytes,
     /// using checked arithmetic before decoding/appending each row.
     fn snapshot(&self, kind: &str, max_rows: usize, max_bytes: usize) -> Result<Vec<Row>>;
+    /// One coherent owned query read. Release native guards before returning Rows.
+    /// Native adapters must preserve whole-kind admission and complete candidate coverage.
+    /// Never invoke application policies or codecs inside native locks/transactions.
+    /// The default preserves existing adapters through exactly one bounded snapshot.
+    fn query_read(&self, request: &StorageQuery, bounds: QueryBounds) -> Result<QueryRead> {
+        self.snapshot(&request.descriptor.kind, bounds.max_rows, bounds.max_bytes)
+            .map(|rows| QueryRead::Reference { rows })
+    }
     fn receipt(&self, identity: &str) -> Result<Option<Receipt>>;
     fn commit(&self, bundle: &Bundle) -> Result<Receipt>;
     /// Capability is availability, never authority to disclose historical facts.
