@@ -1,0 +1,162 @@
+- Validating...
+    Finished `dev` profile [unoptimized] target(s) in 0.13s
+    Finished `test` profile [unoptimized] target(s) in 0.10s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom-7b5f17594ef135a9)
+     Running tests/json.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/json-3a76dd3820561486)
+     Running tests/operator_protocol.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator_protocol-3b61a70714a68fce)
+     Running tests/reference_schema.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reference_schema-c67a78a41278ba15)
+     Running tests/replay_versions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/replay_versions-a2e0286b6270a973)
+     Running tests/retry_epochs.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/retry_epochs-e5db2c6e74ea9fd0)
+     Running tests/storage_ownership.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/storage_ownership-e0ec6d48ff97cc2c)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_auth-79991e1c34207229)
+     Running tests/profiles.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/profiles-ee347792b2611240)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_backup-5e7d30ed5c34a491)
+     Running tests/migration_codecs.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/migration_codecs-89f0707435962225)
+     Running tests/migrations.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/migrations-464338e975d0b675)
+     Running tests/native_ownership.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/native_ownership-389a295bf070e61b)
+     Running tests/references.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/references-fe1a47080f08f6ec)
+     Running tests/retention.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/retention-b25ad48c539a9de2)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_blob-ddbfa8d0e6cecac4)
+     Running tests/lifecycle.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/lifecycle-7501cea2e1750afb)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_blob_object_store-7776cde9d11d202c)
+     Running tests/conformance.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/conformance-6fbcc38b639eebc4)
+     Running unittests src/main.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom-3891ab78606cb962)
+     Running tests/commands.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/commands-d3e427985f3635c0)
+     Running tests/failures.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/failures-3c53735ba89a6b19)
+     Running tests/loopback.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/loopback-956278414ccc62e5)
+     Running tests/operator.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator-49bfc5f23eba079d)
+     Running tests/retry_epochs.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/retry_epochs-e9fd8cc137f6e4b8)
+     Running tests/streaming.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/streaming-d5fa479bb7648558)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_config-73e1bb7fe86c2fa3)
+     Running tests/ingestion.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/ingestion-1a8352be3fad7688)
+     Running tests/parser.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/parser-a94e1e5481553223)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_conformance-83cc03502f47bab1)
+     Running tests/blob.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/blob-949b938c3f32ff48)
+     Running tests/public_contract.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/public_contract-13fd1e16b21d3d3e)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_consumer-e1bfa42c077e4001)
+     Running unittests src/main.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_consumer-56a2911b96c96215)
+     Running tests/actor_gate.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/actor_gate-21b042a504a924ee)
+     Running tests/bounds.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/bounds-0c2c53b09019c520)
+     Running tests/capacity_configuration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/capacity_configuration-6c7b522901d9c59f)
+     Running tests/discovery.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/discovery-b52e8fcc3733717b)
+     Running tests/extensions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/extensions-80b95c841302c250)
+     Running tests/fields.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/fields-de80ef313fa342e5)
+     Running tests/initial_authority.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/initial_authority-06a53898b52abcb7)
+     Running tests/integrated.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/integrated-10071e9e8a6ed9de)
+     Running tests/invocation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/invocation-50a6782262fb1cf9)
+     Running tests/lifecycle.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/lifecycle-1f4599c63aaa8daf)
+     Running tests/native_conformance.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/native_conformance-fc4478f2b381a0a5)
+     Running tests/presence.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/presence-e3518ba65bdc27a7)
+     Running tests/projection.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/projection-94f7090f9fb19001)
+     Running tests/promotion.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/promotion-418bb0cdc0182c47)
+     Running tests/query_all.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/query_all-dc7530ba34244d6f)
+     Running tests/query_contract.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/query_contract-7a92441ee152a78d)
+     Running tests/source_authority.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/source_authority-22c40b58f915ab46)
+     Running tests/structured_input.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/structured_input-8883039ed85b171f)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-8e5077fb739914b1)
+     Running unittests src/main.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-a37fc0af5886edda)
+     Running tests/compensation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/compensation-6c384b3d2bd2f67a)
+     Running tests/documented_commands.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/documented_commands-8d260753e12525a0)
+     Running tests/operator.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator-c7fc944c81babbc8)
+     Running tests/provider_auth.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_auth-c3b15b9e21cab271)
+     Running tests/provider_profile.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_profile-e6dc6e983fb796de)
+     Running tests/reference.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reference-0a64d7da1223128f)
+     Running tests/reservation_input.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reservation_input-ee94310f1d440aa7)
+     Running tests/server_lifecycle.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/server_lifecycle-73f07919ad3a766e)
+     Running tests/transitions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/transitions-4a4f3ed8f5cdd397)
+     Running tests/upgrade.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/upgrade-ece29bd673987616)
+     Running tests/workshop.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/workshop-0d44e646429afa23)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_derive-f5033494de5532c1)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_http-9a32a5cef81f62e1)
+     Running tests/capacity_configuration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/capacity_configuration-dd14842f11dc0794)
+     Running tests/loopback.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/loopback-299e1ee18372fae5)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_identity-c15773cade76aee2)
+     Running tests/integration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/integration-d62e47f0e959ed98)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_query_measure-0ab6adff0ab4e303)
+     Running unittests src/main.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_query_measure-7ac6a6e71e4f75ca)
+     Running unittests src/bin/write.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_query_write_measure-302c7fb38efe6f0f)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_redb-cf8dc2cbca4d3264)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_sqlite-67b16d4c3a4a1d05)
+     Running tests/query_observation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/query_observation-6ad32a8a2c8bc083)
+     Running tests/backup.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/backup-ef6d4ce4531d2777)
+     Running tests/channels.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/channels-a519b42f2f717322)
+     Running tests/conformance.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/conformance-bf4c5936bc951486)
+     Running tests/journal_head.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/journal_head-7f4a049b135dfb31)
+     Running tests/ledger_capacity.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/ledger_capacity-feaa321b85c4cf6e)
+     Running tests/migration_runtime.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/migration_runtime-469a66d803fbf230)
+     Running tests/native_profile.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/native_profile-cbe33aea76489b2f)
+     Running tests/operator.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator-eb69a9d6b37ca955)
+     Running tests/operator_reconciliation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator_reconciliation-1731f29c313178eb)
+     Running tests/operator_runtime.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator_runtime-1d6b59bef88c45e4)
+     Running tests/ownership.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/ownership-91ad1d3c19512436)
+     Running tests/query_planning.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/query_planning-011c7d38ff3abc69)
+     Running tests/query_read.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/query_read-76d0ce64a7cc063a)
+     Running tests/reactions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reactions-fbdf63aa4e0866d8)
+     Running tests/receipt_versions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/receipt_versions-0d6dcb582656db71)
+     Running tests/references.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/references-98dbe2688bb0156f)
+     Running tests/retention.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/retention-f01d070491fd0f5e)
+     Running tests/retry_epochs.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/retry_epochs-f29af95e7b8f48fe)
+     Running tests/runtime_reactions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/runtime_reactions-0206cc75e050cb32)
+     Running tests/schema_migration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/schema_migration-3ee1d188b2a822a9)
+     Running tests/shared.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/shared-60512281fb9db8b7)
+     Running tests/sqlite_index_recovery.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/sqlite_index_recovery-4c00ac4b8485e471)
+     Running tests/sqlite_offline_read.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/sqlite_offline_read-d58d07680358e355)
+     Running tests/sqlite_query_index.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/sqlite_query_index-80b2322c87078a8d)
+     Running tests/transitions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/transitions-4044137af63f440c)
+     Running tests/upgrade.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/upgrade-56b9af5443da6e63)
+   Doc-tests rom
+   Doc-tests rom_auth
+   Doc-tests rom_backup
+   Doc-tests rom_blob
+   Doc-tests rom_blob_object_store
+   Doc-tests rom_config
+   Doc-tests rom_conformance
+   Doc-tests rom_consumer
+   Doc-tests rom_demo
+   Doc-tests rom_derive
+   Doc-tests rom_http
+   Doc-tests rom_identity
+   Doc-tests rom_query_measure
+   Doc-tests rom_redb
+   Doc-tests rom_sqlite
+warning: output filename collision at /var/tmp/rom-release-measured-verification-target/doc/rom/index.html
+  |
+  = note: the bin target `rom` in package `rom-cli v0.1.0-alpha.1 (/workspace/ROM/crates/rom-cli)` has the same output filename as the lib target `rom` in package `rom v0.1.0-alpha.1 (/workspace/ROM/crates/rom)`
+  = note: this is a known bug where multiple crates with the same name use the same path; see <https://github.com/rust-lang/cargo/issues/6313>
+ Documenting rom-demo v0.1.0-alpha.1 (/workspace/ROM/demo)
+ Documenting rom-identity v0.1.0-alpha.1 (/workspace/ROM/crates/rom-identity)
+ Documenting rom-http v0.1.0-alpha.1 (/workspace/ROM/crates/rom-http)
+ Documenting rom-auth v0.1.0-alpha.1 (/workspace/ROM/crates/rom-auth)
+    Finished `dev` profile [unoptimized] target(s) in 0.63s
+   Generated /var/tmp/rom-release-measured-verification-target/doc/rom/index.html and 16 other files
+    Finished `dev` profile [unoptimized] target(s) in 0.04s
+    Finished `dev` profile [unoptimized] target(s) in 0.04s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/rom-consumer`
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/renamed`
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/input_renamed`
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/rom-renamed-input-fixture`
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/resource_version`
+    Finished `dev` profile [unoptimized] target(s) in 0.08s
+    Finished `test` profile [unoptimized] target(s) in 0.08s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_auth-d3799e1a04071383)
+     Running tests/profiles.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/profiles-dd82bdb4a0c23e49)
+   Doc-tests rom_auth
+    Finished `dev` profile [unoptimized] target(s) in 0.03s
+    Finished `dev` profile [unoptimized] target(s) in 0.04s
+    Finished `dev` profile [unoptimized] target(s) in 0.05s
+ Documenting rom-auth v0.1.0-alpha.1 (/workspace/ROM/crates/rom-auth)
+    Finished `dev` profile [unoptimized] target(s) in 0.30s
+   Generated /var/tmp/rom-release-measured-verification-target/doc/rom_auth/index.html
+    Finished `dev` profile [unoptimized] target(s) in 0.07s
+    Finished `test` profile [unoptimized] target(s) in 0.07s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_identity-a23912207b55b201)
+     Running tests/integration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/integration-224618a88521093b)
+   Doc-tests rom_identity
+ Documenting rom-identity v0.1.0-alpha.1 (/workspace/ROM/crates/rom-identity)
+    Finished `dev` profile [unoptimized] target(s) in 0.23s
+   Generated /var/tmp/rom-release-measured-verification-target/doc/rom_identity/index.html

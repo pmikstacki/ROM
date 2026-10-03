@@ -1,0 +1,25 @@
+    Finished `dev` profile [unoptimized] target(s) in 0.09s
+    Finished `test` profile [unoptimized] target(s) in 0.09s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-a14583929fbd514c)
+     Running unittests src/main.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-ed950a744c3af98f)
+     Running tests/compensation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/compensation-9a419219693c3b96)
+     Running tests/documented_commands.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/documented_commands-ffcf3cec41499ba4)
+     Running tests/operator.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator-536914cb87dd37f2)
+     Running tests/provider_auth.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_auth-aea1c73ee0c1e800)
+     Running tests/provider_profile.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_profile-403e0556ba93ba45)
+     Running tests/reference.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reference-41a1ba5df881de1f)
+     Running tests/reservation_input.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reservation_input-161e43bc4d1f3a94)
+     Running tests/server_lifecycle.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/server_lifecycle-85b3db79f7989246)
+     Running tests/transitions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/transitions-740f56a6a519da33)
+     Running tests/upgrade.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/upgrade-d1b22fc5ef4500ec)
+     Running tests/workshop.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/workshop-895363faa4310821)
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_http-aed8aa02ff5ad722)
+     Running tests/capacity_configuration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/capacity_configuration-92ea2dfdf19aefd1)
+     Running tests/loopback.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/loopback-4ced0496091fc7e8)
+   Doc-tests rom_demo
+   Doc-tests rom_http
+    Finished `dev` profile [unoptimized] target(s) in 0.07s
+ Documenting rom-http v0.1.0-alpha.1 (/workspace/ROM/crates/rom-http)
+ Documenting rom-demo v0.1.0-alpha.1 (/workspace/ROM/demo)
+    Finished `dev` profile [unoptimized] target(s) in 0.44s
+   Generated /var/tmp/rom-release-measured-verification-target/doc/rom_demo/index.html and 1 other file

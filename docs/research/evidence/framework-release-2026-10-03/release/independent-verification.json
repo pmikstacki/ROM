@@ -1,0 +1,38 @@
+{
+  "complete": true,
+  "source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55",
+  "tree": "d86a81028e887c25e18738c11e1a66c19709ca31",
+  "files": 1014,
+  "lock": "fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83",
+  "gates": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": {
+    "source": {
+      "path": "rom-0.1.0-alpha.1-37c4f87cb4bd-source.tar.gz",
+      "prefix": "rom-0.1.0-alpha.1-37c4f87cb4bd",
+      "sha256": "37b941ed7282e3ccdca003429614995378d8560d938db2cf454598355f733ea4"
+    },
+    "skills": {
+      "path": "rom-0.1.0-alpha.1-37c4f87cb4bd-skills.tar.gz",
+      "prefix": "rom-0.1.0-alpha.1-37c4f87cb4bd-skills",
+      "sha256": "94b7d219c66e9e62ce4aa930bf72b790e64fe4782323da8e41ba871f935a10e6"
+    }
+  },
+  "extraction": {
+    "source_identity": "8c8cc5ebb97d619052054ad3eedda7a1eb3c39e123f35bbadd8dbe53c08716ee",
+    "lock_sha256": "fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83",
+    "workflows": [
+      "resource",
+      "native",
+      "operator",
+      "release"
+    ],
+    "examples_executed": false
+  }
+}

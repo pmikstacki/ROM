@@ -47,7 +47,7 @@
 - [x] Copy only the application files and shared test support that its tests need.
 - [x] Run application tests and audit all resolved ROM library paths against the extraction directory.
 - [x] Preserve the public consumer, CLI, license, and repository lock checks.
-- [ ] Obtain independent review and run the combined source/demo/provider/skills/package gate.
+- [x] Obtain independent review and run the combined source/demo/provider/skills/package gate.
 
 ## Task 3: Artifacts and support
 
@@ -56,8 +56,8 @@
 **Produces:** An exclusive local source archive and skill bundle with a checksum/verification manifest.
 
 - [x] Test dirty-source, existing-output, incomplete-output, and archive identity handling with isolated fixtures.
-- [ ] Assemble local artifacts after complete verification. Do not publish.
-- [ ] Verify source extraction, skill admission, checksums, and the exact committed source identity.
-- [ ] Publish the support matrix and requirement-by-requirement evidence audit.
-- [ ] Review documentation and artifact logic independently, then mark tasks 4.5 and 4.6 complete on evidence.
-- [ ] Integrate the reviewed changes and record the generated artifact paths and remaining scope boundaries.
+- [x] Assemble local artifacts after complete verification. Do not publish.
+- [x] Verify source extraction, skill admission, checksums, and the exact committed source identity.
+- [x] Publish the support matrix and requirement-by-requirement evidence audit.
+- [x] Review documentation and artifact logic independently, then mark tasks 4.5 and 4.6 complete on evidence.
+- [x] Integrate the reviewed changes and record the generated artifact paths and remaining scope boundaries.

@@ -1,0 +1,1368 @@
+{
+  "source_revision": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55",
+  "producer_completed": true,
+  "error": null,
+  "command_results": [
+    {
+      "program": "./scripts/check",
+      "args": [],
+      "cwd": "/workspace/ROM",
+      "started_at": "2026-10-03T21:38:47.765Z",
+      "finished_at": "2026-10-03T21:39:06.386Z",
+      "exit_code": 0,
+      "bounded_abort": false,
+      "spawn_failed": false,
+      "stdout": "evidence/gate-1.stdout.log",
+      "stderr": "evidence/gate-1.stderr.log"
+    },
+    {
+      "program": "./scripts/build",
+      "args": [
+        "--release"
+      ],
+      "cwd": "/workspace/ROM",
+      "started_at": "2026-10-03T21:39:06.386Z",
+      "finished_at": "2026-10-03T21:39:06.485Z",
+      "exit_code": 0,
+      "bounded_abort": false,
+      "spawn_failed": false,
+      "stdout": "evidence/gate-2.stdout.log",
+      "stderr": "evidence/gate-2.stderr.log"
+    },
+    {
+      "program": "./demo/verify",
+      "args": [],
+      "cwd": "/workspace/ROM",
+      "started_at": "2026-10-03T21:39:06.485Z",
+      "finished_at": "2026-10-03T21:39:09.941Z",
+      "exit_code": 0,
+      "bounded_abort": false,
+      "spawn_failed": false,
+      "stdout": "evidence/gate-3.stdout.log",
+      "stderr": "evidence/gate-3.stderr.log"
+    },
+    {
+      "program": "./demo/verify-provider",
+      "args": [],
+      "cwd": "/workspace/ROM",
+      "started_at": "2026-10-03T21:39:09.941Z",
+      "finished_at": "2026-10-03T21:40:21.742Z",
+      "exit_code": 0,
+      "bounded_abort": false,
+      "spawn_failed": false,
+      "stdout": "evidence/gate-4.stdout.log",
+      "stderr": "evidence/gate-4.stderr.log"
+    },
+    {
+      "program": "./scripts/check-skills",
+      "args": [],
+      "cwd": "/workspace/ROM",
+      "started_at": "2026-10-03T21:40:21.742Z",
+      "finished_at": "2026-10-03T21:40:25.456Z",
+      "exit_code": 0,
+      "bounded_abort": false,
+      "spawn_failed": false,
+      "stdout": "evidence/gate-5.stdout.log",
+      "stderr": "evidence/gate-5.stderr.log"
+    },
+    {
+      "program": "node",
+      "args": [
+        "scripts/check-packages.mjs",
+        "/workspace/ROM"
+      ],
+      "cwd": "/workspace/ROM",
+      "started_at": "2026-10-03T21:40:25.456Z",
+      "finished_at": "2026-10-03T21:41:06.451Z",
+      "exit_code": 0,
+      "bounded_abort": false,
+      "spawn_failed": false,
+      "stdout": "evidence/gate-6.stdout.log",
+      "stderr": "evidence/gate-6.stderr.log"
+    }
+  ],
+  "scenarios": [
+    {
+      "requirement": "Application authors use one public Resource contract",
+      "scenario": "Pending compensation survives application restart",
+      "source": "demo/tests/reference.rs::committed_rejection_recovers_after_process_exit_without_shutdown",
+      "historical_reports": "framework-release-progress.md; resource-transition-validation-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1,
+        3,
+        6
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "committed_rejection_recovers_after_process_exit_without_shutdown"
+        },
+        {
+          "gate": 3,
+          "symbol": "committed_rejection_recovers_after_process_exit_without_shutdown"
+        },
+        {
+          "gate": 6,
+          "symbol": "committed_rejection_recovers_after_process_exit_without_shutdown"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Data lifecycle preserves obligations",
+      "scenario": "Upgrade is interrupted",
+      "source": "tests/persistence/tests/upgrade.rs::native_upgrade_interruption_before_publication_is_retryable",
+      "historical_reports": "reference-upgrade-results.md; runtime-ownership-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "native_upgrade_interruption_before_publication_is_retryable"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Data lifecycle preserves obligations",
+      "scenario": "Concurrent reference creation and target deletion",
+      "source": "tests/persistence/tests/references.rs::concurrent_adapter_create_delete_race_preserves_integrity",
+      "historical_reports": "restrict-reference-results.md; runtime-ownership-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "sqlite::competing_adapter_create_delete_cannot_commit_dangling_reference"
+        },
+        {
+          "gate": 1,
+          "symbol": "redb::competing_adapter_create_delete_cannot_commit_dangling_reference"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55",
+      "executed_wrappers": [
+        "sqlite::competing_adapter_create_delete_cannot_commit_dangling_reference",
+        "redb::competing_adapter_create_delete_cannot_commit_dangling_reference"
+      ]
+    },
+    {
+      "requirement": "Data lifecycle preserves obligations",
+      "scenario": "A source kind is absent from a later Runtime",
+      "source": "tests/persistence/tests/references.rs::omitted_source_kind_after_reopen_cannot_erase_restrict",
+      "historical_reports": "restrict-reference-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "sqlite::omitted_kind_and_changed_schema_preserve_persisted_integrity"
+        },
+        {
+          "gate": 1,
+          "symbol": "redb::omitted_kind_and_changed_schema_preserve_persisted_integrity"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55",
+      "executed_wrappers": [
+        "sqlite::omitted_kind_and_changed_schema_preserve_persisted_integrity",
+        "redb::omitted_kind_and_changed_schema_preserve_persisted_integrity"
+      ]
+    },
+    {
+      "requirement": "Data lifecycle preserves obligations",
+      "scenario": "Receipt replay retains historical meaning",
+      "source": "tests/persistence/tests/references.rs::historical_replay_after_unlink_is_not_a_new_edge",
+      "historical_reports": "restrict-reference-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "sqlite::old_receipt_replay_after_unlink_does_not_add_an_edge"
+        },
+        {
+          "gate": 1,
+          "symbol": "redb::old_receipt_replay_after_unlink_does_not_add_an_edge"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55",
+      "executed_wrappers": [
+        "sqlite::old_receipt_replay_after_unlink_does_not_add_an_edge",
+        "redb::old_receipt_replay_after_unlink_does_not_add_an_edge"
+      ]
+    },
+    {
+      "requirement": "Data lifecycle preserves obligations",
+      "scenario": "A backup has an incomplete reference index",
+      "source": "tests/persistence/tests/backup.rs::backup_restore_preserves_restrict_edges_and_rejects_missing_edges",
+      "historical_reports": "restrict-reference-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "backup_restore_preserves_restrict_edges_and_rejects_missing_edges"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Data lifecycle preserves obligations",
+      "scenario": "A Resource field changes representation",
+      "source": "tests/persistence/tests/schema_migration.rs::native_schema_migration_preserves_history_references_work_and_backup",
+      "historical_reports": "resource-migration-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "native_schema_migration_preserves_history_references_work_and_backup"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Data lifecycle preserves obligations",
+      "scenario": "A request is retried after a field rename",
+      "source": "tests/persistence/tests/migration_runtime.rs::migrated_runtime_replays_old_input_and_resumes_both_reaction_phases; demo/tests/upgrade.rs::migrated_receipt_requires_its_recorded_codec_and_current_authority",
+      "historical_reports": "resource-migration-results.md; reference-upgrade-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "migrated_runtime_replays_old_input_and_resumes_both_reaction_phases"
+        },
+        {
+          "gate": 1,
+          "symbol": "migrated_receipt_requires_its_recorded_codec_and_current_authority"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Data lifecycle preserves obligations",
+      "scenario": "Migration contains unfinished obligations",
+      "source": "tests/persistence/tests/schema_migration.rs::rejected_migration_never_publishes_or_modifies_source; demo/tests/upgrade.rs::invalid_conversion_missing_target_and_unaccepted_work_never_publish",
+      "historical_reports": "resource-migration-results.md; reference-upgrade-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "rejected_migration_never_publishes_or_modifies_source"
+        },
+        {
+          "gate": 1,
+          "symbol": "invalid_conversion_missing_target_and_unaccepted_work_never_publish"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Data lifecycle preserves obligations",
+      "scenario": "An older maintenance tool reads a migrated store",
+      "source": "tests/persistence/tests/schema_migration.rs::legacy_catalogued_formats_require_explicit_upgrade_or_migration_without_source_writes",
+      "historical_reports": "resource-migration-results.md",
+      "note": "Marker/metadata compatibility, not execution of an arbitrary obsolete binary.",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "legacy_catalogued_formats_require_explicit_upgrade_or_migration_without_source_writes"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Data lifecycle preserves obligations",
+      "scenario": "Retention expires an idempotency epoch",
+      "source": "tests/persistence/tests/retention.rs::retention_expires_even_retained_anchors_and_survives_reopen_backup",
+      "historical_reports": "retention-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "retention_expires_even_retained_anchors_and_survives_reopen_backup"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Data lifecycle preserves obligations",
+      "scenario": "Sealed work drains before expiry",
+      "source": "tests/persistence/tests/retry_epochs.rs::sealed_epoch_drains_nonzero_root_actions_and_notifications_without_fresh_admission; tests/persistence/tests/retention.rs::sealed_epoch_allows_replay_and_only_exact_causal_claim_for_fresh_work",
+      "historical_reports": "retention-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "sealed_epoch_drains_nonzero_root_actions_and_notifications_without_fresh_admission"
+        },
+        {
+          "gate": 1,
+          "symbol": "sealed_epoch_allows_replay_and_only_exact_causal_claim_for_fresh_work"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Data lifecycle preserves obligations",
+      "scenario": "Old backup predates a retention policy",
+      "source": "tests/persistence/tests/retry_epochs.rs::trusted_fence_rejects_an_older_restored_backup",
+      "historical_reports": "retention-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "trusted_fence_rejects_an_older_restored_backup"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Data lifecycle preserves obligations",
+      "scenario": "The reference application upgrades with pending compensation",
+      "source": "demo/tests/upgrade.rs::process_exit_preserves_pending_compensation_through_migration_backup_and_restore",
+      "historical_reports": "reference-upgrade-results.md",
+      "note": "Packaged execution pending Task2; source preservation, unrelated reservation, attachment, replay and restrict checks live in the called public recovery journey.",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1,
+        3,
+        6
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "process_exit_preserves_pending_compensation_through_migration_backup_and_restore"
+        },
+        {
+          "gate": 3,
+          "symbol": "process_exit_preserves_pending_compensation_through_migration_backup_and_restore"
+        },
+        {
+          "gate": 6,
+          "symbol": "process_exit_preserves_pending_compensation_through_migration_backup_and_restore"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Optimization preserves observable semantics",
+      "scenario": "Index recovery changes execution path",
+      "source": "tests/persistence/tests/sqlite_query_index.rs::backup_restore_and_explicit_rebuild_preserve_logical_data_and_fence_indexes; tests/persistence/tests/query_read.rs::reference_and_complete_candidates_share_typed_projected_and_live_results",
+      "historical_reports": "query-integration-foundation-results.md; query-read-contract-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "backup_restore_and_explicit_rebuild_preserve_logical_data_and_fence_indexes"
+        },
+        {
+          "gate": 1,
+          "symbol": "reference_and_complete_candidates_share_typed_projected_and_live_results"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Optimization preserves observable semantics",
+      "scenario": "An excluded row has a protected sort field",
+      "source": "tests/persistence/tests/query_planning.rs::sorted_field_denial_precedes_predicates_anchor_and_page_limit",
+      "historical_reports": "query-integration-foundation-results.md; query-read-contract-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "sorted_field_denial_precedes_predicates_anchor_and_page_limit"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Optimization preserves observable semantics",
+      "scenario": "An opaque callback fails before filtering",
+      "source": "tests/persistence/tests/query_planning.rs::opaque_row_policy_runs_before_a_nonmatching_predicate_can_skip_the_row; tests/persistence/tests/query_planning.rs::id_page_short_circuit_does_not_evaluate_later_opaque_policy",
+      "historical_reports": "query-integration-foundation-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "opaque_row_policy_runs_before_a_nonmatching_predicate_can_skip_the_row"
+        },
+        {
+          "gate": 1,
+          "symbol": "id_page_short_circuit_does_not_evaluate_later_opaque_policy"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Optimization preserves observable semantics",
+      "scenario": "Planning uses coherent admission metadata",
+      "source": "crates/rom-sqlite/src/index/query_tests.rs::real_index_returns_complete_candidates_and_exact_binding; crates/rom-sqlite/src/index/query_tests.rs::planner_failure_falls_back_but_selected_execution_failure_propagates",
+      "historical_reports": "query-read-contract-results.md",
+      "note": "Coherent transaction is also inspected in the adapter implementation; estimates are optional, execution failure is not.",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "real_index_returns_complete_candidates_and_exact_binding"
+        },
+        {
+          "gate": 1,
+          "symbol": "planner_failure_falls_back_but_selected_execution_failure_propagates"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Optimization preserves observable semantics",
+      "scenario": "Application policy can read storage",
+      "source": "tests/persistence/tests/query_read.rs::reference_and_complete_candidates_share_typed_projected_and_live_results",
+      "historical_reports": "query-read-contract-results.md",
+      "note": "Structural inspection: query adapter accepts no application callbacks; query_eval/read runs policies/codecs after native read returns. No dedicated reentrant Storage-read policy test located; do not claim one.",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "reference_and_complete_candidates_share_typed_projected_and_live_results"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Optimization preserves observable semantics",
+      "scenario": "Explicit uniform read authorization",
+      "source": "tests/persistence/tests/query_read.rs::explicit_denial_precedes_empty_or_overbound_storage_reads; tests/persistence/tests/query_read.rs::read_grant_runs_once_after_query_validation_and_disclosure_rechecks_authority; tests/persistence/tests/query_read.rs::excluded_decoder_is_skipped_only_under_explicit_uniform_contract",
+      "historical_reports": "query-read-contract-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "explicit_denial_precedes_empty_or_overbound_storage_reads"
+        },
+        {
+          "gate": 1,
+          "symbol": "read_grant_runs_once_after_query_validation_and_disclosure_rechecks_authority"
+        },
+        {
+          "gate": 1,
+          "symbol": "excluded_decoder_is_skipped_only_under_explicit_uniform_contract"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Optimization preserves observable semantics",
+      "scenario": "A later definition clears optimization permission",
+      "source": "tests/persistence/tests/query_read.rs::builder_overrides_keep_opaque_selection_and_field_preflight",
+      "historical_reports": "query-read-contract-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "builder_overrides_keep_opaque_selection_and_field_preflight"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Optimization preserves observable semantics",
+      "scenario": "Adapter returns candidates for a different request",
+      "source": "tests/persistence/tests/query_read.rs::malformed_native_responses_and_execution_failures_never_fall_back; tests/persistence/tests/query_read.rs::native_candidates_cannot_bypass_whole_kind_admission_with_a_small_page",
+      "historical_reports": "query-read-contract-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "malformed_native_responses_and_execution_failures_never_fall_back"
+        },
+        {
+          "gate": 1,
+          "symbol": "native_candidates_cannot_bypass_whole_kind_admission_with_a_small_page"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Optimization preserves observable semantics",
+      "scenario": "Cost estimates cannot authorize a native path",
+      "source": "crates/rom/src/query_storage/tests.rs::selector_requires_exact_capability_binding_and_strict_checked_saving; crates/rom/src/query_storage/tests.rs::selector_rejects_opaque_unknown_shapes_versions_and_identity; crates/rom/src/query_storage/tests.rs::checked_score_rejects_addition_overflow_and_unrelated_snapshot_identity",
+      "historical_reports": "query-integration-foundation-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "selector_requires_exact_capability_binding_and_strict_checked_saving"
+        },
+        {
+          "gate": 1,
+          "symbol": "selector_rejects_opaque_unknown_shapes_versions_and_identity"
+        },
+        {
+          "gate": 1,
+          "symbol": "checked_score_rejects_addition_overflow_and_unrelated_snapshot_identity"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Optimization preserves observable semantics",
+      "scenario": "An indexed mutation rolls back or replays",
+      "source": "tests/persistence/tests/sqlite_query_index.rs::native_commit_replay_rollback_delete_and_reopen_are_coherent",
+      "historical_reports": "query-integration-foundation-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "native_commit_replay_rollback_delete_and_reopen_are_coherent"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Optimization preserves observable semantics",
+      "scenario": "A derived index is corrupt",
+      "source": "tests/persistence/tests/sqlite_query_index.rs::backup_restore_and_explicit_rebuild_preserve_logical_data_and_fence_indexes; tests/persistence/tests/sqlite_index_recovery.rs::rebuilding_derived_data_cannot_repair_missing_authoritative_receipt_proof; tests/persistence/tests/sqlite_index_recovery.rs::logical_archive_fits_but_combined_native_index_budget_blocks_publication",
+      "historical_reports": "query-integration-foundation-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "backup_restore_and_explicit_rebuild_preserve_logical_data_and_fence_indexes"
+        },
+        {
+          "gate": 1,
+          "symbol": "rebuilding_derived_data_cannot_repair_missing_authoritative_receipt_proof"
+        },
+        {
+          "gate": 1,
+          "symbol": "logical_archive_fits_but_combined_native_index_budget_blocks_publication"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Optimization preserves observable semantics",
+      "scenario": "Maintenance reconstructs an index",
+      "source": "tests/persistence/tests/sqlite_index_recovery.rs::omitted_catalog_kinds_survive_registration_and_index_rebuild; tests/persistence/tests/sqlite_index_recovery.rs::process_exit_leaves_source_unchanged_and_no_published_index_rebuild; tests/persistence/tests/sqlite_query_index.rs::backup_restore_and_explicit_rebuild_preserve_logical_data_and_fence_indexes",
+      "historical_reports": "query-integration-foundation-results.md; maintained-query-cost-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "omitted_catalog_kinds_survive_registration_and_index_rebuild"
+        },
+        {
+          "gate": 1,
+          "symbol": "process_exit_leaves_source_unchanged_and_no_published_index_rebuild"
+        },
+        {
+          "gate": 1,
+          "symbol": "backup_restore_and_explicit_rebuild_preserve_logical_data_and_fence_indexes"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Optimization preserves observable semantics",
+      "scenario": "The previous native format has retry epochs",
+      "source": "tests/persistence/tests/sqlite_query_index.rs::format_six_upgrade_preserves_retry_epochs_and_does_not_rebind_receipt_origins; crates/rom-backup/src/epoch_upgrade_tests.rs::archive_four_requires_explicit_upgrade_and_preserves_epochs_and_origins",
+      "historical_reports": "query-integration-foundation-results.md; operator-recovery-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "format_six_upgrade_preserves_retry_epochs_and_does_not_rebind_receipt_origins"
+        },
+        {
+          "gate": 1,
+          "symbol": "archive_four_requires_explicit_upgrade_and_preserves_epochs_and_origins"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Query strategy probes preserve the Resource contract",
+      "scenario": "A broad predicate precedes a selective predicate",
+      "source": "crates/rom-sqlite/src/index/planner/tests.rs::conjunction_order_does_not_hide_the_eight_row_candidate; crates/rom-sqlite/src/index/planner/tests.rs::saturated_probe_does_not_truncate_forced_native_materialization",
+      "historical_reports": "maintained-query-cost-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "conjunction_order_does_not_hide_the_eight_row_candidate"
+        },
+        {
+          "gate": 1,
+          "symbol": "saturated_probe_does_not_truncate_forced_native_materialization"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Query strategy probes preserve the Resource contract",
+      "scenario": "Probe work reaches its configured bound",
+      "source": "crates/rom-sqlite/src/index/planner/tests.rs::probes_distinguish_exact_counts_saturation_and_reference_control; crates/rom-sqlite/src/index/planner/tests.rs::expanded_probe_shrinks_against_an_exact_candidate_and_keeps_total_work_bounded",
+      "historical_reports": "maintained-query-cost-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "probes_distinguish_exact_counts_saturation_and_reference_control"
+        },
+        {
+          "gate": 1,
+          "symbol": "expanded_probe_shrinks_against_an_exact_candidate_and_keeps_total_work_bounded"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Query strategy probes preserve the Resource contract",
+      "scenario": "Native execution is already ineligible",
+      "source": "crates/rom-sqlite/src/index/planner/tests.rs::empty_candidate_stops_probing_and_opaque_reads_do_not_probe",
+      "historical_reports": "maintained-query-cost-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "empty_candidate_stops_probing_and_opaque_reads_do_not_probe"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Runtime ownership excludes competing supervisors",
+      "scenario": "A wrapper exposes an already owned store",
+      "source": "crates/rom/tests/storage_ownership.rs::storage_ownership_excludes_wrapped_and_direct_builders_before_storage_reads; examples/consumer/tests/lifecycle.rs::ownership_transparent_wrapper_forwards_underlying_claim",
+      "historical_reports": "runtime-ownership-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "storage_ownership_excludes_wrapped_and_direct_builders_before_storage_reads"
+        },
+        {
+          "gate": 1,
+          "symbol": "ownership_transparent_wrapper_forwards_underlying_claim"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Runtime ownership excludes competing supervisors",
+      "scenario": "A caller stops waiting for accepted work",
+      "source": "examples/consumer/tests/lifecycle.rs::ownership_cancelled_action_and_drain_waiter_keep_accepted_work_alive; crates/rom/tests/storage_ownership.rs::storage_ownership_shutdown_retains_claim_until_last_runtime_drops",
+      "historical_reports": "runtime-ownership-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "ownership_cancelled_action_and_drain_waiter_keep_accepted_work_alive"
+        },
+        {
+          "gate": 1,
+          "symbol": "storage_ownership_shutdown_retains_claim_until_last_runtime_drops"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Runtime ownership excludes competing supervisors",
+      "scenario": "Construction fails after acquisition",
+      "source": "crates/rom/tests/storage_ownership.rs::storage_ownership_failed_registration_releases_claim",
+      "historical_reports": "runtime-ownership-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "storage_ownership_failed_registration_releases_claim"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Native ownership covers open and offline maintenance",
+      "scenario": "A process exits with committed data",
+      "source": "tests/persistence/tests/ownership/process.rs::native_owner_process_exit_releases_lock_and_recovers_committed_data",
+      "historical_reports": "runtime-ownership-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "native_owner_process_exit_releases_lock_and_recovers_committed_data"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Native ownership covers open and offline maintenance",
+      "scenario": "A database has an alias",
+      "source": "tests/persistence/tests/ownership.rs::symlink_alias_cannot_create_a_second_native_owner; tests/persistence/tests/ownership.rs::hardlinked_database_is_rejected_before_native_open; tests/persistence/tests/ownership.rs::sqlite_memory_sentinel_keeps_stores_independent",
+      "historical_reports": "runtime-ownership-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "symlink_alias_cannot_create_a_second_native_owner"
+        },
+        {
+          "gate": 1,
+          "symbol": "hardlinked_database_is_rejected_before_native_open"
+        },
+        {
+          "gate": 1,
+          "symbol": "sqlite_memory_sentinel_keeps_stores_independent"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Native ownership covers open and offline maintenance",
+      "scenario": "A conversion callback attempts a concurrent open",
+      "source": "tests/persistence/tests/ownership/maintenance.rs::conversion_holds_both_reservations_and_failure_releases_them; tests/persistence/tests/ownership/offline_recovery.rs::callback_cwd_change_keeps_native_maintenance_paths_canonical",
+      "historical_reports": "runtime-ownership-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "conversion_holds_both_reservations_and_failure_releases_them"
+        },
+        {
+          "gate": 1,
+          "symbol": "callback_cwd_change_keeps_native_maintenance_paths_canonical"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Native ownership covers open and offline maintenance",
+      "scenario": "Publication is interrupted before staging cleanup",
+      "source": "crates/rom-backup/src/publication/tests.rs::native_publication_exit_after_link_requires_exact_artifact_recovery; crates/rom-backup/src/publication/tests.rs::native_finalization_refuses_unknown_additional_hard_links",
+      "historical_reports": "runtime-ownership-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "native_publication_exit_after_link_requires_exact_artifact_recovery"
+        },
+        {
+          "gate": 1,
+          "symbol": "native_finalization_refuses_unknown_additional_hard_links"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Release readiness includes operational recovery",
+      "scenario": "Operator recovers a reference deployment",
+      "source": "demo/tests/operator.rs::operator_command_recovers_work_then_runs_explicit_compensation_on_both_stores; demo/tests/upgrade.rs::upgrade_command_runs_the_real_application_on_both_backends; demo/tests/reference.rs::committed_rejection_recovers_after_process_exit_without_shutdown",
+      "historical_reports": "operator-recovery-results.md; reference-upgrade-results.md",
+      "note": "PENDING packaged reference execution and path audit Task2. Explicit synthetic host identity; real provider journey remains separate.",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1,
+        3,
+        6
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "operator_command_recovers_work_then_runs_explicit_compensation_on_both_stores"
+        },
+        {
+          "gate": 1,
+          "symbol": "upgrade_command_runs_the_real_application_on_both_backends"
+        },
+        {
+          "gate": 1,
+          "symbol": "committed_rejection_recovers_after_process_exit_without_shutdown"
+        },
+        {
+          "gate": 3,
+          "symbol": "operator_command_recovers_work_then_runs_explicit_compensation_on_both_stores"
+        },
+        {
+          "gate": 3,
+          "symbol": "upgrade_command_runs_the_real_application_on_both_backends"
+        },
+        {
+          "gate": 3,
+          "symbol": "committed_rejection_recovers_after_process_exit_without_shutdown"
+        },
+        {
+          "gate": 6,
+          "symbol": "operator_command_recovers_work_then_runs_explicit_compensation_on_both_stores"
+        },
+        {
+          "gate": 6,
+          "symbol": "upgrade_command_runs_the_real_application_on_both_backends"
+        },
+        {
+          "gate": 6,
+          "symbol": "committed_rejection_recovers_after_process_exit_without_shutdown"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Operator work views use current authority and bounded projections",
+      "scenario": "Authority changes between pages",
+      "source": "tests/persistence/tests/operator_runtime.rs::moving_page_rechecks_scope_permission_after_anchor_revocation; tests/persistence/tests/operator_runtime.rs::exact_control_replay_rechecks_current_operator_and_actor_authority",
+      "historical_reports": "operator-recovery-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "moving_page_rechecks_scope_permission_after_anchor_revocation"
+        },
+        {
+          "gate": 1,
+          "symbol": "exact_control_replay_rechecks_current_operator_and_actor_authority"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Operator work views use current authority and bounded projections",
+      "scenario": "The view cursor refers to an older storage generation",
+      "source": "tests/persistence/tests/operator_runtime.rs::raw_snapshot_bounds_and_generation_are_checked_before_projection; tests/persistence/tests/operator_runtime.rs::response_limits_refuse_new_controls_before_commit_and_preserve_unknown_for_committed_replays",
+      "historical_reports": "operator-recovery-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "raw_snapshot_bounds_and_generation_are_checked_before_projection"
+        },
+        {
+          "gate": 1,
+          "symbol": "response_limits_refuse_new_controls_before_commit_and_preserve_unknown_for_committed_replays"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Operator controls have atomic version and identity arbitration",
+      "scenario": "Delivery changes without a new claim",
+      "source": "crates/rom/src/reaction_work/revision_tests.rs::delivery_updates_increment_once_and_preserve_claim_generation; crates/rom/src/reaction_work/revision_tests.rs::revision_overflow_rejects_claim_without_consuming_budget; tests/persistence/tests/operator.rs::native_control_cas_and_exact_replay_preserve_domain_state_and_budgets",
+      "historical_reports": "operator-recovery-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "delivery_updates_increment_once_and_preserve_claim_generation"
+        },
+        {
+          "gate": 1,
+          "symbol": "revision_overflow_rejects_claim_without_consuming_budget"
+        },
+        {
+          "gate": 1,
+          "symbol": "native_control_cas_and_exact_replay_preserve_domain_state_and_budgets"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Operator controls have atomic version and identity arbitration",
+      "scenario": "A control commits but its response is lost",
+      "source": "crates/rom-cli/tests/operator.rs::lost_control_reply_replays_the_exact_file_only_after_an_explicit_new_command; tests/persistence/tests/operator_runtime.rs::exact_control_replay_rechecks_current_operator_and_actor_authority; tests/persistence/tests/operator.rs::native_control_cas_and_exact_replay_preserve_domain_state_and_budgets",
+      "historical_reports": "operator-recovery-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "lost_control_reply_replays_the_exact_file_only_after_an_explicit_new_command"
+        },
+        {
+          "gate": 1,
+          "symbol": "exact_control_replay_rechecks_current_operator_and_actor_authority"
+        },
+        {
+          "gate": 1,
+          "symbol": "native_control_cas_and_exact_replay_preserve_domain_state_and_budgets"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Operator controls have atomic version and identity arbitration",
+      "scenario": "An operator requests another attempt",
+      "source": "tests/persistence/tests/operator.rs::native_control_cas_and_exact_replay_preserve_domain_state_and_budgets; tests/persistence/tests/reactions.rs::persisted_work_lease_and_input_are_fenced; tests/persistence/tests/reactions.rs::finite_work_budget_allows_receipt_resolution_but_no_new_execution",
+      "historical_reports": "operator-recovery-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "native_control_cas_and_exact_replay_preserve_domain_state_and_budgets"
+        },
+        {
+          "gate": 1,
+          "symbol": "persisted_work_lease_and_input_are_fenced"
+        },
+        {
+          "gate": 1,
+          "symbol": "finite_work_budget_allows_receipt_resolution_but_no_new_execution"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Delivery reconciliation preserves declared guarantees",
+      "scenario": "An uncertain delivery uses the hold profile",
+      "source": "tests/persistence/tests/operator_reconciliation/recovery.rs::actual_process_exit_after_delivery_start_cannot_trigger_unsafe_resend; tests/persistence/tests/operator_reconciliation/races.rs::current_operator_actor_and_service_revocation_are_rechecked_after_verification; tests/persistence/tests/operator_reconciliation/races.rs::stale_work_version_after_verification_cannot_publish_a_second_receipt",
+      "historical_reports": "operator-recovery-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "actual_process_exit_after_delivery_start_cannot_trigger_unsafe_resend"
+        },
+        {
+          "gate": 1,
+          "symbol": "current_operator_actor_and_service_revocation_are_rechecked_after_verification"
+        },
+        {
+          "gate": 1,
+          "symbol": "stale_work_version_after_verification_cannot_publish_a_second_receipt"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Delivery reconciliation preserves declared guarantees",
+      "scenario": "A provider lookup is inconclusive",
+      "source": "tests/persistence/tests/operator_reconciliation/verification.rs::unresolved_eventual_lookup_miss_cannot_grant_resend_before_later_acceptance; tests/persistence/tests/operator_reconciliation/verification.rs::accepted_and_terminal_not_accepted_commit_once_without_a_provider_send; tests/persistence/tests/operator_reconciliation/verification.rs::terminal_not_accepted_cannot_reset_exhausted_attempts_or_root_budget",
+      "historical_reports": "operator-recovery-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "unresolved_eventual_lookup_miss_cannot_grant_resend_before_later_acceptance"
+        },
+        {
+          "gate": 1,
+          "symbol": "accepted_and_terminal_not_accepted_commit_once_without_a_provider_send"
+        },
+        {
+          "gate": 1,
+          "symbol": "terminal_not_accepted_cannot_reset_exhausted_attempts_or_root_budget"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Delivery reconciliation preserves declared guarantees",
+      "scenario": "The application keeps its existing delivery profile",
+      "source": "tests/persistence/tests/operator_reconciliation/profiles.rs::all_declared_profiles_preserve_their_uncertain_delivery_policy; crates/rom/src/reaction_work/delivery_profile_tests.rs::default_profile_plain_retry_keeps_existing_unknown_delivery_policy",
+      "historical_reports": "operator-recovery-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "all_declared_profiles_preserve_their_uncertain_delivery_policy"
+        },
+        {
+          "gate": 1,
+          "symbol": "default_profile_plain_retry_keeps_existing_unknown_delivery_policy"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Operator CLI preserves generic Resource semantics",
+      "scenario": "A server returns valid JSON for another work item",
+      "source": "crates/rom-cli/tests/operator.rs::control_responses_match_request_identity_operation_and_version_transition; crates/rom-cli/tests/operator/signals.rs::control_interrupt_does_not_wait_on_blocked_stdout_or_stderr",
+      "historical_reports": "operator-recovery-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "control_responses_match_request_identity_operation_and_version_transition"
+        },
+        {
+          "gate": 1,
+          "symbol": "control_interrupt_does_not_wait_on_blocked_stdout_or_stderr"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Operator CLI preserves generic Resource semantics",
+      "scenario": "Maintenance preserves operator evidence",
+      "source": "crates/rom-backup/src/epoch_upgrade_tests.rs::archive_restore_and_retention_preserve_historical_operator_receipts; crates/rom-backup/src/epoch_upgrade_tests.rs::current_archive_and_restore_preserve_reconciliation_hold_and_profile",
+      "historical_reports": "operator-recovery-results.md",
+      "note": "Shared snapshot archive/restore/retention tests are direct; native migration preservation also uses inspected shared snapshot state-copy/validation. Do not label this a distinct native migration seeded-operator test.",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "archive_restore_and_retention_preserve_historical_operator_receipts"
+        },
+        {
+          "gate": 1,
+          "symbol": "current_archive_and_restore_preserve_reconciliation_hold_and_profile"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "A release identity profile uses real provider evidence",
+      "scenario": "An actual service token reaches an ordinary Resource",
+      "source": "demo/provider-fixture/journey.mjs::resourceJourney; demo/provider-fixture/journey.mjs::identityJourney",
+      "historical_reports": "provider-deployment-results.md",
+      "note": "Actual Node/CLI pinned-provider acceptance; unlinked/expiry/binding/rotation denial cases are in journey. Separate command ./demo/verify-provider; executed in gate4 on37c4f87c.",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        4
+      ],
+      "observed_named_cases": [],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Authentication acquisition has bounded owned execution",
+      "scenario": "A caller leaves during blocking verification",
+      "source": "demo/tests/provider_auth/admission.rs::caller_cancellation_retains_capacity_and_cancelled_drain_can_be_reawaited; demo/tests/provider_auth/admission.rs::caller_deadline_retains_capacity_until_verifier_completion",
+      "historical_reports": "provider-deployment-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1,
+        4,
+        6
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 4,
+          "symbol": "caller_cancellation_retains_capacity_and_cancelled_drain_can_be_reawaited"
+        },
+        {
+          "gate": 4,
+          "symbol": "caller_deadline_retains_capacity_until_verifier_completion"
+        },
+        {
+          "gate": 6,
+          "symbol": "caller_cancellation_retains_capacity_and_cancelled_drain_can_be_reawaited"
+        },
+        {
+          "gate": 6,
+          "symbol": "caller_deadline_retains_capacity_until_verifier_completion"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Provider configuration cannot grant arbitrary acquisition authority",
+      "scenario": "Configuration changes while evidence is obtained",
+      "source": "demo/tests/provider_auth/admission.rs::provider_revision_change_while_verifying_denies_stale_binding_without_holding_core_gate",
+      "historical_reports": "provider-deployment-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1,
+        4,
+        6
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 4,
+          "symbol": "provider_revision_change_while_verifying_denies_stale_binding_without_holding_core_gate"
+        },
+        {
+          "gate": 6,
+          "symbol": "provider_revision_change_while_verifying_denies_stale_binding_without_holding_core_gate"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Local provisioning is explicit and restartable",
+      "scenario": "Provisioning stops between Resource commits",
+      "source": "demo/tests/provider_profile/provisioning.rs::each_lost_ack_step_resumes_after_native_close_and_reopen; demo/tests/provider_profile/provisioning.rs::both_store_resume_preserves_revisions_and_changed_input_is_rejected",
+      "historical_reports": "provider-deployment-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1,
+        4,
+        6
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 4,
+          "symbol": "each_lost_ack_step_resumes_after_native_close_and_reopen"
+        },
+        {
+          "gate": 4,
+          "symbol": "both_store_resume_preserves_revisions_and_changed_input_is_rejected"
+        },
+        {
+          "gate": 6,
+          "symbol": "each_lost_ack_step_resumes_after_native_close_and_reopen"
+        },
+        {
+          "gate": 6,
+          "symbol": "both_store_resume_preserves_revisions_and_changed_input_is_rejected"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Native extension releases expose versioned conformance",
+      "scenario": "An external adapter runs the baseline profile",
+      "source": "examples/consumer/tests/native_conformance.rs::external_fixture_passes_storage_profile_and_releases_owners_before_reopen; examples/consumer/tests/native_conformance.rs::broken_fixture_fails_named_counts_assertion; tests/persistence/tests/shared.rs::shared_atomic_bundle_and_noop_identity_validation",
+      "historical_reports": "native-conformance-results.md",
+      "note": "Maintained callers share the public runner; engine-specific interruption cases remain additional acceptance.",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1,
+        5,
+        6
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "external_fixture_passes_storage_profile_and_releases_owners_before_reopen"
+        },
+        {
+          "gate": 1,
+          "symbol": "broken_fixture_fails_named_counts_assertion"
+        },
+        {
+          "gate": 1,
+          "symbol": "shared_atomic_bundle_and_noop_identity_validation"
+        },
+        {
+          "gate": 6,
+          "symbol": "external_fixture_passes_storage_profile_and_releases_owners_before_reopen"
+        },
+        {
+          "gate": 6,
+          "symbol": "broken_fixture_fails_named_counts_assertion"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Native extension releases expose versioned conformance",
+      "scenario": "An author selects an obsolete profile",
+      "source": "examples/consumer/tests/native_conformance.rs::wrong_profile_fails_before_factory_operations; scripts/skills/bundle.test.mjs::command rejects incompatible profile feature and missing asset before executing any example",
+      "historical_reports": "native-conformance-results.md",
+      "note": "",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        1,
+        5,
+        6
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 1,
+          "symbol": "wrong_profile_fails_before_factory_operations"
+        },
+        {
+          "gate": 5,
+          "symbol": "command rejects incompatible profile feature and missing asset before executing any example"
+        },
+        {
+          "gate": 6,
+          "symbol": "wrong_profile_fails_before_factory_operations"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    },
+    {
+      "requirement": "Author skills have portable executable evidence",
+      "scenario": "A skill is extracted outside the development checkout",
+      "source": "scripts/skills/bundle.test.mjs::portable bundle has deterministic content and verifies outside its source directory; .superpowers/sdd/2026-10-03-native-conformance/skill-evaluation/report.md",
+      "historical_reports": "native-conformance-results.md",
+      "note": "Independent held-out author tasks executed; evaluator familiarity retained; full source-checkout prerequisite explicit.",
+      "final_execution": "Actual selected gates exit0; complete source-only artifact and extraction identity verified",
+      "gate_partitions": [
+        5
+      ],
+      "observed_named_cases": [
+        {
+          "gate": 5,
+          "symbol": "portable bundle has deterministic content and verifies outside its source directory"
+        }
+      ],
+      "execution_source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55"
+    }
+  ],
+  "artifact": "/root/ROM/dist/rom-0.1.0-alpha.1-37c4f87cb4bd"
+}

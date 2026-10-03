@@ -165,4 +165,6 @@ The [release module cleanup](release-module-cleanup-results.md) then passed sour
 Stage 4.4 is complete for the [native conformance profile and executable author skills](native-conformance-results.md).
 Source, demo, provider, extracted-package, and skill checks passed with independent review and separate author tasks.
 The independent Field registry remains an open proposal.
-Stages 4.5 and 4.6 remain open. These intermediate results do not complete the release goal.
+Stages 4.5 and 4.6 are complete for source revision `37c4f87cb4bd5d43975ed6ce1e049630a41d4f55`.
+The [completion audit](framework-release-completion.md) records all six release gates, the packaged reference application, and verified local archives.
+The native source-release goal is complete. The support boundary preserves excluded and experimental capabilities.

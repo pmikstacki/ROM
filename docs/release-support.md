@@ -1,7 +1,7 @@
 # Source release support boundary
 
-Status: final acceptance is pending. This document defines the intended alpha distribution boundary.
-The release completion report will identify the accepted source revision and artifacts.
+Status: native source alpha accepted on 2026-10-03.
+The [completion report](research/framework-release-completion.md) identifies the accepted source revision, artifacts, and executed evidence.
 
 ## Supported profile
 

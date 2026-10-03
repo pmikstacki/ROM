@@ -1,0 +1,70 @@
+{
+  "artifact": "/root/ROM/dist/rom-0.1.0-alpha.1-37c4f87cb4bd",
+  "source_revision": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55",
+  "files": [
+    {
+      "path": "manifest.json",
+      "sha256": "89e53c51e932355c80ea5452e01da406a4996348bbac9f0cfce6f5abcc2780ff"
+    },
+    {
+      "path": "SHA256SUMS",
+      "sha256": "fc508698cd01f4b8be2157816b3ca08064a59542c51be02f2c47b89d2dc02abb"
+    },
+    {
+      "path": "evidence/gate-1.stdout.log",
+      "sha256": "242fcd3a0e31fb9477f007f75f5d672a89a274682439094e22befe694d665f94"
+    },
+    {
+      "path": "evidence/gate-1.stderr.log",
+      "sha256": "e6b58f31407e2a1604bdad8d37c31ee820ac7bf1f672825d2b57495f7f4b8059"
+    },
+    {
+      "path": "evidence/gate-2.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/gate-2.stderr.log",
+      "sha256": "7a7bb64a28cdda9b91e6e27f41be455104d929b5d7ad6dd5beca75fc5a47f1f4"
+    },
+    {
+      "path": "evidence/gate-3.stdout.log",
+      "sha256": "b38bd6d8de94ddfa0a7389bd56ff50171a542d8510686b7baf9da4e7d961722f"
+    },
+    {
+      "path": "evidence/gate-3.stderr.log",
+      "sha256": "cff79b6485fb0b76d269a010ec82e185b69b6d9687a46b357ffc61ef38ca0b42"
+    },
+    {
+      "path": "evidence/gate-4.stdout.log",
+      "sha256": "3f5cec5eb659cb1c98779f878e45479ff8e1198dd1b99371887d89b8bfeb51e9"
+    },
+    {
+      "path": "evidence/gate-4.stderr.log",
+      "sha256": "3ba9b66084a21e4d38ba15e0188a5a2ae1068597cd32f77928853be7caa11a86"
+    },
+    {
+      "path": "evidence/gate-5.stdout.log",
+      "sha256": "5d29d0fbdd90239b4914399dd1738f6b22de8e5fe0745af2d170c4e11c997de5"
+    },
+    {
+      "path": "evidence/gate-5.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/gate-6.stdout.log",
+      "sha256": "21e7060de264b4e64d73255e80e27db6b9e3401678319a489fbf474d486b22cd"
+    },
+    {
+      "path": "evidence/gate-6.stderr.log",
+      "sha256": "78f3dffea167a1695f327c567d8db7ae30270d0e6351c7374c96ce58db843669"
+    },
+    {
+      "path": "rom-0.1.0-alpha.1-37c4f87cb4bd-source.tar.gz",
+      "sha256": "37b941ed7282e3ccdca003429614995378d8560d938db2cf454598355f733ea4"
+    },
+    {
+      "path": "rom-0.1.0-alpha.1-37c4f87cb4bd-skills.tar.gz",
+      "sha256": "94b7d219c66e9e62ce4aa930bf72b790e64fe4782323da8e41ba871f935a10e6"
+    }
+  ]
+}

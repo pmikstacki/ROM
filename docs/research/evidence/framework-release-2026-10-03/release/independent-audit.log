@@ -1,0 +1,17 @@
+{
+  "complete": true,
+  "source": "37c4f87cb4bd5d43975ed6ce1e049630a41d4f55",
+  "tree": "d86a81028e887c25e18738c11e1a66c19709ca31",
+  "sourceFiles": 1014,
+  "scenarios": 55,
+  "gateCodes": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "independentlyMatchedSourceSnapshot": true,
+  "observedCasesMatchedFinalLogs": true
+}

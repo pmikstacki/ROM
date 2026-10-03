@@ -1,0 +1,87 @@
+{
+  "retained_stage": "/root/ROM/dist/.rom-release-stage-CgCL8D",
+  "failed_attempt": {
+    "completed": false,
+    "source_revision": "6d59c938a796640b1d64798eb51a8c187b091864",
+    "error": "spawnSync git EPIPE",
+    "command_results": [
+      {
+        "program": "./scripts/check",
+        "args": [],
+        "cwd": "/workspace/ROM",
+        "started_at": "2026-10-03T21:24:48.412Z",
+        "finished_at": "2026-10-03T21:26:02.134Z",
+        "exit_code": 0,
+        "bounded_abort": false,
+        "spawn_failed": false,
+        "stdout": "evidence/gate-1.stdout.log",
+        "stderr": "evidence/gate-1.stderr.log"
+      },
+      {
+        "program": "./scripts/build",
+        "args": [
+          "--release"
+        ],
+        "cwd": "/workspace/ROM",
+        "started_at": "2026-10-03T21:26:02.134Z",
+        "finished_at": "2026-10-03T21:26:16.302Z",
+        "exit_code": 0,
+        "bounded_abort": false,
+        "spawn_failed": false,
+        "stdout": "evidence/gate-2.stdout.log",
+        "stderr": "evidence/gate-2.stderr.log"
+      },
+      {
+        "program": "./demo/verify",
+        "args": [],
+        "cwd": "/workspace/ROM",
+        "started_at": "2026-10-03T21:26:16.302Z",
+        "finished_at": "2026-10-03T21:26:30.277Z",
+        "exit_code": 0,
+        "bounded_abort": false,
+        "spawn_failed": false,
+        "stdout": "evidence/gate-3.stdout.log",
+        "stderr": "evidence/gate-3.stderr.log"
+      },
+      {
+        "program": "./demo/verify-provider",
+        "args": [],
+        "cwd": "/workspace/ROM",
+        "started_at": "2026-10-03T21:26:30.277Z",
+        "finished_at": "2026-10-03T21:27:54.381Z",
+        "exit_code": 0,
+        "bounded_abort": false,
+        "spawn_failed": false,
+        "stdout": "evidence/gate-4.stdout.log",
+        "stderr": "evidence/gate-4.stderr.log"
+      },
+      {
+        "program": "./scripts/check-skills",
+        "args": [],
+        "cwd": "/workspace/ROM",
+        "started_at": "2026-10-03T21:27:54.381Z",
+        "finished_at": "2026-10-03T21:28:08.850Z",
+        "exit_code": 0,
+        "bounded_abort": false,
+        "spawn_failed": false,
+        "stdout": "evidence/gate-5.stdout.log",
+        "stderr": "evidence/gate-5.stderr.log"
+      },
+      {
+        "program": "node",
+        "args": [
+          "scripts/check-packages.mjs",
+          "/workspace/ROM"
+        ],
+        "cwd": "/workspace/ROM",
+        "started_at": "2026-10-03T21:28:08.850Z",
+        "finished_at": "2026-10-03T21:28:50.883Z",
+        "exit_code": 0,
+        "bounded_abort": false,
+        "spawn_failed": false,
+        "stdout": "evidence/gate-6.stdout.log",
+        "stderr": "evidence/gate-6.stderr.log"
+      }
+    ]
+  }
+}

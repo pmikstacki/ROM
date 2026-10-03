@@ -6,7 +6,7 @@ Declare a resource once. The framework supplies standard storage, operations, en
 
 Actions request changes. The core validates and commits transitions. Events describe committed facts. Reactions can submit further actions through the same core.
 
-**Status: integrated MVP, 0.1.0-alpha.1.** The maintained library, interchangeable adapters and executable demo pass the scoped acceptance checks. This is experimental software, not a production readiness claim. See the [release evidence and limitations](docs/research/mvp-release-results.md), [completed checklist](openspec/changes/integrate-resource-mvp/tasks.md) and [decision register](docs/research/mvp-decision-register.md).
+**Status: native source alpha, 0.1.0-alpha.1.** The maintained library, CLI, adapters, and reference application passed the complete local release procedure. This remains experimental software. See the [completion audit and support limits](docs/research/framework-release-completion.md), [completed release checklist](openspec/changes/prepare-framework-release/tasks.md), and [earlier MVP evidence](docs/research/mvp-release-results.md).
 
 ## Try the MVP
 
@@ -102,11 +102,11 @@ Research informs the design; candidate crates are not an approved dependency lis
 
 ## Development
 
-The active [framework release program](openspec/changes/prepare-framework-release/tasks.md)
-proceeds through reference-app/API ergonomics, relations and migrations, measured
+The completed [framework release program](openspec/changes/prepare-framework-release/tasks.md)
+covers reference-app/API ergonomics, relations and migrations, measured
 execution optimization, then operational recovery and release preparation.
-[Progress and evidence](docs/research/framework-release-progress.md) distinguish
-delivered slices from the remaining release requirements.
+[Progress and evidence](docs/research/framework-release-progress.md) record
+the delivered slices and their acceptance checks.
 The [source support boundary](docs/release-support.md) defines the native alpha profile.
 The [completion audit](docs/research/framework-release-completion.md) records final acceptance status.
 Use the [local artifact procedure](scripts/release-artifacts/README.md) to prepare a verified source distribution.

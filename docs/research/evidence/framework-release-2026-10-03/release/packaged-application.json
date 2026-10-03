@@ -1,0 +1,194 @@
+{
+  "source_lock_sha256": "fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83",
+  "libraries": [
+    {
+      "name": "rom-conformance",
+      "version": "0.1.0-alpha.1",
+      "archive_sha256": "7051eb287567d138bd0dd83c0b9d8fcfec3d555c405667e7a0694d5ac7945913"
+    },
+    {
+      "name": "rom",
+      "version": "0.1.0-alpha.1",
+      "archive_sha256": "c804de47168a000992d8a171a6163dcc9e806974b86fb743403c9f74e6d13db3"
+    },
+    {
+      "name": "rom-derive",
+      "version": "0.1.0-alpha.1",
+      "archive_sha256": "948cb54fa6c22b08fecbfed8ea2952fa04effe04627b7f6759dd40c4a155edf4"
+    },
+    {
+      "name": "rom-blob",
+      "version": "0.1.0-alpha.1",
+      "archive_sha256": "23b4918c232ef7e2370e7a67f75519666aa12a29b367f09253e34edade946676"
+    },
+    {
+      "name": "rom-sqlite",
+      "version": "0.1.0-alpha.1",
+      "archive_sha256": "31986cda979f1b13087dc90780bf70bff33644bf96c67f3b02793a141c4c101e"
+    },
+    {
+      "name": "rom-backup",
+      "version": "0.1.0-alpha.1",
+      "archive_sha256": "9574e17cbcaa34b466707095555e5f42b057d4cf361b47e39e345d0a5db03dbc"
+    },
+    {
+      "name": "rom-cli",
+      "version": "0.1.0-alpha.1",
+      "archive_sha256": "eff8deb824997acce8836019b5b3ec516d3bcaf28439f8e4bf5f5e3ab8b986bd"
+    },
+    {
+      "name": "rom-auth",
+      "version": "0.1.0-alpha.1",
+      "archive_sha256": "0ed0afd77d0d480282dab8c678b3356f4c93880d686e60f13050bdabc35c252b"
+    },
+    {
+      "name": "rom-blob-object-store",
+      "version": "0.1.0-alpha.1",
+      "archive_sha256": "e65a48c7ed90c3c80df8a37ab0c8c8504d50469684e220f2954acef352ba052d"
+    },
+    {
+      "name": "rom-config",
+      "version": "0.1.0-alpha.1",
+      "archive_sha256": "3771df3211719b89fc09ec51eb2fc7b9da018497a7af7102f80a51ef4944e346"
+    },
+    {
+      "name": "rom-identity",
+      "version": "0.1.0-alpha.1",
+      "archive_sha256": "2d196b705d1bbf12402ce2c9d5660d3423d20d35665ca1f8dc8c6cbcdd6cb958"
+    },
+    {
+      "name": "rom-redb",
+      "version": "0.1.0-alpha.1",
+      "archive_sha256": "962d4d7195c026ca8207408463209600a441f407e4afb6e24599db919a7ae768"
+    },
+    {
+      "name": "rom-http",
+      "version": "0.1.0-alpha.1",
+      "archive_sha256": "9070c454a35d50dbb0d55d8d8010c68339a7015573026bea1db0eeb35e3ee917"
+    }
+  ],
+  "applications": [
+    {
+      "name": "rom-consumer",
+      "path": "/tmp/rom-packaged-consumer-ux4erz/consumer",
+      "inputs_sha256": {
+        "consumer/.cargo/config.toml": "1f77e7b6bf5728efabcfbef8ebe3f7592c6deb093c8e37558b49effc074c0ef6",
+        "consumer/Cargo.lock": "fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83",
+        "consumer/Cargo.toml": "65bde49cfb4b838b3c38d744742cbfbf2839f43ded73b0e4da8d0b47a289dfaf",
+        "consumer/src/application.rs": "499241a87dbaea572415615f85c044c2dc99b08b87cf941d3b231f165b548773",
+        "consumer/src/lib.rs": "0cfc7ed26b6c6c3edf4d6ef7ecd5a1e1de1825a3e146b14b590e521035acf741",
+        "consumer/src/main.rs": "e5982df75e386f6bed49b8b90fad9608f4371eb750604f3a35940c90881413cc",
+        "consumer/src/setting.rs": "44aabc2d6568277ef027f6345a630e64c6fe9997140073126141b21b4f330b57",
+        "consumer/src/task.rs": "c09472a1ba2f207c01406be2fef4be2a3a8e3ea54d0452b9aef1fc6f7e9186b9",
+        "consumer/tests/actor_gate.rs": "e7977c1de78ef36fbc386ede6317d993b6ff118f907da8ab30aaa431e222c4ac",
+        "consumer/tests/bounds.rs": "282b1f9dffcfb41464caff3628d8b379a3c8cff31a03a7e6e06a16b87349638a",
+        "consumer/tests/capacity_configuration.rs": "d9199c5d9f5205da29f7bf756b7a56c55b4a24da68d13806c93418cb8ea23dc5",
+        "consumer/tests/discovery.rs": "f7a4d99e98922ae7e4fe804cc54a58d72384c0d51daed2eae69a623d73edccea",
+        "consumer/tests/extensions.rs": "38888188d7c2f36b8d5f3e81052aa793788468fa884a8e20026fd9b970271300",
+        "consumer/tests/fields.rs": "33d05f4b4a253fdbb14b8383e065f3b10f787edd9562f6abbf29e1e03464be0e",
+        "consumer/tests/initial_authority.rs": "c1fae47d8d34845996ca62472176334dc661fd0b2b4476de6a4d12b6395bd116",
+        "consumer/tests/integrated.rs": "6ad7febd41a0f326eb59c926e6bfdeba9e336729343900a26fd1d8f02a9ff364",
+        "consumer/tests/invocation.rs": "ac68d986d9a3f0c8ceeaea1f5e6456ad56aebd3c2baea811b1c5a1cb8525b8d3",
+        "consumer/tests/lifecycle.rs": "5befd4f8400cd5a420df1a0b601ab3b46eda64c771851fe610ec1455e9136aa3",
+        "consumer/tests/native_conformance.rs": "63c0fd8998a39504d269fabc3262ee5c2cb6fffeb6596badb7ab696f111b3b7c",
+        "consumer/tests/native_conformance/fixture.rs": "29db7f4b6cac52f5e70e27dd8055ef49775769e93ebe0ea9e6c92dae3b5f0789",
+        "consumer/tests/presence.rs": "4238d4c84281e5e25a8a80f8c17513272a70b23e043f1570400e7482f1252b81",
+        "consumer/tests/projection.rs": "125bf7d9959a74f72f2cb8a97ccf26cf594e4552057de46c0196c8d601e6acff",
+        "consumer/tests/promotion.rs": "c0095d4a8aab7f40f3999e9107d4717de07dd0d5960ac83aae81eafc874b2e04",
+        "consumer/tests/query_all.rs": "a0d18c960eecfab5ccab895570b701578d4ce0c2e37d99d91fb369ff431ccd30",
+        "consumer/tests/query_contract.rs": "b1a003bacf7bec88d3c674025f4c2a2a12e01fa3d5931da0d3d3379c2ed49836",
+        "consumer/tests/source_authority.rs": "82ef7801bbefab1ce68e7c47cafb14fcea87709e7f54c7215a3f4912d04fde5b",
+        "consumer/tests/structured_input.rs": "76617b6af8db801f34e6fa5e0b3c86eda2cf1adcc06d9404cce46f2da3604539"
+      },
+      "resolved_lock_sha256": "ba8f27acf1bae53fa74b5d0c880d205698e7f23f52226d04a95a61350b3a4c41"
+    },
+    {
+      "name": "rom-demo",
+      "path": "/tmp/rom-packaged-consumer-ux4erz/demo",
+      "inputs_sha256": {
+        "demo/.cargo/config.toml": "1f77e7b6bf5728efabcfbef8ebe3f7592c6deb093c8e37558b49effc074c0ef6",
+        "demo/Cargo.lock": "fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83",
+        "demo/Cargo.toml": "c049a6ba9f50ce3573cf0e87d2c3838909d6e8820de7952dda58d31ae3d7cb39",
+        "demo/provider-fixture/acceptance.mjs": "14fcc705eea09e0dc9efc449c18be59dc2ec692abe47a8dafd955c3bbd10307a",
+        "demo/provider-fixture/commands.test.mjs": "7b807347cefb0f97d8b3ea4ad6a15237922f6eed57d73af890acfb73a3cec284",
+        "demo/provider-fixture/files.mjs": "4dd26a223e1726996df953f1424355141a88bce5f5651abc539dd8617870da4d",
+        "demo/provider-fixture/fixture.test.mjs": "94b44a165ba6a812e7190833212e4a4f256b8df302e49d24d00343c0a4e5f3b9",
+        "demo/provider-fixture/host.mjs": "8f942b4710cf153d639e387fcd3288dc8b13933812e6215369e20e5a038ddfce",
+        "demo/provider-fixture/issue.mjs": "4df7fde43198648bf350084ec6b9f4430978b4511bb72b0277d5203880c9a62b",
+        "demo/provider-fixture/journey.mjs": "b72b3634e875c49a2b04e29383dc1ae92db5afc67125aba4232d20eb89277e9e",
+        "demo/provider-fixture/package-lock.json": "e97914580496c3856a62dd4b643d83b8d151f3feed7a97a928f695b4684c752e",
+        "demo/provider-fixture/package.json": "7b5f4e3bf9857f50dae7eca2308fc73c5f74da1891f87c58aa751ee9863f66be",
+        "demo/provider-fixture/private-read-child.mjs": "4e7371653639a408cc86c6bd64dabb32472101400b1506428ad663f7560a4cee",
+        "demo/provider-fixture/processes.mjs": "651c6da471f6ee15760a4ec44499ee1e41c33c9f46f6378fdd8386e5949b09b0",
+        "demo/provider-fixture/provider.mjs": "48657874ec3c416fdad2a40d96dfb7cfbc90f1f064369e7ead93eacb800d8b56",
+        "demo/provider-fixture/README.md": "37391f430d7d7453090d12c72c55f8b4e8f4319163757e6ed0d3ae4554bc69e6",
+        "demo/provider-fixture/server.mjs": "725c2044df386d1aa927458bebde80d42967a52afd1b90e518e27981a542c4e8",
+        "demo/README.md": "da411f6f61340be5a43d1d1555b6db8ca5a4fc5817cb573582caa880e2c3f797",
+        "demo/settings.toml": "237ccd49c7b8b1f27df25e3b321db35f138eb2ca921224b0f3cbb744c7259d61",
+        "demo/src/application.rs": "5fab96284efa36b5f8e721f990a5d94d4d10dc3c9614c021510d57bb90a835dc",
+        "demo/src/attachments.rs": "416bc8ce8337c43e860c377db1cf6029a3e57dbf3d69604fa8e5be4bc3ee64c4",
+        "demo/src/compensation.rs": "b2c94cefdbc0d586923a3affbbf8bdb4ca4cbc0a83fc6b957a228e6afe73f7d7",
+        "demo/src/compensation/checkout_rules.rs": "19fca0a8e2c64a503125d604074d9e422da8584835162f54e7767c02d0879b6b",
+        "demo/src/host_signals.rs": "13c7b5e7508a920390a967fcc62da635363399fa7e62ca042504286aaa8926ee",
+        "demo/src/identity.rs": "0fa20cff273d3ceca75c70a8b404fdf92750cb1ce09634df436619e9f35b2238",
+        "demo/src/lib.rs": "fd405d5908cce56d4b660801df49110ad939affa63751479fd5b2757688bc841",
+        "demo/src/main.rs": "6e0bc46f2659b31221048911c43c235fd6155d6b715853b182c18ffc01df4fd2",
+        "demo/src/model.rs": "18be261a5aeb5e7bc7399b7bd948c2d84e3e4797968805df01ec90ee64038adf",
+        "demo/src/operator.rs": "34648f11c91a607f65f27060502726c49f5c248db561bd6f2bbaa993f30c8793",
+        "demo/src/provider_profile.rs": "8aa4b4cfb46d21d3d342025976d805d7a4c8ac7f4830cc4f470903ea7412e9ff",
+        "demo/src/provider_profile/application.rs": "d98f644a64b47ccc3e3f82d32258da0974dc445dec10b90ec56854db037b4510",
+        "demo/src/provider_profile/authentication.rs": "9a687bd760d0d0404814b7a96f8df28fe83b513f9e87c68f65967f5f65c83909",
+        "demo/src/provider_profile/command.rs": "62305180ebe302428deb70494216b8c02f3a2db523fd171101c3662eacac2d96",
+        "demo/src/provider_profile/configuration.rs": "1e2c8b799b770728cd4639a3c1d477d15757d29e687392f9ee2c349c97b9c834",
+        "demo/src/provider_profile/lifecycle.rs": "96d26d25b85d4056d6c683313481575a5fee0ea167089c1cafb82b74854a5c5b",
+        "demo/src/provider_profile/model.rs": "9bbd001260b52013ea5ca683bc4fef6aa37c300c89e81f55be332b6b44e5c35c",
+        "demo/src/provider_profile/provisioning.rs": "a6f1373059dbccb834f6d535e87914496ca12ef132befdcdff06ee0d7e6cab63",
+        "demo/src/provider_profile/secrets.rs": "5c388fe1aac649f341cc8dacec5811ddb6d4a0c852972caca33f3c073cea049a",
+        "demo/src/provider_profile/serving.rs": "f6d15c954e57cc151b64b134281195e612e55308b35b976290b141331195f55e",
+        "demo/src/provider_profile/text.rs": "69d3514162317191f321b9af3d10bf9ec8c196b63fbf16d869d7fc378bd77371",
+        "demo/src/provider_profile/verification.rs": "35731ebace96075300f04ff7889937b6e8d283fa3a52deaaa6cdd32e662880ed",
+        "demo/src/reference.rs": "7394cddc0e5d73dbdfa8261d04ba60b029766c8569a875b02d0b87265822f56e",
+        "demo/src/scratch.rs": "33680c2bc47a78e557dc57f1c0a794ef704c6f2b8a57bab7187dc0ac82b6fcbc",
+        "demo/src/serving.rs": "5feb518e402152a7c2b1c3ddd7da278409f553a2e5d6e0d25ba460495c0e92e9",
+        "demo/src/smoke.rs": "8113667095f492948a8fcfad4eefec4b58c71c957c79d18efe8daf446d798123",
+        "demo/src/startup.rs": "cb86f0f745057e1b33062c606693ca24abcccd5eb3db99bcb845021373b9b953",
+        "demo/src/upgrade.rs": "32606d93c2670a55a8e2a9ce89086c4c0256f8f527c0233da2502d28b57d434f",
+        "demo/src/upgrade/checks.rs": "272609169d893fc1b55d7a946e7f93cb6b103c187689035aba2b92b8ee5eae10",
+        "demo/src/upgrade/legacy_tests.rs": "b9b3eb2d630886dc13bdfa85c3c57583570da59243b5cedc98f22e0d394e7beb",
+        "demo/src/upgrade/legacy.rs": "747879894a1ae2fe0f403e4677f18ba442c235e5c0d3b6587cec2fde4c796996",
+        "demo/src/upgrade/native.rs": "f17c6d1e5f6096b2543bac2d0882a1af0603de49d0888f9d3890f693f6477359",
+        "demo/tests/compensation.rs": "6a4b536fd1bcb1a10f433b6d2428108b99f8296c4dc4f4f08c5d7c9384a4c493",
+        "demo/tests/documented_commands.rs": "9bacc54d3c1e074c29b8d215cfe87a72aeb2ccb0e40d424524e56198d8671f73",
+        "demo/tests/operator.rs": "a7f2106d73bdfa19e3db1559c1c79a7d8585df0d061c546e5400583bf8b85f58",
+        "demo/tests/provider_auth.rs": "1726b46fb531bf88bf69315a0d5e8190ec4d0f45b3b317c2e8285707ae5107bc",
+        "demo/tests/provider_auth/admission.rs": "30ce18f64ee7a59e509d4e8619e73d1848a7b3f3cbfa752a576fb73cb9520ba8",
+        "demo/tests/provider_auth/approval.rs": "0113f25e46b6706b2e0b793af9dad4cd73586906b6380480c949c3d9db4f93da",
+        "demo/tests/provider_auth/files.rs": "0f7f65ee4b2036861f53caaaf129c9e5c3f408e27a3a4e0022b55aec668e05e9",
+        "demo/tests/provider_auth/outage.rs": "d6b33cd4a76b6ee680b57c5a28f2c292a38d577d089026f00fb5951e1dd805c7",
+        "demo/tests/provider_auth/provider.rs": "8f2984b96081be6fe752a8a56a1a3483a7fcf2245ab2a64543985e7b1865b5cc",
+        "demo/tests/provider_auth/scratch.rs": "96562135a910ebe42066086ef45475192dbd0e22ef82e422529660369d08e447",
+        "demo/tests/provider_auth/support.rs": "8cae05cd9fc916fe4d58ad0a0f007de82ae873ba5495dcfe38d44734b5002177",
+        "demo/tests/provider_profile.rs": "08cbeb03a335ecfef1761a028554b7acbeee5be505ec71212c93a3433b539179",
+        "demo/tests/provider_profile/authority.rs": "c34e244de4c8d913a26d78284752531a0dc6cb10e54ee3e69b34c5147743e0c0",
+        "demo/tests/provider_profile/commands.rs": "e203f573e1d16f63eab8c351a59cccde3ea635382741a10928fe440c94e1fd81",
+        "demo/tests/provider_profile/configuration.rs": "4a7fe2e23114e0abbb66a5471a2f4b7d0b68c5c7f7dac007789beed22bbafae9",
+        "demo/tests/provider_profile/provisioning.rs": "cab38bd7aa9941f39790f07d4cd25d3dca363894d3df6fb8aa4cb4a93d48c8b6",
+        "demo/tests/provider_profile/serving.rs": "3703e692a05402d21d9ba8769944b0726825726c1345475689a179f2adc37dda",
+        "demo/tests/provider_profile/support.rs": "ece21f0786d1f9480bf665bc398d534e28c55d2aba4147df2e26001b36b3a273",
+        "demo/tests/reference.rs": "e8fd540e8abcfc44e3b9e941049f339e342a4f555a0a0653c7595198283c1a32",
+        "demo/tests/reservation_input.rs": "f5b32860f4e3480aa24b096274bd2cdf68dca80f567616ac783c7f9c9eb7507c",
+        "demo/tests/server_lifecycle.rs": "f2dd885e63f0de7783888ecc133b44ba39fa4eb897e6115e1fd685947716833d",
+        "demo/tests/server_lifecycle/support.rs": "62b6d2332c984ef8fc07101298a770457ba5c7229a686e1dbaa1c903e2910f7e",
+        "demo/tests/transitions.rs": "bf3d80bf4c9cb61d88cd35102f97c70536f4fa4df5b5d80949dcc49d945c9cdd",
+        "demo/tests/upgrade.rs": "b93b5dce3b38ac24abb891a4174e0b9a2eb7ba65a629b51e6de88d59d2928f40",
+        "demo/tests/workshop.rs": "aefa2d950cfb68be791d7cd1667a648636d4c787c009f71585c84c551834df05",
+        "tests/persistence/tests/support/child_process.rs": "4c7e17998a3701d283c7768d825ba0e469dce48658443fccc95fb8ae055752fc"
+      },
+      "resolved_lock_sha256": "70182d841d4ad0235519b53ebf5538512efcd479eac329c005b77dfeafb15bdd"
+    }
+  ],
+  "verified_dependency_root": "/tmp/rom-packaged-consumer-ux4erz/unpacked",
+  "reference_tests": "cargo test --offline --all-features",
+  "real_provider": "Separate source ./demo/verify-provider gate; not rerun against this copied application",
+  "publication": false
+}

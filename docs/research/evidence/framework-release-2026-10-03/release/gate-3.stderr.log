@@ -1,0 +1,23 @@
+    Finished `dev` profile [unoptimized] target(s) in 0.09s
+    Finished `test` profile [unoptimized] target(s) in 0.09s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-870f1fb6abd107c4)
+     Running unittests src/main.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-be4b9c431d1aace5)
+     Running tests/compensation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/compensation-51b7b4655cafe74c)
+     Running tests/documented_commands.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/documented_commands-a50aa53c437c7198)
+     Running tests/operator.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator-647d0660bce293ef)
+     Running tests/provider_auth.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_auth-5160dbb312a98862)
+     Running tests/provider_profile.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_profile-c1d2bc8ccee6d0b2)
+     Running tests/reference.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reference-62f2ccd08c888e03)
+     Running tests/reservation_input.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reservation_input-d16c2f793725a566)
+     Running tests/server_lifecycle.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/server_lifecycle-b1192981701293f8)
+     Running tests/transitions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/transitions-45f04c92b8a64bf1)
+     Running tests/upgrade.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/upgrade-200643dafc55d44f)
+     Running tests/workshop.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/workshop-59e34a2eec59ef9a)
+   Doc-tests rom_demo
+    Finished `dev` profile [unoptimized] target(s) in 0.07s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/rom-demo smoke sqlite`
+    Finished `dev` profile [unoptimized] target(s) in 0.07s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/rom-demo smoke redb`
+ Documenting rom-demo v0.1.0-alpha.1 (/workspace/ROM/demo)
+    Finished `dev` profile [unoptimized] target(s) in 0.39s
+   Generated /var/tmp/rom-release-measured-verification-target/doc/rom_demo/index.html
