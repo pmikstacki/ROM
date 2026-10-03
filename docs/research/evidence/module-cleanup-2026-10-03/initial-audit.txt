@@ -1,0 +1,107 @@
+# Maintained module audit
+
+Inspection date: 2026-10-03. Worktree: `/root/ROM/.worktrees/release-query-index`.
+Scope: maintained Rust sources and tests under `crates/`, plus `demo/src` and its current provider fixtures.
+Historical prototypes, preserved worktrees and evidence are excluded from cleanup.
+This is source inspection only. No refactor or test execution belongs to this audit.
+The separate outage conformance addition has its own report and checks.
+
+## Facade verdict
+
+The explicit `lib.rs`/`mod.rs` rule is already satisfied in the audited maintained tree.
+Eleven crate library roots and `demo/src/lib.rs` contain declarations, imports, exports and necessary definitions.
+The only function bodies are the two delegating procedural-macro entry points in `rom-derive/src/lib.rs:8` and `:14`.
+They are the documented exception; parsing and expansion remain in `expansion.rs` and its named children.
+The only maintained `mod.rs` found is `rom-cli/tests/common/mod.rs`; it contains one declaration and reexport.
+
+The current `demo/src/provider_profile.rs` facade is also thin, although its filename is not `lib.rs` or `mod.rs`.
+Operator, channels, work ledger, native maintenance and backup already have cohesive named modules.
+There is no remaining monolithic library root to split.
+Source length alone is not a quality violation: the largest production files found are roughly 350–440 lines,
+while the largest files are integration tests. Avoid splitting a coherent transaction solely to reduce line count.
+
+## Concrete DRY gaps
+
+### 1. Duplicate strict JSON decoding
+
+`crates/rom-http/src/json.rs:4` and `crates/rom-cli/src/json.rs:4` contain the same `Unique` wrapper and recursive JSON visitor.
+Both implementations reject duplicate keys, preserve nested arrays and convert the same primitive values.
+The meaningful difference is the HTTP parser's top-level object check at `json.rs:60`.
+CLI generic parsing allows other top-level values; operator-specific admission applies its own object checks.
+
+This duplicates behavior that can drift during fixes, as the previous object-shape correction demonstrated.
+A bounded cleanup can extract one strict Value decoder into an existing shared codec location.
+Keep HTTP/CLI object admission, byte limits and safe error mapping at their current entry points.
+Do not make one client's shape policy universal. Do not replace the visitor with ordinary Value parsing that accepts duplicate keys.
+The shared location must preserve core's existing transport/driver dependency exclusions; no new parser framework is needed.
+
+Affected checks: HTTP strict JSON/body tests, CLI JSON/input/failure/operator tests, nested-array negatives/positives,
+feature-isolated core and packaged consumer checks. Public API selection for a cross-crate helper needs a small explicit design.
+
+### 2. Repeated provider text validation
+
+`demo/src/provider_profile/model.rs:43`, `secrets.rs:12` and `provisioning.rs:30` repeat the same
+nonempty, byte-bound, trimmed and control-character checks with static `Denied` errors.
+`command.rs:145` already calls the provisioning helper for decoded host text.
+
+One private host-input validation helper can serve all four callers.
+Keep secret-byte validation separate: credential bytes intentionally retain whitespace and use the 4,096-byte verifier bound.
+Do not apply identifier normalization to secret material.
+The helper should live with shared host inputs, rather than making standalone HostAuth depend on provisioning behavior.
+
+Affected checks: provider host approval/reference negatives, configuration bounds, provisioning/maintenance negatives,
+secret exact-byte tests, default-feature demo checks and feature-enabled Clippy.
+Public `ApprovedProvider`, `SecretFiles`, `HostAuth`, `Provisioning` and `ProfileConfig` paths need no change.
+
+These are source duplication findings. The audit found no new behavior defect in either case.
+Do not edit the accepted stage 4.3 source before its integration gate.
+
+## Bounded module split candidates
+
+The following groups have concrete responsibility changes within one file.
+They are maintainability candidates, not facade-rule violations or a demand to split every larger file.
+Implement each as a separate behavior-preserving refactor after stage 4.3 integration.
+
+| Priority/group | Current responsibility mix | Suggested split and stable interface | Required affected checks |
+| --- | --- | --- | --- |
+| A: Provider configuration/commands | `demo/src/provider_profile/command.rs:18–155` defines and validates private configuration; `:158` dispatches local commands; `:226` composes serving/signals. | Move ProfileConfig/load and strict document helpers into named configuration/input modules. Keep command dispatch and serving composition focused. Reexport `ProfileConfig` and `run_command` from the existing public facade. Preserve shared private file acquisition. | Both provider suites; actual-provider acceptance; signal/readiness subprocess tests; private configuration, duplicate keys and redaction; default demo regression. |
+| B: Reaction declaration/execution | `crates/rom/src/reactions.rs:5–77` defines typed declarations and worker handle; `:78` starts/processes workers; claim execution also maps/materializes children and routes new work. | Use declaration, worker and claim/routing modules under the existing reactions facade. Reuse `reactions/receipt.rs`; do not create another frozen-action resolver. Root reexports keep `rom::{Target,Reaction,ReactionWorker}` and Runtime methods unchanged. | Shared reaction/channel/work/operator tests on both stores; cancellation/drain/process exit; replay-version and current-authority cases; external consumer and compile fixtures. |
+| C: Query normalization/evaluation | `crates/rom/src/query_eval.rs:9–133` normalizes requests and anchors; `:136` compares values; `:182` implements the reference Plan; `:274` performs Runtime query-read admission/binding. | Separate request normalization/continuation from exact value comparison and storage-read evaluation. Keep the existing Plan/query methods and public query-storage profiles. Preserve scalar comparison, whole-kind admission and native candidate validation order. | Consumer query contract, shared query planning/read/index suites, typed/wire/live equality, malformed cursor/binding and hidden field cases; SQLite measurement smoke if execution changes inadvertently. |
+| D: Configuration activation/ticket | `crates/rom-config/src/ingestion.rs:11–104` defines SourceActivation/input/action; `:106–305` owns ReloadTicket preparation/resume/apply; `:313` maps public errors. | Separate activation Resource/input declarations from ticket lifecycle and safe error translation. Keep `rom_config::{SourceActivation,ReloadRequest,ReloadTicket,ReloadError,REQUEST_RELOAD}` exports stable. Preserve one request generation and source-permit path. | Config ingestion/parser tests; stale generation and resume/replay; redaction, interrupted/failed reload and current authority; feature-disabled and package checks. |
+| E: Maintained HTTP test groups | `crates/rom-http/tests/loopback.rs` is 1,082 lines: shared Server/wire fixture plus mutation, body, live, journal, query and discovery cases. Existing operator/auth children import its helpers. | Extract one named support module; move remaining cases into mutation/admission/observation/discovery/query children. Keep the integration entrypoint declarations/imports thin. Preserve shared fixtures and all existing assertions. | Full rom-http tests and strict all-target Clippy; child module imports, delayed auth/body admission and worker ownership cases. |
+
+Groups A and the provider validation helper can share one owner because their imports change together.
+Groups B, C and D have independent file ownership and can be reviewed separately.
+Group E should follow product cleanup; it improves fixture locality without changing runtime behavior.
+The 797-line auth profile test and 719-line config ingestion test have similar optional test-only grouping opportunities.
+Their size is not evidence of a product module violation; do not prioritize them over the concrete duplication above.
+
+## Preserve already shared mechanisms
+
+- Core `StorageState`, work revision transitions and operator receipt validation already centralize semantics across SQLite and redb.
+  Keep engine-specific transaction/open/recovery code separate; those operations have different guarantees.
+- Worker and operator action reconciliation share the frozen receipt/action resolver. Do not duplicate it during reaction extraction.
+- Delivery and verifier callbacks share supervision. Host authentication has a different blocking-worker lifetime contract;
+  a generic executor abstraction is not justified merely because both use permits and timeouts.
+- Provider file acquisition is already shared between secrets/configuration/maintenance inputs.
+  Its Linux opened-handle checks must remain one implementation.
+- Provider host/profile tests share the same Scratch, synthetic Provider and bounded subprocess helper.
+  The recent sequence/retry fix must not be copied into another local fixture.
+- JWT and introspection have different proof windows and transport/verification requirements.
+  Do not merge their entire adapters as a line-count cleanup.
+- Derived/manual Resources already pass the same registration and canonical codec contract.
+  Keep generated bindings small; do not generate separate execution engines.
+
+## Verification and integration constraints
+
+Freeze each refactor's baseline and assign file ownership before edits.
+Keep public import paths, serialized names, format versions, command fingerprints, replay versions and native obligations unchanged.
+Use reexports for moved types and compile an external consumer; source path movement alone should not trigger a storage format change.
+Do not combine behavior changes with structural extraction.
+
+Run the affected existing tests and strict Clippy after each group.
+After source review, run the full local verifier and package/downstream checks before integration, as AGENTS.md requires.
+Preserve original failure logs and historical prototypes. Add current evidence instead of rewriting old records.
+
+This audit identifies two concrete DRY gaps and five bounded cleanup groups.
+It does not claim those groups are implemented or required to hold the accepted provider integration indefinitely.

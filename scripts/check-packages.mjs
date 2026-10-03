@@ -9,7 +9,11 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(process.argv[2] ?? join(dirname(fileURLToPath(import.meta.url)), '..'));
 const scratch = mkdtempSync(join(tmpdir(), 'rom-packaged-consumer-'));
-const env = { ...process.env, CARGO_BUILD_JOBS: '2', CARGO_TARGET_DIR: join(scratch, 'target') };
+// The host can retain dependency builds between runs. Each run still creates
+// fresh archives, extracts fresh sources and audits the consumer's resolved paths.
+const target = process.env.ROM_PACKAGE_TARGET_DIR
+  ? resolve(process.env.ROM_PACKAGE_TARGET_DIR) : join(scratch, 'target');
+const env = { ...process.env, CARGO_BUILD_JOBS: '2', CARGO_TARGET_DIR: target };
 const hash = path => createHash('sha256').update(readFileSync(path)).digest('hex');
 const lockHash = hash(join(root, 'Cargo.lock'));
 const run = (program, args, cwd = root, capture = false) => execFileSync(program, args, {
@@ -36,7 +40,7 @@ const unpacked = join(scratch, 'unpacked');
 mkdirSync(unpacked);
 for (const p of packages) {
   const name = `${p.name}-${p.version}`;
-  const archive = join(scratch, 'target', 'package', `${name}.crate`);
+  const archive = join(target, 'package', `${name}.crate`);
   const contents = run('tar', ['-tzf', archive], root, true).trim().split('\n');
   if (contents.some(path => !path.startsWith(`${name}/`) || path.split('/').includes('..'))) {
     throw Error(`${p.name}: invalid archive path`);

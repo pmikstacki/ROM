@@ -26,6 +26,9 @@ use std::{
 };
 use tokio::sync::{OwnedSemaphorePermit, watch};
 
+mod json;
+pub use json::parse_json;
+
 mod error;
 pub use error::{Error, Result};
 

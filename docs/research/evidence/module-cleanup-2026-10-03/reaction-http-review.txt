@@ -1,0 +1,46 @@
+# Task C independent review
+
+Result: accepted. No specification or quality findings require changes.
+
+Baseline: `f3fbed9927a1b515628604e4aad63559049d4abf`.
+Review input: `../task-c/source.json`, its 17 frozen source files, and `../task-c/changes.patch`.
+The maintained module cleanup plan and `docs/quality.md` define the review contract.
+Other owners' files and future native-conformance design changes are outside this review.
+
+## Specification
+
+The reaction extraction preserves public `Reaction`, `Target`, and `ReactionWorker` paths through facade exports.
+The declaration types, mapper registration, work ownership, routing, and persisted intent construction retain their original contracts.
+
+Accepted batches retain supervised ownership after caller cancellation.
+The worker still releases its tracked lifetime after the loop finishes.
+Action recovery still checks current authority and resolves the shared frozen-action receipt before evaluating resolution-only work.
+Source mapping still checks current and historical Resource authority before mapping and again before materialization.
+The shared action resolver is byte-identical to the baseline.
+
+The HTTP extraction preserves every existing test and assertion.
+One support module owns listener construction, authentication fixtures, socket operations, and bounded shutdown.
+Authentication and operator children import that support module.
+The observation gate remains with its observation cases.
+
+## Quality
+
+Reaction declarations, worker ownership, claim execution, and intent routing have separate named modules.
+The reaction facade contains declarations and exports only.
+The HTTP test entrypoint contains module declarations only.
+Shared fixtures have one implementation, and sibling visibility is restricted to the required support boundaries.
+The extraction introduces no dependency, serialized format, authorization policy, retry behavior, or budget change.
+
+## Evidence
+
+Independent source checks confirmed all 17 live and frozen hashes and the lockfile hash match `source.json`.
+Captured baseline files match the stated commit.
+The literal-preserving move scanner was inspected and rerun without writing its owner's artifact.
+It confirmed all 32 HTTP test bodies, all 60 HTTP function signatures and bodies, and all 10 reaction functions.
+An exact comparison also confirmed the shared receipt resolver is unchanged.
+Declaration fields, imports, exports, visibility changes, and authority and ownership ordering were reviewed separately.
+
+The implementer's recorded post-format core, HTTP, and complete native conformance tests passed.
+Recorded strict Clippy and owned-file formatting checks passed.
+Those command outputs were inspected; this review did not rerun Rust tests or Clippy.
+The coordinator's full local verifier and integration gates remain separate requirements.

@@ -1,5 +1,5 @@
 //! Actual Resource actions create work; HTTP only binds the shared operator contract.
-use super::*;
+use super::support::*;
 use rom::operator::*;
 use rom::{Action, Channel, DeliveryOutcome, PrincipalKind, Resource, Storage};
 use std::sync::atomic::{AtomicUsize, Ordering};

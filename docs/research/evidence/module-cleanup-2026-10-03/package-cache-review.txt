@@ -1,0 +1,21 @@
+# Independent package-cache delta review
+
+Spec verdict: accepted. Quality verdict: accepted. No actionable findings.
+
+Reviewed `scripts/check-packages.mjs` against `f3fbed9`.
+The optional `ROM_PACKAGE_TARGET_DIR` changes only the Cargo target location.
+Without it, the original fresh scratch target remains the default.
+
+Every run still invokes `cargo package` for every maintained package before reading archives.
+Archive paths consistently use the selected target.
+Extraction and the external consumer workspace still use a new scratch directory.
+License checks, archive path checks, offline package checks, CLI execution and consumer execution are unchanged.
+The final locked metadata audit still requires every resolved ROM package to come from the freshly extracted sources.
+The repository lockfile digest check remains unchanged.
+
+Cargo's build cache does not replace the fresh source extraction or resolved-path audit.
+The change adds no dependency, public API, runtime behavior, or alternate source-resolution path.
+The environment path is passed as data through structured process arguments and environment variables.
+
+This is read-only source review.
+The coordinator reported a successful syntax check; full package execution remains part of the combined integration gate.

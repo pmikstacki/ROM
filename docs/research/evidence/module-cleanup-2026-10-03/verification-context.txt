@@ -1,0 +1,15 @@
+Base commit: f3fbed9927a1b515628604e4aad63559049d4abf
+Source files: 464
+Container: rom-dev
+Worktree: /root/ROM/.worktrees/release-query-index
+CARGO_TARGET_DIR and ROM_PACKAGE_TARGET_DIR: /var/tmp/rom-release-measured-verification-target
+Build jobs: 2
+Dev/test debug info: 0
+
+Commands:
+./scripts/check
+./demo/verify
+./demo/verify-provider
+node scripts/check-packages.mjs
+
+Dirty source is identified by the source manifest. Public documentation has a separate final review. Package archives are regenerated and extracted into a new scratch directory. Dependency build reuse does not replace the package path audit.

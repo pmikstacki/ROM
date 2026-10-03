@@ -1,0 +1,57 @@
+# Module cleanup Task A
+
+Status: source frozen. No commit.
+Baseline: `f3fbed9927a1b515628604e4aad63559049d4abf`.
+
+## Owned changes
+
+- Core `json.rs` and its facade export, plus `crates/rom/tests/json.rs`.
+- HTTP and CLI `json.rs` wrappers.
+- Core `query_eval.rs` facade and `normalization.rs`, `comparison.rs`, `read.rs` children.
+
+`source.json` records owned source and lock hashes. `changes.patch`, `before/` and `source/` are the scoped review inputs.
+Other cleanup agents' files and future stage 4.4 designs are excluded.
+
+The public `rom::parse_json(&[u8]) -> rom::Result<rom::Value>` moves the existing duplicate-key visitor into core.
+It accepts complete JSON roots, rejects nested duplicates and trailing input, and retains serde_json's recursion limit.
+Errors remain `Error::invalid("request", "json")`, without input or parser diagnostics.
+HTTP retains its object-only admission and typed schema error. CLI retains general root decoding and typed schema errors.
+Caller byte limits are unchanged. Configuration's syntax-only visitor remains separate.
+
+Query code moves into three named responsibilities: admission/normalization/anchors, predicate/key comparisons, and storage-read selection.
+`query_eval.rs` contains module declarations and crate-private exports only.
+The thirteen original function bodies compare equal after whitespace removal.
+That source inspection aid is recorded in `task-a-query-body-comparison.json`; it is not a semantic test claim.
+Imports and sibling method visibility changed only to support those modules.
+Storage response validation, row/field authorization, filtering, anchors, sorting and limit order remain unchanged.
+
+## Executed checks
+
+Commands ran in `rom-dev`, current worktree, using the existing shared target:
+
+```text
+CARGO_TARGET_DIR=/var/tmp/rom-release-measured-verification-target
+CARGO_PROFILE_DEV_DEBUG=0
+CARGO_PROFILE_TEST_DEBUG=0
+CARGO_BUILD_JOBS=2
+```
+
+- `cargo test -p rom --test json`: missing-API RED, then all three public decoder tests GREEN.
+- `cargo test -p rom -p rom-http -p rom-cli`: all suites passed.
+- `cargo test -p rom-storage-conformance --test query_read --test query_planning --test sqlite_query_index`: passed.
+- `cargo clippy -p rom -p rom-http -p rom-cli --all-targets -- -D warnings`: passed.
+- `rustfmt --edition 2024 --config skip_children=true --check` on all nine owned source/test files: passed.
+- `cargo test -p rom-consumer`: all downstream tests passed.
+
+Evidence is under `.superpowers/sdd/2026-10-03-module-cleanup/evidence/`:
+`task-a-json-{red,green}.log`, `task-a-verification.log`, `task-a-consumer.log`, `task-a-toolchain.log`, and the query body comparison.
+Existing HTTP/CLI tests cover their different root policies and safe failures.
+New public tests cover arrays/scalars, nested/array/escaped duplicate keys, trailing input, invalid numbers and recursion limits.
+The native query tests cover adapter response binding, current authorization and strategy equivalence.
+
+Concurrent Task C source was visible during the combined affected run.
+Its author separately reran against their final formatted source; this report does not claim verification of their final snapshot.
+Coordinator owns independent review and the full local/package/demo/provider integration gates before commit.
+
+No dependency, format, descriptor, fingerprint, retry or public query API change was introduced.
+The largest owned query child is 186 lines; the shared visitor remains one implementation.

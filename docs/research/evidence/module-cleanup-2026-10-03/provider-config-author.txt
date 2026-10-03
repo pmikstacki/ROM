@@ -1,0 +1,57 @@
+# Task B freeze
+
+Baseline: `f3fbed9`. Source frozen on 2026-10-03. No commit was made.
+
+## Changes
+
+The provider facade now exports `ProfileConfig` from `configuration.rs`. Its public path remains `rom_demo::provider_profile::ProfileConfig`.
+That module owns the unchanged private configuration schema, file loader, and document decoder.
+`command.rs` retains command argument admission, storage selection, runtime construction, mutation selection, and shutdown.
+`serving.rs` owns authentication construction, loopback binding, signal registration, readiness output, and server drain.
+
+`text.rs` contains one private validator for identifiers and bounded labels.
+The existing nonempty, byte-length, trim, and control-character conditions remain unchanged.
+`ApprovedProvider`, secret reference keys, provisioning, and configuration use that validator.
+Credential contents retain their separate exact-byte acquisition. Opened-handle file checks and limits are unchanged.
+
+Configuration ingestion now has three named modules: activation declarations and action, reload ticket lifecycle, and safe error translation.
+`ingestion.rs` contains only module declarations and exports.
+All existing `rom_config` public paths remain available through its unchanged crate facade.
+Source generations, actor expiry, pinned revisions, retry epochs, source permits, and diagnostic redaction remain unchanged.
+
+Seven extracted implementation bodies passed exact text comparison after accounting for two private visibility changes and one internal function rename.
+The comparison script and output are in `../task-b/source-equivalence.cjs` and `source-equivalence.log`.
+The two repeated validation predicates were replaced with equivalent calls to the shared validator.
+
+## Executed checks
+
+Commands ran inside `rom-dev` from `/workspace/ROM/.worktrees/release-query-index`.
+They used the existing target directory, development/test debug level zero, and two build jobs.
+
+| Check | Result | Evidence in `../task-b/` |
+| --- | --- | --- |
+| Baseline `cargo test -p rom-config --all-features` | Passed | `config-baseline-green.log` |
+| Baseline provider host/profile tests | Passed | `provider-baseline-green.log` |
+| `cargo test -p rom-config --all-features` | 11 tests and 1 doctest passed | `config-green.log` |
+| `cargo test -p rom-demo --features provider-profile --test provider_auth --test provider_profile` | 14 host drivers and 12 profile tests passed; 2 explicit child entrypoints ignored | `provider-green.log` |
+| `cargo test -p rom-demo --no-default-features` | 23 tests passed; 2 explicit child entrypoints ignored | `default-demo-green.log` |
+| `cargo clippy -p rom-config -p rom-demo --all-targets --features rom-demo/provider-profile -- -D warnings` | Passed | `clippy-green.log` |
+| Owned files: `rustfmt --edition 2024 --config skip_children=true --check ...` | Passed | `fmt-green.log` |
+| Owned paths: `git diff --check` | Passed | Executed before freeze |
+| Extracted body comparison | 7 exact comparisons passed | `source-equivalence.log` |
+
+This change adds no behavior. Existing tests passed before and after extraction; no failing behavior test is claimed.
+One evidence command failed because container Git could not access the host worktree metadata path.
+Its output remains in `source-equivalence-container-git-failed.log`.
+The successful comparison reads baseline source files captured with host Git instead.
+
+## Source and limits
+
+`changes.patch` covers tracked owned source changes. `untracked.txt` lists all five new implementation files.
+`source/` includes the owned provider modules, ingestion modules, crate facade, and lockfile.
+`source-sha256.txt` identifies the frozen source.
+Neither the dependency graph nor any serialized format changed. `Cargo.lock` and `rom-config/src/lib.rs` are unchanged.
+Provider fixtures, existing test sources, and historical evidence were preserved.
+
+The full local verifier, actual-provider acceptance, extracted-package consumer, and independent review remain coordinator integration gates.
+These scoped checks do not claim those gates passed.

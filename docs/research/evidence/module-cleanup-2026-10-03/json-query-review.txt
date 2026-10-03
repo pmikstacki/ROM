@@ -1,0 +1,63 @@
+# Independent Task A review
+
+Verdict: accepted. No spec or quality findings.
+
+Reviewed on 2026-10-03 against baseline `f3fbed9927a1b515628604e4aad63559049d4abf`.
+Scope: the nine files in `source.json`, their tracked and new-file patch, and integration context.
+Future native extension documents and other cleanup owners' source changes are outside this review.
+
+## Spec review
+
+The shared JSON visitor matches both original transport implementations exactly.
+`source/crates/rom/src/json.rs:62` decodes a complete byte slice through the same serde_json entrypoint.
+It retains duplicate-key rejection, trailing-input rejection, and the existing recursion limit.
+Its public error remains `Error::invalid("request", "json")`; parser details and input contents remain private.
+The new root export provides the planned `rom::parse_json` API without transport dependencies.
+
+HTTP keeps object admission in `source/crates/rom-http/src/json.rs:4`.
+CLI keeps generic root decoding in `source/crates/rom-cli/src/json.rs:2`.
+Both wrappers retain their typed schema error mapping.
+The unchanged HTTP request decoder still bounds the body before JSON parsing.
+The unchanged CLI input, response, and stream paths still enforce their own byte limits and envelope policies.
+Nested Resource arrays remain valid. Operator positional arrays still fail at their existing entrypoints.
+
+The query extraction preserves all thirteen implementation bodies after whitespace removal.
+Public signatures and the `Runtime::query_anchor` path remain unchanged.
+The changed field and method visibility permits only collaboration between the new private child modules.
+
+`normalization.rs:140` retains operand authorization, normalization, anchor binding, and request-size checks in their original order.
+`read.rs:21` retains actor-only denial before the storage read.
+`read.rs:45` validates the storage response before row disclosure or page selection.
+Its unchanged validator binds native candidates to the request and snapshot and checks complete admission bounds.
+Row authorization, sort-field authorization, residual predicates, continuation comparison, sorting, and page truncation retain their original order.
+Comparison still distinguishes missing values, null, optional shapes, typed scalar order, and the ID tie-break.
+No descriptor, fingerprint, storage format, retry, or dependency changes were introduced.
+
+## Quality review
+
+The duplicate visitor now has one implementation with a small public interface.
+Transport root policies remain separate because their guarantees differ.
+The configuration syntax-only visitor remains separate as the plan requires.
+Query admission, comparison, and storage selection occupy cohesive named modules.
+The crate root and `query_eval.rs` contain only declarations, imports, exports, and necessary shared definitions.
+Tests remain in the separate integration-test file.
+
+All nine live source files and frozen copies match the manifest hashes.
+The current lockfile matches the recorded hash.
+The four frozen baseline files also match host Git at `f3fbed9`.
+`independent-source-check.cjs` and its log record the independent source comparisons.
+These comparisons support source inspection; they are not behavioral test claims.
+
+## Evidence reviewed
+
+The public JSON API RED fails specifically on the missing root import.
+The corresponding GREEN passes all three public decoder tests.
+The new tests cover complete roots, escaped and nested duplicate keys, trailing input, invalid numbers, and excessive nesting.
+
+I inspected the reported `task-a-verification.log`, `task-a-consumer.log`, and toolchain evidence.
+They show passing core, HTTP, CLI, native query suites, strict Clippy, and downstream consumer tests.
+Existing HTTP and CLI tests cover the distinct root policies and sanitized failures.
+Native query tests include wrong request bindings, invalid admission, current authorization, and query-strategy equivalence.
+Rustfmt success is reported by the author; no tests or Clippy gates were rerun for this review.
+
+The coordinator retains the full local verifier, packaged consumer, and demo/provider acceptance gates before integration.

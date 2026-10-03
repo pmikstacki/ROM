@@ -1,0 +1,59 @@
+# Task C implementation report
+
+Source is frozen for independent review. Baseline: `f3fbed9927a1b515628604e4aad63559049d4abf`.
+
+## Changes
+
+The reaction facade preserves `Reaction`, `Target`, `ReactionWorker`, and the internal `RegisteredReaction` export.
+Named modules now own typed declarations, worker lifetime and admission, claim execution, and durable intent routing.
+The existing shared frozen-action receipt resolver is unchanged.
+Only `process_claim` gains sibling visibility through `pub(super)`.
+
+The HTTP loopback entrypoint contains module declarations only.
+One support module owns the listener, resolver, bounded socket reads, shutdown, and shared Resource fixtures.
+Cases are grouped by mutation, admission, observations, journal, query, and discovery responsibilities.
+Existing authentication and operator children use the same support module.
+The observation gate stays with its two observation cases; no fixture copy was introduced.
+
+There are no dependency, wire, storage, authorization, budget, or retry-policy changes.
+Core crate exports require no changes in this task.
+
+## Preservation evidence
+
+`verify-moves.mjs` compares Rust function signatures and bodies while preserving every literal byte.
+It removes only whitespace and comments before comparison.
+The comparison passed for all 32 HTTP test cases, all 60 HTTP functions, and all 10 reaction functions.
+The receipt resolver also passed an exact byte comparison.
+`move-preservation.json` records each function identity and digest.
+
+Existing green tests supplied the refactor baseline.
+No new behavior was added, so no implementation-mirroring tests or invented failure case were introduced.
+Test module paths changed when cases moved; test names and assertions did not change.
+
+## Executed verification
+
+All commands ran in `rom-dev`, from the shared worktree, with jobs 2 and debug information disabled.
+The shared target was `/var/tmp/rom-release-measured-verification-target`.
+Compiler: `rustc 1.99.0 (b940084d7 2026-09-28)`.
+Cargo: `cargo 1.99.0 (5f94df478 2026-08-27)`.
+
+| Command | Result | Evidence |
+| --- | --- | --- |
+| `cargo test -p rom -p rom-http -p rom-storage-conformance` before extraction | Exit 0 | `evidence/baseline.log` |
+| Same command after extraction and formatting | Exit 0 | `evidence/green.log` |
+| `cargo clippy -p rom -p rom-http -p rom-storage-conformance --all-targets -- -D warnings` | Exit 0 | `evidence/clippy.log` |
+| Explicit owned-file `rustfmt --check --edition 2024 --config skip_children=true` | Exit 0 | `evidence/fmt-check.log` |
+| `git diff --check` on owned files | Exit 0 | Recorded during freeze |
+| `node .../task-c/verify-moves.mjs` | Exit 0 | `move-preservation.json` |
+
+The test command includes the full HTTP package and native persistence conformance suite.
+Native reaction, interruption, ownership, operator recovery, upgrades, and retention cases passed.
+Existing ignored subprocess cases remain ignored in the ordinary suite; invoked subprocess cases passed.
+
+`source.json` hashes all 17 owned files, including the unchanged receipt resolver, and the lockfile.
+`source/` and `changes.patch` preserve the frozen review input.
+`executed-source.json` captures 414 maintained Rust files and manifests present at verification freeze.
+Other task owners' concurrent refactors were present in the combined scoped build; their correctness is outside this report.
+
+Independent review and the coordinator's full local verifier, demo, provider, and packaged-consumer gates remain required before integration.
+No commit was made.

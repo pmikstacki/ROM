@@ -1,4 +1,5 @@
 //! Bounded acquisition from approved immutable files in a trusted host directory.
+use super::text::bounded;
 use rom::{Error, Result};
 use std::{collections::BTreeMap, path::PathBuf, sync::Arc};
 
@@ -10,13 +11,8 @@ pub struct SecretFiles {
 }
 impl SecretFiles {
     pub fn new(entries: BTreeMap<String, PathBuf>) -> Result<Self> {
-        if entries.keys().any(|key| {
-            key.is_empty()
-                || key.len() > 2048
-                || key.trim() != key
-                || key.chars().any(char::is_control)
-        }) {
-            return Err(Error::Denied);
+        for key in entries.keys() {
+            bounded(key, 2048)?;
         }
         Ok(Self {
             entries: Arc::new(entries),

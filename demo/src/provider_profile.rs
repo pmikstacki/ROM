@@ -6,16 +6,19 @@
 mod application;
 mod authentication;
 mod command;
+mod configuration;
 mod lifecycle;
 mod model;
 mod provisioning;
 mod secrets;
 mod serving;
+mod text;
 mod verification;
 
 pub use application::{LocalMode, build, declarations};
 pub use authentication::HostAuth;
-pub use command::{ProfileConfig, run_command};
+pub use command::run_command;
+pub use configuration::ProfileConfig;
 pub use model::{ApprovedProvider, AuthLimits};
 pub use provisioning::{Provisioning, configuration_reader, maintain, provision};
 pub use secrets::SecretFiles;

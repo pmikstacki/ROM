@@ -1,5 +1,5 @@
 //! The additive async resolver uses actual TCP and the existing generic decoder.
-use super::*;
+use super::support::*;
 use rom_http::{AsyncAuthResolver, AuthFuture};
 use std::sync::atomic::{AtomicUsize, Ordering};
 use tokio::sync::Notify;

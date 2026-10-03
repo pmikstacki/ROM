@@ -1,3 +1,4 @@
+use super::text::bounded;
 use rom::{
     Actor, Command, Error, Invocation, Operation, PrincipalKind, Resource, Result, Row, Runtime,
 };
@@ -25,17 +26,6 @@ impl Provisioning {
             PrincipalKind::Service,
             &self.service_subject,
         )
-    }
-}
-pub(super) fn bounded(value: &str, limit: usize) -> Result<()> {
-    if value.is_empty()
-        || value.len() > limit
-        || value.trim() != value
-        || value.chars().any(char::is_control)
-    {
-        Err(Error::Denied)
-    } else {
-        Ok(())
     }
 }
 pub(super) const AUTHORITY: &str = "provider-profile-host";

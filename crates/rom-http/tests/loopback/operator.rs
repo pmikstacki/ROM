@@ -1,5 +1,5 @@
 //! Operator routes use the same verified actor and bounded body admission as Resource routes.
-use super::*;
+use super::support::*;
 use rom::operator::WorkHandle;
 
 fn request_bodies() -> [(&'static str, serde_json::Value); 3] {

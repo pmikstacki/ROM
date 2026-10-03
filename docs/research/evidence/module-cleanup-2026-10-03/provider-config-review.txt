@@ -1,0 +1,56 @@
+# Independent Task B review
+
+Spec verdict: accepted. Quality verdict: accepted. No actionable findings.
+
+Review baseline: `f3fbed9`.
+Scope: the frozen Task B provider and configuration-ingestion extraction.
+Future native-conformance design and plan files are excluded.
+No source edits or test reruns were made during review.
+
+## Spec
+
+The private `ProfileConfig` schema, loader and strict document decoder retain their exact baseline bodies.
+The `rom_demo::provider_profile::ProfileConfig` path is preserved through the facade export.
+Configuration and maintenance files keep their existing opened-handle acquisition, byte bounds, static errors, and duplicate-key parsing.
+
+The shared text predicate has the same nonempty, byte-length, trim and control-character checks as the old predicate.
+`ApprovedProvider` and `SecretFiles` call it in the same iteration order and return the same `Denied` error.
+It validates reference keys and host labels; it does not trim or normalize credential contents.
+Secret reads and Linux handle checks are byte-identical to the baseline.
+
+Command admission, storage selection, trusted local modes, mutation composition, and unconditional Runtime shutdown are unchanged.
+The private serving function moved without changing its body.
+Both SIGTERM and SIGINT receivers are still registered before readiness output.
+Public serving retains the same close/drain ordering and worker ownership.
+Authentication, lifecycle, verification, and application modules are unchanged.
+
+`SourceActivation`, the strict reload codec and action, `ReloadTicket`, and safe error translation retain their exact bodies.
+The generation increment, pinned target revision, replay identity, original retry epoch, actor expiry cap, and source permit are unchanged.
+Create/Replace selection and explicit Delete semantics are unchanged.
+The ingestion facade exports all four existing public names, and the crate facade is unchanged.
+No dependency, format, Resource name, or action name changed.
+
+## Quality
+
+The provider facade remains declarations and exports only.
+The configuration module owns private schema and decoding; command orchestration and serving own distinct lifecycle responsibilities.
+One small text helper removes the duplicate validation predicate without merging credential acquisition guarantees.
+
+The ingestion facade now contains declarations and exports only.
+Activation, ticket lifecycle, and safe errors are cohesive named modules.
+The ticket remains the single owner of generation fencing and source-owned mutation construction.
+No new generic abstraction or duplicated decoder was introduced.
+Public paths remain stable.
+
+## Evidence and limits
+
+Independent source inspection compared the frozen package against host `git show f3fbed9:<path>`.
+All 18 source/lock hashes match both captured and live files.
+Seventeen exact source comparisons passed; only the declared private visibility and function-location adjustments were normalized.
+Results are retained in `independent-source-comparison.log`.
+The two rewritten validator callers were reviewed for predicate, error, and iteration-order equivalence.
+
+Author logs were inspected for successful config tests/doctest, host/profile tests, strict Clippy and owned-file formatting.
+They are reported execution evidence, not independently rerun tests.
+The coordinator's full verifier, actual-provider and extracted-package checks remain the integration gate.
+This review makes no new deployment or provider-certification claim.

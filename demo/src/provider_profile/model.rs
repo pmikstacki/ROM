@@ -1,4 +1,5 @@
 //! Explicit host settings; none of these inputs are proof constructors.
+use super::text::bounded;
 use rom::{Error, Result};
 use std::time::{Duration, Instant};
 
@@ -41,17 +42,14 @@ pub struct ApprovedProvider {
 }
 impl ApprovedProvider {
     pub(super) fn validate(&self) -> Result<()> {
-        if [
+        for value in [
             &self.authority,
             &self.issuer,
             &self.audience,
             &self.endpoint,
             &self.introspection_client,
-        ]
-        .into_iter()
-        .any(|v| v.is_empty() || v.len() > 2048 || v.trim() != v || v.chars().any(char::is_control))
-        {
-            return Err(Error::Denied);
+        ] {
+            bounded(value, 2048)?;
         }
         Ok(())
     }
