@@ -1630,12 +1630,14 @@ dependencies = [
 name = "rom-auth"
 version = "0.1.0-alpha.1"
 dependencies = [
+ "base64 0.22.1",
  "form_urlencoded",
  "jsonwebtoken",
  "reqwest",
  "serde",
  "serde_json",
  "sha2",
+ "subtle",
 ]
 
 [[package]]

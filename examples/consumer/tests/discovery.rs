@@ -164,7 +164,8 @@ async fn catalog_omits_secrets_and_nested_hidden_references_without_running_doma
                 {"name":"alpha","shape":{"type":"string"}},
                 {"name":"visible_reference","shape":{"type":"reference","value":{"kind":"public-kind"}}},
                 {"name":"zeta","shape":{"type":"string"}}
-            ],"actions":["safe"]
+            ],"actions":["safe"],
+            "action_inputs":[{"name":"safe","version":1,"input":{"type":"unit"}}]
         }]})
     );
     runtime.shutdown().await.unwrap();

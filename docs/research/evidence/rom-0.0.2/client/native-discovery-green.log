@@ -1,0 +1,25 @@
+   Compiling rom-derive v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-derive)
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+   Compiling rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+   Compiling rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+   Compiling rom-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-conformance)
+   Compiling rom-consumer v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/examples/consumer)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.45s
+     Running tests/discovery.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/discovery-6ff244c9af53a7a1)
+
+running 12 tests
+test discovery_stops_at_exhaustion_before_later_metadata_callbacks ... ok
+test current_authority_denial_precedes_metadata_callbacks ... ok
+test discovery_denies_by_default_and_requires_resource_grant ... ok
+test catalog_sorts_resources_fields_and_actions_and_serializes_recursive_shapes ... ok
+test authority_changed_during_metadata_work_denies_the_catalog ... ok
+test catalog_omits_secrets_and_nested_hidden_references_without_running_domain_code ... ok
+test expiry_during_discovery_does_not_return_metadata ... ok
+test callback_panic_is_supervised_and_terminal ... ok
+test revocation_while_callback_is_blocked_prevents_disclosure ... ok
+test discovery_byte_budget_counts_the_complete_wire_envelope ... ok
+test metadata_visibility_does_not_grant_mutation_authority ... ok
+test reviewer_catalog_budget_matches_wire_for_every_smaller_limit ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+

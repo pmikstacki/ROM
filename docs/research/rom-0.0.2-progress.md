@@ -65,3 +65,20 @@ It is extending negative and bounded key-cache cases before its scoped commit.
 The host and application workers will use these stable interfaces rather than a fabricated browser Actor.
 
 These are tested slices. No 0.0.2 archive, durable preview, or completed release is claimed.
+
+The OIDC proof implementation is committed as `0f3af31`.
+Its scoped verifiers passed 38 tests, seven doctests, strict Clippy, docs, formatting, and feature isolation.
+The generic control implementation is committed as `9871266` with eight Chromium cases.
+The client journal extension is committed as `d1b564d`; the current client suite has 22 passing cases.
+
+The first combined native verifier found one obsolete exact discovery fixture in the consumer example.
+The expected catalog omitted the new authorized unit-action input descriptor.
+The fixture now includes that descriptor; all 12 consumer discovery tests pass.
+The failure is retained as `client/native-combined-red.log`, and the focused result as `client/native-discovery-green.log`.
+The second full verifier is running. It is not yet accepted.
+
+The next host contract is `rom-0.0.2-host-contract.md`.
+The host must reverify finite server-side ID tokens through current Resource gates.
+It cannot extend an existing Actor proof. A live observer closes at its proof lease;
+the client revalidates the session and opens a fresh authorized snapshot.
+The application and resilience workers continue in separate file scopes.
