@@ -104,9 +104,17 @@ current-row proofs, journal/effect pins and trusted restore fences pass tests on
 both adapters. Native format 6 and archive 4 now protect that metadata. The full
 local verifier passed. See [retention results](retention-results.md).
 
-- Stage 2 still needs reference application upgrade/backup/restore evidence. The
-  [integration preparation](restrict-reference-integration-plan.md) explains why
-  checks must share the adapter transaction and how edges affect backup/migration.
+Stage 2.4 is complete. The reference app upgrades Checkout from a text stock ID
+to a typed reference, rebuilds restrict edges, backs up/restores and completes
+pending compensation. Both adapters pass clean shutdown and actual process-exit
+acceptance. Old receipts require the retained codec and current authority.
+The tests also found and corrected SQLite sidecar creation during offline reads.
+The complete demo and workspace verifiers passed. See
+[reference upgrade results](reference-upgrade-results.md).
+
+- Stage 2's relations, migrations, retention and application acceptance are complete.
+  The [integration preparation](restrict-reference-integration-plan.md) records
+  the transaction and maintenance boundaries.
 - Stage 3 integrates actual planner/index execution and maintenance; prototype
   selector results do not prove maintained transactional index behavior.
 - Stage 4 adds operator recovery, single-writer ownership, real identity/secrets

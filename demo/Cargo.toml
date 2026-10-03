@@ -23,3 +23,5 @@ tokio = { workspace = true, features = ["net", "io-util", "signal"] }
 rom-blob = { path = "../crates/rom-blob", version = "=0.1.0-alpha.1" }
 rom-blob-object-store = { path = "../crates/rom-blob-object-store", version = "=0.1.0-alpha.1" }
 futures-util = { version = "=0.3.34", default-features = false, features = ["std"] }
+
+rom-backup = { path = "../crates/rom-backup", version = "=0.1.0-alpha.1" }

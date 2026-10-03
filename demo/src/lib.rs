@@ -27,3 +27,6 @@ pub mod compensation;
 
 /// Public-API reference journey through pending work recovery and live queries.
 pub mod reference;
+
+/// Offline schema upgrade and recovery of the complete reference application.
+pub mod upgrade;

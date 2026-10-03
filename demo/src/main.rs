@@ -11,6 +11,15 @@ async fn main() -> smoke::SmokeResult<()> {
     }
     let redb = backend == "redb";
     match mode.as_str() {
+        "upgrade" => {
+            if args.next().is_some() {
+                return Err("usage: rom-demo upgrade [sqlite|redb]".into());
+            }
+            rom_demo::upgrade::run(redb).await?;
+            println!(
+                "Upgrade recovery passed ({backend}): old schema, pending work, migration, backup/restore, retained codec replay, rebuilt restrict references and external attachment bytes."
+            );
+        }
         "reference" => {
             if args.next().is_some() {
                 return Err("usage: rom-demo reference [sqlite|redb]".into());
@@ -78,7 +87,8 @@ async fn main() -> smoke::SmokeResult<()> {
         }
         _ => {
             return Err(
-                "usage: rom-demo [smoke|reference|serve] [sqlite|redb] [database] [port]".into(),
+                "usage: rom-demo [smoke|reference|upgrade|serve] [sqlite|redb] [database] [port]"
+                    .into(),
             );
         }
     }

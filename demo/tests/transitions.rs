@@ -104,7 +104,7 @@ async fn transported_mutations_preserve_demo_invariants_on_both_adapters() {
         let checkout = Command::replace(
             "checkout-a",
             Checkout {
-                stock_id: "workshop-stock".into(),
+                stock_id: rom::ResourceRef::new("workshop-stock").unwrap(),
                 reservation_id: "checkout-a".into(),
                 payment_outcome: "succeeded".into(),
             },
@@ -225,7 +225,10 @@ async fn generic_writes_cannot_retarget_compensation_or_corrupt_reservations() {
             .unwrap();
         let work_before = storage.reaction_records().unwrap().len();
         for (n, patch) in [
-            Patch::new().set(Checkout::stock_id_field(), "another-stock".into()),
+            Patch::new().set(
+                Checkout::stock_id_field(),
+                rom::ResourceRef::new("another-stock").unwrap(),
+            ),
             Patch::new().set(Checkout::reservation_id_field(), "another-checkout".into()),
             Patch::new().set(Checkout::payment_outcome_field(), "unrecognized".into()),
         ]
@@ -345,6 +348,95 @@ async fn generic_writes_cannot_retarget_compensation_or_corrupt_reservations() {
         runtime.shutdown().await.unwrap();
         drop(runtime);
         drop(storage);
+        std::fs::remove_file(path).unwrap();
+    }
+}
+
+#[test]
+fn checkout_v2_declares_stock_reference_without_changing_wire_values() {
+    use rom::{Shape, json};
+    use rom_demo::compensation::Stock;
+    let descriptor = Checkout::descriptor();
+    assert_eq!(descriptor.version, 2);
+    assert_eq!(
+        descriptor
+            .fields
+            .iter()
+            .find(|field| field.name == "stock_id")
+            .unwrap()
+            .shape,
+        Shape::Reference {
+            kind: Stock::KIND.into()
+        }
+    );
+    let value =
+        json!({"stock_id":"stock","reservation_id":"reservation","payment_outcome":"pending"});
+    assert_eq!(Checkout::decode(value.clone()).unwrap().encode(), value);
+}
+
+#[tokio::test]
+async fn checkout_reference_restricts_an_empty_stock_until_pending_checkout_is_deleted() {
+    use rom::{Error, json};
+    use rom_demo::compensation::Stock;
+    use std::collections::BTreeMap;
+    for redb in [false, true] {
+        let path = std::env::temp_dir().join(format!(
+            "rom-demo-checkout-reference-{}-{redb}",
+            std::process::id()
+        ));
+        let storage: Arc<dyn Storage> = if redb {
+            Arc::new(rom_redb::Redb::open(&path).unwrap())
+        } else {
+            Arc::new(rom_sqlite::Sqlite::open(&path).unwrap())
+        };
+        let runtime = rom_demo::build(storage, Notices::default()).unwrap();
+        let actor = session_actor();
+        runtime
+            .execute(
+                &actor,
+                Command::create(
+                    "empty-stock",
+                    Stock {
+                        total: 0,
+                        reservations: BTreeMap::new(),
+                    },
+                )
+                .idempotency("stock"),
+            )
+            .await
+            .unwrap();
+        let checkout = Checkout::decode(json!({"stock_id":"empty-stock","reservation_id":"pending-checkout","payment_outcome":"pending"})).unwrap();
+        runtime
+            .execute(
+                &actor,
+                Command::create("pending-checkout", checkout).idempotency("checkout"),
+            )
+            .await
+            .unwrap();
+        let deletion = || {
+            Command::<Stock>::delete("empty-stock")
+                .at_revision(1)
+                .idempotency("delete-stock")
+        };
+        assert!(
+            matches!(
+                runtime.execute(&actor, deletion()).await,
+                Err(Error::Conflict)
+            ),
+            "an empty reservation map must not bypass the reference"
+        );
+        runtime
+            .execute(
+                &actor,
+                Command::<Checkout>::delete("pending-checkout")
+                    .at_revision(1)
+                    .idempotency("delete-checkout"),
+            )
+            .await
+            .unwrap();
+        runtime.execute(&actor, deletion()).await.unwrap();
+        runtime.shutdown().await.unwrap();
+        drop(runtime);
         std::fs::remove_file(path).unwrap();
     }
 }

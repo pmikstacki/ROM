@@ -10,13 +10,38 @@ pub(super) fn read_snapshot(
     limits: BackupLimits,
     collect: impl FnOnce(&Connection, BackupLimits) -> Result<Snapshot>,
 ) -> Result<Snapshot> {
-    let mut connection = Connection::open_with_flags(
-        source,
-        OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX,
-    )
-    .map_err(|_| Error::Storage)?;
+    let mut connection = open_offline(source)?;
     let transaction = connection.transaction().map_err(|_| Error::Storage)?;
     collect(&transaction, limits)
+}
+
+/// Clean WAL-mode databases otherwise create empty sidecars even in READ_ONLY mode.
+/// Keep ordinary WAL reads; reject rollback journals that need host-controlled recovery.
+/// The host must keep the source offline: immutable mode skips change detection.
+fn open_offline(source: &Path) -> Result<Connection> {
+    let source = source.canonicalize().map_err(|_| Error::Storage)?;
+    let flags = OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX;
+    if has_sidecar(&source, "-journal")? {
+        return Err(Error::Unsupported(
+            "offline SQLite source has a rollback journal".into(),
+        ));
+    }
+    if has_sidecar(&source, "-wal")? {
+        return Connection::open_with_flags(source, flags).map_err(|_| Error::Storage);
+    }
+    let mut uri = url::Url::from_file_path(&source).map_err(|_| Error::Storage)?;
+    uri.query_pairs_mut().append_pair("immutable", "1");
+    Connection::open_with_flags(uri.as_str(), flags | OpenFlags::SQLITE_OPEN_URI)
+        .map_err(|_| Error::Storage)
+}
+fn has_sidecar(source: &Path, suffix: &str) -> Result<bool> {
+    let mut path = source.as_os_str().to_os_string();
+    path.push(suffix);
+    match std::fs::symlink_metadata(path) {
+        Ok(_) => Ok(true),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(false),
+        Err(_) => Err(Error::Storage),
+    }
 }
 
 pub(super) fn collect_snapshot(c: &Connection, limits: BackupLimits) -> Result<Snapshot> {

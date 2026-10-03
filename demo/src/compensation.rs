@@ -1,7 +1,11 @@
 //! Explicit business compensation after a confirmed, simulated payment rejection.
 //! Unknown outcomes require reconciliation; terminal worker errors are not inferred here.
 use crate::{domain, seed, service};
-use rom::{Action, Actor, Builder, Error, Reaction, Resource, Result, Runtime, Snapshot, Target};
+use rom::{
+    Action, Actor, Builder, Definition, Error, FieldRef, Reaction, Resource, ResourceRef, Result,
+    Runtime,
+};
+pub(crate) mod checkout_rules;
 use std::collections::BTreeMap;
 
 #[derive(Clone, Debug, Resource)]
@@ -11,9 +15,9 @@ pub struct Stock {
     pub reservations: BTreeMap<String, u64>,
 }
 #[derive(Clone, Debug, Resource)]
-#[resource(name = "checkouts")]
+#[resource(name = "checkouts", version = 2)]
 pub struct Checkout {
-    pub stock_id: String,
+    pub stock_id: ResourceRef<Stock>,
     pub reservation_id: String,
     pub payment_outcome: String,
 }
@@ -38,36 +42,6 @@ fn valid_stock(_: &Actor, before: Option<&Stock>, after: Option<&Stock>) -> Resu
         })?;
     if used > stock.total {
         return Err(Error::invalid(Stock::KIND, "insufficient stock"));
-    }
-    Ok(())
-}
-fn valid_checkout(_: &Actor, before: Option<&Checkout>, after: Option<&Checkout>) -> Result<()> {
-    if let Some(checkout) = after
-        && (checkout.stock_id.is_empty()
-            || checkout.reservation_id.is_empty()
-            || !matches!(
-                checkout.payment_outcome.as_str(),
-                "pending" | "unknown" | "transient" | "confirmed_rejected" | "succeeded"
-            ))
-    {
-        return Err(Error::invalid(Checkout::KIND, "checkout state"));
-    }
-    if let Some(old) = before {
-        if let Some(new) = after
-            && (old.stock_id != new.stock_id || old.reservation_id != new.reservation_id)
-        {
-            return Err(Error::invalid(Checkout::KIND, "compensation context"));
-        }
-        if matches!(
-            old.payment_outcome.as_str(),
-            "confirmed_rejected" | "succeeded"
-        ) && after.is_none_or(|new| new.payment_outcome != old.payment_outcome)
-        {
-            return Err(Error::invalid(
-                Checkout::KIND,
-                "terminal outcome cannot change",
-            ));
-        }
     }
     Ok(())
 }
@@ -110,38 +84,20 @@ pub const RELEASE: Action<Stock, String> = Action::new("release", |stock, token|
     Ok(vec![])
 });
 pub const RECORD_PAYMENT: Action<Checkout, String> =
-    Action::new("record-payment", |checkout, outcome| {
-        if !matches!(
-            outcome.as_str(),
-            "unknown" | "transient" | "confirmed_rejected" | "succeeded"
-        ) {
-            return Err(Error::invalid(
-                "payment_outcome",
-                "explicit simulated outcome required",
-            ));
-        }
-        if matches!(
-            checkout.payment_outcome.as_str(),
-            "confirmed_rejected" | "succeeded"
-        ) && checkout.payment_outcome != outcome
-        {
-            return Err(Error::invalid(
-                "payment_outcome",
-                "terminal outcome cannot change",
-            ));
-        }
-        checkout.payment_outcome = outcome;
-        Ok(vec![])
-    });
-fn rejected(checkout: &Snapshot<Checkout>) -> Result<Vec<Target<String>>> {
-    Ok(checkout
-        .value
-        .as_ref()
-        .filter(|c| c.payment_outcome == "confirmed_rejected")
-        .map(|c| vec![Target::new(&c.stock_id, c.reservation_id.clone())])
-        .unwrap_or_default())
-}
+    Action::new("record-payment", checkout_rules::record_payment::<Checkout>);
 pub fn declarations(builder: Builder) -> Builder {
+    with_checkout(
+        builder,
+        checkout_rules::definition::<Checkout>()
+            .replay_from::<crate::upgrade::legacy::CheckoutV1>(),
+        Checkout::payment_outcome_field(),
+    )
+}
+pub(crate) fn with_checkout<R: checkout_rules::CheckoutState>(
+    builder: Builder,
+    definition: Definition<R>,
+    payment_field: FieldRef<R, String>,
+) -> Builder {
     builder
         .resource(
             Stock::definition()
@@ -152,17 +108,16 @@ pub fn declarations(builder: Builder) -> Builder {
                 .action(RESERVE)
                 .action(RELEASE),
         )
-        .resource(
-            Checkout::definition()
-                .validate_transition(valid_checkout)
-                .policy(|a, _, _| domain(a))
-                .allow_all_fields()
-                .discovery_policy(|a, _| domain(a))
-                .action(RECORD_PAYMENT),
-        )
+        .resource(definition)
         .reaction(
-            Reaction::new("rejected-checkout-release", 1, service(), RELEASE, rejected)
-                .depends_on(Checkout::payment_outcome_field()),
+            Reaction::new(
+                "rejected-checkout-release",
+                1,
+                service(),
+                RELEASE,
+                checkout_rules::rejected::<R>,
+            )
+            .depends_on(payment_field),
         )
 }
 pub async fn bootstrap(runtime: &Runtime) -> Result<()> {
@@ -180,7 +135,7 @@ pub async fn bootstrap(runtime: &Runtime) -> Result<()> {
         runtime,
         "checkout-a",
         Checkout {
-            stock_id: "workshop-stock".into(),
+            stock_id: ResourceRef::new("workshop-stock")?,
             reservation_id: "checkout-a".into(),
             payment_outcome: "pending".into(),
         },

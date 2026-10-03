@@ -14,5 +14,6 @@ rom-backup = {version="=0.1.0-alpha.1",path="../rom-backup"}
 rom.workspace = true
 rusqlite.workspace = true
 serde_json.workspace = true
+url = { version = "=2.5.8", default-features = false, features = ["std"] }
 [features]
 test-support = []

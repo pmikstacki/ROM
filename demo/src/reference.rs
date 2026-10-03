@@ -20,7 +20,7 @@ fn rejection() -> Command<Checkout> {
         .at_revision(2)
         .idempotency("reference-rejection")
 }
-async fn drain(runtime: &Runtime) -> Result<()> {
+pub(crate) async fn drain(runtime: &Runtime) -> Result<()> {
     for _ in 0..16 {
         if runtime.process_work(32).await? == 0 {
             return Ok(());
@@ -155,18 +155,21 @@ pub async fn recover(runtime: &Runtime) -> Result<()> {
         visible.len() == 1 && visible[0].id == "workshop-stock" && visible[0].revision == 4,
         "recovered compensation must update live membership once",
     )?;
-    let stock_events = runtime
-        .journal(&actor, Stock::KIND, None)
-        .await?
-        .events
-        .len();
-    let checkout_events = runtime
-        .journal(&actor, Checkout::KIND, None)
-        .await?
-        .events
-        .len();
+    let stock_history = runtime.journal(&actor, Stock::KIND, None).await?.events;
+    let checkout_history = runtime.journal(&actor, Checkout::KIND, None).await?.events;
+    let stock_events = stock_history.len();
+    let checkout_events = checkout_history.len();
     require(
-        stock_events == 4 && checkout_events == 3,
+        stock_history
+            .iter()
+            .filter(|event| event.view.key.id == "workshop-stock")
+            .count()
+            == 4
+            && checkout_history
+                .iter()
+                .filter(|event| event.view.key.id == "checkout-a")
+                .count()
+                == 3,
         "recovery event counts",
     )?;
     runtime.execute(&actor, rejection()).await?;

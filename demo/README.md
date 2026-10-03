@@ -9,6 +9,8 @@ From the repository root with Rust 1.99:
 ./demo/run smoke redb                # same declarations, different adapter
 ./demo/run reference sqlite          # public-API application recovery journey
 ./demo/run reference redb            # identical journey on the other store
+./demo/run upgrade sqlite            # schema migration, backup/restore and recovery
+./demo/run upgrade redb              # same upgrade acceptance on redb
 ./demo/verify                       # fmt, Clippy, tests, both smoke commands, docs
 ./demo/run serve sqlite ./demo.db 8080
 ```
@@ -19,11 +21,11 @@ In the provided development container:
 nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM && ./demo/run smoke'
 ```
 
-`serve` binds only `127.0.0.1`. Ctrl-C closes observation streams and drains runtime work. The final status reports `Stopped` and zero owned work. `serve` prints status on startup/shutdown. Restart the same database to retain Resources, receipts, journal, and pending work. The startup seed uses stable receipt identities and does not overwrite later Resource edits. If seed values or declarations change incompatibly, use a new database.
+`serve` binds only `127.0.0.1`. Ctrl-C closes observation streams and drains runtime work. The final status reports `Stopped` and zero owned work. `serve` prints status on startup/shutdown. Restart the same database to retain Resources, receipts, journal, and pending work. The startup seed uses stable receipt identities and does not overwrite later Resource edits. If declarations change, use an explicit migration before startup. See the [upgrade journey](../docs/reference-upgrade.md).
 
 ## 1. Declare two unrelated kinds
 
-[`src/lib.rs`](src/lib.rs) derives `Resource` for `Task { title, done }` and `InventoryItem { code, quantity }`. `StockCode` implements the public `Field` codec. It trims and uppercases input, validates its small alphabet, and declares its string wire shape. The runtime applies that codec to writes **and query values**. Unknown fields and invalid codes are rejected.
+[`src/model.rs`](src/model.rs) derives `Resource` for `Task { title, done }` and `InventoryItem { code, quantity }`. `StockCode` implements the public `Field` codec. It trims and uppercases input, validates its small alphabet, and declares its string wire shape. The runtime applies that codec to writes **and query values**. Unknown fields and invalid codes are rejected.
 
 Register each definition once in `declarations()`, with explicit policies. The same registration supplies validation, generic mutation, typed selectors, queries, observation, persistence, and HTTP. Adding InventoryItem needed no route or database table code.
 
@@ -198,6 +200,8 @@ run that test. This is process-exit evidence, not a power-loss or migration test
 The ignored `reference_process_exit_child` test is a fixture invoked explicitly by
 its parent, not a skipped acceptance requirement.
 
-The larger release program remains open: enforced references, schema/format
-upgrades, index lifecycle and production identity setup are separate stages in
+Use the separate [upgrade journey](../docs/reference-upgrade.md) to combine a
+versioned Checkout migration with reference rebuild, backup/restore and recovery.
+The larger release program remains open. Query index lifecycle, production
+identity and final package acceptance remain in
 [the release checklist](../openspec/changes/prepare-framework-release/tasks.md).

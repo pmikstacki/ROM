@@ -1637,6 +1637,7 @@ version = "0.1.0-alpha.1"
 dependencies = [
  "futures-util",
  "rom",
+ "rom-backup",
  "rom-blob",
  "rom-blob-object-store",
  "rom-config",
@@ -1702,6 +1703,7 @@ dependencies = [
  "rom-backup",
  "rusqlite",
  "serde_json",
+ "url",
 ]
 
 [[package]]

@@ -88,6 +88,16 @@ receipt identities, pending work and recovery sources.
 - **WHEN** the host builds a Runtime from the restored store with that fence
 - **THEN** activation fails before older retry boundaries can admit requests
 
+#### Scenario: The reference application upgrades with pending compensation
+- **GIVEN** the version-1 application with a string stock ID and committed pending compensation
+- **WHEN** its process exits and offline migration converts Checkout to a typed stock reference
+- **AND** the migrated database is backed up and restored into a fresh destination
+- **THEN** the current application recovers the compensation through public ROM APIs
+- **AND** the unrelated reservation and external folder attachment remain available
+- **AND** replay of a version-1 receipt does not add a mutation, event or work item
+- **AND** a reference to otherwise deletable empty stock enforces restrict after restore
+- **AND** the offline source remains unchanged
+
 ### Requirement: Optimization preserves observable semantics
 ROM SHALL integrate strategy selection and native planner adapters only with
 transactionally maintained indexes, bounded rebuild/recovery and conformance to

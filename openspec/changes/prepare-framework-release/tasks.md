@@ -8,7 +8,7 @@
 - [x] 2.1 Specify and enforce restrict references atomically. Test concurrent create/delete on both stores.
 - [x] 2.2 Implement versioned offline migrations preserving receipts and pending obligations; inject interruptions.
 - [x] 2.3 Implement dependency-aware retention and identity-expiry behavior with explicit host policies.
-- [ ] 2.4 Verify upgrade/backup/restore of the reference application and review compatibility.
+- [x] 2.4 Verify upgrade/backup/restore of the reference application and review compatibility.
 
 ## 3. Measured execution optimization
 - [ ] 3.1 Specify the maintained planner-adapter and selector seam using prototype evidence.

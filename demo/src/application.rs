@@ -15,6 +15,9 @@ use std::sync::{Arc, Mutex};
 /// This sink deliberately makes no durable/external exactly-once claim.
 pub type Notices = Arc<Mutex<Vec<(String, String)>>>;
 pub fn declarations(notices: Notices) -> Result<rom::Builder> {
+    Ok(compensation::declarations(base_declarations(notices)?))
+}
+pub(crate) fn base_declarations(notices: Notices) -> Result<rom::Builder> {
     let gate = IdentityGate::default()
         .allow_host("demo-host", PrincipalKind::Embedded, "bootstrap")?
         .allow_host("demo-host", PrincipalKind::Embedded, "local-session")?
@@ -110,7 +113,7 @@ pub fn declarations(notices: Notices) -> Result<rom::Builder> {
                 DeliveryOutcome::Accepted
             }
         });
-    Ok(compensation::declarations(builder))
+    Ok(builder)
 }
 pub fn build(storage: Arc<dyn Storage>, notices: Notices) -> Result<Runtime> {
     declarations(notices)?.build(storage, Runtime::shared_cpu_pool(2)?)
