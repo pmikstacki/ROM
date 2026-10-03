@@ -1,0 +1,32 @@
+Expected compile failure: resource_version_zero, primary line 3
+Expected compile failure: resource_version_duplicate, primary line 3
+Expected compile failure: resource_version_string, primary line 3
+Expected compile failure: resource_version_float, primary line 3
+Expected compile failure: resource_version_overflow, primary line 3
+Expected compile failure: input_version, primary line 3
+Expected compile failure: unsupported, primary line 5
+Expected compile failure: serde, primary line 5
+Expected compile failure: duplicate, primary line 6
+Expected compile failure: wrong_input, primary line 6
+Expected compile failure: wrong_selector, primary line 5
+Expected compile failure: input_unsupported, primary line 4
+Expected compile failure: input_duplicate, primary line 5
+Expected compile failure: input_serde, primary line 4
+Expected compile failure: input_generic, primary line 3
+Expected compile failure: input_duplicate_option, primary line 4
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+   Compiling rom-fixtures v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/compile)
+    Finished `dev` profile [unoptimized] target(s) in 0.86s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/renamed`
+    Blocking waiting for file lock on build directory
+    Checking rom-fixtures v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/compile)
+    Finished `dev` profile [unoptimized] target(s) in 1.07s
+   Compiling rom-fixtures v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/compile)
+    Finished `dev` profile [unoptimized] target(s) in 0.09s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/input_renamed`
+   Compiling rom-renamed-input-fixture v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/compile-renamed)
+    Finished `dev` profile [unoptimized] target(s) in 0.10s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/rom-renamed-input-fixture`
+   Compiling rom-fixtures v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/compile)
+    Finished `dev` profile [unoptimized] target(s) in 0.10s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/resource_version`

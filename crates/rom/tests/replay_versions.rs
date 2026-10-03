@@ -66,7 +66,7 @@ struct Stored {
 }
 /// Runtime-only fixture: storage migrations are covered by the native adapter suites.
 #[derive(Default)]
-struct Memory(Mutex<Stored>);
+struct Memory(Mutex<Stored>, StorageOwnership);
 impl Memory {
     fn rename(&self) {
         fn row(row: &mut Row) {
@@ -87,6 +87,9 @@ impl Memory {
     }
 }
 impl Storage for Memory {
+    fn acquire_owner(&self) -> Result<StorageOwner> {
+        self.1.acquire()
+    }
     fn register(&self, _: &[Descriptor]) -> Result<()> {
         Ok(())
     }
@@ -326,6 +329,7 @@ async fn renamed_patch_replays_with_the_original_field_codec() {
     };
     old_runtime.invoke(&actor(), patch.clone()).await.unwrap();
     old_runtime.shutdown().await.unwrap();
+    drop(old_runtime);
     store.rename();
     let runtime = runtime(store.clone(), current().replay_from::<Old>());
     let replay = runtime.invoke(&actor(), patch.clone()).await.unwrap();

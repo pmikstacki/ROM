@@ -45,6 +45,9 @@ struct Observed {
     at_read: Option<fn()>,
 }
 impl Storage for Observed {
+    fn acquire_owner(&self) -> Result<StorageOwner> {
+        self.database.acquire_owner()
+    }
     fn register(&self, descriptors: &[Descriptor]) -> Result<()> {
         self.database.register(descriptors)
     }

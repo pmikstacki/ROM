@@ -1,0 +1,24 @@
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 0.24s
+     Running tests/ownership.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/ownership-6e0bf6484a23be3a)
+
+running 1 test
+test process::native_owner_process_exit_releases_lock_and_recovers_committed_data ... FAILED
+
+failures:
+
+---- process::native_owner_process_exit_releases_lock_and_recovers_committed_data stdout ----
+
+thread 'process::native_owner_process_exit_releases_lock_and_recovers_committed_data' (1367330) panicked at tests/persistence/tests/ownership/process.rs:98:9:
+assertion `left == right` failed: process exit must leave durable work to recover
+  left: 0
+ right: 1
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    process::native_owner_process_exit_releases_lock_and_recovers_committed_data
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 12 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p rom-storage-conformance --test ownership`

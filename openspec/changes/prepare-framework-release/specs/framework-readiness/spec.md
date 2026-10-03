@@ -211,6 +211,57 @@ retain the shared semantic eligibility gate before native execution.
 - **THEN** it skips selectivity probes and uses reference execution
 - **AND** test-only forced execution cannot override that decision
 
+### Requirement: Runtime ownership excludes competing supervisors
+Storage adapters SHALL explicitly support one Runtime owner per shared backing store.
+ROM SHALL acquire that claim before storage registration and retain it through accepted work and all Runtime handles.
+Adapters without an ownership implementation SHALL reject Runtime construction with Unsupported.
+
+#### Scenario: A wrapper exposes an already owned store
+- **GIVEN** a Runtime holds the ownership claim for a backing store
+- **WHEN** another builder uses that store directly or through a transparent wrapper
+- **THEN** construction returns Conflict before storage registration
+- **AND** a wrapper delegates ownership to the same backing store
+
+#### Scenario: A caller stops waiting for accepted work
+- **WHEN** a caller or shutdown waiter is cancelled while accepted work still runs
+- **THEN** the ownership claim remains held until the work and Runtime handles release it
+- **AND** a stopped Runtime clone still prevents replacement construction
+
+#### Scenario: Construction fails after acquisition
+- **WHEN** a builder acquires ownership and subsequent storage registration fails
+- **THEN** the failed builder releases its claim
+- **AND** a corrected builder can acquire the store
+
+### Requirement: Native ownership covers open and offline maintenance
+The supported local native profile SHALL exclude competing ROM owners with a persistent operating-system lock.
+Offline operations SHALL reserve the source and fresh destination before conversion and retain those guards through publication and reopening.
+The core SHALL remain independent of filesystem paths and native lock mechanisms.
+
+#### Scenario: A process exits with committed data
+- **GIVEN** a native owner has committed data and still holds its database handle
+- **WHEN** that process exits without normal destruction
+- **THEN** the operating system releases its ownership lock
+- **AND** a replacement owner recovers committed data without deleting the lock sidecar
+
+#### Scenario: A database has an alias
+- **WHEN** a competing owner opens a symlink to an owned database
+- **THEN** canonical path identity produces the same ownership exclusion
+- **AND** unsupported hard-link aliases are rejected before native engine setup
+- **AND** exact SQLite ephemeral path sentinels retain independent per-connection stores
+
+#### Scenario: A conversion callback attempts a concurrent open
+- **GIVEN** offline maintenance holds source and destination reservations
+- **WHEN** conversion or a publication observer attempts either native open
+- **THEN** the attempt returns Conflict
+- **AND** maintenance uses the guarded canonical paths even if a callback changes the current directory
+
+#### Scenario: Publication is interrupted before staging cleanup
+- **GIVEN** the complete destination has been published through a non-overwriting hard link
+- **WHEN** the process exits before removing its private staging link
+- **THEN** ordinary open rejects the unsupported two-link destination
+- **AND** documented recovery verifies exact artifact identity under the destination lock before removing only that staging link
+- **AND** recovery preserves the destination and unrelated links
+
 ### Requirement: Release readiness includes operational recovery
 ROM SHALL provide tested CLI recovery, single-writer ownership, documented identity
 and secrets setup, versioned extension conformance and locally verified packages.

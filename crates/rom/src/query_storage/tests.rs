@@ -338,6 +338,15 @@ fn default_read_delegates_to_one_bounded_snapshot() {
 }
 
 #[test]
+fn legacy_adapter_does_not_claim_runtime_ownership() {
+    let storage = Legacy(AtomicUsize::new(0));
+    assert!(matches!(
+        storage.acquire_owner(),
+        Err(Error::Unsupported(_))
+    ));
+}
+
+#[test]
 fn native_rejects_unknown_response_profiles_and_duplicate_candidates() {
     let q = request();
     for identity in [

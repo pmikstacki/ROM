@@ -27,18 +27,22 @@ impl Redb {
         limits: BackupLimits,
     ) -> Result<Self> {
         let (_, data) = rom_backup::read(archive, Backend::Redb, limits)?;
-        Self::restore_snapshot(data, destination.as_ref(), limits, || Ok(()))
+        let destination = rom_backup::NativeOwnership::acquire(
+            destination.as_ref(),
+            rom_backup::NativeAccess::Fresh,
+        )?;
+        Self::restore_snapshot(data, destination, limits, || Ok(()))
     }
 
     pub(super) fn restore_snapshot(
         mut data: Snapshot,
-        destination: &Path,
+        destination: rom_backup::NativeOwnership,
         limits: BackupLimits,
         before_publish: impl FnOnce() -> Result<()>,
     ) -> Result<Self> {
         data.state.prepare_restore()?;
         let storage_limits = data.state.storage_limits();
-        let stage = Stage::new(destination)?;
+        let stage = Stage::new(destination.path())?;
         let restored =
             Self::open_with_validation_limits(stage.path(), storage_limits.clone(), limits)?;
         let mut tx = restored.db.begin_write().map_err(|_| Error::Storage)?;
@@ -141,8 +145,8 @@ impl Redb {
         drop(read);
         drop(restored);
         stage.publish_with(before_publish)?;
-        Self::open_with_validation_limits(destination, storage_limits, limits)
-            .map_err(|_| Error::Unknown)
+        stage.finish_native_publication()?;
+        Self::open_owned(destination, storage_limits, limits).map_err(|_| Error::Unknown)
     }
 }
 

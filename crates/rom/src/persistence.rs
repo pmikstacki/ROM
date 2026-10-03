@@ -77,6 +77,11 @@ pub struct Capabilities {
 /// arbitrate expected revision and identity and atomically persist row/event/receipt/effects.
 /// Implementations must not claim rollback for uncertain acknowledgment.
 pub trait Storage: Send + Sync + 'static {
+    /// Claim this backing store for one Runtime until its final handle and work drop.
+    /// Transparent wrappers must forward this method to their underlying store.
+    fn acquire_owner(&self) -> Result<StorageOwner> {
+        Err(Error::Unsupported("Runtime storage ownership".into()))
+    }
     /// Persisted retry admission and replay boundaries. Legacy adapters use epoch zero.
     fn retry_epochs(&self) -> Result<RetryEpochs> {
         Ok(RetryEpochs::default())

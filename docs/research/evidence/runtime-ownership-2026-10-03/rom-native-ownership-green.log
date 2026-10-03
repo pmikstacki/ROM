@@ -1,0 +1,16 @@
+    Blocking waiting for file lock on build directory
+   Compiling rom-redb v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 1.51s
+     Running tests/ownership.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/ownership-6e0bf6484a23be3a)
+
+running 6 tests
+test process::native_owner_child ... ok
+test sqlite_memory_sentinel_keeps_stores_independent ... ok
+test hardlinked_database_is_rejected_before_native_open ... ok
+test symlink_alias_cannot_create_a_second_native_owner ... ok
+test native_duplicate_open_conflicts_until_final_adapter_drop ... ok
+test process::native_owner_process_exit_releases_lock_and_recovers_committed_data ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+

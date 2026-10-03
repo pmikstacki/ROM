@@ -8,6 +8,9 @@ use rom::{
 use std::sync::atomic::Ordering;
 
 impl Storage for Redb {
+    fn acquire_owner(&self) -> Result<rom::StorageOwner> {
+        self.ownership.acquire()
+    }
     fn retry_epochs(&self) -> Result<rom::RetryEpochs> {
         self.available()?;
         let tx = self.db.begin_read().map_err(|_| Error::Storage)?;

@@ -1,0 +1,12 @@
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 0.32s
+     Running tests/transitions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/transitions-db62035ea71822ea)
+
+running 4 tests
+test transition_sees_normalized_previous_and_candidate_values ... ok
+test validator_panic_does_not_poison_commit_gate_and_cannot_grant_authority ... ok
+test receipts_do_not_revalidate_obsolete_transitions_but_authority_still_applies ... ok
+test every_mutation_path_validates_and_rejection_is_atomic ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

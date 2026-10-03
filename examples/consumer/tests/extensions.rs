@@ -92,6 +92,7 @@ async fn downstream_custom_field_and_manual_definition_use_identical_contract() 
     assert!(matches!(invalid,Err(Error::Invalid{kind,field}) if kind=="custom"&&field=="label"));
     assert_eq!(store.counts().unwrap(), [1, 1, 1, 0]);
     rom.shutdown().await.unwrap();
+    drop(rom);
     let manual = Runtime::builder()
         .resource(
             Manual::definition()

@@ -422,6 +422,9 @@ struct Counted {
     calls: [AtomicU64; 4],
 }
 impl Storage for Counted {
+    fn acquire_owner(&self) -> Result<StorageOwner> {
+        self.inner.acquire_owner()
+    }
     fn register(&self, descriptors: &[Descriptor]) -> Result<()> {
         self.inner.register(descriptors)
     }

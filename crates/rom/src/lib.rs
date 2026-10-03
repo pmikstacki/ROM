@@ -60,6 +60,8 @@ mod reaction_work;
 pub use reaction_work::*;
 mod storage_state;
 pub use storage_state::*;
+mod storage_ownership;
+pub use storage_ownership::{StorageOwner, StorageOwnership};
 
 mod query_eval;
 mod query_spec;

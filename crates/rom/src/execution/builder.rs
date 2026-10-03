@@ -186,6 +186,7 @@ impl Builder {
                 "concurrency exceeds semaphore limit".into(),
             ));
         }
+        let storage_owner = storage.acquire_owner()?;
         storage.retry_epochs()?.check_fence(self.retry_fence)?;
         storage.register(
             &self
@@ -217,6 +218,7 @@ impl Builder {
             limits: l,
             clock: self.clock.unwrap_or_else(|| Arc::new(SystemClock)),
             actor_gate: self.actor_gate,
+            _storage_owner: storage_owner,
         })))
     }
 }

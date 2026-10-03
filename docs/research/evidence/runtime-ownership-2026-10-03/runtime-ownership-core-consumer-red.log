@@ -1,0 +1,29 @@
+   Compiling rom-consumer v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/examples/consumer)
+    Finished `test` profile [unoptimized] target(s) in 0.61s
+     Running tests/lifecycle.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/lifecycle-cf04c1ed2e15df93)
+
+running 2 tests
+test ownership_rejects_second_builder_until_final_stopped_clone_drops ... FAILED
+test ownership_cancelled_action_and_drain_waiter_keep_accepted_work_alive ... FAILED
+
+failures:
+
+---- ownership_rejects_second_builder_until_final_stopped_clone_drops stdout ----
+
+thread 'ownership_rejects_second_builder_until_final_stopped_clone_drops' (1322832) panicked at examples/consumer/tests/lifecycle.rs:80:5:
+assertion failed: matches!(replacement(store.clone()), Err(rom::Error::Conflict))
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- ownership_cancelled_action_and_drain_waiter_keep_accepted_work_alive stdout ----
+
+thread 'ownership_cancelled_action_and_drain_waiter_keep_accepted_work_alive' (1322831) panicked at examples/consumer/tests/lifecycle.rs:104:5:
+cancelled callers released ownership while accepted work was running
+
+
+failures:
+    ownership_cancelled_action_and_drain_waiter_keep_accepted_work_alive
+    ownership_rejects_second_builder_until_final_stopped_clone_drops
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 12 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p rom-consumer --test lifecycle`

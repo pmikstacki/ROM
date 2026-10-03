@@ -1,0 +1,43 @@
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 0.31s
+     Running tests/ownership.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/ownership-6e0bf6484a23be3a)
+
+running 3 tests
+test maintenance::conversion_holds_both_reservations_and_failure_releases_them ... FAILED
+test maintenance::maintenance_rejects_a_live_source_before_conversion ... FAILED
+test maintenance::publication_retains_reservations_and_returns_a_single_link_destination ... FAILED
+
+failures:
+
+---- maintenance::conversion_holds_both_reservations_and_failure_releases_them stdout ----
+
+thread 'maintenance::conversion_holds_both_reservations_and_failure_releases_them' (1336777) panicked at tests/persistence/tests/ownership/maintenance.rs:39:9:
+Sqlite: source must be reserved during conversion
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'maintenance::conversion_holds_both_reservations_and_failure_releases_them' (1336777) panicked at tests/persistence/tests/ownership/maintenance.rs:53:9:
+assertion `left == right` failed
+  left: Err(Panicked)
+ right: Err(NotCommitted)
+
+---- maintenance::maintenance_rejects_a_live_source_before_conversion stdout ----
+
+thread 'maintenance::maintenance_rejects_a_live_source_before_conversion' (1336778) panicked at tests/persistence/tests/ownership/maintenance.rs:28:9:
+assertion `left == right` failed
+  left: Err(Unknown)
+ right: Err(Conflict)
+
+---- maintenance::publication_retains_reservations_and_returns_a_single_link_destination stdout ----
+
+thread 'maintenance::publication_retains_reservations_and_returns_a_single_link_destination' (1336779) panicked at tests/persistence/tests/ownership/maintenance.rs:71:13:
+assertion failed: matches!(backend.open(&scratch.path()), Err(Error::Conflict))
+
+
+failures:
+    maintenance::conversion_holds_both_reservations_and_failure_releases_them
+    maintenance::maintenance_rejects_a_live_source_before_conversion
+    maintenance::publication_retains_reservations_and_returns_a_single_link_destination
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p rom-storage-conformance --test ownership`

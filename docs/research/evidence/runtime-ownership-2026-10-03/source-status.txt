@@ -1,0 +1,50 @@
+ M crates/rom-backup/src/lib.rs
+ M crates/rom-backup/src/publication.rs
+ M crates/rom-redb/src/maintenance.rs
+ M crates/rom-redb/src/migration.rs
+ M crates/rom-redb/src/retention.rs
+ M crates/rom-redb/src/storage.rs
+ M crates/rom-redb/src/store.rs
+ M crates/rom-redb/src/upgrade.rs
+ M crates/rom-redb/src/upgrade_tests.rs
+ M crates/rom-sqlite/src/index_rebuild.rs
+ M crates/rom-sqlite/src/maintenance.rs
+ M crates/rom-sqlite/src/migration.rs
+ M crates/rom-sqlite/src/persistence.rs
+ M crates/rom-sqlite/src/retention.rs
+ M crates/rom-sqlite/src/store.rs
+ M crates/rom-sqlite/src/upgrade.rs
+ M crates/rom/src/execution/builder.rs
+ M crates/rom/src/execution/state.rs
+ M crates/rom/src/lib.rs
+ M crates/rom/src/persistence.rs
+ M crates/rom/src/query_storage/tests.rs
+ M crates/rom/tests/replay_versions.rs
+ M crates/rom/tests/retry_epochs.rs
+ M docs/reference-upgrade.md
+ M docs/storage-adapters.md
+ M docs/superpowers/specs/2026-10-03-runtime-ownership-design.md
+ M examples/consumer/tests/discovery.rs
+ M examples/consumer/tests/extensions.rs
+ M examples/consumer/tests/lifecycle.rs
+ M openspec/changes/prepare-framework-release/specs/framework-readiness/spec.md
+ M tests/persistence/tests/query_read.rs
+ M tests/persistence/tests/references.rs
+ M tests/persistence/tests/runtime_reactions.rs
+ M tests/persistence/tests/sqlite_offline_read.rs
+ M tests/persistence/tests/transitions.rs
+ M tools/query-measure/README.md
+ M tools/query-measure/src/observed.rs
+ M tools/query-measure/src/run.rs
+?? crates/rom-backup/src/native_ownership.rs
+?? crates/rom-backup/src/native_ownership/
+?? crates/rom-backup/src/publication/
+?? crates/rom-backup/tests/native_ownership.rs
+?? crates/rom-backup/tests/native_ownership/
+?? crates/rom/src/storage_ownership.rs
+?? crates/rom/src/storage_ownership/
+?? crates/rom/tests/storage_ownership.rs
+?? docs/research/evidence/runtime-ownership-2026-10-03/
+?? docs/storage-ownership.md
+?? tests/persistence/tests/ownership.rs
+?? tests/persistence/tests/ownership/

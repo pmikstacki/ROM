@@ -11,6 +11,9 @@ use std::{path::Path, sync::Mutex};
 
 pub struct Sqlite {
     pub(crate) connection: Mutex<Connection>,
+    pub(crate) ownership: rom::StorageOwnership,
+    // Declared after the engine so the native connection closes before exclusion ends.
+    _native_owner: Option<rom_backup::NativeOwnership>,
     #[cfg(feature = "test-support")]
     pub(crate) fault: AtomicU8,
     #[cfg(feature = "test-support")]
@@ -32,6 +35,36 @@ impl Sqlite {
         path: impl AsRef<Path>,
         limits: StorageLimits,
         validation_limits: rom_backup::BackupLimits,
+    ) -> Result<Self> {
+        let path = path.as_ref();
+        if path.as_os_str().as_encoded_bytes().starts_with(b"file:") {
+            return Err(Error::Unsupported(
+                "SQLite URI paths are unsupported; use a filesystem path".into(),
+            ));
+        }
+        // Preserve SQLite's per-connection ephemeral path sentinels before canonicalization.
+        if path.as_os_str().is_empty() || path == Path::new(":memory:") {
+            return Self::open_connection(path, limits, validation_limits, None);
+        }
+        Self::open_owned(
+            rom_backup::NativeOwnership::acquire(path, rom_backup::NativeAccess::OpenOrCreate)?,
+            limits,
+            validation_limits,
+        )
+    }
+    pub(crate) fn open_owned(
+        owner: rom_backup::NativeOwnership,
+        limits: StorageLimits,
+        validation_limits: rom_backup::BackupLimits,
+    ) -> Result<Self> {
+        let path = owner.path().to_owned();
+        Self::open_connection(&path, limits, validation_limits, Some(owner))
+    }
+    fn open_connection(
+        path: &Path,
+        limits: StorageLimits,
+        validation_limits: rom_backup::BackupLimits,
+        owner: Option<rom_backup::NativeOwnership>,
     ) -> Result<Self> {
         let mut c = Connection::open(path).map_err(|_| Error::Storage)?;
         let version: u32 = c
@@ -78,11 +111,33 @@ impl Sqlite {
         tx.commit().map_err(|_| Error::Unknown)?;
         Ok(Self {
             connection: Mutex::new(c),
+            ownership: rom::StorageOwnership::default(),
+            _native_owner: owner,
             #[cfg(feature = "test-support")]
             fault: AtomicU8::new(0),
             #[cfg(feature = "test-support")]
             observer: Mutex::new(None),
         })
+    }
+    /// Close the engine before releasing its native ownership reservation.
+    pub(crate) fn close(self) -> Result<()> {
+        let Self {
+            connection,
+            _native_owner,
+            ..
+        } = self;
+        let result = match connection.into_inner() {
+            Ok(connection) => connection.close().map_err(|(connection, _)| {
+                drop(connection);
+                Error::Storage
+            }),
+            Err(poisoned) => {
+                drop(poisoned.into_inner());
+                Err(Error::Panicked)
+            }
+        };
+        drop(_native_owner);
+        result
     }
     /// 1: after state; 2: after event; 3: after receipt; 4: after effects;
     /// 5: actual commit succeeds but acknowledgment is lost. One next commit only.

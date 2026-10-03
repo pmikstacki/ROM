@@ -1,0 +1,19 @@
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 0.32s
+     Running tests/ownership.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/ownership-6e0bf6484a23be3a)
+
+running 5 tests
+test offline_recovery::maintenance_cwd_child ... ok
+
+running 1 test
+test maintenance::maintenance_rejects_a_live_source_before_conversion ... ok
+test maintenance::conversion_holds_both_reservations_and_failure_releases_them ... ok
+test maintenance::publication_retains_reservations_and_returns_a_single_link_destination ... ok
+test offline_recovery::maintenance_cwd_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 12 filtered out; finished in 0.02s
+
+test offline_recovery::callback_cwd_change_keeps_native_maintenance_paths_canonical ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.02s
+

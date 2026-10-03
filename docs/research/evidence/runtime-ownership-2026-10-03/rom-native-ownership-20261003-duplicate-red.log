@@ -1,0 +1,22 @@
+   Compiling rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+    Finished `test` profile [unoptimized] target(s) in 0.53s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_backup-1629e6f630a69f2c)
+
+running 1 test
+test native_ownership::lifetime_tests::incidental_descriptor_duplicate_does_not_extend_guard_ownership ... FAILED
+
+failures:
+
+---- native_ownership::lifetime_tests::incidental_descriptor_duplicate_does_not_extend_guard_ownership stdout ----
+
+thread 'native_ownership::lifetime_tests::incidental_descriptor_duplicate_does_not_extend_guard_ownership' (1343829) panicked at crates/rom-backup/src/native_ownership/lifetime_tests.rs:18:10:
+guard drop must release ownership despite an incidental descriptor duplicate: Conflict
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    native_ownership::lifetime_tests::incidental_descriptor_duplicate_does_not_extend_guard_ownership
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p rom-backup --lib`

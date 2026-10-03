@@ -1,0 +1,36 @@
+   Compiling rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+   Compiling rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+   Compiling rom-redb v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 0.75s
+     Running tests/references.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/references-d909ad349f62721e)
+
+running 25 tests
+test redb::competing_runtime_owner_is_rejected ... ok
+test sqlite::competing_runtime_owner_is_rejected ... ok
+test redb::missing_nullable_target_conflicts_without_a_receipt ... ok
+test redb::missing_list_target_conflicts_without_a_receipt ... ok
+test redb::competing_adapter_create_delete_cannot_commit_dangling_reference ... ok
+test redb::own_reference_does_not_prevent_deletion ... ok
+test redb::missing_direct_target_conflicts_without_a_receipt ... ok
+test redb::missing_map_target_conflicts_without_a_receipt ... ok
+test sqlite::competing_adapter_create_delete_cannot_commit_dangling_reference ... ok
+test redb::incoming_source_restricts_deletion ... ok
+test sqlite::incoming_source_restricts_deletion ... ok
+test sqlite::missing_direct_target_conflicts_without_a_receipt ... ok
+test redb::source_deletion_releases_target ... ok
+test redb::omitted_kind_and_changed_schema_preserve_persisted_integrity ... ok
+test redb::old_receipt_replay_after_unlink_does_not_add_an_edge ... ok
+test sqlite::missing_map_target_conflicts_without_a_receipt ... ok
+test sqlite::missing_list_target_conflicts_without_a_receipt ... ok
+test sqlite::own_reference_does_not_prevent_deletion ... ok
+test sqlite::missing_nullable_target_conflicts_without_a_receipt ... ok
+test sqlite::clearing_nullable_list_and_map_links_allows_deletion ... ok
+test sqlite::old_receipt_replay_after_unlink_does_not_add_an_edge ... ok
+test sqlite::source_deletion_releases_target ... ok
+test sqlite::omitted_kind_and_changed_schema_preserve_persisted_integrity ... ok
+test sqlite_writes_only_changed_reference_edges ... ok
+test redb::clearing_nullable_list_and_map_links_allows_deletion ... ok
+
+test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+

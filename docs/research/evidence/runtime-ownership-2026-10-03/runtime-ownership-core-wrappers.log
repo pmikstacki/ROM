@@ -1,0 +1,34 @@
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 0.82s
+     Running tests/query_read.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/query_read-b5db1febee241310)
+
+running 11 tests
+test read_grant_runs_once_after_query_validation_and_disclosure_rechecks_authority ... ok
+test explicit_denial_precedes_empty_or_overbound_storage_reads ... ok
+test normalized_predicates_reach_storage_and_returned_rows_still_decode ... ok
+test native_candidates_cannot_bypass_whole_kind_admission_with_a_small_page ... ok
+test excluded_decoder_is_skipped_only_under_explicit_uniform_contract ... ok
+test reference_and_complete_candidates_share_typed_projected_and_live_results ... ok
+test builder_overrides_keep_opaque_selection_and_field_preflight ... ok
+test malformed_native_responses_and_execution_failures_never_fall_back ... ok
+test actual_native_candidates_still_require_current_disclosure_authority ... ok
+test actual_native_index_skips_excluded_decoder_only_with_uniform_authority ... ok
+test actual_native_storage_preserves_denial_before_limits_and_opaque_field_preflight ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.36s
+
+     Running tests/runtime_reactions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/runtime_reactions-c64cb06b95db4a3e)
+
+running 9 tests
+test runtime_worker_is_single_and_shutdown_joins_lifetime ... ok
+test cancelled_batch_is_drained_and_materialized_work_survives_shutdown ... ok
+test revoked_service_stops_without_touching_target ... ok
+test actual_adapter_two_resource_chain_call_counts ... ok
+test lost_target_ack_is_done_atomically_and_restart_does_not_repeat ... ok
+test downstream_failure_preserves_upstream_then_restarts_and_retries_once ... ok
+test mapper_requires_all_historical_and_current_source_fields ... ok
+test revisiting_same_resource_can_converge ... ok
+test noops_dependencies_and_oscillations_are_bounded ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+

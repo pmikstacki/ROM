@@ -54,8 +54,12 @@ fn upgrade(
     limits: BackupLimits,
     before_publish: impl FnOnce() -> Result<()>,
 ) -> Result<Sqlite> {
-    let snapshot = read_snapshot(source, limits, |connection, limits| {
+    let source_owner =
+        rom_backup::NativeOwnership::acquire(source, rom_backup::NativeAccess::Existing)?;
+    let destination_owner =
+        rom_backup::NativeOwnership::acquire(destination, rom_backup::NativeAccess::Fresh)?;
+    let snapshot = read_snapshot(source_owner.path(), limits, |connection, limits| {
         collect_upgrade_snapshot(connection, limits, descriptors)
     })?;
-    Sqlite::restore_snapshot(snapshot, destination, limits, before_publish)
+    Sqlite::restore_snapshot(snapshot, destination_owner, limits, before_publish)
 }

@@ -1,4 +1,4 @@
-//! Offline readers must not create sidecars beside a clean source.
+//! Offline readers preserve database bytes and existing ownership metadata.
 use rom::{Actor, Command, Resource, Runtime, Storage};
 use rom_backup::{BackupLimits, MigrationPlan, ResourceMigration};
 use std::{
@@ -103,10 +103,19 @@ async fn clean_source_stays_identical_after_success_and_rejected_conversion() {
     runtime.shutdown().await.unwrap();
     drop(runtime);
     let original = files(&inputs);
+    let mut owner_path = source.as_os_str().to_os_string();
+    owner_path.push(".rom-owner");
+    let owner_path = PathBuf::from(owner_path);
     assert_eq!(
         original.len(),
-        1,
-        "source must start closed without sidecars"
+        2,
+        "only database and persistent ownership metadata exist"
+    );
+    assert!(original.iter().any(|(path, _)| path == &source));
+    assert!(
+        original
+            .iter()
+            .any(|(path, bytes)| path == &owner_path && bytes.is_empty())
     );
     let invalid = MigrationPlan::new(vec![
         ResourceMigration::new::<Before, After>(|_| Err(rom::Error::Storage)).unwrap(),

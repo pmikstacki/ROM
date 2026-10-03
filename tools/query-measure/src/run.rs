@@ -45,14 +45,13 @@ pub async fn run(settings: &Settings, output: &mut impl Write) -> Result<(), Fai
                 snapshot_bytes: size.checked_mul(2048).ok_or("byte bound overflow")?,
                 ..Limits::default()
             };
-            let runtime = Runtime::builder()
-                .limits(limits)
-                .resource(fixture::definition())
-                .build(observed.clone(), pool.clone())?;
-            let production = Runtime::builder()
-                .limits(limits)
-                .resource(fixture::definition())
-                .build(store.clone(), pool.clone())?;
+            let build_runtime = |storage: Arc<dyn rom::Storage>| {
+                Runtime::builder()
+                    .limits(limits)
+                    .resource(fixture::definition())
+                    .build(storage, pool.clone())
+            };
+            let mut runtime = build_runtime(observed.clone())?;
             let seeded = write::seed(&runtime, dataset, size).await?;
             if !settings.heap {
                 writeln!(
@@ -128,6 +127,10 @@ pub async fn run(settings: &Settings, output: &mut impl Write) -> Result<(), Fai
                     }
                 }
                 if !settings.heap {
+                    // The control uses the same dataset after the observed owner releases it.
+                    runtime.shutdown().await?;
+                    drop(runtime);
+                    let production = build_runtime(store.clone())?;
                     for _ in 0..settings.warmups {
                         ensure_equal(
                             &expected,
@@ -157,6 +160,9 @@ pub async fn run(settings: &Settings, output: &mut impl Write) -> Result<(), Fai
                             json!({"record":"production_query","dataset":dataset,"size":size,"case":case.name,"repetition":repetition,"mode":"automatic","elapsed_ns":elapsed,"match_count":match_count,"result_count":result.len(),"result_digest":digest(&result)?})
                         )?;
                     }
+                    production.shutdown().await?;
+                    drop(production);
+                    runtime = build_runtime(observed.clone())?;
                 }
             }
             writeln!(
@@ -179,9 +185,7 @@ pub async fn run(settings: &Settings, output: &mut impl Write) -> Result<(), Fai
                 )?;
             }
             runtime.shutdown().await?;
-            production.shutdown().await?;
             drop(runtime);
-            drop(production);
             drop(observed);
             drop(store);
             writeln!(

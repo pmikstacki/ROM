@@ -61,7 +61,13 @@ fn source(path: &std::path::Path, origin: Option<u32>) -> RetryEpochs {
         references: vec![],
         descriptors: vec![Before::descriptor().canonical().unwrap()],
     };
-    let db = Redb::restore_snapshot(snapshot, path, BackupLimits::default(), || Ok(())).unwrap();
+    let db = Redb::restore_snapshot(
+        snapshot,
+        rom_backup::NativeOwnership::acquire(path, rom_backup::NativeAccess::Fresh).unwrap(),
+        BackupLimits::default(),
+        || Ok(()),
+    )
+    .unwrap();
     drop(db);
     let db = redb::Database::open(path).unwrap();
     let tx = db.begin_write().unwrap();

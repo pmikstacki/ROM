@@ -86,7 +86,10 @@ See the [redb 4.3.0 backend source](https://docs.rs/redb/4.3.0/src/redb/tree_sto
 Rust stabilized `File::try_lock` in 1.89.0; ROM already requires Rust 1.99.
 Open the lock file for reading and writing. Map `WouldBlock` to `Error::Conflict`.
 Other I/O failures produce `Error::Storage`, except unsupported locking, which produces `Error::Unsupported`.
-The guard closes its file on drop and never duplicates the lock handle.
+The guard explicitly unlocks before closing its private descriptor and never exposes a cloned handle.
+Incidental fork/exec descriptor inheritance does not extend normal guard ownership.
+Drop cannot report an unlock error; descriptor closure remains the fallback.
+Abrupt process exit bypasses Drop and relies on operating-system handle closure.
 These choices follow the [Rust file-lock contract](https://doc.rust-lang.org/std/fs/struct.File.html#method.try_lock).
 
 Do not delete the lock file on release.

@@ -17,7 +17,7 @@
 - [x] 3.4 Prove shared auth/query/admission semantics and independently review integration.
 
 ## 4. Operations and release
-- [ ] 4.1 Enforce single-writer ownership; exercise overload, process exit and restart recovery.
+- [x] 4.1 Enforce single-writer ownership; exercise overload, process exit and restart recovery.
 - [ ] 4.2 Provide CLI work inspection, retry, reconciliation and explicit compensation workflows.
 - [ ] 4.3 Deliver a documented real-provider identity/bootstrap/secrets integration profile and tests.
 - [ ] 4.4 Version extension contracts. Publish shared conformance fixtures and executable author skills.

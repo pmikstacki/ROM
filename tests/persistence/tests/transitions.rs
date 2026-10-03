@@ -38,22 +38,17 @@ fn validate(actor: &Actor, before: Option<&Counter>, after: Option<&Counter>) ->
 struct Fixture {
     runtime: Runtime,
     storage: Arc<dyn Storage>,
-    path: PathBuf,
+    _files: FixtureFiles,
+}
+struct FixtureFiles(PathBuf);
+impl Drop for FixtureFiles {
+    fn drop(&mut self) {
+        let _ = std::fs::remove_dir_all(&self.0);
+    }
 }
 impl Fixture {
     fn new(redb: bool) -> Self {
-        static N: AtomicU64 = AtomicU64::new(0);
-        let path = std::env::temp_dir().join(format!(
-            "rom-transitions-{}-{}",
-            std::process::id(),
-            N.fetch_add(1, Ordering::Relaxed)
-        ));
-        let storage: Arc<dyn Storage> = if redb {
-            Arc::new(rom_redb::Redb::open(&path).unwrap())
-        } else {
-            Arc::new(rom_sqlite::Sqlite::open(&path).unwrap())
-        };
-        let runtime = Runtime::builder()
+        let builder = Runtime::builder()
             .resource(
                 Counter::definition()
                     .policy(|a, _, _| a.subject != "policy-denied")
@@ -65,13 +60,31 @@ impl Fixture {
                 NOTICE,
                 actor().with_kind(PrincipalKind::Service),
                 |_| async { DeliveryOutcome::Accepted },
-            )
+            );
+        Self::with_builder(redb, builder)
+    }
+    fn with_builder(redb: bool, builder: Builder) -> Self {
+        static N: AtomicU64 = AtomicU64::new(0);
+        let directory = std::env::temp_dir().join(format!(
+            "rom-transitions-{}-{}",
+            std::process::id(),
+            N.fetch_add(1, Ordering::Relaxed)
+        ));
+        std::fs::create_dir(&directory).unwrap();
+        let files = FixtureFiles(directory);
+        let path = files.0.join("database");
+        let storage: Arc<dyn Storage> = if redb {
+            Arc::new(rom_redb::Redb::open(&path).unwrap())
+        } else {
+            Arc::new(rom_sqlite::Sqlite::open(&path).unwrap())
+        };
+        let runtime = builder
             .build(storage.clone(), Runtime::shared_cpu_pool(2).unwrap())
             .unwrap();
         Self {
             runtime,
             storage,
-            path,
+            _files: files,
         }
     }
     async fn create(&self, amount: u64, locked: bool) {
@@ -102,11 +115,6 @@ impl Fixture {
             event_count
         );
         assert_eq!(self.storage.reaction_records().unwrap().len(), work_count);
-    }
-}
-impl Drop for Fixture {
-    fn drop(&mut self) {
-        let _ = std::fs::remove_file(&self.path);
     }
 }
 fn actor() -> Actor {
@@ -299,25 +307,23 @@ struct Label {
 #[tokio::test]
 async fn transition_sees_normalized_previous_and_candidate_values() {
     for redb in [false, true] {
-        let f = Fixture::new(redb);
-        let runtime = Runtime::builder()
-            .resource(
-                Label::definition()
-                    .policy(|_, _, _| true)
-                    .allow_all_fields()
-                    .validate_transition(|_, old, new| {
-                        if old.is_some_and(|label| label.name.0 != "FIRST")
-                            || new.is_none_or(|label| {
-                                !matches!(label.name.0.as_str(), "FIRST" | "SECOND")
-                            })
-                        {
-                            return Err(Error::invalid(Label::KIND, "unnormalized"));
-                        }
-                        Ok(())
-                    }),
-            )
-            .build(f.storage.clone(), Runtime::shared_cpu_pool(1).unwrap())
-            .unwrap();
+        let builder = Runtime::builder().resource(
+            Label::definition()
+                .policy(|_, _, _| true)
+                .allow_all_fields()
+                .validate_transition(|_, old, new| {
+                    if old.is_some_and(|label| label.name.0 != "FIRST")
+                        || new.is_none_or(|label| {
+                            !matches!(label.name.0.as_str(), "FIRST" | "SECOND")
+                        })
+                    {
+                        return Err(Error::invalid(Label::KIND, "unnormalized"));
+                    }
+                    Ok(())
+                }),
+        );
+        let f = Fixture::with_builder(redb, builder);
+        let runtime = &f.runtime;
         runtime
             .execute(
                 &actor(),
@@ -345,6 +351,5 @@ async fn transition_sees_normalized_previous_and_candidate_values() {
             .unwrap();
         assert_eq!(changed.value.unwrap().name.0, "SECOND");
         runtime.shutdown().await.unwrap();
-        f.runtime.shutdown().await.unwrap();
     }
 }

@@ -52,7 +52,11 @@ impl Redb {
         limits: BackupLimits,
         before_publish: impl FnOnce() -> Result<()>,
     ) -> Result<Self> {
-        let snapshot = read_upgrade_snapshot(source, limits, descriptors)?;
-        Self::restore_snapshot(snapshot, destination, limits, before_publish)
+        let source_owner =
+            rom_backup::NativeOwnership::acquire(source, rom_backup::NativeAccess::Existing)?;
+        let destination_owner =
+            rom_backup::NativeOwnership::acquire(destination, rom_backup::NativeAccess::Fresh)?;
+        let snapshot = read_upgrade_snapshot(source_owner.path(), limits, descriptors)?;
+        Self::restore_snapshot(snapshot, destination_owner, limits, before_publish)
     }
 }

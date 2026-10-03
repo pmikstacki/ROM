@@ -527,33 +527,81 @@ async fn omitted_source_kind_after_reopen_cannot_erase_restrict(redb: bool) {
     std::fs::remove_file(path).unwrap();
 }
 
-async fn independent_runtime_create_delete_race_preserves_integrity(redb: bool) {
+async fn competing_runtime_is_rejected(redb: bool) {
     let f = Fixture::new(redb);
-    f.create_target().await;
     let other = Runtime::builder()
         .resource(definition::<Target>())
         .resource(definition::<Direct>())
-        .build(f.storage.clone(), Runtime::shared_cpu_pool(2).unwrap())
-        .unwrap();
-    let a = actor();
-    let (created, deleted) = tokio::join!(
-        f.runtime.execute(
-            &a,
-            Command::create(
-                "source",
+        .build(f.storage.clone(), Runtime::shared_cpu_pool(2).unwrap());
+    assert!(matches!(other, Err(Error::Conflict)));
+    f.runtime.shutdown().await.unwrap();
+}
+
+fn race_bundle(row: Row, expected: Option<u64>, identity: &str) -> Bundle {
+    Bundle {
+        expected,
+        changed: true,
+        effects: vec![],
+        reactions: vec![],
+        reaction_limits: None,
+        completed_work: None,
+        receipt: Receipt {
+            retry_epoch: 0,
+            replay_version: None,
+            identity: identity.into(),
+            fingerprint: identity.into(),
+            row,
+        },
+    }
+}
+
+async fn concurrent_adapter_create_delete_race_preserves_integrity(redb: bool) {
+    let f = Fixture::new(redb);
+    f.create_target().await;
+    // Direct trusted adapter commits preserve the independent atomic-integrity race.
+    // Runtime exclusion must not become its only protection against dangling references.
+    let create = race_bundle(
+        Row {
+            key: Key {
+                kind: Direct::KIND.into(),
+                id: "source".into(),
+            },
+            revision: 1,
+            value: Some(
                 Direct {
-                    target: ResourceRef::new("target").unwrap()
+                    target: ResourceRef::new("target").unwrap(),
                 }
-            )
-            .idempotency("racing-create")
-        ),
-        other.execute(
-            &a,
-            Command::<Target>::delete("target")
-                .at_revision(1)
-                .idempotency("racing-delete")
-        )
+                .encode(),
+            ),
+            protected: Default::default(),
+        },
+        None,
+        "racing-create",
     );
+    let mut target = f
+        .storage
+        .load(&Key {
+            kind: Target::KIND.into(),
+            id: "target".into(),
+        })
+        .unwrap()
+        .unwrap();
+    target.revision = 2;
+    target.value = None;
+    let delete = race_bundle(target, Some(1), "racing-delete");
+    let barrier = std::sync::Barrier::new(2);
+    let (created, deleted) = std::thread::scope(|scope| {
+        let a = scope.spawn(|| {
+            barrier.wait();
+            f.storage.commit(&create)
+        });
+        let b = scope.spawn(|| {
+            barrier.wait();
+            f.storage.commit(&delete)
+        });
+        (a.join().unwrap(), b.join().unwrap())
+    });
+    let a = actor();
     match (created, deleted) {
         (Ok(_), Err(Error::Conflict)) => {
             assert_eq!(
@@ -584,7 +632,6 @@ async fn independent_runtime_create_delete_race_preserves_integrity(redb: bool) 
         }
         _ => panic!("exactly one competing mutation must commit; the other must conflict"),
     }
-    other.shutdown().await.unwrap();
     f.runtime.shutdown().await.unwrap();
 }
 
@@ -601,8 +648,12 @@ macro_rules! backend_tests {
                 omitted_source_kind_after_reopen_cannot_erase_restrict($redb).await;
             }
             #[tokio::test]
-            async fn competing_runtime_create_delete_cannot_commit_dangling_reference() {
-                independent_runtime_create_delete_race_preserves_integrity($redb).await;
+            async fn competing_runtime_owner_is_rejected() {
+                competing_runtime_is_rejected($redb).await;
+            }
+            #[tokio::test]
+            async fn competing_adapter_create_delete_cannot_commit_dangling_reference() {
+                concurrent_adapter_create_delete_race_preserves_integrity($redb).await;
             }
             #[tokio::test]
             async fn old_receipt_replay_after_unlink_does_not_add_an_edge() {

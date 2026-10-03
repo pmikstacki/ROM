@@ -76,6 +76,9 @@ impl Observed {
     }
 }
 impl Storage for Observed {
+    fn acquire_owner(&self) -> Result<StorageOwner> {
+        self.store.acquire_owner()
+    }
     fn register(&self, descriptors: &[Descriptor]) -> Result<()> {
         self.store.register(descriptors)
     }

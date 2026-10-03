@@ -41,6 +41,9 @@ struct Blocking {
     block: AtomicBool,
 }
 impl Storage for Blocking {
+    fn acquire_owner(&self) -> Result<rom::StorageOwner> {
+        self.inner.acquire_owner()
+    }
     fn register(&self, descriptors: &[rom::Descriptor]) -> Result<()> {
         self.inner.register(descriptors)
     }
@@ -65,6 +68,91 @@ impl Storage for Blocking {
     fn commit(&self, b: &Bundle) -> Result<Receipt> {
         self.inner.commit(b)
     }
+}
+
+fn replacement(store: Arc<dyn Storage>) -> Result<Runtime> {
+    Runtime::builder()
+        .resource(Task::definition().allow_all_fields().policy(task_policy))
+        .build(store, Runtime::shared_cpu_pool(1).unwrap())
+}
+
+#[tokio::test]
+async fn ownership_rejects_second_builder_until_final_stopped_clone_drops() {
+    let store = Arc::new(Sqlite::open(":memory:").unwrap());
+    let runtime = replacement(store.clone()).unwrap();
+    assert!(matches!(
+        replacement(store.clone()),
+        Err(rom::Error::Conflict)
+    ));
+    let retained = runtime.clone();
+    runtime.shutdown().await.unwrap();
+    drop(runtime);
+    assert!(matches!(
+        replacement(store.clone()),
+        Err(rom::Error::Conflict)
+    ));
+    drop(retained);
+    let replacement = replacement(store).unwrap();
+    replacement.shutdown().await.unwrap();
+}
+
+#[tokio::test]
+async fn ownership_transparent_wrapper_forwards_underlying_claim() {
+    let store = Arc::new(Blocking {
+        inner: Sqlite::open(":memory:").unwrap(),
+        gate: Gate::new(),
+        block: AtomicBool::new(false),
+    });
+    let direct = store.inner.acquire_owner().unwrap();
+    assert!(matches!(
+        replacement(store.clone()),
+        Err(rom::Error::Conflict)
+    ));
+    drop(direct);
+    let runtime = replacement(store.clone()).unwrap();
+    assert!(matches!(
+        store.inner.acquire_owner(),
+        Err(rom::Error::Conflict)
+    ));
+    runtime.shutdown().await.unwrap();
+    drop(runtime);
+    assert!(store.inner.acquire_owner().is_ok());
+}
+
+#[tokio::test]
+async fn ownership_cancelled_action_and_drain_waiter_keep_accepted_work_alive() {
+    let (runtime, store, action) = blocked().await;
+    let draining = runtime.clone();
+    let mut drain = tokio::spawn(async move { draining.shutdown().await });
+    assert!(
+        tokio::time::timeout(Duration::from_millis(10), &mut drain)
+            .await
+            .is_err()
+    );
+    action.abort();
+    let _ = action.await;
+    drain.abort();
+    let _ = drain.await;
+    drop(runtime);
+    let refused = matches!(replacement(store.clone()), Err(rom::Error::Conflict));
+    // Always release the blocking driver, including on an assertion failure.
+    store.gate.release();
+    assert!(
+        refused,
+        "cancelled callers released ownership while accepted work was running"
+    );
+    let replacement = tokio::time::timeout(Duration::from_secs(5), async {
+        loop {
+            match replacement(store.clone()) {
+                Ok(runtime) => break runtime,
+                Err(rom::Error::Conflict) => tokio::task::yield_now().await,
+                Err(error) => panic!("unexpected replacement failure: {error:?}"),
+            }
+        }
+    })
+    .await
+    .unwrap();
+    replacement.shutdown().await.unwrap();
 }
 fn actor() -> Actor {
     Actor::trusted("local", "alice")
@@ -237,6 +325,9 @@ async fn cancelled_read_keeps_io_capacity_until_storage_completes() {
 async fn adapter_panic_is_terminal_and_never_success() {
     struct PanicStore(Sqlite);
     impl Storage for PanicStore {
+        fn acquire_owner(&self) -> Result<rom::StorageOwner> {
+            self.0.acquire_owner()
+        }
         fn register(&self, descriptors: &[rom::Descriptor]) -> Result<()> {
             self.0.register(descriptors)
         }

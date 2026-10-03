@@ -8,8 +8,9 @@ receipt, journal and effect/work records in one native transaction. Journal
 retention and receipt/effect/work capacities are bounded; cursor gaps and
 unsupported formats fail explicitly. Runtime owns asynchronous scheduling over
 these synchronous ports. Exactly one Runtime owns writes and invalidation per
-deployment. Independent runtimes must not share a Storage handle. This is
-unsupported host misuse; registration does not automatically prevent it.
+deployment. Runtime construction now enforces this through `Storage::acquire_owner`.
+Native opens and offline maintenance also use persistent operating-system locks.
+See [storage ownership](storage-ownership.md) for guard lifetimes, custom adapter migration and supported paths.
 
 See the current [journal](research/maintained-http-journal.md),
 [reactions](research/maintained-reaction-results.md),

@@ -34,6 +34,7 @@ pub(crate) struct Inner {
     pub(crate) limits: Limits,
     pub(crate) clock: Arc<dyn Clock>,
     pub(super) actor_gate: Option<Arc<dyn ActorGate>>,
+    pub(super) _storage_owner: crate::StorageOwner,
 }
 /// Tracked by the runtime, owned by actual blocking work, never a caller future.
 pub(crate) struct Work {

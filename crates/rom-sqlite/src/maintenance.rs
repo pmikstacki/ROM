@@ -25,19 +25,23 @@ impl Sqlite {
         limits: BackupLimits,
     ) -> Result<Self> {
         let (_, snapshot) = rom_backup::read(archive, Backend::Sqlite, limits)?;
-        Self::restore_snapshot(snapshot, destination.as_ref(), limits, || Ok(()))
+        let destination = rom_backup::NativeOwnership::acquire(
+            destination.as_ref(),
+            rom_backup::NativeAccess::Fresh,
+        )?;
+        Self::restore_snapshot(snapshot, destination, limits, || Ok(()))
     }
 
     pub(super) fn restore_snapshot(
         mut snapshot: Snapshot,
-        destination: &Path,
+        destination: rom_backup::NativeOwnership,
         limits: BackupLimits,
         before_publish: impl FnOnce() -> Result<()>,
     ) -> Result<Self> {
         snapshot.validate()?;
         snapshot.state.prepare_restore()?;
         let storage_limits = snapshot.state.storage_limits();
-        let stage = Stage::new(destination)?;
+        let stage = Stage::new(destination.path())?;
         let restored = Self::open_with_limits(stage.path(), storage_limits.clone())?;
         {
             let mut c = restored.connection.lock().map_err(|_| Error::Panicked)?;
@@ -118,14 +122,9 @@ impl Sqlite {
                 return Err(Error::Storage);
             }
         }
-        restored
-            .connection
-            .into_inner()
-            .map_err(|_| Error::Panicked)?
-            .close()
-            .map_err(|_| Error::Storage)?;
+        restored.close()?;
         stage.publish_with(before_publish)?;
-        Self::open_with_validation_limits(destination, storage_limits, limits)
-            .map_err(|_| Error::Unknown)
+        stage.finish_native_publication()?;
+        Self::open_owned(destination, storage_limits, limits).map_err(|_| Error::Unknown)
     }
 }

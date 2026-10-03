@@ -60,6 +60,9 @@ pub(crate) fn snapshot_rows(
     Ok(crate::read_rows::snapshot::<false>(c, kind, max_rows, max_bytes)?.0)
 }
 impl Storage for Sqlite {
+    fn acquire_owner(&self) -> Result<rom::StorageOwner> {
+        self.ownership.acquire()
+    }
     fn retry_epochs(&self) -> Result<rom::RetryEpochs> {
         Ok(state(&*self.connection.lock().map_err(|_| Error::Panicked)?)?.retry_epochs())
     }

@@ -80,8 +80,12 @@ async fn reviewer_catalog_budget_matches_wire_for_every_smaller_limit() {
     }
 }
 
-struct NoStorageReads;
+#[derive(Default)]
+struct NoStorageReads(rom::StorageOwnership);
 impl Storage for NoStorageReads {
+    fn acquire_owner(&self) -> Result<rom::StorageOwner> {
+        self.0.acquire()
+    }
     // This fixture tests metadata-only discovery, not durable storage registration.
     fn register(&self, _: &[rom::Descriptor]) -> Result<()> {
         Ok(())
@@ -112,7 +116,7 @@ fn actor() -> Actor {
 fn build(builder: Builder) -> Runtime {
     builder
         .build(
-            Arc::new(NoStorageReads),
+            Arc::new(NoStorageReads::default()),
             Runtime::shared_cpu_pool(1).unwrap(),
         )
         .unwrap()

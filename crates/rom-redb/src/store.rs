@@ -18,6 +18,9 @@ type Observer = std::sync::Arc<dyn Fn(usize) -> Result<()> + Send + Sync>;
 /// One database handle; clones should be shared using `Arc`, not reopened concurrently.
 pub struct Redb {
     pub(super) db: Database,
+    pub(super) ownership: rom::StorageOwnership,
+    // The engine field must drop before its native ownership guard.
+    _native_owner: rom_backup::NativeOwnership,
     pub(super) uncertain: AtomicBool,
     pub(super) commit_gate: std::sync::Mutex<()>,
     #[cfg(feature = "test-support")]
@@ -27,7 +30,7 @@ impl Redb {
     /// Open format four, or initialize a new empty database. Never upgrade implicitly.
     /// An unclean close can require a private recovery probe with temporary disk space
     /// approximately equal to the source file size. Unsupported sources remain unchanged.
-    /// The host must ensure one owner; this check does not enable concurrent writers.
+    /// The native guard excludes other ROM owners of this local database path.
     pub fn open(path: impl AsRef<Path>) -> Result<Self> {
         Self::open_with_limits(path, StorageLimits::default())
     }
@@ -40,7 +43,21 @@ impl Redb {
         limits: StorageLimits,
         validation_limits: rom_backup::BackupLimits,
     ) -> Result<Self> {
-        let path = path.as_ref();
+        Self::open_owned(
+            rom_backup::NativeOwnership::acquire(
+                path.as_ref(),
+                rom_backup::NativeAccess::OpenOrCreate,
+            )?,
+            limits,
+            validation_limits,
+        )
+    }
+    pub(super) fn open_owned(
+        owner: rom_backup::NativeOwnership,
+        limits: StorageLimits,
+        validation_limits: rom_backup::BackupLimits,
+    ) -> Result<Self> {
+        let path = owner.path();
         crate::preflight::check(path)?;
         let db = Database::create(path).map_err(|_| Error::Storage)?;
         let read = db.begin_read().map_err(|_| Error::Storage)?;
@@ -96,6 +113,8 @@ impl Redb {
         }
         Ok(Self {
             db,
+            ownership: rom::StorageOwnership::default(),
+            _native_owner: owner,
             uncertain: AtomicBool::new(false),
             commit_gate: std::sync::Mutex::new(()),
             #[cfg(feature = "test-support")]

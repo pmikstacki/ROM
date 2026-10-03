@@ -1,0 +1,80 @@
+   Compiling rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+error[E0599]: no method named `finish_native_publication` found for struct `publication::Stage` in the current scope
+  --> crates/rom-backup/src/publication/tests.rs:40:11
+   |
+40 |     stage.finish_native_publication().unwrap();
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `publication::Stage`
+   |
+  ::: crates/rom-backup/src/publication.rs:10:1
+   |
+10 | pub struct Stage {
+   | ---------------- method `finish_native_publication` not found for this struct
+
+error[E0599]: no method named `finish_native_publication` found for struct `publication::Stage` in the current scope
+  --> crates/rom-backup/src/publication/tests.rs:55:22
+   |
+55 |     assert_eq!(stage.finish_native_publication(), Err(Error::Storage));
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `publication::Stage`
+   |
+  ::: crates/rom-backup/src/publication.rs:10:1
+   |
+10 | pub struct Stage {
+   | ---------------- method `finish_native_publication` not found for this struct
+
+error[E0599]: no method named `finish_native_publication` found for struct `publication::Stage` in the current scope
+  --> crates/rom-backup/src/publication/tests.rs:60:22
+   |
+60 |     assert_eq!(stage.finish_native_publication(), Err(Error::Storage));
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `publication::Stage`
+   |
+  ::: crates/rom-backup/src/publication.rs:10:1
+   |
+10 | pub struct Stage {
+   | ---------------- method `finish_native_publication` not found for this struct
+
+error[E0599]: no method named `finish_native_publication` found for struct `publication::Stage` in the current scope
+  --> crates/rom-backup/src/publication/tests.rs:71:22
+   |
+71 |     assert_eq!(stage.finish_native_publication(), Err(Error::Unknown));
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `publication::Stage`
+   |
+  ::: crates/rom-backup/src/publication.rs:10:1
+   |
+10 | pub struct Stage {
+   | ---------------- method `finish_native_publication` not found for this struct
+
+error[E0599]: no method named `finish_native_publication` found for struct `publication::Stage` in the current scope
+  --> crates/rom-backup/src/publication/tests.rs:83:22
+   |
+83 |     assert_eq!(stage.finish_native_publication(), Err(Error::Unknown));
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `publication::Stage`
+   |
+  ::: crates/rom-backup/src/publication.rs:10:1
+   |
+10 | pub struct Stage {
+   | ---------------- method `finish_native_publication` not found for this struct
+
+error[E0599]: no method named `finish_native_publication` found for struct `publication::Stage` in the current scope
+   --> crates/rom-backup/src/publication/tests.rs:102:26
+    |
+102 |         assert_eq!(stage.finish_native_publication(), Err(Error::Unknown));
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `publication::Stage`
+    |
+   ::: crates/rom-backup/src/publication.rs:10:1
+    |
+ 10 | pub struct Stage {
+    | ---------------- method `finish_native_publication` not found for this struct
+
+error[E0599]: no method named `finish_native_publication` found for struct `publication::Stage` in the current scope
+   --> crates/rom-backup/src/publication/tests.rs:104:26
+    |
+104 |         assert_eq!(stage.finish_native_publication(), Err(Error::Unknown));
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `publication::Stage`
+    |
+   ::: crates/rom-backup/src/publication.rs:10:1
+    |
+ 10 | pub struct Stage {
+    | ---------------- method `finish_native_publication` not found for this struct
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `rom-backup` (lib test) due to 7 previous errors

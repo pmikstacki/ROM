@@ -1,0 +1,39 @@
+   Compiling redb v4.3.0
+   Compiling rom-redb v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 2.24s
+     Running tests/ownership.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/ownership-6e0bf6484a23be3a)
+
+running 4 tests
+test sqlite_memory_sentinel_keeps_stores_independent ... ok
+test symlink_alias_cannot_create_a_second_native_owner ... FAILED
+test native_duplicate_open_conflicts_until_final_adapter_drop ... FAILED
+test hardlinked_database_is_rejected_before_native_open ... FAILED
+
+failures:
+
+---- symlink_alias_cannot_create_a_second_native_owner stdout ----
+
+thread 'symlink_alias_cannot_create_a_second_native_owner' (1323092) panicked at tests/persistence/tests/ownership.rs:27:9:
+Sqlite: symlink alias must share ownership
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- native_duplicate_open_conflicts_until_final_adapter_drop stdout ----
+
+thread 'native_duplicate_open_conflicts_until_final_adapter_drop' (1323090) panicked at tests/persistence/tests/ownership.rs:12:9:
+Sqlite: second native owner must conflict
+
+---- hardlinked_database_is_rejected_before_native_open stdout ----
+
+thread 'hardlinked_database_is_rejected_before_native_open' (1323089) panicked at tests/persistence/tests/ownership.rs:42:9:
+Sqlite: hardlinks must fail closed
+
+
+failures:
+    hardlinked_database_is_rejected_before_native_open
+    native_duplicate_open_conflicts_until_final_adapter_drop
+    symlink_alias_cannot_create_a_second_native_owner
+
+test result: FAILED. 1 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p rom-storage-conformance --test ownership`

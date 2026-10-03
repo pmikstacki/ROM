@@ -54,6 +54,8 @@ child process after the rejection commit without shutdown or worker drain. They
 then run maintenance and recovery. A process-exit test is not a power-loss test.
 
 Maintenance requires exclusive offline source ownership and fresh destinations.
+The [ownership guards](storage-ownership.md) enforce exclusion across ROM native opens and maintenance.
+Drop all old Runtime and adapter handles before maintenance; shutdown alone does not release retained handles.
 Existing destination files must not be overwritten. Keep the source until the new
 deployment passes acceptance. A dirty redb source is recovered through a private
 copy. The original source remains unchanged.

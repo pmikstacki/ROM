@@ -18,8 +18,11 @@ struct State {
     receipts: BTreeMap<String, Receipt>,
 }
 #[derive(Default)]
-struct Memory(Mutex<State>);
+struct Memory(Mutex<State>, StorageOwnership);
 impl Storage for Memory {
+    fn acquire_owner(&self) -> Result<StorageOwner> {
+        self.1.acquire()
+    }
     fn retry_epochs(&self) -> Result<RetryEpochs> {
         let mut state = self.0.lock().unwrap();
         state.reads += 1;

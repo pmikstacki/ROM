@@ -1,0 +1,82 @@
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+error[E0407]: method `acquire_owner` is not a member of trait `Storage`
+  --> crates/rom/tests/storage_ownership.rs:12:5
+   |
+12 |     fn acquire_owner(&self) -> Result<StorageOwner> { self.ownership.acquire() }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not a member of trait `Storage`
+
+error[E0407]: method `acquire_owner` is not a member of trait `Storage`
+  --> crates/rom/tests/storage_ownership.rs:31:5
+   |
+31 |     fn acquire_owner(&self) -> Result<StorageOwner> { self.0.acquire_owner() }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not a member of trait `Storage`
+
+error[E0425]: cannot find type `StorageOwnership` in this scope
+ --> crates/rom/tests/storage_ownership.rs:6:16
+  |
+6 |     ownership: StorageOwnership,
+  |                ^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find type `StorageOwner` in this scope
+  --> crates/rom/tests/storage_ownership.rs:12:39
+   |
+12 |     fn acquire_owner(&self) -> Result<StorageOwner> { self.ownership.acquire() }
+   |                                       ^^^^^^^^^^^^
+   |
+  ::: crates/rom/src/query_storage/protocol.rs:16:1
+   |
+16 | pub struct StorageQuery {
+   | ----------------------- similarly named struct `StorageQuery` defined here
+   |
+help: a struct with a similar name exists
+   |
+12 -     fn acquire_owner(&self) -> Result<StorageOwner> { self.ownership.acquire() }
+12 +     fn acquire_owner(&self) -> Result<StorageQuery> { self.ownership.acquire() }
+   |
+help: you might be missing a type parameter
+   |
+11 | impl<StorageOwner> Storage for Memory {
+   |     ++++++++++++++
+
+error[E0425]: cannot find type `StorageOwner` in this scope
+  --> crates/rom/tests/storage_ownership.rs:31:39
+   |
+31 |     fn acquire_owner(&self) -> Result<StorageOwner> { self.0.acquire_owner() }
+   |                                       ^^^^^^^^^^^^
+   |
+  ::: crates/rom/src/query_storage/protocol.rs:16:1
+   |
+16 | pub struct StorageQuery {
+   | ----------------------- similarly named struct `StorageQuery` defined here
+   |
+help: a struct with a similar name exists
+   |
+31 -     fn acquire_owner(&self) -> Result<StorageOwner> { self.0.acquire_owner() }
+31 +     fn acquire_owner(&self) -> Result<StorageQuery> { self.0.acquire_owner() }
+   |
+help: you might be missing a type parameter
+   |
+30 | impl<StorageOwner> Storage for Wrapped {
+   |     ++++++++++++++
+
+error[E0599]: no method named `acquire_owner` found for struct `Arc<Memory>` in the current scope
+  --> crates/rom/tests/storage_ownership.rs:31:62
+   |
+31 |     fn acquire_owner(&self) -> Result<StorageOwner> { self.0.acquire_owner() }
+   |                                                              ^^^^^^^^^^^^^ method not found in `Arc<Memory>`
+
+error[E0599]: no method named `acquire_owner` found for struct `Arc<Memory>` in the current scope
+  --> crates/rom/tests/storage_ownership.rs:68:21
+   |
+68 |     assert!(storage.acquire_owner().is_ok());
+   |                     ^^^^^^^^^^^^^ method not found in `Arc<Memory>`
+
+error[E0599]: no method named `acquire_owner` found for struct `Arc<Memory>` in the current scope
+  --> crates/rom/tests/storage_ownership.rs:74:26
+   |
+74 |     let _claim = storage.acquire_owner().unwrap();
+   |                          ^^^^^^^^^^^^^ method not found in `Arc<Memory>`
+
+Some errors have detailed explanations: E0407, E0425, E0599.
+For more information about an error, try `rustc --explain E0407`.
+error: could not compile `rom` (test "storage_ownership") due to 8 previous errors

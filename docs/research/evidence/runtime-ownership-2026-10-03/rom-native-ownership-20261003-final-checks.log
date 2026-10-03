@@ -1,0 +1,61 @@
+   Compiling rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+    Finished `test` profile [unoptimized] target(s) in 0.53s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_backup-1629e6f630a69f2c)
+
+running 4 tests
+test native_ownership::path::tests::a_new_symlink_or_hardlink_cannot_replace_a_reserved_absent_path ... ok
+test native_ownership::path::tests::database_replacement_or_disappearance_fails_the_post_lock_identity_check ... ok
+test native_ownership::lock::tests::sidecar_replacement_is_detected_while_the_original_inode_remains_locked ... ok
+test native_ownership::lock::tests::post_lock_permission_and_link_changes_are_not_accepted ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests/migration_codecs.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/migration_codecs-0739c9cfe69da47a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests/migrations.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/migrations-c5357b91bb758382)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests/native_ownership.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/native_ownership-972d1f60f4ecb7e8)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 10 filtered out; finished in 0.00s
+
+     Running tests/references.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/references-2d70f17ec4c6fd41)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests/retention.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/retention-c65ad01953472da8)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized] target(s) in 0.04s
+     Running tests/native_ownership.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/native_ownership-972d1f60f4ecb7e8)
+
+running 10 tests
+test paths::metadata_errors_do_not_become_missing_file_creation ... ok
+test paths::missing_parent_aliases_and_non_utf8_names_preserve_native_path_identity ... ok
+test paths::dangling_symlinks_hardlinks_nonregular_databases_and_reserved_names_are_rejected ... ok
+test processes::ownership_child ... ok
+test paths::separate_opens_conflict_until_guard_drop_and_keep_the_same_sidecar ... ok
+test paths::relative_and_symlink_aliases_share_one_canonical_owner ... ok
+test paths::missing_paths_are_reserved_without_creating_databases_and_fresh_guard_can_transfer ... ok
+test paths::unsafe_owner_sidecars_are_rejected_without_following_or_truncating_them ... ok
+test processes::process_exit_releases_ownership_without_sidecar_removal ... ok
+test processes::two_processes_contend_before_a_fresh_database_is_created ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+    Checking rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+    Finished `dev` profile [unoptimized] target(s) in 0.42s

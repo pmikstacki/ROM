@@ -12,6 +12,7 @@ mod maintenance_limits;
 mod migration;
 mod migration_plan;
 mod model;
+mod native_ownership;
 mod publication;
 mod retention;
 mod retention_policy;
@@ -28,6 +29,7 @@ pub use legacy::{
 pub use migration::migrate_snapshot;
 pub use migration_plan::{MigrationPlan, ResourceMigration};
 pub use model::{Backend, BackupLimits, Manifest, STORAGE_FORMAT, Snapshot, StoredEffect};
+pub use native_ownership::{NativeAccess, NativeOwnership};
 pub use publication::Stage;
 pub use retention::retain_snapshot;
 pub use retention_policy::{RetentionPolicy, RetentionReport};

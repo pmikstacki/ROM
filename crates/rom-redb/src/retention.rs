@@ -48,8 +48,12 @@ fn retain(
     limits: BackupLimits,
     before_publish: impl FnOnce() -> Result<()>,
 ) -> Result<(Redb, RetentionReport)> {
-    let snapshot = read_snapshot(source, limits, NativeFormat::Current)?;
+    let source_owner =
+        rom_backup::NativeOwnership::acquire(source, rom_backup::NativeAccess::Existing)?;
+    let destination_owner =
+        rom_backup::NativeOwnership::acquire(destination, rom_backup::NativeAccess::Fresh)?;
+    let snapshot = read_snapshot(source_owner.path(), limits, NativeFormat::Current)?;
     let (snapshot, report) = rom_backup::retain_snapshot(snapshot, policy, limits)?;
-    let storage = Redb::restore_snapshot(snapshot, destination, limits, before_publish)?;
+    let storage = Redb::restore_snapshot(snapshot, destination_owner, limits, before_publish)?;
     Ok((storage, report))
 }

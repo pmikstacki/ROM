@@ -34,6 +34,8 @@ Each record includes the requested mode and the actual strategy. Unsupported for
 
 After each case's observed trials, a separate warmed Runtime runs the ordinary automatic production path.
 These `production_query` records have no adapter counters. This pass helps assess instrumentation overhead, with its fixed later position disclosed.
+The observed Runtime drains and drops before the production control acquires the same store.
+The control also drains and drops before the next observed Runtime starts. Construction stays outside measured query intervals.
 
 The tool compares complete ordered keys, revisions, and values outside the timer.
 It records a digest for inspection, but equality does not rely on the digest.

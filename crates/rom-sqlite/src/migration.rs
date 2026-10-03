@@ -49,7 +49,11 @@ fn migrate(
     limits: BackupLimits,
     before_publish: impl FnOnce() -> Result<()>,
 ) -> Result<Sqlite> {
-    let snapshot = read_snapshot(source, limits, collect_migration_snapshot)?;
+    let source_owner =
+        rom_backup::NativeOwnership::acquire(source, rom_backup::NativeAccess::Existing)?;
+    let destination_owner =
+        rom_backup::NativeOwnership::acquire(destination, rom_backup::NativeAccess::Fresh)?;
+    let snapshot = read_snapshot(source_owner.path(), limits, collect_migration_snapshot)?;
     let snapshot = rom_backup::migrate_snapshot(snapshot, plan, limits)?;
-    Sqlite::restore_snapshot(snapshot, destination, limits, before_publish)
+    Sqlite::restore_snapshot(snapshot, destination_owner, limits, before_publish)
 }
