@@ -6,7 +6,7 @@ use crate::{
 };
 use redb::{Durability, ReadableDatabase, ReadableTable, ReadableTableMetadata};
 use rom::{Error, Result};
-use rom_backup::{Backend, BackupLimits, Collector, Manifest, Stage};
+use rom_backup::{Backend, BackupLimits, Collector, Manifest, Snapshot, Stage};
 use std::path::Path;
 impl Redb {
     /// Export all logical tables from one consistent read transaction. Refuses overwrite.
@@ -26,16 +26,25 @@ impl Redb {
         destination: impl AsRef<Path>,
         limits: BackupLimits,
     ) -> Result<Self> {
-        let (_, mut snapshot) = rom_backup::read(archive, Backend::Redb, limits)?;
-        snapshot.state.prepare_restore()?;
-        let storage_limits = snapshot.state.storage_limits();
-        let stage = Stage::new(destination.as_ref())?;
+        let (_, data) = rom_backup::read(archive, Backend::Redb, limits)?;
+        Self::restore_snapshot(data, destination.as_ref(), limits, || Ok(()))
+    }
+
+    pub(super) fn restore_snapshot(
+        mut data: Snapshot,
+        destination: &Path,
+        limits: BackupLimits,
+        before_publish: impl FnOnce() -> Result<()>,
+    ) -> Result<Self> {
+        data.state.prepare_restore()?;
+        let storage_limits = data.state.storage_limits();
+        let stage = Stage::new(destination)?;
         let restored =
             Self::open_with_validation_limits(stage.path(), storage_limits.clone(), limits)?;
         let mut tx = restored.db.begin_write().map_err(|_| Error::Storage)?;
         tx.set_durability(Durability::Immediate)
             .map_err(|_| Error::Storage)?;
-        for descriptor in &snapshot.descriptors {
+        for descriptor in &data.descriptors {
             tx.open_table(SCHEMAS)
                 .map_err(|_| Error::Storage)?
                 .insert(
@@ -46,7 +55,7 @@ impl Redb {
                 )
                 .map_err(|_| Error::Storage)?;
         }
-        for edge in &snapshot.references {
+        for edge in &data.references {
             tx.open_table(OUTGOING)
                 .map_err(|_| Error::Storage)?
                 .insert(
@@ -72,7 +81,7 @@ impl Redb {
                 )
                 .map_err(|_| Error::Storage)?;
         }
-        for row in &snapshot.rows {
+        for row in &data.rows {
             tx.open_table(ROWS)
                 .map_err(|_| Error::Storage)?
                 .insert(
@@ -83,7 +92,7 @@ impl Redb {
                 )
                 .map_err(|_| Error::Storage)?;
         }
-        for receipt in &snapshot.receipts {
+        for receipt in &data.receipts {
             tx.open_table(RECEIPTS)
                 .map_err(|_| Error::Storage)?
                 .insert(
@@ -94,7 +103,7 @@ impl Redb {
                 )
                 .map_err(|_| Error::Storage)?;
         }
-        for (id, row) in &snapshot.events {
+        for (id, row) in &data.events {
             tx.open_table(EVENTS)
                 .map_err(|_| Error::Storage)?
                 .insert(
@@ -105,7 +114,7 @@ impl Redb {
                 )
                 .map_err(|_| Error::Storage)?;
         }
-        for effect in &snapshot.effects {
+        for effect in &data.effects {
             tx.open_table(EFFECTS)
                 .map_err(|_| Error::Storage)?
                 .insert(
@@ -120,25 +129,44 @@ impl Redb {
             .map_err(|_| Error::Storage)?
             .insert(
                 "state",
-                serde_json::to_string(&snapshot.state)
+                serde_json::to_string(&data.state)
                     .map_err(|_| Error::Storage)?
                     .as_str(),
             )
             .map_err(|_| Error::Storage)?;
         tx.commit().map_err(|_| Error::Unknown)?;
+        // Validate the actual rebuilt tables before the destination becomes visible.
+        let read = restored.db.begin_read().map_err(|_| Error::Storage)?;
+        snapshot(&read, limits)?.validate()?;
+        drop(read);
         drop(restored);
-        stage.publish()?;
+        stage.publish_with(before_publish)?;
         Self::open_with_validation_limits(destination, storage_limits, limits)
             .map_err(|_| Error::Unknown)
     }
 }
 
 /// Collect one complete bounded logical snapshot for open, backup and integrity validation.
-pub(super) fn snapshot(
+pub(super) fn snapshot(tx: &redb::ReadTransaction, limits: BackupLimits) -> Result<Snapshot> {
+    snapshot_in_format(tx, limits, NativeFormat::Current)
+}
+
+pub(super) enum NativeFormat {
+    Legacy,
+    Current,
+}
+
+/// Both formats share the same bounded row, receipt, event, effect and state decoder.
+pub(super) fn snapshot_in_format(
     tx: &redb::ReadTransaction,
     limits: BackupLimits,
-) -> Result<rom_backup::Snapshot> {
-    if tx.list_tables().map_err(|_| Error::Storage)?.count() != 9
+    format: NativeFormat,
+) -> Result<Snapshot> {
+    let (version, table_count) = match format {
+        NativeFormat::Legacy => (3, 6),
+        NativeFormat::Current => (FORMAT, 9),
+    };
+    if tx.list_tables().map_err(|_| Error::Storage)?.count() != table_count
         || tx
             .list_multimap_tables()
             .map_err(|_| Error::Storage)?
@@ -153,7 +181,7 @@ pub(super) fn snapshot(
             .get("format")
             .map_err(|_| Error::Storage)?
             .map(|v| v.value())
-            != Some(FORMAT)
+            != Some(version)
     {
         return Err(Error::Storage);
     }
@@ -199,7 +227,9 @@ pub(super) fn snapshot(
         let (key, value) = entry.map_err(|_| Error::Storage)?;
         collect.effect(key.value().0, key.value().1, value.value())?;
     }
-    references::collect(tx, &mut collect)?;
+    if matches!(format, NativeFormat::Current) {
+        references::collect(tx, &mut collect)?;
+    }
     drop(value);
     drop(state);
     drop(marker);

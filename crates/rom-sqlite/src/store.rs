@@ -1,6 +1,6 @@
 //! Native connection setup, validation and host inspection.
-use crate::maintenance;
 use crate::persistence::state;
+use crate::snapshot;
 #[cfg(feature = "test-support")]
 use rom::Row;
 use rom::{Error, Result, StorageLimits, StorageState};
@@ -69,7 +69,7 @@ impl Sqlite {
             )
             .map_err(|_| Error::Storage)?;
         } else {
-            maintenance::collect_snapshot(&tx, validation_limits)?.validate()?;
+            snapshot::collect_snapshot(&tx, validation_limits)?.validate()?;
         }
         state(&tx)?.check_limits(&limits)?;
         tx.commit().map_err(|_| Error::Unknown)?;

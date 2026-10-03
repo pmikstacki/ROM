@@ -6,8 +6,10 @@
 mod commit;
 mod format;
 mod maintenance;
+mod preflight;
 mod references;
 mod storage;
 mod store;
+mod upgrade;
 
 pub use store::Redb;

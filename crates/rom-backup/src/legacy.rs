@@ -51,7 +51,7 @@ pub fn upgrade_v1_archive(
     {
         return Err(Error::Unsupported("legacy backup format or backend".into()));
     }
-    let mut manifest = Manifest {
+    let manifest = Manifest {
         archive_version: 2,
         storage_format: 4,
         backend,
@@ -60,27 +60,47 @@ pub fn upgrade_v1_archive(
         events: old.events,
         effects: old.effects,
         work: old.work,
-        descriptors: descriptors.len(),
+        descriptors: 0,
         references: 0,
         external_blobs_included: false,
         external_deliveries_included: false,
     };
     archive::check_count(&manifest, limits)?;
-    let descriptors = rom::validate_descriptors(descriptors)?;
     let original: LegacySnapshot =
         serde_json::from_slice(&bytes[h..]).map_err(|_| Error::Storage)?;
-    let mut snapshot = Snapshot {
+    let snapshot = Snapshot {
         state: original.state,
         rows: original.rows,
         receipts: original.receipts,
         events: original.events,
         effects: original.effects,
-        descriptors,
+        descriptors: Vec::new(),
         references: Vec::new(),
     };
     if snapshot.manifest(backend) != manifest {
         return Err(Error::Storage);
     }
+    let snapshot = bind_legacy_schema(snapshot, descriptors, limits)?;
+    write(destination, backend, &snapshot, limits)
+}
+
+/// Bind an explicit schema to a collected format-3 snapshot for adapter upgrades.
+/// Existing schema/index metadata is rejected. Values and historical records remain unchanged.
+/// The result is validated but not published; native restore supplies generation fencing.
+pub fn bind_legacy_schema(
+    mut snapshot: Snapshot,
+    descriptors: &[Descriptor],
+    limits: BackupLimits,
+) -> Result<Snapshot> {
+    if !snapshot.descriptors.is_empty() || !snapshot.references.is_empty() {
+        return Err(Error::Unsupported(
+            "legacy snapshot already has schema metadata".into(),
+        ));
+    }
+    snapshot.descriptors = rom::validate_descriptors(descriptors)?;
+    // Record accounting is independent of the destination backend.
+    let mut manifest = snapshot.manifest(Backend::Sqlite);
+    archive::check_count(&manifest, limits)?;
     let catalog: BTreeMap<_, _> = snapshot
         .descriptors
         .iter()
@@ -99,5 +119,8 @@ pub fn upgrade_v1_archive(
             });
         }
     }
-    write(destination, backend, &snapshot, limits)
+    snapshot.validate()?;
+    // The native output gains descriptors and edges. Bound that complete payload too.
+    crate::codec::encode(&snapshot, limits.max_bytes)?;
+    Ok(snapshot)
 }

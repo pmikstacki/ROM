@@ -32,6 +32,11 @@ Existing stores receive a complete bounded validation at open. The default budge
 is 128 MiB and 400,000 archive records. Use `open_with_validation_limits` to supply
 a larger host budget. Exceeded limits fail; validation never truncates success.
 
+For a format-3 source, use the explicit [native upgrade](native-upgrade.md) into a
+fresh destination. redb also checks the format before writable open. If its header
+requires recovery, that check uses a private temporary copy first. This preserves
+unsupported sources and requires temporary disk space approximately equal to their file size.
+
 Run `cargo test -p rom-storage-conformance --locked` from the repository root.
 The sections below preserve the original format-one milestone and its test
 results. The current profile and linked reports supersede that milestone's

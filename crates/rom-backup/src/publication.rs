@@ -65,9 +65,15 @@ impl Stage {
         &self.path
     }
     pub fn publish(&self) -> Result<()> {
+        self.publish_with(|| Ok(()))
+    }
+    /// Sync the staged file, run the observation hook, then publish without overwrite.
+    /// A hook error leaves the destination absent. Close native writers before calling.
+    pub fn publish_with(&self, before_publish: impl FnOnce() -> Result<()>) -> Result<()> {
         File::open(&self.path)
             .and_then(|f| f.sync_all())
             .map_err(|_| Error::Storage)?;
+        before_publish()?;
         fs::hard_link(&self.path, &self.destination).map_err(|e| {
             if e.kind() == std::io::ErrorKind::AlreadyExists {
                 Error::Conflict

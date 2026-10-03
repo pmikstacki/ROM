@@ -13,6 +13,6 @@ mod tests;
 
 pub use archive::{read, write};
 pub use collector::Collector;
-pub use legacy::upgrade_v1_archive;
+pub use legacy::{bind_legacy_schema, upgrade_v1_archive};
 pub use model::{Backend, BackupLimits, Manifest, Snapshot, StoredEffect};
 pub use publication::Stage;

@@ -25,6 +25,9 @@ pub struct Redb {
 }
 impl Redb {
     /// Open format four, or initialize a new empty database. Never upgrade implicitly.
+    /// An unclean close can require a private recovery probe with temporary disk space
+    /// approximately equal to the source file size. Unsupported sources remain unchanged.
+    /// The host must ensure one owner; this check does not enable concurrent writers.
     pub fn open(path: impl AsRef<Path>) -> Result<Self> {
         Self::open_with_limits(path, StorageLimits::default())
     }
@@ -37,6 +40,8 @@ impl Redb {
         limits: StorageLimits,
         validation_limits: rom_backup::BackupLimits,
     ) -> Result<Self> {
+        let path = path.as_ref();
+        crate::preflight::check(path)?;
         let db = Database::create(path).map_err(|_| Error::Storage)?;
         let read = db.begin_read().map_err(|_| Error::Storage)?;
         let empty = read

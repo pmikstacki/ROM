@@ -85,8 +85,12 @@ The owner also required facade-only module roots. All 14 maintained `lib.rs` and
 `mod.rs` files follow this rule, except Rust-required procedural macro entry wrappers.
 Public APIs remain available through exports. Tests cover the refactored packages.
 
-An explicit legacy archive upgrade is available. Direct native upgrade, general
-schema transformations, retention and application upgrade acceptance remain open.
+Explicit legacy archive and native format upgrades are available. Native upgrades
+read the source without changing it, bind supplied descriptors and publish a fresh
+validated destination. Unclean redb recovery uses a private copy. See
+[native upgrade results](native-format-upgrade-results.md). General schema
+transformations, retention and application upgrade acceptance remain open; this
+format-only slice does not complete checklist item 2.2.
 
 - Stage 2 still needs versioned migrations, retention and
   reference application upgrade/backup/restore evidence. The

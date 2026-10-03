@@ -48,9 +48,10 @@ format-2 archive. Supply explicit descriptors for all stored kinds. It preserves
 rows, receipt identities, events and work records. It rejects incompatible values
 or dangling references. It does not infer schemas or transform Resource values.
 
-Normal native open rejects format 3. Export with the compatible earlier binary
-before this archive upgrade. Direct native format upgrade and general schema
-transformations remain release work; do not modify private database records manually.
+Normal native open rejects format 3. Both adapters provide `upgrade_from` to read
+that format and publish a new format-4 database. Supply the complete descriptor
+catalog and stop source writers before cutover. See [native upgrade](native-upgrade.md).
+General Resource value transformations remain release work.
 
 The supported deployment still has one Runtime writer. Transaction race tests
 prove reference integrity; they do not establish cross-Runtime live invalidation.

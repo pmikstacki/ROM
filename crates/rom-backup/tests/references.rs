@@ -103,3 +103,34 @@ fn collector_charges_schema_and_edge_records() {
     let mut collector = Collector::new(&state, BackupLimits::default()).unwrap();
     assert!(collector.descriptor("wrong", &descriptor).is_err());
 }
+
+#[test]
+fn legacy_binding_preserves_records_and_builds_only_current_edges() {
+    let mut original = snapshot();
+    let before = serde_json::to_value(&original).unwrap();
+    let descriptors = std::mem::take(&mut original.descriptors);
+    original.references.clear();
+    let upgraded =
+        rom_backup::bind_legacy_schema(original, &descriptors, BackupLimits::default()).unwrap();
+    assert_eq!(serde_json::to_value(&upgraded).unwrap(), before);
+    assert!(
+        rom_backup::bind_legacy_schema(upgraded, &descriptors, BackupLimits::default()).is_err()
+    );
+}
+
+#[test]
+fn legacy_binding_rejects_missing_schema_dangling_values_and_output_limits() {
+    for case in 0..4 {
+        let mut legacy = snapshot();
+        let mut descriptors = std::mem::take(&mut legacy.descriptors);
+        legacy.references.clear();
+        let mut limits = BackupLimits::default();
+        match case {
+            0 => descriptors.clear(),
+            1 => legacy.rows[0].value = Some(json!({"link":"absent"})),
+            2 => limits.max_records = 4, // row + receipt + event + descriptor + edge = 5
+            _ => limits.max_bytes = 1,
+        }
+        assert!(rom_backup::bind_legacy_schema(legacy, &descriptors, limits).is_err());
+    }
+}
