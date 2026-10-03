@@ -202,4 +202,80 @@ mod tests {
             );
         }
     }
+
+    // Opt-in micro-observation, not a production workload or comparative benchmark.
+    #[test]
+    #[ignore = "release-only timing observation"]
+    fn repeated_release_cost_observation() {
+        use std::{hint::black_box, time::Instant};
+        let bytes = br#"{"quantity":7}"#;
+        let wat = output_module(bytes, 0, bytes.len() as u32);
+        let engine = engine();
+        let module = Module::new(&engine, &wat).unwrap();
+        let linker = Linker::new(&engine);
+        let (mut shared, instance) = instantiate(&wat);
+        let ptr = instance.get_typed_func::<(), i32>(&shared, "ptr").unwrap();
+        let len = instance.get_typed_func::<(), i32>(&shared, "len").unwrap();
+        // Force Wasmi's lazy function translation before warm measurements.
+        assert_eq!(proposal(&mut shared, &instance, 64).unwrap().quantity, 7);
+        println!("sample,operation,iterations,total_ns,ns_per_iteration");
+        for sample in 0..5 {
+            let start = Instant::now();
+            for _ in 0..200 {
+                black_box(Module::new(&engine, black_box(&wat)).unwrap());
+            }
+            let elapsed = start.elapsed().as_nanos();
+            println!(
+                "{sample},wat_parse_validate_module,200,{elapsed},{}",
+                elapsed / 200
+            );
+
+            let start = Instant::now();
+            for _ in 0..200 {
+                let mut fresh = store(&engine);
+                black_box(linker.instantiate_and_start(&mut fresh, &module).unwrap());
+            }
+            let elapsed = start.elapsed().as_nanos();
+            println!(
+                "{sample},fresh_store_instantiate_cached_module,200,{elapsed},{}",
+                elapsed / 200
+            );
+
+            shared.set_fuel(1_000_000).unwrap();
+            let start = Instant::now();
+            for _ in 0..2_000 {
+                black_box(proposal(&mut shared, &instance, 64).unwrap());
+            }
+            let elapsed = start.elapsed().as_nanos();
+            println!(
+                "{sample},warm_exports_lookup_calls_validate,2000,{elapsed},{}",
+                elapsed / 2_000
+            );
+
+            shared.set_fuel(1_000_000).unwrap();
+            let start = Instant::now();
+            for _ in 0..2_000 {
+                black_box(ptr.call(&mut shared, ()).unwrap());
+                black_box(len.call(&mut shared, ()).unwrap());
+            }
+            let elapsed = start.elapsed().as_nanos();
+            println!(
+                "{sample},warm_cached_typed_export_calls_only,2000,{elapsed},{}",
+                elapsed / 2_000
+            );
+
+            let start = Instant::now();
+            for _ in 0..2_000 {
+                assert!(bytes.len() <= 64);
+                let decoded: Proposal = serde_json::from_slice(black_box(bytes)).unwrap();
+                assert!(decoded.quantity <= 100);
+                black_box(decoded);
+            }
+            let elapsed = start.elapsed().as_nanos();
+            println!(
+                "{sample},host_json_schema_semantics_only,2000,{elapsed},{}",
+                elapsed / 2_000
+            );
+        }
+    }
 }
