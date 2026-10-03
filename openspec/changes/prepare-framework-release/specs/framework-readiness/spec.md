@@ -43,6 +43,33 @@ receipt identities, pending work and recovery sources.
 - **WHEN** export or restore validates the backup
 - **THEN** validation fails before a destination is published
 
+#### Scenario: A Resource field changes representation
+- **GIVEN** a typed consecutive schema step with an exact source descriptor
+- **WHEN** an offline migration converts the store into a fresh destination
+- **THEN** current values, historical rows and work-source snapshots use the target representation
+- **AND** Resource identities, revisions, receipt identities and fingerprints remain unchanged
+- **AND** live references are rebuilt and validated before publication
+
+#### Scenario: A request is retried after a field rename
+- **GIVEN** a migrated receipt and its explicitly registered original request codec
+- **WHEN** the caller repeats its original request
+- **THEN** current authorization runs before normalization or disclosure
+- **AND** only the receipt's recorded codec version interprets the input
+- **AND** the existing result is returned without another mutation, event or work item
+- **AND** a fresh request cannot use a legacy codec
+
+#### Scenario: Migration contains unfinished obligations
+- **GIVEN** a snapshot with unfinished actions or deliveries
+- **WHEN** a migration plan runs
+- **THEN** publication requires explicit validation of destination consumer compatibility
+- **AND** frozen invocations, external payloads, delivery identities and uncertain outcomes remain unchanged
+- **AND** expanded values that exceed persisted lifecycle budgets fail without dropping work
+
+#### Scenario: An older maintenance tool reads a migrated store
+- **GIVEN** a store whose receipt codec versions are required for correct replay
+- **WHEN** a maintenance tool without support for that metadata opens it
+- **THEN** the format marker prevents that tool from silently dropping the metadata
+
 ### Requirement: Optimization preserves observable semantics
 ROM SHALL integrate strategy selection and native planner adapters only with
 transactionally maintained indexes, bounded rebuild/recovery and conformance to

@@ -81,12 +81,28 @@ pub fn read(
     backend: Backend,
     limits: BackupLimits,
 ) -> Result<(Manifest, Snapshot)> {
-    let (data, h) = read_envelope(path.as_ref(), limits)?;
+    read_version(
+        path.as_ref(),
+        backend,
+        limits,
+        crate::model::ARCHIVE_VERSION,
+        crate::model::STORAGE_FORMAT,
+    )
+}
+
+pub(crate) fn read_version(
+    path: &Path,
+    backend: Backend,
+    limits: BackupLimits,
+    archive_version: u32,
+    storage_format: u32,
+) -> Result<(Manifest, Snapshot)> {
+    let (data, h) = read_envelope(path, limits)?;
     let bytes = &data[52..];
     let m: Manifest = serde_json::from_slice(&bytes[..h]).map_err(|_| Error::Storage)?;
     if m.backend != backend
-        || m.archive_version != 2
-        || m.storage_format != 4
+        || m.archive_version != archive_version
+        || m.storage_format != storage_format
         || m.external_blobs_included
         || m.external_deliveries_included
     {
@@ -95,7 +111,10 @@ pub fn read(
     check_count(&m, limits)?;
     let snapshot: Snapshot = serde_json::from_slice(&bytes[h..]).map_err(|_| Error::Storage)?;
     snapshot.validate()?;
-    if m != snapshot.manifest(backend) {
+    let mut expected = snapshot.manifest(backend);
+    expected.archive_version = archive_version;
+    expected.storage_format = storage_format;
+    if m != expected {
         return Err(Error::Storage);
     }
     Ok((m, snapshot))

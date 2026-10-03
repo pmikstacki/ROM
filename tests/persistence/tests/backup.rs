@@ -111,6 +111,7 @@ fn bundle(id: &str) -> Bundle {
     Bundle {
         expected: None,
         receipt: Receipt {
+            replay_version: None,
             identity: format!("receipt-{id}"),
             fingerprint: "fingerprint".into(),
             row,

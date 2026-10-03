@@ -1,6 +1,6 @@
 use proc_macro::TokenStream;
 use quote::{format_ident, quote, quote_spanned};
-use syn::{Data, DeriveInput, Fields, LitStr, Path, parse_macro_input, spanned::Spanned};
+use syn::{Data, DeriveInput, Fields, LitInt, LitStr, Path, parse_macro_input, spanned::Spanned};
 
 pub(crate) fn derive(input: TokenStream, model: Model) -> TokenStream {
     expand(parse_macro_input!(input as DeriveInput), model)
@@ -32,6 +32,7 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
         ));
     }
     let mut kind = None;
+    let mut version = None;
     let mut crate_seen = false;
     let mut facade: Path = syn::parse_quote!(::rom);
     for attr in &input.attrs {
@@ -43,6 +44,30 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
         }
         if attr.path().is_ident(attribute) {
             attr.parse_nested_meta(|m| {
+                if m.path.is_ident("version") {
+                    if model == Model::Input {
+                        return Err(m.error("Input does not support version"));
+                    }
+                    if version.is_some() {
+                        return Err(m.error("duplicate version option"));
+                    }
+                    let value = m.value()?;
+                    let literal: LitInt = value.parse().map_err(|_| {
+                        syn::Error::new(value.span(), "version must be a positive u32 integer")
+                    })?;
+                    let parsed = literal
+                        .base10_parse::<u32>()
+                        .ok()
+                        .filter(|v| *v != 0)
+                        .ok_or_else(|| {
+                            syn::Error::new(
+                                literal.span(),
+                                "version must be a positive u32 integer",
+                            )
+                        })?;
+                    version = Some(parsed);
+                    return Ok(());
+                }
                 let v: LitStr = m.value()?.parse()?;
                 if model == Model::Resource && m.path.is_ident("name") && kind.is_none() {
                     kind = Some(v);
@@ -53,7 +78,7 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
                     Ok(())
                 } else {
                     Err(m.error(if model == Model::Resource {
-                        "expected one name or crate option"
+                        "expected one name, version or crate option"
                     } else {
                         "expected one crate option"
                     }))
@@ -61,6 +86,7 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
             })?;
         }
     }
+    let version = version.unwrap_or(1);
     let kind = if model == Model::Input {
         Some(LitStr::new("input", name.span()))
     } else {
@@ -164,7 +190,7 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
     Ok(quote! {
         impl #facade::Resource for #name {
             const KIND:&'static str=#kind;
-            fn descriptor()->#facade::Descriptor { #facade::Descriptor {kind:Self::KIND.into(),version:1,fields:vec![#(#descriptors),*]} }
+            fn descriptor()->#facade::Descriptor { #facade::Descriptor {kind:Self::KIND.into(),version:#version,fields:vec![#(#descriptors),*]} }
             fn normalize_field(name:&str,value:#facade::Value)->#facade::Result<#facade::Value> {
                 match name { #(#field_codecs)* _=>Err(#facade::Error::invalid(Self::KIND,name)) }
             }

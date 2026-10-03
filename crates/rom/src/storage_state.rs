@@ -1,5 +1,8 @@
 //! Driver-independent bounded metadata persisted inside each native bundle transaction.
 use super::*;
+mod maintenance;
+#[cfg(test)]
+mod maintenance_tests;
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct StorageLimits {
     pub receipts: usize,

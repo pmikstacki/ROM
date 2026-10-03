@@ -85,14 +85,20 @@ The owner also required facade-only module roots. All 14 maintained `lib.rs` and
 `mod.rs` files follow this rule, except Rust-required procedural macro entry wrappers.
 Public APIs remain available through exports. Tests cover the refactored packages.
 
-Explicit legacy archive and native format upgrades are available. Native upgrades
-read the source without changing it, bind supplied descriptors and publish a fresh
-validated destination. Unclean redb recovery uses a private copy. See
-[native upgrade results](native-format-upgrade-results.md). General schema
-transformations, retention and application upgrade acceptance remain open; this
-format-only slice does not complete checklist item 2.2.
+Stage 2.2 is complete for versioned offline Resource representation migrations.
+Typed steps convert current values, history and work sources while preserving
+identities and obligations. Receipts retain exact request-codec versions; current
+authorization precedes legacy replay. Both native adapters pass migration, recovery
+and interruption tests. Unfinished work requires explicit consumer compatibility
+validation. The full local verifier passed. See
+[Resource migration results](resource-migration-results.md).
 
-- Stage 2 still needs versioned migrations, retention and
+Native format 5 and archive version 3 guard receipt metadata from older tools.
+Explicit native upgrades support formats 3 and 4; archive upgrades support versions
+1 and 2. The earlier [native upgrade results](native-format-upgrade-results.md)
+record the initial format-only milestone. Neither milestone completes the whole release.
+
+- Stage 2 still needs dependency-aware retention and
   reference application upgrade/backup/restore evidence. The
   [integration preparation](restrict-reference-integration-plan.md) explains why
   checks must share the adapter transaction and how edges affect backup/migration.

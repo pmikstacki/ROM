@@ -1,14 +1,60 @@
 //! Bounded coherent reads of native tables for open, backup and legacy upgrade.
 use rom::{Error, Key, Result};
 use rom_backup::{BackupLimits, Collector, Snapshot};
-use rusqlite::Connection;
+use rusqlite::{Connection, OpenFlags};
+use std::path::Path;
 
-pub(super) fn collect_snapshot(c: &Connection, limits: BackupLimits) -> Result<Snapshot> {
-    collect_snapshot_for_format(c, limits, 4)
+/// Collect a coherent source transaction, including committed WAL records, without writes.
+pub(super) fn read_snapshot(
+    source: &Path,
+    limits: BackupLimits,
+    collect: impl FnOnce(&Connection, BackupLimits) -> Result<Snapshot>,
+) -> Result<Snapshot> {
+    let mut connection = Connection::open_with_flags(
+        source,
+        OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX,
+    )
+    .map_err(|_| Error::Storage)?;
+    let transaction = connection.transaction().map_err(|_| Error::Storage)?;
+    collect(&transaction, limits)
 }
 
-pub(super) fn collect_legacy_snapshot(c: &Connection, limits: BackupLimits) -> Result<Snapshot> {
-    collect_snapshot_for_format(c, limits, 3)
+pub(super) fn collect_snapshot(c: &Connection, limits: BackupLimits) -> Result<Snapshot> {
+    collect_snapshot_for_format(c, limits, 5)
+}
+
+pub(super) fn collect_upgrade_snapshot(
+    c: &Connection,
+    limits: BackupLimits,
+    descriptors: &[rom::Descriptor],
+) -> Result<Snapshot> {
+    let version: u32 = c
+        .pragma_query_value(None, "user_version", |r| r.get(0))
+        .map_err(|_| Error::Storage)?;
+    let snapshot = collect_supported_snapshot(c, limits, &[3, 4])?;
+    if version == 3 {
+        rom_backup::bind_legacy_schema(snapshot, descriptors, limits)
+    } else {
+        rom_backup::upgrade_legacy_snapshot(snapshot, descriptors, limits)
+    }
+}
+
+pub(super) fn collect_migration_snapshot(c: &Connection, limits: BackupLimits) -> Result<Snapshot> {
+    collect_supported_snapshot(c, limits, &[4, 5])
+}
+
+fn collect_supported_snapshot(
+    c: &Connection,
+    limits: BackupLimits,
+    supported: &[u32],
+) -> Result<Snapshot> {
+    let format = c
+        .pragma_query_value(None, "user_version", |r| r.get(0))
+        .map_err(|_| Error::Storage)?;
+    if !supported.contains(&format) {
+        return Err(Error::Unsupported("SQLite storage format".into()));
+    }
+    collect_snapshot_for_format(c, limits, format)
 }
 
 fn validate_inventory(c: &Connection, format: u32) -> Result<()> {

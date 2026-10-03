@@ -1,12 +1,14 @@
 //! Explicit native format upgrade through a read-only coherent legacy snapshot.
-use crate::{Sqlite, snapshot::collect_legacy_snapshot};
-use rom::{Descriptor, Error, Result};
+use crate::{
+    Sqlite,
+    snapshot::{collect_upgrade_snapshot, read_snapshot},
+};
+use rom::{Descriptor, Result};
 use rom_backup::BackupLimits;
-use rusqlite::{Connection, OpenFlags};
 use std::path::Path;
 
 impl Sqlite {
-    /// Upgrade a format-3 database into a fresh format-4 destination.
+    /// Upgrade a format-3 or format-4 database into a fresh format-5 destination.
     /// The source is opened read-only. Descriptors must cover every stored kind;
     /// incompatible values or dangling live references prevent publication.
     /// Row values, receipts and pending work are retained; restore fences claims.
@@ -52,15 +54,8 @@ fn upgrade(
     limits: BackupLimits,
     before_publish: impl FnOnce() -> Result<()>,
 ) -> Result<Sqlite> {
-    let snapshot = {
-        let mut connection = Connection::open_with_flags(
-            source,
-            OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX,
-        )
-        .map_err(|_| Error::Storage)?;
-        let transaction = connection.transaction().map_err(|_| Error::Storage)?;
-        collect_legacy_snapshot(&transaction, limits)?
-    };
-    let snapshot = rom_backup::bind_legacy_schema(snapshot, descriptors, limits)?;
+    let snapshot = read_snapshot(source, limits, |connection, limits| {
+        collect_upgrade_snapshot(connection, limits, descriptors)
+    })?;
     Sqlite::restore_snapshot(snapshot, destination, limits, before_publish)
 }

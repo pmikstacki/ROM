@@ -17,6 +17,7 @@ fn snapshot() -> Snapshot {
         protected: Default::default(),
     };
     let receipt = Receipt {
+        replay_version: None,
         identity: "create-one".into(),
         fingerprint: "input".into(),
         row: row.clone(),
@@ -107,7 +108,8 @@ fn collector_charges_schema_and_edge_records() {
 #[test]
 fn legacy_binding_preserves_records_and_builds_only_current_edges() {
     let mut original = snapshot();
-    let before = serde_json::to_value(&original).unwrap();
+    let mut before = serde_json::to_value(&original).unwrap();
+    before["receipts"][0]["replay_version"] = rom::json!(1);
     let descriptors = std::mem::take(&mut original.descriptors);
     original.references.clear();
     let upgraded =

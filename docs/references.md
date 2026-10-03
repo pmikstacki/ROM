@@ -38,20 +38,21 @@ events and protected tombstone values do not create live references.
 
 ## Maintenance
 
-Native format 4 and archive version 2 store descriptors and reference edges.
+Native format 5 and archive version 3 store descriptors and reference edges.
 Startup and backup validation compare the stored graph with current values.
 Missing, extra or dangling edges fail validation. Restore validates the archive
 and rebuilds both native access paths before publishing a new destination.
 
 `rom_backup::upgrade_v1_archive` upgrades an existing format-1 archive into a new
-format-2 archive. Supply explicit descriptors for all stored kinds. It preserves
+format-3 archive. Supply explicit descriptors for all stored kinds. It preserves
 rows, receipt identities, events and work records. It rejects incompatible values
 or dangling references. It does not infer schemas or transform Resource values.
 
-Normal native open rejects format 3. Both adapters provide `upgrade_from` to read
-that format and publish a new format-4 database. Supply the complete descriptor
+`upgrade_v2_archive` upgrades a format-2 archive using its persisted catalog.
+Normal native open rejects formats 3 and 4. Both adapters provide `upgrade_from` to read
+those formats and publish a new format-5 database. Supply the complete descriptor
 catalog and stop source writers before cutover. See [native upgrade](native-upgrade.md).
-General Resource value transformations remain release work.
+Use [Resource migrations](resource-migrations.md) to change fields and rebuild references.
 
 The supported deployment still has one Runtime writer. Transaction race tests
 prove reference integrity; they do not establish cross-Runtime live invalidation.

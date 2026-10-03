@@ -65,7 +65,7 @@ impl Redb {
             // Common profile matches SQLite's representable revision range.
             i64::try_from(revision).map_err(|_| Error::TooLarge)?;
             let (old_references, new_references) =
-                references::prepare(&tx, &rows, &b.receipt.row, existing.as_ref())?;
+                references::prepare(&tx, &rows, &b.receipt, existing.as_ref())?;
             let retired = state.bundle(b)?;
             let row = serde_json::to_string(&b.receipt.row).map_err(|_| Error::NotCommitted)?;
             let receipt = serde_json::to_string(&b.receipt).map_err(|_| Error::NotCommitted)?;

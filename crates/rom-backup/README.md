@@ -9,9 +9,15 @@ let restored = rom_sqlite::Sqlite::restore_from(
 )?;
 ```
 
-The redb methods have the same signatures. The destination must be new. Restore refuses existing paths and symlinks. Archives are backend-specific, archive format 2 / database format 4. This is not a cross-backend migration or automatic format upgrade. Archives include canonical descriptors and the validated live reference graph.
+The redb methods have the same signatures. The destination must be new. Restore refuses existing paths and symlinks. Archives are backend-specific, archive format 3 / database format 5. This is not a cross-backend migration or automatic format upgrade. Archives include canonical descriptors and the validated live reference graph.
 
-To upgrade an older archive, call `rom_backup::upgrade_v1_archive(source, destination, backend, descriptors, limits)`. Supply explicit descriptors for every stored kind. The operation preserves the source and does not transform Resource values. Both native adapters also provide `upgrade_from` for direct read-only conversion of format-3 databases into fresh format-4 destinations.
+To upgrade an older archive, call `rom_backup::upgrade_v1_archive(source, destination, backend, descriptors, limits)`. Supply explicit descriptors for every stored kind. Use `upgrade_v2_archive(source, destination, backend, limits)` for an archive that already contains its catalog. Both operations preserve the source. Native adapters also provide `upgrade_from` for formats 3 and 4 into a fresh format-5 destination.
+
+Use a typed `MigrationPlan` and native `migrate_from` to change Resource fields.
+See [Resource migrations](../../docs/resource-migrations.md). Receipts preserve
+their original request codec version. Older maintenance tools reject the new format
+instead of silently dropping that metadata. Unfinished work needs explicit compatibility
+validation; action and delivery payloads remain frozen.
 
 ## What is included
 

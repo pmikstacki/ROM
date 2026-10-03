@@ -157,7 +157,7 @@ impl Storage for Sqlite {
         {
             return Err(Error::NotCommitted);
         }
-        let targets = references::prepare(&tx, &b.receipt.row)?;
+        let targets = references::prepare(&tx, &b.receipt)?;
         let mut metadata = state(&tx)?;
         let retired = metadata.bundle(b)?;
         #[cfg(feature = "test-support")]

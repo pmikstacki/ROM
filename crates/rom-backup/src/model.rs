@@ -2,6 +2,9 @@ use rom::{Descriptor, Error, Intent, Receipt, ReferenceEdge, Result, Row, Storag
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 
+pub(crate) const ARCHIVE_VERSION: u32 = 3;
+pub(crate) const STORAGE_FORMAT: u32 = 5;
+
 #[derive(Clone, Copy, Debug)]
 pub struct BackupLimits {
     pub max_bytes: usize,
@@ -106,6 +109,12 @@ impl Snapshot {
                 .get(&(&row.key.kind, &row.key.id))
                 .ok_or(Error::Storage)?;
             if receipt.identity.is_empty()
+                || receipt.replay_version.is_some_and(|v| {
+                    v == 0
+                        || catalog
+                            .get(row.key.kind.as_str())
+                            .is_none_or(|d| v > d.version)
+                })
                 || row.revision == 0
                 || row.revision > current.revision
                 || (row.revision == current.revision && row != *current)
@@ -147,8 +156,8 @@ impl Snapshot {
     }
     pub(crate) fn manifest(&self, backend: Backend) -> Manifest {
         Manifest {
-            archive_version: 2,
-            storage_format: 4,
+            archive_version: ARCHIVE_VERSION,
+            storage_format: STORAGE_FORMAT,
             backend,
             rows: self.rows.len(),
             receipts: self.receipts.len(),

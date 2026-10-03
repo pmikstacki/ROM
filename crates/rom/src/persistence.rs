@@ -1,4 +1,6 @@
 use super::*;
+mod maintenance;
+mod receipt;
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct Key {
     pub kind: String,
@@ -45,6 +47,10 @@ impl Row {
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Receipt {
+    /// Schema version whose codec defines this committed request fingerprint.
+    /// Legacy data without this marker uses its unmigrated source catalog version.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub replay_version: Option<u32>,
     pub identity: String,
     pub fingerprint: String,
     pub row: Row,

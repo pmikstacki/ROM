@@ -152,7 +152,8 @@ pub(super) fn snapshot(tx: &redb::ReadTransaction, limits: BackupLimits) -> Resu
 }
 
 pub(super) enum NativeFormat {
-    Legacy,
+    Upgrade,
+    Migration,
     Current,
 }
 
@@ -162,26 +163,28 @@ pub(super) fn snapshot_in_format(
     limits: BackupLimits,
     format: NativeFormat,
 ) -> Result<Snapshot> {
-    let (version, table_count) = match format {
-        NativeFormat::Legacy => (3, 6),
-        NativeFormat::Current => (FORMAT, 9),
+    let marker = tx.open_table(META).map_err(|_| Error::Storage)?;
+    let version = marker
+        .get("format")
+        .map_err(|_| Error::Storage)?
+        .ok_or(Error::Storage)?
+        .value();
+    let supported = match format {
+        NativeFormat::Upgrade => matches!(version, 3 | 4),
+        NativeFormat::Migration => matches!(version, 4 | 5),
+        NativeFormat::Current => version == FORMAT,
     };
-    if tx.list_tables().map_err(|_| Error::Storage)?.count() != table_count
+    if !supported {
+        return Err(Error::Unsupported("redb storage format".into()));
+    }
+    let table_count = if version == 3 { 6 } else { 9 };
+    if marker.len().map_err(|_| Error::Storage)? != 1
+        || tx.list_tables().map_err(|_| Error::Storage)?.count() != table_count
         || tx
             .list_multimap_tables()
             .map_err(|_| Error::Storage)?
             .next()
             .is_some()
-    {
-        return Err(Error::Storage);
-    }
-    let marker = tx.open_table(META).map_err(|_| Error::Storage)?;
-    if marker.len().map_err(|_| Error::Storage)? != 1
-        || marker
-            .get("format")
-            .map_err(|_| Error::Storage)?
-            .map(|v| v.value())
-            != Some(version)
     {
         return Err(Error::Storage);
     }
@@ -227,7 +230,7 @@ pub(super) fn snapshot_in_format(
         let (key, value) = entry.map_err(|_| Error::Storage)?;
         collect.effect(key.value().0, key.value().1, value.value())?;
     }
-    if matches!(format, NativeFormat::Current) {
+    if version != 3 {
         references::collect(tx, &mut collect)?;
     }
     drop(value);
@@ -236,4 +239,35 @@ pub(super) fn snapshot_in_format(
 
     // Collector accounts for work records and all subsequently collected records.
     Ok(collect.snapshot)
+}
+
+/// Collect an offline source without writes; dirty native state is recovered in a private copy.
+pub(super) fn read_snapshot(
+    source: &Path,
+    limits: BackupLimits,
+    format: NativeFormat,
+) -> Result<Snapshot> {
+    crate::preflight::inspect(source, |tx| snapshot_in_format(tx, limits, format))
+}
+
+/// Upgrade either legacy layout while retaining the distinction between unbound and persisted catalogs.
+pub(super) fn read_upgrade_snapshot(
+    source: &Path,
+    limits: BackupLimits,
+    descriptors: &[rom::Descriptor],
+) -> Result<Snapshot> {
+    crate::preflight::inspect(source, |tx| {
+        let snapshot = snapshot_in_format(tx, limits, NativeFormat::Upgrade)?;
+        let marker = tx.open_table(META).map_err(|_| Error::Storage)?;
+        let version = marker
+            .get("format")
+            .map_err(|_| Error::Storage)?
+            .ok_or(Error::Storage)?
+            .value();
+        if version == 3 {
+            rom_backup::bind_legacy_schema(snapshot, descriptors, limits)
+        } else {
+            rom_backup::upgrade_legacy_snapshot(snapshot, descriptors, limits)
+        }
+    })
 }

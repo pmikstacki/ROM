@@ -1,8 +1,8 @@
 //! Explicit format upgrade. The source is never modified.
 use crate::{Backend, BackupLimits, Manifest, Snapshot, StoredEffect, archive, write};
-use rom::{Descriptor, Error, Receipt, ReferenceEdge, Result, Row, StorageState};
+use rom::{Descriptor, Error, Receipt, Result, Row, StorageState};
 use serde::Deserialize;
-use std::{collections::BTreeMap, path::Path};
+use std::path::Path;
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -29,7 +29,7 @@ struct LegacySnapshot {
     effects: Vec<StoredEffect>,
 }
 
-/// Upgrade an archive-1/storage-3 backup into a new archive-2/storage-4 path.
+/// Upgrade an archive-1/storage-3 backup into a new archive-3/storage-5 path.
 /// Supply explicit descriptors for every stored kind. No row transformations occur.
 /// Missing targets, incompatible values and exceeded limits prevent publication.
 /// Receipt identities and pending work remain unchanged. Restore fences active claims.
@@ -52,8 +52,8 @@ pub fn upgrade_v1_archive(
         return Err(Error::Unsupported("legacy backup format or backend".into()));
     }
     let manifest = Manifest {
-        archive_version: 2,
-        storage_format: 4,
+        archive_version: crate::model::ARCHIVE_VERSION,
+        storage_format: crate::model::STORAGE_FORMAT,
         backend,
         rows: old.rows,
         receipts: old.receipts,
@@ -98,29 +98,61 @@ pub fn bind_legacy_schema(
         ));
     }
     snapshot.descriptors = rom::validate_descriptors(descriptors)?;
-    // Record accounting is independent of the destination backend.
-    let mut manifest = snapshot.manifest(Backend::Sqlite);
-    archive::check_count(&manifest, limits)?;
-    let catalog: BTreeMap<_, _> = snapshot
-        .descriptors
-        .iter()
-        .map(|d| (d.kind.as_str(), d))
-        .collect();
-    for row in &snapshot.rows {
-        let descriptor = catalog
-            .get(row.key.kind.as_str())
-            .ok_or(Error::Unregistered)?;
-        for target in descriptor.reference_targets(row.value.as_ref())? {
-            manifest.references = manifest.references.checked_add(1).ok_or(Error::TooLarge)?;
-            archive::check_count(&manifest, limits)?;
-            snapshot.references.push(ReferenceEdge {
-                source: row.key.clone(),
-                target,
-            });
-        }
-    }
+    crate::schema::rebuild_references(&mut snapshot, limits)?;
+    bind_receipt_origins(&mut snapshot)?;
     snapshot.validate()?;
     // The native output gains descriptors and edges. Bound that complete payload too.
     crate::codec::encode(&snapshot, limits.max_bytes)?;
     Ok(snapshot)
+}
+
+/// Upgrade an archive-2/storage-4 backup into a fresh current archive.
+/// Retain the stored catalog and all record values. Bind missing receipt origins to that catalog.
+pub fn upgrade_v2_archive(
+    source: impl AsRef<Path>,
+    destination: impl AsRef<Path>,
+    backend: Backend,
+    limits: BackupLimits,
+) -> Result<Manifest> {
+    let (_, mut snapshot) = archive::read_version(source.as_ref(), backend, limits, 2, 4)?;
+    bind_receipt_origins(&mut snapshot)?;
+    write(destination, backend, &snapshot, limits)
+}
+
+/// Upgrade a native legacy snapshot with an exact, explicit source catalog.
+/// A catalogued source must match the supplied descriptors; no schema changes occur.
+pub fn upgrade_legacy_snapshot(
+    mut snapshot: Snapshot,
+    descriptors: &[Descriptor],
+    limits: BackupLimits,
+) -> Result<Snapshot> {
+    snapshot.validate()?;
+    if rom::validate_descriptors(descriptors)? != snapshot.descriptors {
+        return Err(Error::Unsupported(
+            "upgrade source descriptor mismatch".into(),
+        ));
+    }
+    bind_receipt_origins(&mut snapshot)?;
+    snapshot.validate()?;
+    archive::check_count(&snapshot.manifest(Backend::Sqlite), limits)?;
+    crate::codec::encode(&snapshot, limits.max_bytes)?;
+    Ok(snapshot)
+}
+
+fn bind_receipt_origins(snapshot: &mut Snapshot) -> Result<()> {
+    let versions: std::collections::BTreeMap<_, _> = snapshot
+        .descriptors
+        .iter()
+        .map(|descriptor| (descriptor.kind.as_str(), descriptor.version))
+        .collect();
+    for receipt in &mut snapshot.receipts {
+        if receipt.replay_version.is_none() {
+            receipt.replay_version = Some(
+                *versions
+                    .get(receipt.row.key.kind.as_str())
+                    .ok_or(Error::Storage)?,
+            );
+        }
+    }
+    Ok(())
 }

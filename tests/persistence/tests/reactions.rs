@@ -115,6 +115,7 @@ fn bundle(id: &str) -> rom::Bundle {
         reaction_limits: None,
         completed_work: None,
         receipt: rom::Receipt {
+            replay_version: None,
             identity: id.into(),
             fingerprint: id.into(),
             row: rom::Row {

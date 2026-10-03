@@ -1,6 +1,6 @@
 //! Persisted schema registration and reference checks inside native transactions.
 use crate::{Sqlite, persistence::row};
-use rom::{Descriptor, Error, Key, Result, Row};
+use rom::{Descriptor, Error, Key, Result};
 use rusqlite::{Connection, OptionalExtension, params};
 use std::collections::{BTreeMap, BTreeSet};
 
@@ -82,8 +82,10 @@ pub(super) fn register(c: &Connection, definitions: &[Descriptor]) -> Result<()>
     Ok(())
 }
 
-pub(super) fn prepare(c: &Connection, candidate: &Row) -> Result<Vec<Key>> {
+pub(super) fn prepare(c: &Connection, receipt: &rom::Receipt) -> Result<Vec<Key>> {
+    let candidate = &receipt.row;
     let definition = descriptor(c, &candidate.key.kind)?.ok_or(Error::Unregistered)?;
+    receipt.validate_new_version(&definition)?;
     let targets = definition.reference_targets(candidate.value.as_ref())?;
     for target in &targets {
         if target == &candidate.key && candidate.value.is_some() {

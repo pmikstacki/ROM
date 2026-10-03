@@ -108,7 +108,7 @@ impl Builder {
         self
     }
 
-    pub fn resource<R: Resource>(mut self, d: Definition<R>) -> Self {
+    pub fn resource<R: Resource>(mut self, mut d: Definition<R>) -> Self {
         let desc = d.descriptor();
         let mut names = BTreeSet::new();
         for field in &desc.fields {
@@ -118,13 +118,16 @@ impl Builder {
         }
         if desc.kind != R::KIND
             || desc.kind.is_empty()
-            || desc.version != 1
+            || desc.version == 0
             || desc
                 .fields
                 .iter()
                 .any(|f| f.name.is_empty() || !names.insert(f.name.clone()))
         {
             self.error = Some(Error::invalid(R::KIND, "descriptor"));
+        }
+        if let Some(error) = d.replay_error.take() {
+            self.error = Some(error);
         }
         if d.duplicate || self.registry.insert(R::KIND.into(), Arc::new(d)).is_some() {
             self.error = Some(Error::Duplicate(R::KIND.into()));
@@ -629,32 +632,29 @@ impl Runtime {
                 if owner == permit.provenance.source && permit.target == key => {}
             _ => return Err(Error::Denied),
         }
-        let input = match &cmd.mutation {
-            Mutation::Create(v) | Mutation::Replace(v) => def.normalize(v.clone())?,
-            Mutation::Patch(fields) => serde_json::to_value(normalize_patch(def.as_ref(), fields)?)
-                .map_err(|_| Error::Storage)?,
-            Mutation::Delete => Value::Null,
-            Mutation::Action(_, v) => v.clone(),
-        };
+        // A retained receipt defines its original request interpretation. Check it
+        // before the current codec can reject a renamed or transformed old input.
+        {
+            let _guard = self.0.gate.lock().map_err(|_| Error::Panicked)?;
+            self.check_authority(actor)?;
+            if let Some(receipt) = self.0.storage.receipt(&identity)? {
+                let current = self.0.storage.load(&key)?;
+                return self.replay_outcome(actor, def.as_ref(), current.as_ref(), receipt, &cmd);
+            }
+        }
+        let input = replay::input(def.as_ref(), &cmd.mutation)?;
         let explicit_fields = !matches!(cmd.mutation, Mutation::Action(_, _) | Mutation::Patch(_));
         let patch_fields = match &cmd.mutation {
             Mutation::Patch(fields) => Some(fields.keys().cloned().collect::<Vec<_>>()),
             _ => None,
         };
-        let fingerprint = match &actor.source {
-            Some(permit) => json!([cmd.expected, input, permit.provenance]).to_string(),
-            None => json!([cmd.expected, input]).to_string(),
-        };
+        let fingerprint = replay::fingerprint(cmd.expected, input, actor);
         let prior = {
-            let denied = self.0.gate.lock().unwrap();
+            let _denied = self.0.gate.lock().unwrap();
             self.check_authority(actor)?;
             let prior = self.0.storage.load(&key)?;
             if let Some(receipt) = self.0.storage.receipt(&identity)? {
-                self.disclose(actor, &denied, def.as_ref(), prior.as_ref(), &receipt.row)?;
-                if receipt.fingerprint != fingerprint {
-                    return Err(Error::IdentityMismatch);
-                }
-                return Ok(receipt.row);
+                return self.replay_outcome(actor, def.as_ref(), prior.as_ref(), receipt, &cmd);
             }
             let authorization = prior
                 .as_ref()
@@ -674,15 +674,15 @@ impl Runtime {
         };
         self.check_actor(actor)?;
         // Native business functions compute proposals off Tokio. They must be pure w.r.t. external effects.
-        let (new_value, effects) = match cmd.mutation {
-            Mutation::Create(v) | Mutation::Replace(v) => (Some(def.normalize(v)?), vec![]),
+        let (new_value, effects) = match &cmd.mutation {
+            Mutation::Create(v) | Mutation::Replace(v) => (Some(def.normalize(v.clone())?), vec![]),
             Mutation::Patch(fields) => {
                 let mut value = prior
                     .as_ref()
                     .and_then(|r| r.value.clone())
                     .ok_or(Error::Missing)?;
                 let map = value.as_object_mut().ok_or(Error::Storage)?;
-                for (name, update) in normalize_patch(def.as_ref(), &fields)? {
+                for (name, update) in normalize_patch(def.as_ref(), fields)? {
                     match update {
                         FieldUpdate::Set(v) => {
                             map.insert(name, v);
@@ -700,7 +700,8 @@ impl Runtime {
                     .as_ref()
                     .and_then(|r| r.value.clone())
                     .ok_or(Error::Missing)?;
-                let action = def.action(&name)?;
+                let action = def.action(name)?;
+                let input = input.clone();
                 let (sender, receiver) = std::sync::mpsc::sync_channel(1);
                 self.0.pool.spawn(move || {
                     let result = catch_unwind(AssertUnwindSafe(|| action(value, input)))
@@ -755,11 +756,7 @@ impl Runtime {
         self.check_authority(actor)?;
         let current = self.0.storage.load(&key)?;
         if let Some(receipt) = self.0.storage.receipt(&identity)? {
-            self.disclose(actor, &denied, def.as_ref(), current.as_ref(), &receipt.row)?;
-            if receipt.fingerprint != fingerprint {
-                return Err(Error::IdentityMismatch);
-            }
-            return Ok(receipt.row);
+            return self.replay_outcome(actor, def.as_ref(), current.as_ref(), receipt, &cmd);
         }
         // Recheck authoritative current state after CPU work and before conditional commit.
         if let Some(v) = current.as_ref().and_then(|r| r.value.as_ref())
@@ -857,6 +854,7 @@ impl Runtime {
             completed_work: causal.map(|(_, claim)| (claim, self.0.clock.now())),
             expected: cmd.expected,
             receipt: Receipt {
+                replay_version: Some(def.descriptor_ref().version),
                 identity,
                 fingerprint,
                 row: row.clone(),

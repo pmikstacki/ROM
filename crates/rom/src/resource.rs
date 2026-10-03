@@ -404,6 +404,8 @@ pub struct Definition<R: Resource> {
     source_metadata_policy: Option<fn(&Actor) -> bool>,
     discovery_policy: Option<discovery::DiscoveryPolicy>,
     pub(crate) duplicate: bool,
+    replay_codecs: BTreeMap<u32, replay::Codec>,
+    pub(crate) replay_error: Option<Error>,
 }
 impl<R: Resource> Default for Definition<R> {
     fn default() -> Self {
@@ -424,7 +426,24 @@ impl<R: Resource> Definition<R> {
             source_metadata_policy: None,
             discovery_policy: None,
             duplicate: false,
+            replay_codecs: BTreeMap::new(),
+            replay_error: None,
         }
+    }
+    /// Retain an older Resource codec only for fingerprint checks on existing receipts.
+    /// The old kind must match and its positive version must precede this definition.
+    /// Replay uses the exact receipt version after current authorization; new commands
+    /// never use legacy codecs. Registering a duplicate old version fails at startup.
+    pub fn replay_from<Old: Resource>(mut self) -> Self {
+        let codec = replay::Codec::new::<Old>();
+        if let Err(error) = codec.validate_for(&self.descriptor) {
+            self.replay_error = Some(error);
+        }
+        self.duplicate |= self
+            .replay_codecs
+            .insert(codec.descriptor().version, codec)
+            .is_some();
+        self
     }
     pub fn policy(mut self, policy: Policy<R>) -> Self {
         self.policy = Some(policy);
@@ -507,6 +526,7 @@ impl<R: Resource> Definition<R> {
 pub(crate) trait Registered: Send + Sync {
     fn descriptor(&self) -> Descriptor;
     fn descriptor_ref(&self) -> &Descriptor;
+    fn replay_codec(&self, version: u32) -> Option<&replay::Codec>;
     fn allows_discovery(&self, actor: &Actor, target: DiscoveryTarget<'_>) -> bool;
     fn actions(&self) -> &BTreeMap<String, ErasedAction>;
     fn normalize(&self, v: Value) -> Result<Value>;
@@ -526,6 +546,9 @@ pub(crate) trait Registered: Send + Sync {
     ) -> Result<()>;
 }
 impl<R: Resource> Registered for Definition<R> {
+    fn replay_codec(&self, version: u32) -> Option<&replay::Codec> {
+        self.replay_codecs.get(&version)
+    }
     fn validate_transition(
         &self,
         actor: &Actor,

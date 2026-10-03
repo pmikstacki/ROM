@@ -56,6 +56,7 @@ fn create(id: &str, target: Option<&str>) -> Bundle {
     Bundle {
         expected: None,
         receipt: Receipt {
+            replay_version: None,
             identity: format!("create-{id}"),
             fingerprint: format!("node-{id}"),
             row,
@@ -280,17 +281,19 @@ fn explicit_native_upgrade_preserves_durable_records_and_enforces_references() {
             "source must remain byte-identical"
         );
         for bundle in &fixture.bundles {
+            let mut expected_receipt = bundle.receipt.clone();
+            expected_receipt.replay_version = Some(1);
             assert_eq!(
                 upgraded.load(&bundle.receipt.row.key).unwrap(),
                 Some(bundle.receipt.row.clone())
             );
             assert_eq!(
                 upgraded.receipt(&bundle.receipt.identity).unwrap(),
-                Some(bundle.receipt.clone())
+                Some(expected_receipt.clone())
             );
             assert_eq!(
                 upgraded.commit(bundle).unwrap(),
-                bundle.receipt,
+                expected_receipt,
                 "receipt replay must not reapply the mutation"
             );
         }

@@ -37,6 +37,7 @@ fn explicit_head_survives_reopen_and_allows_recovery_after_retention_gap() {
                 reactions: vec![],
                 reaction_limits: None,
                 receipt: Receipt {
+                    replay_version: None,
                     identity: i.to_string(),
                     fingerprint: i.to_string(),
                     row: Row {

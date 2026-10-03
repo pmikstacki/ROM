@@ -1,14 +1,11 @@
-//! Explicit read-only format-three migration into a fresh format-four database.
-use crate::{
-    Redb,
-    maintenance::{NativeFormat, snapshot_in_format},
-};
+//! Explicit read-only format-three/four upgrade into a fresh format-five database.
+use crate::{Redb, maintenance::read_upgrade_snapshot};
 use rom::{Descriptor, Result};
 use rom_backup::BackupLimits;
 use std::path::Path;
 
 impl Redb {
-    /// Bind an explicit schema to a read-only format-three source and publish a fresh database.
+    /// Bind an explicit schema to a read-only format-three or format-four source and publish a fresh database.
     /// Values are preserved; invalid layouts and dangling references require separate repair.
     /// The source must be offline. Existing destinations are never overwritten.
     /// An unclean source needs temporary disk space approximately equal to its size
@@ -53,10 +50,7 @@ impl Redb {
         limits: BackupLimits,
         before_publish: impl FnOnce() -> Result<()>,
     ) -> Result<Self> {
-        let snapshot = crate::preflight::inspect(source, |tx| {
-            snapshot_in_format(tx, limits, NativeFormat::Legacy)
-        })?;
-        let snapshot = rom_backup::bind_legacy_schema(snapshot, descriptors, limits)?;
+        let snapshot = read_upgrade_snapshot(source, limits, descriptors)?;
         Self::restore_snapshot(snapshot, destination, limits, before_publish)
     }
 }

@@ -1,6 +1,6 @@
 # Upgrade a native database
 
-`Sqlite::upgrade_from` and `Redb::upgrade_from` convert native format 3 into format 4.
+`Sqlite::upgrade_from` and `Redb::upgrade_from` convert native formats 3 and 4 into format 5.
 The operation requires a new destination and an explicit Resource descriptor catalog.
 It does not transform Resource values or infer schemas from stored JSON.
 
@@ -10,12 +10,15 @@ It does not transform Resource values or infer schemas from stored JSON.
 2. Supply descriptors that match every stored Resource kind, including kinds with tombstones.
 3. Select a new destination path and explicit `BackupLimits`.
 4. Call the adapter's `upgrade_from(source, destination, descriptors, limits)` method.
-5. Start the application against the returned format-4 store.
+5. Start the application against the returned format-5 store.
 6. Preserve the original source until the deployment passes its acceptance checks.
 
 The default maintenance budget is 128 MiB and 400,000 logical records.
 Rows, receipts, events, effects, work, descriptors and reference edges consume that budget.
 The byte limit bounds logical data; it does not bound the database's physical file size.
+For format 4, the supplied catalog must match the persisted catalog exactly.
+Receipts without an explicit codec version receive their source catalog version.
+Older maintenance tools must not process format-5 stores or format-3 archives.
 
 ## Preserved guarantees
 
@@ -49,3 +52,4 @@ requires inspection of the destination; do not overwrite it or assume rollback.
 This operation upgrades the storage format and introduces declared reference
 integrity. It is not a general migration of fields or action payloads. Cross-backend
 conversion, online cutover and concurrent writers are outside this operation's contract.
+Use [Resource migrations](resource-migrations.md) for typed field transformations.

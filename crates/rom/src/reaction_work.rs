@@ -1,5 +1,6 @@
 //! Shared durable work state machine. Adapters apply each update in one native transaction.
 use super::*;
+mod maintenance;
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ReactionLimits {
     pub max_depth: u32,

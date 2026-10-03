@@ -36,6 +36,7 @@ mod journal;
 mod persistence;
 mod query;
 mod references;
+mod replay;
 mod resource;
 pub use discovery::*;
 pub use execution::*;

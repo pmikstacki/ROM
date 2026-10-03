@@ -186,9 +186,10 @@ impl Redb {
 pub(super) fn prepare(
     tx: &redb::WriteTransaction,
     rows: &impl ReadableTable<(&'static str, &'static str), &'static str>,
-    row: &Row,
+    receipt: &rom::Receipt,
     existing: Option<&Row>,
 ) -> Result<(Vec<Key>, Vec<Key>)> {
+    let row = &receipt.row;
     let table = tx.open_table(SCHEMAS).map_err(|_| Error::Storage)?;
     let value = table
         .get(row.key.kind.as_str())
@@ -200,6 +201,7 @@ pub(super) fn prepare(
     {
         return Err(Error::Storage);
     }
+    receipt.validate_new_version(&descriptor)?;
     if existing.is_some_and(|old| old.key != row.key) {
         return Err(Error::Storage);
     }
