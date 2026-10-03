@@ -1,0 +1,279 @@
+{
+  "date": "2026-10-03T22:52:17.061Z",
+  "baseCommit": "ba96fe70c06d307390b815c417ee9c22ae5b1913",
+  "node": "v22.16.0",
+  "npm": "10.9.2",
+  "chromium": "Chromium 138.0.7204.49",
+  "lockSha256": "7830342279addd8dd5dab7ed82d66aa6574b0e70839b9c326b46225394c1f68e",
+  "sources": [
+    {
+      "path": "studio/src/App.svelte",
+      "sha256": "7a575e999c9908ff92fbb3478d83deb99ea759fb0bad659fff172c64752f8c98"
+    },
+    {
+      "path": "studio/src/app.css",
+      "sha256": "36993b29b227f0a05403ca0ff17367d5f3ae072646bdff83489f82f028a69778"
+    },
+    {
+      "path": "studio/src/lib/client/client.ts",
+      "sha256": "937a2f546ece8f475528574661a74cc71d3368e86a1b42fca88996163397a2bb"
+    },
+    {
+      "path": "studio/src/lib/client/codec.ts",
+      "sha256": "f1e86ea3ed91db60ac099ea61ae2d51cf9a30de6c2ca073079ce1152ae86cf94"
+    },
+    {
+      "path": "studio/src/lib/client/discovery.ts",
+      "sha256": "8b1dcf50be535802d802c99f1280087c88660e3a788f935fc2ae3d6aa25c178f"
+    },
+    {
+      "path": "studio/src/lib/client/normalization.ts",
+      "sha256": "f5e228f2c36642daf86317eec9e083e7e61e25e52772fd23b71e351474da9a12"
+    },
+    {
+      "path": "studio/src/lib/client/request.ts",
+      "sha256": "6252cf9e556c3f3ac2ae9bda4d1288042149fbb5af5fd736daddca2a6ede3a49"
+    },
+    {
+      "path": "studio/src/lib/client/serialization.ts",
+      "sha256": "9d22f5709224122a61786c4edf981f39f9778a1f7e87a9ee91a4a1254d707c9f"
+    },
+    {
+      "path": "studio/src/lib/client/session.ts",
+      "sha256": "8cfc2b1fa95b2e272fa80e46a4716774116ed706773f751eb45bc5afeb28a96c"
+    },
+    {
+      "path": "studio/src/lib/client/stream.ts",
+      "sha256": "ffd930223d789aa64b570b4736a904e90e2d0eb3a151af8074dca9543c6d3e6e"
+    },
+    {
+      "path": "studio/src/lib/client/types.ts",
+      "sha256": "2b14b6f643416dac5532d8ce71f820effd99a4a6d10c1a21cf305cff1eb1c525"
+    },
+    {
+      "path": "studio/src/lib/client/validation.ts",
+      "sha256": "dcb5fc257a68b0310fe71ab36bf280d6a37191f99f1ce1bf0d85198f1382700c"
+    },
+    {
+      "path": "studio/src/lib/components/ui/LICENSE.md",
+      "sha256": "230594c9dedb06fb0759381a520b449c1b47b0f63b95fc88ef9d7e851e2540a9"
+    },
+    {
+      "path": "studio/src/lib/components/ui/button/button.svelte",
+      "sha256": "740acc731f06f87b2e8b9e8eccf4de1472b72f6c30f900b71b74a075f612dd24"
+    },
+    {
+      "path": "studio/src/lib/components/ui/button/index.ts",
+      "sha256": "0fc7bfae8aa2158de2b13b8ba8728f247892f13d12654e39906e154647f105c6"
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-close.svelte",
+      "sha256": "acaaffb431ecf312272181cbd794a41d6d5ce367e7d51b1b567bdd7350bae104"
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-content.svelte",
+      "sha256": "7c0bfaf6f56cf6a7b8cd76805c65cee0f77443314b18857af515edf3ae922ee1"
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-description.svelte",
+      "sha256": "d783be67f29214d494fb4dae9c6f368706400ec5d8b91a9c6add4d10364b6aab"
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-footer.svelte",
+      "sha256": "48f5508cb7cbd24ac40f097d59a47a8c7febf5edbdec4bf42ee710eb00583add"
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-header.svelte",
+      "sha256": "a9a8175574a7841a750a1a6b73ee0ea7858fa4173d60c3c2346c161f0760d2ca"
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-overlay.svelte",
+      "sha256": "eeab9142a9a7deec56bf05a10ba9dcf21aaf8970039f74f110fe6e8291991275"
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-portal.svelte",
+      "sha256": "1f874853c42f400c2c18c5376ce660dbdc75680bf95adbee74f5cbd40f1f5db4"
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-title.svelte",
+      "sha256": "eee97401c77116a5cb366e3996711ddf57adbec58a2913df5b0bf52f34d5ee30"
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-trigger.svelte",
+      "sha256": "d752807d951bc6a554ce47c5077e492587b37d15bb5e09426cf855860836dd05"
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog.svelte",
+      "sha256": "35ca34b1cfb6101ddca13d57e7403a995a527400b3fec1aebd86a7af179b3140"
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/index.ts",
+      "sha256": "2f8bdf6907b03548ed597c829ecfa912bd5bd217ab77c99721f62983a0550189"
+    },
+    {
+      "path": "studio/src/lib/components/ui/input/index.ts",
+      "sha256": "5276711c7cf44f94fe4e2295639ce156ddd4d2bfef6dfd9e239cd963c880ef56"
+    },
+    {
+      "path": "studio/src/lib/components/ui/input/input.svelte",
+      "sha256": "0610b167ab2c447631eb83c00d68a248a9046c2d780bdaf4e6892e0fb44eb7ca"
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/index.ts",
+      "sha256": "a6fe5055598f0deef44ac5be3472a77088651caf7e819f7818211345d70cab01"
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-body.svelte",
+      "sha256": "7f7dc103a8514575cdfa2cd7f4cd6ccff3140d05cb859ee8d8f9965f0d07661e"
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-caption.svelte",
+      "sha256": "b7b67a76c2669706f36f82805ee5d1e13fdc3faaedff4cea4b019f6e5a3aa4b0"
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-cell.svelte",
+      "sha256": "d62015a65e8add8b0709454d7d496f4e88131e75227067f0ef7bad2e2a5441be"
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-footer.svelte",
+      "sha256": "aa5cc4ef2fa96d1a53a781849a118a232ed1e1b4fa867888400ec69ee4bec457"
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-head.svelte",
+      "sha256": "a50d868b4dc1910e210bea1e46008146e99c71d4c11d05d20337d763ed0cdba3"
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-header.svelte",
+      "sha256": "eba2337d0aebf399f8e53c9976f9f344f868a0f20459450063bea5484f4129dd"
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-row.svelte",
+      "sha256": "97970ad735c7f82ae4caf941fefcd16477482360114e78a0b904342b1b539196"
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table.svelte",
+      "sha256": "e1e56888a80d5f5a73d4f2455b332de6750b35a3f609060141de82e46e74261e"
+    },
+    {
+      "path": "studio/src/lib/components/ui/utils.ts",
+      "sha256": "dd7655a5da820337bc13825305885e2aedc6649dfd1149087550de6a9b334472"
+    },
+    {
+      "path": "studio/src/lib/renderers/FieldHost.svelte",
+      "sha256": "54e584e4ab1163b8cfeb581bded34976c28085d244894a70ac1e0b88c329f5f4"
+    },
+    {
+      "path": "studio/src/lib/renderers/ValueDisplay.svelte",
+      "sha256": "c61dd0906605437dc4228b0a0833886525c11284db5701758e859f1c4ea9a7c2"
+    },
+    {
+      "path": "studio/src/lib/renderers/ValueEditor.svelte",
+      "sha256": "393cdaf1aac512d250ab60fff754f773c9598b1f62527aa8033b3d0fbe4d280e"
+    },
+    {
+      "path": "studio/src/lib/renderers/default-value.ts",
+      "sha256": "96abca2ba0c79674f80cf56ead253cce2d02f155996c0e17dfd5babc7f9e7945"
+    },
+    {
+      "path": "studio/src/lib/renderers/registry.ts",
+      "sha256": "c926e77a997cd2e451019349d6634bf322d08cebe58d4e158c2bcc0ea6acb378"
+    },
+    {
+      "path": "studio/src/lib/renderers/types.ts",
+      "sha256": "46d9539e61a998a880760066a1a8abae40972369b7c47a4e10e8b4a5d949639d"
+    },
+    {
+      "path": "studio/src/lib/renderers/value-format.ts",
+      "sha256": "582cce561204a92c043f94cb365c7d959c652b44a85d67a8bc949c2448ed31bf"
+    },
+    {
+      "path": "studio/src/lib/resources/ActionForm.svelte",
+      "sha256": "ac570fbd6135a0b83be0a9e1411bde1cd75619edd94fcbf477c21b2bcd8fe564"
+    },
+    {
+      "path": "studio/src/lib/resources/QueryEditor.svelte",
+      "sha256": "97c653374539d28dd9b63354bd92682fe4853d5e2bf2271a4d5e6effff630105"
+    },
+    {
+      "path": "studio/src/lib/resources/ResourceForm.svelte",
+      "sha256": "72d659ce3fa5542bd4813e4abba4a1ad64f98d26f5df164c1f139c03fa02b38a"
+    },
+    {
+      "path": "studio/src/lib/resources/ResourceTable.svelte",
+      "sha256": "d29adaf265cdb3d8b1114d05a10ef0bf38b42b4f2562437820d5546a241eff73"
+    },
+    {
+      "path": "studio/src/lib/resources/form-types.ts",
+      "sha256": "e58e231af42c2df32c3efc693528f130f8b921949384821619b6619e357e3c6f"
+    },
+    {
+      "path": "studio/src/main.ts",
+      "sha256": "ec315a1d373f5470b11a7dcaa0d972ab81e3f513113325bd18aea471c1ce2d62"
+    },
+    {
+      "path": "studio/src/vite-env.d.ts",
+      "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+    },
+    {
+      "path": "studio/tests/components/CustomCode.svelte",
+      "sha256": "55b5cdfe220c8c1bd6b1cad8096eeed7f353fe1a721b4be0cee895cdc79231c7"
+    },
+    {
+      "path": "studio/tests/components/Harness.svelte",
+      "sha256": "f5d2349f5e0bd8118f0f69bfb17a4f503061c84b60442a7a72550f0e7872bb17"
+    },
+    {
+      "path": "studio/tests/components/controls.spec.ts",
+      "sha256": "58800ff3d41fbf86e7fb42b6c7089f1b62acf0e51f5732fa43f73eecb9c75b0e"
+    },
+    {
+      "path": "studio/tests/components/harness.html",
+      "sha256": "5e74405fcceb197902a134d696bb4bd58bb44632ed9a615e371486760c81b599"
+    },
+    {
+      "path": "studio/tests/components/harness.ts",
+      "sha256": "2fb719089c7059fad863000150d975bc34b1bad5618fcfedac9c3718181a5ed7"
+    },
+    {
+      "path": "studio/tests/components/playwright.config.ts",
+      "sha256": "ad7f26f7b4a3db06185bb16c3dcd967af0c261f3e92eb53be187f7d991a2400a"
+    },
+    {
+      "path": "studio/package.json",
+      "sha256": "568cae8125b8272637666c01f3fc2c61559c190fe1421892b9748bb5b067cd1c"
+    },
+    {
+      "path": "studio/package-lock.json",
+      "sha256": "7830342279addd8dd5dab7ed82d66aa6574b0e70839b9c326b46225394c1f68e"
+    },
+    {
+      "path": "studio/vite.config.ts",
+      "sha256": "51048193f8345a78ac129d7464d70e7b6f3607c6bf8a29611767a9ce823860fc"
+    },
+    {
+      "path": "studio/tsconfig.json",
+      "sha256": "91256826885a64037785a3c352a0c771245032ad3255a5c1165b3a81c7696281"
+    },
+    {
+      "path": "studio/index.html",
+      "sha256": "09b6e90afa370f0440cb10c0aa6eb12797e8d865762358061d4929cebfb18030"
+    },
+    {
+      "path": "studio/components.json",
+      "sha256": "0b919b66f29022c77392ced72a2b501a8c0e111eacb03169451b40f7458ec725"
+    },
+    {
+      "path": "studio/svelte.config.js",
+      "sha256": "450f0af4f4c1ecc4c7180f2e364c8a59bfed69dd350fb6b47bce8641c2a37786"
+    },
+    {
+      "path": "studio/upstream-components.json",
+      "sha256": "e93cd779faee28a497307de1b07fb3ed04db5a962871c76446e7fe6de9d47ef4"
+    }
+  ],
+  "limits": [
+    "Component harness; no backend authentication or persistence",
+    "System Chromium only; WebKit runtime repair remains required",
+    "Parent-owned client sources are included in source hashes; not claimed clean release source"
+  ]
+}

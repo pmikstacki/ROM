@@ -1,0 +1,38 @@
+
+> rom-studio@0.0.2 test:components
+> npm run build:components && playwright test --config tests/components/playwright.config.ts
+
+
+> rom-studio@0.0.2 build:components
+> vite build --mode components --outDir .component-dist
+
+vite v8.3.2 building client environment for components...
+transforming...
+✓ 157 modules transformed.
+rendering chunks...
+computing gzip size...
+.component-dist/index.html                       0.47 kB │ gzip:  0.30 kB
+.component-dist/tests/components/harness.html    0.51 kB │ gzip:  0.30 kB
+.component-dist/assets/app-B2_5umm8.css         22.67 kB │ gzip:  5.11 kB
+.component-dist/assets/main-DBKUWaSQ.js          0.62 kB │ gzip:  0.43 kB
+.component-dist/assets/components-Ccw7cqw2.js   31.01 kB │ gzip:  9.69 kB
+.component-dist/assets/app-KCSwEnU6.js         117.64 kB │ gzip: 42.35 kB
+
+✓ built in 205ms
+[WebServer] (node:2614606) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:2614666) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/components/controls.spec.ts:6:1 › Resource controls preserve integer, presence, boolean and nested edits (296ms)
+  ✓  2 [chromium] › tests/components/controls.spec.ts:34:1 › same field hosts support custom codec, nested collections and generic action input (233ms)
+  ✓  3 [chromium] › tests/components/controls.spec.ts:54:1 › unsupported action stays visible, generic table selects, query emits values (191ms)
+  ✓  4 [chromium] › tests/components/controls.spec.ts:71:1 › keyboard controls and assembled accessibility (457ms)
+  ✓  5 [chromium] › tests/components/controls.spec.ts:81:1 › optional remove and empty string remain distinct from omitted fields (215ms)
+  ✓  6 [chromium] › tests/components/controls.spec.ts:102:1 › nested invalid input survives sibling edits and removal releases only its error (244ms)
+  ✓  7 [chromium] › tests/components/controls.spec.ts:121:1 › enum reference and prototype-shaped map keys use generic controls (197ms)
+  ✓  8 [chromium] › tests/components/controls.spec.ts:139:1 › opaque input uses the shared strict lossless codec (174ms)
+
+  8 passed (3.6s)

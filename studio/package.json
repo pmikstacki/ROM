@@ -1,0 +1,39 @@
+{
+  "name": "rom-studio",
+  "private": true,
+  "version": "0.0.2",
+  "type": "module",
+  "scripts": {
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "build": "vite build",
+    "test": "playwright test --config tests/components/playwright.config.ts",
+    "preview": "vite preview --host 127.0.0.1 --port 43172 --strictPort",
+    "test:unit": "node --experimental-strip-types --test tests/unit/*.test.ts",
+    "test:components": "npm run build:components && playwright test --config tests/components/playwright.config.ts",
+    "build:components": "vite build --mode components --outDir .component-dist",
+    "preview:components": "vite preview --outDir .component-dist --host 127.0.0.1 --port 43173 --strictPort"
+  },
+  "dependencies": {
+    "svelte": "5.57.1",
+    "bits-ui": "2.19.5",
+    "tailwind-variants": "3.3.1",
+    "clsx": "2.1.1",
+    "tailwind-merge": "3.7.0",
+    "@lucide/svelte": "1.51.0",
+    "@internationalized/date": "3.12.4"
+  },
+  "devDependencies": {
+    "vite": "8.3.2",
+    "@sveltejs/vite-plugin-svelte": "7.3.1",
+    "tailwindcss": "4.3.3",
+    "@tailwindcss/vite": "4.3.3",
+    "typescript": "6.0.3",
+    "svelte-check": "4.7.6",
+    "@playwright/test": "1.63.0",
+    "@axe-core/playwright": "4.13.0",
+    "shadcn-svelte": "1.7.0",
+    "@types/node": "22.20.5",
+    "prettier": "3.9.9",
+    "prettier-plugin-svelte": "4.1.1"
+  }
+}

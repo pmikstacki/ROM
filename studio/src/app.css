@@ -1,0 +1,89 @@
+@import "tailwindcss" source(none);
+@source "./";
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--foreground);
+  --color-muted: var(--secondary);
+  --color-muted-foreground: #475569;
+  --color-accent: var(--secondary);
+  --color-accent-foreground: var(--foreground);
+  --color-popover: white;
+  --color-popover-foreground: var(--foreground);
+  --color-ring: #475569;
+  --color-border: #cbd5e1;
+  --color-input: #cbd5e1;
+  --color-destructive: #b91c1c;
+}
+:root {
+  --background: #fff;
+  --foreground: #0f172a;
+  --primary: #0f172a;
+  --primary-foreground: #fff;
+  --secondary: #f1f5f9;
+  font-family: system-ui, sans-serif;
+  color: var(--foreground);
+  background: var(--background);
+}
+main {
+  max-width: 60rem;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+label {
+  display: block;
+  margin-top: 1rem;
+}
+button {
+  margin: 0.3rem;
+}
+td,
+th {
+  padding: 0.5rem;
+}
+fieldset {
+  border: 1px solid #cbd5e1;
+  border-radius: 0.4rem;
+  padding: 0.7rem;
+  margin: 1rem 0;
+}
+legend {
+  font-weight: 600;
+}
+select,
+textarea {
+  border: 1px solid #94a3b8;
+  border-radius: 0.3rem;
+  padding: 0.35rem;
+  max-width: 100%;
+}
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 5rem;
+}
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.4rem;
+}
+[role="alert"] {
+  color: #991b1b;
+  margin: 0.5rem 0;
+}
+input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
