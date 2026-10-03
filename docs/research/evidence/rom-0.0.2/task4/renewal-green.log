@@ -1,0 +1,45 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+error[E0505]: cannot move out of `shared` because it is borrowed
+  --> crates/rom-studio-host/src/authentication.rs:51:33
+   |
+44 | ...sh(shared:Arc<Shared>,authority:String,query:Callback,headers:HeaderMap) -> Result<Response> {
+   |       ------ binding `shared` declared here
+...
+51 | ...on=shared.auth.run(async move {
+   |       ------      --- ^^^^^^^^^^ move out of `shared` occurs here
+   |       |           |
+   |       |           borrow later used by call
+   |       borrow of `shared` occurs here
+...
+54 | ...sessions.insert(SessionEvidence {actor,user_id,token_expiry:credentials.expiry,credentials:Some(Arc::new(credentials))},shared.co...
+   |                                                                                                                            ------ move occurs due to use in coroutine
+
+error[E0382]: the type `Arc` does not implement `Copy`
+  --> crates/rom-studio-host/src/authentication.rs:56:65
+   |
+44 | ...sh(shared:Arc<Shared>,authority:String,query:Callback,headers:HeaderMap) -> Result<Response> {
+   |       ------ this move could be avoided by cloning the original `Arc`, which is inexpensive
+...
+51 | ...on=shared.auth.run(async move {
+   |                       ---------- value moved here
+...
+54 | ...sessions.insert(SessionEvidence {actor,user_id,token_expiry:credentials.expiry,credentials:Some(Arc::new(credentials))},shared.co...
+   |                                                                                                                            ------ variable moved due to use in coroutine
+55 | ...;
+56 | ...(old)=csrf::session_cookie(&headers,"rom_session"){shared.sessions.remove(&old);}
+   |                                                       ^^^^^^ value borrowed here after move
+   |
+   = note: consider using `Arc::clone`
+   = note: borrow occurs due to deref coercion to `router::Shared`
+help: consider cloning the value before moving it into the closure
+   |
+51 ~     let value = shared.clone();
+52 ~     let session=shared.auth.run(async move {
+53 |         let (credentials,actor)=Credentials::exchange(&work,&config,attempt,code).await?;
+54 |         let user_id=rom_identity::linked_user_id(&actor).ok_or(Error::Denied)?;
+55 ~         work.sessions.insert(SessionEvidence {actor,user_id,token_expiry:credentials.expiry,credentials:Some(Arc::new(credentials))},value.config.clock.now())
+   |
+
+Some errors have detailed explanations: E0382, E0505.
+For more information about an error, try `rustc --explain E0382`.
+error: could not compile `rom-studio-host` (lib) due to 2 previous errors

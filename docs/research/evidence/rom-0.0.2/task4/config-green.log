@@ -1,0 +1,111 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+error[E0533]: expected value, found struct variant `Error::Invalid`
+  --> crates/rom-studio-host/src/configuration.rs:76:137
+   |
+76 | ...() != "/" || origin.query().is_some() { return Err(Error::Invalid("Studio origin must be exact".into())); }
+   |                                                       ^^^^^^^^^^^^^^ not a value
+   |
+help: you might have meant to create a new value of the struct
+   |
+76 -         if origin.origin().ascii_serialization() != self.public_origin || origin.path() != "/" || origin.query().is_some() { return Err(Error::Invalid("Studio origin must be exact".into())); }
+76 +         if origin.origin().ascii_serialization() != self.public_origin || origin.path() != "/" || origin.query().is_some() { return Err(Error::Invalid { kind: /* value */, field: /* value */ }); }
+   |
+
+error[E0533]: expected value, found struct variant `Error::Invalid`
+  --> crates/rom-studio-host/src/configuration.rs:78:24
+   |
+78 |             return Err(Error::Invalid("Studio base path must be canonical".into()));
+   |                        ^^^^^^^^^^^^^^ not a value
+   |
+help: you might have meant to create a new value of the struct
+   |
+78 -             return Err(Error::Invalid("Studio base path must be canonical".into()));
+78 +             return Err(Error::Invalid { kind: /* value */, field: /* value */ });
+   |
+
+error[E0533]: expected value, found struct variant `Error::Invalid`
+  --> crates/rom-studio-host/src/configuration.rs:85:24
+   |
+85 |             return Err(Error::Invalid("Studio limits must be finite and bounded".into()));
+   |                        ^^^^^^^^^^^^^^ not a value
+   |
+help: you might have meant to create a new value of the struct
+   |
+85 -             return Err(Error::Invalid("Studio limits must be finite and bounded".into()));
+85 +             return Err(Error::Invalid { kind: /* value */, field: /* value */ });
+   |
+
+error[E0533]: expected value, found struct variant `Error::Invalid`
+  --> crates/rom-studio-host/src/configuration.rs:92:28
+   |
+92 |                 return Err(Error::Invalid("Invalid Studio provider approval".into()));
+   |                            ^^^^^^^^^^^^^^ not a value
+   |
+help: you might have meant to create a new value of the struct
+   |
+92 -                 return Err(Error::Invalid("Invalid Studio provider approval".into()));
+92 +                 return Err(Error::Invalid { kind: /* value */, field: /* value */ });
+   |
+
+error[E0533]: expected value, found struct variant `Error::Invalid`
+  --> crates/rom-studio-host/src/configuration.rs:95:54
+   |
+95 |             if issuer.query().is_some() { return Err(Error::Invalid("Issuer cannot contain a query".into())); }
+   |                                                      ^^^^^^^^^^^^^^ not a value
+   |
+help: you might have meant to create a new value of the struct
+   |
+95 -             if issuer.query().is_some() { return Err(Error::Invalid("Issuer cannot contain a query".into())); }
+95 +             if issuer.query().is_some() { return Err(Error::Invalid { kind: /* value */, field: /* value */ }); }
+   |
+
+error[E0533]: expected value, found struct variant `Error::Invalid`
+  --> crates/rom-studio-host/src/configuration.rs:98:100
+   |
+98 | ...   if endpoint.origin() != issuer.origin() || endpoint.query().is_some() { return Err(Error::Invalid("OIDC endpoint must match ap...
+   |                                                                                          ^^^^^^^^^^^^^^ not a value
+   |
+help: you might have meant to create a new value of the struct
+   |
+98 -                 if endpoint.origin() != issuer.origin() || endpoint.query().is_some() { return Err(Error::Invalid("OIDC endpoint must match approved issuer origin".into())); }
+98 +                 if endpoint.origin() != issuer.origin() || endpoint.query().is_some() { return Err(Error::Invalid { kind: /* value */, field: /* value */ }); }
+   |
+
+error[E0533]: expected value, found struct variant `Error::Invalid`
+   --> crates/rom-studio-host/src/configuration.rs:101:91
+    |
+101 | ...   if self.primary.as_ref().is_some_and(|id| !authorities.contains(id)) { return Err(Error::Invalid("Primary provider must be ap...
+    |                                                                                         ^^^^^^^^^^^^^^ not a value
+    |
+help: you might have meant to create a new value of the struct
+    |
+101 -         if self.primary.as_ref().is_some_and(|id| !authorities.contains(id)) { return Err(Error::Invalid("Primary provider must be approved".into())); }
+101 +         if self.primary.as_ref().is_some_and(|id| !authorities.contains(id)) { return Err(Error::Invalid { kind: /* value */, field: /* value */ }); }
+    |
+
+error[E0533]: expected value, found struct variant `Error::Invalid`
+   --> crates/rom-studio-host/src/configuration.rs:108:45
+    |
+108 |     let url = Url::parse(value).map_err(|_| Error::Invalid("Invalid approved URL".into()))?;
+    |                                             ^^^^^^^^^^^^^^ not a value
+    |
+help: you might have meant to create a new value of the struct
+    |
+108 -     let url = Url::parse(value).map_err(|_| Error::Invalid("Invalid approved URL".into()))?;
+108 +     let url = Url::parse(value).map_err(|_| Error::Invalid { kind: /* value */, field: /* value */ })?;
+    |
+
+error[E0533]: expected value, found struct variant `Error::Invalid`
+   --> crates/rom-studio-host/src/configuration.rs:112:20
+    |
+112 |         return Err(Error::Invalid("URL requires HTTPS or explicit numeric loopback".into()));
+    |                    ^^^^^^^^^^^^^^ not a value
+    |
+help: you might have meant to create a new value of the struct
+    |
+112 -         return Err(Error::Invalid("URL requires HTTPS or explicit numeric loopback".into()));
+112 +         return Err(Error::Invalid { kind: /* value */, field: /* value */ });
+    |
+
+For more information about this error, try `rustc --explain E0533`.
+error: could not compile `rom-studio-host` (lib) due to 9 previous errors

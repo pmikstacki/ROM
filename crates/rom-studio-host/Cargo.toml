@@ -1,0 +1,32 @@
+[package]
+name = "rom-studio-host"
+readme = "README.md"
+description = "Optional bounded Studio asset and human session host for ROM"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+license.workspace = true
+repository.workspace = true
+[lints]
+workspace = true
+[dependencies]
+rom = { workspace = true }
+rom-http = { path = "../rom-http" }
+rom-identity = { path = "../rom-identity" }
+rom-auth = { path = "../rom-auth", features = ["oidc"] }
+axum = { version = "=0.8.9", default-features = false, features = ["http1", "tokio", "json", "query"] }
+futures-util = { version = "=0.3.34", default-features = false, features = ["std"] }
+http-body-util = "=0.1.5"
+tokio = { workspace = true, features = ["net", "io-util", "fs"] }
+serde.workspace = true
+serde_json.workspace = true
+reqwest = { version = "=0.13.5", default-features = false, features = ["form", "rustls", "stream"] }
+url = "=2.5.8"
+sha2 = "=0.10.9"
+base64 = "=0.22.1"
+subtle = "=2.6.1"
+getrandom = "=0.4.3"
+[dev-dependencies]
+rom-sqlite = { workspace = true }
+rom-redb = { workspace = true }

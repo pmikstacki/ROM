@@ -1,0 +1,10 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `test` profile [unoptimized] target(s) in 0.73s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_studio_host-cb2e179354d1578c)
+
+running 2 tests
+test lifecycle_tests::cancelled_caller_keeps_admission_until_owned_work_finishes ... ok
+test lifecycle_tests::cancelled_drain_waiter_cannot_abandon_owned_authentication_work ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.02s
+

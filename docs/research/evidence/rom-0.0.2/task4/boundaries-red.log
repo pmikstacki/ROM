@@ -1,0 +1,42 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+error[E0432]: unresolved imports `super::session::SessionStore`, `super::session::SessionEvidence`
+ --> crates/rom-studio-host/src/session_tests.rs:1:22
+  |
+1 | use super::session::{SessionStore, SessionEvidence};
+  |                      ^^^^^^^^^^^^  ^^^^^^^^^^^^^^^ no `SessionEvidence` in `session`
+  |                      |
+  |                      no `SessionStore` in `session`
+
+error[E0432]: unresolved import `super::assets::Assets`
+ --> crates/rom-studio-host/src/assets_tests.rs:1:5
+  |
+1 | use super::assets::Assets;
+  |     ^^^^^^^^^^^^^^^------
+  |                    |
+  |                    no `Assets` in `assets`
+
+error[E0432]: unresolved imports `super::csrf::check_origin`, `super::csrf::session_cookie`
+ --> crates/rom-studio-host/src/csrf_tests.rs:1:19
+  |
+1 | use super::csrf::{check_origin, session_cookie};
+  |                   ^^^^^^^^^^^^  ^^^^^^^^^^^^^^ no `session_cookie` in `csrf`
+  |                   |
+  |                   no `check_origin` in `csrf`
+
+error[E0432]: unresolved imports `super::oidc::parse_jwks`, `super::oidc::original_expiry`
+ --> crates/rom-studio-host/src/oidc_tests.rs:1:19
+  |
+1 | use super::oidc::{parse_jwks, original_expiry};
+  |                   ^^^^^^^^^^  ^^^^^^^^^^^^^^^ no `original_expiry` in `oidc`
+  |                   |
+  |                   no `parse_jwks` in `oidc`
+
+error[E0425]: cannot find function `secret` in module `super::session`
+ --> crates/rom-studio-host/src/assets_tests.rs:7:116
+  |
+7 |         let dir = std::env::temp_dir().join(format!("rom-studio-assets-{}-{}", std::process::id(), super::session::secret().unwrap()));
+  |                                                                                                                    ^^^^^^ not found in `super::session`
+
+Some errors have detailed explanations: E0425, E0432.
+For more information about an error, try `rustc --explain E0425`.
+error: could not compile `rom-studio-host` (lib test) due to 5 previous errors

@@ -1,0 +1,25 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+error[E0432]: unresolved import `rom_studio_host::StudioSettings`
+ --> crates/rom-studio-host/tests/human.rs:3:67
+  |
+3 | use rom_studio_host::{HostConfig, OidcProviderConfig, StudioHost, StudioSettings};
+  |                                                                   ^^^^^^^^^^^^^^ no `StudioSettings` in the root
+
+error[E0599]: no method named `settings` found for struct `HostConfig` in the current scope
+   --> crates/rom-studio-host/tests/human.rs:205:6
+    |
+197 |       let config = HostConfig::new(
+    |  __________________-
+198 | |         &origin,
+199 | |         "/rom-studio/",
+200 | |         std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/assets"),
+...   |
+204 | |     .clock(clock.clone())
+205 | |     .settings("main")
+    | |     -^^^^^^^^ method not found in `HostConfig`
+    | |_____|
+    |
+
+Some errors have detailed explanations: E0432, E0599.
+For more information about an error, try `rustc --explain E0432`.
+error: could not compile `rom-studio-host` (test "human") due to 2 previous errors

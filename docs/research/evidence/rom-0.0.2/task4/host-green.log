@@ -1,0 +1,19 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+error[E0308]: mismatched types
+   --> crates/rom-studio-host/src/router.rs:33:157
+    |
+ 33 | ...ute("/auth/logout",post(logout)).nest("/api",api).fallback(assets).with_state(self.shared.clone());
+    |                                     ----        ^^^ expected `Router<Arc<Shared>>`, found `Router`
+    |                                     |
+    |                                     arguments to this method are incorrect
+    |
+    = note: expected struct `Router<Arc<Shared>>`
+               found struct `Router<()>`
+note: method defined here
+   --> /root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/axum-0.8.9/src/routing/mod.rs:209:12
+    |
+209 |     pub fn nest(self, path: &str, router: Router<S>) -> Self {
+    |            ^^^^
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `rom-studio-host` (lib) due to 1 previous error

@@ -1,0 +1,25 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+error[E0599]: no method named `failed` found for struct `SessionStore` in the current scope
+  --> crates/rom-studio-host/src/session_tests.rs:73:11
+   |
+73 |     store.failed(session.cookie(), &rom::Error::Overloaded);
+   |           ^^^^^^ method not found in `SessionStore`
+   |
+  ::: crates/rom-studio-host/src/session.rs:56:1
+   |
+56 | pub(crate) struct SessionStore {
+   | ------------------------------ method `failed` not found for this struct
+
+error[E0599]: no method named `failed` found for struct `SessionStore` in the current scope
+  --> crates/rom-studio-host/src/session_tests.rs:76:11
+   |
+76 |     store.failed(session.cookie(), &rom::Error::Denied);
+   |           ^^^^^^ method not found in `SessionStore`
+   |
+  ::: crates/rom-studio-host/src/session.rs:56:1
+   |
+56 | pub(crate) struct SessionStore {
+   | ------------------------------ method `failed` not found for this struct
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `rom-studio-host` (lib test) due to 2 previous errors

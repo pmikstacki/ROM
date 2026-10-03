@@ -1,0 +1,24 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `test` profile [unoptimized] target(s) in 1.02s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_studio_host-cb2e179354d1578c)
+
+running 2 tests
+test lifecycle_tests::cancelled_caller_keeps_admission_until_owned_work_finishes ... ok
+test lifecycle_tests::cancelled_drain_waiter_cannot_abandon_owned_authentication_work ... FAILED
+
+failures:
+
+---- lifecycle_tests::cancelled_drain_waiter_cannot_abandon_owned_authentication_work stdout ----
+
+thread 'lifecycle_tests::cancelled_drain_waiter_cannot_abandon_owned_authentication_work' (2041952) panicked at crates/rom-studio-host/src/lifecycle_tests.rs:27:5:
+assertion failed: tokio::time::timeout(std::time::Duration::from_millis(20),
+            supervisor.drain()).await.is_err()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    lifecycle_tests::cancelled_drain_waiter_cannot_abandon_owned_authentication_work
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p rom-studio-host --lib`

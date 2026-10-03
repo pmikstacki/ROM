@@ -1,0 +1,9 @@
+    Checking rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `dev` profile [unoptimized] target(s) in 0.90s
+    Checking rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+    Checking rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+    Checking rom-identity v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+    Checking rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+ Documenting rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `dev` profile [unoptimized] target(s) in 1.96s
+   Generated /var/tmp/rom-release-measured-verification-target/doc/rom_studio_host/index.html

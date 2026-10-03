@@ -1,0 +1,57 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+warning: fields `asset_directory` and `host_actor` are never read
+  --> crates/rom-studio-host/src/configuration.rs:54:16
+   |
+51 | pub struct HostConfig {
+   |            ---------- fields in this struct
+...
+54 |     pub(crate) asset_directory: PathBuf,
+   |                ^^^^^^^^^^^^^^^
+55 |     pub(crate) host_actor: Actor,
+   |                ^^^^^^^^^^
+   |
+   = note: `HostConfig` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `secure` and `callback` are never used
+   --> crates/rom-studio-host/src/configuration.rs:104:19
+    |
+ 62 | impl HostConfig {
+    | --------------- methods in this implementation
+...
+104 |     pub(crate) fn secure(&self) -> bool { self.public_origin.starts_with("https://") }
+    |                   ^^^^^^
+105 |     pub(crate) fn callback(&self, authority: &str) -> String { format!("{}{}auth/callback/{}", self.public_origin, self.base_path, ...
+    |                   ^^^^^^^^
+
+warning: `rom-studio-host` (lib) generated 2 warnings
+error[E0618]: expected function, found `HostConfig`
+  --> crates/rom-studio-host/tests/configuration.rs:26:17
+   |
+ 3 | fn config(origin: &str, base: &str, assets: &str) -> HostConfig {
+   | --------------------------------------------------------------- this function of the same name is available here, but it's shadowed by the local binding
+...
+22 |     let config = config("https://studio.example", "/rom-studio/", "/var/lib/rom/assets")
+   |         ------ `config` has type `HostConfig`
+...
+26 |         assert!(config(origin, "/rom-studio/", "/var/lib/rom/assets").validate().is_err(), "{origin}");
+   |                 ^^^^^^-----------------------------------------------
+   |                 |
+   |                 call expression requires function
+
+error[E0618]: expected function, found `HostConfig`
+  --> crates/rom-studio-host/tests/configuration.rs:48:22
+   |
+ 3 | fn config(origin: &str, base: &str, assets: &str) -> HostConfig {
+   | --------------------------------------------------------------- this function of the same name is available here, but it's shadowed by the local binding
+...
+46 |     let config = config("https://studio.example", "/rom-studio/", "/assets").provider(provider()).provider(provider());
+   |         ------ `config` has type `HostConfig`
+47 |     assert!(config.validate().is_err());
+48 |     let mut config = config("https://studio.example", "/rom-studio/", "/assets");
+   |                      ^^^^^^-----------------------------------------------------
+   |                      |
+   |                      call expression requires function
+
+For more information about this error, try `rustc --explain E0618`.
+error: could not compile `rom-studio-host` (test "configuration") due to 2 previous errors

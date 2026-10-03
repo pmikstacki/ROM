@@ -1,0 +1,128 @@
+warning: method `callback` is never used
+   --> crates/rom-studio-host/src/configuration.rs:105:19
+    |
+ 62 | impl HostConfig {
+    | --------------- method in this implementation
+...
+105 |     pub(crate) fn callback(&self, authority: &str) -> String { format!("{}{}auth/callback/{}", self.public_origin, self.base_path, ...
+    |                   ^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `secret` is never used
+ --> crates/rom-studio-host/src/session.rs:7:15
+  |
+7 | pub(crate) fn secret() -> Result<String> {
+  |               ^^^^^^
+
+warning: field `token_expiry` is never read
+  --> crates/rom-studio-host/src/session.rs:15:16
+   |
+12 | pub(crate) struct SessionEvidence {
+   |                   --------------- field in this struct
+...
+15 |     pub(crate) token_expiry: u64,
+   |                ^^^^^^^^^^^^
+
+warning: field `cookie` is never read
+  --> crates/rom-studio-host/src/session.rs:18:5
+   |
+17 | pub(crate) struct Session {
+   |                   ------- field in this struct
+18 |     cookie: String,
+   |     ^^^^^^
+
+warning: methods `cookie` and `cancellation` are never used
+  --> crates/rom-studio-host/src/session.rs:26:19
+   |
+25 | impl Session {
+   | ------------ methods in this implementation
+26 |     pub(crate) fn cookie(&self) -> &str { &self.cookie }
+   |                   ^^^^^^
+...
+30 |     pub(crate) fn cancellation(&self) -> watch::Receiver<bool> { self.cancelled.subscribe() }
+   |                   ^^^^^^^^^^^^
+
+warning: fields `capacity` and `ttl` are never read
+  --> crates/rom-studio-host/src/session.rs:35:59
+   |
+35 | pub(crate) struct SessionStore { entries: Mutex<Entries>, capacity: usize, ttl: u64 }
+   |                   ------------ fields in this struct      ^^^^^^^^         ^^^
+
+warning: method `insert` is never used
+  --> crates/rom-studio-host/src/session.rs:40:19
+   |
+36 | impl SessionStore {
+   | ----------------- method in this implementation
+...
+40 |     pub(crate) fn insert(&self, evidence: SessionEvidence, now: u64) -> Result<Arc<Session>> {
+   |                   ^^^^^^
+
+warning: struct `KeySet` is never constructed
+ --> crates/rom-studio-host/src/oidc.rs:9:8
+  |
+9 | struct KeySet { keys: Vec<Jwk> }
+  |        ^^^^^^
+
+warning: struct `Jwk` is never constructed
+  --> crates/rom-studio-host/src/oidc.rs:12:8
+   |
+12 | struct Jwk {
+   |        ^^^
+
+warning: function `parse_jwks` is never used
+  --> crates/rom-studio-host/src/oidc.rs:16:15
+   |
+16 | pub(crate) fn parse_jwks(bytes: &[u8]) -> Result<BTreeMap<String, DecodingKey>> {
+   |               ^^^^^^^^^^
+
+warning: function `original_expiry` is never used
+  --> crates/rom-studio-host/src/oidc.rs:31:15
+   |
+31 | pub(crate) fn original_expiry(token: &str) -> Result<u64> {
+   |               ^^^^^^^^^^^^^^^
+
+warning: struct `Attempt` is never constructed
+ --> crates/rom-studio-host/src/login.rs:6:19
+  |
+6 | pub(crate) struct Attempt {
+  |                   ^^^^^^^
+
+warning: struct `State` is never constructed
+  --> crates/rom-studio-host/src/login.rs:13:8
+   |
+13 | struct State { closed: bool, entries: BTreeMap<String, Attempt> }
+   |        ^^^^^
+
+warning: struct `Attempts` is never constructed
+  --> crates/rom-studio-host/src/login.rs:14:19
+   |
+14 | pub(crate) struct Attempts { state: Mutex<State>, capacity: usize }
+   |                   ^^^^^^^^
+
+warning: associated items `new`, `insert`, `consume`, and `close` are never used
+  --> crates/rom-studio-host/src/login.rs:16:19
+   |
+15 | impl Attempts {
+   | ------------- associated items in this implementation
+16 |     pub(crate) fn new(capacity:usize) -> Self { Self { state:Mutex::new(State {closed:false,entries:BTreeMap::new()}), capacity } }
+   |                   ^^^
+17 |     pub(crate) fn insert(&self, attempt:Attempt, now:u64) -> Result<String> {
+   |                   ^^^^^^
+...
+27 |     pub(crate) fn consume(&self, token:&str, provider:&str, browser:&str, now:u64) -> Result<Attempt> {
+   |                   ^^^^^^^
+...
+34 |     pub(crate) fn close(&self) { if let Ok(mut state)=self.state.lock() { state.closed=true;state.entries.clear(); } }
+   |                   ^^^^^
+
+warning: `rom-studio-host` (lib) generated 15 warnings
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+error[E0599]: no method named `allow_discovery` found for struct `Definition<R>` in the current scope
+  --> crates/rom-studio-host/tests/human.rs:43:81
+   |
+43 |         .resource(Document::definition().policy(|_,_,_|true).allow_all_fields().allow_discovery())
+   |                                                                                 ^^^^^^^^^^^^^^^ method not found in `Definition<Document>`
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `rom-studio-host` (test "human") due to 1 previous error

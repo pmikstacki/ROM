@@ -1,0 +1,37 @@
+warning: fields `asset_directory` and `host_actor` are never read
+  --> crates/rom-studio-host/src/configuration.rs:54:16
+   |
+51 | pub struct HostConfig {
+   |            ---------- fields in this struct
+...
+54 |     pub(crate) asset_directory: PathBuf,
+   |                ^^^^^^^^^^^^^^^
+55 |     pub(crate) host_actor: Actor,
+   |                ^^^^^^^^^^
+   |
+   = note: `HostConfig` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `secure` and `callback` are never used
+   --> crates/rom-studio-host/src/configuration.rs:104:19
+    |
+ 62 | impl HostConfig {
+    | --------------- methods in this implementation
+...
+104 |     pub(crate) fn secure(&self) -> bool { self.public_origin.starts_with("https://") }
+    |                   ^^^^^^
+105 |     pub(crate) fn callback(&self, authority: &str) -> String { format!("{}{}auth/callback/{}", self.public_origin, self.base_path, ...
+    |                   ^^^^^^^^
+
+warning: `rom-studio-host` (lib) generated 2 warnings
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `test` profile [unoptimized] target(s) in 0.23s
+     Running tests/configuration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/configuration-9557bffe4d84f28f)
+
+running 3 tests
+test loopback_exception_cannot_enable_plaintext_network_deployment ... ok
+test rejects_ambiguous_paths_duplicate_authorities_and_zero_limits ... ok
+test pins_exact_public_origin_and_confines_all_provider_endpoints ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

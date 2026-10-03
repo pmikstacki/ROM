@@ -1,0 +1,22 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `test` profile [unoptimized] target(s) in 0.40s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_studio_host-cb2e179354d1578c)
+
+running 1 test
+test assets_tests::empty_directory_trees_cannot_bypass_inventory_work_limits ... FAILED
+
+failures:
+
+---- assets_tests::empty_directory_trees_cannot_bypass_inventory_work_limits stdout ----
+
+thread 'assets_tests::empty_directory_trees_cannot_bypass_inventory_work_limits' (2043742) panicked at crates/rom-studio-host/src/assets_tests.rs:53:5:
+assertion failed: Assets::load(&dir.0, 16, 1024).is_err()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    assets_tests::empty_directory_trees_cannot_bypass_inventory_work_limits
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p rom-studio-host --lib`

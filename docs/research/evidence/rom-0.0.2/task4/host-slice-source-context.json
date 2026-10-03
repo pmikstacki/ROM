@@ -1,0 +1,41 @@
+{
+  "source_head": "e441ccd1fc38ee64aad0a4a677fad89b6cb1e274",
+  "compiler": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "target": "/var/tmp/rom-release-measured-verification-target",
+  "jobs": 1,
+  "commands": [
+    "cargo test -p rom-studio-host --locked",
+    "cargo clippy -p rom-studio-host --all-targets --locked -- -D warnings",
+    "RUSTDOCFLAGS=\"-D warnings\" cargo doc -p rom-studio-host --locked --no-deps"
+  ],
+  "result": "exit 0; 23 tests pass; both native stores real OIDC journey; clippy and rustdoc warnings denied pass",
+  "source_hashes": {
+    "crates/rom-studio-host/Cargo.toml": "86a16f92d02679c6621a5fae92f609f909aa715f21af6054989e98d3abc0d10d",
+    "crates/rom-studio-host/README.md": "019e90eb8565c5182e038051d7a08f3261683da1e00b37d283b0ed48699d346c",
+    "crates/rom-studio-host/src/assets.rs": "8a0180c612d2b3d7e101f083cac569475354c2101546b72ced3e56a253b66ab7",
+    "crates/rom-studio-host/src/assets_tests.rs": "3a9a6b437c584a4c183b922c5f37a203bb305f523302431ecbe7e09a67eb10a0",
+    "crates/rom-studio-host/src/authentication.rs": "de1f6022afdf5b7ba7abdb9b6a49b51e4511a2c5c164be3494346f102f1f33a6",
+    "crates/rom-studio-host/src/configuration.rs": "ea8040376c00faaa1d14bee73cc28bbb73538344467e32e1534f5cbecb6cb690",
+    "crates/rom-studio-host/src/csrf.rs": "5430a19624bdb803a4b874f12a0ae0d63448fa8843322f8fda2e1440fe67634a",
+    "crates/rom-studio-host/src/csrf_tests.rs": "b5a08bfbd20b1969fbd60f5f83f2a6d49afc1dcfd5da94d6b64847711b1b11d7",
+    "crates/rom-studio-host/src/lib.rs": "7808bc81380d201db81b21a826969eabba5b4f6b0ca22aa4fc651a17cf127a11",
+    "crates/rom-studio-host/src/lifecycle.rs": "ebc8be1e853bc053b5e912859953ffb5e8a0425072ca89941b97b7a8b5003480",
+    "crates/rom-studio-host/src/lifecycle_tests.rs": "4b74c603e65f42d175d84c8f43d9eee176c5ca7e09893e4730cd56bf03e4c0cb",
+    "crates/rom-studio-host/src/login.rs": "ee6f13c1b204cceec8d2d1196b626680ad9dc09320d5a94fc923aa3872d5f9b2",
+    "crates/rom-studio-host/src/login_tests.rs": "2f60d233fcdd902078743d55b782bb55535173c4597b1ebe7613b1e1f44c3a20",
+    "crates/rom-studio-host/src/oidc.rs": "eefeb169b0e0eb8e64150cbe14b571a48806a2f2f59840cf46845ea80f582afb",
+    "crates/rom-studio-host/src/oidc_tests.rs": "a78d9d5bbbce663ef465418de2d852c8fe28e7d03642d6a22d9988ef88084939",
+    "crates/rom-studio-host/src/router.rs": "7e73c861fdac3adf763fd34f14733bf32b3b37923d13a6071cd6ec486cff4daa",
+    "crates/rom-studio-host/src/session.rs": "11503afded810e92dcb6c1b8ccd4fd604fc31609f9d53692b55e09ef9225486f",
+    "crates/rom-studio-host/src/session_observation.rs": "2b69f3e2e29e1379696cd44ac4f36e0d4c86246d9e44c5f9273d1c430aeca84b",
+    "crates/rom-studio-host/src/session_tests.rs": "4330016840fcaefb9029655f56e39c8e531ed2b4a4843b1d09f753e514e94a7a",
+    "crates/rom-studio-host/src/settings.rs": "8eb38d99140e972e2a9d128aa4644566f40d6630c4786bbc4407327e95bfe3fe",
+    "crates/rom-studio-host/tests/assets/index.html": "5a6113af0057ac9e34ac0f6b4f75b310d9ce42cc4b8d1840ae8bd7e2c4f307c3",
+    "crates/rom-studio-host/tests/configuration.rs": "2008eb22836f8009cddd7d1f9217c505328f3fa820f708d6bc3d42750dd4c385",
+    "crates/rom-studio-host/tests/configuration_root.rs": "98b9b8c82e6d0dee34bec5d48d7099c67d19ccdedfa16589e19071688555dce5",
+    "crates/rom-studio-host/tests/host.rs": "c1c6d4bda85d31bddb83d3b8d452176d7f47ac3c34a9ee698c67740bb725bf37",
+    "crates/rom-studio-host/tests/human.rs": "2314d12185a867cfe12f60807cab14ac4ea45ff47a97f4d8a5572d5b1ebb08a3",
+    "crates/rom-studio-host/tests/provider-server.mjs": "3766a52d337ce5dde253b56855586da56e7ece720da5603cb7474f8c7b274e73"
+  },
+  "lock_sha256": "7af6ba8949f5d8b523f3550b481ba9fbdef7367baa47b2f04526b0f32e0d69a2"
+}

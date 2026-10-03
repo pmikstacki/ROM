@@ -1,0 +1,23 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `test` profile [unoptimized] target(s) in 0.54s
+     Running tests/human.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/human-ec7be30a8cc835e8)
+
+running 1 test
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+test actual_provider_login_binds_current_resources_and_protects_generic_api ... FAILED
+
+failures:
+
+---- actual_provider_login_binds_current_resources_and_protects_generic_api stdout ----
+
+thread 'actual_provider_login_binds_current_resources_and_protects_generic_api' (2041180) panicked at crates/rom-studio-host/tests/human.rs:81:122:
+logout must close a session-owned stream: Elapsed(())
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    actual_provider_login_binds_current_resources_and_protects_generic_api
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.30s
+
+error: test failed, to rerun pass `-p rom-studio-host --test human`

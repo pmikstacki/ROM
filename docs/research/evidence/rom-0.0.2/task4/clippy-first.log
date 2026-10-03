@@ -1,0 +1,87 @@
+    Checking tokio v1.53.1
+    Checking hyper v1.11.1
+    Checking rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+    Checking hyper-util v0.1.21
+    Checking tower v0.5.3
+    Checking serde_urlencoded v0.7.1
+    Checking jsonwebtoken v11.1.0
+    Checking tokio-rustls v0.26.6
+    Checking axum v0.8.9
+    Checking tokio-util v0.7.19
+    Checking hyper-rustls v0.27.10
+    Checking rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+    Checking tower-http v0.6.11
+    Checking rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+    Checking reqwest v0.13.5
+    Checking rom-identity v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+    Checking getrandom v0.4.3
+    Checking rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+    Checking rom-redb v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+    Checking rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+    Checking rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+error: this `if` statement can be collapsed
+  --> crates/rom-studio-host/src/csrf.rs:24:13
+   |
+24 | /             if let Some((key, value)) = cookie.trim().split_once('=') {
+25 | |                 if key == name {
+26 | |                     if selected.is_some() || value.is_empty() {
+27 | |                         return Err(Error::Denied);
+...  |
+31 | |             }
+   | |_____________^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+   = note: `-D clippy::collapsible-if` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(clippy::collapsible_if)]`
+help: collapse nested if block
+   |
+24 ~             if let Some((key, value)) = cookie.trim().split_once('=')
+25 ~                 && key == name {
+26 |                     if selected.is_some() || value.is_empty() {
+...
+29 |                     selected = Some(value.to_owned());
+30 ~                 }
+   |
+
+error: this `if` statement can be collapsed
+   --> crates/rom-studio-host/src/router.rs:142:9
+    |
+142 | /         if let Ok(activation) = rom_identity::ProviderActivation::read(
+143 | |             &shared.runtime,
+144 | |             &shared.config.host_actor,
+145 | |             &config.authority,
+...   |
+155 | |         }
+    | |_________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+147 ~         .await
+148 ~             && activation.config().issuer == config.issuer
+149 |                 && activation.config().audience == config.client_id
+...
+152 |                 providers.push(serde_json::json!({"id":config.authority,"label":config.label}));
+153 ~             }
+    |
+
+error: this `if` statement can be collapsed
+   --> crates/rom-studio-host/src/session.rs:110:9
+    |
+110 | /         if let Ok(mut entries) = self.entries.lock() {
+111 | |             if let Some(session) = entries.sessions.remove(cookie) {
+112 | |                 session.cancel();
+113 | |             }
+114 | |         }
+    | |_________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+110 ~         if let Ok(mut entries) = self.entries.lock()
+111 ~             && let Some(session) = entries.sessions.remove(cookie) {
+112 |                 session.cancel();
+113 ~             }
+    |
+
+error: could not compile `rom-studio-host` (lib) due to 3 previous errors

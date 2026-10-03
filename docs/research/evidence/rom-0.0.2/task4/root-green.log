@@ -1,0 +1,182 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+warning: fields `asset_directory` and `host_actor` are never read
+  --> crates/rom-studio-host/src/configuration.rs:54:16
+   |
+51 | pub struct HostConfig {
+   |            ---------- fields in this struct
+...
+54 |     pub(crate) asset_directory: PathBuf,
+   |                ^^^^^^^^^^^^^^^
+55 |     pub(crate) host_actor: Actor,
+   |                ^^^^^^^^^^
+   |
+   = note: `HostConfig` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `secure` and `callback` are never used
+   --> crates/rom-studio-host/src/configuration.rs:104:19
+    |
+ 62 | impl HostConfig {
+    | --------------- methods in this implementation
+...
+104 |     pub(crate) fn secure(&self) -> bool { self.public_origin.starts_with("https://") }
+    |                   ^^^^^^
+105 |     pub(crate) fn callback(&self, authority: &str) -> String { format!("{}{}auth/callback/{}", self.public_origin, self.base_path, ...
+    |                   ^^^^^^^^
+
+warning: function `secret` is never used
+ --> crates/rom-studio-host/src/session.rs:7:15
+  |
+7 | pub(crate) fn secret() -> Result<String> {
+  |               ^^^^^^
+
+warning: struct `SessionEvidence` is never constructed
+  --> crates/rom-studio-host/src/session.rs:12:19
+   |
+12 | pub(crate) struct SessionEvidence {
+   |                   ^^^^^^^^^^^^^^^
+
+warning: struct `Session` is never constructed
+  --> crates/rom-studio-host/src/session.rs:17:19
+   |
+17 | pub(crate) struct Session {
+   |                   ^^^^^^^
+
+warning: multiple methods are never used
+  --> crates/rom-studio-host/src/session.rs:26:19
+   |
+25 | impl Session {
+   | ------------ methods in this implementation
+26 |     pub(crate) fn cookie(&self) -> &str { &self.cookie }
+   |                   ^^^^^^
+27 |     pub(crate) fn csrf(&self) -> &str { &self.csrf }
+   |                   ^^^^
+28 |     pub(crate) fn generation(&self) -> &str { &self.generation }
+   |                   ^^^^^^^^^^
+29 |     pub(crate) fn expires_at(&self) -> u64 { self.expiry }
+   |                   ^^^^^^^^^^
+30 |     pub(crate) fn cancellation(&self) -> watch::Receiver<bool> { self.cancelled.subscribe() }
+   |                   ^^^^^^^^^^^^
+31 |     pub(crate) fn check_csrf(&self, value: &str) -> bool { bool::from(self.csrf.as_bytes().ct_eq(value.as_bytes())) }
+   |                   ^^^^^^^^^^
+32 |     fn cancel(&self) { self.cancelled.send_replace(true); }
+   |        ^^^^^^
+
+warning: struct `Entries` is never constructed
+  --> crates/rom-studio-host/src/session.rs:34:8
+   |
+34 | struct Entries { closed: bool, sessions: BTreeMap<String, Arc<Session>> }
+   |        ^^^^^^^
+
+warning: struct `SessionStore` is never constructed
+  --> crates/rom-studio-host/src/session.rs:35:19
+   |
+35 | pub(crate) struct SessionStore { entries: Mutex<Entries>, capacity: usize, ttl: u64 }
+   |                   ^^^^^^^^^^^^
+
+warning: associated items `new`, `insert`, `lookup`, `remove`, and `close` are never used
+  --> crates/rom-studio-host/src/session.rs:37:19
+   |
+36 | impl SessionStore {
+   | ----------------- associated items in this implementation
+37 |     pub(crate) fn new(capacity: usize, ttl: u64) -> Self {
+   |                   ^^^
+...
+40 |     pub(crate) fn insert(&self, evidence: SessionEvidence, now: u64) -> Result<Arc<Session>> {
+   |                   ^^^^^^
+...
+51 |     pub(crate) fn lookup(&self, cookie: &str, now: u64) -> Option<Arc<Session>> {
+   |                   ^^^^^^
+...
+58 |     pub(crate) fn remove(&self, cookie: &str) {
+   |                   ^^^^^^
+...
+61 |     pub(crate) fn close(&self) {
+   |                   ^^^^^
+
+warning: function `expire` is never used
+  --> crates/rom-studio-host/src/session.rs:65:4
+   |
+65 | fn expire(sessions: &mut BTreeMap<String, Arc<Session>>, now: u64) {
+   |    ^^^^^^
+
+warning: struct `Asset` is never constructed
+ --> crates/rom-studio-host/src/assets.rs:5:19
+  |
+5 | pub(crate) struct Asset { pub(crate) bytes: Arc<[u8]>, pub(crate) content_type: &'static str }
+  |                   ^^^^^
+
+warning: struct `Assets` is never constructed
+ --> crates/rom-studio-host/src/assets.rs:6:19
+  |
+6 | pub(crate) struct Assets { files: BTreeMap<String, Asset> }
+  |                   ^^^^^^
+
+warning: associated items `load` and `get` are never used
+  --> crates/rom-studio-host/src/assets.rs:8:19
+   |
+ 7 | impl Assets {
+   | ----------- associated items in this implementation
+ 8 |     pub(crate) fn load(root: &Path, count: usize, bytes: usize) -> Result<Self> {
+   |                   ^^^^
+...
+16 |     pub(crate) fn get(&self, relative: &str) -> Option<Asset> {
+   |                   ^^^
+
+warning: function `load_directory` is never used
+  --> crates/rom-studio-host/src/assets.rs:21:4
+   |
+21 | fn load_directory(root: &Path, directory: &Path, limit: usize, remaining: &mut usize, files: &mut BTreeMap<String,Asset>) -> Result<...
+   |    ^^^^^^^^^^^^^^
+
+warning: function `mime` is never used
+  --> crates/rom-studio-host/src/assets.rs:40:4
+   |
+40 | fn mime(path: &Path) -> &'static str {
+   |    ^^^^
+
+warning: function `check_origin` is never used
+ --> crates/rom-studio-host/src/csrf.rs:4:15
+  |
+4 | pub(crate) fn check_origin(headers: &HeaderMap, expected: &str) -> Result<()> {
+  |               ^^^^^^^^^^^^
+
+warning: function `session_cookie` is never used
+  --> crates/rom-studio-host/src/csrf.rs:10:15
+   |
+10 | pub(crate) fn session_cookie(headers: &HeaderMap, name: &str) -> Result<String> {
+   |               ^^^^^^^^^^^^^^
+
+warning: struct `KeySet` is never constructed
+ --> crates/rom-studio-host/src/oidc.rs:9:8
+  |
+9 | struct KeySet { keys: Vec<Jwk> }
+  |        ^^^^^^
+
+warning: struct `Jwk` is never constructed
+  --> crates/rom-studio-host/src/oidc.rs:12:8
+   |
+12 | struct Jwk {
+   |        ^^^
+
+warning: function `parse_jwks` is never used
+  --> crates/rom-studio-host/src/oidc.rs:16:15
+   |
+16 | pub(crate) fn parse_jwks(bytes: &[u8]) -> Result<BTreeMap<String, DecodingKey>> {
+   |               ^^^^^^^^^^
+
+warning: function `original_expiry` is never used
+  --> crates/rom-studio-host/src/oidc.rs:31:15
+   |
+31 | pub(crate) fn original_expiry(token: &str) -> Result<u64> {
+   |               ^^^^^^^^^^^^^^^
+
+warning: `rom-studio-host` (lib) generated 21 warnings
+    Finished `test` profile [unoptimized] target(s) in 0.29s
+     Running tests/configuration_root.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/configuration_root-7fcbef80460ec619)
+
+running 1 test
+test root_mount_is_valid_without_an_empty_slice_panic ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
