@@ -3,6 +3,7 @@ mod client;
 mod input;
 mod json;
 mod output;
+mod response;
 mod sse;
 use clap::Parser;
 use std::sync::{

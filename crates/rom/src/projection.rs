@@ -1,4 +1,5 @@
 use super::*;
+use crate::query::subscription::Subscription;
 
 /// Authorized partial view. Deliberately cannot be decoded as a complete Resource.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
@@ -152,27 +153,14 @@ impl Runtime {
         kind: &str,
         spec: QuerySpec,
     ) -> Result<LiveProjected> {
-        self.ensure_open()?;
-        self.check_actor(actor)?;
-        let permit = self
-            .0
-            .subscriptions
-            .clone()
-            .try_acquire_owned()
-            .map_err(|e| match e {
-                tokio::sync::TryAcquireError::Closed => Error::Closed,
-                tokio::sync::TryAcquireError::NoPermits => Error::Overloaded,
-            })?;
-        let changes = self.0.changes.subscribe();
+        let subscription = Subscription::begin(self, actor)?;
         self.query_spec_projected(actor, kind, spec.clone()).await?;
         Ok(LiveProjected {
             runtime: self.clone(),
             actor: actor.clone(),
             kind: kind.into(),
             spec,
-            changes,
-            delivered_generation: None,
-            _permit: permit,
+            subscription,
         })
     }
 }
@@ -182,27 +170,20 @@ pub struct LiveProjected {
     actor: Actor,
     kind: String,
     spec: QuerySpec,
-    changes: watch::Receiver<u64>,
-    delivered_generation: Option<u64>,
-    _permit: OwnedSemaphorePermit,
+    subscription: Subscription,
 }
 impl LiveProjected {
     /// Pending work is acknowledged only after a successful authorized query.
     pub async fn changed(&mut self) -> Result<Vec<ProjectedView>> {
-        loop {
-            self.runtime.check_actor(&self.actor)?;
-            self.runtime.ensure_open()?;
-            let generation = *self.changes.borrow_and_update();
-            if self.delivered_generation == Some(generation) {
-                self.changes.changed().await.map_err(|_| Error::Closed)?;
-                continue;
-            }
-            let rows = self
-                .runtime
-                .query_spec_projected(&self.actor, &self.kind, self.spec.clone())
-                .await?;
-            self.delivered_generation = Some(generation);
-            return Ok(rows);
-        }
+        let generation = self
+            .subscription
+            .pending(&self.runtime, &self.actor)
+            .await?;
+        let rows = self
+            .runtime
+            .query_spec_projected(&self.actor, &self.kind, self.spec.clone())
+            .await?;
+        self.subscription.acknowledge(generation);
+        Ok(rows)
     }
 }

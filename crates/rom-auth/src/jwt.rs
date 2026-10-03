@@ -21,27 +21,12 @@
 //! ```compile_fail
 //! let forged = serde_json::from_str::<rom_auth::VerifiedIdentity>("{}");
 //! ```
-use crate::{AuthError, PrincipalKind, VerifiedIdentity};
+use crate::{AuthError, PrincipalKind, VerifiedIdentity, claims::Audience};
 /// Public-key representation used by the selected cryptographic backend.
 pub use jsonwebtoken::DecodingKey;
 use jsonwebtoken::{Algorithm, Validation, decode, decode_header};
 use serde::Deserialize;
 use std::collections::BTreeMap;
-
-#[derive(Deserialize)]
-#[serde(untagged)]
-enum Audience {
-    One(String),
-    Many(Vec<String>),
-}
-impl Audience {
-    fn contains(&self, expected: &str) -> bool {
-        match self {
-            Self::One(value) => value == expected,
-            Self::Many(values) => values.iter().any(|value| value == expected),
-        }
-    }
-}
 
 #[derive(Deserialize)]
 struct JwtClaims {

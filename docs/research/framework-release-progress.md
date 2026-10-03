@@ -84,6 +84,10 @@ work-record budget defects. The full local verifier passed. See
 The owner also required facade-only module roots. All 14 maintained `lib.rs` and
 `mod.rs` files follow this rule, except Rust-required procedural macro entry wrappers.
 Public APIs remain available through exports. Tests cover the refactored packages.
+The [follow-up module review](module-cleanup-results.md) removes duplicate subscription
+and audience logic, separates blob service responsibilities and isolates CLI response
+validation. The combined changes pass the full local verifier. Root agent instructions
+now direct future implementation and review work to the module rules.
 
 Stage 2.2 is complete for versioned offline Resource representation migrations.
 Typed steps convert current values, history and work sources while preserving

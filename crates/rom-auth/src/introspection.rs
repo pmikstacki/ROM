@@ -11,7 +11,7 @@
 //! }
 //! ```
 //! Reuse the configured adapter in a real host to retain its bounded evidence cache.
-use crate::{AuthError, PrincipalKind, VerifiedIdentity};
+use crate::{AuthError, PrincipalKind, VerifiedIdentity, claims::Audience};
 use serde::Deserialize;
 use sha2::{Digest, Sha256};
 use std::{collections::BTreeMap, io::Read, time::Duration};
@@ -25,20 +25,6 @@ pub enum EndpointPolicy {
     LoopbackTestOnly,
 }
 
-#[derive(Clone, Debug, Deserialize)]
-#[serde(untagged)]
-enum Audience {
-    One(String),
-    Many(Vec<String>),
-}
-impl Audience {
-    fn contains(&self, expected: &str) -> bool {
-        match self {
-            Self::One(x) => x == expected,
-            Self::Many(xs) => xs.iter().any(|x| x == expected),
-        }
-    }
-}
 #[derive(Deserialize)]
 struct IntrospectionResponse {
     active: bool,
