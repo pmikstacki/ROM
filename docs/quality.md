@@ -4,6 +4,14 @@ Use the [documentation writing rules](writing.md) for technical prose.
 
 These are ROM's adopted delivery criteria. When the Rust and database components exist, their gates become executable. This document does not claim they pass today.
 
+## Module boundaries
+
+Keep `lib.rs` and `mod.rs` as module facades. These files contain module declarations, imports, exports and definitions required across modules.
+Put implementation logic in named modules with a clear responsibility. Put unit tests in separate test modules. Keep public paths stable through exports.
+Rust requires procedural macro entry points at the crate root. These functions may delegate to an expansion module; parsing and generation stay there.
+Remove duplicate behavior through shared contracts and helpers. Do not create a generic abstraction when the operations have different guarantees.
+After a structural change, run the affected tests, downstream compile fixtures and the full local verifier before integration.
+
 - Run `./scripts/check` locally before sharing changes. GitHub hosts code only; Actions is disabled. Behavior changes carry concrete success and failure scenarios.
 - The first Rust crate adds formatting, Clippy with warnings denied, workspace tests and doctests. It also adds documentation with warnings denied and a check of the declared minimum Rust version.
 - The domain core forbids unsafe Rust and denies ignored must-use results. Any future unsafe adapter requires separate justification and documented invariants.

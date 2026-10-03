@@ -41,6 +41,9 @@ struct Blocking {
     block: AtomicBool,
 }
 impl Storage for Blocking {
+    fn register(&self, descriptors: &[rom::Descriptor]) -> Result<()> {
+        self.inner.register(descriptors)
+    }
     fn capabilities(&self) -> Capabilities {
         self.inner.capabilities()
     }
@@ -234,6 +237,9 @@ async fn cancelled_read_keeps_io_capacity_until_storage_completes() {
 async fn adapter_panic_is_terminal_and_never_success() {
     struct PanicStore(Sqlite);
     impl Storage for PanicStore {
+        fn register(&self, descriptors: &[rom::Descriptor]) -> Result<()> {
+            self.0.register(descriptors)
+        }
         fn capabilities(&self) -> Capabilities {
             self.0.capabilities()
         }

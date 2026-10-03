@@ -9,7 +9,9 @@ let restored = rom_sqlite::Sqlite::restore_from(
 )?;
 ```
 
-The redb methods have the same signatures. The destination must be new. Restore refuses existing paths and symlinks. Archives are backend-specific, archive format 1 / database format 3. This is not a cross-backend migration or automatic format upgrade.
+The redb methods have the same signatures. The destination must be new. Restore refuses existing paths and symlinks. Archives are backend-specific, archive format 2 / database format 4. This is not a cross-backend migration or automatic format upgrade. Archives include canonical descriptors and the validated live reference graph.
+
+To upgrade an older archive, call `rom_backup::upgrade_v1_archive(source, destination, backend, descriptors, limits)`. Supply explicit descriptors for every stored kind. The operation preserves the source and does not transform Resource values. Normal native open still rejects format 3; export with its compatible binary first.
 
 ## What is included
 

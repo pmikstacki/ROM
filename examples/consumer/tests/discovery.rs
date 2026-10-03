@@ -82,6 +82,10 @@ async fn reviewer_catalog_budget_matches_wire_for_every_smaller_limit() {
 
 struct NoStorageReads;
 impl Storage for NoStorageReads {
+    // This fixture tests metadata-only discovery, not durable storage registration.
+    fn register(&self, _: &[rom::Descriptor]) -> Result<()> {
+        Ok(())
+    }
     fn capabilities(&self) -> Capabilities {
         Capabilities {
             atomic_bundle: true,

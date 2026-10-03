@@ -69,13 +69,26 @@ Stage 1's application/API/review acceptance is complete; the whole release goal
 is not. This is automated author-contract evidence, not an external human study.
 Explicit discovery allowlists remain a deliberate metadata policy; authors can
 already grant all metadata via the existing discovery callback when appropriate.
-Checkout references remain strings and ResourceRef currently promises identity
-only; enforced reference integrity belongs to stage 2. Nested structured Inputs,
+Stage 1 left Checkout references as strings and ResourceRef as typed identity.
+The stage-two update below adds enforcement. Nested structured Inputs,
 generic payload declarations and input discovery schemas are not implemented.
 
 ## Remaining stage boundaries
 
-- Stage 2 adds enforced restrict references, versioned migrations, retention and
+Stage 2.1 is complete: persisted descriptors, native atomic restrict checks and
+indexed edges now pass the shared SQLite/redb suite. Backup/startup validates the
+complete live graph. Review reproduced and corrected archive canonicalization and
+work-record budget defects. The full local verifier passed. See
+[reference integrity results](restrict-reference-results.md).
+
+The owner also required facade-only module roots. All 14 maintained `lib.rs` and
+`mod.rs` files follow this rule, except Rust-required procedural macro entry wrappers.
+Public APIs remain available through exports. Tests cover the refactored packages.
+
+An explicit legacy archive upgrade is available. Direct native upgrade, general
+schema transformations, retention and application upgrade acceptance remain open.
+
+- Stage 2 still needs versioned migrations, retention and
   reference application upgrade/backup/restore evidence. The
   [integration preparation](restrict-reference-integration-plan.md) explains why
   checks must share the adapter transaction and how edges affect backup/migration.

@@ -2,7 +2,7 @@
 
 ## Current maintained profile
 
-Both adapters currently use **format 3**, with no implicit migration from earlier
+Both adapters currently use **format 4**, with no implicit migration from earlier
 experimental formats. The core-owned bundle includes state/revision, durable
 receipt, journal and effect/work records in one native transaction. Journal
 retention and receipt/effect/work capacities are bounded; cursor gaps and
@@ -18,6 +18,19 @@ See the current [journal](research/maintained-http-journal.md),
 provide a bounded, checksummed native backup and fresh-destination restore.
 External blob bytes and original-host cutover fencing remain operator duties.
 Deletion is a logical tombstone, not physical erasure.
+
+Runtime binds canonical descriptors through `Storage::register` before intake.
+New native commits require a stored descriptor. Matching receipt replay precedes
+schema and reference checks. Registration retains omitted kinds and rejects
+changed descriptors until an explicit migration occurs.
+Custom persistence adapters must implement this method. Its default returns
+`Unsupported`. Transparent wrappers must forward registration to their backing store.
+
+Declared references now enforce target existence and restrict deletion inside
+the native commit transaction. See [reference integrity](references.md).
+Existing stores receive a complete bounded validation at open. The default budget
+is 128 MiB and 400,000 archive records. Use `open_with_validation_limits` to supply
+a larger host budget. Exceeded limits fail; validation never truncates success.
 
 Run `cargo test -p rom-storage-conformance --locked` from the repository root.
 The sections below preserve the original format-one milestone and its test

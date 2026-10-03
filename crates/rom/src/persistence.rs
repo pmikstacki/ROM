@@ -1,5 +1,5 @@
 use super::*;
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct Key {
     pub kind: String,
     pub id: String,
@@ -69,6 +69,12 @@ pub struct Capabilities {
 /// arbitrate expected revision and identity and atomically persist row/event/receipt/effects.
 /// Implementations must not claim rollback for uncertain acknowledgment.
 pub trait Storage: Send + Sync + 'static {
+    /// Bind the persisted schema before intake. Existing kinds must match exactly.
+    /// Omitted kinds remain in the catalog and retain their integrity obligations.
+    /// New commits require registration; matching receipts remain replayable.
+    fn register(&self, _descriptors: &[Descriptor]) -> Result<()> {
+        Err(Error::Unsupported("persisted Resource schema".into()))
+    }
     fn supports_reactions(&self) -> bool {
         false
     }

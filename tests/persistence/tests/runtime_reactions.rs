@@ -422,6 +422,9 @@ struct Counted {
     calls: [AtomicU64; 4],
 }
 impl Storage for Counted {
+    fn register(&self, descriptors: &[Descriptor]) -> Result<()> {
+        self.inner.register(descriptors)
+    }
     fn capabilities(&self) -> Capabilities {
         self.inner.capabilities()
     }

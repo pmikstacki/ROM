@@ -1,5 +1,5 @@
 use super::*;
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "type", content = "value", rename_all = "snake_case")]
 pub enum Shape {
     String,
@@ -119,7 +119,7 @@ impl<T: Field> Field for BTreeMap<String, T> {
         }
     }
 }
-/// A typed identity reference, not a promise of foreign-key integrity or cascade.
+/// A typed reference. Persistence enforces target existence and restrict deletion.
 #[derive(Clone)]
 pub struct ResourceRef<R: Resource> {
     id: String,
@@ -215,12 +215,14 @@ impl Input for () {
         }
     }
 }
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct FieldDescriptor {
     pub name: String,
     pub shape: Shape,
 }
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct Descriptor {
     pub kind: String,
     pub version: u32,
@@ -562,26 +564,7 @@ impl<R: Resource> Registered for Definition<R> {
     }
     fn normalize(&self, v: Value) -> Result<Value> {
         let value = R::decode(v)?.encode();
-        let descriptor = &self.descriptor;
-        let map = value
-            .as_object()
-            .ok_or_else(|| Error::invalid(R::KIND, "codec object"))?;
-        if map
-            .keys()
-            .any(|key| !descriptor.fields.iter().any(|f| &f.name == key))
-        {
-            return Err(Error::invalid(R::KIND, "codec fields"));
-        }
-        for field in &descriptor.fields {
-            if !map
-                .get(&field.name)
-                .map_or(matches!(field.shape, Shape::Optional(_)), |v| {
-                    matches_shape(v, &field.shape)
-                })
-            {
-                return Err(Error::invalid(R::KIND, &field.name));
-            }
-        }
+        canonical_fields(&self.descriptor, &value)?;
         Ok(value)
     }
     fn allows(&self, a: &Actor, access: Access, v: &Value) -> bool {
@@ -607,6 +590,32 @@ impl<R: Resource> Registered for Definition<R> {
     fn allows_sort(&self, actor: &Actor, field: &str) -> bool {
         self.sort_policy.is_some_and(|p| p(actor, field))
     }
+}
+
+pub(crate) fn canonical_fields<'a>(
+    descriptor: &Descriptor,
+    value: &'a Value,
+) -> Result<&'a Map<String, Value>> {
+    let map = value
+        .as_object()
+        .ok_or_else(|| Error::invalid(&descriptor.kind, "codec object"))?;
+    if map
+        .keys()
+        .any(|key| !descriptor.fields.iter().any(|f| &f.name == key))
+    {
+        return Err(Error::invalid(&descriptor.kind, "codec fields"));
+    }
+    for field in &descriptor.fields {
+        if !map
+            .get(&field.name)
+            .map_or(matches!(field.shape, Shape::Optional(_)), |v| {
+                matches_shape(v, &field.shape)
+            })
+        {
+            return Err(Error::invalid(&descriptor.kind, &field.name));
+        }
+    }
+    Ok(map)
 }
 
 pub(crate) fn matches_shape(value: &Value, shape: &Shape) -> bool {

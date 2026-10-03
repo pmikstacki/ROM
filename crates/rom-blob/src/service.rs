@@ -1,11 +1,15 @@
-use super::*;
-use futures_util::{FutureExt, StreamExt};
+use crate::resource::owner;
+use crate::staging::{hash, stage};
+use crate::{Blob, BlobState, BlobStore, Digest, Error, ObjectKey, Result, Upload, worker_actor};
+use futures_util::FutureExt;
+use rom::Actor;
 use std::{
     collections::BTreeMap,
     panic::AssertUnwindSafe,
     sync::{Arc, Mutex},
     time::Duration,
 };
+use std::{future::Future, pin::Pin};
 use tokio::sync::{OwnedSemaphorePermit, Semaphore, oneshot, watch};
 #[derive(Clone, Copy)]
 pub struct Limits {
@@ -398,28 +402,4 @@ fn receipt(id: &str, revision: u64, blob: &Blob) -> ObjectReceipt {
         digest: blob.digest.clone(),
         bytes: blob.bytes,
     }
-}
-async fn hash(bytes: Vec<u8>) -> Result<(Vec<u8>, Digest)> {
-    tokio::task::spawn_blocking(move || {
-        let digest = Digest::of(&bytes);
-        (bytes, digest)
-    })
-    .await
-    .map_err(|_| Error::Panicked)
-}
-async fn stage(mut input: Upload, limits: Limits) -> Result<Vec<u8>> {
-    let mut bytes = Vec::new();
-    let mut count = 0usize;
-    while let Some(chunk) = input.next().await {
-        count += 1;
-        let chunk = chunk?;
-        if count > limits.chunks
-            || chunk.len() > limits.chunk_bytes
-            || chunk.len() > limits.blob_bytes - bytes.len()
-        {
-            return Err(Error::TooLarge);
-        }
-        bytes.extend_from_slice(&chunk);
-    }
-    Ok(bytes)
 }

@@ -21,6 +21,28 @@ receipt identities, pending work and recovery sources.
 - **WHEN** an offline upgrade is interrupted
 - **THEN** the original source remains recoverable. Incomplete output is not activated.
 
+#### Scenario: Concurrent reference creation and target deletion
+- **GIVEN** a live target and two operations that create a source reference and delete the target
+- **WHEN** native transactions arbitrate these operations
+- **THEN** at most one operation succeeds
+- **AND** no committed source refers to a missing or deleted target
+
+#### Scenario: A source kind is absent from a later Runtime
+- **GIVEN** a persisted live source that refers to a target
+- **WHEN** a later Runtime registers only the target kind and requests target deletion
+- **THEN** the persisted reference prevents deletion without disclosing the source identity
+
+#### Scenario: Receipt replay retains historical meaning
+- **GIVEN** a source creation receipt and a later unlink followed by target deletion
+- **WHEN** the original command is replayed with the same identity and fingerprint
+- **THEN** persistence returns the original receipt without creating a new reference
+- **AND** Runtime applies current disclosure authorization
+
+#### Scenario: A backup has an incomplete reference index
+- **GIVEN** a backup whose stored reference graph differs from its current Resource values
+- **WHEN** export or restore validates the backup
+- **THEN** validation fails before a destination is published
+
 ### Requirement: Optimization preserves observable semantics
 ROM SHALL integrate strategy selection and native planner adapters only with
 transactionally maintained indexes, bounded rebuild/recovery and conformance to

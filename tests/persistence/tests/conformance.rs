@@ -141,6 +141,16 @@ fn redb_atomic_bundle_available_through_storage() {
     use rom::{Bundle, Intent, Key, Receipt, Row, Storage, json};
     let path = std::env::temp_dir().join(format!("rom-redb-initial-{}.redb", std::process::id()));
     let store = rom_redb::Redb::open(&path).expect("redb must implement Storage");
+    store
+        .register(&[rom::Descriptor {
+            kind: "records".into(),
+            version: 1,
+            fields: vec![rom::FieldDescriptor {
+                name: "done".into(),
+                shape: rom::Shape::Bool,
+            }],
+        }])
+        .unwrap();
     let receipt = Receipt {
         identity: "one".into(),
         fingerprint: "create-one".into(),

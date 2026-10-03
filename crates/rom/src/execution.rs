@@ -216,6 +216,13 @@ impl Builder {
                 "concurrency exceeds semaphore limit".into(),
             ));
         }
+        storage.register(
+            &self
+                .registry
+                .values()
+                .map(|d| d.descriptor())
+                .collect::<Vec<_>>(),
+        )?;
         let (changes, _) = watch::channel(0);
         let (drained, _) = watch::channel(0);
         Ok(Runtime(Arc::new(Inner {

@@ -50,6 +50,15 @@ impl Backend {
         }
     }
     fn open(self, path: &Path) -> Arc<dyn Inspect> {
+        let store = self.open_unregistered(path);
+        let mut other = Record::descriptor();
+        other.kind = "other".into();
+        store
+            .register(&[Record::descriptor(), PrivateRecord::descriptor(), other])
+            .unwrap();
+        store
+    }
+    fn open_unregistered(self, path: &Path) -> Arc<dyn Inspect> {
         match self {
             Self::Sqlite => Arc::new(rom_sqlite::Sqlite::open(path).unwrap()),
             Self::Redb => Arc::new(rom_redb::Redb::open(path).unwrap()),
@@ -598,11 +607,11 @@ fn crash_child() {
 }
 
 #[test]
-fn shared_snapshot_rejects_oversized_encoded_row_before_deserializing() {
+fn shared_open_rejects_oversized_encoded_row_before_deserializing() {
     use redb::{Database, TableDefinition};
     for backend in BACKENDS {
         let scratch = Scratch::new();
-        drop(backend.open(&scratch.path()));
+        drop(backend.open_unregistered(&scratch.path()));
         let invalid = "x".repeat(1024);
         match backend {
             Backend::Sqlite => {
@@ -625,9 +634,27 @@ fn shared_snapshot_rejects_oversized_encoded_row_before_deserializing() {
                 tx.commit().unwrap();
             }
         }
-        let store = backend.open(&scratch.path());
-        assert_eq!(store.snapshot("records", 1, 10), Err(Error::TooLarge));
-        assert_eq!(store.snapshot("records", 1, 2048), Err(Error::Storage));
+        for (max_bytes, expected) in [(10, Error::TooLarge), (100_000, Error::Storage)] {
+            let limits = rom_backup::BackupLimits {
+                max_bytes,
+                ..Default::default()
+            };
+            let result = match backend {
+                Backend::Sqlite => rom_sqlite::Sqlite::open_with_validation_limits(
+                    scratch.path(),
+                    Default::default(),
+                    limits,
+                )
+                .map(|_| ()),
+                Backend::Redb => rom_redb::Redb::open_with_validation_limits(
+                    scratch.path(),
+                    Default::default(),
+                    limits,
+                )
+                .map(|_| ()),
+            };
+            assert_eq!(result, Err(expected));
+        }
     }
 }
 #[test]

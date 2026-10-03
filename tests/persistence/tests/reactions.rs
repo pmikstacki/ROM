@@ -86,16 +86,25 @@ fn finite_work_budget_allows_receipt_resolution_but_no_new_execution() {
         WorkState::Stopped(StopReason::WorkBudget)
     ));
 }
+#[derive(Clone, rom::Resource)]
+#[resource(name = "things")]
+struct Thing {
+    title: String,
+}
 fn database(
     redb: bool,
     path: &std::path::Path,
     limits: rom::StorageLimits,
 ) -> Box<dyn rom::Storage> {
-    if redb {
+    let store: Box<dyn rom::Storage> = if redb {
         Box::new(rom_redb::Redb::open_with_limits(path, limits).unwrap())
     } else {
         Box::new(rom_sqlite::Sqlite::open_with_limits(path, limits).unwrap())
-    }
+    };
+    store
+        .register(&[<Thing as rom::Resource>::descriptor()])
+        .unwrap();
+    store
 }
 fn bundle(id: &str) -> rom::Bundle {
     rom::Bundle {
@@ -222,6 +231,8 @@ fn native_precommit_failure_and_postcommit_loss_keep_obligations_atomic() {
                 d.on_commit(Some(hook));
                 Box::new(d)
             };
+            db.register(&[<Thing as rom::Resource>::descriptor()])
+                .unwrap();
             let mut b = bundle("one");
             b.reactions = vec![pending("one")];
             b.reaction_limits = Some(ReactionLimits::default());

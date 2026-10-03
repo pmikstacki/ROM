@@ -33,6 +33,19 @@ async fn standard_fields_roundtrip_through_the_same_resource_pipeline() {
             Runtime::shared_cpu_pool(1).unwrap(),
         )
         .unwrap();
+    runtime
+        .execute(
+            &Actor::trusted("local", "alice"),
+            Command::create(
+                "p1",
+                Person {
+                    name: "Alice".into(),
+                },
+            )
+            .idempotency("person"),
+        )
+        .await
+        .unwrap();
     let value = Measurement {
         signed: -4,
         value: FiniteF64::new(0.25).unwrap(),
@@ -49,7 +62,7 @@ async fn standard_fields_roundtrip_through_the_same_resource_pipeline() {
         .await
         .unwrap();
     assert_eq!(result.value.unwrap().encode(), encoded);
-    // References identify a target kind/id. This profile does not promise target existence.
+    // The typed reference preserves its identity after the target exists.
     assert_eq!(Measurement::decode(encoded).unwrap().person.id(), "p1");
     runtime.shutdown().await.unwrap();
 }

@@ -1,14 +1,23 @@
-use rom::{Bundle, Error, JournalCursor, Key, Receipt, Row, Storage, StorageLimits, json};
+use rom::{
+    Bundle, Error, JournalCursor, Key, Receipt, Resource, Row, Storage, StorageLimits, json,
+};
+#[derive(Clone, rom::Resource)]
+#[resource(name = "things")]
+struct Thing {
+    value: u64,
+}
 fn open(redb: bool, path: &std::path::Path) -> Box<dyn Storage> {
     let limits = StorageLimits {
         journal_rows: 1,
         ..Default::default()
     };
-    if redb {
+    let store: Box<dyn Storage> = if redb {
         Box::new(rom_redb::Redb::open_with_limits(path, limits).unwrap())
     } else {
         Box::new(rom_sqlite::Sqlite::open_with_limits(path, limits).unwrap())
-    }
+    };
+    store.register(&[Thing::descriptor()]).unwrap();
+    store
 }
 #[test]
 fn explicit_head_survives_reopen_and_allows_recovery_after_retention_gap() {

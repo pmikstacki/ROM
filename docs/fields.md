@@ -33,10 +33,10 @@ codecs without changing the resource runtime.
 
 A `ResourceRef<R>` carries a nonempty target identity and advertises R's kind.
 Registration requires that target kind to be registered. Mutual references are
-allowed. This profile promises typed identity, **not** foreign-key existence,
-delete restriction or cascade. If applications need enforceable cross-resource
-integrity, they must use a later explicit capability. They must not infer this
-integrity from the type.
+allowed. Native commits enforce target existence and restrict deletion, including
+references inside collections. Unlink a live source before deleting its target.
+There is no implicit cascade. See [reference integrity](references.md) for replay,
+registration and maintenance behavior.
 
 Collections validate each element/value. Empty collections, empty strings, false
 and zero are values. `Option<T>` uses JSON null. Registration rejects nested nullable shapes such as
