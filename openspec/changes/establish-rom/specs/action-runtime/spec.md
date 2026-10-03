@@ -2,7 +2,7 @@
 
 ## Purpose
 
-One mutation path with validation and concurrency guarantees. This capability defines the observable contract for ROM implementations.
+This capability defines one mutation path with validation and concurrency guarantees. It specifies the observable contract for ROM implementations.
 
 ## ADDED Requirements
 

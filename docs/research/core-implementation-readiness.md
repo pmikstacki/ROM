@@ -2,11 +2,7 @@
 
 Date: 2026-10-02. This is a work breakdown and uncertainty assessment, not a calendar estimate or a claim that production ROM exists.
 
-Update: the [integrated typed probe](integrated-core-probe-results.md) now supplies
-18 independently rerun tests across two Resources, plus compiler fixtures. The
-historical integration gaps below are narrowed by that result, not all resolved.
-Current implementation scope is tracked in the [MVP decision register](mvp-decision-register.md)
-and [acceptance tasks](../../openspec/changes/integrate-resource-mvp/tasks.md).
+Update: the [integrated typed probe](integrated-core-probe-results.md) now supplies 18 independently rerun tests across two Resources, plus compiler fixtures. This result reduces the historical integration gaps below. It does not resolve all of them. The [MVP decision register](mvp-decision-register.md) and [acceptance tasks](../../openspec/changes/integrate-resource-mvp/tasks.md) track current implementation scope.
 
 ## Direction supported by evidence
 
@@ -45,6 +41,6 @@ Recommendations can be prepared for each choice, but none is silently recorded a
 
 ## What would make a calendar estimate defensible
 
-Fix the first milestone's subset and acceptance tests, assemble one typed downstream application against the integrated library, and measure completion of that slice. Then estimate the remaining work using actual implementation/review throughput and an explicit uncertainty allowance. Separate core correctness from adapter breadth, documentation, packaging and operational hardening. A count of passing throwaway tests does not provide a reliable person-day estimate.
+Fix the first milestone's subset and acceptance tests. Assemble one typed downstream application against the integrated library. Measure completion of that slice. Then estimate the remaining work using actual implementation/review throughput and an explicit uncertainty allowance. Separate core correctness from adapter breadth, documentation, packaging and operational hardening. A count of passing throwaway tests does not provide a reliable person-day estimate.
 
 Human usability needs a real author walkthrough: define a resource, discover standard operations, add an action, observe a filtered result, restrict access and repair an intentional error using the normal documentation. Compiler-test success and agent-written examples are necessary evidence, but they do not replace that check.

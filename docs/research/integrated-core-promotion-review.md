@@ -1,11 +1,7 @@
 # Integrated probe: independent promotion review
 
 Reviewed source: `86780041a9824c434054fae25509dff0e56a7212`,
-`codex/prototype-integrated-core`, 2026-10-02. A reviewer separate from the
-implementer reproduced the following through a separate public-API consumer in
-native rom-dev, Rust/Cargo 1.99. No original repository source was changed.
-The coordinator separately reran the original 18-test suite successfully.
-Passing that suite does not remove these additional defects.
+`codex/prototype-integrated-core`, 2026-10-02. A reviewer separate from the implementer reproduced the findings below through a separate public-API consumer in native rom-dev, Rust/Cargo 1.99. No original repository source was changed. The coordinator separately reran the original 18-test suite successfully. That passing result does not remove these additional defects.
 
 | Priority | Defect and reproduction | Required regression/fix |
 | --- | --- | --- |
@@ -15,8 +11,7 @@ Passing that suite does not remove these additional defects.
 
 Locations in the reviewed source: core/src/lib.rs lines 584–604, 753–767 and
 81–94 respectively. Scratch reproduction was `/tmp/rom-promotion-review` inside
-rom-dev. It is supplemental reviewer evidence, not a retained release test;
-maintained regression tests must be committed with the fixes.
+rom-dev. It is supplemental reviewer evidence, not a retained release test. Maintained regression tests must be committed with the fixes.
 
 Status: all three findings fixed in maintained foundation source `042c4d1`
 (main equivalent `5edbb87`). The coordinator independently ran the complete

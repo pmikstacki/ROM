@@ -19,11 +19,11 @@ In the provided development container:
 nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM && ./demo/run smoke'
 ```
 
-`serve` binds only `127.0.0.1`. Ctrl-C closes observation streams and drains runtime work; the final status reports `Stopped` and zero owned work. It prints status on startup/shutdown. Restart the same database to retain Resources, receipts, journal, and pending work. The startup seed uses stable receipt identities and does not overwrite later Resource edits. Use a new database when changing seed values or declarations incompatibly.
+`serve` binds only `127.0.0.1`. Ctrl-C closes observation streams and drains runtime work. The final status reports `Stopped` and zero owned work. `serve` prints status on startup/shutdown. Restart the same database to retain Resources, receipts, journal, and pending work. The startup seed uses stable receipt identities and does not overwrite later Resource edits. If seed values or declarations change incompatibly, use a new database.
 
 ## 1. Declare two unrelated kinds
 
-[`src/lib.rs`](src/lib.rs) derives `Resource` for `Task { title, done }` and `InventoryItem { code, quantity }`. `StockCode` implements the public `Field` codec: it trims and uppercases input, validates its small alphabet, and declares its string wire shape. The runtime applies that codec to writes **and query values**. Unknown fields and invalid codes are rejected.
+[`src/lib.rs`](src/lib.rs) derives `Resource` for `Task { title, done }` and `InventoryItem { code, quantity }`. `StockCode` implements the public `Field` codec. It trims and uppercases input, validates its small alphabet, and declares its string wire shape. The runtime applies that codec to writes **and query values**. Unknown fields and invalid codes are rejected.
 
 Register each definition once in `declarations()`, with explicit policies. The same registration supplies validation, generic mutation, typed selectors, queries, observation, persistence, and HTTP. Adding InventoryItem needed no route or database table code.
 
@@ -48,7 +48,7 @@ Command::patch(id, Patch::new().set(Task::title_field(), title))
     .idempotency("demo-rename")
 ```
 
-`smoke` sends that same typed command through `/invoke`. A stale revision conflicts; retry the identical accepted command with its original idempotency key to recover its receipt. Use a new key for a new intent.
+`smoke` sends that same typed command through `/invoke`. A stale revision conflicts. To recover the receipt, retry the identical accepted command with its original idempotency key. Use a new key for a new intent.
 
 ## 3. Observe state and committed facts
 
@@ -59,7 +59,7 @@ curl -s http://127.0.0.1:8080/journal -H 'Authorization: Demo local' \
   -d '{"kind":"tasks","after":null}'
 ```
 
-`/live` sends authorized current snapshots and may coalesce updates. `/journal` returns bounded committed facts and a cursor; send the cursor as `after` to resume. `/subscribe` streams journal pages. Retention gaps are explicit; these APIs do not promise infinite history. HTTP responses use projected views and omit protected source/deletion metadata.
+`/live` sends authorized current snapshots and can coalesce updates. `/journal` returns bounded committed facts and a cursor. To resume, send the cursor as `after`. `/subscribe` streams journal pages. Retention gaps are explicit; these APIs do not promise infinite history. HTTP responses use projected views and omit protected source/deletion metadata.
 
 ## 4. React and notify
 
@@ -72,13 +72,13 @@ curl -s http://127.0.0.1:8080/read -H 'Authorization: Demo local' \
   -d '{"kind":"dashboards","id":"workshop"}'
 ```
 
-`Reaction::new` maps a completed Task snapshot into the Dashboard `DISPLAY` action. That action emits `Channel<String>` intent `NOTICE`. The generic worker persists and executes the chain. Reaction and channel actors are explicit Services, checked by the same current policies. The dashboard may update after the HTTP action response: downstream work is asynchronous.
+`Reaction::new` maps a completed Task snapshot into the Dashboard `DISPLAY` action. That action emits `Channel<String>` intent `NOTICE`. The generic worker persists and executes the chain. Reaction and channel actors are explicit Services, checked by the same current policies. Downstream work is asynchronous, so the dashboard can update after the HTTP action response.
 
 The typed receiver records deliveries in an in-process sink and deduplicates stable IDs while the process lives. The smoke asserts one recorded payload. This is synthetic delivery, not email or an external exactly-once guarantee; the sink is not durable across restart.
 
 ## 5. Load configuration and establish trust explicitly
 
-Host-only `bootstrap()` creates SourceActivation and loads [`settings.toml`](settings.toml) via config-rs `ReloadTicket`. Settings remain a normal Resource. Whole-kind source ownership, normal field/row policy, expected revisions, source generation, and protected provenance all apply. A failed reload preserves accepted values. The session can read Settings but cannot write Settings or read/update its SourceActivation. The bundled source write permit expires in 2100; it does not make accepted data expire. There is no filesystem watcher or automatic environment overlay.
+Host-only `bootstrap()` creates SourceActivation and loads [`settings.toml`](settings.toml) via config-rs `ReloadTicket`. Settings remain a normal Resource. Whole-kind source ownership, normal field/row policy, expected revisions, source generation, and protected provenance all apply. A failed reload preserves accepted values. The session can read Settings but cannot write Settings or read/update its SourceActivation. The bundled source write permit expires in 2100. It does not make accepted data expire. There is no filesystem watcher or automatic environment overlay.
 
 Bootstrap also creates a User, a **disabled** synthetic IdentityProvider, and an explicit authority/subject/kind IdentityLink. These are ordinary Resources. They are not a working login and do not give the demo session Human authority. `IdentityGate` permits only explicitly configured host principals (including the Blob worker). The app has no privileged public bootstrap endpoint, first-caller admin rule, or email auto-linking.
 
@@ -86,24 +86,24 @@ For actual verified Human/Service actors, follow `rom-identity`'s ProviderActiva
 
 ## Verification and boundaries
 
-`smoke` creates a fresh database, opens real loopback TCP, checks both kinds, rejects invalid custom input and forbidden administrative access, observes typed patch and completion updates, checks journal resume, processes the reaction/notification chain, then verifies drained shutdown. Integration tests repeat the application on SQLite and redb. No external credentials, mail service, or accounts are required.
+`smoke` creates a fresh database and opens real loopback TCP. It tests both kinds and rejects invalid custom input and forbidden administrative access. It observes typed patch and completion updates, tests journal resume, and processes the reaction/notification chain. It then verifies drained shutdown. Integration tests repeat the application on SQLite and redb. No external credentials, mail service, or accounts are required.
 
 This alpha demo deliberately keeps policy and domain functions small. Its local session shares Task/Inventory access; it is not a tenant isolation example. No production UI, distributed consistency, infinite journal, durable external notification deduplication, or blob storage completeness is implied.
 
 ## 6. Attach real bytes without another controller
 
-`attachments.rs` registers no endpoint. `declarations()` registers the ordinary maintained Blob definition and explicitly trusts its Service worker in IdentityGate. The host opens an exclusively trusted folder through `rom-blob-object-store`, then uses BlobService to reserve metadata, upload a bounded stream, verify digest/length, and read authorized bytes.
+`attachments.rs` registers no endpoint. `declarations()` registers the ordinary maintained Blob definition and explicitly trusts its Service worker in IdentityGate. The host opens an exclusively trusted folder through `rom-blob-object-store`. BlobService then reserves metadata, uploads a bounded stream, verifies digest/length, and reads authorized bytes.
 
 `smoke` persists an attachment, stops BlobService before stopping the runtime, reopens **the same database and folder**, and reads it without uploading again. It then denies another principal, detaches the attachment, and checks that byte reads fail. Both SQLite and redb run this path. The private fixture directory is removed only after all services stop; normal detachment does not physically erase bytes.
 
-`serve` stores the synthetic guide in `<database>.objects` and keeps BlobService alive until Ctrl-C. The shutdown trigger first drains BlobService, which may still need the core to finalize accepted uploads; HTTP/runtime shutdown follows. The metadata can be read through the existing generic route:
+`serve` stores the synthetic guide in `<database>.objects` and keeps BlobService alive until Ctrl-C. The shutdown trigger first drains BlobService, which can still need the core to finalize accepted uploads. HTTP/runtime shutdown follows. The metadata can be read through the existing generic route:
 
 ```sh
 curl -s http://127.0.0.1:8080/read -H 'Authorization: Demo local' \
   -d '{"kind":"blobs","id":"workshop-guide"}'
 ```
 
-There is no public byte upload/download route. Keep the folder and all ancestors exclusively host-owned: the filesystem adapter is not a symlink sandbox. Backup must account for both metadata and referenced external bytes; a database copy alone is not a complete attachment backup. Physical cleanup requires host-established detachment, grace and quiescence.
+There is no public byte upload/download route. Keep the folder and all ancestors exclusively host-owned. The filesystem adapter is not a symlink sandbox. Backup must account for both metadata and referenced external bytes; a database copy alone is not a complete attachment backup. Physical cleanup requires host-established detachment, grace and quiescence.
 
 ## 7. Compensate only an explicitly confirmed business failure
 
@@ -115,8 +115,8 @@ application-authored failure fact, not automatic compensation for a terminal
 worker error, HTTP error, timeout or uncertain acknowledgment. No payment provider
 is contacted.
 
-Start `serve` on a fresh database, then use the generic CLI (from the repository
-root; the function avoids assuming a particular target directory or installed binary):
+Start `serve` on a fresh database. From the repository root, use the generic CLI.
+The function below needs no particular target directory or installed binary:
 
 ```sh
 printf '%s\n' 'Demo local' > /tmp/rom-demo-auth
@@ -142,25 +142,25 @@ The asynchronous worker eventually leaves `{"checkout-b":2}` with total stock 10
 
 `ReserveInput { token: String, quantity: u64 }` derives `rom::Input`; the generated
 codec supplies the same named arguments to Rust and transported calls. A malformed
-quantity reports `reserve.quantity` without echoing its value. The previous demo's
-one-entry map payload is rejected for new reserve invocations; update clients to the named fields
-above and use a fresh fixture for this walkthrough. Stored Resource shapes are
+quantity reports `reserve.quantity` without echoing its value. New reserve invocations reject the previous demo's
+one-entry map payload. Update clients to the named fields
+above. Use a fresh fixture for this walkthrough. Stored Resource shapes are
 unchanged, but this is an experimental action-input API change, not an automatic
 conversion of old requests or their idempotency fingerprints.
 An identical historical request with a matching retained receipt still follows
 normal authorized idempotent replay before action-input decoding.
 
-A read immediately after the command may still show A; read again after the worker
-runs. Replaying the **identical** final command with its original expected revision
+A read immediately after the command can still show A. After the worker runs,
+read again. Replaying the **identical** final command with its original expected revision
 and key returns its receipt and adds no event. Use unique reservation tokens per
-checkout; never recycle a token for a new workflow. This shared local workshop is
+checkout. Never recycle a token for a new workflow. This shared local workshop is
 not a tenant-isolation or adversarial business-policy example: its synthetic
-session may directly mutate these ordinary Resources.
+session can directly mutate these ordinary Resources.
 
 The targeted release changes only its token, and preserves concurrent reservations
 and restocks. If the target changes after work materialization, normal revision
 conflict handling stops that action instead of rebasing it silently. Revocation
-also blocks it. Inspect/reconcile stopped work through trusted host APIs; this
+also blocks it. Inspect/reconcile stopped work through trusted host APIs. This
 example introduces no privileged public retry route. Committed history remains.
 
 Tests on both adapters count one mapper claim for an unknown outcome, and two
@@ -180,14 +180,13 @@ scratch directory and removes that directory afterwards. It never opens your
 `serve` database. Read [`src/reference.rs`](src/reference.rs) for the application
 code: only public Runtime, Command, query and live APIs are used.
 
-1. Attach a real file, persist compensation context, reserve three units for checkout A and two for B.
-2. Record an unknown payment outcome; processing reactions keeps both reservations.
-3. Record a **confirmed** rejection for A and stop before processing its reaction.
-4. Open the same database and folder with the same declarations, and read the file without reuploading. Read a typed, filtered,
-   descending inventory query and its next moving page; an unprovisioned actor is
+1. Attach a real file. Persist compensation context. Reserve three units for checkout A and two for B.
+2. Record an unknown payment outcome. Reaction processing keeps both reservations.
+3. Record a **confirmed** rejection for A. Stop before you process its reaction.
+4. Open the same database and folder with the same declarations. Read the file without reuploading. Read a typed, filtered,
+   descending inventory query and its next moving page. An unprovisioned actor is
    still denied.
-5. Observe the stock query, recover pending work and see the stock enter its result
-   after only A is released. B remains reserved. Replaying the original rejection
+5. Observe the stock query. Recover pending work. After only A is released, the stock enters the query result. B remains reserved. Replaying the original rejection
    adds no event or work.
 6. Complete a Task: it leaves its live list and its reaction updates the Dashboard.
 

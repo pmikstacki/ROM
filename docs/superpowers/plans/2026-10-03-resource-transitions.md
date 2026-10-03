@@ -3,7 +3,7 @@
 > Execute inline with test-driven-development; no further delegation needed.
 
 **Goal:** Make declared Resource business invariants apply to every generic mutation.
-**Architecture:** Optional typed callback on `Definition`; one erased method called at the shared authorized/CAS-checked precommit boundary. No adapter or transport special cases.
+**Architecture:** `Definition` has an optional typed callback. The shared authorized/CAS-checked precommit boundary calls one erased method. There are no adapter or transport special cases.
 **Tech Stack:** Existing Rust ROM core, SQLite/redb conformance, Tokio.
 
 - [x] Add `demo/tests/transitions.rs` regression proving terminal outcome direct write bypass and unchanged revision/journal/work on rejection; observe failure.

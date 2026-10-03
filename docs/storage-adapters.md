@@ -8,8 +8,8 @@ receipt, journal and effect/work records in one native transaction. Journal
 retention and receipt/effect/work capacities are bounded; cursor gaps and
 unsupported formats fail explicitly. Runtime owns asynchronous scheduling over
 these synchronous ports. Exactly one Runtime owns writes and invalidation per
-deployment; sharing a Storage handle across independent runtimes is unsupported
-host misuse, not automatically prevented by registration.
+deployment. Independent runtimes must not share a Storage handle. This is
+unsupported host misuse; registration does not automatically prevent it.
 
 See the current [journal](research/maintained-http-journal.md),
 [reactions](research/maintained-reaction-results.md),
@@ -21,20 +21,20 @@ Deletion is a logical tombstone, not physical erasure.
 
 Run `cargo test -p rom-storage-conformance --locked` from the repository root.
 The sections below preserve the original format-one milestone and its test
-results; their then-missing journal/worker/backup features are superseded by the
-current profile and linked reports. Machine power-loss and multiple-writer
+results. The current profile and linked reports supersede that milestone's
+limitations for journal/worker/backup features. Machine power-loss and multiple-writer
 certification remain outside the evidence.
 
 ## Historical foundation milestone
 
-The maintained `rom-sqlite` and `rom-redb` crates implement the same core-owned `Storage` contract. Resource remains the only application domain entity. A `Bundle` contains an expected revision, a receipt with canonical action fingerprint and resulting row, a changed flag, and zero or more effect intentions. Driver types stay outside `rom`.
+The maintained `rom-sqlite` and `rom-redb` crates implement the same core-owned `Storage` contract. Resource remains the only application domain entity. A `Bundle` contains an expected revision and a receipt with the canonical action fingerprint and resulting row. It also contains a changed flag and zero or more effect intentions. Driver types stay outside `rom`.
 
 ## Public boundary
 
 - `Sqlite::open(path)` / `Redb::open(path)` open or initialize the versioned adapter format. Share one handle using `Arc`. The verified runtime deployment profile is one ROM runtime owning writes.
 - `Storage::load(&Key)` and `receipt(identity)` return authoritative stored values.
-- `Storage::snapshot(kind, max_rows, max_bytes)` returns rows in stable ID order, including tombstones. Limits charge the UTF-8 JSON encoding of each **complete Row**, including key and revision. Overflow returns `Error::TooLarge`; it never returns truncated success. Adapters check row count and checked cumulative byte size before deserializing or appending each row. Empty kinds return an empty vector even with zero limits. This is a serialized-size budget, not a precise heap/driver-cache memory limit.
-- `Storage::commit(&Bundle)` atomically arbitrates revision and action identity, then commits row, event, receipt and every effect intention. A same-identity, same-fingerprint retry returns the previous receipt; a changed fingerprint returns `IdentityMismatch`. A stale expected revision returns `Conflict`. The fingerprint is created by core; a trusted native caller cannot substitute a different canonical meaning under a fraudulent fingerprint and expect the adapter to reconstruct action semantics.
+- `Storage::snapshot(kind, max_rows, max_bytes)` returns rows in stable ID order, including tombstones. Limits charge the UTF-8 JSON encoding of each **complete Row**, including key and revision. Overflow returns `Error::TooLarge`; it never returns truncated success. Before adapters deserialize or append each row, they validate row count and cumulative byte size with checked arithmetic. Empty kinds return an empty vector even with zero limits. This is a serialized-size budget, not a precise heap/driver-cache memory limit.
+- `Storage::commit(&Bundle)` atomically arbitrates revision and action identity, then commits row, event, receipt and every effect intention. A same-identity, same-fingerprint retry returns the previous receipt; a changed fingerprint returns `IdentityMismatch`. A stale expected revision returns `Conflict`. Core creates the fingerprint. A trusted native caller cannot substitute a different canonical meaning under a fraudulent fingerprint and expect the adapter to reconstruct action semantics.
 - A no-op must exactly match the existing row/revision and contain no effects. It stores only a receipt. An invalid revision/no-op bundle returns `NotCommitted`. The shared revision profile is `0..=i64::MAX`; additions use checked arithmetic.
 - `counts()` and `intentions()` are administrative inspection methods, not authenticated application APIs. `intentions()` is presently a full scan; a bounded durable worker API is separate work. Event inspection used by tests is not a cursor-based, ordered-history API.
 
@@ -42,17 +42,17 @@ These are synchronous adapters. The host must run storage work through ROM's bou
 
 ## Format and failure policy
 
-Format one stores JSON `Row`, `Receipt` and `Intent` values. SQLite records its version in `PRAGMA user_version`; redb uses `rom_metadata["format"]`. New empty databases initialize format one. Unknown versions and nonempty databases without the marker are rejected as unsupported before any ROM application schema/data is written. No implicit migration from disposable prototypes or older unversioned maintained snapshots occurs. Raw engine open/recovery may still perform engine housekeeping.
+Format one stores JSON `Row`, `Receipt` and `Intent` values. SQLite records its version in `PRAGMA user_version`; redb uses `rom_metadata["format"]`. New empty databases initialize format one. Before any ROM application schema/data write, adapters reject unknown versions and nonempty databases without the marker as unsupported. No implicit migration from disposable prototypes or older unversioned maintained snapshots occurs. Raw engine open/recovery may still perform engine housekeeping.
 
 SQLite uses WAL with `synchronous=FULL`. redb 4.3.0 transactions explicitly use `Durability::Immediate`. redb compound keys separate `(kind,id)` and `(identity,ordinal)` without ambiguous string concatenation. Changed bundles emit one event containing the resulting row; effects are stored in input order. This preserves the current foundation contract and does not introduce journal cursor/retention semantics.
 
-Both adapters report `Unknown` when commit acknowledgement is uncertain. redb conservatively marks the handle unavailable after an actual engine commit error; dispose of all shared handles, reopen and resolve the stable identity before retrying effects. Its commit gate also covers the interval between the engine releasing its writer lock and ROM recording uncertainty. Injected lost acknowledgements occur after a successful engine commit and return `Unknown` without pretending rollback.
+Both adapters report `Unknown` when commit acknowledgement is uncertain. After an actual engine commit error, redb conservatively marks the handle unavailable. Dispose of all shared handles. Reopen the database. Before you retry effects, resolve the stable identity. Its commit gate also covers the interval between the engine releasing its writer lock and ROM recording uncertainty. Injected lost acknowledgements occur after a successful engine commit and return `Unknown` without pretending rollback.
 
-redb's own commit documentation says errors other than a poisoned transaction may already have durable effects and require reopening; ROM conservatively classifies every engine commit error as uncertain. The selected crate supports Rust 1.90 and is MIT OR Apache-2.0 licensed; ROM tests it on its declared 1.99 floor. Sources: [redb Database](https://docs.rs/redb/4.3.0/redb/struct.Database.html), [redb transaction source](https://docs.rs/redb/4.3.0/src/redb/transactions.rs.html), and the retained workspace lockfile. Dependency advisory review remains a separate release gate.
+redb's own commit documentation says errors other than a poisoned transaction can already have durable effects and need reopening. ROM conservatively classifies every engine commit error as uncertain. The selected crate supports Rust 1.90 and is MIT OR Apache-2.0 licensed; ROM tests it on its declared 1.99 floor. Sources: [redb Database](https://docs.rs/redb/4.3.0/redb/struct.Database.html), [redb transaction source](https://docs.rs/redb/4.3.0/src/redb/transactions.rs.html), and the retained workspace lockfile. Dependency advisory review remains a separate release gate.
 
 ## Test support
 
-Both adapters expose `on_commit(Option<Arc<dyn Fn(usize) -> Result<()> + Send + Sync>>)` only with the explicit `test-support` feature. Checkpoints are `1..` after each actual write, `0` immediately before commit, and `usize::MAX` after the engine commit returns. Returning an error before commit aborts the transaction; an error after commit becomes `Unknown`. The callback can terminate a dedicated subprocess without Rust destructors, making restart tests exercise real files rather than an in-memory clone.
+Both adapters expose `on_commit(Option<Arc<dyn Fn(usize) -> Result<()> + Send + Sync>>)` only with the explicit `test-support` feature. Checkpoints are `1..` after each actual write, `0` immediately before commit, and `usize::MAX` after the engine commit returns. Returning an error before commit aborts the transaction; an error after commit becomes `Unknown`. The callback can terminate a dedicated subprocess without Rust destructors. Thus, restart tests exercise real files rather than an in-memory clone.
 
 SQLite's original `inject_fault(1..=5)` helper is also gated by `test-support`; the external consumer enables that feature only as a dev dependency. Ordinary adapter builds expose no fault injection API. Callbacks are test instrumentation and must not be enabled as a host extension or arbitrary production callback mechanism.
 
@@ -76,7 +76,17 @@ The shared source is `tests/persistence/tests/shared.rs`; format/redb-initial re
 | `redb_unknown_format_rejected_without_application_table_writes` / `sqlite_rejects_future_format_before_schema_writes` | Future format rejected without new ROM tables or overwriting the marker. |
 | `redb_atomic_bundle_available_through_storage` | New redb adapter satisfies the existing core Storage boundary. |
 
-During development the future-SQLite-format test first failed against the maintained baseline and the initial redb contract test failed against the unimplemented adapter. Both subsequently passed. The complete `./scripts/check` run passed: four OpenSpec changes; formatting; workspace Clippy with warnings denied; 32 integration tests plus one rustdoc test; warning-free docs; no-default-feature core build and driver/transport dependency exclusion; five expected compiler failures; and the renamed external consumer. The subprocess fixture is marked ignored during normal discovery but is explicitly executed fourteen times by its passing parent test.
+During development, the future-SQLite-format test first failed against the maintained baseline. The initial redb contract test failed against the unimplemented adapter. Both subsequently passed. The complete `./scripts/check` run passed these checks:
+
+- Four OpenSpec changes and formatting.
+- Workspace Clippy with warnings denied.
+- 32 integration tests plus one rustdoc test.
+- Warning-free docs.
+- No-default-feature core build and driver/transport dependency exclusion.
+- Five expected compiler failures.
+- The renamed external consumer.
+
+The subprocess fixture is marked ignored during normal discovery but is explicitly executed fourteen times by its passing parent test.
 
 Rerun from the host:
 
@@ -84,7 +94,7 @@ Rerun from the host:
 nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM/.worktrees/transport-trials && CARGO_TARGET_DIR=$PWD/target-redb ./scripts/check'
 ```
 
-Focused conformance: `cargo test -p rom-storage-conformance --locked` from the workspace. No power-loss/storage-device fault, multi-process writers, disk-full engine commit failure, backup/restore, bounded global receipt storage, authenticated journal or worker claim/checkpoint protocol is proven by these tests. Process exit tests preserve the operating-system/filesystem process environment and therefore are weaker than machine failure tests.
+Focused conformance: `cargo test -p rom-storage-conformance --locked` from the workspace. These tests do not prove behavior under power-loss/storage-device faults, multi-process writers or disk-full engine commit failure. They do not prove backup/restore, bounded global receipt storage, authenticated journal or worker claim/checkpoint protocol. Process exit tests preserve the operating-system/filesystem process environment and therefore are weaker than machine failure tests.
 
 ## Combined main-branch verification
 

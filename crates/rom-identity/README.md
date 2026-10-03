@@ -23,8 +23,8 @@ assert!(IdentityProvider::decode(rom::json!({
 })).is_err());
 ```
 
-The host installs `IdentityGate`, explicitly allow-lists any trusted embedded or
-local service bootstrap identities, and assigns policies to the three ordinary
+The host installs `IdentityGate` and explicitly allow-lists any trusted embedded
+or local service bootstrap identities. It assigns policies to the three ordinary
 Resource definitions. Missing trust configuration denies access. This package
 does not choose who may create links, change provider settings or administer
 Users. Ordinary profile editing must have only its intended field permissions.
@@ -32,8 +32,8 @@ Users. Ordinary profile editing must have only its intended field permissions.
 Before verification, the host reads `ProviderActivation` using a currently
 authorized host identity. Its `verify` callback receives that exact configuration
 and returns a neutral `VerifiedIdentity` from a real adapter. The resulting
-`ActivatedIdentity` permanently captures the configuration revision; its `bind`
-method resolves the current explicit link and User and preserves principal kind
+`ActivatedIdentity` permanently captures the configuration revision. Its `bind`
+method resolves the current explicit link and User. It preserves principal kind
 and exclusive proof expiry in Actor.
 
 **Trusted callback obligation:** construct the verifier from the callback's
@@ -47,10 +47,10 @@ code, just as `Actor::trusted` cannot verify a host's credentials.
 After binding, the gate point-loads provider, link and User and compares captured
 revisions at runtime authorization checkpoints. Configuration changes, unlinking,
 disabling and disable/re-enable invalidate previous actors and activated evidence.
-A callback finishing after its provider configuration changed cannot establish
-an actor. This first milestone conservatively invalidates actors on **any** User
-revision change, including display-name edits; no security-specific generation is
-claimed. New proof binding can succeed against current enabled records.
+If the provider configuration changes before its callback finishes, the callback
+cannot establish an actor. This first milestone conservatively invalidates actors on **any** User
+revision change, including display-name edits. It does not claim a security-specific
+generation. New proof binding can succeed against current enabled records.
 
 Core executes these checks inside bounded blocking work and the commit gate,
 with at most eight point reads and a byte budget. It rechecks before commit and
@@ -64,8 +64,8 @@ Secret values are not identity fields. `credential_ref` names a host secret-stor
 reference; the host owns resolution, rotation and redaction. There is no remote
 OIDC setup, universal provider compatibility, tenant policy, role administration,
 password storage or login UI here. Resource/authority namespaces are global in
-this milestone. A deployment must define tenant membership and isolation before
-advertising multi-tenancy, and select its own first-admin provisioning procedure.
+this milestone. Before a deployment advertises multi-tenancy, it must define tenant membership
+and isolation. It must also select its own first-admin provisioning procedure.
 
 Run `./crates/rom-identity/verify` from a Rust 1.99 environment with OpenSSL available
 for synthetic test keys. Five integration cases cover actual signed JWT proofs,

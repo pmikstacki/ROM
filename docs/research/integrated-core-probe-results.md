@@ -4,11 +4,11 @@ Date: 2026-10-02. Disposable branch `codex/prototype-integrated-core`; source in
 
 ## Observed result
 
-Two distinct typed Resources, Task and Setting, now pass through one derived field/codec contract, fluent registration API, action pipeline, replaceable persistence trait, authorization boundary, live query implementation and work supervisor. The separate consumer crate needs no per-kind repository, controller, broadcaster or subscription implementation. Resource remains the only managed domain entity; action/receipt/query/intent values are infrastructure. The Setting example uses the same Resource pipeline, consistent with users, identity-provider configuration and settings also being Resources. Those latter built-in kinds were not separately implemented here.
+Two distinct typed Resources, Task and Setting, now use one derived field/codec contract, fluent registration API and action pipeline. They also share a replaceable persistence trait, authorization boundary, live query implementation and work supervisor. The separate consumer crate needs no per-kind repository, controller, broadcaster or subscription implementation. Resource remains the only managed domain entity. Action/receipt/query/intent values are infrastructure. The Setting example uses the same Resource pipeline, consistent with users, identity-provider configuration and settings also being Resources. Those latter built-in kinds were not separately implemented here.
 
 This is new integration evidence rather than the sum of earlier prototype test counts. The prior library used string fields and JSON business mutations; this consumer uses generated typed selectors and ordinary typed functions. The core has no concrete DB or transport dependency. SQLite supplies an actual atomic state/event/receipt/effect-intention transaction behind a driver-free semantic trait. SQLite remains an experimental reference adapter, not an owner-approved production selection.
 
-The resulting API is materially closer to the premise. Calling it pleasant for humans would still be premature: the example was agent-written and no author walkthrough or editor study occurred.
+The resulting API is materially closer to the premise. There is not yet evidence that humans find it pleasant. An agent wrote the example; no author walkthrough or editor study occurred.
 
 ## Reproduction and exact validation
 
@@ -52,7 +52,7 @@ The persistence trait transports semantic keys/rows/bundles rather than a SQL co
 
 The **provisional topology is one runtime owning all writes**. Its authority gate serializes current reads, revocation, commit and live refresh. The SQLite adapter still conditionally arbitrates revisions, but another process writing the same file would bypass the runtime's local authorization/live freshness protocol. No multi-process claim is made.
 
-Live subscriptions retain a coalescing generation signal, not old protected rows. Registration subscribes before the initial snapshot; delivery recomputes current authorized rows. This is conservative and easy to reason about, but unbounded synchronous full scans are unsuitable as the final execution contract. The probe intentionally omits Salsa and completed-result caching; neither is necessary to prove the typed pipeline.
+Live subscriptions retain a coalescing generation signal, not old protected rows. Registration subscribes before the initial snapshot. Delivery recomputes current authorized rows. This is conservative and easy to reason about, but unbounded synchronous full scans are unsuitable as the final execution contract. The probe intentionally omits Salsa and completed-result caching; neither is necessary to prove the typed pipeline.
 
 ## Authoring critique and manual work still exposed
 

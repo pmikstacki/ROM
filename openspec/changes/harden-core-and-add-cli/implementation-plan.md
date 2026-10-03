@@ -37,7 +37,7 @@ Interfaces: DiscoveryTarget<'a> {Resource,Field(&'a str),Action(&'a str)}, Defin
 Types: serializable Discovery { version:u32, resources:Vec<DiscoveredResource> }; DiscoveredResource {kind:String,version:u32,fields:Vec<DiscoveredField>,actions:Vec<String>}; DiscoveredField {name:String,shape:Shape}; tagged snake_case Shape type/value.
 - [x] Write default-deny, selective metadata, nested-hidden-reference, current-authority, size exhaustion and no codec/row-scan/action tests.
 - [x] Implement erased trusted discovery predicate and bounded observe path with deterministic output; no capability=permission inference.
-- [x] Check callback panic, expiry/revocation, no partial success and hidden totals.
+- [x] Test callback panic, expiry/revocation, no partial success, and hidden totals.
 - [x] Run focused tests, public docs/Clippy; commit.
 
 ## Task 3: Wire route and finite CLI
@@ -56,11 +56,11 @@ Consumes: existing SSE wire events; outputs one complete JSON data frame per lin
 - [x] Test split UTF8/CRLF/multiline/event boundaries, oversized/incomplete frames, explicit error events and no unbounded queue.
 - [x] Implement bounded live/journal observation without auto-reconnect; preserve batch/cursor, flush frames, terminate on stdout close.
 - [x] Real HTTP failure fixtures: commit+drop reply, same-key recovery/mismatch, post-commit denial, history gap, redirects, cancellation and credential redaction.
-- [x] Run complete CLI acceptance using actual process/TCP; docs illustrate setup with synthetic demo auth clearly labelled; commit.
+- [x] Run complete CLI acceptance using actual process/TCP. Document setup with clearly labeled synthetic demo auth. Commit.
 
 ## Task 5: Research, review and release
 Files: docs/research/deferred-capabilities-roadmap.md plus current results; scripts/package checking if binary selection needs distinction; dependency inventory/notices, README/tasks.
 - [x] Index every deferred topic with primary evidence, alternatives, recommendation, dependencies, local experiment and decision class; explicitly label unrun probes.
 - [x] Independently review each code delta and research completeness; fix proven issues with regression cases.
 - [x] Verify combined local checks, CLI, MSRV, audit/notices and external package consumer/CLI execution.
-- [x] Update scope/status/results, commit and publish; complete revised goal only once all included tasks pass.
+- [x] Update scope/status/results. Commit and publish. Once all included tasks pass, complete the revised goal.

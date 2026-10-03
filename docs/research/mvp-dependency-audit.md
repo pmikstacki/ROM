@@ -1,15 +1,15 @@
 # Initial MVP dependency audit
 
-Date: 2026-10-02. Scope: the pinned integrated Resource probe dependency set proposed as the starting point for the maintained MVP. This is an adoption review, not authorization to update dependencies and not a claim that the maintained MVP is complete. Recheck the eventual maintained workspace lockfile and feature graph; its additions and removals are outside this baseline.
+Date: 2026-10-02. Scope: the pinned integrated Resource probe dependency set proposed as the starting point for the maintained MVP. This is an adoption review, not authorization to update dependencies and not a claim that the maintained MVP is complete. Recheck the eventual maintained workspace lockfile and feature graph. Its additions and removals are outside this baseline.
 
 ## Result
 
-**The executed advisory audit passed:** cargo-audit 0.22.2 reported zero vulnerabilities and zero warnings, with warnings treated as errors, no ignored advisories, no target filters, and yanked-package checking enabled. The core also passed a fresh isolated build without database or transport dependencies. The native dependency licenses have no missing manifest declaration in this inventory, but release notice assembly and package metadata still need verification. A clean RustSec result does not establish that bundled SQLite has every relevant upstream fix.
+**The executed advisory audit passed:** cargo-audit 0.22.2 reported zero vulnerabilities and zero warnings. Warnings were treated as errors. No advisories were ignored, no target filters were set, and yanked-package checking was enabled. The core also passed a fresh isolated build without database or transport dependencies. The native dependency licenses have no missing manifest declaration in this inventory, but release notice assembly and package metadata still need verification. A clean RustSec result does not establish that bundled SQLite has every relevant upstream fix.
 
 The release/adoption decisions still requiring evidence are:
 
 1. Audit the maintained workspace's actual lockfile and features after integration, including redb, HTTP, authentication, storage or notification dependencies if added. This report covers none of those additions.
-2. Review SQLite fixes after bundled 3.53.2 for the supported deployment profile, then document the selected version or tested backport. Do not upgrade merely because a newer release exists; do not infer native-engine patch coverage from RustSec alone.
+2. Review SQLite fixes after bundled 3.53.2 for the supported deployment profile. Then document the selected version or tested backport. Do not upgrade merely because a newer release exists; do not infer native-engine patch coverage from RustSec alone.
 3. Verify license declarations and included license files in each distributable ROM package, and assemble the applicable dependency notices. The probe packages declare neither `license` nor `license-file` and are explicitly unpublished; the repository itself has an MIT [LICENSE](../../LICENSE).
 4. Retain and test an explicit supported Rust version. The baseline declares and builds on 1.99; no lower project MSRV has been demonstrated. Any lower selection needs an actual compiler run and dependency-policy review.
 5. Validate the packaged consumer and the maintained feature matrix independently of workspace feature unification. The probe's unconditional derive dependency does not establish a macro-free core profile.
@@ -65,7 +65,7 @@ CARGO_BUILD_JOBS=2 CARGO_TARGET_DIR=/tmp/rom-dependency-audit/probe-target \
   cargo check --locked --offline -p rom-probe --no-default-features
 ```
 
-All commands above succeeded. The audit exited 0, reported `vulnerabilities.found=false`, `count=0`, `list=[]`, and `warnings={}`. Its settings recorded empty `ignore`, `target_arch` and `target_os`, with `unmaintained`, `unsound` and `notice` informational categories enabled. No home audit configuration existed. The fresh core check exited 0 in 3.83s. For a reproducible future tool install, add `--version 0.22.2`; the original install selected that version. Advisory data must still be refreshed on recheck.
+All commands above succeeded. The audit exited 0, reported `vulnerabilities.found=false`, `count=0`, `list=[]`, and `warnings={}`. Its settings recorded empty `ignore`, `target_arch` and `target_os`, with `unmaintained`, `unsound` and `notice` informational categories enabled. No home audit configuration existed. The fresh core check exited 0 in 3.83s. For a reproducible future tool install, add `--version 0.22.2`. The original install selected that version. Advisory data must still be refreshed on recheck.
 
 An initial `cargo metadata --locked --offline --format-version 1` failed because an other-target crate, `bumpalo 3.20.3`, was not cached. The successful online metadata command downloaded the missing target-specific sources without changing the lock. This is a cache limitation, not a failed native build.
 
@@ -79,7 +79,7 @@ This is an executed lockfile audit, not a conclusion drawn from search results. 
 
 ## Feature and boundary review
 
-The following enabled sets were observed in the native dependency tree, including transitive feature unification. Dependencies use their defaults unless stated otherwise; the probe does not globally disable defaults.
+The following enabled sets were observed in the native dependency tree, including transitive feature unification. Unless stated otherwise, dependencies use their defaults. The probe does not globally disable defaults.
 
 | Direct dependency | Native enabled features | Adoption observation |
 | --- | --- | --- |
@@ -93,7 +93,7 @@ The following enabled sets were observed in the native dependency tree, includin
 
 The `rom-probe` normal dependency tree contains neither rusqlite/libsqlite3-sys nor redb, HTTP, TLS, authentication-provider or cloud SDK dependencies. The isolated core check confirms that boundary compiles. However, `rom-probe-derive` is unconditional, and `--no-default-features` does not remove it because ROM defines no optional derive feature here. That successful check must not be described as a macro-free build.
 
-Cargo features are additive and may be unified across dependencies; testing a workspace alone can hide consumer-specific omissions. Preserve separate core, adapter and downstream checks when the maintained manifests diverge. [Cargo feature documentation](https://doc.rust-lang.org/cargo/reference/features.html).
+Cargo features are additive and may be unified across dependencies. Tests of a workspace alone can hide consumer-specific omissions. Preserve separate core, adapter and downstream checks when the maintained manifests diverge. [Cargo feature documentation](https://doc.rust-lang.org/cargo/reference/features.html).
 
 ## Bundled SQLite: separate native-engine evidence
 
@@ -104,7 +104,7 @@ SQLite 3.53.2
 source-id 2026-06-03 19:12:13 d6e03d8c777cfa2d35e3b60d8ec3e0187f3e9f99d8e2ee9cac695fd6fcdf1a24
 ```
 
-The scratch package is `/tmp/rom-dependency-audit/sqlite-version`. It began with a copy of the audited lockfile; all 32 retained registry package/version/checksum entries matched the audited lock, with zero differing entries. Executed command: `CARGO_BUILD_JOBS=2 CARGO_TARGET_DIR=/tmp/rom-dependency-audit/probe-target cargo run --offline` from that package. Exit 0; runtime version and `PRAGMA compile_options` output are in `sqlite-version.txt`. This validates the selected dependency build, not the final maintained application's binary.
+The scratch package is `/tmp/rom-dependency-audit/sqlite-version`. It started with a copy of the audited lockfile. All 32 retained registry package/version/checksum entries matched the audited lock, with zero differing entries. Executed command: `CARGO_BUILD_JOBS=2 CARGO_TARGET_DIR=/tmp/rom-dependency-audit/probe-target cargo run --offline` from that package. Exit 0; runtime version and `PRAGMA compile_options` output are in `sqlite-version.txt`. This validates the selected dependency build, not the final maintained application's binary.
 
 Observed C options include `THREADSAFE=1`, `ENABLE_API_ARMOR`, `ENABLE_FTS3`, `ENABLE_FTS5`, `ENABLE_RTREE`, `ENABLE_LOAD_EXTENSION` and `MAX_LENGTH=1000000000`. SQLite was compiled with GCC 13.3.0. This C feature set is broader than ROM's exposed query API; the absence of rusqlite's Rust `load_extension` feature does not mean the C library was compiled without extension support. Engine capabilities and application permissions remain separate boundaries.
 
@@ -116,7 +116,7 @@ As checked on 2026-10-02, **there is no newer published rusqlite/libsqlite3-sys 
 
 If the maintained MVP selects **3.53.4 now**, the actionable route is to supply an explicitly pinned native SQLite 3.53.4 build and link the existing Rust binding to it. Upstream documents disabling `bundled` and selecting the library/header directories through `SQLITE3_LIB_DIR` and `SQLITE3_INCLUDE_DIR`; `SQLITE3_STATIC=1` requests static linking. An alternative already supported by the inspected 0.38.2 build script is `LIBSQLITE3_SYS_USE_PKG_CONFIG=1`, which selects the linked-library path before its `bundled` branch. That permits a host build profile to keep the existing Cargo graph while selecting an explicit SQLite package through its library/pkg-config paths. Merely installing SQLite 3.53.4 while continuing the ordinary bundled build will not replace the embedded 3.53.2. [Published upstream build instructions](https://docs.rs/crate/rusqlite/latest/source/README.md), [libsqlite3-sys build script](https://docs.rs/crate/libsqlite3-sys/latest/source/build.rs).
 
-Whichever linking profile is selected, record the native source/package hash outside Cargo.lock, check the final application's `sqlite_version()` and `sqlite_source_id()`, and rerun ROM's database conformance tests with that exact binary. The official 3.53.4 release records source ID `2026-07-24 19:02:57 bf7c7f30031888f4e796e429ab3978879485813aaca6f641c7b33e4e09459bcc` and sqlite3.c SHA3-256 `67f423e9ebbbdc473cbc4772c872ee6b89f31fde4ed0279a5c25d5f65c043a16`. A maintained, pinned source patch to libsqlite3-sys is another possible route, but creates ROM-owned upstream patch maintenance; this audit did not prepare one. No 3.53.4 linking profile or native build was executed here. [SQLite 3.53.4 release identifiers](https://sqlite.org/releaselog/3_53_4.html).
+For the selected linking profile, record the native source/package hash outside Cargo.lock. Examine the final application's `sqlite_version()` and `sqlite_source_id()`. Rerun ROM's database conformance tests with that exact binary. The official 3.53.4 release records source ID `2026-07-24 19:02:57 bf7c7f30031888f4e796e429ab3978879485813aaca6f641c7b33e4e09459bcc` and sqlite3.c SHA3-256 `67f423e9ebbbdc473cbc4772c872ee6b89f31fde4ed0279a5c25d5f65c043a16`. A maintained, pinned source patch to libsqlite3-sys is another possible route. It creates ROM-owned upstream patch maintenance. This audit did not prepare one. No 3.53.4 linking profile or native build was executed here. [SQLite 3.53.4 release identifiers](https://sqlite.org/releaselog/3_53_4.html).
 
 ## License review
 
@@ -129,11 +129,11 @@ The inventory below comes from the downloaded, checksum-pinned crates' `Cargo.to
 - SQLite's bundled C implementation is dedicated to the **public domain**, separately from the MIT licenses on rusqlite/libsqlite3-sys. Do not describe all bundled SQLite material merely as MIT. [SQLite copyright statement](https://sqlite.org/copyright.html).
 - Other-target `rsqlite-vfs 0.1.1` declares MIT but its downloaded archive contains no root license/notice file and no manifest repository URL. Its declaration is recorded; complete notice provenance remains unresolved if that target is adopted or the full source dependency bundle is redistributed. This is not a native Linux runtime dependency.
 
-No inventory entry has an absent license declaration, and none declares GPL, LGPL or AGPL. That is a metadata observation, not a general legal compatibility certification. Release artifacts still need their actual notices and package contents checked.
+Every inventory entry has a license declaration. None declares GPL, LGPL, or AGPL. That is a metadata observation, not a general legal compatibility certification. Release artifacts still need their actual notices and package contents checked.
 
 ## Rust version review
 
-The project declares **1.99** and the executed isolated core check used **1.99.0**, so this audit supplies a build check at the declared version for that core profile. The probe's earlier workspace verification is reported in its integration report; it was not rerun as part of this dependency audit. No lower compiler, alternate architecture or WASM target was tested, and `rustup` is not installed in `rom-dev`.
+The project declares **1.99**, and the executed isolated core check used **1.99.0**. Thus, this audit supplies a build check at the declared version for that core profile. The probe's earlier workspace verification is reported in its integration report; it was not rerun as part of this dependency audit. No lower compiler, alternate architecture or WASM target was tested, and `rustup` is not installed in `rom-dev`.
 
 The highest explicitly declared registry dependency MSRV is **1.85** (`hashbrown 0.17.1` / `hashlink 0.12.2`), but six entries declare none: `fallible-iterator`, `fallible-streaming-iterator`, `libsqlite3-sys`, `rusqlite`, `smallvec` and `vcpkg`. This maximum therefore cannot establish a minimum compiler for the whole project. Rusqlite's generic downloaded README says its policy follows latest stable at release time, while its more specific **0.40.2 release notes state an MSRV of 1.88.0**. Record that upstream release claim separately from the absent manifest field and from ROM's actually tested 1.99; do not infer 1.85 compatibility from the inventory. [rusqlite 0.40.2 release notes](https://github.com/rusqlite/rusqlite/releases/tag/v0.40.2).
 
@@ -198,7 +198,7 @@ Package `rust-version` is a support declaration and a Cargo compatibility check,
 
 This audit does not establish freedom from undisclosed vulnerabilities, malicious upstream code, unsafe implementation defects, compiler bugs or application-level authorization/lifecycle flaws. It does not replace database conformance tests. Advisory coverage is time-dependent; the recorded database commit makes this run reproducible but should not be frozen for release audits.
 
-The final maintained workspace must be compared against this exact package/version/checksum inventory and native feature graph. Run the advisory audit again on its own Cargo.lock, regenerate license/MSRV metadata, repeat core-only and packaged-consumer checks, and record any changed bundled native-library version. No dependency changes, suppressions, commits or pushes were performed by this audit.
+The final maintained workspace must be compared against this exact package/version/checksum inventory and native feature graph. Run the advisory audit again on its own Cargo.lock. Regenerate license/MSRV metadata. Repeat core-only and packaged-consumer checks. Record any changed bundled native-library version. No dependency changes, suppressions, commits or pushes were performed by this audit.
 
 After writing this report, `./scripts/check` passed all four strict OpenSpec validations; at that execution point the main checkout had no Cargo workspace, so the script correctly skipped main-workspace Rust checks. This does not extend the core-only build evidence above to the maintained implementation being developed separately.
 
@@ -223,8 +223,7 @@ The coordinator executed that profile: the Rust-linked engine identified itself
 as **3.53.4**, and all 55 consumer/persistence tests passed, including the 14
 actual subprocess exits within the persistence parent test. The baseline engine
 check also passed with the ordinary bundled **3.53.2** build. No performance or
-machine-power-loss comparison was performed. Patch-release conformance is thus
-measured rather than assumed; default Cargo consumers still receive the version
+machine-power-loss comparison was performed. Thus, patch-release conformance is measured. Default Cargo consumers still receive the version
 bundled by the pinned upstream crate. A packaged executable release using the
 native profile must carry its tested engine and notices; a Cargo source package
 cannot force that environment override on downstream hosts.

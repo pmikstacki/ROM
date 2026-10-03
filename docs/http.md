@@ -3,8 +3,8 @@
 `rom-http` binds registered Resource definitions through one generic protocol.
 The host constructs `Http::new(runtime, resolver, limits)` and runs
 `http.serve(listener, stop_future)`. No Resource-specific controller or route is
-required. `AuthResolver` is a fast, nonblocking host function from HTTP headers
-to `Result<Actor>`; use a verified credential context, never a claimed subject
+needed. `AuthResolver` is a fast, nonblocking host function from HTTP headers
+to `Result<Actor>`. Use a verified credential context. Never use a claimed subject
 header. Actor is deliberately not deserializable. The binding does not implement
 cryptographic credential verification or TLS.
 
@@ -49,29 +49,30 @@ the durable mutation identity. Same identity with different semantic input is
 Live state coalesces invalidations and recomputes an authorized bounded snapshot.
 It has no replay cursor. Journal facts are ordered and never coalesced. The
 journal cursor includes history generation, kind and global position. A batch
-may contain no visible facts and still advance over inaccessible or other-kind
+can contain no visible facts and still advance over inaccessible or other-kind
 history. Cursor positions therefore reveal coarse history progression; they are
 not secret or authorization credentials. Raw storage identities and raw rows
 are never serialized through the journal endpoint.
 
-Persist the returned journal cursor only after processing its batch. The server
+Only after you process the batch, persist the returned journal cursor. The server
 holds no durable consumer acknowledgement. Wrong generation/kind, future cursor,
 and a cursor before the retention floor produce `history_gap` (410), including
 a missing cursor after the beginning has expired. Never treat this response as
 successful processing or silently restart from the retained tail.
 
-After consciously accepting lost history, request `/journal/head`, then obtain an
-authorized snapshot, then subscribe from that head. Events after the head may
-already appear in the snapshot; reconcile overlap by Resource revision. Retention
+If you consciously accept lost history, request `/journal/head`. Obtain an
+authorized snapshot. Subscribe from that head. Events after the head can already
+appear in the snapshot. Reconcile overlap by Resource revision. Retention
 can race this recovery and produce another explicit gap. This sequence rebuilds
 state; it cannot reconstruct lost business-event processing.
 
 SSE `data` events contain JSON; `error` events contain one safe error category and
 terminate the stream. Keepalive comments carry no Resource information. Each
 stream owns a ROM subscription permit until drop. Polling also rechecks expiry
-without requiring a Resource write; the default poll interval is 100ms. This
-performs cheap lifecycle/expiry/local-revocation checks while retaining one pending read across ticks; it does not cancel and restart a slow query. Tune it
-against the host's required revocation latency and capacity.
+without requiring a Resource write; the default poll interval is 100ms. Polling
+performs cheap lifecycle/expiry/local-revocation checks. It retains one pending
+read across ticks, without cancellation and restart of a slow query. Tune it
+to the host's revocation latency and capacity requirements.
 
 `Limits` independently bounds body bytes, accepted concurrent bodies and body
 read time. Core limits bound accepted actions, I/O jobs, subscriptions and snapshot
@@ -92,4 +93,4 @@ external-provider interoperation remain deployment responsibilities. This MVP
 runs one ROM owner per storage instance; it does not coordinate cross-process
 live notifications or worker ownership.
 
-An error or lost response after submission is not blanket proof that no commit occurred. In particular, permissions can be revoked after commit and before disclosure, yielding `denied`; the committed bundle remains. Keep the same idempotency identity for reconciliation, never invent another identity solely because a result was unavailable. There is no unauthenticated receipt-status escape hatch.
+An error or lost response after submission is not blanket proof that no commit occurred. In particular, revocation after commit and before disclosure can produce `denied`. The committed bundle remains. Keep the same idempotency identity for reconciliation. Never invent another identity solely because a result was unavailable. There is no unauthenticated receipt-status escape hatch.

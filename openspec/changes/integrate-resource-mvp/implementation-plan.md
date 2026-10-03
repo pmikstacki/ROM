@@ -2,7 +2,7 @@
 
 > **For agentic workers:** Use superpowers:subagent-driven-development or superpowers:executing-plans task-by-task. This is the first integration package; the wider MVP remains governed by tasks.md.
 
-**Goal:** Promote the verified typed probe into reusable library crates, closing bounded I/O and lifecycle defects before attaching providers and transports.
+**Goal:** Promote the verified typed probe into reusable library crates. Before you attach providers and transports, correct the bounded I/O and lifecycle defects.
 
 **Architecture:** Preserve the probe's Resource/Field/Definition/Action contract and single registration authority. Separate public authoring from execution and persistence internals. Keep concrete databases outside `rom`; introduce a bounded blocking-I/O boundary for synchronous adapters and use the host's shared Rayon pool for CPU proposals.
 
@@ -62,10 +62,18 @@
 
 - [ ] Write `cancelled_shutdown_can_be_joined_again`, `concurrent_shutdown_waits_for_same_work`, `expired_actor_denied_at_result_and_live_delivery`, and `shutdown_races_admission_without_orphan`; confirm failures in the promoted baseline.
 - [ ] Keep accepted work and completion state owned by Runtime; every shutdown observer waits for the same drain condition. Close live observers and admission consistently.
-- [ ] Check expiry and revocation at admission, immediately before commit and before result/live disclosure. Keep tests independent of wall-clock sleeps by using a test clock/gates.
+- [ ] Test expiry and revocation at admission, immediately before commit, and before result/live disclosure. Use a test clock/gates to keep tests independent of wall-clock sleeps.
 - [ ] Apply independent promotion review findings with a regression for each substantive defect; preserve explicit current-state and durable-idempotency contracts.
 - [ ] Run the full native verifier plus no-default-feature check and commit. Produce a source-pinned verification note listing remaining auth projection, durable worker, transport and packaging work.
 
 ## Subsequent integration packages
 
-After this foundation stabilizes public interfaces, add separately reviewable plans for: shared SQLite/redb conformance and versioned journal/receipt budgets; typed durable reaction registrations/work recovery; projected policy and provider/User mapping; configuration/blob/notification adapters; generic HTTP and packaged consumer. Those packages must reference these actual APIs and their own focused acceptance tests. They are required by tasks.md, not replaced by this planning list.
+After this foundation stabilizes public interfaces, add separately reviewable plans for:
+
+- Shared SQLite/redb conformance and versioned journal/receipt budgets.
+- Typed durable reaction registrations/work recovery.
+- Projected policy and provider/User mapping.
+- Configuration/blob/notification adapters.
+- Generic HTTP and packaged consumer.
+
+Those packages must reference these actual APIs and their own focused acceptance tests. They are required by tasks.md, not replaced by this planning list.

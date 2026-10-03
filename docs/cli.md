@@ -1,7 +1,7 @@
 # ROM command-line client
 
-`rom-cli` builds the `rom` executable. It uses the generic `rom-http` protocol;
-adding a Resource requires server registration, not a CLI command or client schema.
+`rom-cli` builds the `rom` executable. It uses the generic `rom-http` protocol.
+To add a Resource, register it on the server. No CLI command or client schema is needed.
 The CLI does not open application databases directly. Studio and login/session
 ceremonies are outside this release.
 
@@ -21,8 +21,8 @@ the remaining examples from the repository without installing the binary, define
 rom() { cargo run --quiet --locked -p rom-cli -- "$@"; }
 ```
 
-This respects `CARGO_TARGET_DIR`. Alternatively, use
-`cargo install --path crates/rom-cli --locked` and ensure Cargo's bin directory is
+This respects `CARGO_TARGET_DIR`. Alternatively, run
+`cargo install --path crates/rom-cli --locked`. Make sure that Cargo's bin directory is
 on your PATH.
 
 ## Connect and inspect
@@ -51,19 +51,19 @@ server certificate. Plain HTTP is accepted only for numeric loopback addresses
 (including IPv6), not hostnames. URL credentials, query strings and fragments are
 rejected. Redirects, proxies and automatic network retries are disabled.
 
-`--auth-file` is optional: the host decides whether a request without credentials
+`--auth-file` is optional. The host decides whether a request without credentials
 has authority. When used, the file contains the complete Authorization value
-(e.g. its host-defined scheme and credential), not a JSON document. A single final
-LF or CRLF is removed; embedded line breaks, empty values and files larger than
-8 KiB are rejected. Credentials never enter command-line flags or diagnostic
-messages. The CLI does not save, refresh or acquire credentials; protect the
+(e.g. its host-defined scheme and credential), not a JSON document. The CLI removes a single final
+LF or CRLF. It rejects embedded line breaks, empty values and files larger than
+8 KiB. Credentials never enter command-line flags or diagnostic
+messages. The CLI does not save, refresh or acquire credentials. Protect the
 input file according to the host's credential policy.
 
 Discovery returns only deliberately disclosed metadata. It does not grant read,
 query, mutation or action access. `discover KIND` selects from that authorized
 snapshot; unavailable kinds are not distinguished from hidden kinds. Known-kind
-commands work without discovery. Custom action input remains opaque: consult the
-application's action contract, and let its registered codec validate the value.
+commands work without discovery. Custom action input remains opaque. Consult the
+application's action contract. Let its registered codec validate the value.
 
 ## Commands and JSON input
 
@@ -92,8 +92,8 @@ output both escape terminal control characters. Diagnostics go to stderr.
 Every JSON source flag accepts `-` for stdin. Requests and input files are limited
 to 64 KiB, with duplicate object keys rejected at every nesting level before
 conversion. Unknown request/query/invocation properties are rejected. Values retain
-exact signed/unsigned 64-bit integers; downstream JSON tools must also preserve
-them if they will replay a request.
+exact signed/unsigned 64-bit integers. If downstream JSON tools will replay a request,
+they must also preserve those integers.
 
 For example, create one Resource:
 
@@ -125,7 +125,7 @@ A query file can contain:
 ```
 
 Predicates are conjunctive equality or scalar comparisons. Optional-field absence uses
-`{"field":"memo","value":null,"absent":true}`. Query files may also supply `comparisons`,
+`{"field":"memo","value":null,"absent":true}`. Query files can also supply `comparisons`,
 `order` and a client `after` anchor; see [shared query semantics](queries.md).
 `after_id` remains available for ID-only ordering. Moving pages retain no snapshot
 and provide no total count. Collection snapshot bounds still apply with a small page limit.
@@ -134,9 +134,9 @@ and provide no total count. Collection snapshot bounds still apply with a small 
 
 Supply an explicit idempotency key for each intended mutation. Non-create
 mutations also require the expected revision, including in a raw invocation.
-Keep the original request when reconciling an unavailable result. Repeating the
+Keep the original request when reconciling an unavailable result. A repeat request with the
 same principal-scoped identity and semantic input recovers its authorized durable
-receipt; changing input with the same identity is an identity mismatch. After a
+receipt. Changed input with the same identity is an identity mismatch. After a
 conflict, a deliberately revised mutation is a new intent and needs a new key.
 
 **Every failed remote mutation response is treated as unresolved.** HTTP error
@@ -157,15 +157,15 @@ mutation identity.
 
 `live` emits full snapshots, initially and when state changes; updates can coalesce.
 `subscribe` emits whole journal batches, including empty batches whose cursors
-advance. Flush each complete output frame before consuming another. A successful
+advance. Before you consume another frame, flush each complete output frame. A successful
 pipe write does not prove the receiving application processed or persisted it.
 Persist a journal cursor only after your application has processed its batch.
 
 Finite response bodies and individual SSE frames are limited to 2 MiB. Parsing
 handles arbitrary chunk boundaries, split UTF-8, CRLF, comments and multiline data.
 Response identities must match the requested kind/ID. Journal batches must preserve
-the supplied and preceding cursor generation, kind and forward position, with
-ordered events inside each cursor range. Malformed/oversized/incomplete streams stop visibly. There is no automatic
+the supplied and preceding cursor generation, kind and forward position. Events
+inside each cursor range must be ordered. Malformed/oversized/incomplete streams stop visibly. There is no automatic
 reconnect, unbounded frame queue or implicit history reset. Keepalive bytes count
 as connection activity, not application progress.
 
@@ -182,9 +182,9 @@ also exits while blocked on stdin/stdout. Closing stdout terminates cleanly. The
 so a full stderr pipe cannot prevent exit; use its exit status.
 Stopping a mutation only stops waiting and does not cancel accepted server work.
 
-A history gap requires an explicit decision about recovery. To rebuild state after
-accepting lost history: obtain `journal-head`, obtain an authorized snapshot, then
-subscribe from that head and reconcile overlap by Resource revision. This cannot
+A history gap needs an explicit decision about recovery. If you accept lost
+history, use this sequence to rebuild state. Obtain `journal-head`. Obtain an
+authorized snapshot. Subscribe from that head. Reconcile overlap by Resource revision. This cannot
 recover missing business-event processing, and retention can race recovery again.
 
 | Exit | Meaning |

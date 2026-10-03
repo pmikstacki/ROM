@@ -4,7 +4,7 @@ Date: 2026-10-02. Runtime source after review correction: `6a7a19f7a211c1e2e5973
 
 ## Source and verification boundaries
 
-The maintained workspace starts from the tracked [integrated probe](integrated-core-probe-results.md), promoted as `4d3f10d`. Review fixes are separate in `042c4d1`; bounded I/O and runtime-owned drain are `c8c0381`; expiry is `d206876`; the live-delivery review correction is `6a7a19f`. These are source-branch identities, which may differ from later coordinator cherry-picks. All changes in this worker were confined to `/root/ROM/.worktrees/mvp-library`; no push or main-branch merge was performed.
+The maintained workspace starts from the tracked [integrated probe](integrated-core-probe-results.md), promoted as `4d3f10d`. Review fixes are separate in `042c4d1`; bounded I/O and runtime-owned drain are `c8c0381`; expiry is `d206876`; the live-delivery review correction is `6a7a19f`. These are source-branch identities. They can differ from later coordinator cherry-picks. All changes in this worker were confined to `/root/ROM/.worktrees/mvp-library`; no push or main-branch merge was performed.
 
 The final native command passed against `6a7a19f`'s runtime source immediately before its commit:
 
@@ -12,11 +12,22 @@ The final native command passed against `6a7a19f`'s runtime source immediately b
 nixos-container run rom-dev -- sh -lc 'cd /workspace/ROM/.worktrees/mvp-library && ./scripts/check'
 ```
 
-Executed environment: `rustc 1.99.0 (b940084d7 2026-09-28)`, Cargo 1.99, `CARGO_BUILD_JOBS=2`, target directory `/workspace/ROM/.worktrees/mvp-library/target`, locked dependencies. The verifier explicitly checks Rust **1.99.0**, the declared initial tested floor; no older compiler claim follows.
+Executed environment: `rustc 1.99.0 (b940084d7 2026-09-28)`, Cargo 1.99, `CARGO_BUILD_JOBS=2`, target directory `/workspace/ROM/.worktrees/mvp-library/target`, locked dependencies. The verifier explicitly tests Rust **1.99.0**, the declared initial tested floor. This does not establish support for an older compiler.
 
-The command passed four strict OpenSpec change validations, formatting, Clippy with warnings denied, **37 integration tests**, **one runnable doctest**, rustdoc with warnings denied, core `--no-default-features`, the two-Resource example, a driver/HTTP/derive-free normal core graph with derive disabled, five intended compiler failures checked at their primary source lines, and the separately locked renamed-dependency fixture. The 37 integration cases comprise 17 original shared-flow tests, one external custom-field/manual-definition test, three promotion regressions, four bounds tests and twelve lifecycle tests.
+The command passed these checks:
 
-This worker did not perform the coordinator's separate advisory/license audit or extracted-archive packaged-consumer smoke. The maintained manifests now have versioned path dependencies, SPDX MIT metadata, descriptions and an actual copied MIT license in each library package. The example is a distinct downstream Cargo package; artifact packaging and human usability remain separately evidenced gates.
+- Four strict OpenSpec change validations and formatting.
+- Clippy with warnings denied.
+- **37 integration tests** and **one runnable doctest**.
+- Rustdoc with warnings denied and core `--no-default-features`.
+- The two-Resource example.
+- A driver/HTTP/derive-free normal core graph with derive disabled.
+- Five intended compiler failures checked at their primary source lines.
+- The separately locked renamed-dependency fixture.
+
+The 37 integration cases comprise 17 original shared-flow tests, one external custom-field/manual-definition test, three promotion regressions, four bounds tests and twelve lifecycle tests.
+
+This worker did not perform the coordinator's separate advisory/license audit or extracted-archive packaged-consumer smoke. The maintained manifests now have versioned path dependencies, SPDX MIT metadata, descriptions and an actual copied MIT license in each library package. The example is a distinct downstream Cargo package. Artifact packaging and human usability remain gates with separate evidence.
 
 ## Maintained layout and public interfaces
 
@@ -66,13 +77,13 @@ The original atomic state/event/receipt/effect tests, lost-acknowledgment/reopen
 
 Defaults are host policy, not throughput claims: 8 actions, 8 blocking-I/O jobs, 64 subscriptions, 1,024 candidate snapshot rows, 1 MiB serialized snapshot bytes and 16 KiB command bytes. All must be nonzero. Input size includes encoded action/resource input plus resource and command identities. Existing effect limits remain eight intentions and a command-sized total payload budget. Durable history/receipt retention is still unbounded and requires the separate persistence package.
 
-A blocking job owns its I/O permit and runtime active-work guard. Cancelling the caller drops interest, not that work. Each custom business function computes on the host's shared Rayon pool. In this first maintained implementation, the blocking action keeps its I/O permit while awaiting that CPU proposal; this is deliberately conservative accounting and can reduce I/O concurrency during long computations. It avoids SQL on Rayon workers but is not a measured scheduling optimum. A future split into individually admitted phases must preserve the same supervision and drain guarantees.
+A blocking job owns its I/O permit and runtime active-work guard. Cancelling the caller drops interest, not that work. Each custom business function computes on the host's shared Rayon pool. In this first maintained implementation, the blocking action keeps its I/O permit while it waits for that CPU proposal. This deliberately conservative accounting can reduce I/O concurrency during long computations. It avoids SQL on Rayon workers but is not a measured scheduling optimum. A future split into individually admitted phases must preserve the same supervision and drain guarantees.
 
-Every shutdown observer waits on runtime state, so cancelling one does not transfer or destroy ownership. Hosts still must explicitly await shutdown when they require a drain; dropping a handle is not a promise to wait. Once closed, new observations and actions are rejected. If closure occurs after a mutation committed but before its caller obtains disclosure, the observer can receive Closed instead of the protected result. Such observation errors are not proof of rollback; durable same-key resolution remains authoritative. A richer committed-but-undisclosable/unresolved outcome surface remains integration work.
+Every shutdown observer waits on runtime state, so cancelling one does not transfer or destroy ownership. When hosts need a drain, they must still explicitly await shutdown. Dropping a handle is not a promise to wait. Once closed, new observations and actions are rejected. If closure occurs after a mutation committed but before its caller obtains disclosure, the observer can receive Closed instead of the protected result. Such observation errors are not proof of rollback; durable same-key resolution remains authoritative. A richer committed-but-undisclosable/unresolved outcome surface remains integration work.
 
-The supported profile remains **one runtime owning writes and invalidation**. Protected reads capture a generation while holding the local authority/commit gate; if a resource transition or host revocation occurred before the async caller resumed, they refresh. After eight continually invalidated attempts the operation returns Overloaded rather than retrying without bound. Live handles retain only change signals and recompute an authorized bounded snapshot at delivery. Data already delivered to caller-owned values cannot be revoked retroactively.
+The supported profile remains **one runtime owning writes and invalidation**. Protected reads capture a generation while they hold the local authority/commit gate. If a resource transition or host revocation occurred before the async caller resumed, they refresh. After eight continually invalidated attempts the operation returns Overloaded rather than retrying without bound. Live handles retain only change signals and recompute an authorized bounded snapshot at delivery. Data already delivered to caller-owned values cannot be revoked retroactively.
 
-Policy callback dependencies are limited by that profile: row state and explicit host revocation participate in the runtime's freshness mechanism. Arbitrary mutable external policy state read by native code is not automatically tracked; a future provider policy adapter needs an explicit freshness/invalidation contract. Cross-process writes likewise require a new tested protocol. Whole-row visibility is implemented; field projection and query-field authorization are not supplied by these foundation commits.
+Policy callback dependencies are limited by that profile: row state and explicit host revocation participate in the runtime's freshness mechanism. Arbitrary mutable external policy state read by native code is not automatically tracked. A future provider policy adapter needs an explicit freshness/invalidation contract. Cross-process writes likewise require a new tested protocol. Whole-row visibility is implemented; field projection and query-field authorization are not supplied by these foundation commits.
 
 ## Plan rulings and remaining work
 
@@ -85,9 +96,9 @@ The coordinator owns the fresh whole-branch review before integrating these stag
 
 ## Fresh review correction
 
-The coordinator’s independent review reproduced a P1 live-read bug in `d206876`: `Live::changed` consumed the initial/invalidation marker before awaiting its query, so Overloaded or cancellation could make the next call wait forever for a new mutation instead of delivering existing unobserved rows. Both new public-API regressions failed with timeouts on that source.
+The coordinator’s independent review reproduced a P1 live-read bug in `d206876`. `Live::changed` consumed the initial/invalidation marker before it awaited its query. After Overloaded or cancellation, the next call could wait forever for a new mutation instead of delivering existing unobserved rows. Both new public-API regressions failed with timeouts on that source.
 
-Commit `6a7a19f` separates watch notification tracking from the handle’s delivered generation. The latter advances only after successful query return, to the generation captured before that query. Failure or cancellation leaves an undelivered generation available for retry; an event during the query remains pending, allowing a harmless conservative refresh. The two reproductions now pass, and a third test protects the event-during-query edge. The full verifier passes with the revised 37-test count above. Coordinator reproduction of the corrected immutable source remains a separate review gate.
+Commit `6a7a19f` separates watch notification tracking from the handle’s delivered generation. The latter advances only after successful query return, to the generation captured before that query. Failure or cancellation leaves an undelivered generation available for retry. An event during the query remains pending, which permits a harmless conservative refresh. The two reproductions now pass, and a third test protects the event-during-query edge. The full verifier passes with the revised 37-test count above. Coordinator reproduction of the corrected immutable source remains a separate review gate.
 
 ## Coordinator integration evidence
 

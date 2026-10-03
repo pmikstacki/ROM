@@ -1,6 +1,6 @@
 # RIM source assessment and ROM carry-forward
 
-Reviewed 2026-10-02 from the owner-supplied rim.zip, SHA-256 `82c54a7bf2700b73c77ec0223924ca51c16a87cdd57a8181072f5637fee06897`. This is static inspection of the generator itself. No Go program or RIM tests were executed, as requested. Private application code, operational device issues and application-specific mutation bugs are not evidence against this library. Source files are identified relative to the supplied archive; the archive and implementation are not copied into this public repository.
+Reviewed 2026-10-02 from the owner-supplied rim.zip, SHA-256 `82c54a7bf2700b73c77ec0223924ca51c16a87cdd57a8181072f5637fee06897`. This is static inspection of the generator itself. No Go program or RIM tests were executed, as requested. Private application code, operational device issues and application-specific mutation bugs are not evidence against this library. Source file paths are relative to the supplied archive. The archive and implementation are not copied into this public repository.
 
 ## Scope and premise
 
@@ -29,4 +29,4 @@ The most useful architectural improvement is to keep one accepted Resource descr
 
 ## Boundaries
 
-This assessment does not claim a complete semantic Go type checker review, a performance comparison or runtime execution of RIM. The referenced historical application chats were not used as proof for these source findings. Their live read did not return during this pass. ROM's executed evidence is recorded separately in the maintained reports and prototype inventory; its tests cannot retrospectively certify RIM.
+This assessment does not claim a complete semantic Go type checker review, a performance comparison or runtime execution of RIM. The referenced historical application chats were not used as proof for these source findings. Their live read did not return during this pass. ROM's executed evidence is recorded separately in the maintained reports and prototype inventory. Its tests cannot retrospectively certify RIM.

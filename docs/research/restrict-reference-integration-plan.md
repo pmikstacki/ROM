@@ -1,6 +1,6 @@
 # Restrict-reference integration preparation
 
-Status: **proposed, not implemented**. Read-only review of main `100aff7066be9fa2abf8634c2ed655f974f8d848`. The owner accepted restrict as the default deletion behavior; the mechanism below is an implementation recommendation, not an additional accepted product policy.
+Status: **proposed, not implemented**. Read-only review of main `100aff7066be9fa2abf8634c2ed655f974f8d848`. The owner accepted restrict as the default deletion behavior. The mechanism below is an implementation recommendation, not an additional accepted product policy.
 
 ## Existing seams and limits
 
@@ -22,7 +22,7 @@ Status: **proposed, not implemented**. Read-only review of main `100aff7066be9fa
 
 **Provisional recommendation:** persisted outgoing/reverse edges and a generic integrity obligation in the commit contract. Core derives edges from descriptors; adapters perform transactional checks and persist them without domain-specific controllers. Do not treat an in-memory index as authoritative integrity state.
 
-A core scan is a valid bounded first slice only with enforced ownership and complete-schema checks. It is not globally atomic with today's gate. Example: Runtime A reads target T as live; Runtime B scans no incoming references and deletes T; A writes source S referencing T. Both per-row CAS checks succeed because they affect different rows. SQLite's serialized transactions do not fix checks that happened outside those transactions.
+A core scan is a valid bounded first slice only with enforced ownership and complete-schema checks. It is not globally atomic with today's gate. Example: Runtime A reads target T as live. Runtime B finds no incoming references and deletes T. Then A writes source S referencing T. Both per-row CAS checks succeed because they affect different rows. SQLite's serialized transactions do not fix checks that happened outside those transactions.
 
 ## Proposed contract
 
@@ -37,7 +37,7 @@ The contract must specify how adapters reject unsupported mandatory integrity se
 
 ## Ordering and migration dependencies
 
-1. Settle and document the ownership boundary first. Single-owner enforcement was in release stage 4, but a core-scan implementation requires it earlier; the existing gate alone cannot satisfy it. Transactional edge checks avoid the cross-row check/commit race but do not by themselves make multiwriter a supported full-runtime profile.
+1. Settle and document the ownership boundary first. Single-owner enforcement was in release stage 4. A core-scan implementation requires it earlier. The existing gate alone cannot enforce single ownership. Transactional edge checks avoid the cross-row check/commit race but do not by themselves make multiwriter a supported full-runtime profile.
 2. Define persisted schema/reference-layout identity and startup compatibility checks. Omitting a source kind from a later registry must not erase knowledge of its persisted incoming references.
 3. Design explicit format migration/index rebuild alongside integrity implementation. Read live rows with accepted descriptors, reject unknown kinds or dangling references, then publish the new format/index generation atomically. Do not silently rewrite invalid references.
 4. Extend backup collection, validation and restore. Either carry validated edges/schema metadata or rebuild them before publishing the destination. Existing checksummed archive readers require an explicit version transition; merely adding tables would lose them during restore.

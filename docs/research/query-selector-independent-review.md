@@ -7,8 +7,7 @@ ROM query API or production adapter change is approved by this experiment.
 
 **Result: no remaining blocking findings in the reviewed scope.** The seven
 selector tests passed. A separate native harness passed 168 query comparisons and
-fault checks. The review made no prototype source edits; the author fixed the
-reported issues before the final checks. The independent harness is preserved at
+fault checks. The reviewer did not edit the prototype source. The author fixed the reported issues before the final checks. The independent harness is preserved at
 [evidence/query-selector-review.rs](evidence/query-selector-review.rs).
 
 ## Evidence and resolved findings
@@ -27,9 +26,8 @@ stale and incorrect statistics, and redb's reference path.
 
 The independent harness compares **complete returned rows**, not just IDs, for
 2 SQLite index profiles × 7 amount thresholds × 4 orderings × 3 additional-filter
-forms = **168 vectors**. Thresholds include zero, boundaries, an empty range and
-`u64::MAX`; orderings include no explicit ordering, ascending amount, mixed amount
-and title order, and descending note order. Filters include a title requiring
+forms = **168 vectors**. Thresholds include zero, boundaries, an empty range, and `u64::MAX`.
+Orderings include no explicit ordering, ascending amount, mixed amount and title order, and descending note order. Filters include a title requiring
 normalization and explicit null notes. Expected results use the normalized plan
 and the existing exact oracle, including fixture visibility.
 
@@ -43,8 +41,7 @@ the formerly inconsistent collection bound.
 ## Reproduce independently
 
 Run from a checkout containing this report with native Rust 1.99 and the prototype
-commit available locally. This creates a separate temporary worktree/package; it
-does not modify maintained source. The prototype uses its existing pinned lockfile.
+commit available locally. This creates a separate temporary worktree/package. It does not modify maintained source. The prototype uses its existing pinned lockfile.
 The harness has no dependency except that local prototype.
 
 ```sh
@@ -80,8 +77,8 @@ fresh and stale reject identically at common collection bound
 authorization precedes adapter; planning failure falls back; execution failure does not; mutation invalidates estimates
 ```
 
-The original scratch harness/logs were at `/var/tmp/selector-review` inside
-`rom-dev`; they are not required for reproduction. The checked-in source above is
+The original scratch harness/logs were at `/var/tmp/selector-review` inside `rom-dev`.
+You do not need them to reproduce the results. The checked-in source above is
 the durable evidence artifact.
 
 ## Limits of the conclusion
@@ -92,8 +89,8 @@ the durable evidence artifact.
 - SQLite generations are connection-session local. Statistics must not be reused
   across reopen. External writers and cross-process statistics invalidation are
   outside this fixture; a maintained design needs coherent admission and reads.
-- Query equality and declared exactness bind estimates to the normalized plan;
-  the trusted adapter remains responsible for exact native semantics. Costs are
+- Query equality and declared exactness bind estimates to the normalized plan.
+  The trusted adapter remains responsible for exact native semantics. Costs are
   ranking hints, not evidence of semantic support or authorization.
 - Whole-collection admission deliberately retains the bounded-kind profile.
   Selective queries over an oversized kind are rejected under every strategy.

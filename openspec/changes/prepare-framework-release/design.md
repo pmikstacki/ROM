@@ -32,10 +32,10 @@ conformance can progress without pretending those inputs have been supplied.
 ## First slice
 
 Use existing Stock/Checkout definitions and compensation actions. Prepare two
-reservations, mark one checkout definitively rejected, and stop before its durable
+reservations. Mark one checkout definitively rejected. Stop before its durable
 reaction executes. A fresh process rebuilds the same declaration graph, observes
 authorized filtered data, drains pending work and replays the original command.
-Only the rejected reservation disappears; unrelated reservations survive, and
+Only the rejected reservation disappears. Unrelated reservations survive, and
 replay introduces no new event. The same code runs on SQLite and redb.
 
 Prefer this over a new CRUD sample (would repeat existing evidence) or putting

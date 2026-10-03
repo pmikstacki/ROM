@@ -6,8 +6,8 @@ third-party crate, benchmark or database translation was implemented or executed
 for this report. Source inspection and official documentation are the evidence.
 The owner accepts **moving views** and requests better filters/sorting and real
 comparative experiments. Subsequent steering requires one semantic contract for
-every adapter: Resource actions and committed outcomes retain the same meaning;
-query operators cannot be reinterpreted or dropped by a backend. Aggregates, reporting and joins are outside this step;
+every adapter. Resource actions and committed outcomes retain the same meaning.
+A backend cannot reinterpret or drop query operators. Aggregates, reporting and joins are outside this step;
 compensation is not part of the query work.
 
 ## Recommendation and decision status
@@ -15,10 +15,12 @@ compensation is not part of the query work.
 Keep one canonical, schema-validated ROM query representation for typed Rust,
 wire and live queries. Compare generated convenience methods, generic typed
 field methods and direct runtime AST construction against that same evaluator.
-A provisional **hybrid** is most compatible with the existing Resource model:
-derive emits field bindings, ordinary Rust traits expose applicable operations,
-and runtime compilation resolves the accepted descriptor/codecs and current
-permissions before an adapter translates an authorized plan. This is an
+A provisional **hybrid** is most compatible with the existing Resource model.
+Derive emits field bindings, and ordinary Rust traits expose applicable operations.
+Runtime compilation resolves the accepted descriptor/codecs and current
+permissions. An adapter then translates an authorized plan.
+
+This is an
 engineering recommendation, not a measured winner or an owner-selected crate.
 
 Treat authoring strategy, SQL construction, and physical execution as separate
@@ -110,8 +112,8 @@ text predicate. [SQLite LIKE semantics](https://www.sqlite.org/lang_expr.html#li
 
 A safe first adapter may deliberately decline pushdown for an exact type/operator
 pair. A later materialized scalar index can store canonical presence/type/order
-keys, updated atomically with the Resource bundle. That requires an explicit
-index/version/rebuild contract; it is not an unannounced storage-format change.
+keys, updated atomically with the Resource bundle. This needs an explicit
+index/version/rebuild contract. It is not an unannounced storage-format change.
 A Rust SQLite UDF can provide an exact comparator, but emitting such a function
 in WHERE does not establish index use or bounded physical scanning.
 
@@ -121,13 +123,13 @@ For an order `(priority DESC, title ASC, id ASC)`, the continuation predicate is
 lexicographic disjunction: priority below the anchor, or equal priority and title
 above it, or both equal and ID above it. Sentinel-state comparisons are part of
 each term. Reusing `after_id` alone is incorrect once another field determines
-order. A client anchor contains the values observed when that page was emitted;
-reloading its row later would move the anchor if that row changed or disappeared.
+order. A client anchor contains the values observed when that page was emitted.
+If its row later changed or disappeared, a reload of that row would move the anchor.
 
 A continuation must identify the kind, normalized filters, effective order,
 query-contract/schema version and exact anchor values/ID. Reject mismatched or
-malformed continuations and reauthorize each call. An integrity-protected token
-is not an authorization grant; a merely encoded or signed token is not encrypted.
+malformed continuations. Reauthorize each call. An integrity-protected token
+is not an authorization grant. A merely encoded or signed token is not encrypted.
 No token may contain a forbidden row ID or undisclosed field value. If plain sort
 values cannot be disclosed, prefer rejecting that sort in the first profile;
 encrypted/server-held continuations are a separate implementation choice.
@@ -156,8 +158,8 @@ The native row policy is arbitrary Rust over Actor and Resource. Its source is
 not a SQL expression. Translate only the canonical filter/order subset that an
 adapter implements exactly, and retain final row authorization in core.
 
-1. Validate and authorize the whole query before adapter work. Normalize complete
-   value operands through the accepted codec; bind all SQL values. SQL/JSON path
+1. Before adapter work, validate the whole query. Authorize the whole query. Normalize complete
+   value operands through the accepted codec. Bind all SQL values. SQL/JSON path
    construction must handle descriptor names containing dots, quotes and brackets
    without reinterpreting them as client-defined paths.
 2. Keep semantic support common to all accepted adapters; distinguish execution
@@ -181,11 +183,11 @@ adapter implements exactly, and retain final row authorization in core.
    not necessarily inspected rows or elapsed database work.
 6. Keep each observation's candidate reads coherent under the existing commit
    gate/current-authority and handoff checks. Later pages deliberately observe
-   later states; do not require a long-lived cross-request transaction.
+   later states. Do not require a long-lived cross-request transaction.
 
 The current whole-kind snapshot bound and a new candidate-execution budget have
-different behavior. A selective query succeeding on a large kind is an intended
-new profile only if specified and tested; silently changing the old bound is not
+different behavior. A selective query that succeeds on a large kind is an intended
+new profile only if specified and tested. A silent change to the old bound is not
 an optimization with identical failure semantics. Hidden rows can also affect
 work exhaustion and timing. Current bounded snapshots already expose coarse
 capacity effects. Do not claim noninterference: removing that signal would need
@@ -231,10 +233,10 @@ their disk cost and retain raw timings. Compile-time measurements must distingui
 Rust dependencies from the changed application fixture.
 
 Use deterministic loops with consumed results, repeated samples and randomized
-case order; report distribution and workload size, not a single best run.
-Generated dispatch must be genuinely different in the experiment if claiming to
-measure generated evaluation: three wrappers calling the same generic evaluator
-only compare authoring/construction costs. Conversely, keep the executor identical
+case order. Report distribution and workload size, not a single best run.
+If the experiment claims to measure generated evaluation, its generated dispatch
+must differ from generic evaluation. Three wrappers that call the same generic
+evaluator only compare authoring/construction costs. Conversely, keep the executor identical
 when isolating ergonomic overhead. A manual Resource without the derive must
 remain a positive control. Compiler fixtures are not a human usability study.
 
@@ -268,9 +270,9 @@ Compare typed, wire, ordinary and live results through the shared semantic path.
 
 ### Experiment C: moving continuation under mutation
 
-Read a page, then insert before/after the anchor, delete the anchor, update sort
-values across it, revoke field access and change filters/order while reusing the
-continuation. Verify documented moving-view repeats/omissions, exact tie behavior,
+Read a page. Reuse the continuation while you insert before/after the anchor,
+delete the anchor, update sort values across it, revoke field access and change
+filters/order. Verify documented moving-view repeats/omissions, exact tie behavior,
 rejection of mismatched cursors, no hidden sort values/IDs, and current authority
 on each page. Include an empty visible result with remaining denied candidates;
 absence of a visible row must not accidentally certify scan exhaustion.
@@ -279,7 +281,7 @@ absence of a visible row must not accidentally certify scan exhaustion.
 
 Advance the smallest implementation that passes exact semantic/auth/cursor
 conformance and produces a measured benefit. A pleasant hybrid interface is the
-starting recommendation; generated dispatch or a SQL construction crate earns
+starting recommendation. Generated dispatch or a SQL construction crate earns
 adoption only if its measured advantage justifies code size, compile time,
 dependencies and maintenance. Keep drivers/transports outside core. Publish each
 adapter's optimized execution paths and index evidence under the common operator,

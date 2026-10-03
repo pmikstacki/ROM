@@ -1,7 +1,11 @@
 # Query authoring, compensation and extension research
 
 ## Why
-The owner accepted moving query views, schema-driven filters/sorting and restrict as the default relationship-deletion policy. They requested executable comparison of code generation, hybrid and runtime query authoring; a compensation test mechanism with useful cases; and separate research for a ROM skills library and WASM extensions.
+The owner accepted moving query views, schema-driven filters/sorting and restrict as the default relationship-deletion policy. They requested three work areas:
+
+- Executable comparison of code generation, hybrid, and runtime query authoring.
+- A compensation test mechanism with useful cases.
+- Separate research for a ROM skills library and WASM extensions.
 
 ## What Changes
 - Compare query authoring and adapter translation on the same semantics/data, then promote the justified filters/sorting design with maintained conformance.

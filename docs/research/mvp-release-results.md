@@ -1,7 +1,7 @@
 # ROM 0.1.0-alpha.1: integrated MVP acceptance
 
 Date: 2026-10-02. Implementation revision: `463f78cc121d21632f5e9073ed7c9b5c7aafd42a`.
-Subsequent completion changes are documentation, upstream license notices and their offline collector; runtime, adapter, demo and lockfile sources are unchanged.
+Subsequent completion changes cover documentation, upstream license notices, and their offline collector. Runtime, adapter, demo, and lockfile sources are unchanged.
 
 ## Result and scope
 
@@ -32,7 +32,7 @@ The [final review](maintained-mvp-independent-review.md) covers the combined imp
 new reproduced findings were corrected before acceptance:
 
 1. Blob shutdown could signal zero active work before releasing the task's final
-   service owner. Accounting is now separate from service ownership; an original
+   service owner. Accounting is now separate from service ownership. An original
    forced scheduling regression independently changed from failing to passing.
 2. Durable work could fit in Pending state but lack bytes to become Leased.
    Admission now reserves worst-case lifecycle metadata, including retry and
@@ -40,7 +40,7 @@ new reproduced findings were corrected before acceptance:
    Incompatible old experimental ledgers explicitly fail; no migration exists.
 3. A denied identity could reach Resource lookup and codecs before its current
    authority check. Authority now precedes lookup/normalization under bounded
-   execution and the commit gate; later checks still protect commit/disclosure.
+   execution and the commit gate. Later checks still protect commit/disclosure.
 
 There are no unresolved material findings in that review. This is engineering
 review and fault testing, not a security certification or a human usability study.
@@ -89,7 +89,7 @@ TMPDIR=/var/lib/rom-package-checks ./scripts/release
 ```
 
 The release script requires a clean checkout and refuses to overwrite an archive
-for the same revision. Create the persistent TMPDIR first; it must be outside
+for the same revision. Create the persistent TMPDIR first. It must be outside
 this Cargo workspace. Source archives live in ignored `dist/` with checksums.
 Use the [native profile script](../../scripts/check-sqlite-native) and
 [Blob verifier](../../crates/rom-blob-object-store/verify-s3) for their extra gates.
@@ -103,7 +103,7 @@ Use the [native profile script](../../scripts/check-sqlite-native) and
 - Idempotency is durable. No completed-outcome cache/single-flight optimization
   or Salsa mutation memoization is enabled; pure proposals may compute twice.
 - Reactions preserve prior commits and retry downstream work within budgets.
-  External notifications can duplicate after uncertain acknowledgement/restore
+  External notifications can duplicate after uncertain acknowledgment/restore
   unless the receiver deduplicates the stable delivery identity.
 - Current auth is enforced, but provider discovery/login/session ceremonies,
   first-admin account recovery and tenant product policy belong to host profiles.

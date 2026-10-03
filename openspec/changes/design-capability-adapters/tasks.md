@@ -24,6 +24,6 @@
 
 - [ ] 4.1 Run combined conformance, resilience, privacy and dependency-boundary suites on each supported deployment profile.
 - [ ] 4.2 Validate packaged consumer ergonomics and same-resource behavior after adapter substitution.
-- [ ] 4.3 Archive only after production requirements are implemented and evidenced.
+- [ ] 4.3 After production requirements are implemented and supported by evidence, archive the change.
 
-No existing production code or data is deleted or migrated by this proposal. Checked experiments are not checked production implementation tasks.
+No existing production code or data is deleted or migrated by this proposal. A completed experiment does not mark a production implementation task as complete.

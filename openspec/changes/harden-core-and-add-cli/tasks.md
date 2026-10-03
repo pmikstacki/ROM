@@ -15,6 +15,6 @@
 - [x] 3.3 Verify real binary/TCP journeys on SQLite/redb and adverse outcomes.
 
 ## 4. Integrate and release
-- [x] 4.1 Independent core/CLI/research review; resolve demonstrated defects.
-- [x] 4.2 Full local checks, dependency/notices and standalone package verification.
+- [x] 4.1 Obtain an independent core/CLI/research review. Resolve demonstrated defects.
+- [x] 4.2 Run full local checks. Verify dependencies/notices and standalone packages.
 - [x] 4.3 Update author docs, evidence and publish coherent source changes.

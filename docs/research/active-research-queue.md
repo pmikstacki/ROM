@@ -1,10 +1,8 @@
 # ROM research queue — 2026-10-02
 
-The owner requested parallel research to continue independently of Studio/VPN
-troubleshooting. This queue records assignments, not completed results. Accepted
-premise: one Resource domain model, typed derive/fluent authoring, core-owned
-semantics and interchangeable adapters. Research may refine mechanisms, not
-replace that premise or silently select production dependencies.
+The owner requested parallel research independent of Studio/VPN troubleshooting. This queue records assignments, not completed results.
+
+The accepted premise has one Resource domain model, typed derive/fluent authoring, core-owned semantics and interchangeable adapters. Research can refine mechanisms. It cannot replace that premise or silently select production dependencies.
 
 | Workstream | State at dispatch | Deliverable |
 | --- | --- | --- |
@@ -26,11 +24,7 @@ replace that premise or silently select production dependencies.
 | Backup, final demo and release gates | Coordinator, remaining | Preserve complete durable state, run packaged consumer and complete dependency review, then independent combined review. |
 | Integrated MVP | Coordinator, active goal | Decision register, explicit acceptance profile, combined conformance and packaged consumer. Separate experiments alone cannot complete this goal. |
 
-Each agent uses an isolated worktree and prototype branch. Reports separate
-primary-source claims, executed evidence and proposals. A worker finishing is
-not an integrated-core completion claim: coordinator review and independent
-verification remain necessary. No visible standalone project conversations were
-created; these are delegated agent tasks.
+Each agent uses an isolated worktree and prototype branch. Reports separate primary-source claims, executed evidence and proposals. A completed worker task does not establish completion of the integrated core. Coordinator review and independent verification remain necessary. These are delegated agent tasks; no visible standalone project conversations were created.
 
 ## Discussion inventory
 

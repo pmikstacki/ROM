@@ -12,7 +12,7 @@ ROM-managed users, identity-provider configuration and application settings SHAL
 #### Scenario: Identity-provider configuration supplied by a file
 - **GIVEN** an accepted identity-provider Resource definition and an authorized configuration source
 - **WHEN** the source supplies new configuration values
-- **THEN** ROM validates and applies those values through the shared Resource contract, while the configured adapter implements the external protocol
+- **THEN** ROM validates and applies those values through the shared Resource contract. The configured adapter implements the external protocol.
 
 #### Scenario: Studio edits externally owned configuration
 - **GIVEN** a configuration field is owned by an external source under the configured ownership policy

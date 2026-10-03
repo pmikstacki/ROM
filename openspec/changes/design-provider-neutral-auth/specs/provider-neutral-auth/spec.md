@@ -68,7 +68,7 @@ Adapters SHALL fetch trust metadata only through configured trusted sources and 
 
 - **GIVEN** a trusted issuer rotates to an unfamiliar signing key
 - **WHEN** verification refreshes its configured key source
-- **THEN** it accepts the token only if bounded refresh yields a matching trusted key and all other checks pass
+- **THEN** only if bounded refresh yields a matching trusted key and all other checks pass, it accepts the token
 
 #### Scenario: Attacker-provided key URL
 
@@ -144,7 +144,7 @@ The core SHALL authorize subscriptions and each event delivery, including histor
 
 - **GIVEN** an event records an administrator as its originating actor
 - **WHEN** a reaction replays that event under a limited service identity
-- **THEN** its action is checked against the service's permissions and gains no administrator authority from the event
+- **THEN** its action is subject to the service's permissions. The event grants no administrator authority.
 
 ### Requirement: Credentials excluded from attribution
 

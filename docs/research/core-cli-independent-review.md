@@ -23,7 +23,7 @@ Final independently built CLI binary SHA-256:
 `4311b606d8452f3e1ea1148ac03d8ebee3d48ef1ff5128020051af18fba77f1a`.
 
 The final review checkout had no tracked implementation changes. Four standalone
-review probe sources were untracked; they are not Cargo inputs. Three were
+review probe sources were untracked. They are not Cargo inputs. Three were
 compiled separately to exercise the actual CLI through TCP and process pipes.
 The fourth inspected an earlier SSE concern already corrected before its run.
 
@@ -62,8 +62,8 @@ corrected before the final commit:
    advances remain allowed.
 3. During a submitted mutation, Ctrl-C blocked while its diagnostic wrote to
    saturated stderr. The final independent probe, with 180224 bytes already
-   filling the stderr socket, exits 130. The signal handler performs no output;
-   documentation explains that its exit status conveys uncertainty.
+   filling the stderr socket, exits 130. The signal handler produces no output.
+   Documentation explains that its exit status conveys uncertainty.
 
 Reproduction sources remain in the isolated review checkout as
 `review-cli-identity.rs`, `review-cli-cursor.rs`, and `review-cli-cancel.rs`.
@@ -86,10 +86,10 @@ without asserting rollback. This finding is attributed to the coordinator.
 
 Core all-query constructors reuse existing query authorization and bounds.
 Semaphore maxima are rejected before construction. Discovery uses explicit,
-default-denied metadata policy and current-authority checks; row policies,
-codecs and actions are not run to infer metadata grants. Recursive hidden
-references are omitted. Borrowed metadata is charged before output allocation,
-including envelope and separators; the reviewer added exhaustive smaller-budget
+default-denied metadata policy and current-authority checks. Row policies,
+codecs, and actions do not run to infer metadata grants. Recursive hidden
+references are omitted. Before output allocation, borrowed metadata is charged,
+including the envelope and separators. The reviewer added exhaustive smaller-budget
 checks for a multi-resource catalog. Callback panic, expiry and revocation tests
 passed. HTTP preserves the ordinary authentication/body-limit path.
 
@@ -97,7 +97,7 @@ The CLI uses generic requests for unrelated Resources, strict bounded JSON,
 explicit mutation identity, disabled automatic retry/redirect/proxy behavior,
 escaped output and incremental bounded streaming. Final tests exercise actual
 processes and TCP, both maintained database adapters, partial presence and exact
-u64 values, lost acknowledgements, authority changes, malformed responses,
+u64 values, lost acknowledgments, authority changes, malformed responses,
 history continuity and process cancellation. No additional P1/P2 standards or
 specification finding remains from source review or these focused executions.
 

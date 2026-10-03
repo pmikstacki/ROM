@@ -2,7 +2,7 @@
 
 Review date: 2026-10-02. Question: do the six missing-file messages in the generated notices indicate missing upstream license evidence, and which distribution artifacts do they affect?
 
-Reviewed main `666b85a` and lockfile SHA-256 `93f51f4bfa2a95d96becf960cb8e00ae32c5767c82c7d5ba8891397637681610`. The regenerated all-features Cargo metadata contains 255 external packages. The reported 269-package audit includes local packages; that audit count and absence of advisories do not establish notice completeness. This is an engineering inventory review, not a legal certification.
+Reviewed main `666b85a` and lockfile SHA-256 `93f51f4bfa2a95d96becf960cb8e00ae32c5767c82c7d5ba8891397637681610`. The regenerated all-features Cargo metadata contains 255 external packages. The reported 269-package audit includes local packages. That audit count and absence of advisories do not establish notice completeness. This is an engineering inventory review, not a legal certification.
 
 ## Result
 
@@ -55,4 +55,4 @@ Recommended next change: teach notice collection the one explicit `r-efi/AUTHORS
 
 The identified collection gaps are now resolved in the collector: version-specific archive paths include `r-efi 6.0.0/AUTHORS` and all three identified nested ring license files. Five unmodified repository-root MIT supplements are checked into `licenses/dependency-supplements/`, with exact source URLs, source revisions and SHA-256 hashes in its manifest. Collection verifies each package's archive VCS revision and the supplement bytes before including them. The output retains the crate's original declared license expression and labels the reproduced MIT alternative explicitly.
 
-Generation now uses locked **offline** Cargo metadata and makes no notice download. Focused tests cover positive collection, wrong version, tampered bytes, mismatched source revision, extra archive paths and missing-file failure. An actual generation against the cached 255-package all-features graph completed and all six placeholders were absent; all three nested ring paths appeared. Generated inventory/notice outputs are intentionally left to the coordinator's main-lock regeneration, outside this repair commit. This closes the identified collector gaps, not the broader artifact-specific/native/system-library review boundary above.
+Generation now uses locked **offline** Cargo metadata. It does not download notices. Focused tests cover positive collection, wrong version, tampered bytes, mismatched source revision, extra archive paths and missing-file failure. An actual generation against the cached 255-package all-features graph completed and all six placeholders were absent; all three nested ring paths appeared. Generated inventory/notice outputs are intentionally left to the coordinator's main-lock regeneration, outside this repair commit. This closes the identified collector gaps, not the broader artifact-specific/native/system-library review boundary above.

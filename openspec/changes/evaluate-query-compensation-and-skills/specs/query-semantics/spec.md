@@ -45,7 +45,7 @@ Every predicate SHALL require the current query grant before consulting rows. Ev
 - **THEN** the query returns Denied independently of the dataset
 
 ### Requirement: Client-chosen bound moving anchors
-A QueryAnchor SHALL be an explicit client-chosen boundary, not an authorization credential or assertion of server issuance. It SHALL bind format version, kind, schema version, canonical predicate lists and ordering, and contain an ID plus one canonical missing/value key per ordered field. Validation SHALL check binding, bounds, key count and shape before scanning even empty datasets. Page limits SHALL not be bound. Current row, query, sort and field authority SHALL be checked independently at evaluation. after_id SHALL remain valid only for ID ordering and SHALL conflict with an anchor.
+A QueryAnchor SHALL be an explicit client-chosen boundary, not an authorization credential or assertion of server issuance. It SHALL bind format version, kind, schema version, canonical predicate lists and ordering, and contain an ID plus one canonical missing/value key per ordered field. Before a scan, even of an empty dataset, validation SHALL verify binding, bounds, key count, and shape. Page limits SHALL not be bound. Current row, query, sort, and field authority SHALL be verified independently at evaluation. after_id SHALL remain valid only for ID ordering and SHALL conflict with an anchor.
 
 #### Scenario: Query-bound anchor rejection
 - **GIVEN** an anchor for a specific normalized filter and order

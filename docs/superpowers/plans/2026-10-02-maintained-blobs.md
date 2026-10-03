@@ -19,8 +19,8 @@ object_store 0.14.2. MIT packages; retain dependency attribution.
 - No Row, Bundle, query, configuration or notification ledger changes.
 - Client Resource input cannot fabricate a Ready attachment.
 - Failed, oversized, stalled or digest-mismatched input never publishes partial bytes.
-- Lost provider/metadata acknowledgements remain distinct and recoverable.
-- Cancelled callers retain actual work capacity; shutdown drains real completion.
+- Lost provider/metadata acknowledgments remain distinct and recoverable.
+- If a caller cancels, its work retains capacity until completion. Shutdown waits for actual work completion.
 - Revocation during content retrieval prevents disclosure.
 
 ## Tasks

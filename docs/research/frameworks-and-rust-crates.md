@@ -1,6 +1,6 @@
 # Resource frameworks and Rust building blocks
 
-Research date: 2026-10-02. Status: design input, not an approved dependency list or implementation specification. Sources are public first-party documentation. Recommendations below are architectural judgments, distinguished from documented upstream behavior. No performance benchmarks, compatibility build, or dependency-license audit were performed.
+Research date: 2026-10-02. This report supplies design input, not an approved dependency list or implementation specification. Sources are public first-party documentation. The recommendations below are architectural judgments, separate from documented upstream behavior. No performance benchmarks, compatibility build, or dependency-license audit were performed.
 
 This note records the initial literature review. Subsequent [prototype findings](prototype-results.md) separately record actual compatibility builds and executable probes; the broader candidate list below remains untested.
 
@@ -35,7 +35,7 @@ These are proposed ROM design decisions, not claims about upstream libraries.
 7. **No assumed global event order.** Resource versions provide local ordering. Parallel outbox publishers can reorder messages; preserve per-resource order where required. A database sequence allocated before commit is not automatically a safe committed-event cursor: a later transaction may commit first.
 8. **Bound reaction cascades.** Specify causation metadata, retry limits, concurrency limits, cancellation, and what happens to permanently failing work. A reaction producing an identical state should not accidentally create an infinite change loop.
 
-SQLx supplies explicit transactions; it does not supply these domain guarantees automatically. RabbitMQ distinguishes publisher confirms from consumer acknowledgements; neither covers ROM's database transaction. Tokio broadcast explicitly drops old values when receivers lag. These facts motivate the proposed boundaries. [SQLx transactions](https://docs.rs/sqlx/latest/sqlx/struct.Transaction.html), [RabbitMQ acknowledgements and confirms](https://www.rabbitmq.com/docs/confirms), [Tokio broadcast](https://docs.rs/tokio/latest/tokio/sync/broadcast/index.html).
+SQLx supplies explicit transactions. It does not supply these domain guarantees automatically. RabbitMQ distinguishes publisher confirms from consumer acknowledgements; neither covers ROM's database transaction. Tokio broadcast explicitly drops old values when receivers lag. These facts motivate the proposed boundaries. [SQLx transactions](https://docs.rs/sqlx/latest/sqlx/struct.Transaction.html), [RabbitMQ acknowledgements and confirms](https://www.rabbitmq.com/docs/confirms), [Tokio broadcast](https://docs.rs/tokio/latest/tokio/sync/broadcast/index.html).
 
 ## Smallest useful crate stack
 
@@ -69,7 +69,7 @@ Proposed implementation choices:
 - [schemars](https://docs.rs/schemars/latest/schemars/) generates JSON Schema from Rust types. Add it for schema export when needed; it does not replace action invariants or a runtime custom-field registry.
 - [rust_decimal](https://docs.rs/rust_decimal/latest/rust_decimal/) and [time](https://docs.rs/time/latest/time/) are candidates for decimal and temporal built-ins. Their value representations still require a deliberate persistence and wire-format policy.
 
-Separate a type's mathematical/domain meaning from confidentiality policy. A sensitive string remains a string with restricted handling; adding a plugin must not grant it unrestricted access to secrets, storage, or publication. Native Rust plugins run in-process and are trusted code, not sandboxed components.
+Separate a type's mathematical/domain meaning from confidentiality policy. A sensitive string remains a string with restricted handling. Adding a plugin must not grant it unrestricted access to secrets, storage, or publication. Native Rust plugins run in-process and are trusted code, not sandboxed components.
 
 ## Adapters and future WASM
 

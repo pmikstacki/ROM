@@ -1,9 +1,8 @@
 # Reproducing immutable experiments
 
-Agent worktrees are reused for maintained integration. An old report's worktree
-path records where its original run happened; it is not a promise that the path
-still contains that experiment. Published prototype commits remain the source
-of truth. Run from a full ROM clone with the documented Rust 1.99 toolchain:
+Agent worktrees are reused for maintained integration. An old report's worktree path records the location of its original run. The path does not necessarily still contain that experiment. Published prototype commits remain the source of truth.
+
+Run from a full ROM clone with the documented Rust 1.99 toolchain:
 
 ```sh
 ./scripts/run-prototype chains
@@ -18,8 +17,7 @@ On this NixOS host, prefix the chosen command with:
 nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM && CARGO_NET_OFFLINE=true ./scripts/run-prototype chains'
 ```
 
-The script exports the exact source commit into a fresh temporary directory,
-runs that commit's verifier and retains its sources/results for inspection.
+The script exports the exact source commit into a fresh temporary directory. It runs that commit's verifier and retains its sources/results for inspection.
 It never checks out or resets an agent's working branch. Cargo offline requires
 the dependencies already cached; OpenSSL CLI is also needed by the auth fixture.
 The coordinator executed the new wrapper for chains: 19 tests and exact CSV

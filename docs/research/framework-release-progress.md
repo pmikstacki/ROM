@@ -6,17 +6,11 @@ This is an implementation ledger, not a release readiness declaration.
 
 ## Stage 1: reference application and author ergonomics
 
-The first maintained slice extends the existing application with
-`./demo/run reference sqlite` and `./demo/run reference redb`. Its public API
-journey combines inventory filtering/sorting/moving pages, pending checkout
-compensation, replay, live membership, Task-to-Dashboard reactions and actual
-folder attachments read after reopening without reuploading.
+The first maintained slice extends the existing application with `./demo/run reference sqlite` and `./demo/run reference redb`. Its public API journey combines inventory filtering/sorting/moving pages, pending checkout compensation, replay, live membership and Task-to-Dashboard reactions. The journey also reads actual folder attachments after a reopen, without another upload.
 
 The initial executable test failed on the absent `reference` command. After
 implementation, two parent integration tests passed: the executable journey and
-actual child-process exit/recovery, each on SQLite and redb. The ignored child
-fixture is explicitly invoked twice; it exits with code 86 immediately after the
-confirmed rejection commit, without shutdown, destructors or work processing.
+actual child-process exit/recovery, each on SQLite and redb. The ignored child fixture is explicitly invoked twice. It exits with code 86 immediately after the confirmed rejection commit, without shutdown, destructors or work processing.
 Unknown outcomes preserve both reservations; recovery removes only the rejected
 token and replay adds no stock/checkout event or queued work.
 

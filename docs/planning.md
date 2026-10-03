@@ -1,6 +1,6 @@
 # Planning and evidence
 
-ROM adopts Beskid's spec-driven workflow: proposal, capability deltas, design, and checkable tasks. Requirements use SHALL/MUST and GIVEN/WHEN/THEN scenarios. Informative documents link to the requirements rather than becoming a second normative source.
+ROM adopts Beskid's spec-driven workflow: proposal, capability deltas, design, and tasks with verification criteria. Requirements use SHALL/MUST and GIVEN/WHEN/THEN scenarios. Informative documents link to the requirements rather than becoming a second normative source.
 
 The reference inspected was [Beskid's OpenSpec configuration](https://github.com/Cyber-Nomad-Collective/beskid/blob/main/openspec/config.yaml) and its change directory structure on 2 October 2026. ROM does not inherit Beskid's compiler-specific requirements or its entire process.
 
@@ -9,8 +9,8 @@ The reference inspected was [Beskid's OpenSpec configuration](https://github.com
 1. Describe an observable change in a named OpenSpec change directory.
 2. Write requirements and failure scenarios before product code.
 3. Resolve interface and compatibility decisions in the design.
-4. Implement small, testable tasks; check them off only with verification evidence.
-5. Validate the change; archive it and promote deltas to baseline specs when delivered.
+4. Implement small, testable tasks. Mark them complete only with verification evidence.
+5. Validate the change. After delivery, archive it. Promote its deltas to baseline specs.
 
 The initial change remains proposed. Empty baseline specs do not mean the proposal is implemented.
 
@@ -35,10 +35,10 @@ Confirmed direction: backend only, one main Rust library, resource/action/event 
 
 ## Local verification
 
-Run `./scripts/check` before committing and `./scripts/build` when a Rust workspace exists. GitHub is used for code hosting only; Actions is disabled. The check script explicitly reports when Rust checks are not yet applicable. Build exits with an explanatory error until implementation begins.
+Before you commit, run `./scripts/check`. When a Rust workspace exists, run `./scripts/build`. GitHub is used for code hosting only; Actions is disabled. The check script explicitly reports when Rust checks are not yet applicable. Build exits with an explanatory error until implementation begins.
 
 ## Research-led development
 
-Before locking a substantial core abstraction, compare primary-source precedents and test alternatives in a small, disposable experiment. Record the question, acceptance criteria, findings and selected tradeoff in the relevant OpenSpec design. An experiment does not become production code merely because it runs. Favor the smallest interface that makes downstream application development straightforward.
+Before you commit to a substantial core abstraction, compare primary-source precedents. Before that decision, test alternatives in a small, disposable experiment. Record the question, acceptance criteria, findings and selected tradeoff in the relevant OpenSpec design. An experiment does not become production code merely because it runs. Favor the smallest interface that makes downstream application development straightforward.
 
-The `demo/` application begins only after the first core milestone is ready. Releases are built and verified locally in NixOS; GitHub hosts source, not the build pipeline.
+The `demo/` application starts only after the first core milestone is ready. Releases are built and verified locally in NixOS; GitHub hosts source, not the build pipeline.

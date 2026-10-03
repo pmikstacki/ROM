@@ -7,7 +7,7 @@ Provider-independent semantic contracts for resource persistence, blob storage a
 ## ADDED Requirements
 
 ### Requirement: Provider-independent core
-ROM core SHALL depend on core-owned semantic interfaces and values. Database query languages, transaction handles, storage SDK types, provider credentials and native error types SHALL remain inside host configuration and adapters. Resource definitions SHALL NOT require changes when substituting adapters that satisfy the same requested contract.
+ROM core SHALL depend on core-owned semantic interfaces and values. Database query languages, transaction handles, storage SDK types, provider credentials, and native error types SHALL remain inside host configuration and adapters. Resource definitions SHALL NOT require changes when substituting adapters that satisfy the same requested contract.
 
 #### Scenario: Substitute a persistence model
 - **GIVEN** a resource uses a supported persistence contract
@@ -124,4 +124,4 @@ ROM SHALL bound admitted work, waiting callers and accepted input sizes independ
 #### Scenario: Cached identity exceeds its authoritative horizon
 - **GIVEN** a completed entry remains physically resident after its authoritative validity horizon or namespace generation changes
 - **WHEN** a caller retries that identity
-- **THEN** ROM does not return the stale cached result or silently renew its validity, and follows the durable identity resolution policy
+- **THEN** ROM does not return the stale cached result or silently renew its validity. ROM follows the durable identity resolution policy.

@@ -3,12 +3,15 @@
 Updated: 2026-10-02. This is the inventory for the owner's active goal: complete
 the planned research and prototypes and deliver one verified MVP. The normative
 acceptance profile is [integrate-resource-mvp](../../openspec/changes/integrate-resource-mvp/design.md).
-No count of separate passing experiments constitutes an integrated MVP.
+Separate passing experiments do not establish an integrated MVP, regardless of their count.
 
-Status vocabulary: **accepted** means explicitly selected by the owner;
-**MVP default** is a reversible engineering choice for the authorized first
-implementation; **host policy** is configurable behavior with documented bounds;
-**deferred** has a reason and an unsupported-capability boundary. Recommendations
+Status vocabulary:
+
+- **accepted** means explicitly selected by the owner.
+- **MVP default** is a reversible engineering choice for the authorized first implementation.
+- **host policy** is configurable behavior with documented bounds.
+- **deferred** has a reason and an unsupported-capability boundary.
+ Recommendations
 are not retroactively described as owner decisions. D = behavior, P = policy,
 I = implementation.
 
@@ -35,7 +38,7 @@ I = implementation.
 | Blob storage? | D, accepted | Generic bounded BlobStore with folder/S3 implementations and orphan/cleanup lifecycle; blob upload is not a distributed DB transaction. | [Maintained Blob lifecycle](mvp-blob-results.md): actual folder/MinIO, current authorization, immutable reservation binding, shutdown/reopen/detach. |
 | Notifications? | D, accepted | Named Rust function channels, durable intentions in resource commit, bounded retry and inspectable failures. Receiver idempotency determines duplicate external effects. | [Maintained typed channels](maintained-channel-results.md) combine obligations with full commit and supervised worker; real restart/lost-ack cases verified. |
 | Cache and Salsa? | I, measured optional optimization | Keep durable idempotency authoritative. Single-flight and a private bounded completed cache are measured follow-on optimizations, disabled in this first maintained profile because unique-traffic overhead is not negligible by evidence. Salsa is optional derived-read research, not mutation memoization. | [22-test/288-sample results](cache-prototype-results.md). Maintained concurrent retries may compute a pure proposal twice but cannot commit it twice; no in-memory coalescing/cache performance claim. |
-| Retention and old retries? | P, MVP default | Separate journal, receipt and resource retention. Initially retain receipts under a budget and reject new obligations at capacity; never treat deleted receipt as proof of no prior commit. | Bounded journal/receipt/ledger exhaustion and cursor gaps verified; [native backup/restore](maintained-backup-results.md) preserves obligations and fences restored claims/cursors. |
+| Retention and old retries? | P, MVP default | Separate journal, receipt and resource retention. Initially retain receipts under a budget. At capacity, reject new obligations. Never treat a deleted receipt as proof of no prior commit. | Bounded journal/receipt/ledger exhaustion and cursor gaps verified; [native backup/restore](maintained-backup-results.md) preserves obligations and fences restored claims/cursors. |
 | Multiple instances? | I, deferred | First profile has one write/invalidation owner. Later require durable claims, leases/fencing and journal reconciliation; notifications are wakeups only. | Transport report; single-owner deployment is a host precondition, not an enforced global registry of shared Storage handles. |
 | Definition/plugin compatibility? | I, MVP default | Version descriptors and stored encoding; one registration gate, native Rust plugins. Unknown versions/capabilities fail explicitly. WASM later. | Derive and registration probes; persisted-format checks verified on both maintained adapters. |
 | Operations and diagnostics? | P/I, MVP default | Payload-free runtime status/capacity counters, readiness/intake/drain states and safe errors; exported telemetry integrations remain optional. Backup includes receipts/pending work; blob completeness separate. | [Transport operations research](transport-trial-results.md); [native backup/recovery](maintained-backup-results.md), bounded runtime status and typed errors. |
@@ -67,6 +70,6 @@ must explain them; this MVP must not claim to implement them.
 | Reactive chains | Independently verified 19 tests and 110 deterministic comparison rows | [Report](reaction-chain-results.md); [maintained durable worker](maintained-reaction-results.md) integrated and verified. |
 | Maintained reusable MVP | Core, SQLite/redb, auth, queries/patch, configuration, HTTP, reactions, channels, Blob, backup and assembled demo verified | [Final acceptance report](mvp-release-results.md) records the combined verification, packaging, review and supported boundaries. |
 
-Keep this register current when evidence changes. It is a completion aid, not a
+When evidence changes, update this register. It is a completion aid, not a
 substitute for executable acceptance or an assertion that all broad OpenSpec
 requirements are satisfied by a narrow release.

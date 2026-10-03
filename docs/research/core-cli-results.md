@@ -1,6 +1,6 @@
 # Deferred research, core ergonomics and CLI results
 
-Date: 2026-10-02. This closes the owner's revised follow-on scope after the [experimental MVP](mvp-release-results.md): research every deferred area, improve API ergonomics/resilience, and deliver a generic CLI. Studio implementation is excluded. The [37-topic roadmap](deferred-capabilities-roadmap.md) is researched future work, not a claim that those features are implemented.
+Date: 2026-10-02. This completes the owner's revised follow-on scope after the [experimental MVP](mvp-release-results.md). That scope covers research of every deferred area, better API ergonomics/resilience, and a generic CLI. Studio implementation is excluded. The [37-topic roadmap](deferred-capabilities-roadmap.md) describes researched future work. It does not claim that those features are implemented.
 
 ## Result and rationale
 
@@ -8,7 +8,7 @@ The maintained Resource model now offers typed `Query::all()`/`Default`, rejects
 
 The optional `rom-cli` package supplies the `rom` executable over the shared HTTP protocol. The same commands operate Task and Inventory Resources on both maintained adapters. No client-side repository, schema copy or per-kind command is needed. Human output is escaped pretty JSON; machine output is complete JSON/NDJSON. Local arguments and requests are validated before transmission, and no credentials, pending requests or automatic retry state are persisted. See the [CLI guide](../cli.md) and [selection research](cli-implementation-research.md).
 
-The key resilience result is explicit uncertainty. A failed response does not identify whether an action committed: a host policy can fail during post-commit observation. Every unsuccessful submitted mutation therefore yields unresolved outcome; recovery uses the original principal-scoped key, revision and semantic input. Live snapshots and journal batches retain different semantics. Contextual response validation rejects unrelated Resources, backward cursors, generation changes and invalid event ordering. Interrupt handling exits even when output destinations are blocked.
+The key resilience result is explicit uncertainty. A failed response does not identify whether an action committed. A host policy can fail during post-commit observation. Every unsuccessful submitted mutation therefore yields unresolved outcome; recovery uses the original principal-scoped key, revision and semantic input. Live snapshots and journal batches retain different semantics. Contextual response validation rejects unrelated Resources, backward cursors, generation changes and invalid event ordering. Interrupt handling exits even when output destinations are blocked.
 
 ## Verification
 

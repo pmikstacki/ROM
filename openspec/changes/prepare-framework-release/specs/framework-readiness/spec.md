@@ -19,7 +19,7 @@ receipt identities, pending work and recovery sources.
 #### Scenario: Upgrade is interrupted
 - **GIVEN** persisted Resources, receipts and pending work in a supported older format
 - **WHEN** an offline upgrade is interrupted
-- **THEN** the original source remains recoverable and incomplete output is not activated
+- **THEN** the original source remains recoverable. Incomplete output is not activated.
 
 ### Requirement: Optimization preserves observable semantics
 ROM SHALL integrate strategy selection and native planner adapters only with

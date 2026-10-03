@@ -8,10 +8,7 @@ no maintained HTTP adapter has been executed yet.
 
 Use Axum in `rom-http`, outside `rom`, for a small generic binding. Current
 official documentation identifies Axum 0.8.9 and exposes SSE responses from Rust
-streams. This supplies wire handling, not Resource semantics. A live handle
-can become an SSE stream while still owning a ROM subscription permit and
-obeying current authorization. Keepalive traffic is transport liveness, not a
-committed Resource event or processing checkpoint.
+streams. This supplies wire handling, not Resource semantics. A live handle can become an SSE stream. It still owns a ROM subscription permit and obeys current authorization. Keepalive traffic indicates transport liveness. It is not a committed Resource event or processing checkpoint.
 [Axum SSE](https://docs.rs/axum/0.8.9/axum/response/sse/).
 
 ROM's typed and erased invocation APIs must lower into the same registered
@@ -34,8 +31,7 @@ selects an arbitrary native function: only registered definitions are callable.
 | Error mapping | Map safe semantic categories once. Keep internal diagnostics protected. | Storage/codec failures do not echo credential, secret, source path or raw driver error. |
 | Lifecycle | Stop HTTP intake, close live observers, drain ROM work, then tear down shared services. | A long-lived stream does not make shutdown hang; a cancelled HTTP response cannot orphan accepted work. |
 
-Axum's default body limit applies only to extractors that cooperate with it;
-manual frame consumption can bypass it. The binding must use a bounded body
+Axum's default body limit applies only to extractors that cooperate with it. Manual frame consumption can bypass it. The binding must use a bounded body
 reader or a globally applied limit, not infer protection from a default layer.
 The official comparison explicitly distinguishes `DefaultBodyLimit` from the
 global `RequestBodyLimit`.

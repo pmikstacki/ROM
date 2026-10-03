@@ -1,7 +1,7 @@
 ## Why
 
-The first integrated MVP works, but authors cannot construct a typed unfiltered
-query, extreme concurrency limits can panic, and users have no generic command
+The first integrated MVP works. Authors cannot construct a typed unfiltered
+query. Extreme concurrency limits can panic, and users have no generic command
 line client. The owner explicitly narrowed the continued goal to complete
 research of deferred capabilities, API ergonomics, core resilience and CLI.
 Studio is excluded for now. Research is not blanket implementation approval for

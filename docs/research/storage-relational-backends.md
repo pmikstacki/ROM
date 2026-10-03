@@ -1,6 +1,6 @@
 # Relational storage capabilities for a database-independent ROM
 
-Date: 2026-10-02. Primary-source research; no new experiments or conformance claims. This covers representative embedded, replicated-edge, and client/server relational deployments, not every database product. Existing SQLite prototypes establish only their exercised behavior; they do not select ROM's production database.
+Date: 2026-10-02. Primary-source research; no new experiments or conformance claims. This covers representative embedded, replicated-edge, and client/server relational deployments, not every database product. Existing SQLite prototypes establish only their exercised behavior. They do not select ROM's production database.
 
 ## Put operations, not SQL, at the boundary
 
@@ -13,7 +13,7 @@ Date: 2026-10-02. Primary-source research; no new experiments or conformance cla
 | Conflict/retry policy, receipt retention contract, consumer deduplication | Native error classification, uncertain-commit recovery, durable journal/cursor implementation |
 | Requested durability and consistency | Validating the deployment can provide them; rejecting unsupported requests |
 
-A generic `begin/execute/commit` SQL driver interface belongs inside relational adapters. It neither describes conditional atomicity nor prevents a core from assuming SQLite locking. It also excludes non-SQL implementations unnecessarily. Prefer semantic operations such as conditional commit, receipt lookup, bounded query/read, and journal scan; names are illustrative, not a proposed Rust API.
+A generic `begin/execute/commit` SQL driver interface belongs inside relational adapters. It does not describe conditional atomicity. It also does not prevent a core from assuming SQLite locking. It also excludes non-SQL implementations unnecessarily. Prefer semantic operations such as conditional commit, receipt lookup, bounded query/read, and journal scan; names are illustrative, not a proposed Rust API.
 
 ## Minimum durable contract and optional capabilities
 
@@ -32,7 +32,7 @@ Optional capabilities include multi-Resource transactions, serializable predicat
 
 ### SQLite through rusqlite
 
-SQLite serializes writers; WAL permits readers to retain an older snapshot while writing proceeds. A stale read transaction cannot upgrade to a writer and may fail with `SQLITE_BUSY_SNAPSHOT`. A bounded `BEGIN IMMEDIATE` transaction is one possible adapter implementation for authoritative read/validate/write; it is not a core scheduling rule. A single conditional update on identity and revision can arbitrate the transition, with receipt and journal inserts in that transaction. [SQLite isolation](https://www.sqlite.org/isolation.html)
+SQLite serializes writers; WAL permits readers to retain an older snapshot while writing proceeds. A stale read transaction cannot upgrade to a writer. It may fail with `SQLITE_BUSY_SNAPSHOT`. A bounded `BEGIN IMMEDIATE` transaction is one possible adapter implementation for authoritative read/validate/write; it is not a core scheduling rule. A single conditional update on identity and revision can arbitrate the transition, with receipt and journal inserts in that transaction. [SQLite isolation](https://www.sqlite.org/isolation.html)
 
 Keep the atomic envelope in one database: WAL transactions across attached databases are not collectively atomic. WAL requires same-host shared memory and does not support ordinary multi-host network-filesystem access. Long read transactions can prevent checkpoint progress. [WAL restrictions](https://www.sqlite.org/wal.html)
 
@@ -66,7 +66,7 @@ Require transactional InnoDB tables for the entire envelope and one transaction/
 
 Default Repeatable Read gives ordinary reads a transaction snapshot, while locking reads and updates use different visibility rules. Do not combine an old snapshot read with a current write and assume dependencies were validated. Use revision predicates and, when needed, deliberate locking reads under an explicit transaction. [Isolation behavior](https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html), [locking reads](https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html)
 
-Deadlock aborts the transaction; a lock timeout normally rolls back only the statement. Normalize this distinction, typically rolling back the operation before retry. [InnoDB errors](https://dev.mysql.com/doc/refman/8.4/en/innodb-error-handling.html) Durable deployments require `innodb_flush_log_at_trx_commit=1` and, with binary logging, `sync_binlog=1`; hardware must honor flushes. Those settings do not guarantee immediate visibility or preservation on every replica/failover topology. [Durability settings](https://dev.mysql.com/doc/refman/8.4/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit)
+A deadlock aborts the transaction. A lock timeout normally rolls back only the statement. Normalize this distinction, typically rolling back the operation before retry. [InnoDB errors](https://dev.mysql.com/doc/refman/8.4/en/innodb-error-handling.html) Durable deployments require `innodb_flush_log_at_trx_commit=1` and, with binary logging, `sync_binlog=1`; hardware must honor flushes. Those settings do not guarantee immediate visibility or preservation on every replica/failover topology. [Durability settings](https://dev.mysql.com/doc/refman/8.4/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit)
 
 ## Journal, external writers, and live queries
 
@@ -74,7 +74,7 @@ Deadlock aborts the transaction; a lock timeout normally rolls back only the sta
 
 Notifications are wakeups, not ROM history. SQLite update hooks are connection-local and omit some changes; `data_version` detects other-connection commits only by comparing successive values on the same connection. PostgreSQL `NOTIFY` targets listeners; logical decoding provides persistent slots but may redeliver after crash. [SQLite hooks](https://www.sqlite.org/c3ref/update_hook.html), [data_version](https://www.sqlite.org/pragma.html#pragma_data_version), [NOTIFY](https://www.postgresql.org/docs/current/sql-notify.html), [logical decoding](https://www.postgresql.org/docs/current/logicaldecoding-explanation.html)
 
-Separate cooperating external ROM writers from arbitrary SQL writers. The former obey the same receipt/revision/journal protocol. The latter can invalidate it: CDC can observe row changes but cannot reconstruct missing action intent or authorization. Either restrict bypass writes or explicitly support trigger/CDC integration and resync semantics. Live-query initialization must couple its result snapshot to journal progress; independently reading the result and then the latest cursor can miss changes.
+Separate cooperating external ROM writers from arbitrary SQL writers. The former obey the same receipt/revision/journal protocol. The latter can invalidate it: CDC can observe row changes but cannot reconstruct missing action intent or authorization. Either restrict bypass writes or explicitly support trigger/CDC integration and resync semantics. Live-query initialization must couple its result snapshot to journal progress. Reading the result and then the latest cursor independently can miss changes.
 
 ## Query semantics and promises to reject
 

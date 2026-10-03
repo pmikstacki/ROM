@@ -1,8 +1,8 @@
 # Maintained credential verification results
 
 2026-10-02. Maintained source: `c560db3` plus review correction `041ee12`.
-The optional `rom-auth` crate has independent `jwt` and `introspection` features;
-its default dependency graph is empty. It returns immutable, expiry-bounded
+The optional `rom-auth` crate has independent `jwt` and `introspection` features.
+Its default dependency graph is empty. It returns immutable, expiry-bounded
 identity evidence. It does not define a second User engine or bypass Resource
 policy. User/provider linking and current configuration activation are the next
 integration package, not claims of these commits.
@@ -14,12 +14,12 @@ no-default-feature graph contains no authentication implementation. The test
 fixtures use ephemeral signed tokens and actual loopback HTTP, without deployed
 identity providers or real credentials.
 
-Independent review reproduced malformed signed `iss` arrays being accepted at
-`81de695`. The upstream JWT library validated those by set intersection while
-ROM promised a string issuer. The correction requires a typed string and exact
-binding, with real-signature singleton/mixed-array regressions. Broader typed
-claim checks also reproduced optional `nbf: null` being interpreted as absent;
-present optional time claims now must decode to their declared types. Supported
+Independent review showed that `81de695` accepted malformed signed `iss` arrays.
+The upstream JWT library validated those arrays by set intersection. ROM promised a string issuer.
+The correction accepts only a typed string with an exact binding. Regression tests use real signatures with singleton and mixed arrays.
+
+Further tests of typed claims showed that the decoder treated optional `nbf: null` as absent.
+If an optional time claim is present, it now must decode to its declared type. Supported
 string/list audiences remain valid. These tests passed in the coordinator's
 maintained run; they are not merely documentation assertions.
 
@@ -41,6 +41,5 @@ Reproduce from the repository root inside `rom-dev`:
 CARGO_NET_OFFLINE=true ./scripts/check
 ```
 
-The root verifier now always runs all auth features, their independent builds,
-Clippy, docs and immutable-proof compile failures. A default-feature-only Cargo
-test would not establish those results.
+The root verifier now always tests all auth features and their independent builds.
+It also runs Clippy, docs, and immutable-proof compile failures. A Cargo test with only default features does not establish those results.

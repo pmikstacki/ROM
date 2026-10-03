@@ -32,4 +32,4 @@ It MUST be bounded, default-denied and independent of row-operation permission.
 #### Scenario: Current authority and capacity
 - **GIVEN** an actor revoked during discovery or output exceeding its byte budget
 - **WHEN** the result would be returned
-- **THEN** no stale or truncated catalog is returned as success
+- **THEN** discovery returns no stale or truncated catalog as a successful result

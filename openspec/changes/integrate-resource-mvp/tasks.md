@@ -19,7 +19,7 @@
 - [x] 4.1 Implement generic HTTP invocation/live/journal profiles and run shared embedded/wire conformance vectors.
 - [x] 4.2 Verify retention, capacity exhaustion, diagnostics, backup/recovery and explicit unsupported-profile failures.
 - [x] 4.3 Run fmt, Clippy, tests, doctests, rustdoc, declared MSRV, dependency/advisory/license checks and packaged-consumer verification.
-- [x] 4.4 Document the author walkthrough and actual limitations; expose the post-core demo through the completed library only.
+- [x] 4.4 Document the author walkthrough and actual limitations. Expose the post-core demo through the completed library only.
 - [x] 4.5 Independently review the combined implementation, resolve findings, publish evidence and update the research/decision inventory.
 
 No production data migration or deletion applies. Existing broader design changes

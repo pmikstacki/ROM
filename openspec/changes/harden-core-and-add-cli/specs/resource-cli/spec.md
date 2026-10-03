@@ -44,7 +44,7 @@ recommendation, dependencies, acceptance experiment and explicit evidence limits
 Research MUST NOT be represented as implemented capability.
 
 #### Scenario: Goal completion
-- **GIVEN** Studio is excluded and deferred features are being researched
+- **GIVEN** Studio is excluded and research of deferred features is in progress
 - **WHEN** the completed goal is assessed
 - **THEN** the research inventory, tested core/CLI changes and independent review are available
 - **AND** future implementation remains clearly distinguished

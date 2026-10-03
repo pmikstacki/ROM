@@ -38,8 +38,8 @@ Interfaces: `reference::prepare(&Runtime) -> rom::Result<()>`,
 - [x] Implement preparation through existing public Resource actions with stable identities; unknown outcome holds both reservations; confirmed rejection remains pending.
 - [x] Implement recovery: verify initial state, observe filtered live stock, process bounded work, assert only checkout-a released, replay rejection and assert unchanged Stock and Checkout journal heads.
 - [x] Expose the command using fresh scratch databases, shutdown and reopen; clean up only its owned scratch directory.
-- [x] Add subprocess tests: child prepares then exits with code 86 without destructors; parent verifies code and recovers persisted data on each store. Check denied identity and unknown outcomes with existing application authority.
-- [x] Run demo tests, formatting and Clippy; document exact limits and reproduce commands.
+- [x] Add subprocess tests: child prepares then exits with code 86 without destructors; parent verifies code and recovers persisted data on each store. Test denied identity and unknown outcomes with existing application authority.
+- [x] Run demo tests, formatting, and Clippy. Document exact limits and commands to reproduce the results.
 - [x] Obtain independent review, resolve findings, run repository check and commit.
 
 Later stages receive separate implementation plans after source inspection; this

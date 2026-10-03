@@ -1,6 +1,6 @@
 # ROM prototype findings
 
-Date: 2026-10-02. Status: initial execution/resource-flow batch and subsequent authoring/library experiments completed and independently verified. These are disposable experiments, not a ROM release. The prototypes exercise complementary layers and are not competing implementations of the complete framework. The fixed product premise is one resource definition supplying generic storage, operations, endpoints and reactive behavior.
+Date: 2026-10-02. The initial execution/resource-flow batch and subsequent authoring/library experiments are complete and independently verified. These are disposable experiments, not a ROM release. The prototypes exercise complementary layers. They are not competing implementations of the complete framework. The fixed product premise is one resource definition that supplies generic storage, operations, endpoints and reactive behavior.
 
 ## Execution contract: verified
 
@@ -40,7 +40,7 @@ The implementer and parent independently passed the final twelve real loopback H
 
 **Recommended pattern:** one descriptor registry, one action transaction and one durable journal. Generic HTTP handlers translate to that action path; reactions use it too. SQLite and validated JSON made the authoring experiment inexpensive, but neither establishes the final storage/query/typed API design. Tiny validators do not need Rayon for speed; its use here demonstrates an extension boundary only.
 
-Independent review found an actual counterexample: a valid maximum-length source ID produced an invalid longer reaction target ID, blocking later work on the shared cursor. The regression reproduced zero target events instead of two. The corrected implementation uses a bounded, startup-validated declaration namespace plus journal sequence; the final probe confirms both that event and a later short-ID event are processed. Review also caught lost nullability metadata and an earlier fault location that did not exercise receipt insertion; both were corrected and verified. This distinguishes exercised weaknesses from speculative production gaps.
+Independent review found an actual counterexample: a valid maximum-length source ID produced an invalid longer reaction target ID, blocking later work on the shared cursor. The regression reproduced zero target events instead of two. The corrected implementation uses a bounded, startup-validated declaration namespace plus journal sequence. The final probe confirms processing of both that event and a later short-ID event. Review also caught lost nullability metadata and an earlier fault location that did not exercise receipt insertion; both were corrected and verified. This distinguishes exercised weaknesses from speculative production gaps.
 
 ## Reusable library and live queries: subsequent experiment
 

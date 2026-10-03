@@ -15,8 +15,8 @@ current read authorization, uncertainty and explicit maintenance contracts.
 ## Executed evidence
 
 Native `rom-dev`, Rust 1.99.0, two Cargo build jobs. Final build target:
-`/var/tmp/rom-blob-review-target`. The earlier tmpfs target ran out of space while
-linking; moving these disposable artifacts to persistent scratch storage resolved
+`/var/tmp/rom-blob-review-target`. The earlier tmpfs target ran out of space during
+linking. A move of these disposable artifacts to persistent scratch storage resolved
 that environment failure. No source/test failure was suppressed.
 
 - The initial three lifecycle tests failed against the service stub (`Unsupported`),
@@ -36,7 +36,7 @@ that environment failure. No source/test failure was suppressed.
   `Conflict`). The original source was restored before final verification.
 - The real disposable MinIO suite ran all five adapter tests, including the same
   folder/S3 contract and a real signed PUT whose successful MinIO response was
-  deliberately dropped. The adapter reported `Unknown`; an independent GET
+  deliberately dropped. The adapter reported `Unknown`. An independent GET
   returned the complete accepted bytes. MinIO version:
   `RELEASE.2024-09-22T00-33-43Z`. No real cloud endpoint was contacted.
 - Complete `scripts/check-rust` passed: formatting, workspace Clippy with warnings
@@ -57,7 +57,7 @@ CARGO_BUILD_JOBS=2 CARGO_TARGET_DIR=/var/tmp/rom-blob-review-target \
   ./crates/rom-blob-object-store/verify-s3
 ```
 
-Default tests visibly ignore the two real S3 cases; only the explicit MinIO run
+Default tests visibly ignore the two real S3 cases. Only the explicit MinIO run
 above establishes their result. Scratch logs were `/tmp/rom-blobs-check.log`,
 `/tmp/rom-blobs-tests.log`, `/tmp/rom-blobs-minio.log` and
 `/tmp/rom-blobs-overwrite-negative.log` inside `rom-dev`.
@@ -98,18 +98,18 @@ This is a bounded whole-object native Rust API, not multipart, resumable upload 
 a new public HTTP upload route. Folder roots are trusted, not symlink sandboxes.
 No power-loss, disk-full, permission-revocation, TLS, AWS or arbitrary S3 endpoint
 certification is claimed. Detachment is not physical erasure. Automatic orphan
-collection is not implemented: cleanup requires host grace, reference checks and
-quiescence; unknown metadata acknowledgment must be reconciled first. A successful
-publication followed by failed attachment can leave an orphan. Current reads are
-authorized again before disclosure; accepted finalization may run under the explicitly
-trusted worker as documented, and does not pretend to be an atomic SQL/S3 transaction.
+collection is not implemented. Cleanup needs host grace, reference checks and
+quiescence. First, reconcile unknown metadata acknowledgment. A successful
+publication followed by failed attachment can leave an orphan. Current reads receive
+authorization again before disclosure. Accepted finalization can run under the explicitly
+trusted worker as documented. It does not claim an atomic SQL/S3 transaction.
 
 ### Final drain review
 
 Independent review found that the active-work counter could reach zero before the
 supervised task released its last adapter/runtime owner. The lifecycle guard now
-owns only accounting state; task-owned services are dropped before signaling drain.
+owns only accounting state. Task-owned services are dropped before the drain signal.
 A 32-iteration multithreaded regression checks adapter weak ownership after caller
 cancellation and shutdown. A temporary post-signal scheduling delay reproduced the
-old failure and passed with the fix; the delay is absent from production code.
+old failure. The same test passed with the fix. The delay is absent from production code.
 The coordinator reran all 12 lifecycle tests, the doctest and warning-free Clippy.

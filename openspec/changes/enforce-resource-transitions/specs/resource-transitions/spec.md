@@ -11,7 +11,7 @@ ROM SHALL offer optional typed transition validation with the actor, actual prev
 #### Scenario: Creation and deletion are validated
 - **GIVEN** a validator that rejects an invalid initial state or deletion of a protected state
 - **WHEN** creation or deletion is invoked
-- **THEN** the callback receives an absent previous or candidate value respectively and its rejection prevents commit
+- **THEN** the callback receives an absent previous value for creation or an absent candidate value for deletion. Its rejection prevents commit.
 
 ### Requirement: Validation preserves runtime authority and replay
 Transition validation SHALL NOT grant permissions or bypass revision checks. Callback panics SHALL fail the operation without poisoning subsequent commits. Replaying a matching durable receipt SHALL preserve current authorization checks without revalidating an obsolete transition. Validators MUST be pure, deterministic, bounded and free of runtime reentry or external effects.

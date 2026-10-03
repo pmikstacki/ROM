@@ -10,7 +10,7 @@ reports.
 
 ## What changes
 
-Promote the typed integrated probe into a maintained Cargo workspace, then close
+Promote the typed integrated probe into a maintained Cargo workspace. Then correct
 its documented correctness and lifecycle gaps. Deliver a transport-free `rom`
 facade with derive support, generic persistence and policy contracts, bounded
 execution and observation, durable reaction work, and separate adapters. Test
@@ -28,8 +28,7 @@ still belong to the completion inventory.
 There is no released ROM database or public Rust API to migrate. Experimental
 probe data is not silently imported. New stored formats carry a version and
 unsupported versions fail before writes. The MVP is pre-1.0 and does not promise
-stable Rust ABI or arbitrary provider interoperability. Reversion means stopping
-the new application and retaining its versioned database; it does not erase
+stable Rust ABI or arbitrary provider interoperability. Reversion means that the new application stops and its versioned database remains. Reversion does not erase
 resources or pending obligations. No existing research artifacts are deleted.
 
 ## Evidence

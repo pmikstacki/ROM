@@ -4,9 +4,9 @@ For the separately hosted Studio mock, see [Persistent ROM Studio preview](studi
 
 The current development host runs the native NixOS container `rom-dev`, with autostart and persistent state. It shares the host network to support dependency downloads and mounts the host checkout at `/workspace/ROM`. No ROM server, broker, database, SSH service or public listener is configured.
 
-`container.nix` declares its packages and user. The container retains the host's existing NixOS 24.11 package source and Node 22, while Rust is independently pinned to **1.99.0** through a fixed, hash-checked rust-overlay revision. The default Rust profile includes matching Cargo, rustfmt, and Clippy. This development toolchain is not a declaration of ROM's minimum supported Rust version or supported production OS.
+`container.nix` declares its packages and user. The container retains the host's existing NixOS 24.11 package source and Node 22. Rust is independently pinned to **1.99.0** through a fixed, hash-checked rust-overlay revision. The default Rust profile includes matching Cargo, rustfmt, and Clippy. This development toolchain is not a declaration of ROM's minimum supported Rust version or supported production OS.
 
-Rust 1.99.0 was verified against the [official stable channel manifest](https://static.rust-lang.org/dist/channel-rust-stable.toml) on 2026-10-02 (release date 2026-10-01). The checked-in pin uses [rust-overlay commit 368fee9beaab04ca6fe7af28db63caa9badb22fa](https://github.com/oxalica/rust-overlay/tree/368fee9beaab04ca6fe7af28db63caa9badb22fa), including its component hashes, and explicitly selects `stable."1.99.0".default`; it does not follow a moving `latest` value. See the [overlay's toolchain documentation](https://github.com/oxalica/rust-overlay/tree/368fee9beaab04ca6fe7af28db63caa9badb22fa#cheat-sheet-common-usage-of-rust-bin).
+Rust 1.99.0 was verified against the [official stable channel manifest](https://static.rust-lang.org/dist/channel-rust-stable.toml) on 2026-10-02 (release date 2026-10-01). The checked-in pin uses [rust-overlay commit 368fee9beaab04ca6fe7af28db63caa9badb22fa](https://github.com/oxalica/rust-overlay/tree/368fee9beaab04ca6fe7af28db63caa9badb22fa), including its component hashes. It explicitly selects `stable."1.99.0".default`. It does not follow a moving `latest` value. See the [overlay's toolchain documentation](https://github.com/oxalica/rust-overlay/tree/368fee9beaab04ca6fe7af28db63caa9badb22fa#cheat-sheet-common-usage-of-rust-bin).
 
 ## Use on the configured host
 
@@ -32,11 +32,11 @@ NIX_PATH=nixpkgs=/nix/store/6cxhnnjrig63fp8krlwm2h64kfbcnh0n-nixos-24.11.2025063
 nixos-container run rom-dev -- sh -lc 'cargo --version && rustc --version && rustfmt --version && cargo clippy --version'
 ```
 
-The store path identifies the existing Nixpkgs snapshot on this host; on another host supply its deliberately selected source as in the recreation instructions below. The Rust overlay and release pins live in `container.nix`, but the complete OS package set is not independently locked by this module. `update` preserves the container root filesystem and current network, bind mount, and autostart configuration. No host OS rebuild is required. To upgrade Rust later, verify the official stable manifest, update both overlay revision/hash and explicit Rust version, rebuild, and rerun the checks.
+The store path identifies the existing Nixpkgs snapshot on this host. On another host, supply its deliberately selected source as in the recreation instructions below. The Rust overlay and release pins live in `container.nix`, but the complete OS package set is not independently locked by this module. `update` preserves the container root filesystem and current network, bind mount, and autostart configuration. No host OS rebuild is required. To upgrade Rust later, verify the official stable manifest. Update both the overlay revision/hash and the explicit Rust version. Rebuild the container. Rerun the checks.
 
 ## Recreate on a NixOS host
 
-Use an available, deliberately selected Nixpkgs source and adjust the checkout path. The module itself does not pin Nixpkgs.
+Use an available, deliberately selected Nixpkgs source. Adjust the checkout path. The module itself does not pin Nixpkgs.
 
 ```sh
 NIX_PATH=nixpkgs=/path/to/nixpkgs nixos-container create rom-dev \
@@ -44,7 +44,7 @@ NIX_PATH=nixpkgs=/path/to/nixpkgs nixos-container create rom-dev \
   --config-file /absolute/path/to/ROM/infra/nixos/container.nix
 ```
 
-Before starting, configure `/etc/nixos-containers/rom-dev.conf` for the intended network. The current host uses:
+Before you start the container, configure `/etc/nixos-containers/rom-dev.conf` for the intended network. The current host uses:
 
 ```ini
 PRIVATE_NETWORK=0
@@ -56,7 +56,7 @@ AUTO_START=1
 EXTRA_NSPAWN_FLAGS="--bind=/absolute/path/to/ROM:/workspace/ROM"
 ```
 
-On this host `/etc/systemd/system` is an immutable Nix-managed link. Establish the persistent startup dependency in the writable systemd control path and start it (skip creating the link if it already exists):
+On this host `/etc/systemd/system` is an immutable Nix-managed link. Establish the persistent startup dependency in the writable systemd control path. If the link already exists, skip its creation. Start the container:
 
 ```sh
 mkdir -p /etc/systemd/system.control/multi-user.target.wants
@@ -66,7 +66,7 @@ systemctl daemon-reload
 nixos-container start rom-dev
 ```
 
-Container state is stored by NixOS under `/var/lib/nixos-containers/rom-dev`. Stopping or restarting preserves it; destroying a container does not. The startup dependency lives outside the immutable system unit tree and was verified with `WantedBy=multi-user.target`; a future declarative host module can own it.
+Container state is stored by NixOS under `/var/lib/nixos-containers/rom-dev`. Container stops and restarts preserve the state. Container destruction does not preserve it. The startup dependency lives outside the immutable system unit tree and was verified with `WantedBy=multi-user.target`. A future declarative host module can own it.
 
 Verified during bootstrap: tool versions, outbound HTTPS, local OpenSpec checks inside the container, and a marker file surviving container restart. Host reboot was not performed.
 

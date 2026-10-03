@@ -1,6 +1,6 @@
 # Maintained durable reactions and bounded storage
 
-Date: 2026-10-02. Original baseline `d228c13`, storage stage `8d7cd9c`, runtime stage `aab1062`. The integration commit containing this updated report applies that runtime to main `3e1354d`, including native User/provider identity, field permissions and HTTP/journal support. This package implements part of the integrated MVP; it does not establish completion of the entire MVP or choose a production database.
+Date: 2026-10-02. Original baseline `d228c13`, storage stage `8d7cd9c`, runtime stage `aab1062`. The integration commit containing this updated report applies that runtime to main `3e1354d`, including native User/provider identity, field permissions and HTTP/journal support. This package implements part of the integrated MVP. It does not establish completion of the entire MVP or choose a production database.
 
 ## Author-facing result
 
@@ -30,11 +30,11 @@ worker.join().await?;
 
 A changed Resource commit atomically records state, event, idempotency receipt, ordinary effect intents and eligible reaction obligations. Semantic no-ops record their receipt but produce no reaction work. Explicit source-field dependencies compare actual before/after values; omitted dependencies conservatively route every semantic change. Invalid dependency names reject registration.
 
-Mapping and action execution are separate durable leased steps. Mapping runs on the host-owned Rayon pool, rechecks current service authority and complete historical/current source field authorization, reads target revisions and persists the complete generic Invocation. Its expected revision, input and idempotency remain frozen on retry. A target revision conflict is an inspectable stop; this implementation never silently changes the command meaning to win a retry.
+Mapping and action execution are separate durable leased steps. Mapping runs on the host-owned Rayon pool. It rechecks current service authority and complete historical/current source field authorization. It reads target revisions and persists the complete generic Invocation. Its expected revision, input and idempotency remain frozen on retry. A target revision conflict is an inspectable stop; this implementation never silently changes the command meaning to win a retry.
 
 The target action passes through the shared `run` mutation pipeline. `Bundle::completed_work` fences the claim generation and lease and marks the work Done in the same transaction as the target state, receipt and any next reaction obligations. Already committed upstream changes remain committed when downstream work fails. An actual lost target acknowledgment therefore reopens with both target state and work completion present. The recovery path also resolves a durable action receipt before attempting another execution. Compensations are not implicit.
 
-Leases carry monotonically increasing generations. Expired work is claimable after restart; an old claim cannot materialize children or commit a target. Claiming charges both the step attempt and root work budget. A budget-exhausted recovery claim can resolve a receipt but cannot execute a new action. Resource revisits are allowed; convergence is demonstrated, and real oscillation stops at the depth budget.
+Leases carry monotonically increasing generations. After restart, expired work is claimable. An old claim cannot materialize children or commit a target. Claiming charges both the step attempt and root work budget. A budget-exhausted recovery claim can resolve a receipt but cannot execute a new action. Resource revisits are allowed; convergence is demonstrated, and real oscillation stops at the depth budget.
 
 Service identities are explicitly `PrincipalKind::Service` and come from host registration. Persisted work stores the stable principal key, reaction name and version, not a deserializable Actor or an event-author credential. The current registered service authority is checked on every step. Changed registration version/service identity stops old work. Denial, conflict, invalid input, missing resources, excessive fanout and callback panic are recorded terminal causes. Transient storage/application NotCommitted failures retry with exponential delay under the budgets. Unknown acknowledgments leave the lease for recovery. An actual redb uncertain commit requires reopening its poisoned adapter.
 

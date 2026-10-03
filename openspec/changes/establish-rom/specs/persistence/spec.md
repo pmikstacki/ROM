@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Atomic persistence and a database adapter contract. This capability defines the observable contract for ROM implementations.
+This capability defines atomic persistence and a database adapter contract. It specifies the observable contract for ROM implementations.
 
 ## ADDED Requirements
 

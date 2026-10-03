@@ -7,7 +7,7 @@ made inside the mock reset on page reload.
 
 ## Open from a MacBook
 
-Connect to the existing home WireGuard VPN, then open either:
+Connect to the existing home WireGuard VPN. Open either address:
 
 - <https://10.66.0.2/rom-studio/>
 - <https://bdziam.home.arpa/rom-studio/> with the existing VPN DNS configuration.
@@ -26,11 +26,11 @@ another host must adjust its virtual-host names and existing TLS configuration.
 
 The served content lives at `/var/lib/rom-studio-preview/site/index.html`, outside
 the checkout and prototype worktree. Only this directory is mounted in the
-container. Publishing uses an atomic rename, so readers get the old or new file.
+container. Publication uses an atomic rename. Readers get either the old file or the new file.
 
 The source and rendered standalone document are on the
 [`codex/prototype-studio-mock` branch](https://github.com/pmikstacki/ROM/tree/codex/prototype-studio-mock/prototypes/studio-mock).
-After rendering a new standalone document, publish from the host:
+After you render a new standalone document, publish from the host:
 
 ```sh
 sudo ./scripts/publish-studio-preview /absolute/path/to/index.html
@@ -42,9 +42,9 @@ preview files; it is not an upload endpoint or HTML sanitization service.
 
 On bdziam, the two modules are installed beside each other under
 `/etc/nixos/ai-server/modules/`, with `studio-host.nix` named `rom-studio.nix`, and
-the host imports the latter. Update both copies deliberately when modifying the
-repository modules. Build and inspect the host configuration before activation;
-follow the host's existing rollback and networking requirements. This deployment
+the host imports the latter. When you modify the repository modules, update both copies deliberately.
+Before activation, build the host configuration. Inspect it.
+Follow the host's existing rollback and networking requirements. This deployment
 changed no firewall, WireGuard, DNS or SSH settings.
 
 ## Operations and verification
@@ -62,7 +62,7 @@ Verified on 2026-10-02:
 - Both HTTPS routes returned 200, with TLS checked against the existing CA.
 - The served document matched the published file byte for byte.
 - Chromium loaded the mock through HTTPS without page-script errors. Browser
-  rendering used a test certificate override; CA validation was tested separately
+  rendering used a test certificate override. CA validation was tested separately
   with curl, not inferred from that override.
 - A container restart preserved the file and restored the HTTPS response.
 - The container is enabled at boot and the host system profile/boot entry include

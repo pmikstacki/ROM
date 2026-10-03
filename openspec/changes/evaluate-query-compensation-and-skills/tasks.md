@@ -7,7 +7,7 @@
 - [x] 2.1 Compare generated, hybrid and runtime authoring using equivalent queries and measured execution/build costs.
 - [x] 2.4 Compare core evaluation, unindexed pushdown and indexed execution with semantic checks, database work and maintenance cost.
 - [x] 2.2 Run compensation cases and negative controls with explicit persistence/crash evidence boundaries.
-- [x] 2.3 Run a bounded standalone WASM probe if feasible; otherwise record exact prerequisite/blocker without claiming execution.
+- [x] 2.3 If feasible, run a bounded standalone WASM probe. Otherwise, record the exact prerequisite/blocker without a claim of execution.
 - [x] 2.5 Execute and independently review a small strategy selector with SQLite planner and key/value fallback adapters; measure selection overhead and regret.
 
 ## 3. Maintained queries
@@ -18,4 +18,4 @@
 
 ## 4. Review and publication
 - [x] 4.1 Independently review reports, negative controls and maintained query changes.
-- [x] 4.2 Run affected checks, update user-facing docs and publish reports/source references.
+- [x] 4.2 Run the affected checks. Update user-facing docs. Publish reports/source references.

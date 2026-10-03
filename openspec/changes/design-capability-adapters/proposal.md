@@ -24,4 +24,4 @@ None. This proposal complements the still-proposed persistence, field-extension,
 
 ## Impact
 
-Design and disposable experiments only. The owner has confirmed generic adapter composition; exact Rust signatures and production dependency versions remain provisional. No deployed ROM data or clients exist. Reverting this design changes no released behavior. Future adapter replacement must preserve schema, identity, receipts and cursor-generation rules through an explicit migration; changing host configuration alone does not migrate stored data.
+Design and disposable experiments only. The owner has confirmed generic adapter composition; exact Rust signatures and production dependency versions remain provisional. No deployed ROM data or clients exist. Reverting this design changes no released behavior. Future adapter replacement must preserve schema, identity, receipts, and cursor-generation rules through an explicit migration. A host configuration change alone does not migrate stored data.

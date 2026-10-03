@@ -16,34 +16,34 @@ The review covered the approved implementation plan and query-semantics OpenSpec
 private `query_eval.rs`, public typed/wire query definitions, registration grants,
 HTTP deserialization, shared adapter tests, and updated query/CLI documentation.
 
-Integer comparison stays in its declared signed/unsigned representation; there is
+Integer comparison stays in its declared signed/unsigned representation. There is
 no unsigned-to-float or signed-storage shortcut. Finite floats compare numerically,
 including signed-zero equality. Canonical operands use the actual Field codec.
 Missing/null/value ordering and equality/range distinctions match the documented
 contract. Structural collection equality remains available, while normalization
 rejects collection range/order operations. Typed helpers intentionally defer some
-operator/shape checks to normalization; docs make this explicit.
+operator/shape checks to normalization. The documentation states this explicitly.
 
 Predicate and sort grants run before storage access. Sort permission is separately
-default-denied; the explicit whole-field grant enables it. Every row-readable
+default-denied. The explicit whole-field grant enables it. Every row-readable
 candidate must also grant read access to each ordered field before predicates,
 anchors or page limits can affect selection. Row-hidden candidates supply no sort
 keys. The same selector serves typed, projected and live queries. Existing actor
 rechecks and complete-result field checks remain outside and around that selector.
 
-Anchors bind normalized predicates/order, kind/schema/version and exact key count;
-canonical values and size are validated even against empty data. They remain
+Anchors bind normalized predicates/order, kind/schema/version, and exact key count.
+Canonical values and size are validated even against empty data. They remain
 client input, not credentials. A caller can choose a different valid boundary but
 cannot use it to bypass current query/sort/read authority. The projected anchor
 helper explicitly does not certify supplied-view provenance or current row/field
-visibility; actual evaluation checks those grants. Page limits are intentionally
+visibility. Actual evaluation verifies those grants. Page limits are intentionally
 not bound. `and_where` rejects nested continuation/order/limit instead of silently
 dropping that configuration, and preserves the outer query's configuration.
 
 Existing ID-only defaults, equality and `after_id` remain supported. Full snapshot
 row/byte and duplicate checks precede limiting. Small pages therefore do not turn
-a bounded scan into an unbounded collection facility. Field-sorted queries perform
-all required disclosure checks before limiting.
+a bounded scan into an unbounded collection facility. Before limiting, field-sorted queries perform
+all necessary disclosure checks.
 
 ## Independently executed verification
 
@@ -101,8 +101,8 @@ it does not evaluate every row through that policy. This is a narrow work-count
 observation, not a latency/throughput benchmark.
 
 Field sorting still materializes bounded candidates/keys and sorts in memory.
-Snapshot acquisition and encoded-size validation still cover the entire kind;
-small limits cannot remove those costs. No allocation counts, peak RSS, production
+Snapshot acquisition and encoded-size validation still cover the entire kind.
+Small limits cannot remove those costs. No allocation counts, peak RSS, production
 latency or index speedup were measured for this maintained change. Optimized
 adapter planning remains a separate prototype/contract question.
 
@@ -116,7 +116,7 @@ transactional snapshots, or universal provider/codec performance.
 
 Place a disposable independent workspace directly beneath a checkout of the
 reviewed ROM SHA; the relative path dependencies below assume that placement.
-Save the Rust block as `tests/adversarial.rs`, then run `cargo test -- --nocapture`.
+Save the Rust block as `tests/adversarial.rs`. Then run `cargo test -- --nocapture`.
 Use a separate target and two jobs as above. This reconstructs the fixture; its
 first dependency resolution is not a claim to reproduce the original lockfile
 byte-for-byte. For release validation, also run the locked workspace commands.

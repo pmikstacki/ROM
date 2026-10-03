@@ -2,13 +2,13 @@
 
 For reruns after agent worktrees have been reused, see [immutable experiment reproduction](reproducing-experiments.md).
 
-Date: 2026-10-02. Disposable deterministic Rust simulation on `codex/prototype-reaction-chains`. This follows the owner's decision: reactions run **after the upstream commit**, a failed downstream action retries under bounded policy, and the upstream transition stays committed. There is no implicit chain rollback. Resource remains the only domain entity; causal identities, receipts and delivery records are runtime/protocol values.
+Date: 2026-10-02. Disposable deterministic Rust simulation on `codex/prototype-reaction-chains`. This follows the owner's decision: reactions run **after the upstream commit**. A failed downstream action retries under bounded policy, and the upstream transition stays committed. There is no implicit chain rollback. Resource remains the only domain entity. Causal identities, receipts and delivery records are runtime/protocol values.
 
 ## Recommendation
 
-ROM needs layered protections: durable delivery/action identity; semantic no-op suppression for actions whose contract permits it; conservative dependency/change filtering; separate hop and total-work budgets; bounded ready-work and byte admission; durable retry/quarantine records; and explicit ordering/recovery semantics. None of the single protections tested is sufficient. Reject blanket visited-resource suppression: a legitimate converging chain can revisit the same resource.
+ROM needs layered protections: durable delivery/action identity; semantic no-op suppression for actions whose contract permits it; conservative dependency/change filtering; separate hop and total-work budgets; bounded ready-work and byte admission; durable retry/quarantine records; and explicit ordering/recovery semantics. None of the single protections tested is sufficient. Reject blanket visited-resource suppression. A legitimate converging chain can revisit the same resource.
 
-Use coalescing for explicitly latest-state projections, with authoritative freshness and revision checks. Preserve every required domain fact. Treat a monotone finite fixed-point engine as a separate pure-derivation capability, not as the default execution model for arbitrary resource actions or external effects. These are recommendations from executed counterexamples and primary-source research, not selected library dependencies or production guarantees.
+Use coalescing for explicitly latest-state projections, with authoritative freshness and revision checks. Preserve every required domain fact. Treat a monotone finite fixed-point engine as a separate pure-derivation capability. Do not use it as the default execution model for arbitrary resource actions or external effects. These are recommendations from executed counterexamples and primary-source research, not selected library dependencies or production guarantees.
 
 ## Reproduction and evidence boundaries
 

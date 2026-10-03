@@ -6,8 +6,7 @@ This report describes a standalone experiment, not an optimization integrated
 into the maintained ROM runtime.
 
 This standalone extension builds on the frozen three-strategy query experiment.
-It adds a generic `PlannerAdapter` and a pure `choose` function; no DataFusion or
-egg dependency is introduced. SQLite remains responsible for its SQL access path.
+It adds a generic `PlannerAdapter` and a pure `choose` function. It introduces no DataFusion or egg dependency. SQLite remains responsible for its SQL access path.
 The selector chooses only Core versus Native and never emits `INDEXED BY`.
 
 SQLite's adapter inspects the exact LIMIT-bearing query with EXPLAIN, recognizes
@@ -15,15 +14,13 @@ a strict set of nodes for pinned SQLite 3.53.2, and estimates scan/decode/sort w
 Unknown nodes or versions return no estimate. redb's adapter supplies the same
 core path with no native query-planner estimate. Missing, stale, mismatched,
 non-exact or overflowing estimates cannot authorize a different semantic query.
-Execution errors propagate; optional planning errors can use the reference path.
+Execution errors propagate. If optional planning fails, execution can use the reference path.
 
 Statistics are collected at fixture creation. Uniform amount distribution is a
 heuristic, not a fact inferred by the selector. Fixed cost weights are relative
 units chosen using the earlier workload observations, not calibrated nanoseconds.
 This is an in-sample test, not proof of learned or generally optimal planning.
-Wrapped SQLite mutation advances a session-local generation. Statistics must be
-discarded on reopen; external writers, persisted cost caches, multiwriter fencing
-and schema/index mutation are not implemented by this fixture.
+Wrapped SQLite mutation advances a session-local generation. On reopen, statistics must be discarded. This fixture does not implement external writers, persisted cost caches, multiwriter fencing or schema/index mutation.
 
 ## Uniform admission and correctness
 

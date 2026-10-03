@@ -33,21 +33,21 @@ Serde field-name rules.
 
 The persistence contract commits state/revision, action identity/fingerprint,
 safe outcome, events and effect intentions together. Adapter rollback leaves
-none of them. Response loss can leave the caller uncertain; same-key resolution
+none of them. Response loss can leave the caller uncertain. Same-key resolution
 uses the durable receipt under current authorization. Cache eviction never
 means permission to execute again.
 
 An accepted operation owns its permit until execution finishes, independently
 of the observing caller. Admission and shutdown closure have one serialization
-point. Reads, durable I/O, notifications and streams have explicit count/byte
-limits; synchronous drivers run away from Tokio workers. A live handle retains
+point. Reads, durable I/O, notifications, and streams have explicit count/byte
+limits. Synchronous drivers run outside Tokio workers. A live handle retains
 an invalidation marker and recomputes an authorized bounded result on demand.
 Journal delivery is separate and reports gaps instead of coalescing facts.
 
 Reaction registrations add durable intentions to the committing operation.
 The worker invokes the same action path using a stable derived idempotency key
-and an explicitly granted service identity. Restart recovers pending work;
-acknowledgement loss repeats observation, not the committed mutation. No-op
+and an explicitly granted service identity. Restart recovers pending work.
+Acknowledgment loss repeats observation, not the committed mutation. No-op
 suppression and declared dependencies avoid unnecessary work. Causal depth,
 total work and retry budgets terminate oscillation/storms visibly; a global
 visited-resource set is not assumed correct for converging revisits.
@@ -80,8 +80,8 @@ application values and protected metadata; core does not claim encryption at res
 or physical erasure. The host protects these stores. Configuration of a provider
 is not its credential.
 
-Retain receipts conservatively in this MVP with a finite configured budget and
-refuse new obligations at the limit. Do not silently purge identities then
+Retain receipts conservatively in this MVP with a finite configured budget.
+At the limit, refuse new obligations. Do not silently purge identities then
 accept old retries. Journals have an explicit cursor generation and retention
 floor. Backup includes pending work and receipts; external blob completeness
 must be separately checked. Restore changes history generation when needed.

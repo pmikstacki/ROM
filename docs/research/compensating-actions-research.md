@@ -14,12 +14,12 @@ receipt path as any other action. It does not erase history.
 
 Microsoft's compensating-transaction guidance treats recovery as domain-specific
 work that can itself fail and need resumption or manual intervention. It warns
-against restoring old state over concurrent work; the appropriate result may
+against restoration of old state over concurrent work. The appropriate result can
 differ from the original state. These properties support explicit targeted
 actions rather than generic snapshot rollback in ROM.
 [Microsoft guidance](https://learn.microsoft.com/en-us/azure/architecture/patterns/compensating-transaction)
 
-Temporal's example highlights a second boundary: an operation may have performed
+Temporal's example highlights a second boundary. An operation can perform
 its effect before a timeout or lost response. Registering recovery only after a
 successful reply can miss that effect. Its conditional compensation handles the
 possibility that an effect exists or does not. For ROM we infer a stricter rule
@@ -37,7 +37,7 @@ These sources motivate the tests; neither proves ROM's implementation.
 
 All payment, booking and entitlement outcomes in this experiment are synthetic.
 An irreversible effect, such as a sent message, needs a different forward action
-or human handling; there is no universal inverse function.
+or human handling. There is no universal inverse function.
 
 ## What the existing API can demonstrate
 
@@ -53,7 +53,7 @@ Resource event. The experiment must expose that limitation rather than pretend
 its synthetic Workflow outcome was emitted automatically by core.
 
 The same distinction applies to external effects. A durable ROM receipt can
-deduplicate a Resource mutation; it cannot alone prove that an external provider
+deduplicate a Resource mutation. It cannot alone prove that an external provider
 performed an operation once. Provider reconciliation or deduplication remains a
 separate adapter contract.
 
@@ -74,7 +74,7 @@ not merely successful return values. Cover duplicate delivery, transient retry,
 unknown-outcome hold, authority revocation, compensation failure and bounded
 manual intervention. Reopen stores and exercise a real process-exit failpoint
 where possible. Label graceful reopen, process exit and synthetic provider
-failure separately; none alone establishes power-loss durability.
+failure separately. None alone establishes power-loss durability.
 
 Negative controls should make their associated assertions fail when the safety
 condition is removed. The final report must publish the commands, pinned source,
@@ -86,7 +86,9 @@ justify adding an unreviewed general saga engine to core.
 
 Keep compensation optional and explicit. Use stable domain operation IDs and
 targeted actions. Keep `unknown` visibly distinct from confirmed rejection and
-from confirmed success. Persist progress and use normal ROM work supervision;
-never make request disconnection own a recovery chain. Evaluate any future
+from confirmed success. Persist progress. Use normal ROM work supervision.
+Never let request disconnection control the lifetime of a recovery chain.
+
+Evaluate any future
 technical-failure hook separately for authorization, causal identity, bounded
 retries and its own failure path.

@@ -6,8 +6,7 @@ introduced into core.
 
 `Actor::trusted` creates an embedded host identity; `with_kind` explicitly selects
 Human or Service. Authority, kind and subject jointly scope revocation and durable
-idempotency. Actor has no deserializer. Its optional host stamp is non-secret
-validation context, omitted from Debug and excluded from receipt identity.
+idempotency. Actor has no deserializer. Its optional host stamp is non-secret validation context. Debug omits this stamp, and receipt identity excludes it.
 
 An optional `ActorGate` checks current host identity state through at most eight
 point reads, charged against the runtime command byte limit. It receives only a
@@ -36,8 +35,7 @@ Cached receipt retries do not execute the transition again.
 
 Create/replace/delete require field permission for all supplied/removed fields.
 Custom actions require permission for every changed field, checked against both
-prior and proposed state and rechecked at commit. Mixed forbidden changes fail
-atomically; ROM never silently drops forbidden fields. This first profile offers
+prior and proposed state and rechecked at commit. Mixed forbidden changes fail atomically. ROM never silently drops forbidden fields. This first profile offers
 only equality queries. Ordering, aggregate counts, cursor queries and arbitrary
 expressions remain unsupported.
 

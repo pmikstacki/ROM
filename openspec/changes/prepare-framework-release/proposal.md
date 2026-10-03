@@ -8,10 +8,14 @@ intervention. Completing separate prototypes does not establish that journey.
 
 ## What Changes
 
-Deliver four sequential stages: a public-API reference application and ergonomics;
-enforced relationships and data lifecycle/migrations; integrated measured query
-selection and indexes; operational recovery, identity/configuration and release
-contracts. Each stage carries executable acceptance evidence. Existing demo and
+Deliver four stages in sequence:
+
+1. A public-API reference application and ergonomics.
+2. Enforced relationships and data lifecycle/migrations.
+3. Integrated measured query selection and indexes.
+4. Operational recovery, identity/configuration, and release contracts.
+
+Each stage carries executable acceptance evidence. Existing demo and
 packages are extended instead of introducing a second application framework.
 
 ## Impact

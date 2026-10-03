@@ -1,10 +1,12 @@
 # Internal deduplication and incremental-read findings
 
-Date: 2026-10-02. These are disposable experiments, not a released ROM cache. The [brief](cache-prototype-brief.md) defines the questions; [primary-source research](internal-cache-research.md) documents the candidate contracts. Resource authors still declare one resource: caching, supervision and dependency bookkeeping belong inside ROM.
+Date: 2026-10-02. These are disposable experiments, not a released ROM cache. The [brief](cache-prototype-brief.md) defines the questions; [primary-source research](internal-cache-research.md) documents the candidate contracts. Resource authors still declare one resource. ROM owns caching, supervision and dependency bookkeeping.
 
 ## Recommendation
 
-Keep durable atomic idempotency authoritative and use ROM-owned, bounded single-flight to join concurrent retries. A small completed-outcome cache is justified for workloads with repeated completed commands, subject to current authorization and an absolute validity horizon. Keep its implementation private. Both tested libraries can serve that role; the experiment does not establish a universal performance winner or a production default.
+Keep durable atomic idempotency authoritative. Use ROM-owned, bounded single-flight to join concurrent retries. For workloads with repeated completed commands, a small completed-outcome cache is justified. Current authorization and an absolute validity horizon still apply. Keep the cache implementation private.
+
+Both tested libraries can serve that role. The experiment does not establish a universal performance winner or a production default.
 
 Do not use a cache library's initializer lifetime to supervise an action. Moka and quick_cache can retry initialization after cancellation; an already submitted database operation may still commit. The prototype therefore uses separate job supervision, caller limits and completed-entry eviction. A disconnect releases the caller, while admitted work retains its execution permit.
 
@@ -35,7 +37,7 @@ These are **ext4 throughput ranges**, requests/second across three repetitions, 
 
 The mechanism is clearer than the timing ranking. For 400 requests, warm replays reduce durable attempts from **400 to 0** with either cache. Mixed traffic reduces them from **400 to 80**, but its disk-backed timing ranges overlap: avoiding receipt reads does not avoid the 80 new commits. Cold bursts reduce attempts from **400 to 13 with single-flight alone**. Adding a completed cache does not reduce that count further in these samples. New commits stay respectively 400, 0, 80 and 13 in every mode.
 
-Unique-request overhead is **not proven negligible**. Paired elapsed-time differences across payloads/runs ranged from −3.4% to +57.2% for single-flight, −6.8% to +43.3% for Moka, and −5.1% to +31.0% for quick_cache. Sequential samples on a shared host, disk synchronization and only three repetitions prevent attributing these differences solely to cache code. No acceptable overhead budget was preselected. These observations cannot justify an always-on production default or a claim of zero cost.
+Unique-request overhead is **not proven negligible**. Paired elapsed-time differences across payloads/runs ranged from −3.4% to +57.2% for single-flight. They ranged from −6.8% to +43.3% for Moka, and −5.1% to +31.0% for quick_cache. Sequential samples on a shared host, disk synchronization and only three repetitions prevent attributing these differences solely to cache code. No acceptable overhead budget was preselected. These observations cannot justify an always-on production default or a claim of zero cost.
 
 quick_cache leads the tiny hot-loop samples, but those complete in fractions of a millisecond, return two scalar fields and use in-memory auth; most other ranges overlap. This is insufficient to reject Moka or select a universal winner. Neither cache's native initializer or expiry engine is compared: ROM supplies supervision and expiry checks for both.
 
@@ -67,7 +69,7 @@ The coordinator independently reran formatting, Clippy with warnings denied, **e
 
 Policy revocation, actor changes and insertion/deletion/reinsertion produced the expected results after applying the new authoritative snapshot. A deliberately incorrect query reads an external permission flag without tracking it: after revocation, it returns its stale authorized result. The test passes by reproducing that bug. Dependency completeness is therefore part of ROM's contract, not something Salsa can infer from arbitrary Rust side effects.
 
-This is a concrete read adapter, not a generic resource registry. Applying a full snapshot is O(n), changed collection queries can scan the collection, and inputs persist until the Salsa database is dropped. There is no measured memory plateau, cancellation stress, distributed invalidation or timing comparison. Avoided query bodies are evidence of work reuse, not a measured end-to-end speedup.
+This is a concrete read adapter, not a generic resource registry. A full snapshot update is O(n). Changed collection queries can scan the collection. Inputs persist until the Salsa database is dropped. There is no measured memory plateau, cancellation stress, distributed invalidation or timing comparison. Avoided query bodies are evidence of work reuse, not a measured end-to-end speedup.
 
 ## What carries into the reusable core
 

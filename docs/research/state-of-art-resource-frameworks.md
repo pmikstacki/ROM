@@ -1,6 +1,6 @@
 # Resource frameworks: state of the art and ROM's design
 
-Research date: 2026-10-02. Status: primary-source design research, not an implemented feature set or a benchmark. Scope: six strong references examined through current official documentation. Hasura evidence is explicitly for GraphQL Engine v2; PostGraphile evidence is for v5. These products and libraries have different deployment and licensing models; this note recommends architectural ideas, not importing their source or replacing ROM with another product.
+Research date: 2026-10-02. Status: primary-source design research, not an implemented feature set or a benchmark. Scope: six strong references examined through current official documentation. Hasura evidence is explicitly for GraphQL Engine v2; PostGraphile evidence is for v5. These products and libraries have different deployment and licensing models. This note recommends architectural ideas. It does not recommend source imports or replacement of ROM with another product.
 
 ## Verdict
 
@@ -8,7 +8,7 @@ ROM's fixed premise is well supported: **declare a resource once and derive pers
 
 The most useful combination is **Ash's resource declaration and action/type contracts, Feathers' uniform service access, and Convex's reactive-query experience**. Directus, Hasura, and PostGraphile show how much repetitive API work should disappear, and how authorization and query semantics must participate in generation. ROM should deliver this complete resource experience as an embeddable Rust library. Requiring client applications to handwrite a controller, repository, event broadcaster, and subscription resolver for every ordinary resource would miss the point.
 
-“One definition” means one authoritative semantic model, not necessarily one source file. A Rust derive/builder can refer to reusable type implementations, policies, and custom action functions while still producing one resource descriptor. Storage and transport adapters consume that descriptor; they must not acquire separate business rules.
+“One definition” means one authoritative semantic model, not necessarily one source file. A Rust derive/builder can refer to reusable type implementations, policies, and custom action functions while still producing one resource descriptor. Storage and transport adapters consume that descriptor. They must not acquire separate business rules.
 
 ## Evidence matrix
 
@@ -54,7 +54,7 @@ ROM can be reactive throughout without claiming that every observer receives eve
 
 Hasura explicitly states that live queries need not return every intermediate event. Convex tracks dependencies to update query results. Feathers documents automatic service-event emission, while PostGraphile documents pubsub-backed subscriptions. These are different mechanisms and should not be called equivalent merely because each uses a persistent client connection. [Hasura distinction](https://hasura.io/docs/2.0/subscriptions/postgres/livequery/index/), [Convex dependency tracking](https://docs.convex.dev/realtime), [Feathers event lifecycle](https://feathersjs.com/api/events), [PostGraphile subscription plans](https://postgraphile.org/postgraphile/5/subscriptions/).
 
-For ROM, default resource reads should have a live counterpart supplied by the generic runtime. Derived fields, relations, custom reads, and reactions participate through recorded or declared dependencies. The initial dependency engine can conservatively invalidate a resource kind and rerun affected reads; precision is an optimization. Arbitrary Rust code that reads external state cannot be tracked magically: require an explicit dependency/invalidation contract or reject its use as an automatically live query. This preserves the fully reactive premise without pretending that unrestricted side effects are observable.
+For ROM, default resource reads should have a live counterpart supplied by the generic runtime. Derived fields, relations, custom reads, and reactions participate through recorded or declared dependencies. The initial dependency engine can conservatively invalidate a resource kind and rerun affected reads. Precision is an optimization. Arbitrary Rust code that reads external state cannot be tracked automatically without a contract. Require an explicit dependency/invalidation contract or reject its use as an automatically live query. This preserves the fully reactive premise without pretending that unrestricted side effects are observable.
 
 ## Concrete design to lift into ROM
 
@@ -68,7 +68,7 @@ The single declaration should describe:
 - Query/filter/sort capabilities, computed fields, dependency declarations, and index requirements.
 - Observable committed changes, live read eligibility, and reaction declarations.
 
-From this, one normalized registry should drive generic persistence operations, action dispatch, API route/schema generation, serialization, client-facing metadata, and subscription planning. Register a resource once; runtime adapters install its enabled surface automatically. Explicit exposure and deny-default policies provide control without requiring handwritten controller code. Validate duplicate names, unresolved references, unavailable type/query capabilities, and incompatible mappings at registration rather than on the first production request.
+From this, one normalized registry should drive generic persistence operations, action dispatch, API route/schema generation, serialization, client-facing metadata, and subscription planning. Register a resource once. Runtime adapters install its enabled surface automatically. Explicit exposure and deny-default policies provide control without requiring handwritten controller code. Validate duplicate names, unresolved references, unavailable type/query capabilities, and incompatible mappings at registration rather than on the first production request.
 
 Keep the first authoring form small: compiled Rust derive/builder plus reusable traits/functions. Macros should remove repetition, not hide a second set of runtime semantics. The descriptor should remain inspectable and testable. Generated files, if any, are projections of this definition, not additional authoritative models. Ash's action acceptance lists and data-layer capability interface are useful precedents. [Ash actions](https://ash.hexdocs.pm/actions.html), [Ash data layer](https://ash.hexdocs.pm/Ash.DataLayer.html).
 
@@ -80,11 +80,11 @@ Classify deterministic database transitions separately from requested external e
 
 ### Field types are extensible contracts, not only serialization
 
-A custom field type should contribute input validation/normalization, canonical stored and wire representation, schema/client representation, and supported operations such as equality, ordering, or indexing. A generic serializer alone cannot tell an adapter how to compare money or index a geographic value. Separate these capabilities and reject unsupported ones explicitly. Keep missing, null, zero, false, and default semantics consistent between CRUD, custom action input, persistence, and emitted changes. Ash's custom types separate input, stored-value loading, and storage conversion; its data-layer contract makes support inspectable. [Ash.Type](https://ash.hexdocs.pm/Ash.Type.html), [Ash.DataLayer](https://ash.hexdocs.pm/Ash.DataLayer.html).
+A custom field type should contribute input validation/normalization, canonical stored and wire representation, schema/client representation, and supported operations such as equality, ordering, or indexing. A generic serializer alone cannot tell an adapter how to compare money or index a geographic value. Separate these capabilities. Reject unsupported ones explicitly. Keep missing, null, zero, false, and default semantics consistent between CRUD, custom action input, persistence, and emitted changes. Ash's custom types separate input, stored-value loading, and storage conversion; its data-layer contract makes support inspectable. [Ash.Type](https://ash.hexdocs.pm/Ash.Type.html), [Ash.DataLayer](https://ash.hexdocs.pm/Ash.DataLayer.html).
 
 ### Authorization belongs in every generated projection
 
-The same resource policy should govern in-process calls, HTTP, custom actions, reads, field projections, and live subscriptions. Authentication stays provider-neutral at the boundary. Query planning must include visibility rules: filtering, sorting, counts, relations, and derived values can leak information even when returned fields are hidden. A live subscription must respond when authorization changes as well as when business data changes. Reactions run as explicit service principals.
+The same resource policy should govern in-process calls, HTTP, custom actions, reads, field projections, and live subscriptions. Authentication stays provider-neutral at the boundary. Query planning must include visibility rules. Even when returned fields are hidden, filtering, sorting, counts, relations, and derived values can leak information. A live subscription must respond when authorization changes as well as when business data changes. Reactions run as explicit service principals.
 
 Ash demonstrates action and field policies; Feathers external resolvers demonstrate separating internal results from safe outward data; PostGraphile demonstrates pushing row constraints into the database. ROM should borrow these mechanisms where applicable without inheriting each framework's particular bypass/default choices. [Ash field policies](https://ash.hexdocs.pm/policies.html#field-policies), [Feathers external resolvers](https://feathersjs.com/api/schema/resolvers), [PostGraphile RLS](https://postgraphile.org/postgraphile/5/security/). See [ROM auth research](auth-architecture.md) for the already proposed trust boundaries.
 
@@ -92,7 +92,7 @@ Ash demonstrates action and field policies; Feathers external resolvers demonstr
 
 The resource declaration should be enough for ordinary persisted CRUD; clients should not write per-resource SQL repositories. The core prepares typed operations and requires state/event/outcome atomicity from the adapter. A reference adapter can generate storage/query operations from metadata while custom types advertise explicit mappings. “Generic” need not mean every database supports every query or index. Compile/query-plan against advertised capabilities and reject unsupported operations early.
 
-Database-first frameworks demonstrate the leverage of schema-driven APIs, but ROM's authoritative source remains the resource descriptor. Schema inspection and migration planning should reconcile storage with that descriptor. Do not silently regenerate domain permissions or action behavior from whatever columns happen to exist.
+Database-first frameworks demonstrate the benefits of schema-driven APIs. ROM's authoritative source remains the resource descriptor. Schema inspection and migration planning should reconcile storage with that descriptor. Do not silently regenerate domain permissions or action behavior from whatever columns happen to exist.
 
 ## Failure semantics the design must make explicit
 
@@ -110,7 +110,7 @@ The inspected documentation does not establish that one generic package supplies
 | Dependency graph changes or cycles | Recompute registered dependencies; reject/bound unsafe cycles and causal cascades. | Reactive composition should not become an unbounded feedback loop. |
 | Multiple writers/instances | Define which changes enter the authoritative pipeline and how peers receive committed invalidations. | A local dispatcher cannot detect out-of-band SQL writes without a specified ingestion/CDC contract. |
 
-Keep current state plus durable events/work records as the initial persistence recommendation. Full event sourcing is not required for reactive behavior. A commit produces the durable facts used for delivery and invalidation; the live layer can coalesce repeated invalidations while durable consumers retain their defined history. Cross-resource atomic transactions and globally synchronized snapshots are separate, costly promises; do not imply Convex's whole-database behavior merely by copying its client API.
+Keep current state plus durable events/work records as the initial persistence recommendation. Full event sourcing is not required for reactive behavior. A commit produces the durable facts used for delivery and invalidation. The live layer can coalesce repeated invalidations while durable consumers retain their defined history. Cross-resource atomic transactions and globally synchronized snapshots are separate, costly promises. Do not imply Convex's whole-database behavior merely by copying its client API.
 
 ## Smallest convincing implementation milestone
 

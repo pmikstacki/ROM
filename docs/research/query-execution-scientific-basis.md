@@ -8,17 +8,13 @@ evaluation contract, not benchmark results.
 
 **Volcano (Graefe and McKenna, ICDE 1993)** separates logical query meaning from
 physical execution plans and uses equivalence rules and costs to choose an
-implementation. Its generated optimizer still plans queries at runtime. For
-ROM, the useful distinction is a canonical query contract versus an adapter's
-execution strategy; generated authoring helpers do not settle the latter.
+implementation. Its generated optimizer still plans queries at runtime. For ROM, the useful distinction is between a canonical query contract and an adapter's execution strategy. Generated authoring helpers do not determine the execution strategy.
 This is foundational work, not a new 2026 library recommendation.
 [Original paper](https://15721.courses.cs.cmu.edu/spring2023/papers/16-optimizer1/graefe-icde1993.pdf)
 
 **Cascades (Graefe, IEEE Data Engineering Bulletin 1995)** makes physical
 properties and costs explicit and explores equivalent expressions. Its examples
-include required ordering. ROM can adopt the small principle that an optimized
-path must meet the required order, rather than copying a full optimizer or
-assuming all plans are interchangeable merely because they filter the same rows.
+include required ordering. ROM can adopt this principle: an optimized path must meet the required order. ROM need not copy a full optimizer. Plans that filter the same rows are not necessarily interchangeable.
 [Original paper](https://15799.courses.cs.cmu.edu/spring2025/papers/05-cascades/graefe-ieee1995.pdf)
 
 **DBSP (Budiu et al., PVLDB 2023)** formalizes incremental computation of query

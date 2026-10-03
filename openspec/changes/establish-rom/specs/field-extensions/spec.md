@@ -52,7 +52,7 @@ The registry SHALL validate resource identities, field paths and any generated i
 #### Scenario: Equal short names
 - **GIVEN** two resource kinds have the same short name in different namespaces
 - **WHEN** the registry prepares their descriptors
-- **THEN** it preserves both full identities or rejects an unsupported naming collision explicitly before publication
+- **THEN** before publication, it preserves both full identities or explicitly rejects an unsupported naming collision
 
 ### Requirement: Immutable descriptor snapshots
 Published descriptor snapshots SHALL be immutable to ordinary consumers. Reconfiguration SHALL publish a validated generation rather than expose partially mutated shared metadata.

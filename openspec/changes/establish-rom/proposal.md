@@ -2,7 +2,7 @@
 
 ## Why
 
-Resource definitions should carry reliable behavior across every caller. ROM will provide a Rust foundation where adding a resource kind reuses one consistent mutation and reaction contract, instead of rebuilding correctness in each service or transport.
+Resource definitions should carry reliable behavior across every caller. ROM will provide a Rust foundation with one consistent mutation and reaction contract. New resource kinds will reuse that contract across services and transports.
 
 ## What Changes
 
@@ -30,4 +30,4 @@ None. There is no implemented ROM baseline.
 
 ## Impact
 
-Future implementation will add Rust library code, adapters and conformance tests. This change currently adds planning artifacts only. No legacy wire compatibility or database migration is implied. Future import adapters must validate and version their mappings; reverting this initial documentation change affects no runtime data.
+Future implementation will add Rust library code, adapters and conformance tests. This change currently adds planning artifacts only. No legacy wire compatibility or database migration is implied. Future import adapters must validate and version their mappings. Reversion of this initial documentation change affects no runtime data.

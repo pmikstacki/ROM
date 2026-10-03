@@ -6,15 +6,14 @@ person-days. DataFusion and egg have not been built or benchmarked for ROM.
 
 ## Recommendation
 
-Use the existing database planner for local physical execution, retain one exact
-query representation/evaluator, and add a small internal strategy selector only
-when passing alternatives exist. Prioritize canonical indexes for measured hot
+Use the existing database planner for local physical execution. Retain one exact query representation/evaluator.
+Only add a small internal strategy selector when alternatives pass the tests. Prioritize canonical indexes for measured hot
 queries. Do not build a general optimizer or add an analytical engine solely to
 choose between a scan and an indexed filter.
 
 This recommendation preserves the owner's contract: application authors declare
-Resources and queries once. Every conforming implementation returns the same
-meaning; optimization does not reinterpret fields, authorization or events.
+Resources and queries once. Every conforming implementation preserves the same meaning.
+Optimization does not reinterpret fields, authorization, or events.
 
 | Option | Work ROM still owns | Relative adoption cost | Benefit supported now |
 | --- | --- | --- | --- |
@@ -25,12 +24,12 @@ meaning; optimization does not reinterpret fields, authorization or events.
 
 SQLite estimates local CPU/I/O costs among plans and uses available statistics.
 It cannot account for arbitrary native ROM authorization or codec work performed
-after rows leave the database. This motivates a small outer choice, not a second
-SQL optimizer inside core.
+after rows leave the database. This limitation supports a small selector outside the database planner.
+It does not support a second SQL optimizer inside core.
 [SQLite optimizer](https://www.sqlite.org/optoverview.html)
 
-DataFusion's documented integration uses table providers/execution plans and Arrow
-data; its optimizer can be reused modularly. Its ready-made rules do not remove
+DataFusion's documented integration uses table providers/execution plans and Arrow data.
+Its optimizer can be reused in separate modules. Its ready-made rules do not remove
 the need to map ROM's domain and security semantics correctly.
 [Provider integration](https://datafusion.apache.org/library-user-guide/custom-table-providers.html),
 [Optimizer guide](https://datafusion.apache.org/library-user-guide/query-optimizer.html)
@@ -46,9 +45,8 @@ does not infer our valid rewrites or measure adapter costs automatically.
 2. Keep the bounded evaluator as the reference implementation for all adapters.
 3. Promote a measured indexed strategy only with atomic index maintenance,
    version/rebuild behavior and differential tests against that evaluator.
-4. Add conservative internal selection using demonstrated properties. Prefer a
-   valid fallback when estimates are absent; do not pretend stale statistics prove
-   an optimal plan. Report chosen path and work in diagnostics.
+4. Add conservative internal selection using demonstrated properties. If estimates are absent, prefer a valid fallback.
+   Stale statistics do not prove that a plan is optimal. Report chosen path and work in diagnostics.
 5. Revisit DataFusion when joins/aggregations/reporting workloads exist. Revisit
    egg only if rewrite-space complexity exceeds simple explicit planning rules.
 
@@ -57,8 +55,8 @@ does not infer our valid rewrites or measure adapter costs automatically.
 The three physical prototypes share normalized queries; the authoring comparison
 is separate. Their final report must include fairness corrections from review,
 raw repeated samples and index/write overhead before numerical rankings are
-treated as final. An in-memory SQLite benchmark is not a production disk-I/O
-forecast; a synthetic journal is not the maintained ROM commit pipeline.
+treated as final. An in-memory SQLite benchmark does not predict production disk-I/O costs.
+A synthetic journal does not exercise the maintained ROM commit pipeline.
 
 No line-count estimate establishes development time. No fixed speedup is promised
 for small collections, broad queries, frequent writes or different policies. The

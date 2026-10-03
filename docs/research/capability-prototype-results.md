@@ -1,6 +1,6 @@
 # Interchangeable adapters and resilience: executed findings
 
-Date: 2026-10-02. Three disposable workspaces were independently verified by the coordinator in the persistent NixOS container. These extend the [earlier prototypes](prototype-results.md); they are not one integrated production library. The question was whether core-owned contracts can support different providers without changing resource behavior.
+Date: 2026-10-02. The coordinator independently verified three disposable workspaces in the persistent NixOS container. These extend the [earlier prototypes](prototype-results.md); they are not one integrated production library. The question was whether core-owned contracts can support different providers without changing resource behavior.
 
 ## Persistence: relational and transactional key-value
 
@@ -12,7 +12,7 @@ The independent verifier passed formatting, Clippy with warnings denied, a defau
 
 Observed guarantees include complete state/revision/receipt/event persistence after reopen; one winner in a revision race; same-command deduplication; rejection of changed requests under the same identity; rollback after each physical write boundary; and scoped journal continuation. SQLite uses independent connections for concurrent/in-flight checks; redb uses separate read/write transactions.
 
-The most useful resilience case pauses an actual native transaction before commit. An independent reader sees no receipt, then the original and a racing retry resolve to one committed transition. **Absent receipt does not prove rollback.** A second case commits successfully but returns an injected unknown response; reopen plus same-identity retry retrieves the original outcome without another event set.
+The most useful resilience case pauses an actual native transaction before commit. An independent reader sees no receipt. Then the original and a racing retry resolve to one committed transition. **Absent receipt does not prove rollback.** A second case commits successfully but returns an injected unknown response; reopen plus same-identity retry retrieves the original outcome without another event set.
 
 The journal's serialized counter is safe for the two tested embedded engines. It is not a recipe for distributed commit ordering. This synchronous probe lacks query/live reads, authentication, no-op action policy, multi-resource operations, retention and effect intentions. Its complete-transition comparison is an experimental idempotency representation, not final fingerprint/privacy design. Real process exit was tested; power loss, replication and every native commit error were not.
 
@@ -40,7 +40,7 @@ The core registry accepts named ordinary async Rust functions with checked/versi
 
 The independent verifier passed formatting, Clippy, build, the custom-function example and **12 tests**. They cover actual SQL rollback/reopen, durable intent recovery, bounded attempts and backoff, permanent failures, callback timeout classified as Unknown, stale acknowledgment fencing, schema mismatch and two different registered function types.
 
-A deterministic receiver applies its effect, pauses before acknowledgment, and the test aborts the worker. After reopen and lease expiry, retry uses the same delivery identity. Without receiver deduplication there are **two effects**; with receiver-owned deduplication there is **one effect across two attempts**. The outbox guarantees recoverable attempts within policy; it cannot manufacture recipient idempotency. Repeated worker loss consumes the durable attempt budget rather than creating unlimited retries.
+A deterministic receiver applies its effect and pauses before acknowledgment. The test then aborts the worker. After reopen and lease expiry, retry uses the same delivery identity. Without receiver deduplication there are **two effects**; with receiver-owned deduplication there is **one effect across two attempts**. The outbox guarantees recoverable attempts within policy; it cannot manufacture recipient idempotency. Repeated worker loss consumes the durable attempt budget rather than creating unlimited retries.
 
 **Carry forward:** atomic intention creation, stable delivery identity, typed functions, explicit outcomes and generation-fenced claims. The probe uses caller-driven ticks and a synchronous scratch SQL implementation; it does not establish production scheduling, provider receipt lookup, jitter, clock discipline, privacy controls, real email semantics or OS/power-crash recovery. Worker abort and database reopen are the exercised interruption.
 

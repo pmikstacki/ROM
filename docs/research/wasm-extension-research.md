@@ -1,9 +1,7 @@
 # WASM extension boundary: evidence and next integration experiment
 
 Research date: 2026-10-03. ROM source baseline:
-`64240cf99e4632378e62db91f3bf151f2d306e6f`. This extends the deferred-roadmap
-investigation; it does not add a maintained runtime or change the premise that
-application authors declare Resource types in Rust and compose native modules.
+`64240cf99e4632378e62db91f3bf151f2d306e6f`. This extends the deferred-roadmap investigation. It does not add a maintained runtime. The premise remains unchanged: application authors declare Resource types in Rust and compose native modules.
 
 **Recommendation:** first evaluate a pure, bounded validator/proposal guest with
 no host imports. Treat its output as untrusted input to the existing ROM command
@@ -24,8 +22,7 @@ compiled Rust contracts. Public `Action::new` accepts a function pointer,
 also takes a function pointer. The internal erased action callback can hold
 state, but it is not a public factory for captured application state. A Wasm
 engine/module cache therefore cannot simply be captured by a public action
-constructor today. A global registry or thread-local bridge would hide ownership,
-versioning and lifecycle; this report recommends neither.
+constructor today. A global registry or thread-local bridge would hide ownership, versioning and lifecycle. This report recommends neither.
 
 Field decoding is also a static native contract. A separate guest validator is
 not automatically a mandatory invariant across create, replace, patch and
@@ -88,9 +85,7 @@ profile. No WASI imports are needed for a pure proposal. Wasmtime's sandbox
 security depends on the capabilities the embedder makes available.
 [Wasmtime security model](https://docs.wasmtime.dev/security.html).
 
-A host wrapper can fail before submitting any ROM command. Once a command has
-been submitted, a timeout or cancellation must not be described as proof that
-nothing committed; use the existing invocation/receipt recovery semantics.
+A host wrapper can fail before submitting any ROM command. After command submission, a timeout or cancellation must not be described as proof that nothing committed. Use the existing invocation/receipt recovery semantics.
 Likewise, guest failure must not produce a synthetic successful event or bypass
 core validation. A guest “compensation” proposal remains domain-authored input
 for a later authorized command, not automatic rollback.
@@ -116,8 +111,7 @@ high-level generated return value may already have been lifted into host-owned
 storage before application code examines its size. Consequently, “typed WIT”
 is not evidence that ROM's preallocation byte bound holds. Begin a component
 probe with fixed-size scalar records/enums, or separately establish and test a
-bounded transfer interface. The exact generated bindings and runtime version
-must be inspected rather than assuming all lifting paths are bounded.
+bounded transfer interface. The exact generated bindings and runtime version must be inspected. Do not assume that all lifting paths are bounded.
 [WIT types](https://component-model.bytecodealliance.org/design/wit.html),
 [Wasmtime typed component calls](https://docs.wasmtime.dev/api/wasmtime/component/struct.TypedFunc.html).
 
@@ -237,8 +231,7 @@ integer nanoseconds. These are not per-call latency percentiles.
 | Host JSON/schema/semantic validation only, 13-byte output | 15 | 15–19 |
 
 Raw samples are committed as `experiments/wasmi-capability-probe/release-observation.log`
-at the final prototype SHA. The release build took 18.59 seconds in this run;
-that is one environment observation, not a comparative build benchmark. The
+at the final prototype SHA. The release build took 18.59 seconds in this run. This is one environment observation, not a comparative build benchmark. The
 target occupied 334 MiB after dev and release builds. The author-skill fixture
 target occupied another 246 MiB. Neither number measures runtime memory.
 

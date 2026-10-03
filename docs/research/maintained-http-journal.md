@@ -16,10 +16,10 @@ after a response future disappears.
 Core owns journal cursor, batch, page and subscription semantics. Storage hooks
 advertise availability without granting disclosure authority. The persistence
 package supplies atomic persisted generation/head/floor and retention in SQLite
-and redb. Each runtime page checks count/byte/order/scope contracts defensively,
-loads current authoritative rows, then uses the shared historical/current field
+and redb. Each runtime page verifies count/byte/order/scope contracts defensively.
+It loads current authoritative rows, then uses the shared historical/current field
 projection helper. Denied historical facts are omitted while the cursor advances.
-No raw durable identity is exposed. Caller-owned cursors are acknowledgements;
+No raw durable identity is exposed. Caller-owned cursors are acknowledgments.
 SSE does not add durable processing guarantees.
 
 `rom-http` owns generic routing, independent body admission, recursive duplicate
@@ -36,9 +36,8 @@ Rerun from the repository root in the supported Rust 1.99.0 environment:
 CARGO_BUILD_JOBS=2 CARGO_TARGET_DIR="$PWD/target-http" ./scripts/check
 ```
 
-Observed full-check result: 90 integration tests and 1 doctest passed; the
-subprocess crash fixture is marked ignored for direct harness invocation and is
-executed by its parent conformance test. Formatting, warnings-denied Clippy and
+Observed full-check result: 90 integration tests and 1 doctest passed. The
+subprocess crash fixture is marked ignored for direct harness invocation. Its parent conformance test executes it. Formatting, warnings-denied Clippy and
 documentation, core without default features, consumer execution, five expected
 compiler-failure fixtures and both positive compiler fixtures passed. OpenSpec
 validation passed all four active changes. Executed source was parent commit
@@ -62,14 +61,14 @@ for network evidence. The focused suite contains 13 passing tests. It covers:
 - Disconnect while an actual SQLite transaction is paused before commit:
   action capacity remains occupied, a second request gets 429, releasing the
   transaction permits same-identity replay with one row/event/receipt.
-- Actual commit with injected lost acknowledgement: 503 outcome unknown,
+- Actual commit with injected lost acknowledgment: 503 outcome unknown,
   followed by successful same-identity resolution without a second event.
 - Live membership removal, current revocation, idle expiry without writes,
   subscription saturation and permit release on dropped TCP connection,
   graceful shutdown with an open stream.
 - Field projection on mutation/read/query/live/journal and denied predicate
   access, including a secret field that never appears in wire responses.
-- Distinct ordered journal facts, bounded pages, cancelled waits preserving
+- Distinct ordered journal facts, bounded pages, canceled waits preserving
   unread facts, hidden history, wrong/future cursors, explicit retention loss and explicit fresh-head recovery.
   A shared SQLite/redb test also verifies head persistence across reopen.
 
@@ -108,7 +107,7 @@ machine-checked advisory audit. Release audit remains a separate workspace gate.
 One owner per store is the supported topology. Journal cursors expose coarse
 history progression; hidden rows and storage identities remain protected.
 History reset is explicit, never inferred from an expired cursor. Live streams
-are lossy current-state refreshes; journals preserve distinct retained facts.
+are lossy current-state refreshes. Journals preserve distinct retained facts.
 Slow consumers retain a bounded subscription and a bounded current batch, plus
 HTTP/socket buffers. The tests establish application bounds, not a load-test
 memory envelope for arbitrary connection counts or stalled socket writes.

@@ -1,12 +1,12 @@
 # Bevy as ROM's execution engine
 
-Research date: 2026-10-02. Status: **superseded historical research**. The user subsequently selected **Tokio plus Rayon**; see [the runtime comparison and decision](runtime-comparison-bevy-tokio.md) and [current concurrency guidance](rust-concurrency.md). The Bevy proposals below are retained for reference, not current implementation instructions. Reviewed official Bevy documentation identifying release 0.19.1 and that release's source manifests. No Bevy compile or runtime probe was performed: its required compiler is newer than the installed toolchain.
+Research date: 2026-10-02. Status: **superseded historical research**. The user subsequently selected **Tokio plus Rayon**; see [the runtime comparison and decision](runtime-comparison-bevy-tokio.md) and [current concurrency guidance](rust-concurrency.md). The Bevy proposals below are retained for reference, not current implementation instructions. Reviewed official Bevy documentation identifying release 0.19.1 and that release's source manifests. No Bevy compile or runtime probe was performed. Bevy needs a compiler newer than the installed toolchain.
 
 ## Historical proposal and boundary
 
-The historical proposal was to build ROM on a headless Bevy application and scheduler, with Bevy executing work while ROM defined every operation and semantic rule concerning domain resources. Applications would register kinds and extensions, submit actions, read resources, and consume committed changes through ROM's API, without needing a Bevy `World`, `Entity`, `Resource`, system, or component.
+The historical proposal was to build ROM on a headless Bevy application and scheduler. Bevy would execute work. ROM would define every operation and semantic rule concerning domain resources. Applications would register kinds and extensions, submit actions, read resources, and consume committed changes through ROM's API. They would not need a Bevy `World`, `Entity`, `Resource`, system, or component.
 
-That proposal temporarily replaced an earlier Tokio-first recommendation. It would have limited Tokio to adapters requiring its I/O driver and used Bevy for ROM scheduling and CPU pools. The subsequent explicit selection of Tokio plus Rayon superseded that proposal; [Rust concurrency research](rust-concurrency.md) now describes the selected foundation.
+That proposal temporarily replaced an earlier Tokio-first recommendation. It would have limited Tokio to adapters requiring its I/O driver and used Bevy for ROM scheduling and CPU pools. The subsequent explicit selection of Tokio plus Rayon superseded that proposal. [Rust concurrency research](rust-concurrency.md) now describes the selected foundation.
 
 The remaining sections preserve the unimplemented Bevy design and its research findings. Its proposed runtime boundary was an internal module behind the main library, without a public generic executor framework or required ECS entity per domain resource. Any ECS projection would have been optional and reconstructible; persisted ROM state remained authoritative.
 
@@ -47,22 +47,22 @@ The manifests expose these features. ECS `multi_threaded` enables the task crate
 
 Bevy documents its singleton resource semantics and explicitly warns that serialized `Entity` values have no long-term wire-format compatibility guarantee. It recommends a secondary identifier rather than synchronizing entity handles across application instances. [Bevy Resource](https://docs.rs/bevy_ecs/latest/bevy_ecs/resource/trait.Resource.html), [Entity identity and stability](https://docs.rs/bevy_ecs/latest/bevy_ecs/entity/struct.Entity.html).
 
-If a projection is useful, rebuild it after restart and apply only committed revisions. Ignore duplicate/older revisions and detect gaps requiring reload. Do not allow a cache hit to bypass ROM's read-consistency, authorization, or expected-revision rules. Ordinary ROM users should never manipulate `World` to perform a mutation. Exposing unrestricted world access would be a trusted runtime-extension escape hatch, not an alternate supported resource API.
+If a projection is useful, rebuild it after restart. Apply only committed revisions. Ignore duplicate/older revisions. Detect gaps that need reload. Do not allow a cache hit to bypass ROM's read-consistency, authorization, or expected-revision rules. Ordinary ROM users should never manipulate `World` to perform a mutation. Exposing unrestricted world access would be a trusted runtime-extension escape hatch, not an alternate supported resource API.
 
 ## Scheduling without game ticks
 
-`App::set_runner` supplies the outer loop; `App::update` runs an update. `App` is not `Send` or `Sync`, so construct and retain it on its owning thread rather than moving it among async workers. A custom runner must respect plugin readiness, `finish`, `cleanup`, and exit handling; the standard schedule-runner source is a reference for those steps. [App lifecycle](https://docs.rs/bevy_app/latest/bevy_app/struct.App.html), [runner source](https://github.com/bevyengine/bevy/blob/v0.19.1/crates/bevy_app/src/schedule_runner.rs).
+`App::set_runner` supplies the outer loop. `App::update` runs an update. `App` is not `Send` or `Sync`. Construct and retain it on its owning thread. Do not move it among async workers. A custom runner must respect plugin readiness, `finish`, `cleanup`, and exit handling; the standard schedule-runner source is a reference for those steps. [App lifecycle](https://docs.rs/bevy_app/latest/bevy_app/struct.App.html), [runner source](https://github.com/bevyengine/bevy/blob/v0.19.1/crates/bevy_app/src/schedule_runner.rs).
 
 Proposed service runner:
 
 1. Wait for an incoming command, worker completion, shutdown signal, or the next retry/lease deadline.
-2. Drain a bounded batch into internal queues and run a bounded scheduling turn.
-3. Process available completions, admit eligible work, dispatch jobs, and deliver transient hints for confirmed outcomes.
-4. Continue while ready work remains; otherwise wait again. Recheck readiness atomically with waiting so a wake-up cannot be lost.
+2. Drain a bounded batch into internal queues. Run a bounded scheduling turn.
+3. Process available completions. Admit eligible work. Dispatch jobs. Deliver transient hints for confirmed outcomes.
+4. If ready work remains, continue. Otherwise, wait again. Recheck readiness atomically with waiting so a wake-up cannot be lost.
 
 This is a design, not a built-in Bevy durable-service mode. A safety maintenance deadline can protect against missed external notifications, but must not substitute for a correct wake-up protocol. Main-thread/local tasks need explicit progress while waiting: either exclude them from long-lived service work or arrange wakeups/pumping. `TaskPoolPlugin` normally ticks global main-thread tasks in the `Last` schedule. [Pool ticking implementation](https://github.com/bevyengine/bevy/blob/v0.19.1/crates/bevy_app/src/task_pool_plugin.rs).
 
-Keep individual systems short and nonblocking. A system starts bounded asynchronous work and returns; a later turn handles the result. Do not hold ECS borrows or a world lock across database waits. A single endlessly running or blocking system can still stall a scheduling turn.
+Keep individual systems short and nonblocking. A system starts bounded asynchronous work and returns. A later turn handles the result. Do not hold ECS borrows or a world lock across database waits. A single endlessly running or blocking system can still stall a scheduling turn.
 
 ## Parallel execution does not establish transaction order
 
@@ -81,7 +81,7 @@ The pipeline can overlap different jobs; it does not require a global serialized
 
 ## Messages and observers are transient mechanisms
 
-Bevy `Messages<M>` retains messages across its last two update calls. Slow readers can miss messages; disabling updates can instead grow buffers indefinitely. Per-reader progress is in memory. Use these messages for internal hints/completions only when their lifetime is controlled; never make them the sole record of admitted durable work or committed events. [Message retention](https://docs.rs/bevy_ecs/0.19.1/bevy_ecs/message/struct.Messages.html).
+Bevy `Messages<M>` retains messages across its last two update calls. Slow readers can miss messages. If updates are disabled, buffers can instead grow indefinitely. Per-reader progress is in memory. Only when their lifetime is controlled, use these messages for internal hints/completions. Never make them the sole record of admitted durable work or committed events. [Message retention](https://docs.rs/bevy_ecs/0.19.1/bevy_ecs/message/struct.Messages.html).
 
 Observer `Event`s trigger reactive systems. `World::trigger` evaluates immediately; `Commands::trigger` defers to a sync point. Ordering among observers of the same event is arbitrary, and nested triggers are recursively evaluated. Therefore ROM reaction order, retry policy, cascade limits, and durable acknowledgement cannot rely on observer order or recursion. [Observer execution semantics](https://docs.rs/bevy_ecs/latest/bevy_ecs/observer/struct.Observer.html).
 
@@ -120,11 +120,11 @@ The official 0.19.1 `bevy_ecs` and root manifests declare Rust **1.95.0** and ed
 
 After a compatible toolchain is available, run isolated probes before implementing ROM:
 
-1. Compile only the proposed crates/features; inspect `cargo tree -e features` for unintended renderer/window/reflection dependencies. Run a headless app once and exit cleanly.
+1. Compile only the proposed crates/features. Inspect `cargo tree -e features` for unintended renderer/window/reflection dependencies. Run a headless app once. Exit cleanly.
 2. Verify explicit schedule dependencies, deferred command visibility, and concurrent execution of non-conflicting jobs. Compare single-thread and multithread results without expecting the same completion order.
 3. Demonstrate message expiry after maintenance updates and immediate/deferred observer timing. Assert that a separate durable test queue recovers work despite lost transient hints.
 4. Test custom runner idle wait, wakeup races, deadline wakeup, and continued main-thread task progress. Measure idle CPU and command/completion latency.
 5. Exercise retained task handles, cancellation, worker failure, bounded queue saturation, and drain shutdown. Verify no commit is cancelled solely by a caller disconnect.
-6. Integrate the selected database adapter's actual I/O driver, then run the revision-race, atomicity, uncertain-commit, stale-claim, and recovery tests from [the concurrency experiment matrix](rust-concurrency.md#experiment-matrix).
+6. Integrate the selected database adapter's actual I/O driver. Run the revision-race, atomicity, uncertain-commit, stale-claim, and recovery tests from [the concurrency experiment matrix](rust-concurrency.md#experiment-matrix).
 
 All six Bevy probe groups remain unrun. Earlier Tokio probes establish only those Tokio behaviors; they provide no evidence that the Bevy composition compiles, performs well, or satisfies ROM's transactional contracts.

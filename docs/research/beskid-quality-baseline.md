@@ -1,6 +1,6 @@
 # Beskid quality baseline for ROM
 
-Reviewed 2 October 2026. This is a bounded representative source audit, not a full code, security, performance, or release certification. ROM gates below are proposals, not delivered guarantees.
+Reviewed 2 October 2026. This source audit covers a bounded, representative sample. It is not a full code, security, performance, or release certification. The ROM gates below are proposals, not delivered guarantees.
 
 ## Scope and provenance
 
@@ -26,7 +26,7 @@ The sample covers OpenSpec configuration and a dependency-cycle capability, Linu
 
 ### Ordinary Linux pushes do not execute the inspected compiler gate
 
-In [the Linux pipeline](https://github.com/Cyber-Nomad-Collective/beskid/blob/abfe7d6bf1628db1be75245693b699394eb1a23c/.woodpecker/linux.yml), normal pushes run standard validation and shell/JavaScript migration tests, then exit before native build and release gates. [Release gates](https://github.com/Cyber-Nomad-Collective/beskid/blob/abfe7d6bf1628db1be75245693b699394eb1a23c/scripts/ci/woodpecker-release-gates.sh) invoke the compiler Rust gate, but that path is reached on manual build or tag events. Passing this ordinary push workflow therefore does not demonstrate Rust compilation, Clippy, or workspace-test success. This is a finding about the inspected workflow, not every possible external check.
+In [the Linux pipeline](https://github.com/Cyber-Nomad-Collective/beskid/blob/abfe7d6bf1628db1be75245693b699394eb1a23c/.woodpecker/linux.yml), normal pushes run standard validation and shell/JavaScript migration tests, then exit before native build and release gates. [Release gates](https://github.com/Cyber-Nomad-Collective/beskid/blob/abfe7d6bf1628db1be75245693b699394eb1a23c/scripts/ci/woodpecker-release-gates.sh) invoke the compiler Rust gate, but that path is reached on manual build or tag events. A passing result from this ordinary push workflow does not demonstrate Rust compilation, Clippy, or workspace-test success. This is a finding about the inspected workflow, not every possible external check.
 
 **ROM improvement:** run correctness checks on every pull request and main-branch push from the first executable crate. Packaging is additional. Repository protection must require actual check statuses when available; merely adding a workflow does not enforce merge policy.
 
@@ -66,6 +66,6 @@ Successfully executed at the pinned root:
 - `bash scripts/ci/test/compiler-rust-gate-timeout.test.sh`
 - `bash scripts/ci/test/woodpecker-workflow-contract.test.sh`
 
-These fixture-based shell tests verify orchestration, not the compiler itself. No compiler build, database integration suite, full strict OpenSpec validation, dependency/security audit, production inspection, or branch-protection inspection was performed. Reading Rust tests establishes intended coverage, not passing execution.
+These fixture-based shell tests verify orchestration, not the compiler itself. The review did not execute a compiler build, database integration suite, full strict OpenSpec validation, or dependency/security audit. It did not inspect production or branch protection. Reading Rust tests establishes intended coverage, not passing execution.
 
 The evidence supports specific stronger ROM gates, not a numerical quality ranking or a claim that ROM is already higher quality than Beskid.

@@ -24,4 +24,4 @@ None. This adds a proposed capability alongside the still-proposed `establish-ro
 
 ## Impact
 
-Planning artifacts only. Future implementation affects public operation context, adapters, authorization hooks, deduplication, and event projections. Existing data and clients do not exist, so there is no migration or compatibility promise. Reverting this proposal changes no runtime behavior. Adopting a provider requires an explicit profile and interoperability evidence; no universal-provider compatibility is claimed.
+Planning artifacts only. Future implementation affects public operation context, adapters, authorization hooks, deduplication, and event projections. Existing data and clients do not exist, so there is no migration or compatibility promise. Reverting this proposal changes no runtime behavior. Provider adoption needs an explicit profile and interoperability evidence. This proposal does not claim universal-provider compatibility.

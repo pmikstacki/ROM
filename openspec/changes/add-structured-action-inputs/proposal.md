@@ -1,7 +1,7 @@
 # Structured action inputs
 
 ## Why
-Authors currently implement `Input`/`Field` or encode several action parameters in maps. Command payloads need a strict, convenient object codec without becoming a second domain entity.
+Authors currently implement `Input`/`Field` or encode several action parameters in maps. Command payloads need a strict object codec that is easy to use, without a second domain entity.
 
 ## What Changes
 - Add an opt-in `Input` derive exported by the `rom` facade.

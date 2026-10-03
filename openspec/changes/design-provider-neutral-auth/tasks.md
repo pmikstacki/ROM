@@ -3,7 +3,7 @@
 - [x] 1.1 Research primary protocol and Rust crate sources and record trust boundaries and alternatives.
 - [x] 1.2 Select two provider profiles and demonstrate distinct issuer and human/service mappings in disposable examples. Synthetic RS256 JWT and actual loopback introspection profiles; docs/research/auth-provider-probe-results.md. Real-provider and maintained-core integration remain unchecked.
 - [ ] 1.3 Resolve actor validity, field paths, policy snapshot/freshness, safe query behavior, and deleted-resource retry outcomes.
-- [ ] 1.4 Validate conceptual interfaces with an in-process caller and a transport adapter before fixing public Rust signatures.
+- [ ] 1.4 Before you fix public Rust signatures, validate conceptual interfaces with an in-process caller and a transport adapter.
 - [ ] 1.5 Specify User as a Resource, verified identity linking/provisioning, first-administrator bootstrap, protected account actions and disablement freshness; test the shared pipeline without a parallel user entity engine.
 
 ## 2. Introduce trusted context and authorization
@@ -23,6 +23,6 @@
 
 - [ ] 4.1 Verify every provider-neutral-auth scenario and confirm credentials are absent from logs, stored outcomes, and events.
 - [ ] 4.2 Record provider interoperability results and exact supported profiles without claiming arbitrary compatibility.
-- [ ] 4.3 Archive and promote only after implementation and conformance evidence exist.
+- [ ] 4.3 After implementation and conformance evidence exist, archive and promote the change.
 
 No migration or deletion work applies to this specification-only change. Login/session management and delegated background execution require separate decisions.

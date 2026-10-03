@@ -6,8 +6,7 @@ Date: 2026-10-02. This is maintained library integration, following the disposab
 
 ## Question and implemented answer
 
-Can bounded JSON/TOML input update the actual Resource runtime while preserving
-source authority, ownership, current validation and durable accepted provenance?
+Can bounded JSON/TOML input update the actual Resource runtime and preserve source authority and ownership? Can it also preserve current validation and durable accepted provenance?
 
 Yes for **one complete externally owned Resource per reload**. `rom-config` uses
 config-rs only as an input parser. Core has a native trusted SourcePermit, compiled
@@ -21,8 +20,7 @@ generation through the registered action but cannot grant itself another target
 or enable itself. Source content contains only candidate fields; it cannot supply
 registry definitions, identities, priorities or permissions.
 
-The request records its original target revision and create/replace mode before
-fetching. The target's value and accepted provenance are committed in one native
+Before a fetch, the request records its original target revision and create/replace mode. The target's value and accepted provenance are committed in one native
 bundle. Requested and accepted generation therefore remain distinct without an
 unsafe second active-state write. `resume` reconstructs the same request after a
 restart; input substitution under that identity is rejected. Metadata-only changes
@@ -92,8 +90,7 @@ JSON checking performs an additional bounded parse; no throughput claim is made.
 
 The trusted SourcePermit constructor is a native host boundary, like Actor::trusted;
 it is never a deserializable transport parameter. Register row/field policies as
-well as the source owner. Source version labels must identify immutable input for
-recovery; secret values or low-entropy secret hashes are not valid version labels.
+well as the source owner. Source version labels must identify immutable input for recovery. Secret values or low-entropy secret hashes are not valid version labels.
 Explicit worker binding supplements host policy rather than replacing it.
 
 Whole-Resource ownership is deliberate. Atomic multi-Resource publication,

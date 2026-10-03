@@ -24,8 +24,8 @@ same conformance suite. An unresolved commit MUST be distinguishable from rollba
 
 ### Requirement: Bounded supervised execution and observation
 Accepted work SHALL retain ownership until actual completion. Reads and streams
-MUST enforce configured admission and byte/row limits. Authorization MUST be
-checked before disclosure using the supported profile's current authority.
+MUST enforce configured admission and byte/row limits. Before disclosure, authorization MUST be
+verified using the supported profile's current authority.
 
 #### Scenario: Client disconnects during execution
 - **GIVEN** an accepted action still executing after its caller disconnects

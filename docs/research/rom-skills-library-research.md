@@ -1,10 +1,7 @@
 # ROM skills library: author workflows and evaluation
 
 Research date: 2026-10-03. Inspected ROM baseline:
-`64240cf99e4632378e62db91f3bf151f2d306e6f`. This is a separate research stream
-toward an author-facing skills library, not an installed library or a claim of
-human usability. The owner wants skills to make ROM easy to use and extend while
-keeping Resource declarations in Rust/native modules. Studio remains excluded.
+`64240cf99e4632378e62db91f3bf151f2d306e6f`. This separate research stream concerns an author-facing skills library. It is not an installed library or a claim of human usability. The owner wants skills that make ROM easy to use and extend, with Resource declarations in Rust/native modules. Studio remains excluded.
 
 **Recommendation:** build a small set of independently discoverable workflow
 skills around executable public-API templates, with shared contract references
@@ -41,10 +38,8 @@ Resources. These are stronger template anchors than copied illustrative APIs.
 
 The Agent Skills standard requires a directory with `SKILL.md`, including
 `name` and `description`; it supports optional compatibility/license/metadata
-and conventional script/reference/asset directories. Discovery metadata is
-loaded before the body; references are loaded as needed. Its size guidance is
-a ceiling, not a target. `allowed-tools` is experimental and support varies;
-it must not be treated as a portable authorization mechanism.
+and conventional script/reference/asset directories. Discovery metadata is loaded before the body. References are loaded as needed. Its size guidance is
+a ceiling, not a target. `allowed-tools` is experimental and support varies. It must not be treated as a portable authorization mechanism.
 [Agent Skills specification](https://agentskills.io/specification).
 
 Loading and executing a skill are separate client integration responsibilities.

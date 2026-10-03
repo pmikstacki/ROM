@@ -18,11 +18,11 @@ For generated required action inputs, **Bon is the provisional preference** base
 
 Both full verifier commands passed formatting and Clippy with warnings denied on Rust/Cargo **1.99.0**. Exact tested crates: Bon **3.10.1**, typed-builder **0.23.2**, Syn **3.0.6**, Quote **1.0.47**, proc-macro2 **1.0.107**. Source and lockfiles are retained on the linked branches. The container's old compiler was upgraded rather than constraining current-crate selection. Toolchain setup is recorded in [the NixOS environment](../../infra/nixos/README.md); ROM's production MSRV remains a separate decision.
 
-The derive initially put an unsupported-field error on the derive annotation. A source-location assertion exposed this; field-spanned checking expressions now put it on the actual field type. This is a concrete improvement bought by more careful framework internals.
+The derive initially put an unsupported-field error on the derive annotation. A source-location assertion exposed this. Checking expressions with field spans now put the error on the actual field type. More precise framework internals produced this improvement.
 
-Both generated builders reject naïve conditional reassignment because a setter changes the builder type. Computing the value first or putting the branch in a framework-owned helper works. Neither requires the application author to write the complicated helper signature. Internal implementation effort is not a reason to reject a clean public API.
+Both generated builders reject naïve conditional reassignment because a setter changes the builder type. Authors can compute the value first or put the branch in a framework-owned helper. Neither requires the application author to write the complicated helper signature. Internal implementation effort is not a reason to reject a clean public API.
 
-The builder trial distinguishes absent, explicit null and present values in Rust construction. It does **not** prove JSON PATCH decoding. typed-builder's convenience setter that strips Option needs an explicit fallback to accept None; the executed fallback succeeds. ROM should own clear patch semantics rather than inherit a helper crate's defaults accidentally.
+The builder trial distinguishes absent, explicit null and present values in Rust construction. It does **not** prove JSON PATCH decoding. typed-builder's convenience setter that strips Option needs an explicit fallback to accept None. The executed fallback succeeds. ROM should own clear patch semantics rather than inherit a helper crate's defaults accidentally.
 
 Fresh-target checks observed approximately 0.08 seconds for the conventional builder, 2.25 seconds for typed-builder and 3.95 seconds for Bon in the coordinator's run. This is one small cached-source host observation, not a performance ranking, scaling prediction or adoption threshold. Detailed diagnostics and observations accompany the source.
 
@@ -38,6 +38,6 @@ Code generation emits code that will execute later. It cannot decide future perm
 
 ## Remaining acceptance work
 
-The reusable-library experiment addresses transport-free operations and filtered live queries separately. Combining that runtime with the preferred derive and action builders still needs a real downstream consumer. Before production dependency adoption, review advisories, licenses, features and MSRV, then test the packaged facade, renamed/reexported dependencies, documentation and editor navigation. Syn/Quote/proc-macro2 and both builder candidates were executed here; darling, proc-macro-crate, trybuild and cargo-expand were researched but not exercised as trial dependencies.
+The reusable-library experiment addresses transport-free operations and filtered live queries separately. Combining that runtime with the preferred derive and action builders still needs a real downstream consumer. Before production dependency adoption, review advisories, licenses, features, and MSRV. Then test the packaged facade, renamed/reexported dependencies, documentation, and editor navigation. Syn/Quote/proc-macro2 and both builder candidates were executed here; darling, proc-macro-crate, trybuild and cargo-expand were researched but not exercised as trial dependencies.
 
 The production protocol must make metadata, field codecs and generated bindings agree. A separate Serde derive must not silently become another authoritative field schema. Neither small trial establishes that complete protocol contract.

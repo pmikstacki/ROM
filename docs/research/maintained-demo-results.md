@@ -2,7 +2,9 @@
 
 Question: can a small author application use ROM's public library APIs for unrelated Resources, durable behavior, configuration, and generic HTTP without bespoke controllers or repositories?
 
-The maintained `demo/` application answers this with Task and InventoryItem declarations, a canonical StockCode Field, typed patch, and a Task → Dashboard action → typed Channel<String> notification chain. Settings uses SourceActivation and config-rs TOML ingestion. The same declarations run on SQLite and redb. Source and identity management use ordinary Resources and explicit host bootstrap. No core or adapter implementation was changed for the application.
+The maintained `demo/` application answers this with Task and InventoryItem declarations, a canonical StockCode Field and typed patch. It also supplies a Task → Dashboard action → typed Channel<String> notification chain. Settings uses SourceActivation and config-rs TOML ingestion. The same declarations run on SQLite and redb.
+
+Source and identity management use ordinary Resources and explicit host bootstrap. No core or adapter implementation was changed for the application.
 
 ## Observed verification
 
@@ -16,7 +18,7 @@ Exact local rerun:
 nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM/.worktrees/author-demo && CARGO_TARGET_DIR=/workspace/ROM/target/author-demo CARGO_NET_OFFLINE=true ./demo/verify'
 ```
 
-The implementation initially compared entire Actor values in app policies. The configuration loader clips expiry, so this denied its otherwise valid Service. The failed smoke exposed it; policy now compares authority + kind + subject, leaving expiry validation to runtime. The README action JSON also needs the generic tagged enum's nested input object; a regression parses all documented mutation bodies into the public Invocation type.
+The implementation initially compared entire Actor values in app policies. The configuration loader clips expiry, so this denied its otherwise valid Service. The failed smoke exposed this defect. Policy now compares authority + kind + subject. Runtime validates expiry. The README action JSON also needs the generic tagged enum's nested input object. A regression parses all documented mutation bodies into the public Invocation type.
 
 ## Author ergonomics and boundaries
 

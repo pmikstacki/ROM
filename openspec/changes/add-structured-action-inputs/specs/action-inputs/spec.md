@@ -16,7 +16,7 @@ Derived Input SHALL use one wire name per member and SHALL reject unknown, missi
 
 #### Scenario: Invalid renamed member
 - **WHEN** an invalid value is supplied using a renamed field
-- **THEN** direct codec decoding identifies its wire name, runtime invocation reports the Resource kind and action.wire-field from the declared field allowlist, and no action mutation commits
+- **THEN** direct codec decoding identifies its wire name. Runtime invocation reports the Resource kind and action.wire-field from the declared field allowlist. No action mutation commits.
 
 ### Requirement: Renamed facade support and declaration diagnostics
 The derive SHALL support an explicitly selected facade crate path and SHALL point unsupported field type and attribute diagnostics at the relevant source declaration.

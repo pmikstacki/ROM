@@ -1,10 +1,10 @@
 # Beskid compiler lessons for ROM
 
-Reviewed 2026-10-02. This is a focused source review and implementer judgement, not a reproduced Beskid build or a universal architecture ranking.
+Reviewed 2026-10-02. This is a focused source review and implementer judgment, not a reproduced Beskid build or a universal architecture ranking.
 
 ## Verdict and evidence boundaries
 
-Retain ROM's selected architecture: one Resource defines generic persistence, CRUD, custom actions, endpoints and reactive behavior; derive plus fluent Rust composition feeds a shared runtime; Tokio and Rayon execute its work. Beskid's strongest transferable lesson is that convenient syntax needs a precise semantic authority behind it. Sophisticated internals are justified when they make ordinary authoring reliable and understandable.
+Retain ROM's selected architecture. One Resource defines generic persistence, CRUD, custom actions, endpoints and reactive behavior. Derive plus fluent Rust composition feeds a shared runtime. Tokio and Rayon execute its work. Beskid's strongest transferable lesson is that convenient syntax needs a precise semantic authority behind it. Sophisticated internals are justified when they make ordinary authoring reliable and understandable.
 
 **Recommended additions:** explicit registration invariants, diagnostic provenance across generated and runtime paths, a classified unsupported-capability inventory, descriptor/codec parity tests, and evidence records tied to the exact executed checkout. These strengthen existing decisions without introducing another domain entity or replacing Rust authoring with a compiler DSL.
 
@@ -18,9 +18,9 @@ No original implementer was contacted. Desktop thread-reading tools were unavail
 
 **Observed:** Beskid's `lower_syntax_program` calls `check_items` before resolving module items and again for newly discovered items. The gate gathers structured findings rather than reconstructing user errors from generic failure strings. Its scope is the requested items and discovered dependencies. [Orchestration](https://github.com/Cyber-Nomad-Collective/beskid_compiler/blob/44a07aed5a13d41d57853445167c0f091cd10a7e/crates/beskid_codegen/src/module_emission/orchestration.rs#L68), [legality gate](https://github.com/Cyber-Nomad-Collective/beskid_compiler/blob/44a07aed5a13d41d57853445167c0f091cd10a7e/crates/beskid_queries/src/semantic_contract/legality.rs).
 
-**ROM recommendation:** derive and manual traits produce the same structural description; fluent methods attach behavior; one registration path validates the composed result. HTTP, in-process calls and reactions consume that accepted contract. Generated per-kind handlers must not implement independent field rules or mutation policies. Dependencies and capabilities discovered during composition must be checked before registration completes.
+**ROM recommendation:** derive and manual traits produce the same structural description. Fluent methods attach behavior. One registration path validates the composed result. HTTP, in-process calls and reactions consume that accepted contract. Generated per-kind handlers must not implement independent field rules or mutation policies. Dependencies and capabilities discovered during composition must be checked before registration completes.
 
-An internal `ValidatedRegistry` can restrict construction, but its name is not proof: native extensions remain trusted and per-action policy/state checks remain necessary. Do not copy compiler reachability literally: validate all registered, enabled declarations at startup; merely having a Rust type available does not register it.
+An internal `ValidatedRegistry` can restrict construction, but its name is not proof. Native extensions remain trusted, and per-action policy/state checks remain necessary. Do not copy compiler reachability literally. At startup, validate all registered, enabled declarations. An available Rust type is not automatically registered.
 
 **Verify:** equivalent malformed derived/manual descriptions fail with equivalent codes. The same rejected mutation through HTTP, Rust and reactions preserves the shared state/event/outcome contract.
 
@@ -48,7 +48,7 @@ Generated validators still execute for future values. Compiling them does not va
 
 **ROM recommendation:** retain resource, field/action, stable code, declaration location where available, and runtime value path. Duplicate mappings should identify both declarations. Unsupported fields should point at the field, not only `#[derive(Resource)]`. Separate author errors, expected request rejection, missing adapter capabilities and internal invariant failures. Do not describe a missing framework implementation as invalid user input.
 
-Compiler source excerpts are not a template for copying request payloads: payloads may contain secrets. Public messages need safe corrective guidance; protected values, internal paths and detailed policy traces stay out of client errors and durable events.
+Compiler source excerpts are not a template for request payloads. Payloads can contain secrets. Public messages need safe corrective guidance. Protected values, internal paths and detailed policy traces stay out of client errors and durable events.
 
 **Verify:** stable code, responsible span/path and actionable help, including renamed and nested custom fields; protected values absent from client-visible failures. The derive trial's reported span regression reinforces this approach, without proving IDE usability.
 
@@ -66,7 +66,7 @@ Compiler source excerpts are not a template for copying request payloads: payloa
 
 **ROM recommendation:** one contract governs wire names, optionality, defaults, validation and exported schema. Independent Serde `rename`, `skip`, `flatten` and default metadata can otherwise create a second authority. Keep the modest current rule: ROM adapters use codecs generated from the resource contract; independent Serde derives do not redefine ROM's protocol. A future direct-Serde mode needs a supported subset and rejects conflicting or unsupported representation settings.
 
-Do not infer Rust semantics with a source scanner. Emit field-trait calls and let rustc resolve aliases, nested types and custom fields. Fluent configuration adds behavior to derived descriptors without repeating their field lists. Manual implementations need the same conformance suite because trusted Rust can return inaccurate metadata.
+Do not infer Rust semantics with a source scanner. Emit field-trait calls. Let rustc resolve aliases, nested types and custom fields. Fluent configuration adds behavior to derived descriptors without repeating their field lists. Manual implementations need the same conformance suite because trusted Rust can return inaccurate metadata.
 
 **Verify:** normalized derived/manual descriptors, then actual encoding/decoding/validation against them. Include renamed fields, omission/null, defaults, custom codecs and Serde conflicts. Permute registration order only where semantically irrelevant; canonical sorting must not reorder an action pipeline. Descriptor equality alone does not prove codec parity.
 
@@ -74,7 +74,7 @@ Do not infer Rust semantics with a source scanner. Emit field-trait calls and le
 
 **Observed:** Beskid's layout module groups aggregate, enum and field-access implementations and separates public specializations from narrower internal exports. This demonstrates a visibility boundary, not an ideal module count or function length. [Layout exports](https://github.com/Cyber-Nomad-Collective/beskid_compiler/blob/44a07aed5a13d41d57853445167c0f091cd10a7e/crates/beskid_queries/src/semantic_contract/layouts/mod.rs).
 
-**ROM recommendation:** keep field contracts, descriptor composition and runtime execution reusable through ordinary Rust. The macro parses/emits implementations; the core owns semantics; adapters translate mechanisms. Internal modules can precede public crates. A small public API may sit over complex typed helpers: application authors should not spell builder state types simply to simplify ROM's implementation.
+**ROM recommendation:** keep field contracts, descriptor composition and runtime execution reusable through ordinary Rust. The macro parses/emits implementations. The core owns semantics. Adapters translate mechanisms. Internal modules can precede public crates. A small public API may sit over complex typed helpers: application authors should not spell builder state types simply to simplify ROM's implementation.
 
 **Verify:** downstream derive and manual-only applications, a custom field using public contracts, and a human authoring walkthrough. Existing trials support feasibility, not final usability or production dependency selection.
 
@@ -84,13 +84,13 @@ Do not infer Rust semantics with a source scanner. Emit field-trait calls and le
 
 **ROM recommendation:** compile-fail fixtures assert intended error and location, not merely nonzero Cargo exit. Cover renamed dependencies, aliases, unsupported fields, action signatures and codec conflicts. Pair failures with compile-pass counterparts and runtime controls. An isolated downstream smoke test catches assumptions hidden by workspace feature unification.
 
-**Verify:** remove each fixture's intended error and ensure its expected-failure assertion stops passing. Separate compiler-sensitive wording from stable ROM contextual assertions. Preserve the builder trials' distinction between compile-time protection and runtime rejection.
+**Verify:** remove each fixture's intended error. Make sure that its expected-failure assertion stops passing. Separate compiler-sensitive wording from stable ROM contextual assertions. Preserve the builder trials' distinction between compile-time protection and runtime rejection.
 
 ## 8. Completion claims identify their evidence
 
 **Observed:** the public task ledger records implemented slices with source/test references, while strict OpenSpec validation and several later full-suite checks remain unchecked. Earlier suite reports qualify environmental and baseline failures. This is recorded evidence, not execution by this reviewer. [Task ledger](https://github.com/Cyber-Nomad-Collective/beskid/blob/abfe7d6bf1628db1be75245693b699394eb1a23c/openspec/changes/add-reachability-scoped-semantic-legality-gate/tasks.md).
 
-**ROM recommendation:** distinguish implemented, focused tests passed, full suite passed and spec validated. Record root/nested commits, relevant dirty changes, lockfile, tool versions, command and result. An offline dependency failure blocks validation; it neither passes validation nor proves the spec invalid. A later success identifies the exact checkout and command it supersedes.
+**ROM recommendation:** distinguish implemented, focused tests passed, full suite passed and spec validated. Record root/nested commits, relevant dirty changes, lockfile, tool versions, command and result. An offline dependency failure blocks validation. It neither passes validation nor proves the spec invalid. A later success identifies the exact checkout and command it supersedes.
 
 **Verify:** completed tasks link behavior to tests or explicit evidence; fresh-binary claims require a rebuild from recorded source. Relevant Rust checks belong in the local verification scripts and NixOS release workflow; GitHub remains code storage with Actions disabled.
 

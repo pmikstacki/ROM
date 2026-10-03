@@ -7,9 +7,7 @@ Date: 2026-10-03. Reviewed immutable prototype
 
 **Result:** no outstanding P1/P2 finding within the final prototype's stated
 scope. A zero-limit correctness defect was independently reproduced and fixed
-before the reviewed commit. The experiment provides useful evidence for
-separating query authoring from physical execution; it does not establish a
-maintained ROM query API, authorization implementation or general cost optimizer.
+before the reviewed commit. The experiment supplies useful evidence for the separation of query authoring from physical execution. It does not establish a maintained ROM query API, authorization implementation or general cost optimizer.
 
 ## Review and independently executed checks
 
@@ -36,8 +34,7 @@ produced `zero_limit sqlite=0 oracle=0`; the 3,888-vector fixture remained green
 
 I also executed a no-match query with a zero decoded-candidate budget: it
 returned no rows and no decoded candidates after **410 SQLite VM steps** over
-100 source rows. This confirms the documented limitation: the candidate budget
-is not a database scan/CPU budget. The final report explicitly states it.
+100 source rows. This confirms the documented limitation. The candidate budget is not a database scan/CPU budget. The final report explicitly states this limitation.
 
 Commands for the frozen prototype checks performed by this reviewer:
 

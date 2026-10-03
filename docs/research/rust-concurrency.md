@@ -1,6 +1,6 @@
 # Rust concurrency and parallelism for ROM
 
-Research date: 2026-10-02. Status: **Tokio plus Rayon is the selected execution foundation**; release pins and implementation remain pending. Sources are public first-party documentation. The five isolated Tokio probes below ran successfully; database, Rayon, Loom, and property-testing experiments are proposed, not reported as completed. Latest documentation and the older release used in the probes are deliberately distinguished.
+Research date: 2026-10-02. Status: **Tokio plus Rayon is the selected execution foundation**; release pins and implementation remain pending. Sources are public first-party documentation. The five isolated Tokio probes below ran successfully. Database, Rayon, Loom, and property-testing experiments are proposed, not reported as completed. This report deliberately separates the latest documentation from the older release used in the probes.
 
 ## Recommendation
 
@@ -22,13 +22,13 @@ This recommendation serves the existing [action contract](../../openspec/changes
 
 Sources: [Tokio JoinSet](https://docs.rs/tokio/latest/tokio/task/struct.JoinSet.html), [futures stream combinators](https://docs.rs/futures/latest/futures/stream/trait.StreamExt.html), [FuturesUnordered](https://docs.rs/futures/latest/futures/stream/struct.FuturesUnordered.html), [spawn_blocking](https://docs.rs/tokio/latest/tokio/task/fn.spawn_blocking.html), [Rayon pool configuration](https://docs.rs/rayon/latest/rayon/struct.ThreadPoolBuilder.html), [Rayon ThreadPool](https://docs.rs/rayon/latest/rayon/struct.ThreadPool.html).
 
-A `JoinSet` is useful ownership machinery, not a complete structured-concurrency policy: child work outside the set needs its own ownership. Prefer a `join_next` loop to inspect individual failures. `JoinSet::shutdown` aborts and waits while ignoring panics, so use explicit result handling when failures must be recorded. This is documented behavior, not an instruction to abort a commit on graceful shutdown. [JoinSet lifecycle methods](https://docs.rs/tokio/latest/tokio/task/struct.JoinSet.html).
+A `JoinSet` supplies useful ownership machinery, not a complete structured-concurrency policy. Child work outside the set needs its own ownership. Prefer a `join_next` loop to inspect individual failures. `JoinSet::shutdown` aborts and waits while ignoring panics, so use explicit result handling when failures must be recorded. This is documented behavior, not an instruction to abort a commit on graceful shutdown. [JoinSet lifecycle methods](https://docs.rs/tokio/latest/tokio/task/struct.JoinSet.html).
 
 Native plugins remain trusted in-process Rust code. Cooperative cancellation cannot enforce a hard execution deadline on a plugin that never yields or checks its stop signal. Future isolation is a separate host-capability design, not a reason to start with an actor or WASM framework.
 
 ## Queues and backpressure
 
-Tokio's bounded `mpsc` waits for capacity; `try_send` can instead expose overload immediately. A successful send does not establish that the receiver consumed the item. Cancelling `send(value)` in `select!` drops the unsent value; reserve capacity before moving a value when it must remain recoverable in the caller. Cancelling a reservation loses its queue position. [Sender semantics](https://docs.rs/tokio/latest/tokio/sync/mpsc/struct.Sender.html).
+Tokio's bounded `mpsc` waits for capacity; `try_send` can instead expose overload immediately. A successful send does not establish that the receiver consumed the item. Cancelling `send(value)` in `select!` drops the unsent value. If the caller must be able to recover a value, reserve capacity before moving it. Cancelling a reservation loses its queue position. [Sender semantics](https://docs.rs/tokio/latest/tokio/sync/mpsc/struct.Sender.html).
 
 Proposed ROM limits must cover queued items, active work, payload sizes, database connections, CPU submissions, and retries. A bounded channel does not bound the number of blocked producers retaining payloads. Similarly, spawning unlimited tasks that each wait for a semaphore bounds execution but leaves unlimited waiting tasks. Acquire admission before spawning, or let a bounded worker supervisor pull work only when it has capacity. Apply ingress size/concurrency limits before expensive decoding. [Tokio backpressure guidance](https://tokio.rs/tokio/tutorial/channels), [Semaphore admission example](https://docs.rs/tokio/latest/tokio/sync/struct.Semaphore.html).
 
@@ -57,7 +57,7 @@ Proposed ROM lifecycle:
 
 SQLx documents rollback when a live transaction is dropped without commit or rollback. That API behavior does not prove the outcome of a `COMMIT` whose response was lost. ROM must test each adapter's cancellation and connection-reuse behavior. Persist an action's idempotency result atomically with its transition and events. [SQLx transaction lifecycle](https://docs.rs/sqlx/latest/sqlx/struct.Transaction.html).
 
-Timeouts on blocking work do not stop the work. Prefer cooperative chunk boundaries for expensive native operations and retain capacity until execution finishes. Tokio warns that started blocking work can keep runtime shutdown waiting; a shutdown timeout stops waiting, not execution. [Blocking-task shutdown](https://docs.rs/tokio/latest/tokio/task/fn.spawn_blocking.html).
+Timeouts on blocking work do not stop the work. Prefer cooperative chunk boundaries for expensive native operations and retain capacity until execution finishes. Tokio warns that started blocking work can keep runtime shutdown waiting. A shutdown timeout stops the wait, not execution. [Blocking-task shutdown](https://docs.rs/tokio/latest/tokio/task/fn.spawn_blocking.html).
 
 ## Resource concurrency and recoverable reactions
 
@@ -81,7 +81,7 @@ Add **futures-util** only when stream combinators simplify a concrete bounded op
 
 Use **proptest** as a development dependency for generated action sequences, presence-aware patches, codec round trips, duplicate inputs, and crash/retry model transitions. It generates test inputs and shrinks failures. Keep a small reference state machine and compare observable outcomes; random inputs alone do not explore thread schedules. [Proptest documentation](https://proptest-rs.github.io/proptest/proptest/index.html).
 
-Use **Loom** only for small custom synchronization mechanisms, such as a shared claim-generation or admission/close state machine. It explores modeled interleavings, requires its replacement synchronization types, and cannot see ordinary uninstrumented concurrency. State-space limits and relaxed-memory limitations must be recorded. It does not model a production SQL server or arbitrary Tokio runtime simply because a test calls `loom::model`. Prefer standard primitives over inventing locks that require this work. [Loom usage and limitations](https://docs.rs/loom/latest/loom/).
+Use **Loom** only for small custom synchronization mechanisms, such as a shared claim-generation or admission/close state machine. It explores modeled interleavings and requires its replacement synchronization types. It cannot see ordinary uninstrumented concurrency. State-space limits and relaxed-memory limitations must be recorded. It does not model a production SQL server or arbitrary Tokio runtime simply because a test calls `loom::model`. Prefer standard primitives over inventing locks that require this work. [Loom usage and limitations](https://docs.rs/loom/latest/loom/).
 
 Before adopting releases, pin a supported Rust toolchain, resolve compatible crate versions/features, and review licenses and maintenance. The existing Rust 1.82 container is a bootstrap toolchain, not the project's minimum supported Rust version. No combined latest-stack build was performed.
 

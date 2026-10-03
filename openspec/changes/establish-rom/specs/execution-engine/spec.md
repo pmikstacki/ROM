@@ -39,11 +39,11 @@ The engine SHALL bound queued and executing work before spawning tasks or submit
 - **THEN** admission applies documented bounded waiting or rejection rather than retaining unlimited pending work
 
 ### Requirement: Cancellation preserves actual work accounting
-Cancelling a caller SHALL NOT release CPU capacity for work that is still running. CPU jobs SHALL return proposed results through the action pipeline rather than independently mutating durable resources.
+Canceling a caller SHALL NOT release CPU capacity for work that is still running. CPU jobs SHALL return proposed results through the action pipeline rather than independently mutating durable resources.
 
 #### Scenario: Caller stops waiting
 - **GIVEN** a CPU job has started and holds an admission permit
-- **WHEN** its caller is cancelled before the job finishes
+- **WHEN** its caller is canceled before the job finishes
 - **THEN** the permit remains held until actual completion and cancellation alone does not commit a resource change
 
 ### Requirement: Commit outcomes remain authoritative

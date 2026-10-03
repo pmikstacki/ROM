@@ -2,7 +2,7 @@
 
 A backend-first Rust library built around one domain entity: the **resource**.
 
-Declare a resource once; the framework supplies standard storage, operations, endpoints and reactive reads. Applications add domain behavior without writing a repository, controller or broadcaster for each resource kind.
+Declare a resource once. The framework supplies standard storage, operations, endpoints and reactive reads. Applications add domain behavior without a separate repository, controller or broadcaster for each resource kind.
 
 Actions request changes. The core validates and commits transitions. Events describe committed facts. Reactions can submit further actions through the same core.
 
@@ -10,7 +10,7 @@ Actions request changes. The core validates and commits transitions. Events desc
 
 ## Try the MVP
 
-With Rust 1.99, run `./demo/run smoke` from this repository. It exercises the complete local flow with SQLite; `./demo/run smoke redb` uses the other adapter. Follow the [author workshop](demo/README.md) for resource declarations, live queries and a persistent local server.
+With Rust 1.99, run `./demo/run smoke` from this repository. This command tests the complete local flow with SQLite. `./demo/run smoke redb` uses the other adapter. Follow the [author workshop](demo/README.md) for resource declarations, live queries and a persistent local server.
 
 The generic [command-line client](docs/cli.md) now supports discovery, queries, mutations, live snapshots and journal streams. Run `cargo run --locked -p rom-cli -- --help` to start. See the [core/CLI verification results](docs/research/core-cli-results.md). Studio implementation remains deferred.
 
@@ -103,7 +103,7 @@ execution optimization, then operational recovery and release preparation.
 [Progress and evidence](docs/research/framework-release-progress.md) distinguish
 delivered slices from the remaining release requirements.
 
-Use `./scripts/check` for local verification and `./scripts/build` to build. The initial tested Rust floor is 1.99.0. See the [persistent NixOS environment](infra/nixos/README.md). GitHub Actions is disabled. The [consumer](examples/consumer/src/main.rs) exercises two Resources through the public library; the [demo](demo/README.md) now combines the maintained packages in an executable author workshop.
+For local verification, run `./scripts/check`. To build, run `./scripts/build`. The initial tested Rust floor is 1.99.0. See the [persistent NixOS environment](infra/nixos/README.md). GitHub Actions is disabled. The [consumer](examples/consumer/src/main.rs) exercises two Resources through the public library; the [demo](demo/README.md) now combines the maintained packages in an executable author workshop.
 
 ```sh
 nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM && ./scripts/check'
@@ -121,8 +121,8 @@ The [maintained verification record](docs/research/maintained-foundation-results
 and [storage contract](docs/storage-adapters.md) supersede the corresponding
 limitations of the original disposable probe.
 
-Package verification builds all twelve extracted package archives, runs the CLI
-and a library consumer outside this workspace: `node scripts/check-packages.mjs` inside `rom-dev`.
+Package verification builds all twelve extracted package archives. It runs the CLI
+and a library consumer outside this workspace. Inside `rom-dev`, run `node scripts/check-packages.mjs`.
 This does not publish packages to crates.io.
 
 [Research and prototype program](docs/research/prototype-program.md) records the fixed premise and the experiments used to validate implementation choices.

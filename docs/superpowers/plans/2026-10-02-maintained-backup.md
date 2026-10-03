@@ -8,11 +8,11 @@
 
 ## API and constraints
 
-`Sqlite::backup_to(path, BackupLimits)` / `Redb::backup_to` return a payload-free Manifest. `restore_from(archive, fresh_destination, limits)` validates source format/backend/checksum/counts/structural invariants before making a new database; it returns the adapter configured with archived storage limits. It refuses an existing destination. No cross-backend migration or automatic production-format upgrade.
+`Sqlite::backup_to(path, BackupLimits)` / `Redb::backup_to` return a payload-free Manifest. Before it makes a new database, `restore_from(archive, fresh_destination, limits)` validates the source format, backend, checksum, counts, and structural invariants. It returns the adapter with the archived storage limits. It refuses an existing destination. No cross-backend migration or automatic production-format upgrade.
 
 Unix0600 archives and staged database files, owned0700 staging directories, host-trusted parent directories, no protected values in errors/logs. Publish completed files with no-overwrite hard-link semantics and fsync. SQLite exports native transactional table reads including committed WAL content; it closes/checkpoints the restored staging database before publication. No copying a live SQLite database file.
 
-Restore rotates only journal generation and fences/reset leased work to recoverable Pending while preserving attempts, delivery uncertainty, frozen inputs and idempotency identities. Existing Done/Stopped outcomes persist. Source database and archive remain unchanged. External blob bodies, remote notifications, application functions/configuration and credentials are not database archive contents; Manifest/README explicitly say so.
+Restore rotates only the journal generation. It fences and resets leased work to recoverable Pending. It preserves attempts, delivery uncertainty, frozen inputs, and idempotency identities. Existing Done/Stopped outcomes persist. Source database and archive remain unchanged. External blob bodies, remote notifications, application functions/configuration and credentials are not database archive contents; Manifest/README explicitly say so.
 
 ## Task1: archive contract
 

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Live resource reads, committed events and recoverable reactions. These are observable behaviors of the same resource, with distinct delivery contracts.
+Live resource reads, committed events, and recoverable reactions are observable behaviors of the same resource. Each has a distinct delivery contract.
 
 ## ADDED Requirements
 

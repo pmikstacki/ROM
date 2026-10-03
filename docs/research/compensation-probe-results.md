@@ -14,8 +14,7 @@ SQLite/redb transactions, receipts, events and work ledgers are real.
 Explicit token-specific compensation preserves concurrent unrelated work.
 Restoring an old payload at the **current valid revision** can erase that work;
 revision checks cannot recognize an application's incorrect business intent.
-Leaving prior commits untouched is correct as a default, but does not by itself
-release a resource held by a failed business workflow.
+By default, prior commits remain unchanged. This behavior alone does not release a resource held by a failed business workflow.
 
 | Case | No compensation | Old snapshot replacement | Targeted compensation |
 | --- | --- | --- | --- |
@@ -23,9 +22,8 @@ release a resource held by a failed business workflow.
 | Seat: A fails after another booking | A remains booked | Other booking can be lost | Only A's seat is released |
 | Account: entitlement rejected after unrelated account changes | Account stays enabled | Current unrelated content can be lost | Specific account is disabled; unrelated content remains |
 
-The immutable event journal remains in every strategy, including the deliberately
-bad update. Compensation is a new domain action/event, not deletion of history or
-a cross-Resource transaction rollback.
+Every strategy keeps the immutable event journal, including the deliberately bad update.
+Compensation adds a new domain action/event. It does not delete history or roll back a cross-Resource transaction.
 
 ## Coverage and costs
 
@@ -45,8 +43,7 @@ Under the fixed stock workload, both adapters have the same counts:
 | Targeted action | 7 / 7 | 9 | 0 | 0 |
 
 The targeted action adds one event and one claimed action step to the baseline.
-Counts include fixture inspection; the fixture registers four Workflow mappers,
-which account for eight mapper claims on creation/failure. The maintained demo
+Counts include fixture inspection. The fixture registers four Workflow mappers. These mappers account for eight mapper claims on creation/failure. The maintained demo
 will register only its required mapper. These are operation counts, not latency,
 allocation or production throughput measurements. They do not establish a
 universal optimum.
@@ -63,7 +60,7 @@ visible revision conflict; the test does not invent automatic rebasing.
 - redb tests reopen cleanly; no redb process-kill claim is made.
 - Unknown provider outcome preserves the reservation until a synthetic explicit
   reconciliation result exists. No real payment service was contacted.
-- The current Reaction API does not turn every terminal technical worker failure
+- The current Reaction API does not convert every terminal technical worker failure
   into a domain Resource event. A stopped notification does not automatically
   call compensation. The Workflow Resource explicitly records a confirmed
   business outcome and its author-declared reaction chooses the next action.
@@ -84,7 +81,6 @@ format. The parent run log was `/var/tmp/rom-compensation-independent.log` in
 the container.
 
 Promote only a small example composed from maintained Resources/actions/reactions
-into the demo, with both-adapter tests. A general saga engine or automatic
-terminal-failure hook would require a separate contract and is not established by
-this result. The [research rationale](compensating-actions-research.md) explains
+into the demo, with both-adapter tests. A general saga engine or automatic terminal-failure hook needs a separate contract.
+This result does not establish that contract. The [research rationale](compensating-actions-research.md) explains
 the source-grounded concurrency and uncertainty assumptions.

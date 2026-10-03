@@ -17,19 +17,17 @@ payment-provider integration, privileged retry route or new execution engine.
 `demo/src/compensation.rs` keeps business behavior in the demo module. Bootstrap
 persists Checkout's target/token before the forward reservation. `record-payment`
 accepts explicit outcomes and rejects contradictory transitions after a terminal
-outcome. The mapper emits at most one token-specific release, only for
-`confirmed_rejected`; unknown/transient/success outcomes do not select release.
+outcome. The mapper emits at most one token-specific release, only for `confirmed_rejected`.
+Unknown, transient, and success outcomes do not select release.
 
 Release removes one map entry and leaves total stock and other tokens unchanged.
-It does not restore a stale aggregate snapshot. Existing core materialization
-binds the target revision and maps a conflicting target command to stopped work,
-so a later stock change is not silently overwritten. Current service authority
+It does not restore a stale aggregate snapshot. Existing core materialization binds the target revision. It maps a conflicting target command to stopped work.
+Thus, it does not silently overwrite a later stock change. Current service authority
 remains enforced by the existing runtime, rather than a demo-specific bypass.
 Original command identity uses the existing receipt mechanism.
 
-The README explicitly limits this to a synthetic shared workshop: its session
-can directly mutate ordinary Resources, and reservation tokens must not be
-recycled. The declarations are not an adversarial checkout/payment policy or a
+The README explicitly limits this to a synthetic shared workshop. Its session can directly mutate ordinary Resources.
+Reservation tokens must not be recycled. The declarations are not an adversarial checkout/payment policy or a
 mandatory cross-resource state machine. These limits are appropriate to the
 agreed scope and should remain visible if this example is reused.
 
@@ -86,16 +84,17 @@ No external payment or messaging service was contacted.
 
 ## Optimization assessment and evidence limits
 
-The performance statements are exact counts for a fixed scenario, not latency or
-throughput claims: creation/unknown each claim one mapper, successful rejection
-claims mapper plus target action, denied service claims only the mapper, and
-original-identity replay claims no new work. The successful recovery adds one
+The performance statements give exact counts for a fixed scenario. They make no latency or throughput claims:
+
+- Creation and unknown outcomes each claim one mapper.
+- Successful rejection claims the mapper and target action.
+- Denied service claims only the mapper.
+- Replay with the original identity claims no new work. The successful recovery adds one
 Stock event; replay adds none. The focused tests execute these assertions.
 
 The mapper performs no collection query and emits at most one target. However,
-`reserve` sums the existing reservation map, so its domain work is linear in the
-number of reservations; normal resource cloning/encoding and durable ledger work
-also remain. “No scans” should be understood as no new collection scan in this
+`reserve` sums the existing reservation map. Its domain work takes time proportional to the reservation count.
+Resource cloning, encoding, and durable ledger work also remain. “No scans” should be understood as no new collection scan in this
 composition, not constant total runtime cost. Existing core capacity/retry limits
 still apply. No peak memory, allocation, elapsed-time or throughput benchmark was
 performed, and no new caching/indexing framework is justified by this demo.

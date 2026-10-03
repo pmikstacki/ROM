@@ -4,7 +4,7 @@
 
 **Goal:** Load bounded JSON/TOML values into one existing Resource per reload, with compiled source ownership, durable provenance, and stale-reload protection through ordinary execution.
 
-**Architecture:** `rom-config` contains the optional config-rs adapter and a derived SourceActivation Resource. Core knows only trusted source permits, compiled ownership, generic revision preconditions, and protected commit metadata. Target value and accepted provenance persist in the same native bundle; requested source generation lives in SourceActivation and is distinguished from accepted generation.
+**Architecture:** `rom-config` contains the optional config-rs adapter and a derived SourceActivation Resource. Core knows only trusted source permits, compiled ownership, generic revision preconditions, and protected commit metadata. The target value and accepted provenance persist in the same native bundle. SourceActivation stores the requested source generation separately from the accepted generation.
 
 **Tech Stack:** Rust 1.99, config 0.15.27 with only JSON/TOML features, existing ROM runtime and SQLite/redb adapters.
 
@@ -16,7 +16,7 @@
 - Source authority and compiled ownership are checked before any precedence consideration.
 - Resource identities are kept outside config-rs path processing; the parsed document contains only one Resource's field values.
 - Runtime policy, field checks, normalization, revisions, idempotency and atomic bundle remain the only commit path.
-- Invalid/unavailable reload leaves the last accepted value and provenance intact; it is not an empty source or a delete.
+- If a reload is invalid or unavailable, the last accepted value and provenance remain intact. This result is neither an empty source nor a delete.
 - No atomic multi-Resource reload, overlay layering, partial patches, environment discovery, external writeback or remote activation is advertised by this first profile.
 - Jobs=2, locked Rust 1.99 in rom-dev, own target directory; no host/network changes or main commits.
 
@@ -35,7 +35,7 @@
 **Interfaces:** immutable native `SourcePermit` containing owner id, target Key, source generation/version, and one generic `(Key, expected revision)` precondition; serializable `SourceProvenance`; optional provenance on persisted Row; `Definition::source_owner(&'static str)`; `Runtime::invoke_sourced(actor, invocation, permit)` returning a projected outcome.
 
 - [ ] Add failing tests for wrong/absent source permit, mismatched target scope, expired source actor and stale precondition.
-- [ ] Route sourced invocation through the existing run function. Check the generic precondition under the commit gate before receipt lookup and conditional commit, using bounded point reads. Do not teach either adapter about configuration kinds.
+- [ ] Route sourced invocation through the existing run function. Before receipt lookup and conditional commit, verify the generic precondition under the commit gate. Use bounded point reads. Do not teach either adapter about configuration kinds.
 - [ ] Reject source writes on kinds without explicit ownership and ordinary writes on externally owned kinds. Row and field policies still apply; a permit is not an authorization grant.
 - [ ] Include provenance in the idempotency fingerprint and atomic Row/receipt bundle. Define metadata-only change as a Resource revision change with a journal fact, even if field values are unchanged. Exact same value/provenance replay stays a no-op.
 - [ ] Keep provenance out of ordinary projections. Add an explicit protected metadata read policy/API for host inspection; source names and locations must not leak through allow-all field policies.
@@ -51,7 +51,7 @@
 - [ ] Create source activation through an explicit host actor and ordinary Resource actions. Only host policy may change enabled/scope; source actor can request a new generation only through declared allowed fields/action.
 - [ ] Capture a new requested generation before fetch/parse. Failure therefore invalidates older pending completions without modifying accepted target state.
 - [ ] Parse one bounded JSON/TOML field object with config-rs `Source::collect`, capturing safe origins before generic conversion. Do not merge through config path syntax or hide invalid lower contributions under an overlay.
-- [ ] Keep source id, target kind/id, generation and ownership outside document control. Reject missing required fields, unknown fields, wrong/null values through ordinary Resource decoding. Arrays/maps retain the compiled field codec's semantics.
+- [ ] Keep source id, target kind/id, generation and ownership outside document control. Use ordinary Resource decoding to reject missing mandatory fields, unknown fields, and wrong/null values. Arrays/maps retain the compiled field codec's semantics.
 - [ ] Expose requested versus accepted generation honestly. SourceActivation describes the request and grant; target provenance is the atomic accepted state. No second active-state write is needed after target commit.
 - [ ] Map parse/fetch/runtime failures to safe structured categories; do not persist raw credentials, candidate strings or parser error messages in diagnostics.
 - [ ] Document complete-value replacement and explicit deletion; omission/missing fetch never means lifecycle delete. Defer partial-value and overlay handling until root's PATCH contract is integrated.
@@ -69,8 +69,8 @@
 ## Decisions deliberately deferred
 
 Whole-Resource ownership is the first supported source profile. Field-level source
-ownership, ordered overlays and removing an override require their own compiled
-merge contract; no source-controlled priority is accepted. Expiry bounds source
+ownership, ordered overlays, and override removal need their own compiled
+merge contract. Source-controlled priority is not accepted. Expiry bounds source
 write authority. Retained accepted values are ordinary persisted Resources, not
 live external-service handles; consumers must separately enforce any policy that
 requires their effective values to expire. Secret resolution, remote provider

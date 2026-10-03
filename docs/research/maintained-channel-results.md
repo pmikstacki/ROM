@@ -1,6 +1,6 @@
 # Maintained named notification channels
 
-Date: 2026-10-02. Baseline main `2518493`; implementation is the commit containing this report on `codex/durable-channels`. This extends the maintained Resource core and existing reaction work ledger. It does not copy the prototype outbox database or claim the whole MVP is complete.
+Date: 2026-10-02. Baseline main: `2518493`. The implementation is the commit that contains this report on `codex/durable-channels`. It extends the maintained Resource core and existing reaction work ledger. It does not copy the prototype outbox database or claim completion of the whole MVP.
 
 ## What an author writes
 
@@ -37,7 +37,7 @@ Notification records share `WorkLedger`, root budgets, lease generations, claim 
 
 Before invoking the function, the worker persists an Unknown delivery observation. It then records `Accepted`, `Retryable`, `Permanent`, `Unknown`, `TimedOut` or `Panicked` under the current claim generation. `Accepted` marks work Done. Permanent and panic outcomes stop visibly. Retryable, Unknown and timeout use bounded exponential retry under the existing attempt/root/age policy. A worker lost on its last allowed attempt later becomes terminal with its Unknown observation retained. Local lease fencing prevents stale acknowledgments overwriting a newer claim; it cannot fence the external receiver's side effects.
 
-The function runs in an owned Tokio task while its already-admitted blocking work retains supervision and an I/O permit. Default delivery timeout is five seconds; the host can change it with `Builder::delivery_timeout`. Registration requires a positive timeout shorter than the configured lease. Timeout aborts and joins a cooperative future and records uncertainty, never external rollback. Canceling the caller that observes a batch does not abort the accepted send. Runtime shutdown waits for accepted attempts and the shared loop.
+The function runs in an owned Tokio task while its already-admitted blocking work retains supervision and an I/O permit. Default delivery timeout is five seconds; the host can change it with `Builder::delivery_timeout`. Registration requires a positive timeout shorter than the configured lease. On timeout, the runtime aborts and joins a cooperative future. It records uncertainty, never external rollback. Canceling the caller that observes a batch does not abort the accepted send. Runtime shutdown waits for accepted attempts and the shared loop.
 
 This conservatively occupies a bounded I/O slot while awaiting async I/O. It is correct for the finite profile but can reduce throughput. A future that blocks a Tokio thread or never yields cannot be forcibly terminated; strong isolation requires a separate process. Application-created detached tasks are outside ROM supervision and should not be used to evade the channel acknowledgment boundary.
 
@@ -65,7 +65,7 @@ The disposable 12-test notification prototype remains useful prior evidence; the
 
 ## Lifecycle defect found during integration
 
-The full workspace run intermittently failed a redb reopen with Storage. Temporary diagnostic output identified DatabaseAlreadyOpen; a 20 ms delay after the I/O response made the failure deterministic. The tracked work guard had decremented active work before the closure released its Runtime clone. Thus shutdown could return while completed work still retained the database.
+The full workspace run intermittently failed a redb reopen with Storage. Temporary diagnostic output identified DatabaseAlreadyOpen; a 20 ms delay after the I/O response made the failure deterministic. The tracked work guard decremented active work before the closure released its Runtime clone. Thus shutdown could return while completed work still retained the database.
 
 The guard now owns only an independent lifecycle mutex/watch signal and its permit. I/O jobs explicitly drop their adapter-owning Runtime before dropping the guard, and the shared async loop follows the same order. The amplified regression passed after this fix, then diagnostic code was removed. A permanent 32-cycle actual redb reopen test verifies the external storage handle is the sole strong reference after shutdown/drop. This corrects the previously documented drain guarantee; it does not require sleeps or retries to open a database.
 

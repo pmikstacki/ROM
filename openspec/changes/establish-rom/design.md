@@ -14,19 +14,25 @@ Avoid mandatory per-kind storage schemas and repositories. A generic persisted e
 
 ## Human developer experience
 
-Human usability is a first-class design criterion. Resource declarations should be readable, standard operations discoverable, and custom business behavior expressible in ordinary Rust. Reducing line count is useful only when the result remains understandable. Generated behavior must be inspectable; users should be able to identify the responsible resource, action and policy without tracing opaque macro expansion or incidental hook ordering.
+Human usability is a first-class design criterion. Resource declarations should be readable, standard operations discoverable, and custom business behavior expressible in ordinary Rust. A lower line count is useful only when the result remains understandable. Generated behavior must be inspectable. Users should be able to identify the responsible resource, action, and policy without tracing opaque macro expansion or incidental hook ordering.
 
-ROM deliberately absorbs difficult implementation work. Complex code generation, typed helpers and execution machinery are justified when they give application authors a simple, reliable interface. Evaluate complexity at the application interface separately from implementation effort inside ROM. Before rejecting a useful typed design for awkward helper signatures, investigate whether framework-owned helpers can hide those signatures. Application developers should not have to reconstruct the framework's internal machinery to define and manage ordinary resources.
+ROM deliberately absorbs difficult implementation work. Complex code generation, typed helpers and execution machinery are justified when they give application authors a simple, reliable interface. Evaluate complexity at the application interface separately from implementation effort inside ROM. Before you reject a useful typed design for awkward helper signatures, investigate whether framework-owned helpers can hide those signatures. Application developers should not have to reconstruct the framework's internal machinery to define and manage ordinary resources.
 
-Provide a small documented path from resource declaration to persisted operations and live observation. Routine application code must not assemble executor pools, capacity permits, event cursors or publication machinery for each resource. Keep advanced controls available through explicit host configuration. Errors should identify the failed operation and a safe corrective next step, retaining structured details for code and avoiding disclosure of protected values.
+Provide a small documented path from resource declaration to persisted operations and live observation. Routine application code must not assemble executor pools, capacity permits, event cursors or publication machinery for each resource. Keep advanced controls available through explicit host configuration. Errors should identify the failed operation and a safe corrective next step, with structured details for code and no disclosure of protected values.
 
-Before stabilizing the public API, review a human-facing walkthrough: add a resource, add a custom action, observe a filtered live query, diagnose a rejected mutation, and test the behavior without an HTTP server. Record confusing steps and required infrastructure knowledge; a short declaration alone is not evidence of a pleasant API.
+Before you stabilize the public API, review a human-facing walkthrough with these steps:
+
+- Add a resource.
+- Add a custom action.
+- Observe a filtered live query.
+- Find the cause of a rejected mutation.
+- Test the behavior without an HTTP server. Record confusing steps and the necessary infrastructure knowledge. A short declaration alone is not evidence of an API that is easy to use.
 
 The owner's preferred authoring direction is a hybrid: a resource derive for structural bindings and a fluent Rust interface for composition. Both must feed the same resource contract. Generated helpers may provide typed fields, codecs and action bindings; they must not create separate implementations of authorization or transaction semantics for each kind. Statically knowable checks should become compiler checks where useful, while registration checks the composed application and runtime execution checks actual values, permissions and state. Exact syntax and helper crates remain subject to the [authoring research and crate trials](../../../docs/research/rust-resource-authoring.md).
 
 ## Registration and generated-contract integrity
 
-Derived and manual definitions enter one registration gate. It checks unique identities, complete field/action bindings, codec consistency and required adapter capabilities, then freezes accepted definitions. A validated registry establishes these configuration invariants; it does not certify future input values, permissions or database revisions. Preserve resource/field/action provenance through generated bindings, registration and runtime diagnostics, with safe public errors distinct from internal invariant failures.
+Derived and manual definitions enter one registration gate. It verifies unique identities, complete field/action bindings, codec consistency, and necessary adapter capabilities. It then freezes accepted definitions. A validated registry establishes these configuration invariants; it does not certify future input values, permissions or database revisions. Preserve resource/field/action provenance through generated bindings, registration and runtime diagnostics, with safe public errors distinct from internal invariant failures.
 
 ROM's descriptor governs its public field names, presence, nullability and defaults. Protocol adapters use codecs consistent with that contract. Independent Serde derives may serve application purposes, but do not redefine ROM's protocol. A future direct-Serde codec mode needs explicit supported settings and rejects incompatible ones. Conformance tests must exercise actual encoding, decoding and validation, including manual extensions; metadata equality alone is insufficient.
 
@@ -38,9 +44,9 @@ Selected by the project owner: Tokio handles asynchronous execution, networking 
 
 The embedding host owns a long-lived Tokio runtime and a bounded Rayon pool, or explicitly delegates their construction to ROM. Do not construct a new runtime or thread pool per action or resource. Expose lifecycle and capacity configuration through a small execution interface. Exact versions, feature flags and minimum Rust version must be pinned after a compatible-stack probe.
 
-Use bounded admission before spawning async tasks or submitting CPU jobs. Limits cover pending jobs and retained payloads as well as running work. Await CPU completion asynchronously through a result channel; do not block a Tokio worker waiting for Rayon. CPU work receives owned inputs and returns a proposed result, leaving persistence and domain authorization in the action pipeline. Small field checks remain synchronous when offloading would add overhead.
+Use bounded admission before spawning async tasks or submitting CPU jobs. Limits cover pending jobs and retained payloads as well as running work. Await CPU completion asynchronously through a result channel. Do not block a Tokio worker during the wait for Rayon. CPU work receives owned inputs and returns a proposed result, leaving persistence and domain authorization in the action pipeline. Small field checks remain synchronous when offloading would add overhead.
 
-Cancellation is stage-aware. A started CPU task may continue after its caller stops waiting, so its capacity permit remains held until actual completion. A cancelled database commit may have an uncertain outcome: use idempotency and durable outcome lookup rather than assuming rollback. Shutdown stops intake, signals cooperative cancellation and supervises remaining work under a documented deadline. Neither executor supplies durable transaction or event-delivery semantics automatically.
+Cancellation is stage-aware. A started CPU task may continue after its caller stops waiting, so its capacity permit remains held until actual completion. A canceled database commit may have an uncertain outcome. Use idempotency and durable outcome lookup rather than assume rollback. Shutdown stops intake, signals cooperative cancellation and supervises remaining work under a documented deadline. Neither executor supplies durable transaction or event-delivery semantics automatically.
 
 Preserve explicit stages for intake, validation, durable commit, publication and reactions. Independent resources may progress concurrently; state-dependent decisions are checked against the revision committed. See [concurrency research](../../../docs/research/rust-concurrency.md) for evidence and proposed acceptance probes.
 
@@ -54,7 +60,7 @@ Non-goals: frontend generation, vendor device protocols, a broker requirement, r
 
 ### One authoritative mutation pipeline
 
-Authenticate at the boundary; carry a trusted actor context into the core. The core evaluates authorization, validates a typed action, checks resource revision, computes the transition, and commits state plus events atomically. Observers and reactions use this same path. A rejected action publishes no success event.
+Authenticate at the boundary. Carry a trusted actor context into the core. The core evaluates authorization, validates a typed action, checks resource revision, computes the transition, and commits state plus events atomically. Observers and reactions use this same path. A rejected action publishes no success event.
 
 Validation and transition computation must not perform external side effects. Effects occur after commit through recoverable work. Actions and events carry schema versions and causal references. Logs and diagnostics must avoid raw protected values.
 
@@ -64,7 +70,7 @@ Use explicit Rust registration for extensions. ROM defines focused contracts for
 
 Use separate contracts for field types, persistence and transport integrations. A field type supplies stable type identity and version, validation, canonical encoding/decoding, and declared capabilities such as comparison. Database adapters explicitly advertise support; unsupported querying fails rather than silently behaving differently.
 
-Proposed initial families: boolean; signed/unsigned integers with explicit ranges; finite floating point; exact decimal; text; bytes; identifier; timestamp; date; duration; enum; optional; list; map; structured object; resource reference. Widths, precision, temporal rules, recursion limits and wire encodings require focused follow-up specifications before implementation. Missing, null and explicit default values are distinct at the action boundary.
+Proposed initial families: boolean; signed/unsigned integers with explicit ranges; finite floating point; exact decimal; text; bytes; identifier; timestamp; date; duration; enum; optional; list; map; structured object; resource reference. Before implementation, widths, precision, temporal rules, recursion limits, and wire encodings need focused follow-up specifications. Missing, null and explicit default values are distinct at the action boundary.
 
 Rust extensions are trusted application code; a trait does not sandbox them. WASM can later implement selected contracts through a bridge without forcing a WASM ABI into the initial public API.
 
@@ -80,11 +86,11 @@ Proposed starting point: current state plus durable event journal and pending-wo
 
 Per-resource event ordering is required; global ordering is not. Consumers need bounded buffering, retry limits and an inspectable failed-work state. Cross-resource reactions must carry causal context and be bounded to prevent infinite feedback loops. Exact scheduling and replay contracts need a follow-up spec.
 
-The owner selected reactive chains as the default cross-resource behavior: a committed mutation triggers a reaction that submits the next action through the same core. A failed downstream step does not revert upstream commits; retryable work is retried under bounded policy. Compensation, if later exposed, is an explicit authorized action. Multi-resource atomic transactions are not implied by this decision. Exact retry, causal-depth and elapsed-time budgets remain configuration/design questions.
+The owner selected reactive chains as the default cross-resource behavior: a committed mutation triggers a reaction that submits the next action through the same core. A failed downstream step does not revert upstream commits. Retryable work is retried under bounded policy. Compensation, if later exposed, is an explicit authorized action. Multi-resource atomic transactions are not implied by this decision. Exact retry, causal-depth and elapsed-time budgets remain configuration/design questions.
 
 ### Public interface shape
 
-All managed application entities use Resource, including built-in User, identity-provider configuration and application settings. Configuration sources load values for the same accepted definitions. Executable plugins implement behavior while their managed settings remain Resources. Source precedence, provenance, write ownership, bootstrap and activation require explicit contracts; parsing a file is not equivalent to a successful runtime change. See the [configuration Resource research](../../../docs/research/configuration-resource-contract.md), [provider comparison](../../../docs/research/configuration-provider-research.md) and [Beskid hierarchy review](../../../docs/research/configuration-beskid-lessons.md). Exact precedence and loader selection remain proposals pending a focused probe.
+All managed application entities use Resource, including built-in User, identity-provider configuration and application settings. Configuration sources load values for the same accepted definitions. Executable plugins implement behavior while their managed settings remain Resources. Source precedence, provenance, write ownership, bootstrap, and activation need explicit contracts. A parsed file does not establish a successful runtime change. See the [configuration Resource research](../../../docs/research/configuration-resource-contract.md), [provider comparison](../../../docs/research/configuration-provider-research.md) and [Beskid hierarchy review](../../../docs/research/configuration-beskid-lessons.md). Exact precedence and loader selection remain proposals pending a focused probe.
 
 Expose operations to register resource kinds/field types, execute actions, read resources, observe live reads, and subscribe to committed changes. Concrete Rust signatures will follow the research and a minimal vertical slice. HTTP and RabbitMQ adapt this interface; neither becomes part of the core dependency graph.
 
@@ -119,4 +125,4 @@ No existing ROM data exists. Future schema changes require versioned decoding an
 - Whether desired/observed sections are universal or an optional resource convention.
 - Protected-field policy and encryption adapter design.
 
-These questions are intentionally unresolved; initial setup does not authorize silently choosing them as implemented behavior.
+These questions are intentionally unresolved. Initial setup does not authorize silent choices about their implemented behavior.

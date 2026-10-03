@@ -4,7 +4,7 @@
 
 **Goal:** Connect verified identities to ordinary User/provider Resources and protect current identity and field access at every disclosure boundary.
 
-**Architecture:** Credential verification remains in optional `rom-auth`; generic principal identity and authorization checkpoints live in core. A separate `rom-identity` package supplies native derived Resources and host integration. Partial projected views never masquerade as complete typed Resources.
+**Architecture:** Credential verification remains in optional `rom-auth`; generic principal identity and authorization checkpoints live in core. A separate `rom-identity` package supplies native derived Resources and host integration. Partial projected views never appear as complete typed Resources.
 
 **Tech Stack:** Rust 1.99, existing ROM derive/runtime/storage, optional rom-auth; no new policy engine.
 
@@ -24,7 +24,7 @@
 - Human and service with identical authority and subject must have distinct revocation and receipt identities.
 - Disable/re-enable and link/config replacement must not revive previously issued actors.
 - A mutation racing with authorization must not disclose through an old completion or cached receipt.
-- Filtering a hidden field must be denied before observing whether any row matches.
+- Before any row match is observed, filtering on a hidden field must be denied.
 - A writable hidden field must commit without appearing in action responses or subsequent historical outcomes.
 
 ### Task 1: Generic identity scope and authoritative gate
@@ -47,7 +47,7 @@
 
 - [ ] Write tests creating all identity records through ordinary Runtime actions, with real verified evidence supplied by auth fixture.
 - [ ] Implement explicit linking without email matching, duplicate entity engines, or unbounded scans. Missing/disabled/mismatched records deny.
-- [ ] Bind provider verification to its captured activation/config revision; capture link and User revisions in private host stamp. No automatic allow-list for embedded actors: host explicitly configures administrative/service trust.
+- [ ] Bind provider verification to its captured activation/config revision; capture link and User revisions in private host stamp. There is no automatic allow-list for embedded actors. The host explicitly configures administrative/service trust.
 - [ ] Test issuer/kind collision, expired proof, unlinked subject, wrong provider revision, disabled User/provider, unlink/relink, disable/re-enable, commit race, and cached retry/live delivery after revocation.
 - [ ] Document first-admin bootstrap as host-owned setup using shared actions, with no default administrative identity or bypass endpoint.
 - [ ] Run package and workspace checks and commit.
@@ -67,4 +67,4 @@
 
 ## Validation command
 
-Run within rom-dev at `/workspace/ROM/.worktrees/configuration-trials`, using `CARGO_BUILD_JOBS=2 CARGO_TARGET_DIR=$PWD/target/identity`, `cargo test --workspace --locked`, workspace clippy with warnings denied, auth verifier, and repository check script. Capture actual outcomes before completion claims.
+Run within rom-dev at `/workspace/ROM/.worktrees/configuration-trials`, using `CARGO_BUILD_JOBS=2 CARGO_TARGET_DIR=$PWD/target/identity`, `cargo test --workspace --locked`, workspace clippy with warnings denied, auth verifier, and repository check script. Before you claim completion, record the actual outcomes.

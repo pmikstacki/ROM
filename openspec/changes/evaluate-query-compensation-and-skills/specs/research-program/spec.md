@@ -29,7 +29,7 @@ Generated, hybrid and runtime query authoring SHALL be compared over identical s
 #### Scenario: Three physical execution variants
 - **GIVEN** an identical normalized query, data and authorization rule
 - **WHEN** core evaluation, unindexed exact pushdown and indexed execution are compared
-- **THEN** every variant must pass the same semantic assertions before performance ranking
+- **THEN** before performance ranking, every variant must pass the same semantic assertions
 - **AND** measurements distinguish latency from candidate counts and actual database work
 
 ### Requirement: Measured performance in every experiment

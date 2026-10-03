@@ -1,6 +1,6 @@
 # CLI implementation choices and failure boundaries
 
-Research checked 2026-10-02. This supplements the [deferred capability roadmap](deferred-capabilities-roadmap.md) and [accepted CLI design](../../openspec/changes/harden-core-and-add-cli/design.md). The current deliverable is a generic CLI; Studio remains excluded. Library documentation establishes available mechanisms, while ROM's tests must establish its actual behavior. This is not a comparative parser benchmark.
+Research checked 2026-10-02. This supplements the [deferred capability roadmap](deferred-capabilities-roadmap.md) and [accepted CLI design](../../openspec/changes/harden-core-and-add-cli/design.md). The current deliverable is a generic CLI; Studio remains excluded. Library documentation establishes available mechanisms. ROM's tests must establish its actual behavior. This is not a comparative parser benchmark.
 
 ## Argument parsing
 
@@ -10,7 +10,9 @@ Research checked 2026-10-02. This supplements the [deferred capability roadmap](
 | [lexopt 0.3.2](https://docs.rs/lexopt/0.3.2/lexopt/) | Stream of options and values; application supplies interpretation | Viable small parser, but maintaining command semantics and help manually offers no demonstrated benefit for this CLI. Not selected; no claim that it is slower or less correct. |
 | [argh 0.1.19](https://docs.rs/argh/0.1.19/argh/) | Derive-based parsing with a code-size focus and Fuchsia command-line conventions | Viable alternative for a smaller command surface. No measured binary-size requirement justifies switching from the selected parser. |
 
-The selection is an engineering judgment based on the required command surface, not evidence that one parser is universally best. Acceptance must exercise the actual binary: help, missing keys/revisions, invalid combinations, malformed JSON and secrets mistakenly supplied in arguments. Parser errors must not echo arbitrary credential-bearing input. Readable diagnostics and composable JSON output matter more than minimizing implementation lines.
+The selection is an engineering judgment based on the necessary commands. It is not evidence that one parser is universally best. Acceptance must exercise the actual binary. Cases include help, missing keys/revisions, invalid combinations, malformed JSON and secrets mistakenly supplied in arguments. Parser errors must not echo arbitrary credential-bearing input.
+
+Readable diagnostics and composable JSON output have priority over a smaller line count.
 
 ## HTTP client and explicit retry ownership
 
@@ -22,9 +24,9 @@ Direct hyper would move additional client composition into ROM; an external curl
 
 ## Streaming profile
 
-The [WHATWG SSE parsing specification](https://html.spec.whatwg.org/multipage/server-sent-events.html#parsing-an-event-stream) defines UTF-8, line boundaries, data fields and event dispatch. ROM consumes SSE framing but does not adopt browser EventSource's automatic reconnection behavior. A live snapshot and a durable journal batch have different recovery semantics: a journal cursor must survive intact, and a history gap must not silently become a new subscription at the head.
+The [WHATWG SSE parsing specification](https://html.spec.whatwg.org/multipage/server-sent-events.html#parsing-an-event-stream) defines UTF-8, line boundaries, data fields and event dispatch. ROM consumes SSE framing but does not adopt browser EventSource's automatic reconnection behavior. A live snapshot and a durable journal batch have different recovery semantics. A journal cursor must survive intact. A history gap must not silently become a new subscription at the head.
 
-Use incremental bounded parsing, not collecting the response body. Limit each complete frame, handle split UTF-8 and CRLF, preserve multi-line data, and reject incomplete or invalid ROM frames. Comments count as connection activity, not domain progress. Flush each complete result and retain no unbounded output queue. Slow or closed stdout and Ctrl-C must terminate the client predictably; cancellation stops waiting, not a committed or supervised server mutation. A small parser matching ROM's restricted wire profile is acceptable only with adversarial framing tests. It is not presented as a general EventSource implementation.
+Use incremental bounded parsing, not collecting the response body. Limit each complete frame, handle split UTF-8 and CRLF, preserve multi-line data, and reject incomplete or invalid ROM frames. Comments count as connection activity, not domain progress. Flush each complete result and retain no unbounded output queue. Slow or closed stdout and Ctrl-C must terminate the client predictably. Cancellation stops the wait. It does not stop a committed or supervised server mutation. A small parser matching ROM's restricted wire profile is acceptable only with adversarial framing tests. It is not presented as a general EventSource implementation.
 
 ## What verification must demonstrate
 

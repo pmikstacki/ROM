@@ -1,10 +1,10 @@
 # ROM research and prototype program
 
-Status: this research/prototype batch is complete. See [verified findings and limits](prototype-results.md) and the [ranked framework comparison](state-of-art-resource-frameworks.md). The resource premise is fixed; the experiments test implementation choices, not whether to replace that premise. Runtime: Tokio for async execution and I/O, Rayon for CPU work. All experimental code is disposable and isolated on prototype branches. This describes the original experiment batch. Main now contains maintained libraries; current integration status is in the [completion index](completion-index.md) and MVP checklist.
+Status: this research/prototype batch is complete. See [verified findings and limits](prototype-results.md) and the [ranked framework comparison](state-of-art-resource-frameworks.md). The resource premise is fixed. The experiments test implementation choices, not whether to replace that premise. The runtime uses Tokio for async execution and I/O, and Rayon for CPU work. All experimental code is disposable and isolated on prototype branches. This describes the original experiment batch. Main now contains maintained libraries; current integration status is in the [completion index](completion-index.md) and MVP checklist.
 
 ## Fixed product premise
 
-A single resource declaration supplies standard persistence, operations, queries, transport endpoints and committed-change subscriptions through generic machinery. Applications add resource definitions and domain behavior rather than bespoke repositories, CRUD handlers or publication plumbing. Actions and events are messages concerning resources, not competing domain entities. Custom Rust field types and provider-neutral access control are extensibility contracts. RIM's original broader vision is the starting point, not an application-specific monitoring system.
+A single resource declaration supplies standard persistence, operations, queries, transport endpoints and committed-change subscriptions through generic machinery. Applications add resource definitions and domain behavior. They do not add separate repositories, CRUD handlers, or event publication code for each resource kind. Actions and events are messages concerning resources, not competing domain entities. Custom Rust field types and provider-neutral access control are extensibility contracts. RIM's original broader vision is the starting point, not an application-specific monitoring system.
 
 ## Research tracks
 
@@ -18,7 +18,7 @@ A single resource declaration supplies standard persistence, operations, queries
 
 Branch: [`prototype/resource-flow`](https://github.com/pmikstacki/ROM/tree/prototype/resource-flow/prototypes/resource-flow). Project: `prototypes/resource-flow`. Twelve real HTTP/SSE integration probes, formatting and Clippy passed in the NixOS container and were independently repeated.
 
-Use synthetic domain data and a clearly marked scratch SQLite database. The database choice is an experiment convenience, not a locked production adapter decision. A declaration macro or registry API may be provisional.
+Use synthetic domain data. Use a clearly marked scratch SQLite database. The database choice is an experiment convenience, not a locked production adapter decision. A declaration macro or registry API may be provisional.
 
 Acceptance observations:
 
@@ -31,7 +31,7 @@ Acceptance observations:
 7. A reaction changes another resource through the same action contract and can safely retry.
 8. Restart restores persisted state and replayable history.
 
-Record which observations actually execute and which remain untested. Local event-stream recovery does not automatically establish reactive query dependency tracking, distributed delivery, multi-process scalability, or complete provider authorization.
+Record which observations actually execute and which remain untested. Local event-stream recovery does not automatically establish reactive query dependency tracking or distributed delivery. It also does not establish multi-process scalability or complete provider authorization.
 
 ## Execution-contract experiment
 
@@ -50,4 +50,4 @@ Acceptance observations:
 
 ## Promotion rule
 
-A passing prototype proves only its recorded observations. Preserve source and lockfiles on the prototype branches. Main receives evidence, conclusions and requirements, not a claim that the prototype is the released ROM core. Before implementation, resolve the remaining interface and persistence decisions using these results and the owner's priorities.
+A passing prototype proves only its recorded observations. Preserve source and lockfiles on the prototype branches. Main receives evidence, conclusions, and requirements. This does not mean that the prototype is the released ROM core. Before implementation, resolve the remaining interface and persistence decisions using these results and the owner's priorities.

@@ -17,8 +17,8 @@ embedded plugin CLI would couple each binary to application declarations; an
 application-specific command set would duplicate the domain. HTTP already
 supports invocation, query, live snapshots and durable journal batches, so the
 client can serve every registered kind. Native discovery belongs in core with a
-thin HTTP route. Trusted descriptors cannot be exposed directly and row-dependent
-policies cannot be used to invent static permissions.
+thin HTTP route. Trusted descriptors cannot be exposed directly. Row-dependent
+policies cannot establish static permissions.
 
 ## Public core additions
 
@@ -45,9 +45,9 @@ schemas remain opaque: Input currently defines codecs, not public schema.
 
 No row scan, row-policy evaluation against synthetic values, codec or action
 execution occurs during discovery. Discovery is metadata disclosure, not operation
-authorization. Registry callbacks can panic; existing supervised error handling
-must convert this into a safe error. Entire serialized response fits snapshot byte
-limit or fails TooLarge. HTTP POST `/discover` uses existing authenticated bounded
+authorization. Registry callbacks can panic. Existing supervised error handling
+must convert a panic into a safe error. The entire serialized response fits the snapshot byte
+limit or fails with TooLarge. HTTP POST `/discover` uses existing authenticated bounded
 body handling and the same core method. Empty object request only.
 
 ## CLI contract
@@ -63,8 +63,8 @@ keeps the original envelope unchanged. Do not supply destructive force defaults.
 
 Connection uses explicit `--endpoint` and optional `--auth-file` containing the
 complete Authorization value. HTTPS verifies TLS; HTTP is numeric loopback only
-in this profile. Reject URL userinfo/query/fragment, header CR/LF and oversized
-credentials; trim one trailing file newline for ordinary secret-file ergonomics.
+in this profile. Reject URL userinfo/query/fragment, header CR/LF, and oversized
+credentials. Trim one trailing file newline to support ordinary secret files.
 Never print credentials or request payloads in diagnostics. No redirects, automatic
 network retries, proxies or credential persistence. No synthetic login or inferred
 principal identity. Backend-origin messages are mapped to documented categories,
@@ -74,15 +74,14 @@ Request JSON (64 KiB maximum) rejects duplicate keys at every nesting level befo
 Value conversion. Finite response and SSE frame limits are 2 MiB. Connect/request
 and stream inactivity limits are finite/configurable within validated bounds;
 SSE keepalive activity counts as activity, not domain progress. Consume frames
-incrementally across arbitrary chunk boundaries, CRLF and multiline data. Stop on
-malformed/oversized frames or stream loss; no automatic resume. Live snapshots and
+incrementally across arbitrary chunk boundaries, CRLF and multiline data. If frames are malformed or oversized, or the stream is lost, stop. Do not resume automatically. Live snapshots and
 journal batches remain distinct; no cursor for live. Preserve complete journal
 batch/cursor association, including empty batches. Never skip a history gap.
 
 `--output human` is default, with escaped field values and kind/id/revision;
 `--output json` finite commands emit one JSON value, streams one complete frame
-per line. Diagnostics go to stderr. Bound memory and flush each complete frame;
-stdout pipe closure terminates cleanly. No terminal control sequences from data.
+per line. Diagnostics go to stderr. Bound memory. Flush each complete frame.
+If the stdout pipe closes, terminate cleanly. No terminal control sequences from data.
 Ctrl-C stops waiting/observing; it does not assert accepted mutations rolled back.
 
 Exit codes: 0 success/intentional stream stop, 2 usage/local validation, 3 explicit
@@ -101,7 +100,7 @@ credential-scoped recovery store. The client cannot certify an unchanged princip
 Keep one CLI path for two unrelated resource kinds; use actual binary + TCP
 against both adapters. Cover cancellation, duplicate JSON, partial values,
 canonical custom fields, idempotent retry/mismatch, revocation, hidden metadata,
-stream boundaries/limits, history gap, redirects and lost acknowledgements.
+stream boundaries/limits, history gap, redirects and lost acknowledgments.
 No new storage format or silent replay behavior. Compile-only success is not the
 end-to-end acceptance. Preserve Rust 1.99 and MIT source distribution; audit any
 new dependencies and include their notices.

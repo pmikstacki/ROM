@@ -5,10 +5,10 @@ config 0.15.27 with only the `json` and `toml` features. It does not register ki
 discover files, read process environment variables, merge source layers or write
 storage directly.
 
-The parser accepts at most 64 KiB and 128 top-level fields. Duplicate JSON object
-keys are rejected recursively, TOML non-finite numbers are rejected, and literal
-field names are preserved by collecting the source directly instead of sending
-keys through config-rs's path merge API. Omitted values and explicit JSON null
+The parser accepts at most 64 KiB and 128 top-level fields. It rejects duplicate
+JSON object keys recursively and rejects TOML non-finite numbers. It collects the
+source directly to preserve literal field names. It does not send keys through
+config-rs's path merge API. Omitted values and explicit JSON null
 remain different. Resource codecs determine whether a candidate is acceptable.
 
 ```rust
@@ -24,13 +24,13 @@ messages, document values or filesystem paths. Origin labels are identifiers,
 not arbitrary paths. Resource ids and source permissions live outside documents.
 
 Register `SourceActivation` as an ordinary Resource with `REQUEST_RELOAD` and
-explicit host policies. Only trusted administrators may enable a source or change
-its target. Requesting or resuming work requires the record's explicit
-`worker_authority`/`worker_subject` binding;
-being permitted to inspect source configuration does not grant worker authority.
-The worker may change `requested_generation`, `source_version`, `target_revision` and `target_present`
+explicit host policies. Only trusted administrators can enable a source or change
+its target. To request or resume work, the caller must match the record's explicit
+`worker_authority`/`worker_subject` binding. Permission to inspect source
+configuration does not grant worker authority.
+The worker can change `requested_generation`, `source_version`, `target_revision` and `target_present`
 through the request action. Declare `.source_owner("deployment")` on the target's
-accepted definition and provide separate `.source_metadata_policy(...)` for
+accepted definition. Provide separate `.source_metadata_policy(...)` for
 protected inspection. Source identity/scope is not a field in the input document.
 
 `ReloadTicket::request` runs before fetch/parse. It persists the next requested
@@ -48,13 +48,13 @@ and provenance intact. Source enable/scope changes invalidate old tickets even
 after re-enable. Optimistic target revision still arbitrates concurrent edits.
 `resume` recovers the persisted current request without allocating another
 generation; replay after a lost commit acknowledgment resolves its original receipt.
-The source version must identify immutable input: on recovery the host must fetch
-the exact same document or receive IdentityMismatch, not silently substitute a
-new body under an old version.
+The source version must identify immutable input. On recovery, the host must fetch
+the exact same document or receive IdentityMismatch. It must not silently
+substitute a new body under an old version.
 
 The runtime commits protected source identity, safe version label, generation and
 field-origin labels in the target Row/receipt atomically. A provenance-only change
-is a real Resource revision and journal fact; exact value/provenance equality is
+is a real Resource revision and journal fact. Exact value/provenance equality is
 a no-op. Standard typed/projected results and public raw invocation strip internal
 metadata. A protected `source_state` inspection distinguishes requested/accepted
 generations without exposing secret values or requiring a second active-state write.
@@ -75,14 +75,14 @@ references, never credentials in input fields, provenance labels or error contex
 This first profile supports one complete Resource per reload and whole-Resource
 ownership. It does not offer atomic multi-Resource updates, source precedence,
 overlay removal, partial patches, environment providers or writeback. Missing
-fields follow the accepted Resource codec; JSON null is a value, and missing files
-or fetch failures must not be passed off as an empty source or a delete. Failed
+fields follow the accepted Resource codec. JSON null is a value. Missing files
+or fetch failures must not be represented as an empty source or a delete. Failed
 attempts remain visible as returned errors and requested-versus-accepted generation;
 raw document bodies/errors are not persisted as diagnostics.
 
 `./crates/rom-config/verify` runs parser, native source-permission and integrated
 ingestion tests. Settings, User and IdentityProvider fixtures all use the same
 Resource path. SQLite and redb tests inject failure after a native write and after
-actual commit, reopen storage, and verify that value/provenance remain paired and
-the original receipt replays without another target event. No external account,
+actual commit. They reopen storage and verify that value/provenance remain paired.
+They also verify that the original receipt replays without another target event. No external account,
 network change or production identity-provider deployment is involved.

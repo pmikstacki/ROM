@@ -68,4 +68,4 @@ Bindings SHALL distinguish transport receipt, resource commit and response deliv
 #### Scenario: Commit precedes a lost transport response
 - **GIVEN** an action commits but the reply or broker acknowledgment is lost
 - **WHEN** an authorized caller retries the same scoped action identity and semantic input
-- **THEN** durable resolution returns the original outcome without a second transition, subject to the explicit identity retention policy
+- **THEN** under the explicit identity retention policy, durable resolution returns the original outcome without a second transition
