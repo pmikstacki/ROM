@@ -151,3 +151,26 @@ test("opaque input uses the shared strict lossless codec", async ({ page }) => {
     '{"large":18446744073709551615}',
   );
 });
+
+test("sort field is independent from filter field", async ({ page }) => {
+  await page.getByLabel("Query field").selectOption("done");
+  await page.getByLabel("Query value value").check();
+  await page.getByLabel("Query sort field").selectOption("count");
+  await page.getByLabel("Query sort", { exact: true }).selectOption("desc");
+  await page.getByRole("button", { name: "Apply query" }).click();
+  await expect(page.getByTestId("query-submitted")).toContainText(
+    '"field":"count","direction":"desc"',
+  );
+  await expect(page.getByTestId("query-submitted")).toContainText(
+    '"field":"done","value":true',
+  );
+});
+
+test("sort picker excludes collection fields but retains scalar fields", async ({
+  page,
+}) => {
+  const picker = page.getByLabel("Query sort field");
+  await expect(picker.locator('option[value="tags"]')).toHaveCount(0);
+  await expect(picker.locator('option[value="labels"]')).toHaveCount(0);
+  await expect(picker.locator('option[value="count"]')).toHaveCount(1);
+});

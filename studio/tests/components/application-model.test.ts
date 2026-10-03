@@ -29,6 +29,14 @@ function fixture(overrides: Partial<RomClient> = {}): RomClient {
         ],
       };
     },
+    async anchor(query, last) {
+      return {
+        kind: last.key.kind,
+        id: last.key.id,
+        schema_version: 1,
+        canonical: "{}",
+      };
+    },
     async query() {
       return [row];
     },
@@ -189,4 +197,119 @@ test("separated normal lease expiries renew after each accepted snapshot", async
   assert.equal(streams, 4);
   assert.equal(app.state.rows.length, 1);
   assert.equal(app.state.error, "");
+});
+
+test("moving pagination uses server envelope, refetches previous and resets on new query", async () => {
+  let anchors = 0,
+    queries: any[] = [];
+  const envelope = {
+    kind: "task",
+    id: "one",
+    schema_version: 1,
+    canonical: '{"version":1,"opaque_fixture":true}',
+  };
+  const app = createApplication(
+    fixture({
+      async anchor(query, last) {
+        anchors++;
+        assert.equal(last, row);
+        return envelope;
+      },
+      async query(kind, query) {
+        queries.push(query);
+        return [row];
+      },
+    }),
+  );
+  await app.connect();
+  await app.selectKind("task", { limit: 1 });
+  await app.nextPage();
+  assert.equal(app.state.page, 2);
+  assert.equal(app.state.query.after, envelope);
+  assert.equal(anchors, 1);
+  await app.previousPage();
+  assert.equal(app.state.page, 1);
+  assert.equal(app.state.query.after, undefined);
+  await app.nextPage();
+  await app.selectKind("task", {
+    limit: 1,
+    filters: [{ field: "done", value: false }],
+  });
+  assert.equal(app.state.page, 1);
+  assert.equal(app.state.hasPrevious, false);
+  assert.equal(app.state.query.after, undefined);
+  assert.equal(queries.length, 6);
+});
+test("delayed anchor cannot paginate a different Resource", async () => {
+  let resolve!: (value: any) => void;
+  const app = createApplication(
+    fixture({
+      async anchor() {
+        return await new Promise((r) => (resolve = r));
+      },
+    }),
+  );
+  await app.connect();
+  await app.selectKind("task", { limit: 1 });
+  const next = app.nextPage();
+  await app.selectKind("other", { limit: 1 });
+  resolve({ kind: "task", id: "one", schema_version: 1, canonical: "{}" });
+  await next;
+  assert.equal(app.state.kind, "other");
+  assert.equal(app.state.page, 1);
+  assert.equal(app.state.query.after, undefined);
+});
+
+test("pagination history is bounded and first page remains available", async () => {
+  const app = createApplication(fixture());
+  await app.connect();
+  await app.selectKind("task", { limit: 1 });
+  for (let i = 0; i < 140; i++) await app.nextPage();
+  assert.equal(app.state.page, 141);
+  for (let i = 0; i < 128; i++) await app.previousPage();
+  assert.equal(app.state.page, 13);
+  assert.equal(app.state.hasPrevious, false);
+  await app.firstPage();
+  assert.equal(app.state.page, 1);
+  assert.equal(app.state.query.after, undefined);
+});
+
+test("moving page changes cancel the old live stream and open a new one", async () => {
+  let streams = 0,
+    aborts = 0;
+  const app = createApplication(
+    fixture({
+      async *observe(kind, query, signal) {
+        streams++;
+        yield [row];
+        await new Promise<void>((resolve) => {
+          if (signal.aborted) {
+            aborts++;
+            resolve();
+          } else
+            signal.addEventListener(
+              "abort",
+              () => {
+                aborts++;
+                resolve();
+              },
+              { once: true },
+            );
+        });
+      },
+    }),
+  );
+  await app.connect();
+  await app.selectKind("task", { limit: 1 });
+  const observing = app.observe();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(app.state.live, true);
+  await app.nextPage();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(streams, 2);
+  assert.equal(aborts, 1);
+  assert.equal(app.state.page, 2);
+  app.disconnect();
+  await observing;
+  assert.equal(aborts, 2);
 });

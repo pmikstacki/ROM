@@ -16,6 +16,8 @@ export interface ApplicationState {
   rows: ProjectedView[];
   selected: ProjectedView | null;
   query: QuerySpec;
+  page: number;
+  hasPrevious: boolean;
   busy: boolean;
   error: string;
   pending: PendingMutation | null;
@@ -34,6 +36,8 @@ export function createApplication(
     rows: [],
     selected: null,
     query: { limit: 50 },
+    page: 1,
+    hasPrevious: false,
     busy: false,
     error: "",
     pending: null,
@@ -45,6 +49,8 @@ export function createApplication(
     rowSelection = 0,
     subscription: AbortController | undefined;
   let requests = new AbortController();
+  const history: { query: QuerySpec; page: number }[] = [];
+  let firstQuery: QuerySpec = { limit: 50 };
   const listeners = new Set<(state: ApplicationState) => void>();
   function update(patch: Partial<ApplicationState>) {
     state = { ...state, ...patch };
@@ -58,12 +64,21 @@ export function createApplication(
   function message(problem: unknown) {
     return problem instanceof Error ? problem.message : "Operation failed.";
   }
-  async function selectKind(kind: string, query: QuerySpec = { limit: 50 }) {
+  async function loadPage(kind: string, query: QuerySpec, page: number) {
     stopLive();
     const started = epoch,
       selected = ++navigation;
     rowSelection++;
-    update({ kind, query, rows: [], selected: null, busy: true, error: "" });
+    update({
+      kind,
+      query,
+      page,
+      hasPrevious: history.length > 0,
+      rows: [],
+      selected: null,
+      busy: true,
+      error: "",
+    });
     try {
       const rows = await client.query(kind, query, requests.signal);
       if (started === epoch && selected === navigation)
@@ -72,6 +87,88 @@ export function createApplication(
       if (started === epoch && selected === navigation)
         update({ error: message(problem), busy: false });
     }
+    return selected;
+  }
+  async function selectKind(kind: string, query: QuerySpec = { limit: 50 }) {
+    history.length = 0;
+    const { after: _after, after_id: _id, ...initialQuery } = query;
+    firstQuery = initialQuery;
+    await loadPage(kind, firstQuery, 1);
+  }
+  async function nextPage() {
+    if (state.busy || !state.rows.length) return;
+    const started = epoch,
+      nav = navigation,
+      kind = state.kind,
+      currentQuery = state.query,
+      page = state.page,
+      last = state.rows.at(-1)!;
+    const wasLive = state.live;
+    stopLive();
+    update({ busy: true, error: "" });
+    try {
+      const anchor = await client.anchor(currentQuery, last, requests.signal);
+      if (started !== epoch || nav !== navigation) return;
+      history.push({ query: currentQuery, page });
+      if (history.length > 128) history.shift();
+      const ticket = await loadPage(
+        kind,
+        { ...currentQuery, after: anchor },
+        page + 1,
+      );
+      if (
+        started === epoch &&
+        ticket === navigation &&
+        state.kind === kind &&
+        state.page === page + 1 &&
+        wasLive &&
+        !state.error
+      )
+        void observe();
+    } catch (problem) {
+      if (started === epoch && nav === navigation)
+        update({
+          busy: false,
+          rows: [],
+          selected: null,
+          error: message(problem),
+        });
+    }
+  }
+  async function previousPage() {
+    if (state.busy) return;
+    const previous = history.pop();
+    if (!previous) return;
+    const wasLive = state.live,
+      started = epoch,
+      kind = state.kind;
+    const ticket = await loadPage(kind, previous.query, previous.page);
+    if (
+      started === epoch &&
+      ticket === navigation &&
+      state.kind === kind &&
+      state.page === previous.page &&
+      wasLive &&
+      !state.error
+    )
+      void observe();
+  }
+  async function firstPage() {
+    if (state.busy) return;
+    const wasLive = state.live,
+      started = epoch,
+      kind = state.kind;
+    history.length = 0;
+    const ticket = await loadPage(kind, firstQuery, 1);
+    if (
+      started === epoch &&
+      ticket === navigation &&
+      state.kind === kind &&
+      state.page === 1 &&
+      wasLive &&
+      !state.error
+    )
+      void observe();
   }
   async function connect() {
     const started = ++epoch;
@@ -264,6 +361,7 @@ export function createApplication(
     epoch++;
     navigation++;
     rowSelection++;
+    history.length = 0;
     requests.abort();
     stopLive();
     client.invalidateSession();
@@ -277,6 +375,8 @@ export function createApplication(
       error: "",
       busy: false,
       work: null,
+      page: 1,
+      hasPrevious: false,
     });
   }
   return {
@@ -290,6 +390,9 @@ export function createApplication(
     },
     connect,
     selectKind,
+    nextPage,
+    previousPage,
+    firstPage,
     selectRow,
     mutate,
     retry,

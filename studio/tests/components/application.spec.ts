@@ -93,3 +93,68 @@ test("real app reports unavailable session without simulated data", async ({
     page.getByRole("heading", { name: "Connect to ROM" }),
   ).toBeVisible();
 });
+
+test("moving pages use native query anchors and previous refetches", async ({
+  page,
+}) => {
+  let queryCalls = 0,
+    anchorCalls = 0;
+  await page.route("**/rom-studio/auth/session", (route) =>
+    route.fulfill({
+      json: {
+        authenticated: true,
+        generation: "fixture-pagination",
+        csrf_token: "csrf",
+        user_id: "human",
+        expires_at: Math.floor(Date.now() / 1000) + 60,
+      },
+    }),
+  );
+  await page.route("**/rom-studio/api/**", async (route) => {
+    const body = route.request().postDataJSON(),
+      endpoint = route.request().url().split("/").at(-1);
+    if (endpoint === "discover")
+      return route.fulfill({
+        json: { version: 1, resources: [descriptor("Task")] },
+      });
+    if (endpoint === "anchor") {
+      anchorCalls++;
+      return route.fulfill({
+        json: {
+          version: 1,
+          kind: "Task",
+          schema_version: 1,
+          filters: [],
+          comparisons: [],
+          order: [],
+          id: "one",
+          values: [],
+        },
+      });
+    }
+    queryCalls++;
+    return route.fulfill({
+      json: [
+        {
+          key: { kind: "Task", id: body.query.after ? "two" : "one" },
+          revision: 1,
+          value: { title: body.query.after ? "second page" : "first page" },
+        },
+      ],
+    });
+  });
+  await page.goto("./");
+  await expect(
+    page.getByRole("heading", { name: "Task", exact: true }),
+  ).toBeVisible();
+  await page.getByLabel("Query limit").fill("1");
+  await page.getByRole("button", { name: "Apply query" }).click();
+  await page.getByRole("button", { name: "Next page", exact: true }).click();
+  await expect(page.getByText("Moving page 2")).toBeVisible();
+  await expect(page.getByRole("cell", { name: "second page" })).toBeVisible();
+  await page.getByRole("button", { name: "Previous page" }).click();
+  await expect(page.getByRole("cell", { name: "first page" })).toBeVisible();
+  await expect(page.getByText("Moving page 1")).toBeVisible();
+  expect(anchorCalls).toBe(1);
+  expect(queryCalls).toBe(4);
+});

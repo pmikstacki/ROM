@@ -5,7 +5,7 @@
     FieldIntent,
   } from "../client/types.ts";
   import ValueEditor from "../renderers/ValueEditor.svelte";
-  import { defaultValue } from "../renderers/default-value.ts";
+  import { defaultValue, baseShape } from "../renderers/default-value.ts";
   import { normalizeValue } from "../client/codec.ts";
   import { Button } from "../components/ui/button/index.js";
   let {
@@ -16,10 +16,16 @@
   let fieldName = $state("");
   let filter = $state(false);
   let sort = $state("");
+  let sortFieldName = $state("");
   let limit = $state("50");
   let value = $state<FieldIntent>({ mode: "value", value: "" });
   let error = $state("");
   let invalid = $state("");
+  const sortFields = $derived(
+    descriptor.fields.filter(
+      (item) => !["list", "map"].includes(baseShape(item.shape).type),
+    ),
+  );
   let field = $derived(
     descriptor.fields.find((item) => item.name === fieldName),
   );
@@ -45,9 +51,9 @@
           },
         ];
       }
-      if (sort && field)
+      if (sort && sortFieldName)
         query.order = [
-          { field: field.name, direction: sort as "asc" | "desc" },
+          { field: sortFieldName, direction: sort as "asc" | "desc" },
         ];
       error = "";
       onchange(query);
@@ -79,7 +85,17 @@
       onerror={(message) => (invalid = message)}
     />{/if}
   <label
-    >Sort<select aria-label="Query sort" bind:value={sort}
+    >Sort field<select aria-label="Query sort field" bind:value={sortFieldName}
+      ><option value="">ID order</option>{#each sortFields as item}<option
+          value={item.name}>{item.name}</option
+        >{/each}</select
+    ></label
+  >
+  <label
+    >Sort<select
+      aria-label="Query sort"
+      bind:value={sort}
+      disabled={!sortFieldName}
       ><option value="">No sort</option><option value="asc">Ascending</option
       ><option value="desc">Descending</option></select
     ></label

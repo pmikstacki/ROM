@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => ({
             input: {
               main: "index.html",
               components: "tests/components/harness.html",
+              details: "tests/components/details.html",
             },
           },
         }
