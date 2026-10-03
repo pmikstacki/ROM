@@ -107,6 +107,9 @@ proceeds through reference-app/API ergonomics, relations and migrations, measure
 execution optimization, then operational recovery and release preparation.
 [Progress and evidence](docs/research/framework-release-progress.md) distinguish
 delivered slices from the remaining release requirements.
+The [source support boundary](docs/release-support.md) defines the native alpha profile.
+The [completion audit](docs/research/framework-release-completion.md) records final acceptance status.
+Use the [local artifact procedure](scripts/release-artifacts/README.md) to prepare a verified source distribution.
 
 For local verification, run `./scripts/check`. To build, run `./scripts/build`. The initial tested Rust floor is 1.99.0. See the [persistent NixOS environment](infra/nixos/README.md). GitHub Actions is disabled. The [consumer](examples/consumer/src/main.rs) exercises two Resources through the public library; the [demo](demo/README.md) now combines the maintained packages in an executable author workshop.
 

@@ -1,0 +1,13 @@
+# Independent Task2 packaged application final review
+
+**Spec: accepted. Quality: accepted. No open findings.** The final five source hashes in task2-final-reviewed-inputs.json still match the frozen live helpers/script. The third actual full gate exited0. Root's retained packages.log reaches the final success line after consumer execution, copied demo all-feature tests, and metadata path audit. No reviewer product edits or redundant test runs.
+
+The implementation uses one common manifest renderer for both applications and preserves the maintained package identity, optional/features/default-feature flags, renamed dependencies, target/build/dev scopes and Rust floor. Named helpers own source copy, inventory, manifest rendering, and extracted path audit. Existing crate metadata/license checks, archive freshness, CLI execution, consumer tests, source lock guard and warm target reuse remain intact. Facade/module and DRY rules are respected; no second decoder, provider, manifest renderer, signal receiver or test support implementation was introduced.
+
+Thirteen fresh library archives supplied the external consumer and real reference application. The retained packaged-application.json contains 27 copied consumer input hashes and 77 copied demo/support input hashes before Cargo, plus both resolved lock hashes afterward. It includes settings.toml, hidden generated configuration, generated manifests, seed lockfiles, shared child_process support and provider-fixture assets. The successful all-feature demo execution covers the maintained reference/operator/upgrade/process-exit, attachment, authority, host-auth and signal cases. ROM dependencies were audited after execution and resolve only below the fresh extraction root.
+
+The preliminary source-identity finding is resolved. The first actual run's missing settings.toml compile failure is retained and fixed by the explicit copy allowlist/test. The second run passed application tests but failed with ENOBUFS before the metadata audit; it remains partial evidence. The third run's explicit32MiB bound allowed metadata capture and completed the unchanged audit. No application/domain workaround was used.
+
+Real-provider service-token acceptance remains the separate source demo/verify-provider gate. Synthetic all-feature tests in the copied application are not presented as an actual-provider experiment. Native format8/archive6, public APIs and disabled publication remain unchanged. This review accepts Task2; complete release source/artifact gates remain coordinator/Task3 obligations.
+
+Evidence: docs/research/evidence/framework-release-2026-10-03/packages.log and packaged-application.json. Preliminary, inventory and final narrow-delta reviews remain retained here.

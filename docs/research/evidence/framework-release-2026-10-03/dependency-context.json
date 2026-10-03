@@ -1,0 +1,10 @@
+{
+  "lock_sha256": "fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83",
+  "auditor": "cargo-audit 0.22.2",
+  "command": "cargo-audit audit --file Cargo.lock --json",
+  "exit_code": 0,
+  "metadata_command": "cargo metadata --locked --all-features --format-version 1",
+  "external_package_count": 282,
+  "license_scope": "Declared Cargo metadata only; no legal compatibility certification",
+  "older_auditor": "cargo-audit 0.21.0 could not parse current RustSec CVSS4.0 metadata; not a successful audit"
+}

@@ -3,4 +3,5 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 export OPENSPEC_TELEMETRY=0
 npm exec --yes --package=@fission-ai/openspec@1.14.0 -- openspec validate --all --strict
+node --test scripts/packages/*.test.mjs scripts/release-artifacts/*.test.mjs
 ./scripts/check-rust

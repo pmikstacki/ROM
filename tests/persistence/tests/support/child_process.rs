@@ -11,6 +11,12 @@ impl Process {
         Self(command.spawn().unwrap())
     }
 
+    // Some separately compiled fixtures only use wait/kill; demo signal tests use the PID.
+    #[allow(dead_code)]
+    pub fn pid(&self) -> u32 {
+        self.0.id()
+    }
+
     pub fn wait_ready(&mut self, ready: &Path) {
         let deadline = Instant::now() + Duration::from_secs(10);
         while !ready.exists() {

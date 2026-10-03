@@ -112,25 +112,32 @@ async fn offline_command_refuses_a_database_owned_by_a_live_runtime() {
 }
 #[test]
 fn readiness_allows_immediate_sigint_and_serving_never_provisions() {
+    readiness_signal("SIGINT", 16);
+}
+#[test]
+fn readiness_allows_immediate_sigterm_and_serving_never_provisions() {
+    readiness_signal("SIGTERM", 1);
+}
+fn readiness_signal(signal: &str, attempts: usize) {
     // Reuse the finite Node child owner; signal synchronously on readiness data.
     let script = r#"
 import { pathToFileURL } from 'node:url';
 const { bounded, startProcess, stop } = await import(pathToFileURL(process.argv[1]));
-for (let i = 0; i < 16; i++) {
-  const owned = startProcess(process.argv[2], ['provider-serve', ...process.argv.slice(3), '0']);
+for (let i = 0; i < Number(process.argv[4]); i++) {
+  const owned = startProcess(process.argv[2], ['provider-serve', ...process.argv.slice(5), '0']);
   try {
     let signalled = false;
     const ready = new Promise(resolve => owned.child.stdout.on('data', () => {
       if (!signalled && owned.stdout().includes('\n')) {
         JSON.parse(owned.stdout().split('\n')[0]);
         signalled = true;
-        owned.child.kill('SIGINT');
+        owned.child.kill(process.argv[3]);
         resolve();
       }
     }));
     await bounded(ready);
     const [code, signal] = await bounded(owned.done);
-    if (code !== 0 || signal !== null || owned.exceeded()) throw new Error('SIGINT did not drain');
+    if (code !== 0 || signal !== null || owned.exceeded()) throw new Error('signal did not drain');
   } finally { await stop(owned); }
 }
 "#;
@@ -151,7 +158,12 @@ for (let i = 0; i < 16; i++) {
         child.arg(
             std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("provider-fixture/processes.mjs"),
         );
-        child.args([env!("CARGO_BIN_EXE_rom-demo"), backend]);
+        child.args([
+            env!("CARGO_BIN_EXE_rom-demo"),
+            signal,
+            &attempts.to_string(),
+            backend,
+        ]);
         child.arg(&path).arg(config);
         child
             .stdout(File::create(out).unwrap())

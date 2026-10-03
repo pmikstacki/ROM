@@ -1,0 +1,16 @@
+Release gate 1/6: ./scripts/check 
+Release gate 2/6: ./scripts/build --release
+Release gate 3/6: ./demo/verify 
+Release gate 4/6: ./demo/verify-provider 
+Release gate 5/6: ./scripts/check-skills 
+Release gate 6/6: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-zumU6d/source
+Completed local source artifacts: /var/tmp/rom-artifact-test-zumU6d/completed
+{"variant":"profile","output":"/var/tmp/rom-artifact-test-zumU6d/completed","rejectedContradictoryMetadata":true,"scope":"private fixture; no real acceptance commands or product edits"}
+Release gate 1/6: ./scripts/check 
+Release gate 2/6: ./scripts/build --release
+Release gate 3/6: ./demo/verify 
+Release gate 4/6: ./demo/verify-provider 
+Release gate 5/6: ./scripts/check-skills 
+Release gate 6/6: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-ySWNc1/source
+Completed local source artifacts: /var/tmp/rom-artifact-test-ySWNc1/completed
+{"variant":"selected","output":"/var/tmp/rom-artifact-test-ySWNc1/completed","rejectedContradictoryMetadata":true,"scope":"private fixture; no real acceptance commands or product edits"}

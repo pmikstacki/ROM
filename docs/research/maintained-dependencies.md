@@ -1,10 +1,12 @@
 # Maintained dependency inventory
 
 Generated from the all-features Cargo graph (including target-specific and dev dependencies).
-Lockfile SHA-256: `35a128d90a9c31bc03f0e073cdba52e819bffb565bfb05cfd34a8261bf112e7d`. This records declarations. It is not a blanket license or vulnerability certification. Native vendored code can carry additional notices.
+Lockfile SHA-256: `fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83`. This records declarations, not a blanket license or vulnerability certification. Native vendored code may carry additional notices.
 
 | Crate | Version | Declared license | Declared Rust floor |
 |---|---|---|---|
+| addr2line | 0.25.1 | Apache-2.0 OR MIT | 1.81 |
+| adler2 | 2.0.1 | 0BSD OR MIT OR Apache-2.0 | not declared |
 | android_system_properties | 0.1.6 | MIT OR Apache-2.0 | not declared |
 | anstream | 1.0.0 | MIT OR Apache-2.0 | 1.66.0 |
 | anstyle | 1.0.14 | MIT OR Apache-2.0 | 1.66.0 |
@@ -18,6 +20,7 @@ Lockfile SHA-256: `35a128d90a9c31bc03f0e073cdba52e819bffb565bfb05cfd34a8261bf112
 | aws-lc-sys | 0.45.0 | ISC AND (Apache-2.0 OR ISC) AND Apache-2.0 AND MIT AND BSD-3-Clause AND (Apache-2.0 OR ISC OR MIT) AND (Apache-2.0 OR ISC OR MIT-0) | 1.71.0 |
 | axum | 0.8.9 | MIT | 1.80 |
 | axum-core | 0.5.6 | MIT | 1.78 |
+| backtrace | 0.3.76 | MIT OR Apache-2.0 | 1.82.0 |
 | base64 | 0.22.1 | MIT OR Apache-2.0 | 1.48.0 |
 | base64 | 0.23.1 | MIT OR Apache-2.0 | 1.71.0 |
 | bitflags | 2.13.2 | MIT OR Apache-2.0 | 1.56.0 |
@@ -49,6 +52,7 @@ Lockfile SHA-256: `35a128d90a9c31bc03f0e073cdba52e819bffb565bfb05cfd34a8261bf112
 | crypto-common | 0.1.6 | MIT OR Apache-2.0 | not declared |
 | crypto-common | 0.2.2 | MIT OR Apache-2.0 | 1.85 |
 | deranged | 0.5.8 | MIT OR Apache-2.0 | 1.85.0 |
+| dhat | 0.3.3 | MIT OR Apache-2.0 | not declared |
 | digest | 0.10.7 | MIT OR Apache-2.0 | not declared |
 | digest | 0.11.3 | MIT OR Apache-2.0 | 1.85 |
 | displaydoc | 0.2.7 | MIT OR Apache-2.0 | 1.71.0 |
@@ -73,6 +77,7 @@ Lockfile SHA-256: `35a128d90a9c31bc03f0e073cdba52e819bffb565bfb05cfd34a8261bf112
 | generic-array | 0.14.9 | MIT | not declared |
 | getrandom | 0.2.17 | MIT OR Apache-2.0 | not declared |
 | getrandom | 0.4.3 | MIT OR Apache-2.0 | 1.85 |
+| gimli | 0.32.3 | MIT OR Apache-2.0 | 1.60 |
 | h2 | 0.4.19 | MIT | 1.63 |
 | hashbrown | 0.16.1 | MIT OR Apache-2.0 | 1.65.0 |
 | hashbrown | 0.17.1 | MIT OR Apache-2.0 | 1.85.0 |
@@ -111,6 +116,7 @@ Lockfile SHA-256: `35a128d90a9c31bc03f0e073cdba52e819bffb565bfb05cfd34a8261bf112
 | jobserver | 0.1.35 | MIT OR Apache-2.0 | 1.85 |
 | js-sys | 0.3.106 | MIT OR Apache-2.0 | 1.81 |
 | jsonwebtoken | 11.1.0 | MIT | 1.88.0 |
+| lazy_static | 1.5.1 | MIT OR Apache-2.0 | not declared |
 | libc | 0.2.189 | MIT OR Apache-2.0 | 1.65 |
 | libsqlite3-sys | 0.38.2 | MIT | not declared |
 | litemap | 0.8.3 | Unicode-3.0 | 1.82 |
@@ -121,12 +127,15 @@ Lockfile SHA-256: `35a128d90a9c31bc03f0e073cdba52e819bffb565bfb05cfd34a8261bf112
 | md-5 | 0.11.0 | MIT OR Apache-2.0 | 1.85 |
 | memchr | 2.8.3 | Unlicense OR MIT | 1.61 |
 | mime | 0.3.17 | MIT OR Apache-2.0 | not declared |
+| miniz_oxide | 0.8.9 | MIT OR Zlib OR Apache-2.0 | not declared |
+| mintex | 0.1.4 | Apache-2.0 | not declared |
 | mio | 1.2.3 | MIT | 1.71 |
 | nix | 0.31.3 | MIT | 1.69 |
 | num-bigint | 0.4.8 | MIT OR Apache-2.0 | 1.60 |
 | num-conv | 0.2.2 | MIT OR Apache-2.0 | 1.57.0 |
 | num-integer | 0.1.47 | MIT OR Apache-2.0 | 1.31 |
 | num-traits | 0.2.19 | MIT OR Apache-2.0 | 1.60 |
+| object | 0.37.3 | Apache-2.0 OR MIT | 1.65 |
 | object_store | 0.14.2 | MIT/Apache-2.0 | 1.85 |
 | once_cell | 1.21.4 | MIT OR Apache-2.0 | 1.65 |
 | once_cell_polyfill | 1.70.2 | MIT OR Apache-2.0 | 1.70.0 |
@@ -160,6 +169,8 @@ Lockfile SHA-256: `35a128d90a9c31bc03f0e073cdba52e819bffb565bfb05cfd34a8261bf112
 | rsqlite-vfs | 0.1.1 | MIT | 1.81.0 |
 | rusqlite | 0.40.2 | MIT | not declared |
 | rustc_version | 0.4.1 | MIT OR Apache-2.0 | 1.32 |
+| rustc-demangle | 0.1.28 | MIT/Apache-2.0 | not declared |
+| rustc-hash | 1.1.0 | Apache-2.0/MIT | not declared |
 | rustc-hash | 2.1.3 | Apache-2.0 OR MIT | 1.77 |
 | rustls | 0.23.45 | Apache-2.0 OR ISC OR MIT | 1.71 |
 | rustls-native-certs | 0.8.4 | Apache-2.0 OR ISC OR MIT | 1.71 |
@@ -203,6 +214,7 @@ Lockfile SHA-256: `35a128d90a9c31bc03f0e073cdba52e819bffb565bfb05cfd34a8261bf112
 | synstructure | 0.14.0 | MIT | 1.71 |
 | thiserror | 2.0.21 | MIT OR Apache-2.0 | 1.77 |
 | thiserror-impl | 2.0.21 | MIT OR Apache-2.0 | 1.77 |
+| thousands | 0.2.0 | MIT/Apache-2.0 | not declared |
 | time | 0.3.55 | MIT OR Apache-2.0 | 1.88.0 |
 | time-core | 0.1.9 | MIT OR Apache-2.0 | 1.88.0 |
 | time-macros | 0.2.32 | MIT OR Apache-2.0 | 1.88.0 |

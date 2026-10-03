@@ -1,6 +1,4 @@
-use rom::{Runtime, Storage};
-use rom_demo::{Notices, attachments, bootstrap, build, resolver, smoke};
-use std::sync::Arc;
+use rom_demo::smoke;
 #[tokio::main]
 async fn main() -> smoke::SmokeResult<()> {
     let mut args = std::env::args().skip(1);
@@ -57,46 +55,7 @@ async fn main() -> smoke::SmokeResult<()> {
             if args.next().is_some() {
                 return Err("usage: rom-demo serve [sqlite|redb] [database] [port]".into());
             }
-            let storage: Arc<dyn Storage> = if redb {
-                Arc::new(rom_redb::Redb::open(&path)?)
-            } else {
-                Arc::new(rom_sqlite::Sqlite::open(&path)?)
-            };
-            let runtime: Runtime = build(storage, Notices::default())?;
-            bootstrap(&runtime).await?;
-            let blobs = attachments::open(
-                runtime.clone(),
-                std::path::Path::new(&format!("{path}.objects")),
-            )?;
-            match runtime
-                .read::<rom_blob::Blob>(&rom_demo::session_actor(), attachments::ID)
-                .await
-            {
-                Err(rom::Error::Missing) => attachments::attach(&blobs).await?,
-                Ok(_) => {}
-                Err(error) => return Err(error.into()),
-            }
-            let _worker = runtime.start_work()?;
-            let listener =
-                tokio::net::TcpListener::bind((std::net::Ipv4Addr::LOCALHOST, port)).await?;
-            println!(
-                "Local synthetic demo at http://{}; session header: Authorization: Demo local",
-                listener.local_addr()?
-            );
-            println!("Status: {}", serde_json::to_string(&runtime.status()?)?);
-            let draining_blobs = blobs.clone();
-            rom_http::Http::new(runtime.clone(), resolver(), Default::default())?
-                .serve(listener, async move {
-                    if let Err(error) = tokio::signal::ctrl_c().await {
-                        eprintln!("Signal listener failed: {error}");
-                    }
-                    if let Err(error) = draining_blobs.shutdown().await {
-                        eprintln!("Attachment drain failed: {error}");
-                    }
-                })
-                .await?;
-            blobs.shutdown().await?;
-            println!("Stopped: {}", serde_json::to_string(&runtime.status()?)?);
+            rom_demo::serving::run(redb, &path, port).await?;
         }
         _ => {
             return Err(

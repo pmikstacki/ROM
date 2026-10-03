@@ -1,5 +1,6 @@
 //! A complete local application built from Resource declarations and business functions.
 mod application;
+mod host_signals;
 mod identity;
 mod model;
 mod scratch;
@@ -34,6 +35,9 @@ pub mod upgrade;
 
 /// Authorized work recovery and explicit domain compensation through public APIs.
 pub mod operator;
+
+/// Host-owned local synthetic server and graceful lifecycle.
+pub mod serving;
 
 /// Opt-in host authentication from current provider configuration.
 #[cfg(feature = "provider-profile")]

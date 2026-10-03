@@ -40,14 +40,7 @@ pub(super) async fn run(
         .await
         .map_err(|_| Error::Storage)?;
     let address = listener.local_addr().map_err(|_| Error::Storage)?;
-    // Install signal reception before reporting readiness.
-    let mut termination = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
-        .map_err(|_| Error::Storage)?;
-    let mut interrupt = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::interrupt())
-        .map_err(|_| Error::Storage)?;
+    let signals = crate::host_signals::SignalReceiver::install()?;
     println!("{{\"endpoint\":\"http://{address}\"}}");
-    serve(runtime, auth, listener, async move {
-        tokio::select! {_ = interrupt.recv()=>{},_ = termination.recv()=>{}}
-    })
-    .await
+    serve(runtime, auth, listener, signals.wait()).await
 }

@@ -2,10 +2,11 @@
 // Verify distributable sources without publishing or resolving ROM from crates.io.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { mkdtempSync, readFileSync, writeFileSync, mkdirSync, cpSync, existsSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, resolve, join, sep } from 'node:path';
+import { basename, dirname, resolve, join, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { applicationInputs, copyApplication, auditPackagePaths } from './packages/application.mjs';
 
 const root = resolve(process.argv[2] ?? join(dirname(fileURLToPath(import.meta.url)), '..'));
 const scratch = mkdtempSync(join(tmpdir(), 'rom-packaged-consumer-'));
@@ -18,12 +19,16 @@ const hash = path => createHash('sha256').update(readFileSync(path)).digest('hex
 const lockHash = hash(join(root, 'Cargo.lock'));
 const run = (program, args, cwd = root, capture = false) => execFileSync(program, args, {
   cwd, env, encoding: 'utf8', stdio: capture ? ['ignore', 'pipe', 'inherit'] : 'inherit',
+  maxBuffer: 32 * 1024 * 1024,
 });
+run(process.execPath, ['--test', ...readdirSync(join(root,'scripts/packages')).filter(name=>name.endsWith('.test.mjs')).sort().map(name=>join(root,'scripts/packages',name))]);
 const metadata = JSON.parse(run('cargo', ['metadata', '--locked', '--format-version', '1', '--no-deps'], root, true));
 const packages = metadata.packages.filter(p => p.manifest_path.startsWith(join(root, 'crates') + sep));
 if (!packages.length) throw Error('No maintained library packages found');
 const consumer = metadata.packages.find(p => p.name === 'rom-consumer');
 if (!consumer) throw Error('Public API consumer is missing');
+const reference = metadata.packages.find(p => p.name === 'rom-demo');
+if (!reference) throw Error('Reference application is missing');
 
 // CLI config patches only unpublished workspace crates; no manifest is rewritten.
 const patches = paths => '[patch.crates-io]\n' + packages.map(p =>
@@ -52,21 +57,9 @@ for (const p of packages) {
   }
 }
 
-const app = join(scratch, 'consumer');
-mkdirSync(join(app, '.cargo'), { recursive: true });
-cpSync(join(dirname(consumer.manifest_path), 'src'), join(app, 'src'), { recursive: true });
-cpSync(join(dirname(consumer.manifest_path), 'tests'), join(app, 'tests'), { recursive: true });
 const archivePath = p => join(unpacked, `${p.name}-${p.version}`);
-writeFileSync(join(app, '.cargo', 'config.toml'), patches(archivePath));
-const dependencies = kind => consumer.dependencies.filter(d => d.kind === kind).map(d => {
-  const options = [`version = ${JSON.stringify(d.req)}`];
-  if (!d.uses_default_features) options.push('default-features = false');
-  if (d.features.length) options.push(`features = ${JSON.stringify(d.features)}`);
-  if (d.rename) options.push(`package = ${JSON.stringify(d.name)}`);
-  return `${JSON.stringify(d.rename ?? d.name)} = { ${options.join(', ')} }`;
-});
-writeFileSync(join(app, 'Cargo.toml'), `[package]\nname = "rom-consumer"\nversion = "0.0.0"\nedition = "2024"\npublish = false\n\n[dependencies]\n${dependencies(null).join('\n')}\n\n[dev-dependencies]\n${dependencies('dev').join('\n')}\n\n[workspace]\n`);
-cpSync(join(root, 'Cargo.lock'), join(app, 'Cargo.lock'));
+const app = copyApplication(root, consumer, scratch, patches(archivePath));
+const consumerInputs = applicationInputs(scratch, [basename(app)]);
 for (const p of packages) {
   run('cargo', ['--config', join(app, '.cargo', 'config.toml'), 'check', '--offline', '--all-features',
     '--manifest-path', join(archivePath(p), 'Cargo.toml')], app);
@@ -84,8 +77,23 @@ if (cli) {
 run('cargo', ['run', '--offline'], app);
 run('cargo', ['test', '--offline', '--tests'], app);
 const external = JSON.parse(run('cargo', ['metadata', '--locked', '--offline', '--format-version', '1'], app, true));
-for (const p of external.packages.filter(p => packages.some(lib => lib.name === p.name))) {
-  if (!p.manifest_path.startsWith(unpacked + sep)) throw Error(`${p.name}: consumer escaped packaged sources`);
-}
+auditPackagePaths(external, packages, unpacked);
+const demo = copyApplication(root, reference, scratch, patches(archivePath), {sharedSupport:true, providerFixture:true});
+const demoInputs = applicationInputs(scratch, [basename(demo), 'tests']);
+run('cargo', ['test', '--offline', '--all-features'], demo);
+const application = JSON.parse(run('cargo', ['metadata', '--locked', '--offline', '--all-features', '--format-version', '1'], demo, true));
+auditPackagePaths(application, packages, unpacked);
 if (hash(join(root, 'Cargo.lock')) !== lockHash) throw Error('Packaging unexpectedly changed repository lockfile');
-console.log(`Packaged consumer passed using ${packages.length} archives. Evidence retained: ${scratch}`);
+writeFileSync(join(scratch,'acceptance.json'), JSON.stringify({
+  source_lock_sha256:lockHash,
+  libraries:packages.map(p=>({name:p.name,version:p.version,archive_sha256:hash(join(target,'package',`${p.name}-${p.version}.crate`))})),
+  applications:[
+    {name:consumer.name,path:app,inputs_sha256:consumerInputs,resolved_lock_sha256:hash(join(app,'Cargo.lock'))},
+    {name:reference.name,path:demo,inputs_sha256:demoInputs,resolved_lock_sha256:hash(join(demo,'Cargo.lock'))},
+  ],
+  verified_dependency_root:unpacked,
+  reference_tests:'cargo test --offline --all-features',
+  real_provider:'Separate source ./demo/verify-provider gate; not rerun against this copied application',
+  publication:false,
+},null,2)+'\n');
+console.log(`Packaged consumer and reference application passed using ${packages.length} archives. Evidence retained: ${scratch}`);

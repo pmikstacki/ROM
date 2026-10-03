@@ -1,27 +1,4 @@
 #!/usr/bin/env bash
-# Local source release; performs no publication or GitHub API calls.
+# Local source artifacts only; the Node entrypoint owns all fixed acceptance gates.
 set -euo pipefail
-cd "$(dirname "$0")/.."
-if [[ -n "$(git status --porcelain --untracked-files=normal)" ]]; then
-  echo 'Release requires a clean source checkout; commit reviewed changes first.' >&2
-  exit 1
-fi
-./scripts/check
-./scripts/build --release
-node scripts/check-packages.mjs
-release_revision="$(git rev-parse HEAD)"
-release_version="$(node -e 'const fs=require("fs");const text=fs.readFileSync("Cargo.toml","utf8");const section=text.split("[workspace.package]")[1].split("[workspace.dependencies]")[0];const version=section.match(/^version = "([^"]+)"/m);if(!version)process.exit(1);process.stdout.write(version[1]);')"
-mkdir -p dist
-release_name="rom-${release_version}-${release_revision:0:12}"
-release_file="dist/${release_name}-source.tar.gz"
-if [[ -e "$release_file" ]]; then
-  echo 'A release with this source identity already exists; refusing to overwrite.' >&2
-  exit 1
-fi
-release_tmp="$(mktemp dist/.rom-release.XXXXXX)"
-trap 'rm -f "$release_tmp"' EXIT
-git archive --format=tar --prefix="${release_name}/" "$release_revision" | gzip -n > "$release_tmp"
-# Atomic no-overwrite publication on the same filesystem.
-ln "$release_tmp" "$release_file"
-sha256sum "$release_file" > "${release_file}.sha256"
-printf '%s\n' "Source archive: $release_file" "Revision: $release_revision"
+exec node "$(dirname "$0")/release-artifacts/main.mjs" "$@"
