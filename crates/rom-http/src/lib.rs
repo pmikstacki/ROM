@@ -181,7 +181,7 @@ struct StructuredQuery {
 #[derive(Deserialize)]
 #[serde(untagged)]
 enum Query {
-    Structured(StructuredQuery),
+    Structured(Box<StructuredQuery>),
     Equality(EqualityQuery),
 }
 impl Query {

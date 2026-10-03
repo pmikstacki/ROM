@@ -1000,3 +1000,74 @@ async fn discovery_http_never_returns_an_oversized_partial_catalog() {
     assert_eq!(body(&response), json!({"error":"too_large"}));
     server.finish().await;
 }
+
+#[tokio::test]
+async fn ranges_sort_and_client_anchor_share_query_and_live_wire_paths() {
+    use rom::{Direction, Resource};
+    let server = Server::start(Limits::default()).await;
+    let actor = Actor::trusted("local", "alice");
+    for (id, title) in [("a", "z"), ("b", "é"), ("c", "z")] {
+        server
+            .runtime
+            .execute(
+                &actor,
+                Command::create(
+                    id,
+                    Task {
+                        owner: "alice".into(),
+                        title: title.into(),
+                        done: false,
+                        note: None,
+                    },
+                )
+                .idempotency(id),
+            )
+            .await
+            .unwrap();
+    }
+    let query = Task::title_field()
+        .at_least("z".into())
+        .order_by(Task::title_field(), Direction::Asc)
+        .limit(1);
+    let request = json!({"kind":Task::KIND,"query":query.spec()}).to_string();
+    let response = server.post("/query", "owner-secret", &request).await;
+    assert_eq!(status(&response), 200);
+    assert_eq!(body(&response)[0]["key"]["id"], json!("a"));
+    let first = server.runtime.query(&actor, &query).await.unwrap();
+    let next = query.after_snapshot(&first[0]).unwrap().limit(5);
+    let request = json!({"kind":Task::KIND,"query":next.spec()}).to_string();
+    let response = server.post("/query", "owner-secret", &request).await;
+    assert_eq!(status(&response), 200);
+    assert_eq!(
+        body(&response)
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|v| v["key"]["id"].as_str().unwrap())
+            .collect::<Vec<_>>(),
+        ["c", "b"]
+    );
+    let mut stream = server.stream("/live", &request).await;
+    let data = until(&mut stream, "event: data").await;
+    assert!(data.contains("\"id\":\"c\""));
+    assert!(!data.contains("\"id\":\"a\""));
+    drop(stream);
+    let response = server.post("/query", "other-secret", &request).await;
+    assert_eq!(status(&response), 200);
+    assert_eq!(body(&response), json!([]));
+    let mut bad = next.spec().clone();
+    bad.after.as_mut().unwrap().kind = "other".into();
+    assert_eq!(
+        status(
+            &server
+                .post(
+                    "/query",
+                    "owner-secret",
+                    &json!({"kind":Task::KIND,"query":bad}).to_string()
+                )
+                .await
+        ),
+        400
+    );
+    server.finish().await;
+}

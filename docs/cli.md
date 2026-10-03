@@ -124,10 +124,11 @@ A query file can contain:
 {"filters":[{"field":"done","value":false}],"after_id":null,"limit":20}
 ```
 
-Predicates are conjunctive equality; optional-field absence uses
-`{"field":"memo","value":null,"absent":true}`. Paging uses moving ID order
-through `after_id`. It is not a retained snapshot, arbitrary sorting, or a total
-count. Collection storage/snapshot bounds still apply even with a small page limit.
+Predicates are conjunctive equality or scalar comparisons. Optional-field absence uses
+`{"field":"memo","value":null,"absent":true}`. Query files may also supply `comparisons`,
+`order` and a client `after` anchor; see [shared query semantics](queries.md).
+`after_id` remains available for ID-only ordering. Moving pages retain no snapshot
+and provide no total count. Collection snapshot bounds still apply with a small page limit.
 
 ## Mutations and uncertain outcomes
 

@@ -253,6 +253,29 @@ impl<R: Resource, T: Field> FieldRef<R, T> {
             marker: PhantomData,
         }
     }
+    pub fn compare(self, op: CompareOp, value: T) -> Query<R> {
+        let mut spec = QuerySpec::all().compare(self.name, op, Field::encode(&value));
+        spec.comparisons[0].absent = !value.is_present();
+        Query {
+            spec,
+            marker: PhantomData,
+        }
+    }
+    pub fn not_equals(self, value: T) -> Query<R> {
+        self.compare(CompareOp::Ne, value)
+    }
+    pub fn less_than(self, value: T) -> Query<R> {
+        self.compare(CompareOp::Lt, value)
+    }
+    pub fn at_most(self, value: T) -> Query<R> {
+        self.compare(CompareOp::Le, value)
+    }
+    pub fn greater_than(self, value: T) -> Query<R> {
+        self.compare(CompareOp::Gt, value)
+    }
+    pub fn at_least(self, value: T) -> Query<R> {
+        self.compare(CompareOp::Ge, value)
+    }
 }
 #[derive(Clone)]
 pub struct Query<R> {
@@ -285,6 +308,39 @@ impl<R: Resource> Query<R> {
     }
     pub fn spec(&self) -> &QuerySpec {
         &self.spec
+    }
+    /// Conjoin predicates only; a nested page/order is rejected instead of discarded.
+    pub fn and_where(mut self, other: Self) -> Result<Self> {
+        if !other.spec.order.is_empty()
+            || other.spec.limit.is_some()
+            || other.spec.after.is_some()
+            || other.spec.after_id.is_some()
+        {
+            return Err(Error::invalid(R::KIND, "predicate composition"));
+        }
+        self.spec.filters.extend(other.spec.filters);
+        self.spec.comparisons.extend(other.spec.comparisons);
+        Ok(self)
+    }
+    pub fn order_by<T: Field>(mut self, field: FieldRef<R, T>, direction: Direction) -> Self {
+        self.spec = self.spec.order_by(field.name, direction);
+        self
+    }
+    pub fn after_snapshot(mut self, snapshot: &Snapshot<R>) -> Result<Self> {
+        if self.spec.after_id.is_some() {
+            return Err(Error::invalid(R::KIND, "after_id"));
+        }
+        let value = snapshot.value.as_ref().ok_or(Error::Missing)?.encode();
+        let descriptor = R::descriptor();
+        let plan = query_eval::normalize(&descriptor, &self.spec, R::normalize_field)?;
+        self.spec.after = Some(query_eval::make_anchor(
+            &descriptor,
+            &plan,
+            &snapshot.id,
+            &value,
+            R::normalize_field,
+        )?);
+        Ok(self)
     }
 }
 impl<R: Resource> Default for Query<R> {
@@ -334,6 +390,7 @@ pub struct Definition<R: Resource> {
     policy: Option<Policy<R>>,
     field_policy: Option<FieldPolicy<R>>,
     query_policy: Option<fn(&Actor, &str) -> bool>,
+    sort_policy: Option<fn(&Actor, &str) -> bool>,
     source_owner: Option<String>,
     source_metadata_policy: Option<fn(&Actor) -> bool>,
     discovery_policy: Option<discovery::DiscoveryPolicy>,
@@ -352,6 +409,7 @@ impl<R: Resource> Definition<R> {
             policy: None,
             field_policy: None,
             query_policy: None,
+            sort_policy: None,
             source_owner: None,
             source_metadata_policy: None,
             discovery_policy: None,
@@ -372,10 +430,16 @@ impl<R: Resource> Definition<R> {
         self.query_policy = Some(policy);
         self
     }
-    /// Explicit whole-record field and predicate grant; row policy still applies.
+    /// Authorizes ordering before consulting rows. Field-read grants are also required.
+    pub fn sort_policy(mut self, policy: fn(&Actor, &str) -> bool) -> Self {
+        self.sort_policy = Some(policy);
+        self
+    }
+    /// Explicit whole-record field, predicate and sort grant; row policy still applies.
     pub fn allow_all_fields(self) -> Self {
         self.field_policy(|_, _, _, _| true)
             .query_policy(|_, _| true)
+            .sort_policy(|_, _| true)
     }
     /// Freeze whole-Resource source ownership in the accepted definition.
     pub fn source_owner(mut self, source: &str) -> Self {
@@ -418,6 +482,7 @@ pub(crate) trait Registered: Send + Sync {
     fn allows(&self, actor: &Actor, access: Access, v: &Value) -> bool;
     fn allows_field(&self, actor: &Actor, access: Access, field: &str, v: &Value) -> bool;
     fn allows_query(&self, actor: &Actor, field: &str) -> bool;
+    fn allows_sort(&self, actor: &Actor, field: &str) -> bool;
     fn source_owner(&self) -> Option<&str>;
     fn allows_source_metadata(&self, actor: &Actor) -> bool;
     fn action(&self, name: &str) -> Result<ErasedAction>;
@@ -489,6 +554,9 @@ impl<R: Resource> Registered for Definition<R> {
     }
     fn allows_query(&self, actor: &Actor, field: &str) -> bool {
         self.query_policy.is_some_and(|p| p(actor, field))
+    }
+    fn allows_sort(&self, actor: &Actor, field: &str) -> bool {
+        self.sort_policy.is_some_and(|p| p(actor, field))
     }
 }
 

@@ -88,6 +88,7 @@ pub use reaction_work::*;
 mod storage_state;
 pub use storage_state::*;
 
+mod query_eval;
 mod query_spec;
 pub use query_spec::*;
 mod reactions;
