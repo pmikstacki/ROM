@@ -3,7 +3,7 @@
 `Storage::query_read(&StorageQuery, QueryBounds)` is the persistence boundary for query selection.
 Its default calls the existing bounded `snapshot` once and returns `QueryRead::Reference`.
 Existing adapters retain their behavior without a native implementation.
-The SQLite and redb adapters currently use this default.
+The redb adapter uses this default. SQLite implements the scalar candidate profile below.
 
 Core checks predicate and sort grants, normalizes operands through their actual codecs, and evaluates any explicit actor-only read rule first.
 The request contains the normalized query, full descriptor, semantic version and permitted selection mode.
@@ -50,7 +50,7 @@ The test adapters that exercise this interface are not evidence of a production 
 
 `QueryEstimates` binds both costs to the exact request and active snapshot.
 `complete_candidates` asserts the adapter's supported candidate semantics; it is not an authorization flag.
-Use the same calibrated relative units for both costs.
+Use the same relative units for both costs. Calibrate them against the complete operation before making release performance claims.
 
 `QueryCost` scores `startup + rows * per_row + bytes * per_byte` with checked arithmetic.
 This is a comparison input, not a latency prediction supplied by ROM.
@@ -59,3 +59,30 @@ Only a matching permitted native path with a strictly lower score can win.
 
 Database-specific plan inspection stays in the adapter. SQLite chooses its own physical plan; a key-value adapter describes its actual range-read capability.
 Index maintenance, snapshot metadata integrity, rebuild and measured coefficients are separate adapter responsibilities.
+
+## SQLite implementation
+
+Format 7 maintains a key for every scalar field of every live Row, including optional missing fields.
+The primary key groups memberships by Resource identity. A separate index groups scalar values by kind and field.
+State, reference edges, derived keys, exact kind counters and generation change in the same commit.
+An unchanged field key stays in place. Receipt replay and rejected writes do not change the generation.
+
+The native reader selects one supported predicate and returns its complete candidate set.
+Other predicates, sort order, moving anchors and result limits remain in core.
+It uses bound BLOB values for exact scalar comparisons. It does not put a result LIMIT in SQL.
+
+Plan inspection and execution use the same SQL and parameters inside one read transaction.
+The first plan recognizer accepts specific output from the bundled SQLite 3.53.2 engine.
+An unknown version or plan selects the reference path. Native execution errors propagate.
+The current cost weights and selectivity fractions are heuristics. They are not measured latency estimates.
+The release still needs skewed workloads, write amplification, allocations and memory measurements before tuning these weights.
+
+Startup and backup validate all derived memberships and counters against authoritative data.
+Validation also checks the native index layout. Physical entries count toward the complete native validation budget.
+Logical archives omit derived keys; restore, migration, retention and format upgrade reconstruct them before publication.
+
+For corrupt derived contents, keep the source offline and call `Sqlite::rebuild_indexes_from(source, destination, limits)`.
+The destination must be fresh. The source must retain the known table inventory and valid authoritative records.
+This operation discards corrupt derived contents and builds a validated replacement. It does not repair authoritative corruption.
+Publication gives the replacement a fresh index identity and fences old journal cursors and work claims.
+An interrupted stage is not published. The original source remains unchanged.

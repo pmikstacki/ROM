@@ -475,6 +475,8 @@ fn mark_legacy_format(redb: bool, path: &Path, version: u32, erase_catalog: bool
         tx.commit().unwrap();
     } else {
         let c = rusqlite::Connection::open(path).unwrap();
+        c.execute_batch("DROP TABLE query_keys; DROP TABLE query_kinds; DROP TABLE query_profile;")
+            .unwrap();
         c.pragma_update(None, "user_version", version).unwrap();
         if erase_catalog {
             c.execute("DELETE FROM schemas", []).unwrap();

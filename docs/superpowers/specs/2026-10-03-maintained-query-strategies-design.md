@@ -1,7 +1,9 @@
 # Maintained query strategies
 
 Status: the owned core read seam and explicit read-policy contract are implemented.
-Native index integration in stage 3.2 remains pending.
+SQLite scalar index integration and recovery have passed local verification.
+See the [integration report](../../research/sqlite-query-index-results.md) for scope and evidence.
+Cost coefficients remain uncalibrated; release measurements remain pending.
 See the [core seam plan](../plans/2026-10-03-query-read-contract.md) for exact types and tests.
 
 ## Intent
@@ -190,5 +192,6 @@ Choose a strategy only from these supported paths; do not promise a universal wi
 ## Remaining design work
 
 The core seam fixes the adapter types, actor-only policy API and scalar eligibility gate.
-The native layout still needs its index configuration, transactional maintenance and recovery implementation.
-Release task 3.1 remains open until that physical integration contract is final.
+SQLite uses a fixed all-scalar profile with per-Resource primary membership keys and a scalar-value secondary index.
+Format 7 maintains keys and exact counters atomically. Fresh-destination maintenance rebuilds them from authoritative records.
+The remaining optimization work is measured selection, write and memory cost assessment, and the final independent integration review.

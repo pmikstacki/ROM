@@ -1,19 +1,11 @@
 //! Pure capability, freshness and checked-cost selection. No application callbacks.
 use super::protocol::*;
-use crate::Shape;
 
 pub(super) fn valid_snapshot(snapshot: &QuerySnapshot) -> bool {
     !snapshot.store.is_empty()
         && snapshot.store.len() <= 256
         && snapshot.profile_version == QUERY_PROFILE_VERSION
         && snapshot.encoding_version == QUERY_ENCODING_VERSION
-}
-pub(crate) fn scalar_shape(shape: &Shape) -> bool {
-    match shape {
-        Shape::Optional(inner) | Shape::Nullable(inner) => scalar_shape(inner),
-        Shape::List(_) | Shape::Map(_) => false,
-        _ => true,
-    }
 }
 pub(super) fn native_eligible(request: &StorageQuery) -> bool {
     request.selection == SelectionMode::UniformReadAndFields
@@ -33,7 +25,7 @@ pub(super) fn native_eligible(request: &StorageQuery) -> bool {
                     .fields
                     .iter()
                     .find(|f| &f.name == name)
-                    .is_some_and(|field| scalar_shape(&field.shape))
+                    .is_some_and(|field| field.shape.is_scalar())
             })
 }
 fn score(cost: QueryCost) -> Option<u64> {

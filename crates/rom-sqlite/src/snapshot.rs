@@ -56,16 +56,18 @@ pub(super) fn collect_upgrade_snapshot(
     let version: u32 = c
         .pragma_query_value(None, "user_version", |r| r.get(0))
         .map_err(|_| Error::Storage)?;
-    let snapshot = collect_supported_snapshot(c, limits, &[3, 4, 5])?;
+    let snapshot = collect_supported_snapshot(c, limits, &[3, 4, 5, 6])?;
     if version == 3 {
         rom_backup::bind_legacy_schema(snapshot, descriptors, limits)
+    } else if version == 6 {
+        rom_backup::upgrade_current_snapshot(snapshot, descriptors, limits)
     } else {
         rom_backup::upgrade_legacy_snapshot(snapshot, descriptors, limits)
     }
 }
 
 pub(super) fn collect_migration_snapshot(c: &Connection, limits: BackupLimits) -> Result<Snapshot> {
-    collect_supported_snapshot(c, limits, &[4, 5, rom_backup::STORAGE_FORMAT])
+    collect_supported_snapshot(c, limits, &[4, 5, 6, rom_backup::STORAGE_FORMAT])
 }
 
 fn collect_supported_snapshot(
@@ -80,7 +82,7 @@ fn collect_supported_snapshot(
         return Err(Error::Unsupported("SQLite storage format".into()));
     }
     let snapshot = collect_snapshot_for_format(c, limits, format)?;
-    if format < rom_backup::STORAGE_FORMAT {
+    if format < 6 {
         rom_backup::validate_legacy_retry_epochs(&snapshot)?;
     }
     Ok(snapshot)
@@ -100,6 +102,21 @@ fn validate_inventory(c: &Connection, format: u32) -> Result<()> {
             ("table", "receipts", "receipts"),
             ("table", "resources", "resources"),
             ("table", "rom_state", "rom_state"),
+        ]
+    } else if format == 7 {
+        &[
+            ("table", "effects", "effects"),
+            ("table", "events", "events"),
+            ("table", "query_keys", "query_keys"),
+            ("index", "query_keys_value", "query_keys"),
+            ("table", "query_kinds", "query_kinds"),
+            ("table", "query_profile", "query_profile"),
+            ("table", "receipts", "receipts"),
+            ("table", "reference_edges", "reference_edges"),
+            ("index", "reference_edges_target", "reference_edges"),
+            ("table", "resources", "resources"),
+            ("table", "rom_state", "rom_state"),
+            ("table", "schemas", "schemas"),
         ]
     } else {
         &[
@@ -151,6 +168,22 @@ fn collect_snapshot_for_format(
     limits: BackupLimits,
     format: u32,
 ) -> Result<rom_backup::Snapshot> {
+    collect_records(c, limits, format, true)
+}
+
+/// Explicit rebuild trusts only bounded authoritative records; derived contents are discarded.
+pub(super) fn collect_rebuild_snapshot(c: &Connection, limits: BackupLimits) -> Result<Snapshot> {
+    let snapshot = collect_records(c, limits, rom_backup::STORAGE_FORMAT, false)?;
+    snapshot.validate()?;
+    Ok(snapshot)
+}
+
+fn collect_records(
+    c: &Connection,
+    limits: BackupLimits,
+    format: u32,
+    validate_indexes: bool,
+) -> Result<Snapshot> {
     validate_inventory(c, format)?;
     let mut state_stmt = c
         .prepare("SELECT data FROM rom_state WHERE id=1")
@@ -237,6 +270,9 @@ fn collect_snapshot_for_format(
                 id: parts[3].into(),
             },
         })?;
+    }
+    if format == rom_backup::STORAGE_FORMAT && validate_indexes {
+        crate::index::validate(c, &mut collect, limits)?;
     }
     Ok(collect.snapshot)
 }

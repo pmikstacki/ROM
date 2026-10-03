@@ -419,10 +419,12 @@ fn legacy_native_format_cannot_import_nonzero_retry_epochs() {
                 .unwrap();
             tx.commit().unwrap();
         } else {
-            rusqlite::Connection::open(&source)
-                .unwrap()
-                .pragma_update(None, "user_version", 5)
-                .unwrap();
+            let c = rusqlite::Connection::open(&source).unwrap();
+            c.execute_batch(
+                "DROP TABLE query_keys; DROP TABLE query_kinds; DROP TABLE query_profile;",
+            )
+            .unwrap();
+            c.pragma_update(None, "user_version", 5).unwrap();
         }
         let bytes = std::fs::read(&source).unwrap();
         let dest = dir.path("upgraded");

@@ -35,15 +35,18 @@ impl Collector {
         })
     }
     fn charge(&mut self, data: &str, key_bytes: usize) -> Result<()> {
-        self.records = self.records.checked_add(1).ok_or(Error::TooLarge)?;
-        self.bytes = self
-            .bytes
-            .checked_add(data.len())
-            .and_then(|n| n.checked_add(key_bytes))
-            .ok_or(Error::TooLarge)?;
-        if self.records > self.limits.max_records || self.bytes > self.limits.max_bytes {
+        self.physical(data.len().checked_add(key_bytes).ok_or(Error::TooLarge)?)
+    }
+    /// Charge one adapter-owned physical record to the same complete collection budget.
+    /// Include encoded keys and values in `bytes`; no logical snapshot data is added.
+    pub fn physical(&mut self, bytes: usize) -> Result<()> {
+        let records = self.records.checked_add(1).ok_or(Error::TooLarge)?;
+        let total = self.bytes.checked_add(bytes).ok_or(Error::TooLarge)?;
+        if records > self.limits.max_records || total > self.limits.max_bytes {
             return Err(Error::TooLarge);
         }
+        self.records = records;
+        self.bytes = total;
         Ok(())
     }
     pub fn row(&mut self, kind: &str, id: &str, revision: Option<u64>, data: &str) -> Result<()> {

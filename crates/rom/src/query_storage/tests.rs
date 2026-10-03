@@ -407,3 +407,10 @@ fn checked_score_rejects_addition_overflow_and_unrelated_snapshot_identity() {
         QueryStrategy::Reference
     );
 }
+
+#[test]
+fn public_scalar_classification_preserves_wrapped_container_boundary() {
+    assert!(Shape::Optional(Box::new(Shape::Nullable(Box::new(Shape::F64)))).is_scalar());
+    assert!(!Shape::Optional(Box::new(Shape::List(Box::new(Shape::U64)))).is_scalar());
+    assert!(!Shape::Map(Box::new(Shape::String)).is_scalar());
+}

@@ -1,6 +1,6 @@
 //! Private canonical plan shared by typed, projected and live observations.
 use super::*;
-use crate::query_storage::{scalar_shape, validate_query_read};
+use crate::query_storage::validate_query_read;
 use std::cmp::Ordering as Cmp;
 pub(crate) struct Plan {
     pub(crate) spec: QuerySpec,
@@ -66,7 +66,7 @@ pub(crate) fn normalize(
         } else {
             p.value = normalized(d, &p.field, p.value.clone(), &codec)?;
             if !matches!(p.op, CompareOp::Eq | CompareOp::Ne)
-                && (!scalar_shape(shape) || p.value.is_null())
+                && (!shape.is_scalar() || p.value.is_null())
             {
                 return Err(Error::invalid(&d.kind, &p.field));
             }
@@ -75,7 +75,7 @@ pub(crate) fn normalize(
     let mut sorted = BTreeSet::new();
     for o in &spec.order {
         let shape = field(d, &o.field)?;
-        if !scalar_shape(shape) || !sorted.insert(&o.field) {
+        if !shape.is_scalar() || !sorted.insert(&o.field) {
             return Err(Error::invalid(&d.kind, &o.field));
         }
         shapes.insert(o.field.clone(), shape.clone());
@@ -173,7 +173,7 @@ fn compare_value(a: Option<&Value>, b: Option<&Value>, shape: &Shape) -> Result<
     })
 }
 fn equal(a: &Value, b: &Value, shape: &Shape) -> Result<bool> {
-    if scalar_shape(shape) {
+    if shape.is_scalar() {
         Ok(compare_value(Some(a), Some(b), shape)? == Cmp::Equal)
     } else {
         Ok(a == b)

@@ -19,6 +19,18 @@ pub enum Shape {
     Reference { kind: String },
 }
 
+impl Shape {
+    /// Whether values use scalar query semantics, including missing and null wrappers.
+    /// Lists and maps retain structural equality and are not scalar index keys.
+    pub fn is_scalar(&self) -> bool {
+        match self {
+            Self::Optional(inner) | Self::Nullable(inner) => inner.is_scalar(),
+            Self::List(_) | Self::Map(_) => false,
+            _ => true,
+        }
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct FieldDescriptor {

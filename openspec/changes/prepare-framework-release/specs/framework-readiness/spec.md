@@ -161,6 +161,32 @@ the shared authorization, filter, ordering and admission contracts.
 - **AND** absent estimates, checked-cost overflow and equal costs also choose reference execution
 - **AND** only matching complete candidate support with a strictly lower cost can select native execution
 
+#### Scenario: An indexed mutation rolls back or replays
+- **GIVEN** scalar memberships and exact kind counters derived from committed Resources
+- **WHEN** a mutation fails before commit or repeats a stored receipt
+- **THEN** keys, counters and generation remain unchanged
+- **AND** a successful mutation changes them in the same transaction as state, receipt, journal and pending work
+
+#### Scenario: A derived index is corrupt
+- **GIVEN** valid authoritative records and an incomplete or incorrect derived index
+- **WHEN** a host opens the store normally
+- **THEN** bounded integrity validation rejects it instead of serving incomplete results
+- **AND** explicit offline rebuild can publish a validated fresh destination without changing the source
+- **AND** authoritative corruption or an exceeded complete validation budget prevents publication
+
+#### Scenario: Maintenance reconstructs an index
+- **GIVEN** an offline source with registered kinds, including kinds omitted by the next application
+- **WHEN** restore, migration, retention, upgrade or explicit index rebuild publishes a replacement
+- **THEN** derived memberships and exact counters cover the complete retained catalog and authoritative rows
+- **AND** the replacement has a fresh index identity
+- **AND** interruption before publication leaves the destination absent and the source unchanged
+
+#### Scenario: The previous native format has retry epochs
+- **GIVEN** a format-6 native source or archive-4 source with valid nonzero retry boundaries
+- **WHEN** the host performs an explicit format upgrade
+- **THEN** it retains retry boundaries and receipt origins without treating them as epoch-zero legacy data
+- **AND** ordinary open rejects that previous format without an implicit upgrade
+
 ### Requirement: Release readiness includes operational recovery
 ROM SHALL provide tested CLI recovery, single-writer ownership, documented identity
 and secrets setup, versioned extension conformance and locally verified packages.

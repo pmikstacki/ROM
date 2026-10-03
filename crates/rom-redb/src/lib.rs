@@ -13,5 +13,7 @@ mod retention;
 mod storage;
 mod store;
 mod upgrade;
+#[cfg(test)]
+mod upgrade_tests;
 
 pub use store::Redb;

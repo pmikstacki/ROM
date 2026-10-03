@@ -111,7 +111,7 @@ independent durable authority.
 A backup preserves the policy known when it was created. It cannot record future
 retention decisions. A zero default fence cannot detect rollback to older policy.
 
-Native format 6 and archive format 4 preserve epoch metadata. Use the explicit
+Native format 7 and archive format 5 preserve epoch metadata. Use the explicit
 [format upgrade](native-upgrade.md) for older data. Older readers must reject these
 formats. Interruption before publication leaves the source usable and destination
 absent. An `Unknown` publication result requires destination inspection before retry.

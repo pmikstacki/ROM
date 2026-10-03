@@ -3,7 +3,11 @@ use crate::*;
 use rom::{Descriptor, Error, StorageLimits, StorageState, json};
 use sha2::{Digest, Sha256};
 use std::{fs, path::Path};
-fn unchecked_archive(path: &Path, manifest: &serde_json::Value, snapshot: &serde_json::Value) {
+pub(super) fn unchecked_archive(
+    path: &Path,
+    manifest: &serde_json::Value,
+    snapshot: &serde_json::Value,
+) {
     let header = serde_json::to_vec(manifest).unwrap();
     let body = serde_json::to_vec(snapshot).unwrap();
     let mut hash = Sha256::new();
@@ -118,7 +122,7 @@ fn explicit_legacy_archive_upgrade_preserves_data_and_requires_descriptors() {
         BackupLimits::default(),
     )
     .unwrap();
-    assert_eq!((result.archive_version, result.storage_format), (4, 6));
+    assert_eq!((result.archive_version, result.storage_format), (5, 7));
     let (_, upgraded) = read(&target, Backend::Sqlite, BackupLimits::default()).unwrap();
     let upgraded = serde_json::to_value(upgraded).unwrap();
     let mut expected_body = body.clone();
@@ -249,7 +253,7 @@ fn catalogued_archive_upgrade_preserves_or_binds_receipt_origin() {
                 Err(Error::Unsupported(_))
             ));
             let upgraded = upgrade(source.path(), &target).unwrap();
-            assert_eq!((upgraded.archive_version, upgraded.storage_format), (4, 6));
+            assert_eq!((upgraded.archive_version, upgraded.storage_format), (5, 7));
             let (_, data) = read(&target, Backend::Sqlite, BackupLimits::default()).unwrap();
             assert_eq!(data.receipts[0].replay_version, Some(origin.unwrap_or(2)));
             assert_eq!(data.receipts[0].row, snapshot.receipts[0].row);

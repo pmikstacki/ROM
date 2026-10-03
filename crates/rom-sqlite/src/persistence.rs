@@ -1,5 +1,5 @@
 //! The native atomic Resource bundle and authoritative read interface.
-use crate::{Sqlite, references};
+use crate::{Sqlite, index, references};
 use rom::{
     Bundle, Capabilities, Descriptor, Error, JournalCursor, JournalPage, Key, Receipt, Result, Row,
     Storage, StorageState, WorkRecord, WorkResult, WorkUpdate,
@@ -9,6 +9,9 @@ use rusqlite::{Connection, OptionalExtension, params};
 use std::sync::atomic::Ordering;
 
 pub(crate) fn row(c: &Connection, key: &Key) -> Result<Option<Row>> {
+    Ok(row_with_length(c, key)?.map(|(row, _)| row))
+}
+fn row_with_length(c: &Connection, key: &Key) -> Result<Option<(Row, usize)>> {
     let text: Option<String> = c
         .query_row(
             "SELECT data FROM resources WHERE kind=? AND id=?",
@@ -17,8 +20,12 @@ pub(crate) fn row(c: &Connection, key: &Key) -> Result<Option<Row>> {
         )
         .optional()
         .map_err(|_| Error::Storage)?;
-    text.map(|t| serde_json::from_str(&t).map_err(|_| Error::Storage))
-        .transpose()
+    text.map(|t| {
+        serde_json::from_str(&t)
+            .map(|row| (row, t.len()))
+            .map_err(|_| Error::Storage)
+    })
+    .transpose()
 }
 pub(crate) fn receipt(c: &Connection, id: &str) -> Result<Option<Receipt>> {
     let text: Option<String> = c
@@ -44,6 +51,38 @@ pub(crate) fn save_state(c: &Connection, state: &StorageState) -> Result<()> {
     .map_err(|_| Error::NotCommitted)?;
     Ok(())
 }
+pub(crate) fn snapshot_rows(
+    c: &Connection,
+    kind: &str,
+    max_rows: usize,
+    max_bytes: usize,
+) -> Result<Vec<Row>> {
+    let mut statement = c
+        .prepare("SELECT data FROM resources WHERE kind=? ORDER BY id LIMIT ?")
+        .map_err(|_| Error::Storage)?;
+    let limit = i64::try_from(max_rows.saturating_add(1)).unwrap_or(i64::MAX);
+    let mut cursor = statement
+        .query(params![kind, limit])
+        .map_err(|_| Error::Storage)?;
+    let mut result = Vec::new();
+    let mut bytes = 0usize;
+    while let Some(row) = cursor.next().map_err(|_| Error::Storage)? {
+        if result.len() == max_rows {
+            return Err(Error::TooLarge);
+        }
+        let text = row
+            .get_ref(0)
+            .map_err(|_| Error::Storage)?
+            .as_str()
+            .map_err(|_| Error::Storage)?;
+        bytes = bytes.checked_add(text.len()).ok_or(Error::TooLarge)?;
+        if bytes > max_bytes {
+            return Err(Error::TooLarge);
+        }
+        result.push(serde_json::from_str(text).map_err(|_| Error::Storage)?);
+    }
+    Ok(result)
+}
 impl Storage for Sqlite {
     fn retry_epochs(&self) -> Result<rom::RetryEpochs> {
         Ok(state(&*self.connection.lock().map_err(|_| Error::Panicked)?)?.retry_epochs())
@@ -54,6 +93,7 @@ impl Storage for Sqlite {
             .transaction_with_behavior(rusqlite::TransactionBehavior::Immediate)
             .map_err(|_| Error::Storage)?;
         references::register(&tx, descriptors)?;
+        index::register(&tx, descriptors)?;
         tx.commit().map_err(|_| Error::Unknown)
     }
     fn supports_reactions(&self) -> bool {
@@ -106,31 +146,16 @@ impl Storage for Sqlite {
     }
     fn snapshot(&self, kind: &str, max_rows: usize, max_bytes: usize) -> Result<Vec<Row>> {
         let c = self.connection.lock().map_err(|_| Error::Panicked)?;
-        let mut statement = c
-            .prepare("SELECT data FROM resources WHERE kind=? ORDER BY id LIMIT ?")
-            .map_err(|_| Error::Storage)?;
-        let limit = i64::try_from(max_rows.saturating_add(1)).unwrap_or(i64::MAX);
-        let mut cursor = statement
-            .query(params![kind, limit])
-            .map_err(|_| Error::Storage)?;
-        let mut result = Vec::new();
-        let mut bytes = 0usize;
-        while let Some(row) = cursor.next().map_err(|_| Error::Storage)? {
-            if result.len() == max_rows {
-                return Err(Error::TooLarge);
-            }
-            let text = row
-                .get_ref(0)
-                .map_err(|_| Error::Storage)?
-                .as_str()
-                .map_err(|_| Error::Storage)?;
-            bytes = bytes.checked_add(text.len()).ok_or(Error::TooLarge)?;
-            if bytes > max_bytes {
-                return Err(Error::TooLarge);
-            }
-            result.push(serde_json::from_str(text).map_err(|_| Error::Storage)?);
-        }
-        Ok(result)
+        snapshot_rows(&c, kind, max_rows, max_bytes)
+    }
+    fn query_read(
+        &self,
+        request: &rom::StorageQuery,
+        bounds: rom::QueryBounds,
+    ) -> Result<rom::QueryRead> {
+        let mut c = self.connection.lock().map_err(|_| Error::Panicked)?;
+        let tx = c.transaction().map_err(|_| Error::Storage)?;
+        index::query_read(&tx, request, bounds)
     }
     fn receipt(&self, id: &str) -> Result<Option<Receipt>> {
         receipt(&self.connection.lock().unwrap(), id)
@@ -156,7 +181,9 @@ impl Storage for Sqlite {
             }
             return Ok(prior);
         }
-        let existing = row(&tx, &b.receipt.row.key)?;
+        let stored = row_with_length(&tx, &b.receipt.row.key)?;
+        let old_raw_len = stored.as_ref().map(|(_, len)| *len);
+        let existing = stored.map(|(row, _)| row);
         if existing.as_ref().map(|r| r.revision) != b.expected {
             return Err(Error::Conflict);
         }
@@ -183,6 +210,10 @@ impl Storage for Sqlite {
             ordinal += 1;
             self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
             references::replace(self, &tx, &r.key, &targets, &mut ordinal)?;
+            index::replace(&tx, existing.as_ref(), r, old_raw_len, || {
+                ordinal += 1;
+                self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)
+            })?;
         }
         if f == 1 {
             return Err(Error::NotCommitted);

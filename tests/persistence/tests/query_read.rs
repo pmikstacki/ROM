@@ -1,5 +1,6 @@
 //! Runtime protocol conformance using real SQLite persistence and fault responses.
-//! These wrappers provide no evidence of a physical native index or its performance.
+//! Synthetic replies test protocol faults; Reply::Sqlite delegates unchanged to
+//! the maintained native index and counts its actual candidate responses.
 use rom::*;
 use std::sync::{
     Arc, Mutex,
@@ -20,6 +21,7 @@ fn uniform() -> Definition<Item> {
 }
 #[derive(Clone, Copy, Debug)]
 enum Reply {
+    Sqlite,
     Reference,
     Native,
     WrongRequest,
@@ -38,6 +40,7 @@ struct Observed {
     database: rom_sqlite::Sqlite,
     reply: Reply,
     snapshots: AtomicUsize,
+    native_reads: AtomicUsize,
     requests: Mutex<Vec<StorageQuery>>,
     at_read: Option<fn()>,
 }
@@ -63,6 +66,17 @@ impl Storage for Observed {
     }
     fn query_read(&self, request: &StorageQuery, bounds: QueryBounds) -> Result<QueryRead> {
         self.requests.lock().unwrap().push(request.clone());
+        if matches!(self.reply, Reply::Sqlite) {
+            let result = self.database.query_read(request, bounds)?;
+            if matches!(result, QueryRead::NativeCandidates { .. }) {
+                self.native_reads.fetch_add(1, Ordering::SeqCst);
+            }
+            // The adapter has released its native guard before external code.
+            if let Some(callback) = self.at_read {
+                callback();
+            }
+            return Ok(result);
+        }
         if let Some(callback) = self.at_read {
             callback();
         }
@@ -162,6 +176,7 @@ impl Fixture {
             database: rom_sqlite::Sqlite::open(directory.join("database")).unwrap(),
             reply,
             snapshots: AtomicUsize::new(0),
+            native_reads: AtomicUsize::new(0),
             requests: Mutex::new(Vec::new()),
             at_read,
         });
@@ -553,4 +568,168 @@ async fn native_candidates_cannot_bypass_whole_kind_admission_with_a_small_page(
         );
         f.assert_requests(1, SelectionMode::UniformReadAndFields);
     }
+}
+
+fn many_items(f: &Fixture) {
+    for amount in 0u64..128 {
+        let id = format!("{amount:03}");
+        f.seed(Item::KIND, &id, json!({"amount":amount,"title":id}));
+    }
+}
+fn many_fragile(f: &Fixture) {
+    for amount in 0u64..128 {
+        let text = if amount == 0 { "poison" } else { "ok" };
+        f.seed(
+            FragileItem::KIND,
+            &format!("{amount:03}"),
+            json!({"amount":amount,"text":text}),
+        );
+    }
+}
+#[tokio::test]
+async fn actual_native_index_skips_excluded_decoder_only_with_uniform_authority() {
+    for reply in [Reply::Reference, Reply::Sqlite] {
+        let f = Fixture::new(
+            FragileItem::definition()
+                .read_policy(|_| true)
+                .allow_all_fields(),
+            reply,
+        );
+        many_fragile(&f);
+        let query = QuerySpec::equal("amount", json!(1)).order_by("amount", Direction::Asc);
+        let rows = f
+            .runtime
+            .query_spec_projected(&actor(), FragileItem::KIND, query)
+            .await
+            .unwrap();
+        assert_eq!(rows.len(), 1);
+        assert_eq!(rows[0].key.id, "001");
+        assert_eq!(
+            f.storage.native_reads.load(Ordering::SeqCst),
+            usize::from(matches!(reply, Reply::Sqlite))
+        );
+        // A selected row still executes its custom decoder after materialization.
+        assert_eq!(
+            f.runtime
+                .query_spec_projected(
+                    &actor(),
+                    FragileItem::KIND,
+                    QuerySpec::equal("amount", json!(0))
+                )
+                .await
+                .unwrap_err(),
+            Error::Panicked
+        );
+        assert_eq!(
+            f.storage.native_reads.load(Ordering::SeqCst),
+            2 * usize::from(matches!(reply, Reply::Sqlite))
+        );
+        f.assert_requests(2, SelectionMode::UniformReadAndFields);
+    }
+    let f = Fixture::new(
+        FragileItem::definition()
+            .policy(|_, _, _| true)
+            .allow_all_fields(),
+        Reply::Sqlite,
+    );
+    many_fragile(&f);
+    assert_eq!(
+        f.runtime
+            .query_spec_projected(
+                &actor(),
+                FragileItem::KIND,
+                QuerySpec::equal("amount", json!(1))
+            )
+            .await
+            .unwrap_err(),
+        Error::Panicked
+    );
+    assert_eq!(f.storage.native_reads.load(Ordering::SeqCst), 0);
+    f.assert_requests(1, SelectionMode::ReferenceOnly);
+}
+
+#[tokio::test]
+async fn actual_native_storage_preserves_denial_before_limits_and_opaque_field_preflight() {
+    let f = Fixture::configured(
+        Item::definition().read_policy(|_| false).allow_all_fields(),
+        Reply::Sqlite,
+        Limits {
+            snapshot_rows: 1,
+            ..Limits::default()
+        },
+        None,
+    );
+    many_items(&f);
+    assert_eq!(
+        f.ids(QuerySpec::equal("amount", json!(1)).limit(1))
+            .await
+            .unwrap_err(),
+        Error::Denied
+    );
+    f.assert_requests(0, SelectionMode::UniformReadAndFields);
+    let f = Fixture::configured(
+        uniform(),
+        Reply::Sqlite,
+        Limits {
+            snapshot_rows: 1,
+            ..Limits::default()
+        },
+        None,
+    );
+    many_items(&f);
+    assert_eq!(
+        f.ids(QuerySpec::equal("amount", json!(1)).limit(1))
+            .await
+            .unwrap_err(),
+        Error::TooLarge
+    );
+    f.assert_requests(1, SelectionMode::UniformReadAndFields);
+    assert_eq!(f.storage.native_reads.load(Ordering::SeqCst), 0);
+
+    let f = Fixture::new(
+        uniform().field_policy(|_, _, field, row| field != "amount" || row.amount != 0),
+        Reply::Sqlite,
+    );
+    many_items(&f);
+    assert_eq!(
+        f.ids(QuerySpec::equal("amount", json!(1)).order_by("amount", Direction::Asc))
+            .await
+            .unwrap_err(),
+        Error::Denied
+    );
+    f.assert_requests(1, SelectionMode::ReferenceOnly);
+    assert_eq!(f.storage.native_reads.load(Ordering::SeqCst), 0);
+}
+
+static NATIVE_ALLOWED: AtomicBool = AtomicBool::new(true);
+fn native_read_grant(_: &Actor) -> bool {
+    NATIVE_ALLOWED.load(Ordering::SeqCst)
+}
+fn native_revoke() {
+    NATIVE_ALLOWED.store(false, Ordering::SeqCst);
+}
+#[tokio::test]
+async fn actual_native_candidates_still_require_current_disclosure_authority() {
+    NATIVE_ALLOWED.store(true, Ordering::SeqCst);
+    let f = Fixture::configured(
+        Item::definition()
+            .read_policy(native_read_grant)
+            .allow_all_fields(),
+        Reply::Sqlite,
+        Limits::default(),
+        Some(native_revoke),
+    );
+    many_items(&f);
+    assert_eq!(
+        f.ids(QuerySpec::equal("amount", json!(1)))
+            .await
+            .unwrap_err(),
+        Error::Denied
+    );
+    f.assert_requests(1, SelectionMode::UniformReadAndFields);
+    assert_eq!(
+        f.storage.native_reads.load(Ordering::SeqCst),
+        1,
+        "denial followed actual native selection"
+    );
 }

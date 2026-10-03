@@ -2,9 +2,9 @@ use rom::{Descriptor, Error, Intent, Receipt, ReferenceEdge, Result, Row, Storag
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 
-pub(crate) const ARCHIVE_VERSION: u32 = 4;
-/// Current native format. Older readers must reject persisted retry epochs.
-pub const STORAGE_FORMAT: u32 = 6;
+pub(crate) const ARCHIVE_VERSION: u32 = 5;
+/// Current native format, including adapter-owned query index metadata.
+pub const STORAGE_FORMAT: u32 = 7;
 
 #[derive(Clone, Copy, Debug)]
 pub struct BackupLimits {

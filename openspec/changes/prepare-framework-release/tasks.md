@@ -11,8 +11,8 @@
 - [x] 2.4 Verify upgrade/backup/restore of the reference application and review compatibility.
 
 ## 3. Measured execution optimization
-- [ ] 3.1 Specify the maintained planner-adapter and selector seam using prototype evidence.
-- [ ] 3.2 Integrate indexed execution with atomic index maintenance and rebuild/recovery.
+- [x] 3.1 Specify the maintained planner-adapter and selector seam using prototype evidence.
+- [x] 3.2 Integrate indexed execution with atomic index maintenance and rebuild/recovery.
 - [ ] 3.3 Compare execution strategies on independent/skewed workloads including writes, allocations and memory.
 - [ ] 3.4 Prove shared auth/query/admission semantics and independently review integration.
 

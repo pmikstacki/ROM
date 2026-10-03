@@ -5,6 +5,8 @@
 mod archive;
 mod codec;
 mod collector;
+#[cfg(test)]
+mod epoch_upgrade_tests;
 mod legacy;
 mod maintenance_limits;
 mod migration;
@@ -20,8 +22,8 @@ mod tests;
 pub use archive::{read, write};
 pub use collector::Collector;
 pub use legacy::{
-    bind_legacy_schema, upgrade_legacy_snapshot, upgrade_v1_archive, upgrade_v2_archive,
-    upgrade_v3_archive, validate_legacy_retry_epochs,
+    bind_legacy_schema, upgrade_current_snapshot, upgrade_legacy_snapshot, upgrade_v1_archive,
+    upgrade_v2_archive, upgrade_v3_archive, upgrade_v4_archive, validate_legacy_retry_epochs,
 };
 pub use migration::migrate_snapshot;
 pub use migration_plan::{MigrationPlan, ResourceMigration};

@@ -1,4 +1,6 @@
-//! SQLite reference persistence capability. The deployment database remains host-configured.
+//! SQLite persistence and scalar queries. The deployment database remains host-configured.
+mod index;
+mod index_rebuild;
 mod maintenance;
 mod migration;
 mod persistence;

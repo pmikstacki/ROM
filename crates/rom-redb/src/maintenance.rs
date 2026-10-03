@@ -170,8 +170,8 @@ pub(super) fn snapshot_in_format(
         .ok_or(Error::Storage)?
         .value();
     let supported = match format {
-        NativeFormat::Upgrade => matches!(version, 3..=5),
-        NativeFormat::Migration => matches!(version, 4 | 5) || version == FORMAT,
+        NativeFormat::Upgrade => matches!(version, 3..=6),
+        NativeFormat::Migration => matches!(version, 4..=6) || version == FORMAT,
         NativeFormat::Current => version == FORMAT,
     };
     if !supported {
@@ -237,7 +237,7 @@ pub(super) fn snapshot_in_format(
     drop(state);
     drop(marker);
 
-    if version < FORMAT {
+    if version < 6 {
         rom_backup::validate_legacy_retry_epochs(&collect.snapshot)?;
     }
     // Collector accounts for work records and all subsequently collected records.
@@ -269,8 +269,10 @@ pub(super) fn read_upgrade_snapshot(
             .value();
         if version == 3 {
             rom_backup::bind_legacy_schema(snapshot, descriptors, limits)
-        } else {
+        } else if version < 6 {
             rom_backup::upgrade_legacy_snapshot(snapshot, descriptors, limits)
+        } else {
+            rom_backup::upgrade_current_snapshot(snapshot, descriptors, limits)
         }
     })
 }

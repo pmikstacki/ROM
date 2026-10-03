@@ -101,6 +101,7 @@ impl Sqlite {
                 ).map_err(|_| Error::Storage)?;
             }
             save_state(&tx, &snapshot.state)?;
+            crate::index::rebuild(&tx, &snapshot, limits)?;
             tx.commit().map_err(|_| Error::Unknown)?;
             // Reject malformed reconstruction or exceeded native read limits before publication.
             collect_snapshot(&c, limits)?.validate()?;

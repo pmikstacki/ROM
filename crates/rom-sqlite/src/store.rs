@@ -62,6 +62,7 @@ impl Sqlite {
                 CREATE TABLE reference_edges(source_kind TEXT NOT NULL,source_id TEXT NOT NULL,target_kind TEXT NOT NULL,target_id TEXT NOT NULL,PRIMARY KEY(source_kind,source_id,target_kind,target_id));
                 CREATE INDEX reference_edges_target ON reference_edges(target_kind,target_id,source_kind,source_id);
 ").map_err(|_|Error::Storage)?;
+            crate::index::initialize(&tx)?;
             tx.pragma_update(None, "user_version", rom_backup::STORAGE_FORMAT)
                 .map_err(|_| Error::Storage)?;
             tx.execute(

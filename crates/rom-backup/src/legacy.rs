@@ -29,7 +29,7 @@ struct LegacySnapshot {
     effects: Vec<StoredEffect>,
 }
 
-/// Upgrade an archive-1/storage-3 backup into a new archive-4/storage-6 path.
+/// Upgrade an archive-1/storage-3 backup into a fresh current archive.
 /// Supply explicit descriptors for every stored kind. No row transformations occur.
 /// Missing targets, incompatible values and exceeded limits prevent publication.
 /// Receipt identities and pending work remain unchanged. Restore fences active claims.
@@ -129,6 +129,17 @@ pub fn upgrade_v3_archive(
     upgrade_catalogued_archive(source.as_ref(), destination.as_ref(), backend, limits, 3, 5)
 }
 
+/// Upgrade an archive-4/storage-6 backup into a fresh current archive.
+/// Preserve retry boundaries, work epochs and receipt origins exactly as stored.
+pub fn upgrade_v4_archive(
+    source: impl AsRef<Path>,
+    destination: impl AsRef<Path>,
+    backend: Backend,
+    limits: BackupLimits,
+) -> Result<Manifest> {
+    upgrade_catalogued_archive(source.as_ref(), destination.as_ref(), backend, limits, 4, 6)
+}
+
 fn upgrade_catalogued_archive(
     source: &Path,
     destination: &Path,
@@ -139,29 +150,43 @@ fn upgrade_catalogued_archive(
 ) -> Result<Manifest> {
     let (_, mut snapshot) =
         archive::read_version(source, backend, limits, archive_version, storage_format)?;
-    validate_legacy_retry_epochs(&snapshot)?;
-    bind_receipt_origins(&mut snapshot)?;
+    if storage_format < 6 {
+        validate_legacy_retry_epochs(&snapshot)?;
+        bind_receipt_origins(&mut snapshot)?;
+    }
     write(destination, backend, &snapshot, limits)
 }
 
 /// Upgrade a native legacy snapshot with an exact, explicit source catalog.
 /// A catalogued source must match the supplied descriptors; no schema changes occur.
 pub fn upgrade_legacy_snapshot(
-    mut snapshot: Snapshot,
+    snapshot: Snapshot,
     descriptors: &[Descriptor],
     limits: BackupLimits,
 ) -> Result<Snapshot> {
     validate_legacy_retry_epochs(&snapshot)?;
+    let mut snapshot = upgrade_current_snapshot(snapshot, descriptors, limits)?;
+    bind_receipt_origins(&mut snapshot)?;
+    crate::maintenance_limits::check_snapshot(&snapshot, limits)?;
+    Ok(snapshot)
+}
+
+/// Validate an epoch-aware native snapshot against its exact canonical source catalog.
+/// Epochs, receipt origins and logical records remain unchanged. This does not bind
+/// an absent catalog or transform schemas; native publication rebuilds derived data.
+pub fn upgrade_current_snapshot(
+    snapshot: Snapshot,
+    descriptors: &[Descriptor],
+    limits: BackupLimits,
+) -> Result<Snapshot> {
+    crate::maintenance_limits::check_snapshot(&snapshot, limits)?;
     snapshot.validate()?;
-    if rom::validate_descriptors(descriptors)? != snapshot.descriptors {
+    if rom::validate_descriptors(descriptors)? != rom::validate_descriptors(&snapshot.descriptors)?
+    {
         return Err(Error::Unsupported(
             "upgrade source descriptor mismatch".into(),
         ));
     }
-    bind_receipt_origins(&mut snapshot)?;
-    snapshot.validate()?;
-    archive::check_count(&snapshot.manifest(Backend::Sqlite), limits)?;
-    crate::codec::encode(&snapshot, limits.max_bytes)?;
     Ok(snapshot)
 }
 

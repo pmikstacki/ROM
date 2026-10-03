@@ -2,7 +2,7 @@
 
 ## Current maintained profile
 
-Both adapters currently use **format 6**, with no implicit migration from earlier
+Both adapters currently use **format 7**, with no implicit migration from earlier
 experimental formats. The core-owned bundle includes state/revision, durable
 receipt, journal and effect/work records in one native transaction. Journal
 retention and receipt/effect/work capacities are bounded; cursor gaps and
@@ -28,22 +28,22 @@ Custom persistence adapters must implement this method. Its default returns
 `Unsupported`. Transparent wrappers must forward registration to their backing store.
 
 Query selection now uses the [owned adapter query contract](query-adapters.md).
-Its default delegates to one bounded snapshot, so both maintained adapters retain their current execution path.
-Native candidate support requires the separate profile and integrity obligations in that contract.
+redb uses the default bounded snapshot. SQLite maintains scalar keys and can return native candidates under the explicit uniform-read contract.
+Both paths retain core filtering, authorization and admission semantics. See the linked contract for fallback and rebuild rules.
 
 Declared references now enforce target existence and restrict deletion inside
 the native commit transaction. See [reference integrity](references.md).
 Existing stores receive a complete bounded validation at open. The default budget
-is 128 MiB and 400,000 archive records. Use `open_with_validation_limits` to supply
+is 128 MiB and 400,000 physical records. Use `open_with_validation_limits` to supply
 a larger host budget. Exceeded limits fail; validation never truncates success.
 
-For a format-3, format-4 or format-5 source, use the explicit [native upgrade](native-upgrade.md) into a
+For a format-3 through format-6 source, use the explicit [native upgrade](native-upgrade.md) into a
 fresh destination. redb also checks the format before writable open. If its header
 requires recovery, that check uses a private temporary copy first. This preserves
 unsupported sources and requires temporary disk space approximately equal to their file size.
 
 For field changes, use a typed [Resource migration](resource-migrations.md).
-Format 6 protects receipt codec versions and retry epoch boundaries from older
+Format 7 protects query metadata, receipt codec versions and retry epoch boundaries from older
 maintenance tools. New commits bind an explicit replay version. Migrated receipts keep
 their original version and use a registered legacy codec for retry.
 Transparent Storage wrappers must also forward `retry_epochs` when their backing
