@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Compare the same durable write workload with and without maintained indexes.
+set -euo pipefail
+if [[ $# -ne 3 ]]; then
+  echo 'Usage: scripts/measure-query-write-comparison BASELINE_BINARY INDEXED_BINARY NEW_DIRECTORY' >&2
+  exit 2
+fi
+baseline_binary=$(realpath "$1")
+indexed_binary=$(realpath "$2")
+measurement_directory=$3
+[[ -x "$baseline_binary" && -x "$indexed_binary" ]] || { echo 'Both binaries must be executable' >&2; exit 2; }
+if cmp -s "$baseline_binary" "$indexed_binary"; then
+  echo 'Baseline and indexed executables are identical; use separate Cargo target directories' >&2
+  exit 2
+fi
+[[ ! -e "$measurement_directory" ]] || { echo 'Destination must not exist' >&2; exit 2; }
+mkdir -p "$measurement_directory"
+measurement_directory=$(cd "$measurement_directory" && pwd)
+sha256sum "$baseline_binary" "$indexed_binary" > "$measurement_directory/binaries.sha256"
+for measurement_mode in baseline indexed; do
+  measurement_binary=$baseline_binary
+  if [[ $measurement_mode == indexed ]]; then measurement_binary=$indexed_binary; fi
+  "$measurement_binary" "$measurement_directory/preflight-$measurement_mode.sqlite" independent 8 11 > "$measurement_directory/preflight-$measurement_mode.jsonl"
+done
+node --input-type=module - "$measurement_directory" <<'JS'
+import { readFileSync } from 'node:fs';
+const directory = process.argv[2];
+for (const mode of ['baseline', 'indexed']) {
+  const rows = readFileSync(`${directory}/preflight-${mode}.jsonl`, 'utf8').trim().split('\n').map(JSON.parse);
+  const bytes = rows.find(row => row.record === 'space' && row.phase === 'after_seed_open')?.space?.query_index_page_bytes;
+  if (mode === 'baseline' ? bytes !== 0 : !(typeof bytes === 'number' && bytes > 0)) {
+    throw new Error(`Invalid ${mode} executable: query index bytes=${bytes}`);
+  }
+}
+JS
+for measurement_size in 128 1024 8192; do
+  for measurement_repeat in 0 1 2 3; do
+    measurement_order=(baseline indexed)
+    if (( measurement_repeat % 2 )); then measurement_order=(indexed baseline); fi
+    for measurement_mode in "${measurement_order[@]}"; do
+      measurement_binary=$baseline_binary
+      if [[ $measurement_mode == indexed ]]; then measurement_binary=$indexed_binary; fi
+      measurement_stem="$measurement_directory/$measurement_size-$measurement_repeat-$measurement_mode"
+      printf '%s size=%s repeat=%s mode=%s\n' "$(date -u +%FT%TZ)" "$measurement_size" "$measurement_repeat" "$measurement_mode"
+      "$measurement_binary" "$measurement_stem.sqlite" independent "$measurement_size" 11 > "$measurement_stem.jsonl"
+    done
+  done
+done

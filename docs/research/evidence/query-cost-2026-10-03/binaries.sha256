@@ -1,0 +1,6 @@
+69cf67c7e7fb766e240fad73f8d8a1400a8f4bd03e5a4bf62a2cc6a3ba950d06  /var/lib/nixos-containers/rom-dev/var/tmp/rom-query-cost-20261003/bin/query-calibration-v2
+1ff8ea2acb59c1c7edd75ec58d8125fc4f5742682a889d9d913ad9a4945a5fc6  /var/lib/nixos-containers/rom-dev/var/tmp/rom-query-cost-20261003/bin/write-baseline-v2
+bab1c78ecdabbd33ea2455c497bdc59a2d86f492b3df464fe16fccc9d9356566  /var/lib/nixos-containers/rom-dev/var/tmp/rom-query-cost-20261003/bin/write-indexed-v2
+bf83471c41f3b4c2e544fcfb831e9152428045bf0d96667d86a8200010109f9e  /var/lib/nixos-containers/rom-dev/var/tmp/rom-query-cost-20261003/bin/heap-calibration
+b1b8448f84e99abe608154a20ecbe5910b5bc7b42b701e162a50890df500b612  /var/lib/nixos-containers/rom-dev/var/tmp/rom-query-cost-20261003/bin/query-tuned
+2a416bf02bfb85f51c3bbe6fd9811029495ec7d60666e9d525865f3874366559  /var/lib/nixos-containers/rom-dev/var/tmp/rom-query-cost-20261003/bin/heap-tuned

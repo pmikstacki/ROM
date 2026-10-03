@@ -13,8 +13,8 @@
 ## 3. Measured execution optimization
 - [x] 3.1 Specify the maintained planner-adapter and selector seam using prototype evidence.
 - [x] 3.2 Integrate indexed execution with atomic index maintenance and rebuild/recovery.
-- [ ] 3.3 Compare execution strategies on independent/skewed workloads including writes, allocations and memory.
-- [ ] 3.4 Prove shared auth/query/admission semantics and independently review integration.
+- [x] 3.3 Compare execution strategies on independent/skewed workloads including writes, allocations and memory.
+- [x] 3.4 Prove shared auth/query/admission semantics and independently review integration.
 
 ## 4. Operations and release
 - [ ] 4.1 Enforce single-writer ownership; exercise overload, process exit and restart recovery.

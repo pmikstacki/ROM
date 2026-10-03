@@ -1,0 +1,23 @@
+   Compiling rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+   Compiling rom-query-measure v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tools/query-measure)
+    Finished `test` profile [unoptimized] target(s) in 1.47s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_query_measure-ed4641a363215ea6)
+
+running 1 test
+test tests::duplicate_dataset_sizes_cannot_reuse_a_measured_database ... FAILED
+
+failures:
+
+---- tests::duplicate_dataset_sizes_cannot_reuse_a_measured_database stdout ----
+
+thread 'tests::duplicate_dataset_sizes_cannot_reuse_a_measured_database' (1315668) panicked at tools/query-measure/src/tests.rs:165:5:
+assertion failed: settings.validate().is_err()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::duplicate_dataset_sizes_cannot_reuse_a_measured_database
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p rom-query-measure --lib`

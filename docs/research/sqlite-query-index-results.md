@@ -2,6 +2,8 @@
 
 Date: 3 October 2026. Base: `bedff7a`, branch `codex/release-query-index`.
 This report covers maintained native execution and recovery. It does not establish measured cost coefficients or a universal speedup.
+This is the original integration checkpoint. Its remaining-work list records that checkpoint, not the latest release status.
+The [cost measurement report](maintained-query-cost-results.md) records later experiments and selector changes.
 
 ## Delivered behavior
 

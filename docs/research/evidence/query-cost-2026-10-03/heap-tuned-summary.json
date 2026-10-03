@@ -1,0 +1,4754 @@
+[
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "selective_eq",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 332,
+        "median": 332,
+        "p95_nearest_rank": 332,
+        "max": 332
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 26,
+        "median": 26,
+        "p95_nearest_rank": 26,
+        "max": 26
+      },
+      "result_count": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 19,
+        "median": 19,
+        "p95_nearest_rank": 19,
+        "max": 19
+      },
+      "allocations": {
+        "count": 1,
+        "min": 284,
+        "median": 284,
+        "p95_nearest_rank": 284,
+        "max": 284
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 25287,
+        "median": 25287,
+        "p95_nearest_rank": 25287,
+        "max": 25287
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 6445,
+        "median": 6445,
+        "p95_nearest_rank": 6445,
+        "max": 6445
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 1324,
+        "median": 1324,
+        "p95_nearest_rank": 1324,
+        "max": 1324
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "selective_eq",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 337502,
+        "median": 337502,
+        "p95_nearest_rank": 337502,
+        "max": 337502
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 15590,
+        "median": 15590,
+        "p95_nearest_rank": 15590,
+        "max": 15590
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 2675994,
+        "median": 2675994,
+        "p95_nearest_rank": 2675994,
+        "max": 2675994
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1407418,
+        "median": 1407418,
+        "p95_nearest_rank": 1407418,
+        "max": 1407418
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 1324,
+        "median": 1324,
+        "p95_nearest_rank": 1324,
+        "max": 1324
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "selective_eq",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 332,
+        "median": 332,
+        "p95_nearest_rank": 332,
+        "max": 332
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 26,
+        "median": 26,
+        "p95_nearest_rank": 26,
+        "max": 26
+      },
+      "result_count": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 19,
+        "median": 19,
+        "p95_nearest_rank": 19,
+        "max": 19
+      },
+      "allocations": {
+        "count": 1,
+        "min": 284,
+        "median": 284,
+        "p95_nearest_rank": 284,
+        "max": 284
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 25287,
+        "median": 25287,
+        "p95_nearest_rank": 25287,
+        "max": 25287
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 6445,
+        "median": 6445,
+        "p95_nearest_rank": 6445,
+        "max": 6445
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 1324,
+        "median": 1324,
+        "p95_nearest_rank": 1324,
+        "max": 1324
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "common_eq",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 74,
+        "median": 74,
+        "p95_nearest_rank": 74,
+        "max": 74
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 24398,
+        "median": 24398,
+        "p95_nearest_rank": 24398,
+        "max": 24398
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 829,
+        "median": 829,
+        "p95_nearest_rank": 829,
+        "max": 829
+      },
+      "result_count": {
+        "count": 1,
+        "min": 74,
+        "median": 74,
+        "p95_nearest_rank": 74,
+        "max": 74
+      },
+      "match_count": {
+        "count": 1,
+        "min": 74,
+        "median": 74,
+        "p95_nearest_rank": 74,
+        "max": 74
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 91,
+        "median": 91,
+        "p95_nearest_rank": 91,
+        "max": 91
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 481,
+        "median": 481,
+        "p95_nearest_rank": 481,
+        "max": 481
+      },
+      "allocations": {
+        "count": 1,
+        "min": 11267,
+        "median": 11267,
+        "p95_nearest_rank": 11267,
+        "max": 11267
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 1223146,
+        "median": 1223146,
+        "p95_nearest_rank": 1223146,
+        "max": 1223146
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 186069,
+        "median": 186069,
+        "p95_nearest_rank": 186069,
+        "max": 186069
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 83192,
+        "median": 83192,
+        "p95_nearest_rank": 83192,
+        "max": 83192
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "common_eq",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 74,
+        "median": 74,
+        "p95_nearest_rank": 74,
+        "max": 74
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 24398,
+        "median": 24398,
+        "p95_nearest_rank": 24398,
+        "max": 24398
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 829,
+        "median": 829,
+        "p95_nearest_rank": 829,
+        "max": 829
+      },
+      "result_count": {
+        "count": 1,
+        "min": 74,
+        "median": 74,
+        "p95_nearest_rank": 74,
+        "max": 74
+      },
+      "match_count": {
+        "count": 1,
+        "min": 74,
+        "median": 74,
+        "p95_nearest_rank": 74,
+        "max": 74
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 91,
+        "median": 91,
+        "p95_nearest_rank": 91,
+        "max": 91
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 481,
+        "median": 481,
+        "p95_nearest_rank": 481,
+        "max": 481
+      },
+      "allocations": {
+        "count": 1,
+        "min": 11267,
+        "median": 11267,
+        "p95_nearest_rank": 11267,
+        "max": 11267
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 1223146,
+        "median": 1223146,
+        "p95_nearest_rank": 1223146,
+        "max": 1223146
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 186069,
+        "median": 186069,
+        "p95_nearest_rank": 186069,
+        "max": 186069
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 83192,
+        "median": 83192,
+        "p95_nearest_rank": 83192,
+        "max": 83192
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "common_eq",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 337502,
+        "median": 337502,
+        "p95_nearest_rank": 337502,
+        "max": 337502
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 74,
+        "median": 74,
+        "p95_nearest_rank": 74,
+        "max": 74
+      },
+      "match_count": {
+        "count": 1,
+        "min": 74,
+        "median": 74,
+        "p95_nearest_rank": 74,
+        "max": 74
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 25242,
+        "median": 25242,
+        "p95_nearest_rank": 25242,
+        "max": 25242
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 3597676,
+        "median": 3597676,
+        "p95_nearest_rank": 3597676,
+        "max": 3597676
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1407459,
+        "median": 1407459,
+        "p95_nearest_rank": 1407459,
+        "max": 1407459
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 83192,
+        "median": 83192,
+        "p95_nearest_rank": 83192,
+        "max": 83192
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "missing_eq",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 337502,
+        "median": 337502,
+        "p95_nearest_rank": 337502,
+        "max": 337502
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "match_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 15461,
+        "median": 15461,
+        "p95_nearest_rank": 15461,
+        "max": 15461
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 2662860,
+        "median": 2662860,
+        "p95_nearest_rank": 2662860,
+        "max": 2662860
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1407471,
+        "median": 1407471,
+        "p95_nearest_rank": 1407471,
+        "max": 1407471
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "missing_eq",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 15,
+        "median": 15,
+        "p95_nearest_rank": 15,
+        "max": 15
+      },
+      "result_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "match_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 14,
+        "median": 14,
+        "p95_nearest_rank": 14,
+        "max": 14
+      },
+      "allocations": {
+        "count": 1,
+        "min": 138,
+        "median": 138,
+        "p95_nearest_rank": 138,
+        "max": 138
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 8513,
+        "median": 8513,
+        "p95_nearest_rank": 8513,
+        "max": 8513
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 4885,
+        "median": 4885,
+        "p95_nearest_rank": 4885,
+        "max": 4885
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "missing_eq",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 15,
+        "median": 15,
+        "p95_nearest_rank": 15,
+        "max": 15
+      },
+      "result_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "match_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 14,
+        "median": 14,
+        "p95_nearest_rank": 14,
+        "max": 14
+      },
+      "allocations": {
+        "count": 1,
+        "min": 138,
+        "median": 138,
+        "p95_nearest_rank": 138,
+        "max": 138
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 8513,
+        "median": 8513,
+        "p95_nearest_rank": 8513,
+        "max": 8513
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 4885,
+        "median": 4885,
+        "p95_nearest_rank": 4885,
+        "max": 4885
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "narrow_range",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 337502,
+        "median": 337502,
+        "p95_nearest_rank": 337502,
+        "max": 337502
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "match_count": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 16516,
+        "median": 16516,
+        "p95_nearest_rank": 16516,
+        "max": 16516
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 2757578,
+        "median": 2757578,
+        "p95_nearest_rank": 2757578,
+        "max": 2757578
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1407418,
+        "median": 1407418,
+        "p95_nearest_rank": 1407418,
+        "max": 1407418
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 8480,
+        "median": 8480,
+        "p95_nearest_rank": 8480,
+        "max": 8480
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "narrow_range",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 2654,
+        "median": 2654,
+        "p95_nearest_rank": 2654,
+        "max": 2654
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 121,
+        "median": 121,
+        "p95_nearest_rank": 121,
+        "max": 121
+      },
+      "result_count": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "match_count": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 72,
+        "median": 72,
+        "p95_nearest_rank": 72,
+        "max": 72
+      },
+      "allocations": {
+        "count": 1,
+        "min": 1341,
+        "median": 1341,
+        "p95_nearest_rank": 1341,
+        "max": 1341
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 129205,
+        "median": 129205,
+        "p95_nearest_rank": 129205,
+        "max": 129205
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 20192,
+        "median": 20192,
+        "p95_nearest_rank": 20192,
+        "max": 20192
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 8480,
+        "median": 8480,
+        "p95_nearest_rank": 8480,
+        "max": 8480
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "narrow_range",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 2654,
+        "median": 2654,
+        "p95_nearest_rank": 2654,
+        "max": 2654
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 121,
+        "median": 121,
+        "p95_nearest_rank": 121,
+        "max": 121
+      },
+      "result_count": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "match_count": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 72,
+        "median": 72,
+        "p95_nearest_rank": 72,
+        "max": 72
+      },
+      "allocations": {
+        "count": 1,
+        "min": 1341,
+        "median": 1341,
+        "p95_nearest_rank": 1341,
+        "max": 1341
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 129205,
+        "median": 129205,
+        "p95_nearest_rank": 129205,
+        "max": 129205
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 20192,
+        "median": 20192,
+        "p95_nearest_rank": 20192,
+        "max": 20192
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 8480,
+        "median": 8480,
+        "p95_nearest_rank": 8480,
+        "max": 8480
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "broad_range",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 337502,
+        "median": 337502,
+        "p95_nearest_rank": 337502,
+        "max": 337502
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 13329,
+        "median": 13329,
+        "p95_nearest_rank": 13329,
+        "max": 13329
+      },
+      "result_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 530,
+        "median": 530,
+        "p95_nearest_rank": 530,
+        "max": 530
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 3738,
+        "median": 3738,
+        "p95_nearest_rank": 3738,
+        "max": 3738
+      },
+      "allocations": {
+        "count": 1,
+        "min": 153774,
+        "median": 153774,
+        "p95_nearest_rank": 153774,
+        "max": 153774
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 15904104,
+        "median": 15904104,
+        "p95_nearest_rank": 15904104,
+        "max": 15904104
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 2312304,
+        "median": 2312304,
+        "p95_nearest_rank": 2312304,
+        "max": 2312304
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 1085440,
+        "median": 1085440,
+        "p95_nearest_rank": 1085440,
+        "max": 1085440
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "broad_range",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 337502,
+        "median": 337502,
+        "p95_nearest_rank": 337502,
+        "max": 337502
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 530,
+        "median": 530,
+        "p95_nearest_rank": 530,
+        "max": 530
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 3738,
+        "median": 3738,
+        "p95_nearest_rank": 3738,
+        "max": 3738
+      },
+      "allocations": {
+        "count": 1,
+        "min": 150701,
+        "median": 150701,
+        "p95_nearest_rank": 150701,
+        "max": 150701
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 14986232,
+        "median": 14986232,
+        "p95_nearest_rank": 14986232,
+        "max": 14986232
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 2312304,
+        "median": 2312304,
+        "p95_nearest_rank": 2312304,
+        "max": 2312304
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 1085440,
+        "median": 1085440,
+        "p95_nearest_rank": 1085440,
+        "max": 1085440
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "broad_range",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 337502,
+        "median": 337502,
+        "p95_nearest_rank": 337502,
+        "max": 337502
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 150642,
+        "median": 150642,
+        "p95_nearest_rank": 150642,
+        "max": 150642
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 14982106,
+        "median": 14982106,
+        "p95_nearest_rank": 14982106,
+        "max": 14982106
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 2312304,
+        "median": 2312304,
+        "p95_nearest_rank": 2312304,
+        "max": 2312304
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 1085440,
+        "median": 1085440,
+        "p95_nearest_rank": 1085440,
+        "max": 1085440
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "sorted_page",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 337502,
+        "median": 337502,
+        "p95_nearest_rank": 337502,
+        "max": 337502
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 13329,
+        "median": 13329,
+        "p95_nearest_rank": 13329,
+        "max": 13329
+      },
+      "result_count": {
+        "count": 1,
+        "min": 20,
+        "median": 20,
+        "p95_nearest_rank": 20,
+        "max": 20
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 530,
+        "median": 530,
+        "p95_nearest_rank": 530,
+        "max": 530
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 3738,
+        "median": 3738,
+        "p95_nearest_rank": 3738,
+        "max": 3738
+      },
+      "allocations": {
+        "count": 1,
+        "min": 23308,
+        "median": 23308,
+        "p95_nearest_rank": 23308,
+        "max": 23308
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 4872978,
+        "median": 4872978,
+        "p95_nearest_rank": 4872978,
+        "max": 4872978
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1599136,
+        "median": 1599136,
+        "p95_nearest_rank": 1599136,
+        "max": 1599136
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 22256,
+        "median": 22256,
+        "p95_nearest_rank": 22256,
+        "max": 22256
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "sorted_page",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 337502,
+        "median": 337502,
+        "p95_nearest_rank": 337502,
+        "max": 337502
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 20,
+        "median": 20,
+        "p95_nearest_rank": 20,
+        "max": 20
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 20170,
+        "median": 20170,
+        "p95_nearest_rank": 20170,
+        "max": 20170
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 3950830,
+        "median": 3950830,
+        "p95_nearest_rank": 3950830,
+        "max": 3950830
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1599136,
+        "median": 1599136,
+        "p95_nearest_rank": 1599136,
+        "max": 1599136
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 22256,
+        "median": 22256,
+        "p95_nearest_rank": 22256,
+        "max": 22256
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "sorted_page",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 337502,
+        "median": 337502,
+        "p95_nearest_rank": 337502,
+        "max": 337502
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 20,
+        "median": 20,
+        "p95_nearest_rank": 20,
+        "max": 20
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 530,
+        "median": 530,
+        "p95_nearest_rank": 530,
+        "max": 530
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 3738,
+        "median": 3738,
+        "p95_nearest_rank": 3738,
+        "max": 3738
+      },
+      "allocations": {
+        "count": 1,
+        "min": 20235,
+        "median": 20235,
+        "p95_nearest_rank": 20235,
+        "max": 20235
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 3955106,
+        "median": 3955106,
+        "p95_nearest_rank": 3955106,
+        "max": 3955106
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1599136,
+        "median": 1599136,
+        "p95_nearest_rank": 1599136,
+        "max": 1599136
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 22256,
+        "median": 22256,
+        "p95_nearest_rank": 22256,
+        "max": 22256
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "conjunction_selective_first",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 2654,
+        "median": 2654,
+        "p95_nearest_rank": 2654,
+        "max": 2654
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 121,
+        "median": 121,
+        "p95_nearest_rank": 121,
+        "max": 121
+      },
+      "result_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "match_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 25,
+        "median": 25,
+        "p95_nearest_rank": 25,
+        "max": 25
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 169,
+        "median": 169,
+        "p95_nearest_rank": 169,
+        "max": 169
+      },
+      "allocations": {
+        "count": 1,
+        "min": 309,
+        "median": 309,
+        "p95_nearest_rank": 309,
+        "max": 309
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 35679,
+        "median": 35679,
+        "p95_nearest_rank": 35679,
+        "max": 35679
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 14713,
+        "median": 14713,
+        "p95_nearest_rank": 14713,
+        "max": 14713
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "conjunction_selective_first",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 337502,
+        "median": 337502,
+        "p95_nearest_rank": 337502,
+        "max": 337502
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "match_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 15465,
+        "median": 15465,
+        "p95_nearest_rank": 15465,
+        "max": 15465
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 2663052,
+        "median": 2663052,
+        "p95_nearest_rank": 2663052,
+        "max": 2663052
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1407675,
+        "median": 1407675,
+        "p95_nearest_rank": 1407675,
+        "max": 1407675
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "conjunction_selective_first",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 2654,
+        "median": 2654,
+        "p95_nearest_rank": 2654,
+        "max": 2654
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 121,
+        "median": 121,
+        "p95_nearest_rank": 121,
+        "max": 121
+      },
+      "result_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "match_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 25,
+        "median": 25,
+        "p95_nearest_rank": 25,
+        "max": 25
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 169,
+        "median": 169,
+        "p95_nearest_rank": 169,
+        "max": 169
+      },
+      "allocations": {
+        "count": 1,
+        "min": 309,
+        "median": 309,
+        "p95_nearest_rank": 309,
+        "max": 309
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 35679,
+        "median": 35679,
+        "p95_nearest_rank": 35679,
+        "max": 35679
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 14713,
+        "median": 14713,
+        "p95_nearest_rank": 14713,
+        "max": 14713
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "conjunction_common_first",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 2654,
+        "median": 2654,
+        "p95_nearest_rank": 2654,
+        "max": 2654
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 121,
+        "median": 121,
+        "p95_nearest_rank": 121,
+        "max": 121
+      },
+      "result_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "match_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 25,
+        "median": 25,
+        "p95_nearest_rank": 25,
+        "max": 25
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 169,
+        "median": 169,
+        "p95_nearest_rank": 169,
+        "max": 169
+      },
+      "allocations": {
+        "count": 1,
+        "min": 309,
+        "median": 309,
+        "p95_nearest_rank": 309,
+        "max": 309
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 35679,
+        "median": 35679,
+        "p95_nearest_rank": 35679,
+        "max": 35679
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 14713,
+        "median": 14713,
+        "p95_nearest_rank": 14713,
+        "max": 14713
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "conjunction_common_first",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 2654,
+        "median": 2654,
+        "p95_nearest_rank": 2654,
+        "max": 2654
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 121,
+        "median": 121,
+        "p95_nearest_rank": 121,
+        "max": 121
+      },
+      "result_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "match_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 25,
+        "median": 25,
+        "p95_nearest_rank": 25,
+        "max": 25
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 169,
+        "median": 169,
+        "p95_nearest_rank": 169,
+        "max": 169
+      },
+      "allocations": {
+        "count": 1,
+        "min": 309,
+        "median": 309,
+        "p95_nearest_rank": 309,
+        "max": 309
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 35679,
+        "median": 35679,
+        "p95_nearest_rank": 35679,
+        "max": 35679
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 14713,
+        "median": 14713,
+        "p95_nearest_rank": 14713,
+        "max": 14713
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "independent",
+    "seed": 11,
+    "size": 1024,
+    "case": "conjunction_common_first",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 337502,
+        "median": 337502,
+        "p95_nearest_rank": 337502,
+        "max": 337502
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "match_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 15465,
+        "median": 15465,
+        "p95_nearest_rank": 15465,
+        "max": 15465
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 2663052,
+        "median": 2663052,
+        "p95_nearest_rank": 2663052,
+        "max": 2663052
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1407675,
+        "median": 1407675,
+        "p95_nearest_rank": 1407675,
+        "max": 1407675
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "selective_eq",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 324,
+        "median": 324,
+        "p95_nearest_rank": 324,
+        "max": 324
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 26,
+        "median": 26,
+        "p95_nearest_rank": 26,
+        "max": 26
+      },
+      "result_count": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 19,
+        "median": 19,
+        "p95_nearest_rank": 19,
+        "max": 19
+      },
+      "allocations": {
+        "count": 1,
+        "min": 284,
+        "median": 284,
+        "p95_nearest_rank": 284,
+        "max": 284
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 25111,
+        "median": 25111,
+        "p95_nearest_rank": 25111,
+        "max": 25111
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 6437,
+        "median": 6437,
+        "p95_nearest_rank": 6437,
+        "max": 6437
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 1316,
+        "median": 1316,
+        "p95_nearest_rank": 1316,
+        "max": 1316
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "selective_eq",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 324,
+        "median": 324,
+        "p95_nearest_rank": 324,
+        "max": 324
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 26,
+        "median": 26,
+        "p95_nearest_rank": 26,
+        "max": 26
+      },
+      "result_count": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 19,
+        "median": 19,
+        "p95_nearest_rank": 19,
+        "max": 19
+      },
+      "allocations": {
+        "count": 1,
+        "min": 284,
+        "median": 284,
+        "p95_nearest_rank": 284,
+        "max": 284
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 25111,
+        "median": 25111,
+        "p95_nearest_rank": 25111,
+        "max": 25111
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 6437,
+        "median": 6437,
+        "p95_nearest_rank": 6437,
+        "max": 6437
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 1316,
+        "median": 1316,
+        "p95_nearest_rank": 1316,
+        "max": 1316
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "selective_eq",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 330158,
+        "median": 330158,
+        "p95_nearest_rank": 330158,
+        "max": 330158
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 15590,
+        "median": 15590,
+        "p95_nearest_rank": 15590,
+        "max": 15590
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 2668482,
+        "median": 2668482,
+        "p95_nearest_rank": 2668482,
+        "max": 2668482
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1400074,
+        "median": 1400074,
+        "p95_nearest_rank": 1400074,
+        "max": 1400074
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 1316,
+        "median": 1316,
+        "p95_nearest_rank": 1316,
+        "max": 1316
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "common_eq",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 330158,
+        "median": 330158,
+        "p95_nearest_rank": 330158,
+        "max": 330158
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 918,
+        "median": 918,
+        "p95_nearest_rank": 918,
+        "max": 918
+      },
+      "match_count": {
+        "count": 1,
+        "min": 918,
+        "median": 918,
+        "p95_nearest_rank": 918,
+        "max": 918
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 136656,
+        "median": 136656,
+        "p95_nearest_rank": 136656,
+        "max": 136656
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 13635060,
+        "median": 13635060,
+        "p95_nearest_rank": 13635060,
+        "max": 13635060
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 2091549,
+        "median": 2091549,
+        "p95_nearest_rank": 2091549,
+        "max": 2091549
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 975064,
+        "median": 975064,
+        "p95_nearest_rank": 975064,
+        "max": 975064
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "common_eq",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 330158,
+        "median": 330158,
+        "p95_nearest_rank": 330158,
+        "max": 330158
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 918,
+        "median": 918,
+        "p95_nearest_rank": 918,
+        "max": 918
+      },
+      "match_count": {
+        "count": 1,
+        "min": 918,
+        "median": 918,
+        "p95_nearest_rank": 918,
+        "max": 918
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 530,
+        "median": 530,
+        "p95_nearest_rank": 530,
+        "max": 530
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 2674,
+        "median": 2674,
+        "p95_nearest_rank": 2674,
+        "max": 2674
+      },
+      "allocations": {
+        "count": 1,
+        "min": 136711,
+        "median": 136711,
+        "p95_nearest_rank": 136711,
+        "max": 136711
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 13638422,
+        "median": 13638422,
+        "p95_nearest_rank": 13638422,
+        "max": 13638422
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 2091549,
+        "median": 2091549,
+        "p95_nearest_rank": 2091549,
+        "max": 2091549
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 975064,
+        "median": 975064,
+        "p95_nearest_rank": 975064,
+        "max": 975064
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "common_eq",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 918,
+        "median": 918,
+        "p95_nearest_rank": 918,
+        "max": 918
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 295238,
+        "median": 295238,
+        "p95_nearest_rank": 295238,
+        "max": 295238
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 10113,
+        "median": 10113,
+        "p95_nearest_rank": 10113,
+        "max": 10113
+      },
+      "result_count": {
+        "count": 1,
+        "min": 918,
+        "median": 918,
+        "p95_nearest_rank": 918,
+        "max": 918
+      },
+      "match_count": {
+        "count": 1,
+        "min": 918,
+        "median": 918,
+        "p95_nearest_rank": 918,
+        "max": 918
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 530,
+        "median": 530,
+        "p95_nearest_rank": 530,
+        "max": 530
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 2674,
+        "median": 2674,
+        "p95_nearest_rank": 2674,
+        "max": 2674
+      },
+      "allocations": {
+        "count": 1,
+        "min": 137876,
+        "median": 137876,
+        "p95_nearest_rank": 137876,
+        "max": 137876
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 14228542,
+        "median": 14228542,
+        "p95_nearest_rank": 14228542,
+        "max": 14228542
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 2091549,
+        "median": 2091549,
+        "p95_nearest_rank": 2091549,
+        "max": 2091549
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 975064,
+        "median": 975064,
+        "p95_nearest_rank": 975064,
+        "max": 975064
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "missing_eq",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 330158,
+        "median": 330158,
+        "p95_nearest_rank": 330158,
+        "max": 330158
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "match_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 15461,
+        "median": 15461,
+        "p95_nearest_rank": 15461,
+        "max": 15461
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 2655516,
+        "median": 2655516,
+        "p95_nearest_rank": 2655516,
+        "max": 2655516
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1400127,
+        "median": 1400127,
+        "p95_nearest_rank": 1400127,
+        "max": 1400127
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "missing_eq",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 15,
+        "median": 15,
+        "p95_nearest_rank": 15,
+        "max": 15
+      },
+      "result_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "match_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 14,
+        "median": 14,
+        "p95_nearest_rank": 14,
+        "max": 14
+      },
+      "allocations": {
+        "count": 1,
+        "min": 138,
+        "median": 138,
+        "p95_nearest_rank": 138,
+        "max": 138
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 8513,
+        "median": 8513,
+        "p95_nearest_rank": 8513,
+        "max": 8513
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 4885,
+        "median": 4885,
+        "p95_nearest_rank": 4885,
+        "max": 4885
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "missing_eq",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 15,
+        "median": 15,
+        "p95_nearest_rank": 15,
+        "max": 15
+      },
+      "result_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "match_count": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 14,
+        "median": 14,
+        "p95_nearest_rank": 14,
+        "max": 14
+      },
+      "allocations": {
+        "count": 1,
+        "min": 138,
+        "median": 138,
+        "p95_nearest_rank": 138,
+        "max": 138
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 8513,
+        "median": 8513,
+        "p95_nearest_rank": 8513,
+        "max": 8513
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 4885,
+        "median": 4885,
+        "p95_nearest_rank": 4885,
+        "max": 4885
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "narrow_range",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 2598,
+        "median": 2598,
+        "p95_nearest_rank": 2598,
+        "max": 2598
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 121,
+        "median": 121,
+        "p95_nearest_rank": 121,
+        "max": 121
+      },
+      "result_count": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "match_count": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 72,
+        "median": 72,
+        "p95_nearest_rank": 72,
+        "max": 72
+      },
+      "allocations": {
+        "count": 1,
+        "min": 1341,
+        "median": 1341,
+        "p95_nearest_rank": 1341,
+        "max": 1341
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 127973,
+        "median": 127973,
+        "p95_nearest_rank": 127973,
+        "max": 127973
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 20072,
+        "median": 20072,
+        "p95_nearest_rank": 20072,
+        "max": 20072
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 8424,
+        "median": 8424,
+        "p95_nearest_rank": 8424,
+        "max": 8424
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "narrow_range",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 2598,
+        "median": 2598,
+        "p95_nearest_rank": 2598,
+        "max": 2598
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 121,
+        "median": 121,
+        "p95_nearest_rank": 121,
+        "max": 121
+      },
+      "result_count": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "match_count": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 1,
+        "median": 1,
+        "p95_nearest_rank": 1,
+        "max": 1
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 72,
+        "median": 72,
+        "p95_nearest_rank": 72,
+        "max": 72
+      },
+      "allocations": {
+        "count": 1,
+        "min": 1341,
+        "median": 1341,
+        "p95_nearest_rank": 1341,
+        "max": 1341
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 127973,
+        "median": 127973,
+        "p95_nearest_rank": 127973,
+        "max": 127973
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 20072,
+        "median": 20072,
+        "p95_nearest_rank": 20072,
+        "max": 20072
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 8424,
+        "median": 8424,
+        "p95_nearest_rank": 8424,
+        "max": 8424
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "narrow_range",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 330158,
+        "median": 330158,
+        "p95_nearest_rank": 330158,
+        "max": 330158
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "match_count": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 16516,
+        "median": 16516,
+        "p95_nearest_rank": 16516,
+        "max": 16516
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 2749058,
+        "median": 2749058,
+        "p95_nearest_rank": 2749058,
+        "max": 2749058
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1400074,
+        "median": 1400074,
+        "p95_nearest_rank": 1400074,
+        "max": 1400074
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 8424,
+        "median": 8424,
+        "p95_nearest_rank": 8424,
+        "max": 8424
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "broad_range",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 330158,
+        "median": 330158,
+        "p95_nearest_rank": 330158,
+        "max": 330158
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 13329,
+        "median": 13329,
+        "p95_nearest_rank": 13329,
+        "max": 13329
+      },
+      "result_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 530,
+        "median": 530,
+        "p95_nearest_rank": 530,
+        "max": 530
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 3738,
+        "median": 3738,
+        "p95_nearest_rank": 3738,
+        "max": 3738
+      },
+      "allocations": {
+        "count": 1,
+        "min": 153774,
+        "median": 153774,
+        "p95_nearest_rank": 153774,
+        "max": 153774
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 15742536,
+        "median": 15742536,
+        "p95_nearest_rank": 15742536,
+        "max": 15742536
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 2297608,
+        "median": 2297608,
+        "p95_nearest_rank": 2297608,
+        "max": 2297608
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 1078096,
+        "median": 1078096,
+        "p95_nearest_rank": 1078096,
+        "max": 1078096
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "broad_range",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 330158,
+        "median": 330158,
+        "p95_nearest_rank": 330158,
+        "max": 330158
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 150642,
+        "median": 150642,
+        "p95_nearest_rank": 150642,
+        "max": 150642
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 14820538,
+        "median": 14820538,
+        "p95_nearest_rank": 14820538,
+        "max": 14820538
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 2297608,
+        "median": 2297608,
+        "p95_nearest_rank": 2297608,
+        "max": 2297608
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 1078096,
+        "median": 1078096,
+        "p95_nearest_rank": 1078096,
+        "max": 1078096
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "broad_range",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 330158,
+        "median": 330158,
+        "p95_nearest_rank": 330158,
+        "max": 330158
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 530,
+        "median": 530,
+        "p95_nearest_rank": 530,
+        "max": 530
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 3738,
+        "median": 3738,
+        "p95_nearest_rank": 3738,
+        "max": 3738
+      },
+      "allocations": {
+        "count": 1,
+        "min": 150701,
+        "median": 150701,
+        "p95_nearest_rank": 150701,
+        "max": 150701
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 14824664,
+        "median": 14824664,
+        "p95_nearest_rank": 14824664,
+        "max": 14824664
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 2297608,
+        "median": 2297608,
+        "p95_nearest_rank": 2297608,
+        "max": 2297608
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 1078096,
+        "median": 1078096,
+        "p95_nearest_rank": 1078096,
+        "max": 1078096
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "sorted_page",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 330158,
+        "median": 330158,
+        "p95_nearest_rank": 330158,
+        "max": 330158
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 20,
+        "median": 20,
+        "p95_nearest_rank": 20,
+        "max": 20
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 530,
+        "median": 530,
+        "p95_nearest_rank": 530,
+        "max": 530
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 3738,
+        "median": 3738,
+        "p95_nearest_rank": 3738,
+        "max": 3738
+      },
+      "allocations": {
+        "count": 1,
+        "min": 20235,
+        "median": 20235,
+        "p95_nearest_rank": 20235,
+        "max": 20235
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 3944570,
+        "median": 3944570,
+        "p95_nearest_rank": 3944570,
+        "max": 3944570
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1591792,
+        "median": 1591792,
+        "p95_nearest_rank": 1591792,
+        "max": 1591792
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 22104,
+        "median": 22104,
+        "p95_nearest_rank": 22104,
+        "max": 22104
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "sorted_page",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 330158,
+        "median": 330158,
+        "p95_nearest_rank": 330158,
+        "max": 330158
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 20,
+        "median": 20,
+        "p95_nearest_rank": 20,
+        "max": 20
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 20170,
+        "median": 20170,
+        "p95_nearest_rank": 20170,
+        "max": 20170
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 3940294,
+        "median": 3940294,
+        "p95_nearest_rank": 3940294,
+        "max": 3940294
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1591792,
+        "median": 1591792,
+        "p95_nearest_rank": 1591792,
+        "max": 1591792
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 22104,
+        "median": 22104,
+        "p95_nearest_rank": 22104,
+        "max": 22104
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "sorted_page",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 330158,
+        "median": 330158,
+        "p95_nearest_rank": 330158,
+        "max": 330158
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 13329,
+        "median": 13329,
+        "p95_nearest_rank": 13329,
+        "max": 13329
+      },
+      "result_count": {
+        "count": 1,
+        "min": 20,
+        "median": 20,
+        "p95_nearest_rank": 20,
+        "max": 20
+      },
+      "match_count": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 530,
+        "median": 530,
+        "p95_nearest_rank": 530,
+        "max": 530
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 3738,
+        "median": 3738,
+        "p95_nearest_rank": 3738,
+        "max": 3738
+      },
+      "allocations": {
+        "count": 1,
+        "min": 23308,
+        "median": 23308,
+        "p95_nearest_rank": 23308,
+        "max": 23308
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 4862442,
+        "median": 4862442,
+        "p95_nearest_rank": 4862442,
+        "max": 4862442
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1591792,
+        "median": 1591792,
+        "p95_nearest_rank": 1591792,
+        "max": 1591792
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 22104,
+        "median": 22104,
+        "p95_nearest_rank": 22104,
+        "max": 22104
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "conjunction_selective_first",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 2598,
+        "median": 2598,
+        "p95_nearest_rank": 2598,
+        "max": 2598
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 121,
+        "median": 121,
+        "p95_nearest_rank": 121,
+        "max": 121
+      },
+      "result_count": {
+        "count": 1,
+        "min": 7,
+        "median": 7,
+        "p95_nearest_rank": 7,
+        "max": 7
+      },
+      "match_count": {
+        "count": 1,
+        "min": 7,
+        "median": 7,
+        "p95_nearest_rank": 7,
+        "max": 7
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 25,
+        "median": 25,
+        "p95_nearest_rank": 25,
+        "max": 25
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 169,
+        "median": 169,
+        "p95_nearest_rank": 169,
+        "max": 169
+      },
+      "allocations": {
+        "count": 1,
+        "min": 1238,
+        "median": 1238,
+        "p95_nearest_rank": 1238,
+        "max": 1238
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 118003,
+        "median": 118003,
+        "p95_nearest_rank": 118003,
+        "max": 118003
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 18203,
+        "median": 18203,
+        "p95_nearest_rank": 18203,
+        "max": 18203
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 7452,
+        "median": 7452,
+        "p95_nearest_rank": 7452,
+        "max": 7452
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "conjunction_selective_first",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 2598,
+        "median": 2598,
+        "p95_nearest_rank": 2598,
+        "max": 2598
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 121,
+        "median": 121,
+        "p95_nearest_rank": 121,
+        "max": 121
+      },
+      "result_count": {
+        "count": 1,
+        "min": 7,
+        "median": 7,
+        "p95_nearest_rank": 7,
+        "max": 7
+      },
+      "match_count": {
+        "count": 1,
+        "min": 7,
+        "median": 7,
+        "p95_nearest_rank": 7,
+        "max": 7
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 25,
+        "median": 25,
+        "p95_nearest_rank": 25,
+        "max": 25
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 169,
+        "median": 169,
+        "p95_nearest_rank": 169,
+        "max": 169
+      },
+      "allocations": {
+        "count": 1,
+        "min": 1238,
+        "median": 1238,
+        "p95_nearest_rank": 1238,
+        "max": 1238
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 118003,
+        "median": 118003,
+        "p95_nearest_rank": 118003,
+        "max": 118003
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 18203,
+        "median": 18203,
+        "p95_nearest_rank": 18203,
+        "max": 18203
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 7452,
+        "median": 7452,
+        "p95_nearest_rank": 7452,
+        "max": 7452
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "conjunction_selective_first",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 330158,
+        "median": 330158,
+        "p95_nearest_rank": 330158,
+        "max": 330158
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 7,
+        "median": 7,
+        "p95_nearest_rank": 7,
+        "max": 7
+      },
+      "match_count": {
+        "count": 1,
+        "min": 7,
+        "median": 7,
+        "p95_nearest_rank": 7,
+        "max": 7
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 16394,
+        "median": 16394,
+        "p95_nearest_rank": 16394,
+        "max": 16394
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 2738116,
+        "median": 2738116,
+        "p95_nearest_rank": 2738116,
+        "max": 2738116
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1400307,
+        "median": 1400307,
+        "p95_nearest_rank": 1400307,
+        "max": 1400307
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 7452,
+        "median": 7452,
+        "p95_nearest_rank": 7452,
+        "max": 7452
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "conjunction_common_first",
+    "mode": "reference",
+    "samples": 1,
+    "actual_strategies": [
+      "reference"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 1024,
+        "median": 1024,
+        "p95_nearest_rank": 1024,
+        "max": 1024
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 330158,
+        "median": 330158,
+        "p95_nearest_rank": 330158,
+        "max": 330158
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 6155,
+        "median": 6155,
+        "p95_nearest_rank": 6155,
+        "max": 6155
+      },
+      "result_count": {
+        "count": 1,
+        "min": 7,
+        "median": 7,
+        "p95_nearest_rank": 7,
+        "max": 7
+      },
+      "match_count": {
+        "count": 1,
+        "min": 7,
+        "median": 7,
+        "p95_nearest_rank": 7,
+        "max": 7
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 0,
+        "median": 0,
+        "p95_nearest_rank": 0,
+        "max": 0
+      },
+      "allocations": {
+        "count": 1,
+        "min": 16394,
+        "median": 16394,
+        "p95_nearest_rank": 16394,
+        "max": 16394
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 2738116,
+        "median": 2738116,
+        "p95_nearest_rank": 2738116,
+        "max": 2738116
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 1400307,
+        "median": 1400307,
+        "p95_nearest_rank": 1400307,
+        "max": 1400307
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 7452,
+        "median": 7452,
+        "p95_nearest_rank": 7452,
+        "max": 7452
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "conjunction_common_first",
+    "mode": "automatic",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 2598,
+        "median": 2598,
+        "p95_nearest_rank": 2598,
+        "max": 2598
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 121,
+        "median": 121,
+        "p95_nearest_rank": 121,
+        "max": 121
+      },
+      "result_count": {
+        "count": 1,
+        "min": 7,
+        "median": 7,
+        "p95_nearest_rank": 7,
+        "max": 7
+      },
+      "match_count": {
+        "count": 1,
+        "min": 7,
+        "median": 7,
+        "p95_nearest_rank": 7,
+        "max": 7
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 25,
+        "median": 25,
+        "p95_nearest_rank": 25,
+        "max": 25
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 169,
+        "median": 169,
+        "p95_nearest_rank": 169,
+        "max": 169
+      },
+      "allocations": {
+        "count": 1,
+        "min": 1238,
+        "median": 1238,
+        "p95_nearest_rank": 1238,
+        "max": 1238
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 118003,
+        "median": 118003,
+        "p95_nearest_rank": 118003,
+        "max": 118003
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 18203,
+        "median": 18203,
+        "p95_nearest_rank": 18203,
+        "max": 18203
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 7452,
+        "median": 7452,
+        "p95_nearest_rank": 7452,
+        "max": 7452
+      }
+    }
+  },
+  {
+    "label": "heap-tuned",
+    "record": "heap",
+    "distribution": "skewed",
+    "seed": 11,
+    "size": 1024,
+    "case": "conjunction_common_first",
+    "mode": "native",
+    "samples": 1,
+    "actual_strategies": [
+      "native_candidates"
+    ],
+    "values": {
+      "decoded_rows": {
+        "count": 1,
+        "min": 8,
+        "median": 8,
+        "p95_nearest_rank": 8,
+        "max": 8
+      },
+      "decoded_bytes": {
+        "count": 1,
+        "min": 2598,
+        "median": 2598,
+        "p95_nearest_rank": 2598,
+        "max": 2598
+      },
+      "materialization_vm_steps": {
+        "count": 1,
+        "min": 121,
+        "median": 121,
+        "p95_nearest_rank": 121,
+        "max": 121
+      },
+      "result_count": {
+        "count": 1,
+        "min": 7,
+        "median": 7,
+        "p95_nearest_rank": 7,
+        "max": 7
+      },
+      "match_count": {
+        "count": 1,
+        "min": 7,
+        "median": 7,
+        "p95_nearest_rank": 7,
+        "max": 7
+      },
+      "probe_rows": {
+        "count": 1,
+        "min": 25,
+        "median": 25,
+        "p95_nearest_rank": 25,
+        "max": 25
+      },
+      "probe_statements": {
+        "count": 1,
+        "min": 2,
+        "median": 2,
+        "p95_nearest_rank": 2,
+        "max": 2
+      },
+      "probe_vm_steps": {
+        "count": 1,
+        "min": 169,
+        "median": 169,
+        "p95_nearest_rank": 169,
+        "max": 169
+      },
+      "allocations": {
+        "count": 1,
+        "min": 1238,
+        "median": 1238,
+        "p95_nearest_rank": 1238,
+        "max": 1238
+      },
+      "total_allocated_bytes": {
+        "count": 1,
+        "min": 118003,
+        "median": 118003,
+        "p95_nearest_rank": 118003,
+        "max": 118003
+      },
+      "peak_tracked_bytes": {
+        "count": 1,
+        "min": 18203,
+        "median": 18203,
+        "p95_nearest_rank": 18203,
+        "max": 18203
+      },
+      "tracked_bytes_at_return": {
+        "count": 1,
+        "min": 7452,
+        "median": 7452,
+        "p95_nearest_rank": 7452,
+        "max": 7452
+      }
+    }
+  }
+]

@@ -1,0 +1,19 @@
+   Compiling libc v0.2.189
+   Compiling object v0.37.3
+   Compiling parking_lot_core v0.9.12
+   Compiling adler2 v2.0.1
+   Compiling scopeguard v1.2.0
+   Compiling gimli v0.32.3
+   Compiling lock_api v0.4.14
+   Compiling miniz_oxide v0.8.9
+   Compiling addr2line v0.25.1
+   Compiling rustc-demangle v0.1.28
+   Compiling parking_lot v0.12.5
+   Compiling rustc-hash v1.1.0
+   Compiling backtrace v0.3.76
+   Compiling lazy_static v1.5.1
+   Compiling mintex v0.1.4
+   Compiling thousands v0.2.0
+   Compiling dhat v0.3.3
+   Compiling rom-query-measure v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tools/query-measure)
+    Finished `release` profile [optimized] target(s) in 7.27s

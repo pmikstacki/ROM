@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/rom-cli", "demo", "crates/rom-backup", "crates/rom-blob", "crates/rom-blob-object-store", "crates/rom-config", "crates/rom-http", "crates/rom-identity", "crates/rom-auth", "crates/rom", "crates/rom-derive", "crates/rom-sqlite", "crates/rom-redb", "examples/consumer", "tests/persistence"]
+members = ["crates/rom-cli", "demo", "crates/rom-backup", "crates/rom-blob", "crates/rom-blob-object-store", "crates/rom-config", "crates/rom-http", "crates/rom-identity", "crates/rom-auth", "crates/rom", "crates/rom-derive", "crates/rom-sqlite", "crates/rom-redb", "examples/consumer", "tests/persistence", "tools/query-measure"]
 exclude = ["tests/compile"]
 resolver = "3"
 [workspace.package]

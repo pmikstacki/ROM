@@ -1,0 +1,34 @@
+[package]
+name = "rom-query-measure"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[features]
+default = ["queries"]
+queries = []
+heap = ["dep:dhat"]
+
+[[bin]]
+name = "rom-query-measure"
+path = "src/main.rs"
+required-features = ["queries"]
+
+[[bin]]
+name = "rom-query-write-measure"
+path = "src/bin/write.rs"
+
+[dependencies]
+rom.workspace = true
+rom-sqlite = { workspace = true, features = ["test-support"] }
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+rusqlite.workspace = true
+dhat = { version = "=0.3.3", optional = true }

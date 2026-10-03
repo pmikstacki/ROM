@@ -1,5 +1,6 @@
 //! One coherent native query operation. No application callback runs in this module.
 use super::{metadata, planner::NativePlan};
+use crate::query_observation::{QueryExecution, QueryObservation, observation};
 use rom::{
     Error, KindAdmission, QUERY_ENCODING_VERSION, QUERY_PROFILE_VERSION, QueryBounds, QueryRead,
     QuerySnapshot, QueryStrategy, ReadBinding, Result, Row, StorageQuery, select_query_strategy,
@@ -14,6 +15,25 @@ pub(crate) fn query_read(
     request: &StorageQuery,
     bounds: QueryBounds,
 ) -> Result<QueryRead> {
+    Ok(execute::<false>(c, request, bounds, QueryExecution::Automatic)?.read)
+}
+
+#[cfg(feature = "test-support")]
+pub(crate) fn query_read_observed(
+    c: &Connection,
+    request: &StorageQuery,
+    bounds: QueryBounds,
+    execution: QueryExecution,
+) -> Result<QueryObservation> {
+    execute::<true>(c, request, bounds, execution)
+}
+
+fn execute<const OBSERVED: bool>(
+    c: &Connection,
+    request: &StorageQuery,
+    bounds: QueryBounds,
+    execution: QueryExecution,
+) -> Result<QueryObservation> {
     let kind = &request.descriptor.kind;
     let descriptor = metadata::descriptor(c, kind)?;
     if request.descriptor.canonical().map_err(|_| Error::Storage)? != descriptor {
@@ -44,39 +64,86 @@ pub(crate) fn query_read(
         profile_version: QUERY_PROFILE_VERSION,
         encoding_version: QUERY_ENCODING_VERSION,
     };
-    let reference = || {
-        crate::persistence::snapshot_rows(c, kind, bounds.max_rows, bounds.max_bytes)
-            .map(|rows| QueryRead::Reference { rows })
+    let reference = |probes| {
+        let (rows, metrics) =
+            crate::read_rows::snapshot::<OBSERVED>(c, kind, bounds.max_rows, bounds.max_bytes)?;
+        observation(QueryRead::Reference { rows }, metrics, probes)
     };
-    let Some(plan) = NativePlan::for_request(request) else {
-        return reference();
-    };
+    #[cfg(feature = "test-support")]
+    if execution == QueryExecution::Reference {
+        return reference(Default::default());
+    }
+    #[cfg(not(feature = "test-support"))]
+    let _ = execution;
+    // Avoid optional index work when the request cannot permit native execution.
+    // The shared selector still owns the complete eligibility/binding check.
+    if request.selection != rom::SelectionMode::UniformReadAndFields
+        || request.semantics != rom::QUERY_SEMANTICS_VERSION
+    {
+        return reference(Default::default());
+    }
     let binding = ReadBinding {
         request: request.clone(),
         snapshot: snapshot.clone(),
     };
-    let estimates = plan.estimates(c, binding.clone(), counters.rows, counters.canonical_bytes);
-    if select_query_strategy(request, &snapshot, estimates.as_ref())
+    let (selected, probes) = NativePlan::select::<OBSERVED>(
+        c,
+        request,
+        binding.clone(),
+        counters.rows,
+        counters.canonical_bytes,
+    );
+    let Some((plan, estimates)) = selected else {
+        return reference(probes);
+    };
+    #[cfg(feature = "test-support")]
+    let estimates = {
+        let mut estimate = estimates;
+        if execution == QueryExecution::Native {
+            // The same shared gate still checks semantic capability, completeness
+            // and exact binding. Only the relative cost comparison is overridden.
+            estimate.reference = rom::QueryCost {
+                startup: 1,
+                rows: 0,
+                per_row: 0,
+                bytes: 0,
+                per_byte: 0,
+            };
+            estimate.native = rom::QueryCost {
+                startup: 0,
+                rows: 0,
+                per_row: 0,
+                bytes: 0,
+                per_byte: 0,
+            };
+        }
+        estimate
+    };
+    if select_query_strategy(request, &snapshot, Some(&estimates))
         != QueryStrategy::NativeCandidates
     {
-        return reference();
+        return reference(probes);
     }
     // After selection, execution errors propagate. A second read would hide an
     // integrity error and would no longer describe the selected operation.
-    let rows = candidates(c, &plan, kind, admission)?;
-    Ok(QueryRead::NativeCandidates {
-        rows,
-        admission,
-        binding: Box::new(binding),
-    })
+    let (rows, metrics) = candidates::<OBSERVED>(c, &plan, kind, admission)?;
+    observation(
+        QueryRead::NativeCandidates {
+            rows,
+            admission,
+            binding: Box::new(binding),
+        },
+        metrics,
+        probes,
+    )
 }
 
-fn candidates(
+fn candidates<const OBSERVED: bool>(
     c: &Connection,
     plan: &NativePlan,
     kind: &str,
     admission: KindAdmission,
-) -> Result<Vec<Row>> {
+) -> Result<(Vec<Row>, crate::read_rows::Metrics)> {
     let mut statement = c.prepare(&plan.sql).map_err(|_| Error::Storage)?;
     let mut cursor = statement
         .query(params_from_iter(&plan.parameters))
@@ -123,5 +190,8 @@ fn candidates(
         }
         result.push(row);
     }
-    Ok(result)
+    drop(cursor);
+    let metrics =
+        crate::read_rows::Metrics::read::<OBSERVED>(result.len(), stored_bytes, &statement)?;
+    Ok((result, metrics))
 }

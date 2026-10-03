@@ -187,6 +187,30 @@ the shared authorization, filter, ordering and admission contracts.
 - **THEN** it retains retry boundaries and receipt origins without treating them as epoch-zero legacy data
 - **AND** ordinary open rejects that previous format without an implicit upgrade
 
+### Requirement: Query strategy probes preserve the Resource contract
+The maintained SQLite adapter SHALL bound optional selectivity probes independently
+from logical query limits. It SHALL apply whole-kind admission before probes and
+retain the shared semantic eligibility gate before native execution.
+
+#### Scenario: A broad predicate precedes a selective predicate
+- **GIVEN** supported predicates within the adapter's bounded inspection set
+- **WHEN** a small exact candidate count is found after a saturated probe
+- **THEN** the adapter can use the smaller complete candidate set
+- **AND** core applies every residual predicate and the same authorization and disclosure rules
+- **AND** probe LIMIT clauses do not limit the returned candidate set
+
+#### Scenario: Probe work reaches its configured bound
+- **WHEN** the adapter cannot establish an exact count within its bounded probes
+- **THEN** it treats saturation as a lower bound, not an exact cardinality
+- **AND** it uses a conservative estimate or reference execution without truncating results
+- **AND** completed probe costs apply to both remaining execution alternatives
+
+#### Scenario: Native execution is already ineligible
+- **GIVEN** a reference-only request or an unsupported query semantics version
+- **WHEN** the adapter admits the read
+- **THEN** it skips selectivity probes and uses reference execution
+- **AND** test-only forced execution cannot override that decision
+
 ### Requirement: Release readiness includes operational recovery
 ROM SHALL provide tested CLI recovery, single-writer ownership, documented identity
 and secrets setup, versioned extension conformance and locally verified packages.

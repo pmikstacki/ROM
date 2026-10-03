@@ -57,31 +57,7 @@ pub(crate) fn snapshot_rows(
     max_rows: usize,
     max_bytes: usize,
 ) -> Result<Vec<Row>> {
-    let mut statement = c
-        .prepare("SELECT data FROM resources WHERE kind=? ORDER BY id LIMIT ?")
-        .map_err(|_| Error::Storage)?;
-    let limit = i64::try_from(max_rows.saturating_add(1)).unwrap_or(i64::MAX);
-    let mut cursor = statement
-        .query(params![kind, limit])
-        .map_err(|_| Error::Storage)?;
-    let mut result = Vec::new();
-    let mut bytes = 0usize;
-    while let Some(row) = cursor.next().map_err(|_| Error::Storage)? {
-        if result.len() == max_rows {
-            return Err(Error::TooLarge);
-        }
-        let text = row
-            .get_ref(0)
-            .map_err(|_| Error::Storage)?
-            .as_str()
-            .map_err(|_| Error::Storage)?;
-        bytes = bytes.checked_add(text.len()).ok_or(Error::TooLarge)?;
-        if bytes > max_bytes {
-            return Err(Error::TooLarge);
-        }
-        result.push(serde_json::from_str(text).map_err(|_| Error::Storage)?);
-    }
-    Ok(result)
+    Ok(crate::read_rows::snapshot::<false>(c, kind, max_rows, max_bytes)?.0)
 }
 impl Storage for Sqlite {
     fn retry_epochs(&self) -> Result<rom::RetryEpochs> {

@@ -1,0 +1,4 @@
+   Compiling rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+   Compiling rom-query-measure v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tools/query-measure)
+    Finished `release` profile [optimized] target(s) in 5.58s
+    Finished `release` profile [optimized] target(s) in 0.06s

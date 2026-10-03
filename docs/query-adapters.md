@@ -68,14 +68,21 @@ State, reference edges, derived keys, exact kind counters and generation change 
 An unchanged field key stays in place. Receipt replay and rejected writes do not change the generation.
 
 The native reader selects one supported predicate and returns its complete candidate set.
+It considers at most four distinct supported predicates. Capped covering-index probes estimate their candidate counts in the same transaction.
+The first pass reads at most 17 keys per predicate. If every count saturates, a second pass refines counts.
+The expanded cap is at most 4,096, plus one key to distinguish saturation. A smaller exact count reduces later caps.
+The complete operation probes at most 16,456 keys. This is a key bound, not a latency or SQLite VM-step guarantee.
+Probe LIMIT clauses never truncate the candidate set returned to core.
 Other predicates, sort order, moving anchors and result limits remain in core.
 It uses bound BLOB values for exact scalar comparisons. It does not put a result LIMIT in SQL.
 
 Plan inspection and execution use the same SQL and parameters inside one read transaction.
 The first plan recognizer accepts specific output from the bundled SQLite 3.53.2 engine.
 An unknown version or plan selects the reference path. Native execution errors propagate.
-The current cost weights and selectivity fractions are heuristics. They are not measured latency estimates.
-The release still needs skewed workloads, write amplification, allocations and memory measurements before tuning these weights.
+The relative cost model charges native rows and estimated bytes at twice the reference rate, with separate startup costs.
+Both alternatives include the same completed-probe cost. Saturated counts use a conservative whole-kind estimate.
+The weights guide placement; they are not predictions in nanoseconds or guarantees of the fastest possible plan.
+See the [maintained cost measurements](research/maintained-query-cost-results.md) for workloads, write costs, memory scopes and validation status.
 
 Startup and backup validate all derived memberships and counters against authoritative data.
 Validation also checks the native index layout. Physical entries count toward the complete native validation budget.

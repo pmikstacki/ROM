@@ -11,6 +11,8 @@ mod validation;
 pub(crate) use catalog::{initialize, rebuild, register, replace};
 pub(crate) use encoding::encode;
 pub(crate) use query::query_read;
+#[cfg(feature = "test-support")]
+pub(crate) use query::query_read_observed;
 pub(crate) use validation::validate;
 
 #[cfg(test)]

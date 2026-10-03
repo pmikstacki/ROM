@@ -169,8 +169,39 @@ fn ranges_leave_other_predicates_residual_and_descriptor_must_match_catalog() {
 }
 
 fn native_values(c: &Connection, query: &StorageQuery) -> Vec<Option<Value>> {
-    let QueryRead::NativeCandidates { rows, .. } = query_read(c, query, bounds()).unwrap() else {
-        panic!("expected native path for {:?}", query.spec);
+    #[cfg(feature = "test-support")]
+    let read = super::query::query_read_observed(c, query, bounds(), crate::QueryExecution::Native)
+        .unwrap()
+        .read;
+    #[cfg(not(feature = "test-support"))]
+    let read = {
+        // These tests exercise physical encoding even when broad costs prefer
+        // reference. Build the same permitted plan without changing its SQL.
+        let binding = ReadBinding {
+            request: query.clone(),
+            snapshot: QuerySnapshot {
+                store: "test-store".into(),
+                generation: 1,
+                profile_version: QUERY_PROFILE_VERSION,
+                encoding_version: QUERY_ENCODING_VERSION,
+            },
+        };
+        let (selected, _) =
+            super::planner::NativePlan::select::<false>(c, query, binding, 1000, 1_000_000);
+        let (plan, _) = selected.expect("supported physical plan");
+        let mut statement = c.prepare(&plan.sql).unwrap();
+        let rows = statement
+            .query_map(rusqlite::params_from_iter(&plan.parameters), |row| {
+                row.get::<_, String>(2)
+            })
+            .unwrap()
+            .map(|text| serde_json::from_str::<Row>(&text.unwrap()).unwrap())
+            .collect();
+        QueryRead::Reference { rows }
+    };
+    let rows = match read {
+        QueryRead::NativeCandidates { rows, .. } => rows,
+        QueryRead::Reference { rows } => rows,
     };
     rows.into_iter()
         .map(|row| row.value.unwrap().get("amount").cloned())
@@ -296,6 +327,62 @@ fn metadata_corruption_is_not_an_optional_planner_failure() {
             query_read(&c, &request(), bounds()),
             Err(Error::Storage),
             "{sql}"
+        );
+    }
+}
+
+#[cfg(feature = "test-support")]
+#[test]
+fn observed_controls_keep_plan_fallback_execution_errors_and_stored_byte_scope() {
+    use super::query::query_read_observed;
+    use crate::QueryExecution;
+    let c = fixture();
+    let q = request();
+    let original: String = c
+        .query_row("SELECT data FROM resources WHERE id='017'", [], |r| {
+            r.get(0)
+        })
+        .unwrap();
+    let padded = format!("  {original}  ");
+    c.execute("UPDATE resources SET data=? WHERE id='017'", [&padded])
+        .unwrap();
+    c.execute("UPDATE query_kinds SET row_bytes=row_bytes+4", [])
+        .unwrap();
+    let result = query_read_observed(&c, &q, bounds(), QueryExecution::Native).unwrap();
+    assert_eq!(
+        result.metrics.decoded_bytes,
+        padded.len(),
+        "count stored decoder input, not canonical output"
+    );
+    assert_eq!(result.metrics.decoded_rows, 1);
+    let repeated = query_read_observed(&c, &q, bounds(), QueryExecution::Native).unwrap();
+    assert_eq!(
+        result.metrics.vm_steps, repeated.metrics.vm_steps,
+        "VM counters are per materialization statement"
+    );
+    assert_eq!(
+        result.metrics.probe_vm_steps, repeated.metrics.probe_vm_steps,
+        "probe counters are per operation"
+    );
+    c.execute("DROP INDEX query_keys_value", []).unwrap();
+    let result = query_read_observed(&c, &q, bounds(), QueryExecution::Native).unwrap();
+    assert_eq!(result.metrics.strategy, QueryStrategy::Reference);
+    assert_eq!(result.metrics.decoded_rows, 128);
+    c.execute(
+        "CREATE INDEX query_keys_value ON query_keys(kind,field,encoded,id)",
+        [],
+    )
+    .unwrap();
+    c.execute("UPDATE resources SET data='broken' WHERE id='017'", [])
+        .unwrap();
+    for mode in [
+        QueryExecution::Automatic,
+        QueryExecution::Reference,
+        QueryExecution::Native,
+    ] {
+        assert_eq!(
+            query_read_observed(&c, &q, bounds(), mode).unwrap_err(),
+            Error::Storage
         );
     }
 }

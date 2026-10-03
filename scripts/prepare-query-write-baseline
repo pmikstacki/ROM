@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Prepare immutable historical source with the current measurement harness.
+# Run where Git can resolve the current checkout. Build in the output directory.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+if [[ $# -lt 1 || $# -gt 2 ]]; then
+  echo 'Usage: scripts/prepare-query-write-baseline NEW_DIRECTORY [COMMIT]' >&2
+  exit 2
+fi
+baseline_commit=$(git rev-parse --verify "${2:-bedff7a}^{commit}")
+baseline_output=$1
+[[ ! -e "$baseline_output" ]] || { echo 'Destination must not exist' >&2; exit 2; }
+mkdir -p "$baseline_output"
+baseline_output=$(cd "$baseline_output" && pwd)
+git archive "$baseline_commit" | tar -x -C "$baseline_output"
+mkdir -p "$baseline_output/tools"
+cp -R tools/query-measure "$baseline_output/tools/query-measure"
+cp Cargo.toml Cargo.lock "$baseline_output/"
+{
+  printf 'baseline_commit=%s\n' "$baseline_commit"
+  printf 'harness_base_commit=%s\n' "$(git rev-parse HEAD)"
+  printf 'The source adapter is historical; the workspace manifest, lockfile and measurement harness are current.\n'
+  printf 'Build with --no-default-features --bin rom-query-write-measure.\n'
+  sha256sum Cargo.toml Cargo.lock
+  while IFS= read -r -d '' measurement_file; do
+    sha256sum "$measurement_file"
+  done < <(find tools/query-measure -type f -print0 | sort -z)
+} > "$baseline_output/measurement-source.txt"
+printf 'Prepared %s\n' "$baseline_output"
