@@ -10,6 +10,7 @@ cargo clippy -p rom-auth --all-targets --all-features --locked -- -D warnings
 cargo test -p rom-auth --all-features --locked
 cargo check -p rom-auth --no-default-features --locked
 cargo check -p rom-auth --no-default-features --features jwt --locked
+cargo check -p rom-auth --no-default-features --features oidc --locked
 cargo check -p rom-auth --no-default-features --features introspection --locked
 RUSTDOCFLAGS='-D warnings' cargo doc -p rom-auth --all-features --no-deps --locked
 cargo tree -p rom-auth --no-default-features --edges normal --locked

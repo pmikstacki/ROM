@@ -1,0 +1,17 @@
+   Compiling rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+    Finished `test` profile [unoptimized] target(s) in 0.33s
+     Running tests/oidc.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/oidc-f53b504f27f70027)
+
+running 9 tests
+test id_token_constructs_sealed_bounded_human_proof_with_explicit_profile ... ok
+test old_access_verifier_rejects_id_tokens_and_oidc_rejects_access_type ... ok
+test oidc_keys::expired_keys_refresh_completely_and_evidence_never_outlives_cached_keys ... ok
+test header_trust_and_host_context_bounds_reject_before_key_acquisition ... ok
+test multi_audience_requires_explicit_trust_and_client_authorized_party ... ok
+test present_hashes_bind_the_original_returned_tokens_and_cannot_be_ignored ... ok
+test oidc_keys::invalid_header_never_fetches_and_invalid_complete_key_sets_never_issue_proof ... ok
+test declared_claim_and_configuration_limits_reject_ambiguous_values ... ok
+test wrong_signature_binding_nonce_times_or_missing_claims_never_construct_proof ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s
+

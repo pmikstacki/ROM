@@ -21,7 +21,7 @@
 //! ```compile_fail
 //! let forged = serde_json::from_str::<rom_auth::VerifiedIdentity>("{}");
 //! ```
-use crate::{AuthError, PrincipalKind, VerifiedIdentity, claims::Audience};
+use crate::{AuthError, IdentityProfile, VerifiedIdentity, claims::Audience, keys::KeyCache};
 /// Public-key representation used by the selected cryptographic backend.
 pub use jsonwebtoken::DecodingKey;
 use jsonwebtoken::{Algorithm, Validation, decode, decode_header};
@@ -62,10 +62,7 @@ pub struct JwtAdapter<K> {
     expected_issuer: String,
     audience: String,
     validation: Validation,
-    source: K,
-    keys: BTreeMap<String, DecodingKey>,
-    keys_until: u64,
-    last_refresh: Option<u64>,
+    keys: KeyCache<K>,
 }
 impl<K: TrustedKeys> JwtAdapter<K> {
     /// Configure exact issuer/audience binding and a nonempty authority namespace.
@@ -94,10 +91,7 @@ impl<K: TrustedKeys> JwtAdapter<K> {
             expected_issuer: expected_issuer.into(),
             audience: audience.into(),
             validation,
-            source,
-            keys: BTreeMap::new(),
-            keys_until: 0,
-            last_refresh: None,
+            keys: KeyCache::new(source),
         })
     }
     /// Verify a bearer using trusted host Unix time, never a time supplied by a request.
@@ -128,25 +122,7 @@ impl<K: TrustedKeys> JwtAdapter<K> {
             .as_deref()
             .filter(|x| !x.is_empty() && x.len() <= 64)
             .ok_or(AuthError::UnknownKey)?;
-        if now >= self.keys_until || !self.keys.contains_key(kid) {
-            if self
-                .last_refresh
-                .is_some_and(|last| now < last.saturating_add(5))
-            {
-                return Err(AuthError::RefreshLimited);
-            }
-            self.last_refresh = Some(now);
-            let fresh = self.source.fetch()?;
-            if fresh.is_empty()
-                || fresh.len() > 8
-                || fresh.keys().any(|k| k.is_empty() || k.len() > 64)
-            {
-                return Err(AuthError::Invalid);
-            }
-            self.keys = fresh;
-            self.keys_until = now.saturating_add(30);
-        }
-        let key = self.keys.get(kid).ok_or(AuthError::UnknownKey)?;
+        let key = self.keys.get(kid, now)?;
         let claims = decode::<JwtClaims>(token, key, &self.validation)
             .map_err(|_| AuthError::Invalid)?
             .claims;
@@ -174,8 +150,11 @@ impl<K: TrustedKeys> JwtAdapter<K> {
         Ok(VerifiedIdentity::verified(
             &self.authority,
             claims.sub,
-            PrincipalKind::Human,
-            claims.exp.min(self.keys_until).min(now.saturating_add(30)),
+            IdentityProfile::JwtRs256Human,
+            claims
+                .exp
+                .min(self.keys.until())
+                .min(now.saturating_add(30)),
         ))
     }
 }

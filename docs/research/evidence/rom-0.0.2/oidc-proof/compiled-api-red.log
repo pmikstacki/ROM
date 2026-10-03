@@ -1,0 +1,22 @@
+   Compiling thiserror v2.0.21
+   Compiling serde v1.0.229
+   Compiling simple_asn1 v0.6.4
+   Compiling jsonwebtoken v11.1.0
+   Compiling subtle v2.6.1
+   Compiling rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+error[E0432]: unresolved import `rom_auth::oidc`
+ --> crates/rom-auth/tests/oidc.rs:7:15
+  |
+7 | use rom_auth::oidc::OidcTokenBindings;
+  |               ^^^^ could not find `oidc` in `rom_auth`
+
+error[E0432]: unresolved imports `rom_auth::IdentityProfile`, `rom_auth::OidcIdTokenAdapter`
+ --> crates/rom-auth/tests/oidc.rs:8:27
+  |
+8 | use rom_auth::{AuthError, IdentityProfile, OidcIdTokenAdapter, PrincipalKind};
+  |                           ^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^ no `OidcIdTokenAdapter` in the root
+  |                           |
+  |                           no `IdentityProfile` in the root
+
+For more information about this error, try `rustc --explain E0432`.
+error: could not compile `rom-auth` (test "oidc") due to 2 previous errors

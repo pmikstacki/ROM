@@ -13,6 +13,7 @@ workspace = true
 [features]
 default = []
 jwt = ["dep:jsonwebtoken", "dep:serde", "dep:serde_json"]
+oidc = ["jwt", "dep:sha2", "dep:base64", "dep:subtle"]
 introspection = ["dep:reqwest", "dep:serde", "dep:serde_json", "dep:sha2", "dep:form_urlencoded"]
 [dependencies]
 jsonwebtoken = { version = "=11.1.0", default-features = false, features = ["aws_lc_rs", "use_pem"], optional = true }
@@ -21,3 +22,5 @@ serde = { workspace = true, optional = true }
 serde_json = { workspace = true, optional = true }
 sha2 = { version = "=0.10.9", optional = true }
 form_urlencoded = { version = "=1.2.2", optional = true }
+base64 = { version = "=0.22.1", optional = true }
+subtle = { version = "=2.6.1", optional = true }

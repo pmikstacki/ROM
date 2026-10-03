@@ -1,0 +1,29 @@
+   Compiling rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+   Compiling rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+   Compiling rom-identity v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+error[E0599]: no variant, associated function, or constant named `OidcRs256Human` found for enum `rom_identity::ProviderProfile` in the current scope
+  --> crates/rom-identity/tests/support/oidc.rs:18:39
+   |
+18 |     config.profile = ProviderProfile::OidcRs256Human;
+   |                                       ^^^^^^^^^^^^^^ variant, associated function, or constant not found in `rom_identity::ProviderProfile`
+   |
+help: there is a variant with a similar name
+   |
+18 -     config.profile = ProviderProfile::OidcRs256Human;
+18 +     config.profile = ProviderProfile::JwtRs256Human;
+   |
+
+error[E0599]: no variant, associated function, or constant named `OidcRs256Human` found for enum `rom_identity::ProviderProfile` in the current scope
+  --> crates/rom-identity/tests/support/oidc.rs:52:68
+   |
+52 |     let mut config = provider(); config.profile = ProviderProfile::OidcRs256Human;
+   |                                                                    ^^^^^^^^^^^^^^ variant, associated function, or constant not found in `rom_identity::ProviderProfile`
+   |
+help: there is a variant with a similar name
+   |
+52 -     let mut config = provider(); config.profile = ProviderProfile::OidcRs256Human;
+52 +     let mut config = provider(); config.profile = ProviderProfile::JwtRs256Human;
+   |
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `rom-identity` (test "integration") due to 2 previous errors

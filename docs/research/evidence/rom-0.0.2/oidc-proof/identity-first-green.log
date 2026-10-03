@@ -1,0 +1,16 @@
+   Compiling rom-identity v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+    Finished `test` profile [unoptimized] target(s) in 0.94s
+     Running tests/integration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/integration-2f036a05e170e51c)
+
+running 8 tests
+test authority_links_and_provider_config_are_validated_and_bootstrap_is_explicit ... ok
+test user_disable_during_action_proposal_prevents_commit ... ok
+test real_signed_proof_links_through_native_resources_and_expiry_is_preserved ... ok
+test oidc::access_and_id_proofs_cannot_cross_provider_profiles_or_stamp_profiles ... ok
+test oidc::oidc_proof_uses_explicit_current_link_and_finite_gate ... ok
+test disabled_user_denies_cached_retry_and_live_without_repeating_commit ... ok
+test provider_revision_and_unlink_relink_cannot_revive_old_bindings ... ok
+test oidc::oidc_current_provider_user_and_link_revisions_do_not_revive_evidence ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+

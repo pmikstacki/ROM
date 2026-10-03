@@ -1,0 +1,24 @@
+   Compiling rom-identity v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+    Finished `test` profile [unoptimized] target(s) in 1.33s
+     Running tests/integration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/integration-2f036a05e170e51c)
+
+running 3 tests
+test oidc::access_and_id_proofs_cannot_cross_provider_profiles_or_stamp_profiles ... FAILED
+test oidc::oidc_proof_uses_explicit_current_link_and_finite_gate ... ok
+test oidc::oidc_current_provider_user_and_link_revisions_do_not_revive_evidence ... ok
+
+failures:
+
+---- oidc::access_and_id_proofs_cannot_cross_provider_profiles_or_stamp_profiles stdout ----
+
+thread 'oidc::access_and_id_proofs_cannot_cross_provider_profiles_or_stamp_profiles' (1997619) panicked at crates/rom-identity/tests/support/oidc.rs:46:5:
+assertion failed: matches!(access_activation.verify(|_, _| Ok(id)), Err(Error::Denied))
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    oidc::access_and_id_proofs_cannot_cross_provider_profiles_or_stamp_profiles
+
+test result: FAILED. 2 passed; 1 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.07s
+
+error: test failed, to rerun pass `-p rom-identity --test integration`

@@ -8,8 +8,10 @@
 
 mod binding;
 mod gate;
+mod provider_profile;
 mod resources;
 
 pub use binding::{ActivatedIdentity, ProviderActivation, link_key, linked_user_id};
 pub use gate::IdentityGate;
-pub use resources::{IdentityLink, IdentityProvider, ProviderProfile, User};
+pub use provider_profile::ProviderProfile;
+pub use resources::{IdentityLink, IdentityProvider, User};

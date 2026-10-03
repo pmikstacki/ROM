@@ -40,7 +40,9 @@ impl ActorGate for IdentityGate {
         let stamp: Stamp = serde_json::from_str(actor.host_stamp().ok_or(Error::Denied)?)
             .map_err(|_| Error::Denied)?;
         let (pr, provider) = load::<IdentityProvider>(storage, &actor.authority)?;
-        if pr != stamp.provider_revision || !profile(&provider, actor.principal_kind()) {
+        if pr != stamp.provider_revision
+            || !profile(&provider, actor.principal_kind(), &stamp.profile)
+        {
             return Err(Error::Denied);
         }
         let (lr, link) = load::<IdentityLink>(

@@ -1,0 +1,54 @@
+   Compiling rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+    Finished `test` profile [unoptimized] target(s) in 0.89s
+     Running tests/oidc.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/oidc-f53b504f27f70027)
+
+running 6 tests
+test id_token_constructs_sealed_bounded_human_proof_with_explicit_profile ... FAILED
+test present_hashes_bind_the_original_returned_tokens_and_cannot_be_ignored ... FAILED
+test old_access_verifier_rejects_id_tokens_and_oidc_rejects_access_type ... FAILED
+test multi_audience_requires_explicit_trust_and_client_authorized_party ... FAILED
+test header_trust_and_host_context_bounds_reject_before_key_acquisition ... FAILED
+test wrong_signature_binding_nonce_times_or_missing_claims_never_construct_proof ... ok
+
+failures:
+
+---- id_token_constructs_sealed_bounded_human_proof_with_explicit_profile stdout ----
+
+thread 'id_token_constructs_sealed_bounded_human_proof_with_explicit_profile' (1991537) panicked at crates/rom-auth/tests/oidc.rs:46:10:
+called `Result::unwrap()` on an `Err` value: Invalid
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- present_hashes_bind_the_original_returned_tokens_and_cannot_be_ignored stdout ----
+
+thread 'present_hashes_bind_the_original_returned_tokens_and_cannot_be_ignored' (1991540) panicked at crates/rom-auth/tests/oidc.rs:185:5:
+assertion failed: adapter().authenticate(&token, NONCE, bindings, NOW).is_ok()
+
+---- old_access_verifier_rejects_id_tokens_and_oidc_rejects_access_type stdout ----
+
+thread 'old_access_verifier_rejects_id_tokens_and_oidc_rejects_access_type' (1991539) panicked at crates/rom-auth/tests/oidc.rs:171:5:
+assertion `left == right` failed
+  left: Err(Invalid)
+ right: Err(WrongProfile)
+
+---- multi_audience_requires_explicit_trust_and_client_authorized_party stdout ----
+
+thread 'multi_audience_requires_explicit_trust_and_client_authorized_party' (1991538) panicked at crates/rom-auth/tests/oidc.rs:114:5:
+assertion failed: verifier.authenticate(&signing::token(&value, header(), 0), NONCE,
+        OidcTokenBindings::default(), NOW).is_ok()
+
+---- header_trust_and_host_context_bounds_reject_before_key_acquisition stdout ----
+
+thread 'header_trust_and_host_context_bounds_reject_before_key_acquisition' (1991536) panicked at crates/rom-auth/tests/oidc.rs:208:5:
+assertion failed: authenticate(&claims(), absent_type).is_ok()
+
+
+failures:
+    header_trust_and_host_context_bounds_reject_before_key_acquisition
+    id_token_constructs_sealed_bounded_human_proof_with_explicit_profile
+    multi_audience_requires_explicit_trust_and_client_authorized_party
+    old_access_verifier_rejects_id_tokens_and_oidc_rejects_access_type
+    present_hashes_bind_the_original_returned_tokens_and_cannot_be_ignored
+
+test result: FAILED. 1 passed; 5 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+
+error: test failed, to rerun pass `-p rom-auth --test oidc`

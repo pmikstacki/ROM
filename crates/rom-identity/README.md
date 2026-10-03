@@ -34,7 +34,9 @@ authorized host identity. Its `verify` callback receives that exact configuratio
 and returns a neutral `VerifiedIdentity` from a real adapter. The resulting
 `ActivatedIdentity` permanently captures the configuration revision. Its `bind`
 method resolves the current explicit link and User. It preserves principal kind
-and exclusive proof expiry in Actor.
+and exclusive proof expiry in Actor. Activation, binding and the current gate
+require an exact match between the sealed credential profile and `ProviderProfile`.
+The `oidc-rs256-human` profile cannot accept an access-token proof.
 
 **Trusted callback obligation:** construct the verifier from the callback's
 authority, issuer, audience, profile and configured trusted endpoint/key source.
@@ -45,8 +47,9 @@ an endpoint supplied by a client. Core cannot inspect the internals of native ho
 code, just as `Actor::trusted` cannot verify a host's credentials.
 
 After binding, the gate point-loads provider, link and User and compares captured
-revisions at runtime authorization checkpoints. Configuration changes, unlinking,
-disabling and disable/re-enable invalidate previous actors and activated evidence.
+revisions at runtime authorization checkpoints. Configuration changes invalidate
+previous actors and activated evidence. Link and User changes invalidate previous
+actors. Disabled records deny binding; fresh binding uses current enabled records.
 If the provider configuration changes before its callback finishes, the callback
 cannot establish an actor. This first milestone conservatively invalidates actors on **any** User
 revision change, including display-name edits. It does not claim a security-specific
@@ -68,7 +71,7 @@ this milestone. Before a deployment advertises multi-tenancy, it must define ten
 and isolation. It must also select its own first-admin provisioning procedure.
 
 Run `./crates/rom-identity/verify` from a Rust 1.99 environment with OpenSSL available
-for synthetic test keys. Five integration cases cover actual signed JWT proofs,
+for synthetic test keys. Eight integration cases cover actual signed JWT and ID-token proofs,
 ordinary identity Resource actions, explicit links and bootstrap, expiry,
 User/provider disablement, relinking, current receipt/live checks, and a User
 disable racing an in-flight action. Private keys and tokens stay in memory and

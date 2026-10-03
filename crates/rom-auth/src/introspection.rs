@@ -11,7 +11,7 @@
 //! }
 //! ```
 //! Reuse the configured adapter in a real host to retain its bounded evidence cache.
-use crate::{AuthError, PrincipalKind, VerifiedIdentity, claims::Audience};
+use crate::{AuthError, IdentityProfile, VerifiedIdentity, claims::Audience};
 use serde::Deserialize;
 use sha2::{Digest, Sha256};
 use std::{collections::BTreeMap, io::Read, time::Duration};
@@ -203,7 +203,7 @@ impl IntrospectionAdapter {
         let actor = VerifiedIdentity::verified(
             &self.authority,
             sub,
-            PrincipalKind::Service,
+            IdentityProfile::OAuthIntrospectionService,
             exp.min(now.saturating_add(5)),
         );
         // Hard entry bound, deliberately simple flush eviction for bounded storage.

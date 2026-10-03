@@ -1,63 +1,25 @@
 #![cfg(all(feature = "jwt", feature = "introspection"))]
 //! Real signatures and loopback HTTP; every credential is synthetic and stays out of output.
+#[path = "support/signing.rs"]
+mod signing;
 use jsonwebtoken::{Algorithm, DecodingKey, EncodingKey, Header, encode, get_current_timestamp};
 use rom_auth::introspection::{EndpointPolicy, IntrospectionAdapter};
 use rom_auth::jwt::{JwtAdapter, TrustedKeys};
 use rom_auth::{AuthError, PrincipalKind};
+use signing::{public, token};
 
 use serde_json::{Value as Json, json};
 use std::{
     collections::{BTreeMap, VecDeque},
     io::{Read, Write},
     net::TcpListener,
-    process::{Command, Stdio},
     sync::{
-        Arc, Mutex, OnceLock,
+        Arc, Mutex,
         atomic::{AtomicBool, AtomicUsize, Ordering},
     },
     thread,
     time::Duration,
 };
-struct Keys {
-    private: Vec<u8>,
-    public: Vec<u8>,
-}
-fn generate() -> Keys {
-    let output = Command::new("openssl")
-        .args([
-            "genpkey",
-            "-algorithm",
-            "RSA",
-            "-pkeyopt",
-            "rsa_keygen_bits:2048",
-        ])
-        .stderr(Stdio::null())
-        .output()
-        .unwrap();
-    assert!(output.status.success());
-    let private = output.stdout;
-    let mut child = Command::new("openssl")
-        .args(["pkey", "-pubout"])
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::null())
-        .spawn()
-        .unwrap();
-    child.stdin.take().unwrap().write_all(&private).unwrap();
-    let output = child.wait_with_output().unwrap();
-    assert!(output.status.success());
-    Keys {
-        private,
-        public: output.stdout,
-    }
-}
-fn keys() -> &'static [Keys; 2] {
-    static KEYS: OnceLock<[Keys; 2]> = OnceLock::new();
-    KEYS.get_or_init(|| [generate(), generate()])
-}
-fn public(index: usize) -> DecodingKey {
-    DecodingKey::from_rsa_pem(&keys()[index].public).unwrap()
-}
 fn claims(now: u64) -> Json {
     json!({"iss":"https://jwt.example","aud":["rom-api"],"sub":"same-subject","exp":now+600,"iat":now,"nbf":now,"jti":"synthetic-id","client_id":"browser-client","principal_kind":"human","email":"same@example.invalid","admin":true})
 }
@@ -66,14 +28,6 @@ fn header(kid: &str) -> Header {
     h.kid = Some(kid.into());
     h.typ = Some("at+jwt".into());
     h
-}
-fn token(c: &Json, h: Header, index: usize) -> String {
-    encode(
-        &h,
-        c,
-        &EncodingKey::from_rsa_pem(&keys()[index].private).unwrap(),
-    )
-    .unwrap()
 }
 #[derive(Clone)]
 struct Source {

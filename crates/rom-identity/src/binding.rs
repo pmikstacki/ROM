@@ -1,4 +1,4 @@
-use crate::{IdentityLink, IdentityProvider, ProviderProfile, User};
+use crate::{IdentityLink, IdentityProvider, User};
 use rom::{Actor, AuthorizationRead, Error, Key, PrincipalKind, Resource, Result, Runtime};
 use rom_auth::VerifiedIdentity;
 use serde::{Deserialize, Serialize};
@@ -24,22 +24,21 @@ pub(super) fn load<R: Resource>(storage: &mut dyn AuthorizationRead, id: &str) -
     let value = row.value.ok_or(Error::Denied)?;
     Ok((row.revision, R::decode(value).map_err(|_| Error::Denied)?))
 }
-pub(super) fn profile(provider: &IdentityProvider, kind: PrincipalKind) -> bool {
+pub(super) fn profile(
+    provider: &IdentityProvider,
+    kind: PrincipalKind,
+    verified_profile: &str,
+) -> bool {
     provider.enabled
         && !provider.issuer.is_empty()
         && !provider.audience.is_empty()
-        && matches!(
-            (provider.profile, kind),
-            (ProviderProfile::JwtRs256Human, PrincipalKind::Human)
-                | (
-                    ProviderProfile::OAuthIntrospectionService,
-                    PrincipalKind::Service
-                )
-        )
+        && provider.profile.identity_profile().as_str() == verified_profile
+        && core_kind(provider.profile.identity_profile().principal_kind()) == kind
 }
 #[derive(Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub(super) struct Stamp {
+    pub(super) profile: String,
     pub(super) provider_revision: u64,
     pub(super) link_revision: u64,
     pub(super) user_id: String,
@@ -99,8 +98,10 @@ impl ProviderActivation {
         ) -> std::result::Result<VerifiedIdentity, rom_auth::AuthError>,
     {
         let proof = verify(&self.authority, &self.config).map_err(|_| Error::Denied)?;
-        let kind = core_kind(&proof);
-        if proof.authority() != self.authority || !profile(&self.config, kind) {
+        let kind = core_kind(proof.principal_kind());
+        if proof.authority() != self.authority
+            || !profile(&self.config, kind, proof.profile().as_str())
+        {
             return Err(Error::Denied);
         }
         Ok(ActivatedIdentity {
@@ -110,8 +111,8 @@ impl ProviderActivation {
         })
     }
 }
-fn core_kind(proof: &VerifiedIdentity) -> PrincipalKind {
-    match proof.principal_kind() {
+fn core_kind(kind: rom_auth::PrincipalKind) -> PrincipalKind {
+    match kind {
         rom_auth::PrincipalKind::Human => PrincipalKind::Human,
         rom_auth::PrincipalKind::Service => PrincipalKind::Service,
     }
@@ -135,15 +136,16 @@ impl ActivatedIdentity {
     /// provider revision, principal kind and exclusive expiry.
     pub async fn bind(&self, runtime: &Runtime) -> Result<Actor> {
         let proof = &self.proof;
-        let kind = core_kind(proof);
+        let kind = core_kind(proof.principal_kind());
         let authority = self.authority.clone();
         let revision = self.revision;
         let subject = proof.subject().to_owned();
         let expiry = proof.valid_until();
+        let verified_profile = proof.profile().as_str();
         runtime
             .establish_actor(move |storage| {
                 let (pr, provider) = load::<IdentityProvider>(storage, &authority)?;
-                if pr != revision || !profile(&provider, kind) {
+                if pr != revision || !profile(&provider, kind, verified_profile) {
                     return Err(Error::Denied);
                 }
                 let (lr, link) =
@@ -161,6 +163,7 @@ impl ActivatedIdentity {
                     return Err(Error::Denied);
                 }
                 let stamp = serde_json::to_string(&Stamp {
+                    profile: verified_profile.into(),
                     provider_revision: pr,
                     link_revision: lr,
                     user_id: link.user_id,

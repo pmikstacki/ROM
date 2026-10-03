@@ -1,0 +1,24 @@
+   Compiling rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+    Finished `test` profile [unoptimized] target(s) in 0.44s
+     Running tests/oidc.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/oidc-f53b504f27f70027)
+
+running 1 test
+test oidc_keys::positional_header_array_is_rejected_before_host_key_acquisition ... FAILED
+
+failures:
+
+---- oidc_keys::positional_header_array_is_rejected_before_host_key_acquisition stdout ----
+
+thread 'oidc_keys::positional_header_array_is_rejected_before_host_key_acquisition' (1998582) panicked at crates/rom-auth/tests/support/oidc_keys.rs:152:5:
+assertion `left == right` failed
+  left: 1
+ right: 0
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    oidc_keys::positional_header_array_is_rejected_before_host_key_acquisition
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.06s
+
+error: test failed, to rerun pass `-p rom-auth --test oidc`

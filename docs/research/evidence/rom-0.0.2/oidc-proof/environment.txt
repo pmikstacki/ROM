@@ -1,0 +1,14 @@
+d1b564dc7984eee13cf5f7ac7301b6bc8c75faa0
+17ba0e390f683f9081945703b15d4e9f9d2504e988b1bdb776063ce098fdd201  Cargo.lock
+container: rom-dev
+cwd: /workspace/ROM/.worktrees/release-query-index
+CARGO_TARGET_DIR=/var/tmp/rom-release-measured-verification-target
+CARGO_PROFILE_DEV_DEBUG=0
+CARGO_PROFILE_TEST_DEBUG=0
+CARGO_BUILD_JOBS=2
+cargo test -p rom-auth --no-default-features --features oidc --test oidc --locked (RED feature/API/behavior; final GREEN)
+cargo test -p rom-identity --test integration --locked (RED API/profile; final GREEN)
+cargo test -p rom-auth --no-default-features --features oidc --test oidc positional_header --locked (RED)
+./crates/rom-auth/verify (exit 0)
+./crates/rom-identity/verify (exit 0)
+rustc 1.99.0 (b940084d7 2026-09-28)

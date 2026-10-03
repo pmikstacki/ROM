@@ -1,31 +1,5 @@
-use rom::{Error, Resource, Result};
-
-/// Closed set of credential profiles implemented by this milestone.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum ProviderProfile {
-    /// RS256 access tokens with exact issuer and audience binding for humans.
-    JwtRs256Human,
-    /// Active OAuth introspection with service and resource binding.
-    OAuthIntrospectionService,
-}
-impl rom::Field for ProviderProfile {
-    fn shape() -> rom::Shape {
-        rom::Shape::String
-    }
-    fn encode(&self) -> rom::Value {
-        rom::json!(match self {
-            Self::JwtRs256Human => "jwt-rs256-human",
-            Self::OAuthIntrospectionService => "oauth-introspection-service",
-        })
-    }
-    fn decode(value: rom::Value) -> Result<Self> {
-        match value.as_str() {
-            Some("jwt-rs256-human") => Ok(Self::JwtRs256Human),
-            Some("oauth-introspection-service") => Ok(Self::OAuthIntrospectionService),
-            _ => Err(Error::invalid(IdentityProvider::KIND, "profile")),
-        }
-    }
-}
+use crate::ProviderProfile;
+use rom::Resource;
 
 /// A managed local profile; authority and permissions are separate from profile data.
 #[derive(Clone, Debug, Resource)]
@@ -43,7 +17,7 @@ pub struct User {
 pub struct IdentityProvider {
     /// Whether this provider may establish actors.
     pub enabled: bool,
-    /// Exactly `jwt-rs256-human` or `oauth-introspection-service` in this milestone.
+    /// Exact credential contract. Profile edits cannot change host-approved trust sources.
     pub profile: ProviderProfile,
     /// Expected token issuer; the host must bind its verifier to this value.
     pub issuer: String,

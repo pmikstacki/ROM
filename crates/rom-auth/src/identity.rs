@@ -9,6 +9,7 @@ pub enum PrincipalKind {
 
 /// Immutable evidence constructed only after adapter verification.
 ///
+/// The exact credential profile, authority, subject and exclusive expiry are sealed.
 /// No credential, email, arbitrary claim map, or serialized actor is retained.
 /// `Debug` also omits the subject. This type implements neither `Serialize` nor
 /// `Deserialize`; loading request JSON is not verification.
@@ -24,7 +25,7 @@ pub enum PrincipalKind {
 pub struct VerifiedIdentity {
     authority: String,
     subject: String,
-    principal_kind: PrincipalKind,
+    profile: crate::IdentityProfile,
     valid_until: u64,
 }
 impl VerifiedIdentity {
@@ -32,13 +33,13 @@ impl VerifiedIdentity {
     pub(crate) fn verified(
         authority: &str,
         subject: String,
-        principal_kind: PrincipalKind,
+        profile: crate::IdentityProfile,
         valid_until: u64,
     ) -> Self {
         Self {
             authority: authority.into(),
             subject,
-            principal_kind,
+            profile,
             valid_until,
         }
     }
@@ -52,7 +53,11 @@ impl VerifiedIdentity {
     }
     /// Kind established by the configured provider profile, not guessed from email.
     pub fn principal_kind(&self) -> PrincipalKind {
-        self.principal_kind
+        self.profile.principal_kind()
+    }
+    /// Exact credential contract verified by the adapter.
+    pub fn profile(&self) -> crate::IdentityProfile {
+        self.profile
     }
     /// Exclusive Unix-seconds deadline. The host must deny use at or after it.
     pub fn valid_until(&self) -> u64 {
@@ -63,7 +68,7 @@ impl std::fmt::Debug for VerifiedIdentity {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("VerifiedIdentity")
             .field("authority", &self.authority)
-            .field("principal_kind", &self.principal_kind)
+            .field("profile", &self.profile)
             .field("valid_until", &self.valid_until)
             .finish_non_exhaustive()
     }
