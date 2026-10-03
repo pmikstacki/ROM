@@ -1,0 +1,14 @@
+   Compiling rom-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-conformance)
+error[E0432]: unresolved imports `rom_conformance::CodecCase`, `rom_conformance::FailureCategory`, `rom_conformance::PROFILE_VERSION`, `rom_conformance::field`, `rom_conformance::profile`
+ --> crates/rom-conformance/tests/public_contract.rs:2:23
+  |
+2 | use rom_conformance::{CodecCase, FailureCategory, PROFILE_VERSION, field, profile};
+  |                       ^^^^^^^^^  ^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^  ^^^^^  ^^^^^^^ no `profile` in the root
+  |                       |          |                |                |
+  |                       |          |                |                no `field` in the root
+  |                       |          |                no `PROFILE_VERSION` in the root
+  |                       |          no `FailureCategory` in the root
+  |                       no `CodecCase` in the root
+
+For more information about this error, try `rustc --explain E0432`.
+error: could not compile `rom-conformance` (test "public_contract") due to 1 previous error

@@ -1,0 +1,28 @@
+{
+  "profile": 1,
+  "sourceSha256": "51f2bcd6cf6c5761d6566d8011c121a156e33fee0fd998094cabfe62ce890907",
+  "sourceLockSha256": "fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83",
+  "bundleManifestSha256": "6becb6fc50edeac2c578693110301a4754bdb58f384f792f7e6de479aad92011",
+  "bundleArchiveSha256": "100604d8790d25d23162e54f3a0e8a7230c7b9a0c93b1ebda88fed6bb5c3155f",
+  "skills": [
+    {
+      "path": "skills/rom/rom-resource/SKILL.md",
+      "sha256": "9878f50bd2b9fe995b222ab2a77065b2422485a7f845f3b89b7540c17d3f4af3"
+    },
+    {
+      "path": "skills/rom/rom-native-extension/SKILL.md",
+      "sha256": "5c6f390051b967d393e00973a1bd1f40e7a38b224522de7aae52d121f8e409f3"
+    },
+    {
+      "path": "skills/rom/rom-operator/SKILL.md",
+      "sha256": "c8fca22b28184750181ce180b63b982c645cab30ba08b1639f7389d9cc518d82"
+    },
+    {
+      "path": "skills/rom/rom-release/SKILL.md",
+      "sha256": "ef331e478c5cea2540074489c447c0af6b117d0e79b67cdadc3d7a1a2796190b"
+    }
+  ],
+  "authorLockSha256": "f44113d6471d7bbfb40d08d893b9f56f473a23c9db80a4a07a03792f014a5921",
+  "executionLocation": "relocated bundle outside source checkout; Linux rom-dev; Rust/Cargo1.99.0 Node22.16.0; debug0 jobs2 warm shared target",
+  "artifactRetained": "/var/lib/nixos-containers/rom-dev/var/tmp/rom-skills-independent-v1Veli/heldout/release/source.tar"
+}

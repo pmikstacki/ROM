@@ -1,0 +1,57 @@
+# Independent extracted-skill evaluation
+
+**Spec: accepted. Quality: accepted. No blocking findings.** All four relocated workflows passed preflight and their selected examples. Each also passed a concrete author task that differs from the pre-skill baseline. This report supports the bounded Linux/full-source-checkout v1 workflow claim.
+
+The evaluator did not implement the conformance library or the skills. However, the evaluator implemented earlier native compatibility work, reviewed this library, and completed the baseline. This is independent of the current implementations. It is not blind evaluation, human usability evidence, or proof of a causal productivity gain. The baseline passed too.
+
+## Inputs and execution
+
+The bundle was assembled after the manifest-fidelity amendment. It was archived, extracted, and used outside the production checkout. Only the extracted SKILL.md files, shared README, canonical guide, and tools were used as skill instructions. No source skill files were needed. The assembler and source checkout remain explicit prerequisites; this is not a packaged-crate-only workflow.
+
+[evaluated-inputs.json](evaluated-inputs.json) records four skill hashes, bundle identity, source identity, and both Cargo.lock identities. The bundle source digest is 51f2bcd6cf6c5761d6566d8011c121a156e33fee0fd998094cabfe62ce890907. The source lock hash is fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83.
+
+Execution used rom-dev Linux, Rust/Cargo 1.99.0, Node 22.16.0, debug info disabled, two build jobs, and the existing target cache. All additional author files were outside the production source. Sanitized copies are retained here. No credentials, private fixture authorization file, publication, or source product edits are included.
+
+The extracted command was:
+
+```sh
+node "$ROM_BUNDLE/tools/verify.mjs" "$ROM_BUNDLE" "$ROM_ROOT" resource
+node "$ROM_BUNDLE/tools/verify.mjs" "$ROM_BUNDLE" "$ROM_ROOT" resource --run
+```
+
+The same pair ran for native, operator, and release. All eight invocations exited 0. [The command log](evidence/rom-skills-independent-extracted.log) distinguishes preflight from execution. Per-workflow result files retain actual commands, exit codes, source identity, and generated locks.
+
+## Concrete held-out tasks
+
+| Workflow | Author decision and executed evidence | Result |
+| --- | --- | --- |
+| Resource | Author Ticket and ReviewNote, a lowercase TicketCode, owner policy, and approve(bool). Decode ' HELP-9 ' as 'help-9'; reject empty/non-ASCII/non-string fields and false approval. SQLite Runtime preserves counts/events on rejected field/action and unauthorized actor; successful revision-checked action replays exactly; changed input under the same identity returns IdentityMismatch. A typed ReviewNote references Ticket. | Pass: one integration test; strict Clippy and format. |
+| Native | Author a local redb fixture owner. Run profile::require, explicit field::codec, storage::for_profile(1), and shared basic. Assert two fresh factories and two owned close/reopens. Profile 0 calls the factory zero times. A fixture drops one effect from facts while preserving real counts/events. | Pass: two integration tests; named profile.version and storage.bundle.effects negatives. |
+| Operator | Generate a typed Reconcile request with an opaque evidence_ref. A bounded loopback fixture reads the complete body, then drops the connection. Execute the real CLI once and keep the original file, key, expected version, epoch, and operation. | Pass: exit 5, empty stdout, static unresolved diagnostic, exactly one POST, unchanged request hash. |
+| Release | Execute the extracted selected release checks. Prepare an explicit source snapshot and verify every extracted file. Reject profile/feature/asset changes on disposable bundle copies with a marker Cargo executable. | Pass: four selected checks; three admission negatives reject before Cargo; 959-file artifact identity verified. Full release readiness remains PENDING in this evaluator's independent evidence. |
+
+The authored consumer uses only public ROM interfaces. It has an external Cargo workspace. Its facade declares modules and exports public names. Field codec, Resource declarations, action logic, test cases, and fixture ownership occupy named modules. The local wrapper satisfies Rust ownership rules without an orphan implementation. Existing conformance runners own the shared assertions; the author did not copy their mechanisms. No repository, custom controller, worker, dependency changes, or new core API were needed.
+
+[The final Rust log](evidence/rom-skills-heldout-final-rust.log) records four integration tests, strict all-target Clippy, and format. The first three tests cover Resource and native behavior. The fourth validates and serializes the public operator request. [The CLI log](evidence/rom-skills-heldout-green.log) records the actual transport-loss scenario. This fixture does not establish a native commit or provider acceptance.
+
+### Operator recovery decision
+
+The deliberate choice was to retain the same exact identity, rather than infer rollback or submit compensation. The saved request hash is 4cd3810733f4e1da5c4d48213aab444e051ea1017ae334e43980c3005501d4ab. Expected generation/revision are heldout-store/9; retry_epoch is 11; key is reconcile-heldout-1. [The diagnosis](operator/diagnosis.md) gives current-capability, list, show, and same-file Reconcile commands. Those later recovery commands were not executed. Current authority and replay-floor admission still apply.
+
+### Release classification
+
+The selected release workflow executed workspace format, all-feature conformance tests, the external native-consumer tests, and core no-default-feature compilation. Those checks passed. They do not replace full scripts/check, demo, provider, package-consumer, final artifact, or dependency gates. The coordinator reports broader gates green; this evaluation does not claim to have rerun them.
+
+[The admission results](release/admission-results.json) show static expected errors for an obsolete profile, an unavailable feature, and a removed workflow asset. All rejected copies left the Cargo marker absent. The original bundle and maintained source were unchanged.
+
+The source artifact includes tracked and nonignored untracked files, including current uncommitted native-conformance and skill additions. This differs from the earlier baseline's committed-source archive. All 959 paths were regular files. Their hashes were rechecked against the live source after copying and against the extracted archive. [The source manifest](release/artifact-source.json) identifies every file. [The result](release/artifact-result.json) records artifact SHA-256 41753749b6ab6c56f437d1b6643ac58997ff3cf979b56c491a4e0bdd57219b0f. The archive is retained outside the checkout at the location in evaluated-inputs.json. This artifact identity is independently verified; its full release approval is PENDING. Nothing was published.
+
+## Attempts and limits
+
+The Resource adaptation deliberately began with the copied uppercase rule. Its new lowercase test failed with actual 'HELP-9' versus required 'help-9'. The author changed the private codec to lowercase and obtained GREEN. [The RED log](evidence/rom-skills-heldout-resource-red.log) is a business-rule authoring result, not a framework or skill defect.
+
+One initial artifact-generation attempt used python3, which was unavailable on the host. No files changed in that attempt. The author used the available Node tool instead. This is a local author-tool correction, not a missing ROM API or invented product failure. No compile or assertion failure was assigned to the skills.
+
+The native checks prove the shared baseline contracts and the targeted negative, not crash recovery certification. The operator fault fixture proves client uncertainty and absence of automatic retry, not external acceptance. The release artifact proves exact source identity, not publication readiness. The independent Field identity/version registry proposal remains open; this work does not choose it.
+
+Both the pre-skill baseline and these held-out tasks passed. Evidence supports runnable and portable instructions within the documented v1 prerequisites. It does not quantify improvement or establish human usability. No skill/content corrections were required by this evaluation.

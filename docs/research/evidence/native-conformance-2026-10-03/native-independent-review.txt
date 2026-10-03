@@ -1,0 +1,110 @@
+# Independent Task 1 review
+
+Spec verdict: accepted, including the narrow manifest-fidelity test amendment.
+Quality verdict: accepted. No implementation defect was found.
+
+Baseline: `5d5fa605d17fb3dcb8bcfe86588c89f8dd27d965`.
+Scope: conformance library, public/native fixture owners, assertion call-site extraction, canonical profile and guide, and coordinator package/test wiring.
+Future skill content and final bundle acceptance are excluded.
+No implementation edits were made during review.
+
+## Finding and amendment
+
+Minor coverage gap: the canonical JSON profile currently matches the version owners, but no maintained test binds them together.
+A later format or protocol change could leave the machine-readable profile stale without failing existing tests.
+The coordinator accepted a narrow test-only amendment in `tests/persistence/tests/native_profile.rs`.
+It compares public profile/query/operator/native constants, declared package/toolchain versions and actual archive manifest output.
+The private archive constant does not need a new export; a public SQLite backup returns its version.
+The frozen amendment passed scoped source review and an independent rerun of both profile tests.
+The original SQLite engine-profile test body is unchanged.
+The gap is resolved; no open finding remains.
+The owner's temporary native-format-9 fixture mutation failed the intended comparison and was restored byte-for-byte before GREEN.
+It is negative-control evidence, not a released product failure.
+That brief shared-file mutation preceded notification to concurrent asset readers; the owner acknowledged this coordination issue and notified them afterward.
+
+## Spec assessment
+
+The exact required API is exposed through public named modules and root exports.
+The approved `for_profile` and `assert_bundle` seams are explicit in the binding design and public guide.
+Unsupported profile admission occurs before any factory call.
+Errors retain only static case/profile/category data, including after arbitrary adapter error returns.
+
+Codec vectors separate original input, canonical JSON and expected typed value.
+They check canonical decode/encode stability and every supplied invalid input.
+Registration and descriptor-shape guarantees remain separate consumer tests; the helper does not overclaim those guarantees.
+
+The storage runner obtains two fresh fixtures and retains direct atomic and typed Runtime cases.
+It checks current Row/receipt, ordered event/effect facts, exact replay, changed fingerprint, stale revision, valid no-op and rejected no-op changes.
+Facts remain a trusted test seam.
+Direct storage clones are dropped before reopen.
+The typed path shuts down and drops Runtime and its storage clone before reopen, including error paths before returning.
+Fixture owners check surviving Arc counts and release their own native handles before opening again.
+The local wrapper avoids orphan implementations and requires no production Storage inspection port.
+
+The shared bundle helper preserves all five original postcommit assertions and its fresh-store/two-commit preconditions.
+Native rollback, lost acknowledgement, concurrent races and subprocess-exit fixtures remain with their original owner.
+All 29 original native/Field/extension/blob test names remain present.
+The two retained native baseline entrypoints overlap in execution by design; assertion implementation is shared.
+
+The blob helper retains the complete existing conditional-create, immutable-read, bound, empty-object, race and idempotent-delete contract.
+Folder reopen, unsafe-input rejection, attachment recovery and S3 lost-publication-response cases remain local.
+It requires a disposable exclusive namespace and a sixteen-byte adapter bound.
+The guide and author report correctly avoid promising cleanup after arbitrary failing adapters or general provider/crash certification.
+
+The profile describes Resource-owned codecs and retained request normalization.
+It preserves native storage 8, archive 6 and the current query/operator versions.
+Independent Field identity/registry/collision checks, stable binary ABI, dynamic loading and publication remain excluded.
+
+## Quality and integration wiring
+
+`rom-conformance/src/lib.rs` contains declarations and exports only.
+Named modules own safe errors, admission, codecs, atomic scenarios, typed lifecycle and blob checks.
+The storage facade contains only shared public types/trait and declarations/exports.
+Tests are separate named files, with fixture ownership in dedicated children.
+No new generic decoder, repository, controller or per-Resource worker was introduced.
+Existing public API paths are unchanged.
+
+Conformance enters existing production adapters only through development dependencies.
+Core's normal dependency graph remains independent of conformance, blobs, concrete native drivers and transport.
+The optional blob dependency is feature-gated; default codec/storage use remains available.
+
+Coordinator Cargo changes add the package and existing development dependency edges without a new external dependency.
+The package script copies consumer tests, reconstructs normal and development dependencies, and executes those tests from the external consumer.
+Fresh archive extraction and the final resolved-ROM-path audit remain intact.
+Copied tests contain no source-workspace include paths.
+The core dependency guard now explicitly rejects `rom-conformance`.
+These changes satisfy the DRY and module rules without merging distinct production and test guarantees.
+
+## Independent execution and evidence
+
+All 27 owned live/frozen hashes and 2 coordinator Cargo context hashes matched before the focused run.
+The root script content and hashes were captured in `independent-wiring/` and `independent-reviewed-source.json`.
+Those sources remained unchanged after execution.
+An independent inventory comparison preserved all 29 original test names.
+
+The following commands ran in `rom-dev`, with Rust/Cargo 1.99, the shared warm target, debug information disabled and two jobs:
+
+| Command | Independently observed result |
+| --- | --- |
+| `cargo test -p rom-conformance --all-features --locked` | Five public contract/blob tests passed. |
+| `cargo test -p rom-consumer --test extensions --test fields --test native_conformance --locked` | Fourteen consumer tests passed. |
+| `cargo test -p rom-storage-conformance --test shared --locked` | Fourteen native shared tests passed; one child entrypoint ignored; invoked process cases passed. |
+| `cargo test -p rom-blob-object-store --test conformance --locked` | Three local cases passed; two explicit S3 cases ignored. |
+| `cargo check -p rom-conformance --no-default-features --locked` | Passed. |
+| `cargo check -p rom --no-default-features --locked` and normal dependency tree | Passed; excluded dependencies absent. |
+| `node --check scripts/check-packages.mjs` | Passed. |
+| `cargo test -p rom-storage-conformance --test native_profile --locked` after amendment | Both tests passed. |
+
+Logs: `independent-focused.log`, `independent-isolation.log`.
+Source checks: `independent-source-check.log`, `independent-reviewed-source.json`, `independent-test-inventory.json`.
+The amendment hashes and original engine case were verified separately in `manifest-fidelity/independent-source-check.log`.
+The new test SHA-256 is `94b8a007de0d39371313a191615a4e075d57e4070bae600e5df3c1507642f961`.
+Its independent execution log is `independent-profile.log`.
+
+Author strict Clippy/formatting/full-suite logs were inspected, not rerun as independent evidence.
+The explicit disposable MinIO run was inspected in `../evidence/task1-s3.log`; all five local/provider cases passed there.
+It used the reported historical loopback MinIO fixture, not a production service.
+The full combined verifier, final package-consumer execution and held-out skill evaluation remain coordinator gates.
+
+The reviewer previously executed the public baseline workflow and has substantial ROM context.
+This source review is independent of Task 1 implementation, but it is not a blind authoring or human-usability experiment.

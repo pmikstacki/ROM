@@ -43,6 +43,15 @@ impl Resource for Manual {
 }
 #[tokio::test]
 async fn downstream_custom_field_and_manual_definition_use_identical_contract() {
+    rom_conformance::field::codec(
+        &[rom_conformance::CodecCase {
+            input: rom::json!("custom typed value"),
+            canonical: rom::json!("custom typed value"),
+            expected: Label("custom typed value".into()),
+        }],
+        &[rom::json!(""), rom::json!(" "), rom::json!(false)],
+    )
+    .unwrap();
     assert_eq!(Custom::descriptor(), Manual::descriptor());
     let store = Arc::new(Sqlite::open(":memory:").unwrap());
     let rom = Runtime::builder()

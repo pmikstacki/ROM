@@ -36,14 +36,14 @@
 **Consumes:** Current public Field, Storage, BlobStore, and version constants.
 **Produces:** The exact profile, codec, storage factory, and optional blob interfaces in the design.
 
-- [ ] Inventory the assertions to extract and preserve their observable cases.
-- [ ] Add a failing external public-interface probe before the implementation exists; identify API RED separately from behavioral RED.
-- [ ] Extract codec, storage baseline, and blob assertions into named modules with static case errors.
-- [ ] Update native fixture owners and existing callers; keep native fault/process-exit checks local.
-- [ ] Add negative controls for a broken adapter, incorrect profile, and invalid codec input.
-- [ ] Publish the profile table with version owners, mismatch behavior, optional features, and remaining exclusions.
-- [ ] Run focused native, consumer, blob, profile, and feature-isolated checks, strict Clippy, and formatting.
-- [ ] Freeze source and evidence for independent review.
+- [x] Inventory the assertions to extract and preserve their observable cases.
+- [x] Add a failing external public-interface probe before the implementation exists; identify API RED separately from behavioral RED.
+- [x] Extract codec, storage baseline, and blob assertions into named modules with static case errors.
+- [x] Update native fixture owners and existing callers; keep native fault/process-exit checks local.
+- [x] Add negative controls for a broken adapter, incorrect profile, and invalid codec input.
+- [x] Publish the profile table with version owners, mismatch behavior, optional features, and remaining exclusions.
+- [x] Run focused native, consumer, blob, profile, and feature-isolated checks, strict Clippy, and formatting.
+- [x] Freeze source and evidence for independent review.
 
 ## Task 2: Author workflow baseline and skills
 
@@ -52,14 +52,14 @@
 **Consumes:** Design/profile contracts and existing public application/operator/release interfaces.
 **Produces:** Four named workflows, one canonical asset source, and portable bundle assembly functions for Task 3.
 
-- [ ] Define four pressure scenarios: Resource/action authoring, native module/adapter conformance, uncertain operator outcome, and local release verification.
-- [ ] Run baseline agent attempts without the new skills and record actual gaps. A successful baseline is not a fabricated failure.
-- [ ] Write the four skills using `writing-for-agents`, `writing-skills`, and the ROM writing rules.
-- [ ] Give each skill a profile/feature admission step, executable example, negative case, and completion verifier.
-- [ ] Share canonical references and assets. Include them in the assembled bundle with source hashes.
-- [ ] Make source-root prerequisites explicit. Reject missing assets, obsolete profiles, and unsupported features before execution.
-- [ ] Preserve stable operation identity in operator recovery; do not infer compensation from an unknown outcome.
-- [ ] Run asset tests and packaging negative cases. Freeze the package for held-out evaluation.
+- [x] Define four pressure scenarios: Resource/action authoring, native module/adapter conformance, uncertain operator outcome, and local release verification.
+- [x] Run baseline agent attempts without the new skills and record actual gaps. A successful baseline is not a fabricated failure.
+- [x] Write the four skills using `writing-for-agents`, `writing-skills`, and the ROM writing rules.
+- [x] Give each skill a profile/feature admission step, executable example, negative case, and completion verifier.
+- [x] Share canonical references and assets. Include them in the assembled bundle with source hashes.
+- [x] Make source-root prerequisites explicit. Reject missing assets, obsolete profiles, and unsupported features before execution.
+- [x] Preserve stable operation identity in operator recovery; do not infer compensation from an unknown outcome.
+- [x] Run asset tests and packaging negative cases. Freeze the package for held-out evaluation.
 
 ## Task 3: Extracted distribution and independent evaluation
 
@@ -68,14 +68,14 @@
 **Consumes:** Reviewed Tasks 1–2.
 **Produces:** Repeatable local and extracted-package acceptance with recorded source identity.
 
-- [ ] Wire the conformance crate as a development dependency only and retain publication policy.
-- [ ] Extend the package consumer to include and execute the selected conformance integration tests with their development dependencies.
-- [ ] Assert that ROM dependencies resolve only to extracted packages, not the source checkout.
-- [ ] Assemble and extract the skills; verify all referenced assets and source hashes.
-- [ ] Run one held-out task per workflow with an independent agent and retain its artifacts and results.
-- [ ] Record behavioral success separately from source review and from human-usability claims.
-- [ ] Run full local checks, default/provider demo acceptance, and package verification on the final source.
-- [ ] Obtain final review, update OpenSpec task 4.4 only on evidence, and integrate.
+- [x] Wire the conformance crate as a development dependency only and retain publication policy.
+- [x] Extend the package consumer to include and execute the selected conformance integration tests with their development dependencies.
+- [x] Assert that ROM dependencies resolve only to extracted packages, not the source checkout.
+- [x] Assemble and extract the skills; verify all referenced assets and source hashes.
+- [x] Run one held-out task per workflow with an independent agent and retain its artifacts and results.
+- [x] Record behavioral success separately from source review and from human-usability claims.
+- [x] Run full local checks, default/provider demo acceptance, and package verification on the final source.
+- [x] Obtain final review, update OpenSpec task 4.4 only on evidence, and integrate.
 
 ## Completion boundary
 

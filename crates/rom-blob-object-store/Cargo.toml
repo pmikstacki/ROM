@@ -15,6 +15,7 @@ object_store = { version = "=0.14.2", features = ["aws"] }
 futures-util = { version = "=0.3.34", default-features = false, features = ["std"] }
 url = "=2.5.8"
 [dev-dependencies]
+rom-conformance = { workspace = true, features = ["blob"] }
 tokio = { workspace = true, features = ["net", "io-util"] }
 rom.workspace = true
 rom-sqlite.workspace = true

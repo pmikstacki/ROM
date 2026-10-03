@@ -1,0 +1,15 @@
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 0.19s
+     Running tests/native_profile.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/native_profile-5f4054107d357ce8)
+
+running 2 tests
+test sqlite_native_engine_matches_selected_build_profile ... ok
+test native_extension_manifest_matches_compiled_contract_and_fresh_archive ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Blocking waiting for file lock on build directory
+    Checking rom-redb v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+    Checking rom-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-conformance)
+    Checking rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `dev` profile [unoptimized] target(s) in 1.99s

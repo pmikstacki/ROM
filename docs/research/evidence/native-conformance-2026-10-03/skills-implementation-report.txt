@@ -1,0 +1,144 @@
+# Task 2 author freeze
+
+Status: source frozen on 2026-10-03. No commit was made.
+Baseline plan/design commit: `5d5fa605d17fb3dcb8bcfe86588c89f8dd27d965`.
+Ownership: only `skills/rom/` and skill-only `scripts/skills/`.
+The coordinator owns Cargo wiring, root checks, package integration, and final acceptance.
+
+## Baselines before skills
+
+The independent baseline agent completed all four actual workflows before any new ROM `SKILL.md` existed.
+Its complete report and preserved attempts are in `../../baseline/`.
+The Resource/native public API consumers passed. The real CLI fault fixture submitted once and reported an unresolved outcome.
+The local release baseline created and inspected a source archive; it did not execute the full package or release gate.
+All four baselines passed after recorded author or environment corrections.
+These results are not fabricated RED tests or evidence of productivity improvement.
+The agent had prior ROM experience; the results are not blind or human-usability evaluations.
+
+The new skills give those workflows explicit routing, compatible assets, and portable completion checks.
+The Resource instructions include the observed public-trait import issue.
+The operator procedure uses unresolved-outcome semantics rather than requiring the literal word “unknown.”
+Assembly and examples use source/lock hashes rather than inaccessible host-worktree Git metadata.
+
+## Delivered interfaces and assets
+
+Four skills have matching names and directory names, concise trigger descriptions, and one canonical compatibility guide:
+
+| Workflow | Skill | Executable example |
+| --- | --- | --- |
+| Resource/action | `rom-resource` | Public custom codec, two Resources, revision-checked action, invalid field/action, replay and changed-input negatives |
+| Native module/adapter | `rom-native-extension` | External codec and SQLite fixture, shared storage assertions, wrong profile and broken counts, exclusive reopen |
+| Operator diagnosis | `rom-operator` | Public Rust request generation and real CLI against a bounded malformed-response fixture |
+| Local release | `rom-release` | Selected direct checks and retained source/lock/result evidence |
+
+`docs/native-extensions.md` remains the sole maintained compatibility guide.
+The bundle copies it and `extensions/native-alpha-v1.json` with canonical source paths and hashes.
+The native project copies the maintained external consumer fixture and integration test at assembly time.
+Its Code implementation is generated from the same maintained source as the Resource example.
+No second maintained fixture or codec implementation was introduced.
+
+Rust example crate roots contain declarations and exports only.
+Declarations, codecs, actions, requests, and tests occupy named modules.
+`rom` is the example library dependency. Conformance, adapters, and Tokio are development dependencies.
+The generated example copies the supplied Cargo.lock before offline resolution and records its resulting lock hash separately.
+The production dependency graph and root lockfile were not changed by this task.
+
+The finite command interface is:
+
+```sh
+node scripts/skills/assemble.mjs OUTPUT_DIR
+node BUNDLE_DIR/tools/verify.mjs BUNDLE_DIR ROM_ROOT resource|native|operator|release [--run]
+```
+
+Assembly creates an exclusive new directory and rejects an existing output.
+The default verifier performs preflight only. `--run` executes the selected example.
+Revision 1 explicitly requires Linux and a supplied full source checkout for every workflow.
+Extracted-package roots are outside the skills' current support; independent package-consumer checks cover the public Rust package interfaces.
+The bundle contains its guides, scripts, templates, and generated fixture copies. It does not contain compiled ROM or all release artifacts.
+
+## Admission and ownership
+
+One canonical asset inventory serves assembly and admission.
+Admission compares the complete inventory, per-file hashes, workflow catalog, source identity, and lock metadata.
+It rejects obsolete profiles, missing features, removed feature requirements, substituted assets, omitted indirect hashes, changed source, missing assets, broken links, and unsafe paths.
+The source identity covers workspace Cargo.toml/Cargo.lock and `.rs`/Cargo.toml files under crates, demo, and examples.
+It excludes `tests/persistence`, unrelated scripts, and other checkout files.
+This is the selected input identity, not a whole-checkout hash.
+It does not require a Git checkout or contain a hard-coded developer path.
+
+Trusted example commands own a Linux process group.
+The runner applies a 180-second default deadline and a one-MiB output bound.
+Timeout or output overflow triggers group TERM, group KILL after 500 milliseconds, and a final bounded pipe-close fallback after 2.5 seconds.
+The live negative starts a TERM-ignoring descendant with inherited pipes and proves bounded return with no live descendant.
+This is trusted subprocess ownership, not a sandbox against commands that deliberately escape the group.
+
+## Executed evidence
+
+The final container runs used the supplied worktree, existing shared target, two jobs, and zero development/test debug information.
+All logs are under `../../task2-skills/`.
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Actual agent baselines | Four bounded workflows passed | `../../baseline/report.md` |
+| Initial bundle API | Missing-module API RED, then GREEN | `bundle-api-red.log`, `bundle-green.log` |
+| Execution admission | Missing-entrypoint API RED, then GREEN | `execution-api-red.log`, `execution-green.log` |
+| Indirect asset closure | Behavioral RED: omitted hash was accepted; fixed GREEN | `asset-closure-red.log`, `asset-closure-green.log` |
+| Node bundle/process suite | Seven tests passed | `admission-final-green.log` |
+| Final extracted Resource | Two tests and strict Clippy passed | `final-resource.log`; `/tmp/rom-skill-resource-5vVkNZ/` |
+| Final extracted native | Four tests and strict Clippy passed | `final-native.log`; `/tmp/rom-skill-native-t1PUtX/` |
+| Final extracted operator | Public request test and strict Clippy passed; real CLI exit 5, one submission, unchanged request digest | `final-operator.log`; `/tmp/rom-skill-operator-VcxWFS/` |
+| Final extracted release | Four selected direct commands passed | `final-release.log`; `/tmp/rom-skill-release-0lfZD2/` |
+| JS syntax and owned Rust formatting | Passed | `syntax-fmt-green.log` |
+| Owned source whitespace | `git diff --check` passed | Executed before freeze |
+
+The selected release commands are `cargo fmt --all -- --check`, all-feature conformance tests, the consumer native-conformance test, and feature-isolated core check.
+The example never calls `scripts/check`, `check-skills`, package assembly, or publication.
+The release skill separately routes a real readiness request to the full check, both demo checks, skills and package gates, artifacts, and requirements audit.
+The selected example cannot approve a release.
+
+`final-example-summary.json` retains command results, source and lock identity, and exact example evidence paths.
+The operator fixture proves client behavior under a transport fault. It does not prove native commit or provider acceptance.
+Recovery commands in its diagnosis are explicitly unexecuted.
+The native profile pass does not replace crash or engine-specific recovery certification.
+
+## Corrections and preserved failures
+
+- The first log redirection used the host parent checkout rather than this worktree. No test ran; the path was corrected.
+- Initial Resource and operator example runs failed on deliberately absent implementation modules; API RED logs and actual compiler output remain preserved.
+- One Resource test initially compared `Result<Snapshot<_>, _>` directly. Snapshot lacks PartialEq; the oracle now compares the expected error.
+- Early commands killed only their direct child. Review identified the descendant ownership gap before freeze; the process-group helper and live regression now pass.
+- The reviewer identified omission of indirect hashes. The new behavioral RED reproduced it; complete shared inventory admission fixed it.
+- The first extracted Resource/native runs accidentally used reproducible private target directories. Final runs passed with the required shared target.
+
+Only those two obsolete build caches were removed after a `/proc` scan found no open descriptors, executable, or working-directory references:
+
+| Removed cache | Allocated bytes |
+| --- | ---: |
+| `/tmp/rom-skill-resource-20nlYv/project/target` | 404164608 |
+| `/tmp/rom-skill-native-GFbbZn/project/target` | 404860928 |
+| Total reclaimed | 809025536 |
+
+`private-cache-cleanup.json` records the exact operation.
+Project sources, lockfiles, logs, reports, bundles, outputs, and the shared target remain preserved.
+
+## Review package and limits
+
+`owned-files.txt` and `source-sha256.txt` identify all 32 frozen author files.
+`source/` contains their complete contents. All author files are new, so `untracked.txt` is essential; the tracked patch is empty.
+`source.json` is the assembled manifest from the final passing author bundle.
+The later Task 1 amendment to `tests/persistence/tests/native_profile.rs` is outside the selected identity inputs.
+It does not change that identity. The coordinator nevertheless assembled a fresh bundle for the final skills gate.
+
+The writing-for-agents mechanics, writing-skills workflow, and ASD-STE100 guidance were applied.
+Technical terms include Resource, Field, action, codec, fixture, profile, conformance, replay, Runtime, Cargo, Node.js, and verifier.
+Vocabulary was checked against known rulings and high-risk patterns only, not against the official ASD-STE100 Part 2 dictionary.
+Full compliance requires verification against the official standard; no certification is claimed.
+
+Independent source review accepted all 32 frozen source files without remaining findings.
+Its extracted native run passed six cases and strict Clippy; that later run remains separate from the author's four-case run.
+Evidence: `../review.md` and `../reviewer/`.
+The coordinator reported seven Node tests and all four examples passed through `scripts/check-skills`.
+The coordinator also confirmed all 32 author hashes match the frozen manifest.
+Held-out author evaluation remains a separate pending gate.
+The coordinator owns the final combined verifier, demo/provider acceptance, package consumer, and task 4.4 completion decision.
+The independent Field registry proposal and release stages 4.5–4.6 remain open.

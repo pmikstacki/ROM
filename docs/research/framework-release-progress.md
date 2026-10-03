@@ -158,4 +158,11 @@ Stage 4.2 is complete in the reviewed release worktree.
 The [operator recovery results](operator-recovery-results.md) record atomic controls, authorized views, explicit delivery profiles and verified reconciliation.
 HTTP, CLI, the reference recovery journey and both native upgrades passed the final combined local verifier.
 Independent reviews accepted the implementation. The source manifest identifies the executed tree.
-Stages 4.3 through 4.6 remain open. These intermediate results do not complete the release goal.
+Stage 4.3 is complete in commit `f3fbed9`.
+The [provider deployment results](provider-deployment-results.md) record the pinned real-provider profile, bounded authentication, explicit provisioning, and secret rotation.
+The [release module cleanup](release-module-cleanup-results.md) then passed source, demo, provider, and extracted-package checks in commit `afd3f37`.
+
+Stage 4.4 is complete for the [native conformance profile and executable author skills](native-conformance-results.md).
+Source, demo, provider, extracted-package, and skill checks passed with independent review and separate author tasks.
+The independent Field registry remains an open proposal.
+Stages 4.5 and 4.6 remain open. These intermediate results do not complete the release goal.

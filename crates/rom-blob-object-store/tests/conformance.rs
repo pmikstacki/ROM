@@ -25,59 +25,11 @@ impl Drop for Scratch {
 fn key(input: &[u8]) -> ObjectKey {
     ObjectKey::parse(Digest::of(input).as_str()).unwrap()
 }
-async fn contract(store: &dyn BlobStore) {
-    let k = key(b"contract");
-    store.delete(&k).await.unwrap();
-    assert_eq!(store.get(&k, 16).await, Err(Error::Missing));
-    store.create(&k, b"original".to_vec()).await.unwrap();
-    assert_eq!(
-        store.create(&k, b"replace".to_vec()).await,
-        Err(Error::Conflict)
-    );
-    assert_eq!(store.get(&k, 16).await.unwrap(), b"original");
-    assert_eq!(store.head(&k).await.unwrap().bytes, 8);
-    assert_eq!(store.get(&k, 7).await, Err(Error::TooLarge));
-    assert_eq!(
-        store.create(&key(b"large"), vec![0; 17]).await,
-        Err(Error::TooLarge)
-    );
-    let empty = key(b"empty");
-    store.delete(&empty).await.unwrap();
-    store.create(&empty, vec![]).await.unwrap();
-    assert!(store.get(&empty, 0).await.unwrap().is_empty());
-    store.delete(&empty).await.unwrap();
-    store.delete(&k).await.unwrap();
-    store.delete(&k).await.unwrap();
-    let race = key(b"race");
-    store.delete(&race).await.unwrap();
-    let (first, second) = tokio::join!(
-        store.create(&race, b"first".to_vec()),
-        store.create(&race, b"second".to_vec())
-    );
-    assert!(
-        (first == Ok(()) && second == Err(Error::Conflict))
-            || (second == Ok(()) && first == Err(Error::Conflict))
-    );
-    assert_eq!(
-        store.get(&race, 16).await.unwrap(),
-        if first.is_ok() {
-            b"first".to_vec()
-        } else {
-            b"second".to_vec()
-        }
-    );
-    store.delete(&race).await.unwrap();
-    let exact = key(b"exact");
-    store.delete(&exact).await.unwrap();
-    store.create(&exact, vec![1; 16]).await.unwrap();
-    assert_eq!(store.get(&exact, 16).await.unwrap().len(), 16);
-    store.delete(&exact).await.unwrap();
-}
 #[tokio::test]
 async fn folder_atomic_create_bounds_and_reopen() {
     let scratch = Scratch::new();
     let store = Adapter::trusted_folder(&scratch.0, 16).unwrap();
-    contract(&store).await;
+    rom_conformance::blob::basic(&store).await.unwrap();
     let k = key(b"restart");
     store.create(&k, b"persist".to_vec()).await.unwrap();
     drop(store);
@@ -129,7 +81,7 @@ async fn real_s3_uses_identical_contract() {
         16,
     )
     .unwrap();
-    contract(&store).await;
+    rom_conformance::blob::basic(&store).await.unwrap();
 }
 
 #[tokio::test]

@@ -1,0 +1,16 @@
+# Held-out lost Reconcile response
+
+The loopback fixture read the complete request and dropped its connection. The real CLI returned exit 5 and sent one POST. The fixture cannot establish native commit or provider acceptance. The saved request SHA-256 is 4cd3810733f4e1da5c4d48213aab444e051ea1017ae334e43980c3005501d4ab.
+
+Retain the original request file and the same verified principal. The expected generation is heldout-store, revision 9. The retry epoch is 11. The key is reconcile-heldout-1. The opaque evidence reference is opaque-ticket-lookup. These values remain unchanged after the uncertain outcome. No automatic retry or compensation was submitted.
+
+Before deliberate recovery, reconnect to the intended deployment. Verify current capabilities and current record state. Current authority and the replay floor still apply. These commands describe future recovery; this evaluation did not execute them:
+
+```sh
+rom --endpoint "$ROM_ENDPOINT" --auth-file "$ROM_AUTH_FILE" work capabilities
+rom --endpoint "$ROM_ENDPOINT" --auth-file "$ROM_AUTH_FILE" work list
+rom --endpoint "$ROM_ENDPOINT" --auth-file "$ROM_AUTH_FILE" work show d8e14adfeed2a809fa06d9d4f1e37969ce01140409207fedc95c53cb3a14185e
+rom --endpoint "$ROM_ENDPOINT" --auth-file "$ROM_AUTH_FILE" work reconcile --request-file "$ROM_ORIGINAL_REQUEST_FILE"
+```
+
+Set ROM_ORIGINAL_REQUEST_FILE to the retained file whose hash matches the value above. Do not replace the key, expected version, retry epoch, operation, or evidence reference to diagnose this submission. A changed operation is a new intent. Do not infer rollback from a lost response. Decide any domain compensation only after the original outcome is known.

@@ -20,6 +20,6 @@
 - [x] 4.1 Enforce single-writer ownership; exercise overload, process exit and restart recovery.
 - [x] 4.2 Provide CLI work inspection, retry, reconciliation and explicit compensation workflows.
 - [x] 4.3 Deliver a documented real-provider identity/bootstrap/secrets integration profile and tests.
-- [ ] 4.4 Version extension contracts. Publish shared conformance fixtures and executable author skills.
+- [x] 4.4 Version extension contracts. Publish shared conformance fixtures and executable author skills.
 - [ ] 4.5 Run the reference application upgrade/recovery acceptance, full local checks and package verification.
 - [ ] 4.6 Produce release artifacts, compatibility/support notes and a requirement-by-requirement completion audit.

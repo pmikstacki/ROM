@@ -1667,6 +1667,7 @@ dependencies = [
  "object_store",
  "rom",
  "rom-blob",
+ "rom-conformance",
  "rom-sqlite",
  "tokio",
  "url",
@@ -1704,10 +1705,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "rom-conformance"
+version = "0.1.0-alpha.1"
+dependencies = [
+ "rom",
+ "rom-blob",
+ "tokio",
+]
+
+[[package]]
 name = "rom-consumer"
 version = "0.1.0-alpha.1"
 dependencies = [
  "rom",
+ "rom-conformance",
  "rom-sqlite",
  "serde_json",
  "tokio",
@@ -1810,6 +1821,7 @@ dependencies = [
  "redb",
  "rom",
  "rom-backup",
+ "rom-conformance",
  "rom-redb",
  "rom-sqlite",
  "rusqlite",

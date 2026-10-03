@@ -68,11 +68,52 @@ async fn standard_fields_roundtrip_through_the_same_resource_pipeline() {
 }
 #[test]
 fn nested_field_values_reject_wrong_shapes_and_nonfinite_numbers() {
-    assert!(<Vec<Option<String>> as Field>::decode(json!([false])).is_err());
-    assert!(<BTreeMap<String, Vec<bool>> as Field>::decode(json!({"a":[0]})).is_err());
-    assert!(<i64 as Field>::decode(json!(u64::MAX)).is_err());
-    assert!(<FiniteF64 as Field>::decode(json!(null)).is_err());
-    assert!(<ResourceRef<Person> as Field>::decode(json!("")).is_err());
+    use rom_conformance::{CodecCase, field};
+    field::codec(
+        &[CodecCase {
+            input: json!([null, ""]),
+            canonical: json!([null, ""]),
+            expected: vec![None, Some(String::new())],
+        }],
+        &[json!([false])],
+    )
+    .unwrap();
+    field::codec(
+        &[CodecCase {
+            input: json!({"a":[false,true],"b":[]}),
+            canonical: json!({"a":[false,true],"b":[]}),
+            expected: BTreeMap::from([("a".into(), vec![false, true]), ("b".into(), vec![])]),
+        }],
+        &[json!({"a":[0]})],
+    )
+    .unwrap();
+    field::codec(
+        &[CodecCase {
+            input: json!(-4),
+            canonical: json!(-4),
+            expected: -4_i64,
+        }],
+        &[json!(u64::MAX)],
+    )
+    .unwrap();
+    field::codec(
+        &[CodecCase {
+            input: json!(0.25),
+            canonical: json!(0.25),
+            expected: FiniteF64::new(0.25).unwrap(),
+        }],
+        &[json!(null)],
+    )
+    .unwrap();
+    field::codec(
+        &[CodecCase {
+            input: json!("p1"),
+            canonical: json!("p1"),
+            expected: ResourceRef::<Person>::new("p1").unwrap(),
+        }],
+        &[json!("")],
+    )
+    .unwrap();
     assert!(ResourceRef::<Person>::new("").is_err());
     for bad in [f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
         assert!(FiniteF64::new(bad).is_err());

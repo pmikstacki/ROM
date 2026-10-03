@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: portable bundle has deterministic content and verifies outside its source directory
+ok 1 - portable bundle has deterministic content and verifies outside its source directory
+  ---
+  duration_ms: 9.867539
+  type: 'test'
+  ...
+# Subtest: admission rejects missing changed and unsafe assets plus incompatible profiles or features
+ok 2 - admission rejects missing changed and unsafe assets plus incompatible profiles or features
+  ---
+  duration_ms: 16.476743
+  type: 'test'
+  ...
+# Subtest: admission rejects changed source identity and unknown workflows before execution
+ok 3 - admission rejects changed source identity and unknown workflows before execution
+  ---
+  duration_ms: 3.78817
+  type: 'test'
+  ...
+# Subtest: command rejects incompatible profile feature and missing asset before executing any example
+ok 4 - command rejects incompatible profile feature and missing asset before executing any example
+  ---
+  duration_ms: 156.720542
+  type: 'test'
+  ...
+# Subtest: admission rejects omitted indirect asset hashes and false lock identity metadata
+ok 5 - admission rejects omitted indirect asset hashes and false lock identity metadata
+  ---
+  duration_ms: 7.790266
+  type: 'test'
+  ...
+# Subtest: deadline kills a descendant holding inherited stdio and returns within its bound
+ok 6 - deadline kills a descendant holding inherited stdio and returns within its bound
+  ---
+  duration_ms: 1005.63076
+  type: 'test'
+  ...
+# Subtest: output byte budget terminates the owned process group
+ok 7 - output byte budget terminates the owned process group
+  ---
+  duration_ms: 17.959569
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1057.442672

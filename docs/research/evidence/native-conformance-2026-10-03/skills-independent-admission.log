@@ -1,0 +1,12 @@
+All four workflows admitted from an independently extracted bundle.
+Rejected: obsolete profile
+Rejected: false lock identity
+Rejected: removed required feature
+Rejected: substituted entrypoint
+Rejected: unsupported platform
+Rejected: omitted indirect template
+Rejected: missing process-group helper
+Rejected: symbolic asset
+Rejected: source missing storage feature
+Canonical distribution imports: 3
+Source identity: 51f2bcd6cf6c5761d6566d8011c121a156e33fee0fd998094cabfe62ce890907; source lock: fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83

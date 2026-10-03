@@ -1,0 +1,104 @@
+# Author workflow baseline
+
+All four bounded baseline workflows completed before the new ROM skill files were read.
+No future ROM `SKILL.md` was accessed. No production source was edited or committed.
+Artifacts remain under this ignored ledger, except the release archive retained outside the repository.
+
+This is one experienced agent's baseline. The agent already had substantial ROM implementation and review context.
+The result is not a blind evaluation, human-usability result, or causal productivity measurement.
+Later independent evaluation must use the assembled skills and its own held-out tasks.
+
+## Criteria and results
+
+The skill author supplied self-contained pressure prompts and acceptance criteria before artifact authoring.
+Public docs, examples and API source were allowed.
+Each Cargo artifact has an independent `[workspace]`, uses public APIs, and disables publication.
+
+| Workflow | Actual result | Limits |
+| --- | --- | --- |
+| Resource/action | Passed a new Inventory/AuditNote consumer with canonical StockCode and revision-checked actions. Invalid values/action input preserve counts; exact replay preserves rows/events; changed input returns IdentityMismatch. | No independent Field registry claim. |
+| Native fixture | Passed explicit codec cases and shared storage::basic. Two fresh SQLite factories reopened twice, each after all external owner clones were released. | Default codec/storage profile only; no blob, crash, power-loss or provider claim. |
+| Operator diagnosis | Real CLI submitted once over loopback; malformed post-submit reply produced exit 5, empty stdout and a static unresolved-outcome diagnostic. Request digest remained unchanged. | Transport fixture cannot certify native commit. Later capability/list/show/exact retry commands are documented, not executed. |
+| Local release | Created/extracted a committed-source archive; verified lock equality, archive digest, package-script syntax and 16 workspace manifest paths inside extraction. Inspected the full package-consumer script. | Full verifier and package-consumer execution on this extraction were deliberately not repeated or claimed. No publication/upload. |
+
+Resource code is in `author/src/{model,actions}.rs`; its crate root contains declarations and exports only.
+The StockCode codec trims and canonicalizes uppercase. It rejects empty and non-ASCII strings and wrong JSON shapes.
+AuditNote uses the typed public Resource reference contract.
+The explicit `RESTORE_STOCK` compensation runs after the original domain result is known, with a separate key and current revision.
+Compensation replay creates no second Resource event. It is never inferred from an unknown operator outcome.
+
+The native fixture is a local owner type in `author/tests/native/fixture.rs`; no orphan implementation is required.
+It owns fresh private directories, bounded name retries and its SQLite handle.
+The runner's reopen succeeds only when that handle has strong count one.
+Profile 0 fails at `profile.version` before any factory call.
+Deliberately incorrect facts fail at `storage.bundle.counts` with an Assertion category and static safe error.
+Codec cases supply input, canonical output and expected typed value separately.
+
+The operator handle is generated and validated through public protocol types.
+`operator/fault.mjs` bounds the child wait, response capture, HTTP body and server lifecycle.
+It checks exactly one submission, no diagnostic disclosure of private fixture markers, and exact request-file preservation.
+`operator/diagnosis.md` retains version, epoch, key, hash and concrete later commands.
+The fixture's ephemeral endpoint has been closed; it is not a recovery endpoint.
+
+## Actual author errors and corrections
+
+1. The first Resource compile failed because `Resource` was missing from the action module imports for `Inventory::KIND`.
+   Adding the trait import resolved the error. The failed source and log are retained.
+2. The first operator oracle required the literal word “unknown.” The CLI correctly printed “mutation outcome unresolved.”
+   The oracle was corrected to the actual uncertainty contract; no product change was made.
+3. The first release attempt ran host-worktree Git from the container. Its `.git` metadata points to a host-only path.
+   Host preparation created the archive; container Cargo inspected the extracted source. Both attempt logs remain.
+4. The fixture used `AtomicU64::fetch_update`, deprecated on the declared Rust 1.99 floor.
+   Strict Clippy rejected it. The fixture now uses `try_update`; the failed and corrected runs remain.
+
+These are actual agent/tooling assumptions, not fabricated product failures or proof that a skill fixes them.
+Early guesses of non-existent documentation/source paths were replaced with repository searches.
+The initially unavailable conformance API and guide were not scored as workflow failures.
+The native attempt waited for meaningful codec/storage positive and negative tests to pass.
+Optional blob implementation was still pending and was not exercised.
+
+## Execution and source identity
+
+Container worktree: `/workspace/ROM/.worktrees/release-query-index`.
+Toolchain: Rust/Cargo 1.99.0; Node.js v22.16.0 in the container.
+Shared target: `/var/tmp/rom-release-measured-verification-target`.
+All Rust runs used two jobs with development/test debug information disabled.
+
+The final external artifact command passed:
+
+```sh
+cargo fmt --manifest-path "$BASELINE_AUTHOR/Cargo.toml" -- --check
+cargo test --manifest-path "$BASELINE_AUTHOR/Cargo.toml" --locked --offline
+cargo clippy --manifest-path "$BASELINE_AUTHOR/Cargo.toml" --all-targets --locked --offline -- -D warnings
+```
+
+Four final integration tests passed: Resource/action, two native cases, and protocol request generation.
+The actual CLI was built with `cargo build -p rom-cli --locked --offline`, then invoked directly by the Node fault fixture.
+The successful fault run and earlier failed oracle have separate logs.
+
+The release artifact uses accepted cleanup commit `5d5fa605d17fb3dcb8bcfe86588c89f8dd27d965`.
+It excludes in-progress native stage changes and new skills.
+Its archive SHA-256 is `78ebea2d7fd5def755679db0d93ac3de3a288e57bf5bc19328504810090fc801`.
+Its committed Cargo.lock SHA-256 is `525f97924ffbf39e32b3b55de7401fd90af3c278c9c4409b905baff58a833a4f`.
+The archive and extraction are in `/var/lib/nixos-containers/rom-dev/var/tmp/rom-baseline-source-release-tbSt4O/` on the host.
+The corresponding container path starts at `/var/tmp/rom-baseline-source-release-tbSt4O/`.
+`release/result.json` distinguishes executed, inspected-only and unrun checks.
+
+The external consumer tested the implemented in-progress public codec/storage API, not a temporary missing-API stub.
+`source-manifest.json` identifies baseline artifacts, external/workspace lockfiles and captured maintained dependency sources.
+`source-inputs/` retains those dependency source inputs at final baseline freeze.
+The profile guide and canonical manifest are captured as consumed API inputs.
+Credential files and private response inputs are excluded from evidence/source copies.
+
+## Compatibility and release boundary
+
+Custom Field codecs remain owned by their enclosing Resource descriptor and retained request codecs.
+Resource versioning does not establish independent Field identities, a Field registry or collision checks.
+Profile revision 1 is the assertion contract; it does not replace native storage 8 or archive 6.
+The obsolete-profile negative was executed through the implemented public API in the current worktree.
+It was not executed from the older committed release archive.
+
+The selected public package gate is `node "$ROM_SOURCE_ROOT/scripts/check-packages.mjs" "$ROM_SOURCE_ROOT"`.
+Source inspection confirmed fresh archives/extraction, offline consumer execution, license checks and resolved-path confinement.
+That full gate and final native source acceptance remain coordinator work.
+Stages 4.5–4.6, final release artifacts, support notes and the requirements audit remain open.

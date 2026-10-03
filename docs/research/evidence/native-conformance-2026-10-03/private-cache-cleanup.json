@@ -1,0 +1,15 @@
+{
+  "removed": [
+    {
+      "path": "/tmp/rom-skill-resource-20nlYv/project/target",
+      "allocated_bytes": 404164608
+    },
+    {
+      "path": "/tmp/rom-skill-native-GFbbZn/project/target",
+      "allocated_bytes": 404860928
+    }
+  ],
+  "total_allocated_bytes": 809025536,
+  "open_references": 0,
+  "preserved": "All project sources, locks, logs, reports, bundles and shared target"
+}

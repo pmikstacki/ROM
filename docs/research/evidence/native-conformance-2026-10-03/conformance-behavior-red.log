@@ -1,0 +1,123 @@
+    Blocking waiting for file lock on build directory
+warning: associated function `new` is never used
+  --> crates/rom-conformance/src/error.rs:15:19
+   |
+14 | impl ConformanceError {
+   | --------------------- associated function in this implementation
+15 |     pub(crate) fn new(case: &'static str, category: FailureCategory) -> Self {
+   |                   ^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `check` is never used
+  --> crates/rom-conformance/src/error.rs:25:15
+   |
+25 | pub(crate) fn check(ok: bool, case: &'static str) -> ConformanceResult {
+   |               ^^^^^
+
+warning: function `observe` is never used
+  --> crates/rom-conformance/src/error.rs:28:15
+   |
+28 | pub(crate) fn observe<T,E>(result: Result<T,E>,case: &'static str) -> Result<T,ConformanceError> {
+   |               ^^^^^^^
+
+warning: `rom-conformance` (lib) generated 3 warnings
+   Compiling rom-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-conformance)
+    Finished `test` profile [unoptimized] target(s) in 0.31s
+     Running tests/public_contract.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/public_contract-e74820b5451ea34b)
+
+running 4 tests
+test incorrect_canonical_output_is_rejected ... FAILED
+test invalid_codec_reports_safe_named_case ... FAILED
+test public_codec_uses_explicit_canonical_and_typed_values ... ok
+test wrong_profile_reports_safe_named_case ... FAILED
+
+failures:
+
+---- incorrect_canonical_output_is_rejected stdout ----
+
+thread 'incorrect_canonical_output_is_rejected' (1705664) panicked at crates/rom-conformance/tests/public_contract.rs:34:131:
+called `Result::unwrap_err()` on an `Ok` value: ()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- invalid_codec_reports_safe_named_case stdout ----
+
+thread 'invalid_codec_reports_safe_named_case' (1705665) panicked at crates/rom-conformance/tests/public_contract.rs:27:72:
+called `Result::unwrap_err()` on an `Ok` value: ()
+
+---- wrong_profile_reports_safe_named_case stdout ----
+
+thread 'wrong_profile_reports_safe_named_case' (1705667) panicked at crates/rom-conformance/tests/public_contract.rs:21:37:
+called `Result::unwrap_err()` on an `Ok` value: ()
+
+
+failures:
+    incorrect_canonical_output_is_rejected
+    invalid_codec_reports_safe_named_case
+    wrong_profile_reports_safe_named_case
+
+test result: FAILED. 1 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p rom-conformance --test public_contract`
+   Compiling rom-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-conformance)
+warning: associated function `new` is never used
+  --> crates/rom-conformance/src/error.rs:15:19
+   |
+14 | impl ConformanceError {
+   | --------------------- associated function in this implementation
+15 |     pub(crate) fn new(case: &'static str, category: FailureCategory) -> Self {
+   |                   ^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `check` is never used
+  --> crates/rom-conformance/src/error.rs:25:15
+   |
+25 | pub(crate) fn check(ok: bool, case: &'static str) -> ConformanceResult {
+   |               ^^^^^
+
+warning: function `observe` is never used
+  --> crates/rom-conformance/src/error.rs:28:15
+   |
+28 | pub(crate) fn observe<T,E>(result: Result<T,E>,case: &'static str) -> Result<T,ConformanceError> {
+   |               ^^^^^^^
+
+warning: `rom-conformance` (lib) generated 3 warnings
+   Compiling rom-consumer v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/examples/consumer)
+    Finished `test` profile [unoptimized] target(s) in 0.25s
+     Running tests/native_conformance.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/native_conformance-ab38d03b038399c5)
+
+running 3 tests
+test wrong_profile_fails_before_factory_operations ... FAILED
+test external_fixture_passes_storage_profile_and_releases_owners_before_reopen ... FAILED
+test broken_fixture_fails_named_counts_assertion ... FAILED
+
+failures:
+
+---- wrong_profile_fails_before_factory_operations stdout ----
+
+thread 'wrong_profile_fails_before_factory_operations' (1705762) panicked at examples/consumer/tests/native_conformance.rs:21:14:
+called `Result::unwrap_err()` on an `Ok` value: ()
+
+---- external_fixture_passes_storage_profile_and_releases_owners_before_reopen stdout ----
+
+thread 'external_fixture_passes_storage_profile_and_releases_owners_before_reopen' (1705761) panicked at examples/consumer/tests/native_conformance.rs:13:5:
+assertion `left == right` failed
+  left: 0
+ right: 2
+
+---- broken_fixture_fails_named_counts_assertion stdout ----
+
+thread 'broken_fixture_fails_named_counts_assertion' (1705760) panicked at examples/consumer/tests/native_conformance.rs:28:106:
+called `Result::unwrap_err()` on an `Ok` value: ()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    broken_fixture_fails_named_counts_assertion
+    external_fixture_passes_storage_profile_and_releases_owners_before_reopen
+    wrong_profile_fails_before_factory_operations
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p rom-consumer --test native_conformance`

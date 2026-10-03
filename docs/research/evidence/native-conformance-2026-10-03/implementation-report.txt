@@ -1,0 +1,94 @@
+# Task 1 profile and shared conformance
+
+Status: source frozen for independent review. No commit was made.
+Baseline: `5d5fa605d17fb3dcb8bcfe86588c89f8dd27d965`.
+The implemented contract is the committed native-conformance design and its approved additive storage seams.
+
+## Implementation
+
+`rom-conformance` is a development-only consumer of public ROM interfaces.
+Its crate root contains module declarations and exports only.
+Named modules own profile admission, safe error categories, Field vectors, storage scenarios, and optional blob assertions.
+The `blob` Cargo feature adds only the existing `rom-blob` dependency.
+
+The exact required public signatures are implemented.
+The coordinator also approved `storage::for_profile(version, factory)` and `storage::assert_bundle(storage, facts, previous, bundle)`.
+`for_profile` admits the assertion profile before factory invocation.
+`assert_bundle` checks the documented fresh-store two-commit baseline, with counts `[1, 2, 2, 2]`.
+It is not an assertion for arbitrary history.
+
+Storage factories create two fresh exclusive fixtures: direct atomic bundle operations and typed Runtime operations.
+The runner checks replay, fingerprints, stale revisions, no-op validity, ordered events and effects, and reopen.
+It drops storage clones and shuts down and drops Runtime owners before reopen.
+Native and external fixture owners reject reopen while an Arc clone survives.
+`StorageFacts` counts mean rows, events, receipts, and effects, in that order.
+The facts method remains a trusted test seam, not a production Storage method or an authorization boundary.
+
+Field vectors supply input, canonical JSON, and expected typed value independently.
+The helper checks rejected vectors and canonical decode/encode stability.
+It does not claim complete descriptor/shape verification of arbitrary codec code.
+Existing Resource registration, custom/manual equivalence, and runtime negatives retain that separate layer.
+
+Blob assertions preserve the existing folder/S3 contract: immutable create, race arbitration, bounds, empty objects, and idempotent deletion.
+They require a disposable exclusive namespace with a sixteen-byte adapter limit.
+They do not promise cleanup after an arbitrary failing adapter or cover general provider recovery.
+
+The self-contained guide and JSON manifest record profile revision 1, source compatibility, version owners, and mismatch obligations.
+Resource-owned custom codecs remain the current alpha boundary.
+Independent Field identity, registry, and collision guarantees remain absent; the broader proposal stays open.
+Native format 8 and archive format 6 are unchanged.
+
+## Extraction inventory
+
+| Original source | Shared assertion and retained cases |
+| --- | --- |
+| `tests/persistence/tests/shared.rs` atomic/no-op baseline | `storage::basic`: row, receipt, ordered events/effects, exact replay, changed fingerprint, valid no-op, invalid effects/value; additional stale/reopen checks |
+| Same file typed Runtime baseline | `storage::basic`: create, replay, replace, revision/count assertions; additional owner release and reopen replay |
+| Same file native recovery helper | `storage::assert_bundle`: all five original postcommit assertions; rollback, lost acknowledgement, races, and process fixtures remain native |
+| `examples/consumer/tests/fields.rs` invalid codec vectors | `field::codec`: all five original invalid vectors, plus canonical typed vectors; finite constructor and registration negatives remain local |
+| `examples/consumer/tests/extensions.rs` custom Field/manual fixture | Public codec vectors added to the existing full Resource/manual pipeline |
+| `crates/rom-blob-object-store/tests/conformance.rs` local contract | `blob::basic`: the complete existing shared contract; folder reopen, provider fault relay, and Resource attachment recovery remain local |
+
+Both existing native baseline entrypoints call the shared runner and retain their test names.
+They therefore overlap in assertion execution, with no duplicate assertion implementation.
+All 15 native shared, 8 Field, 1 extension, and 5 blob test names are preserved.
+`../evidence/task1-test-inventory.json` records this inventory; it is not a semantic proof by itself.
+
+## Executed checks
+
+Commands ran in `rom-dev` at `/workspace/ROM/.worktrees/release-query-index`.
+All Rust commands used the warm target `/var/tmp/rom-release-measured-verification-target`, jobs 2, and disabled dev/test debug information.
+Compiler: `rustc 1.99.0 (b940084d7 2026-09-28)`.
+Cargo: `cargo 1.99.0 (5f94df478 2026-08-27)`.
+
+| Command | Result and evidence |
+| --- | --- |
+| `cargo test -p rom-conformance --test public_contract --locked` before API | Expected missing-export API RED; `../evidence/task1-api-red.log` |
+| Public tests with placeholder functions | Expected behavioral RED for profile, invalid vectors, and incorrect canonical value; `../evidence/task1-behavior-red.log` |
+| External storage fixture with placeholder runner | Expected behavioral RED for factory execution, wrong profile, and broken facts; same log |
+| `cargo test -p rom-conformance --test blob --all-features --locked` with placeholder runner | Expected behavioral RED for overwriting adapter; `../evidence/task1-blob-red.log` |
+| `cargo test -p rom-conformance --all-features --locked` | Five public profile/codec/blob tests pass; `../evidence/task1-verification.log` |
+| `cargo test -p rom-storage-conformance -p rom-consumer -p rom-blob-object-store --locked` | Complete native, consumer, and local blob suites pass; same log |
+| `cargo clippy -p rom-conformance -p rom-storage-conformance -p rom-consumer -p rom-blob-object-store --all-targets --all-features --locked -- -D warnings` | Pass; same log |
+| `cargo test -p rom-consumer --test native_conformance --locked` after final test-only amendment | Five external tests pass, including safe rejected reopen; `../evidence/task1-final-focused.log` |
+| `cargo clippy -p rom-conformance -p rom-consumer --all-targets --all-features --locked -- -D warnings` | Pass after amendment; same log |
+| `cargo check -p rom-conformance --no-default-features --locked` | Pass; same log |
+| `cargo check -p rom --no-default-features --locked`; normal dependency tree | Pass; no conformance, blob, transport, or native driver dependency in core; same log |
+| Owned-file `rustfmt --check --edition 2024 --config skip_children=true`; `git diff --check` | Pass; `../evidence/task1-fmt.log` |
+| Existing `crates/rom-blob-object-store/verify-s3` with historical `MINIO_BIN` | All five tests pass, including both explicit provider cases; `../evidence/task1-s3.log` |
+
+The S3 check used disposable loopback MinIO `RELEASE.2024-09-22T00-33-43Z`.
+It made no production service change and establishes no arbitrary-provider or machine power-loss guarantee.
+The final test-only amendment added a rejected-reopen diagnostic case; no shared assertion implementation changed after the complete suites.
+
+## Package and ownership
+
+`source.json`, `source/`, `before/`, and `changes.patch` preserve the owned frozen review input.
+The source identity also records the coordinator-owned workspace manifest and lockfile as context.
+The three consumer development-dependency manifests are included in this task.
+Root workspace wiring, shared scripts, author skills, and final package gates remain coordinator or separate-owner work.
+Full local verification and extracted-package acceptance remain integration requirements.
+
+Writing followed the ROM rules using the STE skill's fallback guidance.
+Vocabulary was checked against known rulings and high-risk patterns only, not the official ASD-STE100 Part 2 dictionary.
+Full compliance requires verification against the official standard; this report makes no certification claim.

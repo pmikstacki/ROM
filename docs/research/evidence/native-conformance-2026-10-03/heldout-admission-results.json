@@ -1,0 +1,20 @@
+[
+  {
+    "case": "profile",
+    "exit": 1,
+    "stderr": "unsupported profile\n",
+    "commandRan": false
+  },
+  {
+    "case": "feature",
+    "exit": 1,
+    "stderr": "unsupported feature\n",
+    "commandRan": false
+  },
+  {
+    "case": "asset",
+    "exit": 1,
+    "stderr": "invalid asset path or changed asset\n",
+    "commandRan": false
+  }
+]

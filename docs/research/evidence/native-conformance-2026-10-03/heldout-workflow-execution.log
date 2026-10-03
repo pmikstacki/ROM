@@ -1,0 +1,12 @@
+Preflight passed: resource. No workflow ran during preflight.
+Preflight passed: resource. No workflow ran during preflight.
+Example passed. Evidence: /tmp/rom-skill-resource-nu6iqj
+Preflight passed: native. No workflow ran during preflight.
+Preflight passed: native. No workflow ran during preflight.
+Example passed. Evidence: /tmp/rom-skill-native-S0tHUE
+Preflight passed: operator. No workflow ran during preflight.
+Preflight passed: operator. No workflow ran during preflight.
+Example passed. Evidence: /tmp/rom-skill-operator-8GRMwA
+Preflight passed: release. No workflow ran during preflight.
+Preflight passed: release. No workflow ran during preflight.
+Example passed. Evidence: /tmp/rom-skill-release-d1ZA2S

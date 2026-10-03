@@ -1,3 +1,6 @@
+#[path = "shared/native_fixture.rs"]
+mod native_fixture;
+use native_fixture::{facts, fixture};
 use rom::{
     Actor, Bundle, Command, Error, Intent, Key, Receipt, Resource, Result, Row, Runtime, Storage,
     json,
@@ -299,58 +302,20 @@ fn update() -> Bundle {
     b
 }
 fn assert_bundle(store: &dyn Inspect) {
-    let b = update();
-    assert_eq!(
-        store.load(&b.receipt.row.key).unwrap(),
-        Some(b.receipt.row.clone())
-    );
-    assert_eq!(
-        store.receipt(&b.receipt.identity).unwrap(),
-        Some(b.receipt.clone())
-    );
-    assert_eq!(store.counts(), [1, 2, 2, 2]);
-    assert_eq!(
-        store.events(),
-        vec![create("one").receipt.row, b.receipt.row]
-    );
-    assert_eq!(
-        store.effects(),
-        b.effects
-            .into_iter()
-            .map(|i| (b.receipt.identity.clone(), i))
-            .collect::<Vec<_>>()
-    );
+    rom_conformance::storage::assert_bundle(
+        store,
+        &facts(store),
+        &create("one").receipt,
+        &update(),
+    )
+    .unwrap();
 }
-#[test]
-fn shared_atomic_bundle_and_noop_identity_validation() {
+#[tokio::test]
+async fn shared_atomic_bundle_and_noop_identity_validation() {
     for backend in BACKENDS {
-        let scratch = Scratch::new();
-        let store = backend.open(&scratch.path());
-        store.commit(&create("one")).unwrap();
-        let b = update();
-        assert_eq!(store.commit(&b).unwrap(), b.receipt);
-        assert_bundle(&*store);
-        assert_eq!(store.commit(&b).unwrap(), b.receipt);
-        assert_bundle(&*store);
-        let mut conflict = b.clone();
-        conflict.receipt.fingerprint = "different".into();
-        assert_eq!(store.commit(&conflict), Err(Error::IdentityMismatch));
-        let mut noop = b.clone();
-        noop.expected = Some(2);
-        noop.changed = false;
-        noop.effects.clear();
-        noop.receipt.identity = "noop".into();
-        noop.receipt.fingerprint = "noop".into();
-        store.commit(&noop).unwrap();
-        assert_eq!(store.counts(), [1, 2, 3, 2]);
-        let mut invalid = noop.clone();
-        invalid.receipt.identity = "invalid".into();
-        invalid.effects.push(Intent::new("bad", json!(null)));
-        assert_eq!(store.commit(&invalid), Err(Error::NotCommitted));
-        invalid.effects.clear();
-        invalid.receipt.row.value = Some(json!({"done":false}));
-        assert_eq!(store.commit(&invalid), Err(Error::NotCommitted));
-        assert_eq!(store.counts(), [1, 2, 3, 2]);
+        rom_conformance::storage::basic(|| fixture(backend))
+            .await
+            .unwrap();
     }
 }
 #[test]
@@ -510,43 +475,9 @@ struct Record {
 #[tokio::test]
 async fn shared_core_typed_actions_work_without_application_repositories() {
     for backend in BACKENDS {
-        let scratch = Scratch::new();
-        let store = backend.open(&scratch.path());
-        let storage: Arc<dyn Storage> = store.clone();
-        let runtime = Runtime::builder()
-            .resource(
-                Record::definition()
-                    .allow_all_fields()
-                    .policy(|_, _, _| true),
-            )
-            .build(storage, Runtime::shared_cpu_pool(2).unwrap())
+        rom_conformance::storage::basic(|| fixture(backend))
+            .await
             .unwrap();
-        let actor = Actor::trusted("host", "owner");
-        let create = Command::create("one", Record { done: false }).idempotency("create");
-        assert_eq!(
-            runtime
-                .execute(&actor, create.clone())
-                .await
-                .unwrap()
-                .revision,
-            1
-        );
-        assert_eq!(runtime.execute(&actor, create).await.unwrap().revision, 1);
-        assert_eq!(
-            runtime
-                .execute(
-                    &actor,
-                    Command::replace("one", Record { done: true })
-                        .at_revision(1)
-                        .idempotency("update")
-                )
-                .await
-                .unwrap()
-                .revision,
-            2
-        );
-        assert_eq!(store.counts(), [1, 2, 2, 0]);
-        runtime.shutdown().await.unwrap();
     }
 }
 #[test]

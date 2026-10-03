@@ -12,7 +12,7 @@ RUSTDOCFLAGS='-D warnings' cargo doc --workspace --no-deps --locked
 cargo check -p rom --no-default-features --locked
 cargo run -p rom-consumer --locked
 cargo tree -p rom --no-default-features --edges normal --locked > "$CARGO_TARGET_DIR/core-dependencies.txt"
-if rg -i 'rusqlite|redb|axum|hyper|reqwest|tower|bevy|rom-derive' "$CARGO_TARGET_DIR/core-dependencies.txt"; then
+if rg -i 'rusqlite|redb|axum|hyper|reqwest|tower|bevy|rom-derive|rom-conformance' "$CARGO_TARGET_DIR/core-dependencies.txt"; then
   echo 'Core imported a concrete DB, transport or disabled derive dependency' >&2
   exit 1
 fi

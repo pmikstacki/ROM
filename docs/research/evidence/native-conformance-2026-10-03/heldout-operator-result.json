@@ -1,0 +1,22 @@
+{
+  "endpoint": "http://127.0.0.1:34679",
+  "exitCode": 5,
+  "stdout": "",
+  "stderr": "mutation outcome unresolved; replay only as the same principal with the original idempotency key, revision and input\n",
+  "submissions": 1,
+  "requestSha256": "4cd3810733f4e1da5c4d48213aab444e051ea1017ae334e43980c3005501d4ab",
+  "request": {
+    "handle": "d8e14adfeed2a809fa06d9d4f1e37969ce01140409207fedc95c53cb3a14185e",
+    "expected": {
+      "generation": "heldout-store",
+      "revision": 9
+    },
+    "key": "reconcile-heldout-1",
+    "retry_epoch": 11,
+    "operation": {
+      "Reconcile": {
+        "evidence_ref": "opaque-ticket-lookup"
+      }
+    }
+  }
+}

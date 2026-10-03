@@ -55,16 +55,17 @@ for (const p of packages) {
 const app = join(scratch, 'consumer');
 mkdirSync(join(app, '.cargo'), { recursive: true });
 cpSync(join(dirname(consumer.manifest_path), 'src'), join(app, 'src'), { recursive: true });
+cpSync(join(dirname(consumer.manifest_path), 'tests'), join(app, 'tests'), { recursive: true });
 const archivePath = p => join(unpacked, `${p.name}-${p.version}`);
 writeFileSync(join(app, '.cargo', 'config.toml'), patches(archivePath));
-const dependencies = consumer.dependencies.filter(d => d.kind === null).map(d => {
+const dependencies = kind => consumer.dependencies.filter(d => d.kind === kind).map(d => {
   const options = [`version = ${JSON.stringify(d.req)}`];
   if (!d.uses_default_features) options.push('default-features = false');
   if (d.features.length) options.push(`features = ${JSON.stringify(d.features)}`);
   if (d.rename) options.push(`package = ${JSON.stringify(d.name)}`);
   return `${JSON.stringify(d.rename ?? d.name)} = { ${options.join(', ')} }`;
 });
-writeFileSync(join(app, 'Cargo.toml'), `[package]\nname = "rom-consumer"\nversion = "0.0.0"\nedition = "2024"\npublish = false\n\n[dependencies]\n${dependencies.join('\n')}\n\n[workspace]\n`);
+writeFileSync(join(app, 'Cargo.toml'), `[package]\nname = "rom-consumer"\nversion = "0.0.0"\nedition = "2024"\npublish = false\n\n[dependencies]\n${dependencies(null).join('\n')}\n\n[dev-dependencies]\n${dependencies('dev').join('\n')}\n\n[workspace]\n`);
 cpSync(join(root, 'Cargo.lock'), join(app, 'Cargo.lock'));
 for (const p of packages) {
   run('cargo', ['--config', join(app, '.cargo', 'config.toml'), 'check', '--offline', '--all-features',
@@ -81,6 +82,7 @@ if (cli) {
   }
 }
 run('cargo', ['run', '--offline'], app);
+run('cargo', ['test', '--offline', '--tests'], app);
 const external = JSON.parse(run('cargo', ['metadata', '--locked', '--offline', '--format-version', '1'], app, true));
 for (const p of external.packages.filter(p => packages.some(lib => lib.name === p.name))) {
   if (!p.manifest_path.startsWith(unpacked + sep)) throw Error(`${p.name}: consumer escaped packaged sources`);

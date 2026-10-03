@@ -1,0 +1,797 @@
+{
+  "head": "5d5fa605d17fb3dcb8bcfe86588c89f8dd27d965",
+  "workspaceStatus": " M Cargo.lock\n M Cargo.toml\n M crates/rom-blob-object-store/Cargo.toml\n M crates/rom-blob-object-store/tests/conformance.rs\n M docs/superpowers/specs/2026-10-03-native-conformance-design.md\n M examples/consumer/Cargo.toml\n M examples/consumer/tests/extensions.rs\n M examples/consumer/tests/fields.rs\n M scripts/check-packages.mjs\n M scripts/check-rust\n M tests/persistence/Cargo.toml\n M tests/persistence/tests/shared.rs\n?? crates/rom-conformance/\n?? docs/native-extensions.md\n?? examples/consumer/tests/native_conformance.rs\n?? examples/consumer/tests/native_conformance/\n?? extensions/\n?? scripts/check-skills\n?? scripts/skills/\n?? skills/\n?? tests/persistence/tests/shared/\n",
+  "inputs": [
+    {
+      "path": "Cargo.lock",
+      "sha256": "fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "275908b327c941940d8aac347d3fe55887df97637000c57680c4ed025cb73135"
+    },
+    {
+      "path": "crates/rom-backup/Cargo.toml",
+      "sha256": "ab243d699803e265a5d445085f1c638edf9ab25a301a8ba039946b262f42ad61"
+    },
+    {
+      "path": "crates/rom-backup/src/archive.rs",
+      "sha256": "79ef70bd8cd804c08506c2a2e0a7ec34fb2f5588d470ffb988eaefe201becac3"
+    },
+    {
+      "path": "crates/rom-backup/src/codec.rs",
+      "sha256": "ad70e64d705f852f3163edc5c6382c675b21556c92fb987629b418a3d33da57a"
+    },
+    {
+      "path": "crates/rom-backup/src/collector.rs",
+      "sha256": "aaae820e01aea755455259ccae77b73dd6d6628c89b79f7b2127ffc15eca328b"
+    },
+    {
+      "path": "crates/rom-backup/src/epoch_upgrade_tests.rs",
+      "sha256": "90e78a105b35f7113b4346f8b76a4e60798971f93dd6f7872d70641662b506b4"
+    },
+    {
+      "path": "crates/rom-backup/src/legacy.rs",
+      "sha256": "157a5fb082143a9b002b37823130fc94bf402053f46e17f692c823ee274e7d75"
+    },
+    {
+      "path": "crates/rom-backup/src/legacy_state.rs",
+      "sha256": "d3d5be0a925af44e7bda71dea612ce66819f8c6f1ecc632f2e1d68a3e23a1a4d"
+    },
+    {
+      "path": "crates/rom-backup/src/lib.rs",
+      "sha256": "ffb95aaf555cbb27afa3cc36f3e04e0aa8b9475b4ab5918cb43c5ba999128db9"
+    },
+    {
+      "path": "crates/rom-backup/src/maintenance_limits.rs",
+      "sha256": "d0b0e4620d462ab9ee7763cc83e09a947f7c3f609db64557071edb3935ecabb6"
+    },
+    {
+      "path": "crates/rom-backup/src/migration.rs",
+      "sha256": "a9a922b61f29f657ea733f8db7d5e1385db916b8dbace9f8e7612a2d3ab5050c"
+    },
+    {
+      "path": "crates/rom-backup/src/migration_plan.rs",
+      "sha256": "fa719d05487a99c01946d3340c59323a0eb990577d21ce323726d9892c1e2d27"
+    },
+    {
+      "path": "crates/rom-backup/src/model.rs",
+      "sha256": "f36fa5110b04f5a350229ad2aab63891dadb903afdeb348a1a0b05167e8f3bdb"
+    },
+    {
+      "path": "crates/rom-backup/src/native_ownership.rs",
+      "sha256": "87a1024fd3fef5e522f75034ccbfc54273fcaeda01c85d127c3e768f3a25913a"
+    },
+    {
+      "path": "crates/rom-backup/src/native_ownership/lifetime_tests.rs",
+      "sha256": "3239a03c3bb476bf20ba6410f05940a406e7ee41fed6275ee7c6156dddc9c069"
+    },
+    {
+      "path": "crates/rom-backup/src/native_ownership/lock.rs",
+      "sha256": "9f3cf36f3957f5f97026c2e13affe40dcb9a0ea964d956413fc2fa0aeaeb06d5"
+    },
+    {
+      "path": "crates/rom-backup/src/native_ownership/lock_tests.rs",
+      "sha256": "5f6305f762b98efb3f111e9083192c9ef9a0b56fe09ac18cce0e8d985fc74193"
+    },
+    {
+      "path": "crates/rom-backup/src/native_ownership/metadata.rs",
+      "sha256": "432feb633772d8e6b75ac2576b2a8174d1c5e7b7ac99595e0c9fe6b668764d0d"
+    },
+    {
+      "path": "crates/rom-backup/src/native_ownership/path.rs",
+      "sha256": "4c784e3ff2bfe1da8c29943fa27d6733208194b95d880387ebe6e1ae1da17858"
+    },
+    {
+      "path": "crates/rom-backup/src/native_ownership/path_tests.rs",
+      "sha256": "c61bec506454d4b0c6e612b3fc9bc7301f22a496a4656e7e8dd10454818c93d2"
+    },
+    {
+      "path": "crates/rom-backup/src/publication.rs",
+      "sha256": "615b4225f0ce17d494d828bb0db6cbf6629a8d275d01f5b170adf5b9e3bbdd8a"
+    },
+    {
+      "path": "crates/rom-backup/src/publication/tests.rs",
+      "sha256": "ea802217bb62814026e8de569e6d6d1774a605d42ef6e42ce6298463ec64a190"
+    },
+    {
+      "path": "crates/rom-backup/src/retention.rs",
+      "sha256": "599397edae06d8ba02cc5a4a5401a24bda447a35b74fa1d54ec5d603752daa60"
+    },
+    {
+      "path": "crates/rom-backup/src/retention_policy.rs",
+      "sha256": "e7b4f19e1fdcb8abcceff5b4f58b6a0aec04b2d9a1f8943dd84643d80b15d0d3"
+    },
+    {
+      "path": "crates/rom-backup/src/schema.rs",
+      "sha256": "59646f684ec16833e9ad70ffdceb9ee50e5907cf6a2206a014803e873bc5b37c"
+    },
+    {
+      "path": "crates/rom-backup/src/tests.rs",
+      "sha256": "d2f2f4030c386e151565e8566fad6553523a2a2621d95c0e62950d72f8f10437"
+    },
+    {
+      "path": "crates/rom-backup/tests/migration_codecs.rs",
+      "sha256": "3dc66d8a8d28f92069ce5696d9d9a0def5ab352ac4b0ac42b0d9becc1d2ed22b"
+    },
+    {
+      "path": "crates/rom-backup/tests/migrations.rs",
+      "sha256": "0466afd137d1f35f64ff05da7cc97b33a24291eeeb46c578ff4465238a1f3ae3"
+    },
+    {
+      "path": "crates/rom-backup/tests/native_ownership.rs",
+      "sha256": "6159071c6c23eb19c48d269302be73b5f06f50dd629b686d7c15f14128e0d4e9"
+    },
+    {
+      "path": "crates/rom-backup/tests/native_ownership/paths.rs",
+      "sha256": "9ed5015641445024f61755a3ab1d80f19871945d38a8ec9ca6565205a3ea6ef4"
+    },
+    {
+      "path": "crates/rom-backup/tests/native_ownership/processes.rs",
+      "sha256": "ea8a34376d5139bd84f3aafe23e2e3591529191d1684a57aa0b9a4b1c5129d5e"
+    },
+    {
+      "path": "crates/rom-backup/tests/native_ownership/support.rs",
+      "sha256": "0ebcc6f1008f2424e28e857e48e3113e69a697d6604a3cfd916dcf320e5dfdfc"
+    },
+    {
+      "path": "crates/rom-backup/tests/references.rs",
+      "sha256": "e18bf40076bd9e04589c09d17f9e19821d512fc95871d58a5d1c1cd0e81cb807"
+    },
+    {
+      "path": "crates/rom-backup/tests/retention.rs",
+      "sha256": "e48ae63494bc332d77b6870d3b71025a7ea132e78be8cdb0a4c8c9d0a1e2a4f9"
+    },
+    {
+      "path": "crates/rom-conformance/Cargo.toml",
+      "sha256": "51ec194a30d77dc5cee9771d276f551f3f675f04e2625eacb04d20b2420425c2"
+    },
+    {
+      "path": "crates/rom-conformance/src/blob.rs",
+      "sha256": "43b3f97b16714c2adde3e38c775f3614655b02db6cb4f93cfbdf82137f153791"
+    },
+    {
+      "path": "crates/rom-conformance/src/error.rs",
+      "sha256": "505888a1b3f0aaa10ba8453c6b5ddd03cd72548a64eed3af57e4065549332619"
+    },
+    {
+      "path": "crates/rom-conformance/src/field.rs",
+      "sha256": "7a8c7883af9d8d2804333ec84eefa7ff7af9b4a16cee8223251f1c2509573bcd"
+    },
+    {
+      "path": "crates/rom-conformance/src/lib.rs",
+      "sha256": "91d28c42bc4674cb49ddc0250d88493dac9102da648e51c81edd6a757b4bcdcf"
+    },
+    {
+      "path": "crates/rom-conformance/src/profile.rs",
+      "sha256": "466e97088cd1ee4c4c14575833d937cd38d7dbf5b79fcd43c54941ca7de1e436"
+    },
+    {
+      "path": "crates/rom-conformance/src/storage.rs",
+      "sha256": "a5bc080ce5bd3b22b26513563cb8c34f7ab5a0cea836f92e61f6118f5e8472a3"
+    },
+    {
+      "path": "crates/rom-conformance/src/storage/assertions.rs",
+      "sha256": "682aac12ea501f6a3287abf3e563f2e4776671ce8c67e1ddaf003355a29efb28"
+    },
+    {
+      "path": "crates/rom-conformance/src/storage/runner.rs",
+      "sha256": "72c4811c592602db325383d796f5c12adc651bf3b28e876c433ecc85603be654"
+    },
+    {
+      "path": "crates/rom-conformance/src/storage/scenario.rs",
+      "sha256": "0ff1708e4354c7688dc2146861c3264433236b04e10080dfdd1ce80c5c4d20a0"
+    },
+    {
+      "path": "crates/rom-conformance/src/storage/typed.rs",
+      "sha256": "01bc3872ea10c9072ebfc204dd8de169fa06d9848da63bc31b10b34035450656"
+    },
+    {
+      "path": "crates/rom-conformance/tests/blob.rs",
+      "sha256": "5df86c3fdcbc5a2881e260f8a581a154121e844cc5f9c2dae4d7051f26a3a612"
+    },
+    {
+      "path": "crates/rom-conformance/tests/public_contract.rs",
+      "sha256": "b4577edce24566a25c6f604a6661417a64dc00ca7c99abb613fbdbd3da24420f"
+    },
+    {
+      "path": "crates/rom-derive/Cargo.toml",
+      "sha256": "b27f34b840e553b88a7570bd0bda6013ea88ac33fc804e5b083ccda30d32b139"
+    },
+    {
+      "path": "crates/rom-derive/src/expansion.rs",
+      "sha256": "88eaae44d9d3d582944fce009798efd6725b874a89b23f53167547407d9638d8"
+    },
+    {
+      "path": "crates/rom-derive/src/lib.rs",
+      "sha256": "921551db23da0d0c88ea723ef9c5d8b5340cf5f53f0ce2f97849609ee76a1a16"
+    },
+    {
+      "path": "crates/rom-sqlite/Cargo.toml",
+      "sha256": "54c491797016780409a8a800c1ece546a3e8762783f968e797f85af87bbdaa18"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index.rs",
+      "sha256": "5659e1a05978722934989f4ba159bafec20fdf1435211ad70639a67adc5d7901"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/catalog.rs",
+      "sha256": "12a4509c0d550eb94217d34f72ff7946bdb2c05dea85a3c60071399cea93554b"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/catalog_tests.rs",
+      "sha256": "450f57b398345b3104ffb7bfaf366da9542173dc81569bfc1337a466cf46975c"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/derivation.rs",
+      "sha256": "a187339503e4a2e89e5a9c994443e09ddae54e5ebcc28ba9e60adbcfc0df7aef"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/encoding.rs",
+      "sha256": "a3f24f885e3d2d2d0cafc5737f677f632568d79d919a8e9f6d21fce1c33dfbaa"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/encoding_tests.rs",
+      "sha256": "f93a3172fe39875029e3dc2c9c47c563a05238f10c840b0a3d5ca9bcf5414808"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/layout.rs",
+      "sha256": "2d72018c38dc67c10c24feaa5ccf7b667a1bac3520bc9b114a3f37e84ec9f155"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/metadata.rs",
+      "sha256": "90a69a0848c2ef38a54f0e8f4a22cd7ffbecff912ea5340abd8dcf9551e38a0d"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/planner.rs",
+      "sha256": "be26b1d1b4342d4c1969ba57f2a39cdf28b21e65f9578b8ab59b85bb25001677"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/planner/cost.rs",
+      "sha256": "2dfcc07fd7829b94c88a457553c0efb822e3aff6e08eb929dffcb0272600b8c6"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/planner/predicate.rs",
+      "sha256": "3e31e6ee2d43c85b23eb022556e5e2cd6bbbc8c0d388b388b9f6e6294f011864"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/planner/probe.rs",
+      "sha256": "2b738db5aea5a8e91a774e02de005766e4d0d8233b1c242b470722d7157c7fbc"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/planner/tests.rs",
+      "sha256": "607c3d3c9882df7eae5a5bb2b0d846c2f63607e3a03708e95ab15d223eb56fb0"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/query.rs",
+      "sha256": "46f28ee314e0dfc2ab584cb3e9b3e2b100aa1ee6d5abab4f5e03ab8b14720c50"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/query_tests.rs",
+      "sha256": "92b487b1eb686fb28974c63a168e93623dbf9e3331b9bb24a8d0619d8f82bac9"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index/validation.rs",
+      "sha256": "54927fcb496f04d247c52ae8a40cd1cba6f264bdf43726d35181fca2fcabe993"
+    },
+    {
+      "path": "crates/rom-sqlite/src/index_rebuild.rs",
+      "sha256": "1a0230707480124a3f3ec46071d9ef63c08c90fc561e2796b8e90e9c35fd0ba4"
+    },
+    {
+      "path": "crates/rom-sqlite/src/lib.rs",
+      "sha256": "aaa69152f5ca9740006031e841150965697d5dd179e8d1f03a68bc13b2fd4cc0"
+    },
+    {
+      "path": "crates/rom-sqlite/src/maintenance.rs",
+      "sha256": "673d73103d7434dd55000385bd35307c0edbe775f271dafc2873ec32bef67690"
+    },
+    {
+      "path": "crates/rom-sqlite/src/migration.rs",
+      "sha256": "194091375682de749ad8d707451e962af2b37bd7a6d38075da24c23d0677d878"
+    },
+    {
+      "path": "crates/rom-sqlite/src/operator.rs",
+      "sha256": "f3a3209a5507b1baa5652b8c0d1b0b451d644c028050d36ecd0fc02756296447"
+    },
+    {
+      "path": "crates/rom-sqlite/src/persistence.rs",
+      "sha256": "3c76aff56c536bb7c5c08dc35bc4eba38cc7f90228be43d21c6a75b2a78970db"
+    },
+    {
+      "path": "crates/rom-sqlite/src/query_observation.rs",
+      "sha256": "3a3cde8419a621cd02025d2e97bbc2dad7041e7074e50fd859991f95d72de49e"
+    },
+    {
+      "path": "crates/rom-sqlite/src/read_rows.rs",
+      "sha256": "212088cf68a4d59badeadd3c7a54143d35f3ea984bda29c54e2d9d89d2f57833"
+    },
+    {
+      "path": "crates/rom-sqlite/src/references.rs",
+      "sha256": "f5183a8b9b70bdf1f2b78f4f198a9fe36d597da21a368a797e10954d43195bec"
+    },
+    {
+      "path": "crates/rom-sqlite/src/retention.rs",
+      "sha256": "beb50991aca0602d8cd7b52f1963f43cb89c292cf14669ea23fc16f85e5e17a1"
+    },
+    {
+      "path": "crates/rom-sqlite/src/snapshot.rs",
+      "sha256": "15b093047b410987660a97fa500515c48b68c8a51a5ca68ec204f8fd8df33f58"
+    },
+    {
+      "path": "crates/rom-sqlite/src/store.rs",
+      "sha256": "d0c8da554d987749378e9ef328dceb8b85fefd906212d4c2dffd2b9673ce25fd"
+    },
+    {
+      "path": "crates/rom-sqlite/src/upgrade.rs",
+      "sha256": "54372631e1f400bd96d492c07c8dc6878c5015373c54bd1a27a879015868b338"
+    },
+    {
+      "path": "crates/rom-sqlite/tests/query_observation.rs",
+      "sha256": "14b070091af0fbd6b5899c696751d28fa8dd1fd2dfe66664970874ec56978be8"
+    },
+    {
+      "path": "crates/rom/Cargo.toml",
+      "sha256": "5147f96d8c22b94c4ea7eab9b925f28cbe90d08820c16f50fa4dad4c2adb2f69"
+    },
+    {
+      "path": "crates/rom/src/channels.rs",
+      "sha256": "9c1c47bcef6b24b31adc73f66b6e33381c9580bdef5bad56d7e78532bb0f7e52"
+    },
+    {
+      "path": "crates/rom/src/channels/execution.rs",
+      "sha256": "0814e1a7cb598ece40beb50166a2bbe9302c7157e51f05b4b7b81c3b2c6d42f5"
+    },
+    {
+      "path": "crates/rom/src/channels/intentions.rs",
+      "sha256": "0cb2aa54867cb8d2d7500a0b597ddc5da0ef322d5cfd317e42c9ed4113ac2285"
+    },
+    {
+      "path": "crates/rom/src/channels/model.rs",
+      "sha256": "622a563d3dd507d08bd012f1c59d6a74194dd032a2ac9c002d1cd90b3b5dff86"
+    },
+    {
+      "path": "crates/rom/src/channels/registration.rs",
+      "sha256": "f013c40845e80d6c2cd5f83e3f22d6b575a32ccaebc6aa8ea5843e2d2d1cd0bd"
+    },
+    {
+      "path": "crates/rom/src/channels/supervision.rs",
+      "sha256": "7afd7830a198b6c02b26bd8307bc905a9413874445eef393aa8fd3b2ec4367e7"
+    },
+    {
+      "path": "crates/rom/src/discovery.rs",
+      "sha256": "f0e0c9a81584885d0e8eabfbd64d76b5fc099a2bebcbb418e66a965e41b972ff"
+    },
+    {
+      "path": "crates/rom/src/error.rs",
+      "sha256": "075cce58fbe0c509d72f335bb1dbc5d0ed13a9ed12f360548854d017b62fadc7"
+    },
+    {
+      "path": "crates/rom/src/execution.rs",
+      "sha256": "d5929a278beca8501c4baaf19a0f34d43fc23fa02bb342427b624fc72083fbce"
+    },
+    {
+      "path": "crates/rom/src/execution/authority.rs",
+      "sha256": "2e3365f8eabdc26574f694368e01682707fcc2c0c3c5141e1f3cb923ff55b45d"
+    },
+    {
+      "path": "crates/rom/src/execution/builder.rs",
+      "sha256": "c9fa7784f9c9de37ac7787ad67ad3dc729ca3a0357929087d15a3492f779d0b9"
+    },
+    {
+      "path": "crates/rom/src/execution/command.rs",
+      "sha256": "44f84f03880f722a9d92d561d96d9b5c7a7a423d0ef475aca8a1c41a01724eb4"
+    },
+    {
+      "path": "crates/rom/src/execution/lifecycle.rs",
+      "sha256": "f5134a908cbb8800cf0732c540d9ee9dd48ddc69fe0d78b29d1d17d0c5930465"
+    },
+    {
+      "path": "crates/rom/src/execution/state.rs",
+      "sha256": "3a201bbc978ca502338e3d625ee2fd51763ec254688d0535dc0d0210ecb54c59"
+    },
+    {
+      "path": "crates/rom/src/input_codec.rs",
+      "sha256": "4fb87ab51af4875d239f342da25421d54b86b9fd5c24f14486ce74816fada13e"
+    },
+    {
+      "path": "crates/rom/src/invocation.rs",
+      "sha256": "67b7edb51c058bc3e160a7d57d1951b83a9541f878f035009212140d4a68d18e"
+    },
+    {
+      "path": "crates/rom/src/journal.rs",
+      "sha256": "437e9827f49629bd01f5e7f4750f787b5141a6eae2a528e9ee03955537d0e8de"
+    },
+    {
+      "path": "crates/rom/src/json.rs",
+      "sha256": "9ba6f727f57bb324c1d9e8d0177874b71842973e57f631aed173623cf07e976f"
+    },
+    {
+      "path": "crates/rom/src/lib.rs",
+      "sha256": "530775fdecb49e387138481647a69db24c45340cda6b7b8be525d8101ac01243"
+    },
+    {
+      "path": "crates/rom/src/operator.rs",
+      "sha256": "4cb854859edf94f55bc121b3be0db456bfd2c3b25ab00b6160cdaff990c8936e"
+    },
+    {
+      "path": "crates/rom/src/operator/authorization.rs",
+      "sha256": "c3066aa015d9ada33638b2093f0b701cab1f82f6556f3eb1399fad6319f12efc"
+    },
+    {
+      "path": "crates/rom/src/operator/control.rs",
+      "sha256": "03bbc7cca003d8b577cd6f8cf2fb1e690ad6cb2d6ccb22e64f0adb5d08020aad"
+    },
+    {
+      "path": "crates/rom/src/operator/control_execution.rs",
+      "sha256": "3511494b7141fdcb0ce357d5b601887f1cdadf80d28f4cb1b6d513e0f76a70a6"
+    },
+    {
+      "path": "crates/rom/src/operator/cursor.rs",
+      "sha256": "9eb266c8f94f089cebd882efc0f277776b61be9073beb44867c4dd9a2a64f8fc"
+    },
+    {
+      "path": "crates/rom/src/operator/projection.rs",
+      "sha256": "159c92a2b3676827fa411db4858aa318e65106afe1b465b2080efbc8bc6e49da"
+    },
+    {
+      "path": "crates/rom/src/operator/protocol.rs",
+      "sha256": "b1ccfc08019fc36fe060c5876aceac1666c9c7d083c0ae5e78dccea112fc3e63"
+    },
+    {
+      "path": "crates/rom/src/operator/protocol/identifiers.rs",
+      "sha256": "0c8010206540c3d48233272201e5cfa92e23e20c1201b72fc62720699d7f59e7"
+    },
+    {
+      "path": "crates/rom/src/operator/receipts.rs",
+      "sha256": "126d1d3d7d50edc1b757f515b1d3353bd0e2b17ddbd6794f6b5f356ce65a6899"
+    },
+    {
+      "path": "crates/rom/src/operator/runtime.rs",
+      "sha256": "fbf70078f3b846cfaee22ddcf4c972a774e2cc127cba88e1855e37a101d2bfb3"
+    },
+    {
+      "path": "crates/rom/src/operator/status.rs",
+      "sha256": "2087a3723e52e2989b5565eca4810415d71734cff4bbc10b5531b2bf99b92d7a"
+    },
+    {
+      "path": "crates/rom/src/patch.rs",
+      "sha256": "4998e0cc77aa490a73655ee75b4db49597db20da105c6d54187dd0755a2bd80a"
+    },
+    {
+      "path": "crates/rom/src/persistence.rs",
+      "sha256": "ca7ef118a1772327f6a60343c67e630cdd3f3202299de435f466ed131133ee2a"
+    },
+    {
+      "path": "crates/rom/src/persistence/maintenance.rs",
+      "sha256": "ba9bb7364163253d301c31f1c21f545f05032794ea06427bcbd5b6ff5b8de237"
+    },
+    {
+      "path": "crates/rom/src/persistence/operator.rs",
+      "sha256": "f4d09b3148416b0f0cd0ea1427cd104c782c0b9b03f6c82af658285880ea7ba2"
+    },
+    {
+      "path": "crates/rom/src/persistence/receipt.rs",
+      "sha256": "0f828810fa8490928faf58698f727accf0b64b5a3cf8e756479170d891e4c8bd"
+    },
+    {
+      "path": "crates/rom/src/policy.rs",
+      "sha256": "8162aec7532bc7014110dfa96538dc30dae167eb4a5b9b037e286745b55be1b7"
+    },
+    {
+      "path": "crates/rom/src/projection.rs",
+      "sha256": "0830596a3f1c736253bb7e65862751550025145bd7095f332ed3d39dcae2be73"
+    },
+    {
+      "path": "crates/rom/src/query.rs",
+      "sha256": "ccf5c056b351e49a920c6936c88738ee0cf0c2d0880e6bdeb171d5b7e013ae06"
+    },
+    {
+      "path": "crates/rom/src/query/subscription.rs",
+      "sha256": "6135d39fe0b5c58f99a47244b18b27bfd5b5ea04dab7f3dcdb31306a19f31f6c"
+    },
+    {
+      "path": "crates/rom/src/query_eval.rs",
+      "sha256": "8815a8033d246338c5b967e3f841b2a394b534f82fe276b5ab1f7e98dc1680de"
+    },
+    {
+      "path": "crates/rom/src/query_eval/comparison.rs",
+      "sha256": "1e35ca54537dbc32c7748e66fc345ad204705cea0dfa9b0b1cc8f3358809e992"
+    },
+    {
+      "path": "crates/rom/src/query_eval/normalization.rs",
+      "sha256": "83a6ca4acbf3e88097c9325827e6d7419edb2bbbe30936efc23cf92b2fe9187a"
+    },
+    {
+      "path": "crates/rom/src/query_eval/read.rs",
+      "sha256": "99f39563d4a2d96e275f7df04d43a4c6bcdf15693845523427e9080814ac3d20"
+    },
+    {
+      "path": "crates/rom/src/query_spec.rs",
+      "sha256": "375a073fe4536a4504b52542fee01aa81d975e2dd11cf334372fc7471c59d19d"
+    },
+    {
+      "path": "crates/rom/src/query_storage.rs",
+      "sha256": "e9edd42484305fc2e0711a884820b2557c53faa309141d0c2fc3f27462d98f56"
+    },
+    {
+      "path": "crates/rom/src/query_storage/protocol.rs",
+      "sha256": "3e419f8ac048b5bf03b238d0dff8ba70ef0169aeb49d56e19be484b084f310ac"
+    },
+    {
+      "path": "crates/rom/src/query_storage/selection.rs",
+      "sha256": "8120ef04f94cc97d081233e68c447006810a47079ccde31efceef68c6e4c7e19"
+    },
+    {
+      "path": "crates/rom/src/query_storage/tests.rs",
+      "sha256": "423fe4eba7a200bf0aee050f6d31436e74d4993ed9ddc59f02688960d0ef5c33"
+    },
+    {
+      "path": "crates/rom/src/query_storage/validation.rs",
+      "sha256": "884580fd6a8e16a8ed199b2b3ece9bb117582dbf7fee0c8cf13c9494abfbddc5"
+    },
+    {
+      "path": "crates/rom/src/reaction_work.rs",
+      "sha256": "90c3480453eb26bafdddf4f331b0149a348d6bb6a398df89e3468d9456508b83"
+    },
+    {
+      "path": "crates/rom/src/reaction_work/control.rs",
+      "sha256": "d1fb0aa55a0d101665f464c33670161342262ce7de2146c5b89c3df7bb553047"
+    },
+    {
+      "path": "crates/rom/src/reaction_work/delivery_profile.rs",
+      "sha256": "0e7003c36e7d7d00cfe721c65789a191ea7189c7551843d87003dd35ccf7ea90"
+    },
+    {
+      "path": "crates/rom/src/reaction_work/delivery_profile_tests.rs",
+      "sha256": "73ae1a9a3b2c5d15dc4cf8f13d2cac78a644a4d3671c42aacfde9861e6a8746e"
+    },
+    {
+      "path": "crates/rom/src/reaction_work/ledger.rs",
+      "sha256": "924cc6e69271d0dfbd82a1398457451b292a0bc11c4ebd03e9862dbb5efd27e7"
+    },
+    {
+      "path": "crates/rom/src/reaction_work/maintenance.rs",
+      "sha256": "0c035edf0daf4da31405e9de0dcb69a86f7f80071ab9de51856b56e44f53b820"
+    },
+    {
+      "path": "crates/rom/src/reaction_work/model.rs",
+      "sha256": "ec9662971c2aeb132804fe2966517a6f655fa614d901cccf772a1bf9240a0efc"
+    },
+    {
+      "path": "crates/rom/src/reaction_work/retention.rs",
+      "sha256": "86acfea1fd4d892a226d05e5581a1a99f903b0def9c3dc897bea8a95586a7cb3"
+    },
+    {
+      "path": "crates/rom/src/reaction_work/revision_tests.rs",
+      "sha256": "1bc9dbfd4ed615c24b390fb2e8363594d72f9647ea60330f1afb028a3c13bb7b"
+    },
+    {
+      "path": "crates/rom/src/reactions.rs",
+      "sha256": "e0de0935787b96388b4b22020527f747c0a842c0e880a7571ab84d7e34384057"
+    },
+    {
+      "path": "crates/rom/src/reactions/claims.rs",
+      "sha256": "41fd7f4dd983c4299da9626705b6bc5e54f626360cc971e382319a52d53cfdaa"
+    },
+    {
+      "path": "crates/rom/src/reactions/declarations.rs",
+      "sha256": "3c50ca1f9995b6101b83a0d3d9af8df36df57fa4bf465d20bd1a872bb4456fb6"
+    },
+    {
+      "path": "crates/rom/src/reactions/receipt.rs",
+      "sha256": "2fe846bb0023dfc57438926d996c4b00e724a81e0c64c73720fc00484c1f5a3e"
+    },
+    {
+      "path": "crates/rom/src/reactions/routing.rs",
+      "sha256": "f8a3fa5cfa835b0b06bf55cf324afd7f81e7e7082bf30d7737435fb8ada41dae"
+    },
+    {
+      "path": "crates/rom/src/reactions/worker.rs",
+      "sha256": "ab7c3c496ec88f9c7629e5bb6f014f5f32944cc34709b8521c24605beb7eb89a"
+    },
+    {
+      "path": "crates/rom/src/references.rs",
+      "sha256": "e41caa259bb9de48850d873dbabae97453af02f27aead61b051714d427e18454"
+    },
+    {
+      "path": "crates/rom/src/replay.rs",
+      "sha256": "bdc9718fe2236a33894bf38f0601c082b85a8f0be22c9f180ce5d227133e7647"
+    },
+    {
+      "path": "crates/rom/src/resource.rs",
+      "sha256": "72bd41ebc1de25225bdb5683274d6036874d442fd77403ed4f018a42099a79ce"
+    },
+    {
+      "path": "crates/rom/src/resource/command.rs",
+      "sha256": "5d54c9c39e624e6bd49c39050a218441fd4fc5083f9d49b0d51af70b0d0adf44"
+    },
+    {
+      "path": "crates/rom/src/resource/definition.rs",
+      "sha256": "70eb353b7c64d825ef6b3fdae16028c0cb47d0601dd1998da94a07f818a923b0"
+    },
+    {
+      "path": "crates/rom/src/resource/definition_tests.rs",
+      "sha256": "478b6e8dcce3727c9d29e1f97dc814568ec098f19f3e4f070758c4e3fa6510ff"
+    },
+    {
+      "path": "crates/rom/src/resource/fields.rs",
+      "sha256": "2589e606a59d9c41d5841a0a6473e75659b6a3aefb6b439941b0ce21384b468d"
+    },
+    {
+      "path": "crates/rom/src/resource/query.rs",
+      "sha256": "4ef540a32b3bb64b9b8dfe0b9f563a9ec48daf52a6c89d1dd3a44166d3c047ef"
+    },
+    {
+      "path": "crates/rom/src/resource/schema.rs",
+      "sha256": "ea5637f673818fcbfe6c86688ab2320b29dbeace24c6b7a7ce96d7406f8b988a"
+    },
+    {
+      "path": "crates/rom/src/retry_epoch.rs",
+      "sha256": "3c067becfc73a9b3ce410ade5261c10d3d021739dd84f2cfe66374809514e637"
+    },
+    {
+      "path": "crates/rom/src/source.rs",
+      "sha256": "f958566b80640358905f5c0cd2febd14d88d347944038e6bc9fe5d0826765b06"
+    },
+    {
+      "path": "crates/rom/src/storage_ownership.rs",
+      "sha256": "9792237cf1b6b42c97501fdb8493b3b86863c0ff4366d2e32e98d7bac7b93313"
+    },
+    {
+      "path": "crates/rom/src/storage_ownership/tests.rs",
+      "sha256": "ca01697dcb65f88294afa38f5b9ec11c4e370c848dea5da7cdbf3f62d5aa1300"
+    },
+    {
+      "path": "crates/rom/src/storage_state.rs",
+      "sha256": "270a464e1a2c54cc975f89f92489e03dd3d3bfee08840efb764755cd146d900b"
+    },
+    {
+      "path": "crates/rom/src/storage_state/maintenance.rs",
+      "sha256": "813a080bdaf9212ad2900f967705117a8d76eadf4809e5ec562558b250aa59ca"
+    },
+    {
+      "path": "crates/rom/src/storage_state/maintenance_tests.rs",
+      "sha256": "f7781c2953135933486238d2e895b2a8dc918bade96fbee8abdc6ce4056889fa"
+    },
+    {
+      "path": "crates/rom/src/storage_state/operator.rs",
+      "sha256": "eab8f26f7236aa0762f15a3d8f71fb8e695e9184a98e5d362de90611cd643f78"
+    },
+    {
+      "path": "crates/rom/src/storage_state/operator_tests.rs",
+      "sha256": "99334006c1444634399bf381d423afc2494c2f7a368fa938f17e4a322ecdc099"
+    },
+    {
+      "path": "crates/rom/src/storage_state/retention.rs",
+      "sha256": "33dd703560d48d154a4b121e8b08da5851217088a37b8a734abe256873bf98a9"
+    },
+    {
+      "path": "crates/rom/src/storage_state/retention_tests.rs",
+      "sha256": "4f7be5ccf1c4a7c6e78e01c7ae99419f7364c366222b99005beeaf2f087e640e"
+    },
+    {
+      "path": "crates/rom/src/storage_state/work.rs",
+      "sha256": "08c48a0b13a337e91a1b04bf57cf6cb6557a14e61e29e43142d56b6ef953aede"
+    },
+    {
+      "path": "crates/rom/tests/json.rs",
+      "sha256": "97a0f3c506764eb637d1c4cfbb8010d0014730fc1a257bb44b43f1660bf6b385"
+    },
+    {
+      "path": "crates/rom/tests/operator_protocol.rs",
+      "sha256": "96f6cd679488b0d5614c2cb3ddc92861e92471d628b1d863ebac73f662917f1a"
+    },
+    {
+      "path": "crates/rom/tests/reference_schema.rs",
+      "sha256": "be7916c8971aabb7918cf5e8a010424a4584e0ca3e2bff8adca2e4f4938be9e8"
+    },
+    {
+      "path": "crates/rom/tests/replay_versions.rs",
+      "sha256": "4fa8946a7a4d5d37770b73dd050e717e2601ca7a37e9b6a0953f8e3896fcfca3"
+    },
+    {
+      "path": "crates/rom/tests/retry_epochs.rs",
+      "sha256": "e0786bf9fff7cd3be5c38eac55f75958351738e4d1aebc957c72a4a7d7bfeb34"
+    },
+    {
+      "path": "crates/rom/tests/storage_ownership.rs",
+      "sha256": "211973ed1c162f701e31cd7791c281b5df7f23dbd5898eb8a54af2325dcf7af7"
+    },
+    {
+      "path": "docs/native-extensions.md",
+      "sha256": "e3be3dfc938452f1287e814282ed0cd70cec3cf45f15b3172bdadedb27c57f62"
+    },
+    {
+      "path": "extensions/native-alpha-v1.json",
+      "sha256": "ef00a041b6d211a4f9da4011fdd4232497c4ebfc862dcee3c686b7fbb49b3774"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "attempt-1/actions.rs",
+      "sha256": "acb2ecd7cb8966241bc0abfabb0e1d9feab0d97e6930f902d2bc58e8e7ed992e"
+    },
+    {
+      "path": "attempt-1/fault.mjs",
+      "sha256": "6084e3755ed3deb5b39ce3f06fbff6622a4516dbf89b2842c37df21787c42092"
+    },
+    {
+      "path": "attempt-1/native-fixture.rs",
+      "sha256": "854bd6a9ba773325ee9c8a269aefe6f2513b7fa0d74f0a2829386f8d48450550"
+    },
+    {
+      "path": "author/Cargo.lock",
+      "sha256": "4e16f97e9ef3bbe730f3ac18da885630587ff9f2adadaea89578793b72ab1f4a"
+    },
+    {
+      "path": "author/Cargo.toml",
+      "sha256": "7b28b63bd53f3fbdc35c8b1f09afc92e5f5d9a66b0f9e0a7e47ad696ea530a4f"
+    },
+    {
+      "path": "author/src/actions.rs",
+      "sha256": "95306629afef277dfed5c46fe3e6d3f2d80f72d74b025917d1198805bdffe22c"
+    },
+    {
+      "path": "author/src/lib.rs",
+      "sha256": "0b6cd170d53998bc7b5ecb0dbbda9e2435e79b3d00d3d44b2de3b17c7a106083"
+    },
+    {
+      "path": "author/src/model.rs",
+      "sha256": "699e351cb00796780c362b4c8f5296b065c814769d30c78739b60b544c9bc360"
+    },
+    {
+      "path": "author/tests/authoring.rs",
+      "sha256": "574bc551ab8a30a7ab0882a458b244c5382b72e0f9ceb3a2b01464de83ad3b82"
+    },
+    {
+      "path": "author/tests/native.rs",
+      "sha256": "6dc1739947718adf200fe4988a97b8cf2c529207b38d4afd4005c625a0088bc0"
+    },
+    {
+      "path": "author/tests/native/fixture.rs",
+      "sha256": "9df440984f2d79b05c0b1611a755603e66f1e17153366b9ca8ac7909ed43e423"
+    },
+    {
+      "path": "author/tests/operator_identity.rs",
+      "sha256": "7d68811e717341279c1d87794058f6ec7f4bc401f2708559ed41afdffc7f707c"
+    },
+    {
+      "path": "operator/diagnosis.md",
+      "sha256": "9755d0b1bc309b97b7be7c6c9509cb55586573c5cb57f9007ff1873c90976e37"
+    },
+    {
+      "path": "operator/fault.mjs",
+      "sha256": "f4f8237c4ba5a1dfdcd57fe25ebb7a01bf6b5de49b4ed70d3e1cfe0d12995a9f"
+    },
+    {
+      "path": "operator/request.json",
+      "sha256": "03bb8ed853a14cf95263c48e0cd06cfdbe9db96fcf0f54a9d0f333a7fd6397cd"
+    },
+    {
+      "path": "operator/result.json",
+      "sha256": "6c5b37114ffbca76d328d9a8813e88352af6959d2ce29663d0df64ed4611756b"
+    },
+    {
+      "path": "prompts.md",
+      "sha256": "58d8cb682c84456e56f4f993f4776da01083cf3c1c9fcf918e1615029131dfe9"
+    },
+    {
+      "path": "release/result.json",
+      "sha256": "232d03410eff256e7ac794453abff749669f0177906113591130c6f5adace1c5"
+    },
+    {
+      "path": "release/run.mjs",
+      "sha256": "1cec091bc2034414f7e9074520c8379a05a6e0e9a84cfcd2a521eada21f77567"
+    },
+    {
+      "path": "report.md",
+      "sha256": "c771d63ad5f10eee0dd951015f46be373f08d9ad580c103185f7f96850e8b09d"
+    }
+  ],
+  "excluded": [
+    "operator/fixture-auth",
+    "private response input files"
+  ],
+  "scope": "Baseline artifact and maintained dependency input identity at final baseline freeze; API implementation not yet frozen by its author."
+}

@@ -1,6 +1,6 @@
 # Native extension conformance and author skills
 
-Status: release stage 4.4 design. Implementation and acceptance remain pending.
+Status: release stage 4.4 implemented and accepted. The native conformance results record the executed checks and limits.
 
 ## Purpose
 
@@ -52,20 +52,22 @@ Keep the workspace publication policy. Include the crate in source package check
 Use existing dependencies. Blob assertions use an optional `blob` feature.
 Keep `lib.rs` as a facade and place behavior in named modules.
 
-The public surface is:
+The public signatures are grouped by module below. Implementation bodies are omitted.
 
 ```rust
 pub const PROFILE_VERSION: u32 = 1;
 pub type ConformanceResult = Result<(), ConformanceError>;
 
-pub fn profile::require(version: u32) -> ConformanceResult;
+// profile module
+pub fn require(version: u32) -> ConformanceResult;
 
 pub struct CodecCase<F> {
     pub input: rom::Value,
     pub canonical: rom::Value,
     pub expected: F,
 }
-pub fn field::codec<F: rom::Field + PartialEq>(
+// field module
+pub fn codec<F: rom::Field + PartialEq>(
     cases: &[CodecCase<F>], invalid: &[rom::Value],
 ) -> ConformanceResult;
 
@@ -79,18 +81,32 @@ pub struct StorageFacts {
     pub events: Vec<rom::Row>,
     pub effects: Vec<(String, rom::Intent)>,
 }
-pub async fn storage::basic(
+// storage module
+pub async fn basic(
     factory: impl Fn() -> rom::Result<Box<dyn StorageFixture>>,
 ) -> ConformanceResult;
+pub async fn for_profile(
+    version: u32,
+    factory: impl Fn() -> rom::Result<Box<dyn StorageFixture>>,
+) -> ConformanceResult;
+pub fn assert_bundle(
+    storage: &dyn rom::Storage,
+    facts: &StorageFacts,
+    previous: &rom::Receipt,
+    bundle: &rom::Bundle,
+) -> ConformanceResult;
 
-#[cfg(feature = "blob")]
-pub async fn blob::basic(store: &dyn rom_blob::BlobStore) -> ConformanceResult;
+// blob module, enabled by the blob feature
+pub async fn basic(store: &dyn rom_blob::BlobStore) -> ConformanceResult;
 ```
 
-Signatures inside modules use ordinary Rust function names; the qualified notation above identifies their public paths.
+The module names identify public paths, such as `rom_conformance::storage::basic`.
 `ConformanceError` exposes static profile/case information and a safe failure category.
 It must not retain arbitrary adapter errors, stored values, or credentials.
 A profile mismatch fails before fixture operations.
+`basic` delegates to `for_profile` with `PROFILE_VERSION`; an unsupported requested version must not invoke the factory.
+`StorageFacts.counts` contains row, event, receipt, and effect counts in that order.
+`assert_bundle` shares the fresh-store, two-commit baseline assertion with native fault tests. It does not validate arbitrary application history.
 
 Extract assertions from the maintained consumer, persistence, and blob tests. Replace their original bodies with calls to the shared assertions.
 Keep native fault injection, process-exit scenarios, policies, and fixture setup with their owners.

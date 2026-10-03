@@ -1,0 +1,25 @@
+   Compiling futures-core v0.3.34
+   Compiling futures-util v0.3.34
+   Compiling rom-blob v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob)
+   Compiling rom-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-conformance)
+    Finished `test` profile [unoptimized] target(s) in 1.16s
+     Running tests/blob.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/blob-e111d5a75c5e3096)
+
+running 1 test
+test overwriting_blob_adapter_fails_named_immutable_create_case ... FAILED
+
+failures:
+
+---- overwriting_blob_adapter_fails_named_immutable_create_case stdout ----
+
+thread 'overwriting_blob_adapter_fails_named_immutable_create_case' (1706459) panicked at crates/rom-conformance/tests/blob.rs:25:58:
+called `Result::unwrap_err()` on an `Ok` value: ()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    overwriting_blob_adapter_fails_named_immutable_create_case
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p rom-conformance --test blob`

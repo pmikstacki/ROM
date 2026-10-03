@@ -1,0 +1,15 @@
+{
+  "profile_version": 1,
+  "platform": "linux",
+  "workflows": {
+    "resource": {"skill": "skills/rom/rom-resource/SKILL.md", "features": ["field"], "asset": "skills/rom/assets/resource/run.mjs", "prerequisite": "source-checkout"},
+    "native": {"skill": "skills/rom/rom-native-extension/SKILL.md", "features": ["field", "storage"], "asset": "skills/rom/assets/native/run.mjs", "prerequisite": "source-checkout"},
+    "operator": {"skill": "skills/rom/rom-operator/SKILL.md", "features": ["storage"], "asset": "skills/rom/assets/operator/run.mjs", "prerequisite": "source-checkout"},
+    "release": {"skill": "skills/rom/rom-release/SKILL.md", "features": ["field", "storage", "blob"], "asset": "skills/rom/assets/release/run.mjs", "prerequisite": "source-checkout"}
+  },
+  "imports": [
+    {"source_path": "skills/rom/assets/resource/project/src/code.rs", "path": "skills/rom/assets/native/project/src/code.rs"},
+    {"source_path": "examples/consumer/tests/native_conformance.rs", "path": "skills/rom/assets/native/project/tests/native_conformance.rs"},
+    {"source_path": "examples/consumer/tests/native_conformance/fixture.rs", "path": "skills/rom/assets/native/project/tests/native_conformance/fixture.rs"}
+  ]
+}

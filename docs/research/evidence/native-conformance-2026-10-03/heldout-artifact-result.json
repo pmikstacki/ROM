@@ -1,0 +1,9 @@
+{
+  "fileCount": 959,
+  "sourceManifestSha256": "160aad1b208a2802e730466de1c38a23874f9c0cf36c411fba5f604ea1dd063b",
+  "artifactSha256": "41753749b6ab6c56f437d1b6643ac58997ff3cf979b56c491a4e0bdd57219b0f",
+  "cargoLockSha256": "fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83",
+  "exactExtractedFilesVerified": true,
+  "fullReadiness": "PENDING",
+  "publication": false
+}

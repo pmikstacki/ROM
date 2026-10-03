@@ -1,0 +1,38 @@
+   Compiling rom-skill-heldout v0.0.0 (/var/tmp/rom-skills-independent-v1Veli/heldout/author)
+    Finished `test` profile [unoptimized] target(s) in 0.58s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_skill_heldout-508650a2b8efd427)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/authoring.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/authoring-3f7b7bef4852b5c9)
+
+running 1 test
+test heldout_lowercase_rule_owner_action_and_identity ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/native.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/native-06a4e669facd2b20)
+
+running 2 tests
+test obsolete_profile_never_calls_factory_and_broken_facts_fail_named_assertion ... ok
+test public_profile_codec_and_storage_runner_use_explicit_canonical_case ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/operator_identity.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator_identity-bcbe219463222bd0)
+
+running 1 test
+test retain_exact_operator_request_for_fault_scenario ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rom_skill_heldout
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Checking rom-skill-heldout v0.0.0 (/var/tmp/rom-skills-independent-v1Veli/heldout/author)
+    Finished `dev` profile [unoptimized] target(s) in 0.20s

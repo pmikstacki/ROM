@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Verify the portable author bundle against this explicitly selected source tree.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+node --test scripts/skills/*.test.mjs
+skill_check_root="$(mktemp -d "${TMPDIR:-/tmp}/rom-skill-check.XXXXXX")"
+skill_check_bundle="$skill_check_root/bundle"
+node scripts/skills/assemble.mjs "$skill_check_bundle"
+for skill_workflow in resource native operator release; do
+  node "$skill_check_bundle/tools/verify.mjs" "$skill_check_bundle" "$PWD" "$skill_workflow" --run
+done
+printf 'Author skill evidence retained: %s\n' "$skill_check_root"

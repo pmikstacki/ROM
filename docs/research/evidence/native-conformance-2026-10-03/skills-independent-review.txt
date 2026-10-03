@@ -1,0 +1,67 @@
+# Task 2 independent review
+
+Result: accepted. No remaining specification or quality findings require changes.
+Author source is frozen; this review changed no author files.
+
+## Specification
+
+All four skills have explicit triggers, profile admission, executable assets, rejected cases, and completion criteria.
+The native contract guide remains canonical.
+The catalog maps three distribution copies to their maintained sources, including the external storage fixture and shared custom codec.
+The bundle declares its full source-checkout prerequisite and Linux platform.
+It does not claim support for an extracted-package source argument or contain compiled ROM.
+
+Admission checks profile, features, platform, complete asset inventory, local links, source identity, and the source lock hash before workflow execution.
+Assembly and admission use one canonical inventory implementation.
+An omitted indirect template or helper cannot escape the hash checks.
+The source identity explicitly covers listed Rust/Cargo inputs under crates, demo, and examples, plus the workspace manifest and lockfile.
+Assets and their maintained source paths have separate hash records.
+
+The external projects consume public interfaces and keep conformance as a development dependency.
+Resource assertions distinguish canonical values, rejected actions, exact replay, and changed-input identity mismatch.
+Native assertions preserve fresh factories, exclusive reopen, profile rejection, and deliberately broken fixtures.
+The operator example submits once and preserves the request digest after an unresolved response.
+Its diagnosis separates unexecuted recovery commands from observed transport results and makes no native-commit claim.
+The release example clearly identifies its selected subset; the skill requires full applicable acceptance before a release claim.
+Independent Field registration and broad provider guarantees remain excluded.
+
+## Quality
+
+The four skills share the contract guide and execution procedure.
+Named modules separate inventory, admission, assembly, child ownership, evidence, and external Cargo project construction.
+Rust example crate roots contain declarations and exports only; implementations and tests have named modules.
+Mapped consumer and codec assets have one maintained source.
+The Linux child helper owns a process group with finite time and output bounds, including inherited-stdio descendants.
+Tests distinguish terminated or zombie descendants from live descendants; they establish no power-loss guarantee.
+
+## Independent evidence
+
+All 32 author-owned live and frozen hashes match `author-freeze/source-sha256.txt`.
+The independent extracted run matches the author's source identity and lock hash:
+
+- Source: `51f2bcd6cf6c5761d6566d8011c121a156e33fee0fd998094cabfe62ce890907`.
+- Lock: `fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83`.
+
+Executed `node --test scripts/skills/*.test.mjs` in `rom-dev`: all seven tests passed.
+Evidence: `reviewer/node-tests.log`.
+
+Independently assembled, archived, and extracted the bundle.
+All four workflow preflights passed from that extraction.
+Nine additional controls rejected an obsolete profile, false lock identity, removed feature, substituted entrypoint, unsupported platform,
+omitted indirect template hash, missing process helper, symbolic asset, and source profile missing storage support.
+Evidence: `reviewer/portable-checks.log` and the retained extracted/mutant bundles.
+No maintained source or canonical manifest was mutated for these controls.
+
+Executed the extracted native workflow from `/var/tmp`, with an explicit source root and the shared warm target.
+The external codec case and five external storage cases passed, followed by strict Clippy.
+The example separately recorded its generated lock and source lock identities.
+Evidence: `reviewer/native-extracted-run.log` and `reviewer/native-execution/`.
+
+All four SKILL.md files, executable assets, module boundaries, catalog imports, process ownership, and error paths were inspected.
+The author's earlier all-workflow executions and baseline limits remain separate evidence.
+This review is not a held-out author task, human-usability result, or productivity measurement.
+The coordinator's full workspace, application, provider, and package gates remain separate acceptance records.
+
+Before freeze, source inspection identified an incomplete indirect-asset gate and unchecked lock metadata.
+The author independently reproduced behavioral RED and fixed both with the shared inventory and explicit lock comparison.
+The frozen source and independent controls confirm those gaps are resolved.

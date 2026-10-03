@@ -1,0 +1,11 @@
+Integration baseline: 5d5fa605d17fb3dcb8bcfe86588c89f8dd27d965
+The source manifest identifies the changed Rust/config/script inputs after conformance integration. Skills were still under development during the workspace/demo/provider/package gate. Source hashes matched afterward. A separate final skills gate records its own assets.
+Container: rom-dev
+Rust/Cargo: 1.99.0
+Shared target: /var/tmp/rom-release-measured-verification-target
+Profiles: CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 CARGO_BUILD_JOBS=2
+Source commands: ./scripts/check; ./demo/verify; ./demo/verify-provider; node scripts/check-packages.mjs
+All four exit 0. Fresh package consumer: /tmp/rom-packaged-consumer-0wKKoW (inside rom-dev).
+No publication. MinIO evidence is implementer execution; full source/demo/provider/package evidence is coordinator execution.
+
+Final amendment: tests/persistence/tests/native_profile.rs adds a compiled/actual-archive profile fidelity test. The other 450 recorded inputs were unchanged. Final complete ./scripts/check exited0 after that test-only amendment; final-source-sha256.txt and final-source-check.log identify its source. Skills coordinator ./scripts/check-skills exited0:7 Node tests and4 selected workflow examples;32 owned asset hashes matched. Retained extracted bundle: /tmp/rom-skill-check.k26zDN/bundle in rom-dev. These source/demo/package/skill commands do not constitute finalrelease artifacts or close tasks 4.5-4.6.
