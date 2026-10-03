@@ -12,7 +12,7 @@
 #![forbid(unsafe_code)]
 #![deny(unused_must_use)]
 #[cfg(feature = "derive")]
-pub use rom_derive::Resource;
+pub use rom_derive::{Input, Resource};
 use serde::{Deserialize, Serialize};
 pub use serde_json::{Map, Value, json};
 use std::{
@@ -98,3 +98,15 @@ mod patch;
 pub use patch::*;
 mod channels;
 pub use channels::*;
+
+/// Implementation details for ROM-generated codecs, not an application extension contract.
+#[doc(hidden)]
+pub mod __private {
+    pub fn decode_input_member<T: crate::Field>(value: Option<crate::Value>) -> crate::Result<T> {
+        crate::resource::validate_shape(&T::shape(), 0, None)?;
+        match value {
+            Some(value) => T::decode(value),
+            None => T::decode_missing(),
+        }
+    }
+}

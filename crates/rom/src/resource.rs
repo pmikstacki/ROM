@@ -186,6 +186,11 @@ impl<T: Field> Field for Option<T> {
     }
 }
 pub trait Input: Clone + Send + Sync + 'static {
+    /// Declared object member names allowed in safe action validation diagnostics.
+    /// Scalar/manual inputs default to action-level errors. This does not register a Resource.
+    fn field_names() -> &'static [&'static str] {
+        &[]
+    }
     fn encode(&self) -> Value;
     fn decode(v: Value) -> Result<Self>;
 }
@@ -482,7 +487,14 @@ impl<R: Resource> Definition<R> {
     pub fn action<I: Input>(mut self, action: Action<R, I>) -> Self {
         let f: ErasedAction = Arc::new(move |state, input| {
             let mut r = R::decode(state)?;
-            let i = I::decode(input).map_err(|_| Error::invalid(R::KIND, action.name))?;
+            let i = I::decode(input).map_err(|error| match error {
+                Error::Invalid { kind, field }
+                    if kind == "input" && I::field_names().contains(&field.as_str()) =>
+                {
+                    Error::invalid(R::KIND, &format!("{}.{}", action.name, field))
+                }
+                _ => Error::invalid(R::KIND, action.name),
+            })?;
             let effects = (action.function)(&mut r, i)?;
             Ok((r.encode(), effects))
         });

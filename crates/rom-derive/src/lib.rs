@@ -5,53 +5,95 @@ use syn::{Data, DeriveInput, Fields, LitStr, Path, parse_macro_input, spanned::S
 
 #[proc_macro_derive(Resource, attributes(resource, serde))]
 pub fn resource(input: TokenStream) -> TokenStream {
-    expand(parse_macro_input!(input as DeriveInput))
+    expand(parse_macro_input!(input as DeriveInput), Model::Resource)
         .unwrap_or_else(syn::Error::into_compile_error)
         .into()
 }
-fn expand(input: DeriveInput) -> syn::Result<proc_macro2::TokenStream> {
+/// Generate a strict object codec for an action payload; this does not register a Resource.
+#[proc_macro_derive(Input, attributes(input, serde))]
+pub fn input(input: TokenStream) -> TokenStream {
+    expand(parse_macro_input!(input as DeriveInput), Model::Input)
+        .unwrap_or_else(syn::Error::into_compile_error)
+        .into()
+}
+#[derive(Clone, Copy, PartialEq)]
+enum Model {
+    Resource,
+    Input,
+}
+fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStream> {
+    let label = if model == Model::Resource {
+        "Resource"
+    } else {
+        "Input"
+    };
+    let attribute = if model == Model::Resource {
+        "resource"
+    } else {
+        "input"
+    };
     let name = &input.ident;
     if !input.generics.params.is_empty() {
         return Err(syn::Error::new(
             name.span(),
-            "probe Resource requires concrete fields",
+            format!("{label} requires concrete fields"),
         ));
     }
     let mut kind = None;
+    let mut crate_seen = false;
     let mut facade: Path = syn::parse_quote!(::rom);
     for attr in &input.attrs {
         if attr.path().is_ident("serde") {
             return Err(syn::Error::new(
                 attr.span(),
-                "Resource codec rejects independent serde configuration",
+                format!("{label} codec rejects independent serde configuration"),
             ));
         }
-        if attr.path().is_ident("resource") {
+        if attr.path().is_ident(attribute) {
             attr.parse_nested_meta(|m| {
                 let v: LitStr = m.value()?.parse()?;
-                if m.path.is_ident("name") && kind.is_none() {
+                if model == Model::Resource && m.path.is_ident("name") && kind.is_none() {
                     kind = Some(v);
                     Ok(())
-                } else if m.path.is_ident("crate") {
+                } else if m.path.is_ident("crate") && !crate_seen {
+                    crate_seen = true;
                     facade = v.parse()?;
                     Ok(())
                 } else {
-                    Err(m.error("expected one name or crate option"))
+                    Err(m.error(if model == Model::Resource {
+                        "expected one name or crate option"
+                    } else {
+                        "expected one crate option"
+                    }))
                 }
             })?;
         }
     }
-    let kind = kind.ok_or_else(|| {
-        syn::Error::new(name.span(), "Resource needs #[resource(name = \"kind\")]")
-    })?;
+    let kind = if model == Model::Input {
+        Some(LitStr::new("input", name.span()))
+    } else {
+        kind
+    }
+    .ok_or_else(|| syn::Error::new(name.span(), "Resource needs #[resource(name = \"kind\")]"))?;
     let fields = match input.data {
         Data::Struct(s) => match s.fields {
             Fields::Named(f) => f.named,
-            _ => return Err(syn::Error::new(name.span(), "Resource needs named fields")),
+            _ => {
+                return Err(syn::Error::new(
+                    name.span(),
+                    format!("{label} needs named fields"),
+                ));
+            }
         },
-        _ => return Err(syn::Error::new(name.span(), "Resource needs a struct")),
+        _ => {
+            return Err(syn::Error::new(
+                name.span(),
+                format!("{label} needs a struct"),
+            ));
+        }
     };
     let mut names = std::collections::BTreeSet::new();
+    let mut wire_names = vec![];
     let mut descriptors = vec![];
     let mut encodes = vec![];
     let mut decodes = vec![];
@@ -60,21 +102,29 @@ fn expand(input: DeriveInput) -> syn::Result<proc_macro2::TokenStream> {
     for f in fields {
         let id = f.ident.as_ref().unwrap();
         let ty = &f.ty;
-        let mut wire = LitStr::new(&id.to_string(), id.span());
+        let rust_name = id.to_string();
+        let default_name = if model == Model::Input {
+            rust_name.trim_start_matches("r#")
+        } else {
+            &rust_name
+        };
+        let mut wire = LitStr::new(default_name, id.span());
+        let mut renamed = false;
         for a in &f.attrs {
             if a.path().is_ident("serde") {
                 return Err(syn::Error::new(
                     a.span(),
-                    "Resource field rejects independent serde configuration",
+                    format!("{label} field rejects independent serde configuration"),
                 ));
             }
-            if a.path().is_ident("resource") {
+            if a.path().is_ident(attribute) {
                 a.parse_nested_meta(|m| {
-                    if m.path.is_ident("rename") {
+                    if m.path.is_ident("rename") && !renamed {
+                        renamed = true;
                         wire = m.value()?.parse()?;
                         Ok(())
                     } else {
-                        Err(m.error("expected rename"))
+                        Err(m.error("expected one rename option"))
                     }
                 })?;
             }
@@ -82,12 +132,18 @@ fn expand(input: DeriveInput) -> syn::Result<proc_macro2::TokenStream> {
         if wire.value().is_empty() || !names.insert(wire.value()) {
             return Err(syn::Error::new(
                 wire.span(),
-                "duplicate or empty Resource field name",
+                format!("duplicate or empty {label} field name"),
             ));
         }
+        wire_names.push(wire.clone());
         descriptors.push(quote_spanned!(ty.span()=> #facade::FieldDescriptor { name:#wire.into(), shape:<#ty as #facade::Field>::shape() }));
         encodes.push(quote_spanned!(ty.span()=> if <#ty as #facade::Field>::is_present(&self.#id) { map.insert(#wire.into(),<#ty as #facade::Field>::encode(&self.#id)); }));
-        decodes.push(quote_spanned!(ty.span()=> #id:match map.remove(#wire) { Some(value) => <#ty as #facade::Field>::decode(value), None => <#ty as #facade::Field>::decode_missing() }.map_err(|_|#facade::Error::invalid(Self::KIND,#wire))?));
+        let decode = if model == Model::Input {
+            quote_spanned!(ty.span()=> #facade::__private::decode_input_member::<#ty>(map.remove(#wire)))
+        } else {
+            quote_spanned!(ty.span()=> match map.remove(#wire) { Some(value) => <#ty as #facade::Field>::decode(value), None => <#ty as #facade::Field>::decode_missing() })
+        };
+        decodes.push(quote_spanned!(ty.span()=> #id: (#decode).map_err(|_|#facade::Error::invalid(#kind,#wire))?));
         field_codecs.push(quote_spanned!(ty.span()=> #wire => <#ty as #facade::Field>::decode(value).map(|decoded|<#ty as #facade::Field>::encode(&decoded)),));
         let sel = format_ident!("{}_field", id);
         let selector_doc = format!(
@@ -96,6 +152,23 @@ fn expand(input: DeriveInput) -> syn::Result<proc_macro2::TokenStream> {
         );
         selectors.push(quote_spanned!(ty.span()=> #[doc = #selector_doc] #[allow(dead_code)] pub fn #sel()->#facade::FieldRef<Self,#ty> { #facade::FieldRef::new(#wire) }));
     }
+    let encode =
+        quote! { let mut map=#facade::Map::new(); #(#encodes)* #facade::Value::Object(map) };
+    let decode = quote! {
+        let #facade::Value::Object(mut map)=value else { return Err(#facade::Error::invalid(#kind,"$")); };
+        let result=Self { #(#decodes),* };
+        if !map.is_empty() { return Err(#facade::Error::invalid(#kind,"unknown field")); }
+        Ok(result)
+    };
+    if model == Model::Input {
+        return Ok(quote! {
+            impl #facade::Input for #name {
+                fn field_names()-> &'static [&'static str] { &[#(#wire_names),*] }
+                fn encode(&self)->#facade::Value { #encode }
+                fn decode(value:#facade::Value)->#facade::Result<Self> { #decode }
+            }
+        });
+    }
     Ok(quote! {
         impl #facade::Resource for #name {
             const KIND:&'static str=#kind;
@@ -103,13 +176,8 @@ fn expand(input: DeriveInput) -> syn::Result<proc_macro2::TokenStream> {
             fn normalize_field(name:&str,value:#facade::Value)->#facade::Result<#facade::Value> {
                 match name { #(#field_codecs)* _=>Err(#facade::Error::invalid(Self::KIND,name)) }
             }
-            fn encode(&self)->#facade::Value { let mut map=#facade::Map::new(); #(#encodes)* #facade::Value::Object(map) }
-            fn decode(value:#facade::Value)->::std::result::Result<Self,#facade::Error> {
-                let mut map=value.as_object().cloned().ok_or_else(||#facade::Error::invalid(Self::KIND,"$"))?;
-                let result=Self { #(#decodes),* };
-                if !map.is_empty() { return Err(#facade::Error::invalid(Self::KIND,"unknown field")); }
-                Ok(result)
-            }
+            fn encode(&self)->#facade::Value { #encode }
+            fn decode(value:#facade::Value)->::std::result::Result<Self,#facade::Error> { #decode }
         }
         impl #name { #(#selectors)* }
     })

@@ -38,6 +38,7 @@ Research informs the design; candidate crates are not an approved dependency lis
 - [CLI implementation choices and failure boundaries](docs/research/cli-implementation-research.md)
 - [Core/API/CLI results and remaining scope](docs/research/core-cli-results.md)
 - [Independent core and CLI review](docs/research/core-cli-independent-review.md)
+- [Structured action payloads](docs/action-inputs.md)
 - [Authorized Resource discovery](docs/discovery.md)
 - [Executable author workshop](demo/README.md)
 - [Configuration ingestion](docs/research/maintained-configuration-results.md)
