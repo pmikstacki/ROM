@@ -174,8 +174,8 @@ pub(super) fn snapshot_in_format(
         .ok_or(Error::Storage)?
         .value();
     let supported = match format {
-        NativeFormat::Upgrade => matches!(version, 3..=6),
-        NativeFormat::Migration => matches!(version, 4..=6) || version == FORMAT,
+        NativeFormat::Upgrade => matches!(version, 3..=7),
+        NativeFormat::Migration => matches!(version, 4..=7) || version == FORMAT,
         NativeFormat::Current => version == FORMAT,
     };
     if !supported {
@@ -200,7 +200,11 @@ pub(super) fn snapshot_in_format(
         .get("state")
         .map_err(|_| Error::Storage)?
         .ok_or(Error::Storage)?;
-    let mut collect = Collector::new(value.value(), limits)?;
+    let mut collect = if version < FORMAT {
+        Collector::legacy(value.value(), limits)?
+    } else {
+        Collector::new(value.value(), limits)?
+    };
     for entry in tx
         .open_table(ROWS)
         .map_err(|_| Error::Storage)?

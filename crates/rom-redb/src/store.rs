@@ -129,7 +129,8 @@ impl Redb {
         }
     }
     /// Test-only transaction observer: 1-based write ordinal; 0 before commit;
-    /// usize::MAX after commit. Returning an error before commit rolls back.
+    /// usize::MAX after commit; usize::MAX - 1 before an operator metadata write.
+    /// Returning an error before commit rolls back.
     #[cfg(feature = "test-support")]
     pub fn on_commit(&self, observer: Option<Observer>) {
         *self.observer.lock().unwrap() = observer;

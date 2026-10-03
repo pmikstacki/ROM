@@ -61,6 +61,9 @@ pub(crate) fn prior(request: &Request) -> Option<rom::JournalCursor> {
 }
 // Shape alone cannot correlate a response with this invocation or journal scope.
 pub(crate) fn valid(request: &Request, value: &Value, after: Option<&rom::JournalCursor>) -> bool {
+    if request.route.starts_with("/work/") {
+        return crate::operator::valid(request, value);
+    }
     if !valid_shape(request.route, value) {
         return false;
     }

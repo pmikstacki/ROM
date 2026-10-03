@@ -1,0 +1,35 @@
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+   Compiling rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+   Compiling rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+   Compiling rom-redb v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 1.83s
+     Running tests/operator_reconciliation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator_reconciliation-59bb631876b700df)
+
+running 19 tests
+test recovery::delivery_owner_child ... ok
+
+running 1 test
+test recovery::absent_verifier_reports_unavailable_without_releasing_a_hold ... ok
+test races::caller_cancellation_retains_verifier_capacity_until_commit_and_replay ... ok
+test verification::active_lease_is_rejected_before_external_verification ... ok
+test verification::zero_and_unrepresentable_verification_timeouts_are_invalid_registrations ... ok
+test races::concurrent_exact_request_replays_the_receipt_before_rechecking_stale_cas ... ok
+test races::verifier_wait_holds_neither_core_commit_gate_nor_native_transaction ... ok
+test recovery::expired_started_claim_holds_after_clean_reopen_and_late_finish_is_fenced ... ok
+test races::stale_work_version_after_verification_cannot_publish_a_second_receipt ... ok
+test verification::unresolved_eventual_lookup_miss_cannot_grant_resend_before_later_acceptance ... ok
+
+running 1 test
+test recovery::held_state_and_accepted_receipt_survive_clean_native_reopen ... ok
+test recovery::changed_registration_cannot_reinterpret_pending_or_held_profile ... ok
+test verification::terminal_not_accepted_cannot_reset_exhausted_attempts_or_root_budget ... ok
+test verification::accepted_and_terminal_not_accepted_commit_once_without_a_provider_send ... ok
+test recovery::actual_process_exit_after_delivery_start_cannot_trigger_unsafe_resend ... ok
+test races::current_operator_actor_and_service_revocation_are_rechecked_after_verification ... ok
+test profiles::confirmed_delivery_outcomes_remain_terminal_or_retryable_for_every_profile ... ok
+test verification::unresolved_timeout_panic_and_malformed_evidence_preserve_the_full_hold ... ok
+test profiles::all_declared_profiles_preserve_their_uncertain_delivery_policy ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.36s
+

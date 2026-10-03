@@ -60,6 +60,19 @@ pub(crate) fn snapshot_rows(
     Ok(crate::read_rows::snapshot::<false>(c, kind, max_rows, max_bytes)?.0)
 }
 impl Storage for Sqlite {
+    fn supports_operator(&self) -> bool {
+        true
+    }
+    fn work_snapshot(
+        &self,
+        max_records: usize,
+        max_bytes: usize,
+    ) -> Result<rom::StorageWorkSnapshot> {
+        self.operator_snapshot(max_records, max_bytes)
+    }
+    fn control_work(&self, control: &rom::StorageWorkControl) -> Result<rom::WorkControlReceipt> {
+        self.operator_control(control)
+    }
     fn acquire_owner(&self) -> Result<rom::StorageOwner> {
         self.ownership.acquire()
     }

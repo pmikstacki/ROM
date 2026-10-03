@@ -1,0 +1,183 @@
+warning: fields `profile`, `verifier`, and `verification_timeout` are never read
+ --> crates/rom/src/channels/registration.rs:7:9
+  |
+6 | pub(crate) struct RegisteredChannel {
+  |                   ----------------- fields in this struct
+7 |     pub profile: DeliveryProfile,
+  |         ^^^^^^^
+8 |     pub verifier: Option<Verifier>,
+  |         ^^^^^^^^
+9 |     pub verification_timeout: Option<Duration>,
+  |         ^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `rom` (lib) generated 1 warning
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 0.69s
+     Running tests/operator_reconciliation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator_reconciliation-59bb631876b700df)
+
+running 18 tests
+test recovery::delivery_owner_child ... ok
+
+running 1 test
+
+thread 'recovery::delivery_owner_child' (1525322) panicked at tests/persistence/tests/operator_reconciliation/recovery.rs:220:10:
+called `Result::unwrap()` on an `Err` value: Invalid { kind: "channel", field: "timeout must be positive and shorter than lease" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test recovery::delivery_owner_child ... FAILED
+
+failures:
+
+failures:
+    recovery::delivery_owner_child
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 17 filtered out; finished in 0.00s
+
+test races::caller_cancellation_retains_verifier_capacity_until_commit_and_replay ... FAILED
+test recovery::changed_registration_cannot_reinterpret_pending_or_held_profile ... FAILED
+test verification::unresolved_eventual_lookup_miss_cannot_grant_resend_before_later_acceptance ... FAILED
+test verification::unresolved_timeout_panic_and_malformed_evidence_preserve_the_full_hold ... FAILED
+test verification::accepted_and_terminal_not_accepted_commit_once_without_a_provider_send ... FAILED
+test verification::terminal_not_accepted_cannot_reset_exhausted_attempts_or_root_budget ... FAILED
+test races::verifier_wait_holds_neither_core_commit_gate_nor_native_transaction ... FAILED
+test recovery::absent_verifier_reports_unavailable_without_releasing_a_hold ... FAILED
+test races::current_operator_actor_and_service_revocation_are_rechecked_after_verification ... FAILED
+test races::stale_work_version_after_verification_cannot_publish_a_second_receipt ... FAILED
+test recovery::held_state_and_accepted_receipt_survive_clean_native_reopen ... FAILED
+test verification::zero_and_unrepresentable_verification_timeouts_are_invalid_registrations ... FAILED
+test recovery::expired_started_claim_holds_after_clean_reopen_and_late_finish_is_fenced ... FAILED
+test recovery::actual_process_exit_after_delivery_start_cannot_trigger_unsafe_resend ... FAILED
+test verification::active_lease_is_rejected_before_external_verification ... ok
+test profiles::all_declared_profiles_preserve_their_uncertain_delivery_policy ... FAILED
+test profiles::confirmed_delivery_outcomes_remain_terminal_or_retryable_for_every_profile ... ok
+
+failures:
+
+---- races::caller_cancellation_retains_verifier_capacity_until_commit_and_replay stdout ----
+
+thread 'races::caller_cancellation_retains_verifier_capacity_until_commit_and_replay' (1525254) panicked at tests/persistence/tests/operator_reconciliation/support.rs:227:5:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- recovery::changed_registration_cannot_reinterpret_pending_or_held_profile stdout ----
+
+thread 'recovery::changed_registration_cannot_reinterpret_pending_or_held_profile' (1525260) panicked at tests/persistence/tests/operator_reconciliation/recovery.rs:150:21:
+assertion `left == right` failed
+  left: 1
+ right: 0
+
+---- verification::unresolved_eventual_lookup_miss_cannot_grant_resend_before_later_acceptance stdout ----
+
+thread 'verification::unresolved_eventual_lookup_miss_cannot_grant_resend_before_later_acceptance' (1525267) panicked at tests/persistence/tests/operator_reconciliation/support.rs:227:5:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+
+---- verification::unresolved_timeout_panic_and_malformed_evidence_preserve_the_full_hold stdout ----
+
+thread 'verification::unresolved_timeout_panic_and_malformed_evidence_preserve_the_full_hold' (1525268) panicked at tests/persistence/tests/operator_reconciliation/support.rs:227:5:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+
+---- verification::accepted_and_terminal_not_accepted_commit_once_without_a_provider_send stdout ----
+
+thread 'verification::accepted_and_terminal_not_accepted_commit_once_without_a_provider_send' (1525264) panicked at tests/persistence/tests/operator_reconciliation/support.rs:227:5:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+
+---- verification::terminal_not_accepted_cannot_reset_exhausted_attempts_or_root_budget stdout ----
+
+thread 'verification::terminal_not_accepted_cannot_reset_exhausted_attempts_or_root_budget' (1525266) panicked at tests/persistence/tests/operator_reconciliation/support.rs:227:5:
+assertion `left == right` failed
+  left: Stopped(WorkBudget)
+ right: AwaitingReconciliation
+
+---- races::verifier_wait_holds_neither_core_commit_gate_nor_native_transaction stdout ----
+
+thread 'races::verifier_wait_holds_neither_core_commit_gate_nor_native_transaction' (1525257) panicked at tests/persistence/tests/operator_reconciliation/support.rs:227:5:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+
+---- recovery::absent_verifier_reports_unavailable_without_releasing_a_hold stdout ----
+
+thread 'recovery::absent_verifier_reports_unavailable_without_releasing_a_hold' (1525258) panicked at tests/persistence/tests/operator_reconciliation/support.rs:227:5:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+
+---- races::current_operator_actor_and_service_revocation_are_rechecked_after_verification stdout ----
+
+thread 'races::current_operator_actor_and_service_revocation_are_rechecked_after_verification' (1525255) panicked at tests/persistence/tests/operator_reconciliation/support.rs:227:5:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+
+---- races::stale_work_version_after_verification_cannot_publish_a_second_receipt stdout ----
+
+thread 'races::stale_work_version_after_verification_cannot_publish_a_second_receipt' (1525256) panicked at tests/persistence/tests/operator_reconciliation/support.rs:227:5:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+
+---- recovery::held_state_and_accepted_receipt_survive_clean_native_reopen stdout ----
+
+thread 'recovery::held_state_and_accepted_receipt_survive_clean_native_reopen' (1525263) panicked at tests/persistence/tests/operator_reconciliation/support.rs:227:5:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+
+---- verification::zero_and_unrepresentable_verification_timeouts_are_invalid_registrations stdout ----
+
+thread 'verification::zero_and_unrepresentable_verification_timeouts_are_invalid_registrations' (1525332) panicked at tests/persistence/tests/operator_reconciliation/verification.rs:315:9:
+assertion failed: configured.build(fixture.storage(),
+        Runtime::shared_cpu_pool(1).unwrap()).is_err()
+
+---- recovery::expired_started_claim_holds_after_clean_reopen_and_late_finish_is_fenced stdout ----
+
+thread 'recovery::expired_started_claim_holds_after_clean_reopen_and_late_finish_is_fenced' (1525262) panicked at tests/persistence/tests/operator_reconciliation/recovery.rs:45:9:
+assertion `left == right` failed
+  left: 1
+ right: 0
+
+---- recovery::actual_process_exit_after_delivery_start_cannot_trigger_unsafe_resend stdout ----
+
+thread 'recovery::actual_process_exit_after_delivery_start_cannot_trigger_unsafe_resend' (1525259) panicked at tests/persistence/tests/operator_reconciliation/../support/child_process.rs:17:13:
+child exited before readiness
+
+---- profiles::all_declared_profiles_preserve_their_uncertain_delivery_policy stdout ----
+
+thread 'profiles::all_declared_profiles_preserve_their_uncertain_delivery_policy' (1525252) panicked at tests/persistence/tests/operator_reconciliation/support.rs:165:44:
+PRIVATE-PROVIDER-PANIC
+
+thread 'profiles::all_declared_profiles_preserve_their_uncertain_delivery_policy' (1525252) panicked at tests/persistence/tests/operator_reconciliation/profiles.rs:23:17:
+assertion `left == right` failed
+  left: AtLeastOnce
+ right: ProviderDeduplicated
+
+
+failures:
+    profiles::all_declared_profiles_preserve_their_uncertain_delivery_policy
+    races::caller_cancellation_retains_verifier_capacity_until_commit_and_replay
+    races::current_operator_actor_and_service_revocation_are_rechecked_after_verification
+    races::stale_work_version_after_verification_cannot_publish_a_second_receipt
+    races::verifier_wait_holds_neither_core_commit_gate_nor_native_transaction
+    recovery::absent_verifier_reports_unavailable_without_releasing_a_hold
+    recovery::actual_process_exit_after_delivery_start_cannot_trigger_unsafe_resend
+    recovery::changed_registration_cannot_reinterpret_pending_or_held_profile
+    recovery::expired_started_claim_holds_after_clean_reopen_and_late_finish_is_fenced
+    recovery::held_state_and_accepted_receipt_survive_clean_native_reopen
+    verification::accepted_and_terminal_not_accepted_commit_once_without_a_provider_send
+    verification::terminal_not_accepted_cannot_reset_exhausted_attempts_or_root_budget
+    verification::unresolved_eventual_lookup_miss_cannot_grant_resend_before_later_acceptance
+    verification::unresolved_timeout_panic_and_malformed_evidence_preserve_the_full_hold
+    verification::zero_and_unrepresentable_verification_timeouts_are_invalid_registrations
+
+test result: FAILED. 3 passed; 15 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+error: test failed, to rerun pass `-p rom-storage-conformance --test operator_reconciliation`

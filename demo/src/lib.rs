@@ -2,6 +2,7 @@
 mod application;
 mod identity;
 mod model;
+mod scratch;
 mod startup;
 
 pub use application::{Notices, build, declarations};
@@ -30,3 +31,6 @@ pub mod reference;
 
 /// Offline schema upgrade and recovery of the complete reference application.
 pub mod upgrade;
+
+/// Authorized work recovery and explicit domain compensation through public APIs.
+pub mod operator;

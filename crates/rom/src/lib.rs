@@ -56,6 +56,11 @@ pub use source::*;
 mod projection;
 pub use projection::*;
 
+pub mod operator;
+pub use operator::{
+    OperatorAccess, OperatorAuthorizer, OperatorLedger, OperatorLimits, OperatorReceiptLimits,
+    WorkControlPrior, WorkControlReceipt, WorkScope,
+};
 mod reaction_work;
 pub use reaction_work::*;
 mod storage_state;

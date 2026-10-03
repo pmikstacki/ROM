@@ -2,6 +2,7 @@ mod args;
 mod client;
 mod input;
 mod json;
+mod operator;
 mod output;
 mod response;
 mod sse;

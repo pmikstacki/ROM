@@ -22,6 +22,8 @@ pub struct Builder {
     limits: Limits,
     pub(crate) clock: Option<Arc<dyn Clock>>,
     actor_gate: Option<Arc<dyn ActorGate>>,
+    operator_authorizer: Option<Arc<dyn crate::OperatorAuthorizer>>,
+    operator_limits: crate::OperatorLimits,
 }
 impl Builder {
     /// Minimum persisted boundaries from trusted state outside rollback backups.
@@ -29,19 +31,37 @@ impl Builder {
         self.retry_fence = fence;
         self
     }
-    pub fn channel<P, F, Fut>(mut self, channel: Channel<P>, actor: Actor, send: F) -> Self
+    pub fn channel<P, F, Fut>(self, channel: Channel<P>, actor: Actor, send: F) -> Self
     where
         P: Input,
         F: Fn(Delivery<P>) -> Fut + Send + Sync + 'static,
         Fut: std::future::Future<Output = DeliveryOutcome> + Send + 'static,
     {
+        self.channel_with(
+            channel.delivery_profile(crate::DeliveryProfile::AtLeastOnce),
+            actor,
+            send,
+        )
+    }
+    pub fn channel_with<P, F, Fut>(
+        mut self,
+        registration: crate::ChannelRegistration<P>,
+        actor: Actor,
+        send: F,
+    ) -> Self
+    where
+        P: Input,
+        F: Fn(Delivery<P>) -> Fut + Send + Sync + 'static,
+        Fut: std::future::Future<Output = DeliveryOutcome> + Send + 'static,
+    {
+        let channel = registration.channel;
         if channel.name.is_empty()
             || channel.version == 0
             || actor.principal_kind() != PrincipalKind::Service
         {
             self.error = Some(Error::invalid("channel", "name/version/service"));
         }
-        let def = channels::RegisteredChannel::new(channel, actor, send);
+        let def = channels::RegisteredChannel::new(registration, actor, send);
         if self
             .channels
             .insert(def.name.clone(), Arc::new(def))
@@ -113,6 +133,14 @@ impl Builder {
         self.actor_gate = Some(gate);
         self
     }
+    pub fn operator_authorizer(mut self, authorizer: Arc<dyn crate::OperatorAuthorizer>) -> Self {
+        self.operator_authorizer = Some(authorizer);
+        self
+    }
+    pub fn operator_limits(mut self, limits: crate::OperatorLimits) -> Self {
+        self.operator_limits = limits;
+        self
+    }
     pub fn limits(mut self, limits: Limits) -> Self {
         self.limits = limits;
         self
@@ -128,6 +156,7 @@ impl Builder {
             }
         }
         self.reaction_limits.validate()?;
+        self.operator_limits.validate()?;
         let delivery_timeout = self
             .delivery_timeout
             .unwrap_or_else(channels::default_timeout);
@@ -140,6 +169,9 @@ impl Builder {
                 "channel",
                 "timeout must be positive and shorter than lease",
             ));
+        }
+        for channel in self.channels.values() {
+            channel.validate_timeout(delivery_timeout)?;
         }
         if (!self.reactions.is_empty() || !self.channels.is_empty())
             && !storage.supports_reactions()
@@ -205,6 +237,8 @@ impl Builder {
             reaction_limits: self.reaction_limits,
             channels: self.channels,
             delivery_timeout,
+            operator_authorizer: self.operator_authorizer,
+            operator_limits: self.operator_limits,
             reaction_worker: Arc::new(Semaphore::new(1)),
             gate: Mutex::new(()),
             denied: Mutex::new(BTreeSet::new()),

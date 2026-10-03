@@ -270,3 +270,77 @@ and secrets setup, versioned extension conformance and locally verified packages
 - **GIVEN** a packaged reference application with interrupted work and configured identity
 - **WHEN** its operator follows documented diagnosis, upgrade and recovery commands
 - **THEN** data and outstanding obligations remain valid without manual database editing
+
+### Requirement: Operator work views use current authority and bounded projections
+ROM SHALL deny operator inspection and control unless the host explicitly authorizes them.
+Public work views SHALL omit frozen values, action inputs, provider payloads, credentials and raw internal identities.
+ROM SHALL bound the complete ledger read and public response independently, and authorize records before visible pagination.
+
+#### Scenario: Authority changes between pages
+- **GIVEN** an operator previously received a work page or control receipt
+- **WHEN** current authority no longer permits its disclosure
+- **THEN** the next request does not disclose hidden handles, counts, payload fragments or the old receipt
+- **AND** possession of a cursor or work handle grants no authority
+
+#### Scenario: The view cursor refers to an older storage generation
+- **WHEN** an operator continues a page after restore changes the storage generation
+- **THEN** ROM returns HistoryGap instead of silently restarting pagination
+- **AND** an oversized complete result returns TooLarge rather than truncated JSON
+
+### Requirement: Operator controls have atomic version and identity arbitration
+ROM SHALL compare storage generation and a monotonic work revision before accepting a new control.
+Every accepted work change SHALL invalidate the previous work version, even when its claim generation does not change.
+The adapter SHALL atomically persist the control transition and its bounded durable receipt.
+
+#### Scenario: Delivery changes without a new claim
+- **GIVEN** an operator holds a work version from before a delivery-state update
+- **WHEN** that operator submits a new control with the old version
+- **THEN** the adapter rejects the stale control
+- **AND** revision overflow rejects the complete candidate without changing work or budgets
+
+#### Scenario: A control commits but its response is lost
+- **WHEN** the same principal repeats the exact request with the same idempotency key
+- **THEN** current authorization precedes disclosure of the original control receipt
+- **AND** receipt replay precedes comparison with the work version changed by that control
+- **AND** changed input under that key returns IdentityMismatch
+
+#### Scenario: An operator requests another attempt
+- **WHEN** authorized retry makes unchanged work eligible for the ordinary worker
+- **THEN** payload, execution identity, cause, start time and consumed budgets remain unchanged
+- **AND** active leases and exhausted original budgets prevent unsafe retry
+- **AND** a stale worker cannot overwrite a newly controlled generation
+
+### Requirement: Delivery reconciliation preserves declared guarantees
+ROM SHALL preserve the existing at-least-once default and support an explicit reconciliation-before-retry profile.
+Only host-registered verification SHALL supply trusted external outcomes; client request data SHALL NOT assert those outcomes.
+Verifier calls SHALL run outside native transactions and the core commit gate, with bounded supervision.
+
+#### Scenario: An uncertain delivery uses the hold profile
+- **WHEN** timeout, unknown outcome or restart interrupts delivery acknowledgement
+- **THEN** the work waits for reconciliation without another send
+- **AND** current authority and the exact work version are checked again after verification
+
+#### Scenario: A provider lookup is inconclusive
+- **WHEN** verification returns Unresolved or only an eventually consistent lookup miss
+- **THEN** ROM makes no work transition and grants no resend permission
+- **AND** Accepted completes without sending while terminal NotAccepted permits only a budget-valid unchanged retry
+
+#### Scenario: The application keeps its existing delivery profile
+- **WHEN** an unknown delivery outcome occurs under the at-least-once profile
+- **THEN** existing budgeted retry remains available
+- **AND** duplicate risk remains explicit unless the provider deduplicates the stable delivery identity
+
+### Requirement: Operator CLI preserves generic Resource semantics
+CLI operator commands SHALL call the same core control contract as embedded callers and optional transports.
+Controls SHALL use exact request files and validate response protocol, target and request identity before reporting success.
+Compensation SHALL remain an explicit ordinary Resource action without generic rollback or budget reset.
+
+#### Scenario: A server returns valid JSON for another work item
+- **WHEN** the response has the wrong handle, operation identity or protocol version
+- **THEN** CLI rejects it before reporting control success
+- **AND** interruption remains responsive when output pipes are blocked
+
+#### Scenario: Maintenance preserves operator evidence
+- **WHEN** backup, restore, migration or retention processes operator metadata
+- **THEN** durable control receipts and declared delivery profiles remain validated and retained
+- **AND** explicit format upgrade initializes prior-format work without silently changing its delivery guarantee

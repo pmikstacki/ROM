@@ -8,6 +8,7 @@ mod collector;
 #[cfg(test)]
 mod epoch_upgrade_tests;
 mod legacy;
+mod legacy_state;
 mod maintenance_limits;
 mod migration;
 mod migration_plan;
@@ -24,8 +25,10 @@ pub use archive::{read, write};
 pub use collector::Collector;
 pub use legacy::{
     bind_legacy_schema, upgrade_current_snapshot, upgrade_legacy_snapshot, upgrade_v1_archive,
-    upgrade_v2_archive, upgrade_v3_archive, upgrade_v4_archive, validate_legacy_retry_epochs,
+    upgrade_v2_archive, upgrade_v3_archive, upgrade_v4_archive, upgrade_v5_archive,
+    validate_legacy_retry_epochs,
 };
+pub use legacy_state::decode_legacy_storage_state;
 pub use migration::migrate_snapshot;
 pub use migration_plan::{MigrationPlan, ResourceMigration};
 pub use model::{Backend, BackupLimits, Manifest, STORAGE_FORMAT, Snapshot, StoredEffect};

@@ -3,6 +3,7 @@ mod index;
 mod index_rebuild;
 mod maintenance;
 mod migration;
+mod operator;
 mod persistence;
 mod query_observation;
 mod read_rows;

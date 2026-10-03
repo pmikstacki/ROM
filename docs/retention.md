@@ -38,8 +38,9 @@ the host can advance `replay_floor` to one.
 
 After expiry, a request in epoch zero returns `IdentityExpired`. This also applies
 when its receipt remains as proof of a current row. HTTP reports status 410 with
-code `identity_expired`. CLI mutations accept `--retry-epoch N`. An omitted option
-means zero. Never retry an expired request with a new epoch to bypass this result.
+code `identity_expired`. Resource mutation commands accept `--retry-epoch N`.
+An omitted option means zero. Operator controls keep `retry_epoch` in their exact request file.
+Never retry an expired request with a new epoch to bypass this result.
 
 For configuration reloads, use `ReloadTicket::request_with_epoch` and
 `ReloadTicket::resume_with_epoch` with the original epoch. Keep that epoch in the
@@ -111,7 +112,7 @@ independent durable authority.
 A backup preserves the policy known when it was created. It cannot record future
 retention decisions. A zero default fence cannot detect rollback to older policy.
 
-Native format 7 and archive format 5 preserve epoch metadata. Use the explicit
+Native format 8 and archive format 6 preserve epoch metadata and operator receipts. Use the explicit
 [format upgrade](native-upgrade.md) for older data. Older readers must reject these
 formats. Interruption before publication leaves the source usable and destination
 absent. An `Unknown` publication result requires destination inspection before retry.

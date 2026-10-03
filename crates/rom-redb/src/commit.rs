@@ -1,7 +1,7 @@
 //! Conditional Resource bundles and their atomic reference-index updates.
 use crate::{Redb, format::*, references};
 use redb::{Durability, ReadableTable};
-use rom::{Bundle, Error, Receipt, Result, Row, StorageState};
+use rom::{Bundle, Error, Receipt, Result, Row};
 use std::sync::atomic::Ordering;
 
 impl Redb {
@@ -17,14 +17,7 @@ impl Redb {
             .map_err(|_| Error::Storage)?;
         {
             let mut state_table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
-            let mut state: StorageState = serde_json::from_str(
-                state_table
-                    .get("state")
-                    .map_err(|_| Error::Storage)?
-                    .ok_or(Error::Storage)?
-                    .value(),
-            )
-            .map_err(|_| Error::Storage)?;
+            let mut state = crate::state::read(&state_table)?;
             let mut receipts = tx.open_table(RECEIPTS).map_err(|_| Error::Storage)?;
             let prior: Option<Receipt> = receipts
                 .get(b.receipt.identity.as_str())
@@ -110,14 +103,7 @@ impl Redb {
                 ordinal += 1;
                 self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
             }
-            state_table
-                .insert(
-                    "state",
-                    serde_json::to_string(&state)
-                        .map_err(|_| Error::Storage)?
-                        .as_str(),
-                )
-                .map_err(|_| Error::NotCommitted)?;
+            crate::state::write(&mut state_table, &state)?;
             ordinal += 1;
             self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
             let mut effects = tx.open_table(EFFECTS).map_err(|_| Error::NotCommitted)?;

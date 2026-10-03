@@ -4,7 +4,7 @@ use std::{
     sync::atomic::{AtomicU64, Ordering},
 };
 
-#[path = "child_process.rs"]
+#[path = "../support/child_process.rs"]
 mod child_process;
 pub use child_process::Process;
 
@@ -114,4 +114,14 @@ pub fn seed(storage: &dyn Storage, value: &str) {
             },
         })
         .unwrap();
+}
+
+pub fn spawn_child(test: &str, root: &Path, backend: Backend) -> Process {
+    let mut command = std::process::Command::new(std::env::current_exe().unwrap());
+    command
+        .args(["--exact", test, "--nocapture"])
+        .env("ROM_OWNERSHIP_TEST_ROOT", root)
+        .env("ROM_OWNERSHIP_TEST_BACKEND", backend.name())
+        .stdin(std::process::Stdio::null());
+    Process::spawn(command)
 }

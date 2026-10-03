@@ -1,10 +1,15 @@
-use crate::{error::Failure, observation::observe, request::decode, server::Shared};
+use crate::{
+    error::Failure,
+    observation::observe,
+    request::{decode, decode_empty},
+    server::Shared,
+};
 use axum::{
     Json,
     extract::{Request, State},
     response::{IntoResponse, Response},
 };
-use rom::{Error, Invocation, JournalCursor, Value};
+use rom::{Invocation, JournalCursor, Value};
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -51,10 +56,7 @@ pub(super) async fn invoke(State(s): State<Shared>, r: Request) -> Result<Respon
     Ok(Json(s.runtime.invoke_projected(&a, c).await?).into_response())
 }
 pub(super) async fn discover(State(s): State<Shared>, r: Request) -> Result<Response, Failure> {
-    let (actor, request, _permit) = decode::<serde_json::Map<String, Value>>(&s, r).await?;
-    if !request.is_empty() {
-        return Err(Error::invalid("discovery", "request").into());
-    }
+    let (actor, _permit) = decode_empty(&s, r).await?;
     Ok(Json(s.runtime.discover(&actor).await?).into_response())
 }
 pub(super) async fn read(State(s): State<Shared>, r: Request) -> Result<Response, Failure> {

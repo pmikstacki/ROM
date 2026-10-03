@@ -8,6 +8,10 @@ use tokio::{
     net::{TcpListener, TcpStream},
     sync::oneshot,
 };
+#[path = "loopback/operator.rs"]
+mod operator;
+#[path = "loopback/operator_flow.rs"]
+mod operator_flow;
 struct SlowGate;
 impl rom::ActorGate for SlowGate {
     fn check(&self, _: &Actor, _: &mut dyn rom::AuthorizationRead) -> rom::Result<()> {

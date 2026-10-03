@@ -1,0 +1,111 @@
+ M crates/rom-backup/README.md
+ M crates/rom-backup/src/archive.rs
+ M crates/rom-backup/src/collector.rs
+ M crates/rom-backup/src/epoch_upgrade_tests.rs
+ M crates/rom-backup/src/legacy.rs
+ M crates/rom-backup/src/lib.rs
+ M crates/rom-backup/src/model.rs
+ M crates/rom-backup/src/tests.rs
+ M crates/rom-backup/tests/migrations.rs
+ M crates/rom-backup/tests/retention.rs
+ M crates/rom-cli/src/args.rs
+ M crates/rom-cli/src/input.rs
+ M crates/rom-cli/src/main.rs
+ M crates/rom-cli/src/response.rs
+ M crates/rom-http/src/json.rs
+ M crates/rom-http/src/lib.rs
+ M crates/rom-http/src/request.rs
+ M crates/rom-http/src/routes.rs
+ M crates/rom-http/src/server.rs
+ M crates/rom-http/tests/loopback.rs
+ M crates/rom-redb/src/commit.rs
+ M crates/rom-redb/src/lib.rs
+ M crates/rom-redb/src/maintenance.rs
+ M crates/rom-redb/src/migration.rs
+ M crates/rom-redb/src/storage.rs
+ M crates/rom-redb/src/store.rs
+ M crates/rom-redb/src/upgrade.rs
+ M crates/rom-redb/src/upgrade_tests.rs
+ M crates/rom-sqlite/src/lib.rs
+ M crates/rom-sqlite/src/migration.rs
+ M crates/rom-sqlite/src/persistence.rs
+ M crates/rom-sqlite/src/snapshot.rs
+ M crates/rom-sqlite/src/upgrade.rs
+ M crates/rom/src/channels.rs
+ M crates/rom/src/execution/builder.rs
+ M crates/rom/src/execution/state.rs
+ M crates/rom/src/lib.rs
+ M crates/rom/src/persistence.rs
+ M crates/rom/src/reaction_work.rs
+ M crates/rom/src/reaction_work/maintenance.rs
+ M crates/rom/src/reactions.rs
+ M crates/rom/src/storage_state.rs
+ M crates/rom/src/storage_state/maintenance.rs
+ M crates/rom/src/storage_state/maintenance_tests.rs
+ M crates/rom/src/storage_state/retention_tests.rs
+ M demo/README.md
+ M demo/src/lib.rs
+ M demo/src/main.rs
+ M demo/src/reference.rs
+ M demo/src/upgrade/legacy_tests.rs
+ M docs/cli.md
+ M docs/http.md
+ M docs/native-upgrade.md
+ M docs/references.md
+ M docs/research/framework-release-progress.md
+ M docs/resource-migrations.md
+ M docs/retention.md
+ M docs/storage-adapters.md
+ M docs/superpowers/plans/2026-10-03-operator-recovery.md
+ M docs/superpowers/specs/2026-10-03-operator-recovery-design.md
+ M openspec/changes/prepare-framework-release/specs/framework-readiness/spec.md
+ M tests/persistence/tests/backup.rs
+ M tests/persistence/tests/channels.rs
+ M tests/persistence/tests/ledger_capacity.rs
+ D tests/persistence/tests/ownership/child_process.rs
+ M tests/persistence/tests/ownership/offline_recovery.rs
+ M tests/persistence/tests/ownership/process.rs
+ M tests/persistence/tests/ownership/support.rs
+ M tests/persistence/tests/reactions.rs
+ M tests/persistence/tests/retention.rs
+ M tests/persistence/tests/schema_migration.rs
+ M tests/persistence/tests/sqlite_query_index.rs
+ M tests/persistence/tests/upgrade.rs
+?? crates/rom-backup/src/legacy_state.rs
+?? crates/rom-cli/src/operator.rs
+?? crates/rom-cli/src/operator/
+?? crates/rom-cli/tests/operator.rs
+?? crates/rom-cli/tests/operator/
+?? crates/rom-http/src/operator.rs
+?? crates/rom-http/tests/loopback/
+?? crates/rom-redb/src/operator.rs
+?? crates/rom-redb/src/state.rs
+?? crates/rom-sqlite/src/operator.rs
+?? crates/rom/src/channels/
+?? crates/rom/src/operator.rs
+?? crates/rom/src/operator/
+?? crates/rom/src/persistence/operator.rs
+?? crates/rom/src/reaction_work/control.rs
+?? crates/rom/src/reaction_work/delivery_profile.rs
+?? crates/rom/src/reaction_work/delivery_profile_tests.rs
+?? crates/rom/src/reaction_work/ledger.rs
+?? crates/rom/src/reaction_work/model.rs
+?? crates/rom/src/reaction_work/revision_tests.rs
+?? crates/rom/src/reactions/
+?? crates/rom/src/storage_state/operator.rs
+?? crates/rom/src/storage_state/operator_tests.rs
+?? crates/rom/tests/operator_protocol.rs
+?? demo/src/operator.rs
+?? demo/src/scratch.rs
+?? demo/tests/operator.rs
+?? docs/operator-recovery.md
+?? docs/research/evidence/operator-recovery-2026-10-03/
+?? docs/research/operator-recovery-results.md
+?? docs/research/real-provider-profile-selection.md
+?? tests/persistence/tests/operator.rs
+?? tests/persistence/tests/operator/
+?? tests/persistence/tests/operator_reconciliation.rs
+?? tests/persistence/tests/operator_reconciliation/
+?? tests/persistence/tests/operator_runtime.rs
+?? tests/persistence/tests/operator_runtime/
+?? tests/persistence/tests/support/

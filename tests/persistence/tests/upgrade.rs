@@ -1,3 +1,5 @@
+#[path = "support/legacy_wire.rs"]
+mod legacy_wire;
 use rom::*;
 use rom_backup::BackupLimits;
 use std::{
@@ -85,6 +87,7 @@ impl Legacy {
             .push(Intent::new("audit", json!({"message":"retained"})));
         child.reaction_limits = Some(ReactionLimits::default());
         child.reactions.push(PendingWork {
+            delivery_profile: rom::DeliveryProfile::AtLeastOnce,
             id: "pending-child".into(),
             cause: Cause {
                 retry_epoch: 0,
@@ -128,7 +131,9 @@ CREATE TABLE rom_state(id INTEGER PRIMARY KEY CHECK(id=1),data TEXT NOT NULL);
 PRAGMA user_version=3;").unwrap();
         tx.execute(
             "INSERT INTO rom_state VALUES(1,?)",
-            [serde_json::to_string(&self.state).unwrap()],
+            [legacy_wire::state(
+                serde_json::to_value(&self.state).unwrap(),
+            )],
         )
         .unwrap();
         for b in &self.bundles {
@@ -148,7 +153,7 @@ PRAGMA user_version=3;").unwrap();
             .unwrap()
             .insert(
                 "state",
-                serde_json::to_string(&self.state).unwrap().as_str(),
+                legacy_wire::state(serde_json::to_value(&self.state).unwrap()).as_str(),
             )
             .unwrap();
         {
@@ -682,7 +687,9 @@ fn sqlite_upgrade_reads_committed_wal_without_changing_source() {
     insert_sqlite_bundle(&tx, &bundle);
     tx.execute(
         "UPDATE rom_state SET data=? WHERE id=1",
-        [serde_json::to_string(&fixture.state).unwrap()],
+        [legacy_wire::state(
+            serde_json::to_value(&fixture.state).unwrap(),
+        )],
     )
     .unwrap();
     tx.commit().unwrap();

@@ -1,0 +1,145 @@
+# Independent task4 Runtime implementation review
+
+Date: 2026-10-03. Scope: the eleven frozen implementation files, their patch against
+accepted task2/task3 sources, task4 native conformance tests, and the accepted additive CLI journey.
+The task4 brief, recovery design/plan and repository quality rules bind this review.
+
+All eleven package hashes match source.json and the live worktree.
+The Cargo.lock hash matches the manifest. No product edits or test reruns.
+The reviewer implemented the separate pure-ledger portion, which another reviewer already accepted;
+this review assesses the independently authored Runtime integration.
+
+## Verdict
+
+Runtime Spec: accept. Runtime Quality: accept. No implementation finding found.
+One Minor design-document consistency issue remains below; it does not require a product behavior change.
+The public results document is factually consistent within its stated pending completion boundary.
+Final combined verification and task closure remain the coordinator's gate.
+
+## Minor: clarify key reuse after an inconclusive verification
+
+The recovery design, docs/superpowers/specs/2026-10-03-operator-recovery-design.md:198,
+says a later verification attempt uses a new operator request key.
+The accepted real CLI journey intentionally repeats the same exact request after Unresolved,
+then obtains Accepted and an exact terminal receipt replay.
+
+Runtime stores no transition or receipt for Unresolved. Repeating unchanged input under that unused identity
+therefore performs another read-only verification and can safely produce the first terminal receipt.
+The implementation and CLI test agree, but the design instruction describes only the new-key path.
+
+Clarify that an unchanged inconclusive request can be repeated before a terminal receipt exists.
+Changed input or a separate intent needs a new key. Exact retries of an accepted operation retain the original key.
+Do not add identity reservation or another history mechanism merely to enforce the older instruction.
+
+## Spec review
+
+Channel::delivery_profile returns a typed ChannelRegistration containing the channel handle.
+Builder::channel delegates to channel_with with AtLeastOnce, preserving existing call sites.
+The optional trusted verifier and timeout stay on the declaration, without an unrelated string registry.
+DeliveryReconciliation and DeliveryVerification have no Deserialize implementation.
+The public request still carries only a bounded opaque lookup reference, not a trusted verdict.
+
+Notification materialization persists the declared profile without changing delivery identity construction.
+One matcher covers definition name/version, service key and profile for ordinary delivery and controls.
+A changed retained profile prevents sending or control reinterpretation.
+Legacy AtLeastOnce work remains compatible with the ordinary channel registration.
+No persisted field, native/archive format or query encoding version changes in this patch.
+
+Controls prepare under the core gate, check operator/current actor authority, snapshot bounds,
+retry floors, exact saved receipt, work version and leased/done state.
+Notification preparation checks the recorded service and source Resource disclosure authority.
+Active leases are refused before verifier invocation.
+Existing action receipt resolution remains shared and unchanged.
+
+Provider verification starts after the gate and all synchronous storage reads have ended.
+The callback uses the existing supervised I/O job and shared delivery callback supervisor.
+The job retains its Runtime, ownership and I/O permit when the caller stops waiting.
+Timeout aborts and joins the cooperative async task; a late or invalid value cannot become trusted evidence.
+The public registration docs and operator guide explicitly exclude preemption of blocking/non-yielding Rust code.
+
+After verification, Runtime reacquires the gate and repeats current authority checks.
+An exact concurrent saved receipt is authorized and validated before stale CAS.
+Otherwise the original work version, frozen declaration and service/source authority must still match.
+Terminal evidence passes the shared nonempty/1024-byte identifier validator.
+Accepted completes without sending; NotAccepted uses the existing lifecycle budgets.
+Unresolved, timeout, panic or malformed evidence yields no transition or receipt.
+Post-commit receipt validation and disclosure failure retain the existing Unknown contract.
+Public responses echo caller operation identity while excluding trusted provider evidence and frozen payloads.
+
+## Quality review
+
+channels.rs and operator.rs are facades. Named children separate model, typed registration,
+intention materialization, delivery execution, callback supervision and control execution.
+Existing public Channel/Delivery/DeliveryOutcome/Runtime paths remain exported.
+Builder's default and explicit paths share insertion and validation.
+Ordinary delivery and controls share definition matching, notification authority and callback lifetime behavior.
+Trusted receipt/result validation and ledger budgets remain their existing shared contracts.
+There is no second executor, storage protocol or copied budget algorithm.
+The extracted modules have cohesive responsibilities; no new oversized module or duplicate behavior warrants a finding.
+
+## Evidence assessed
+
+The independent conformance package contains 19 test functions, including the actual subprocess helper.
+Its behavioral cases exercise both SQLite and redb, except pure invalid registration checks.
+Source inspection confirms all three profiles on Unknown/TimedOut/Panicked, known outcomes, invalid evidence,
+terminal verification, budget exhaustion, active lease refusal, profile mismatch and missing verifier.
+
+Paused callbacks prove an unrelated action and native snapshot can complete during verification.
+Different keys with the same version yield one terminal control and one conflict.
+Concurrent identical keys yield one receipt/revision; the delayed request returns that receipt before stale CAS.
+Operator/actor/service/source authority changes after verification begins prevent publication.
+Caller cancellation retains the single I/O permit; shutdown drains, and exact replay does not invoke the verifier again.
+
+Clean reopen preserves holds and accepted receipts.
+An expired started claim enters the hold and fences its late completion without another send.
+The SIGKILL fixture waits for durable DeliveryStarted, kills the actual owning child process,
+reopens storage and verifies the same delivery identity with no resend.
+This is process-exit evidence, not power-loss certification.
+
+The previously reviewed CLI addition exercises actual executable → HTTP → Runtime → native control,
+including Unresolved, Accepted, exact replay, one send, two verifier calls and unchanged domain counts.
+Provider fixtures establish framework behavior, not real-provider acceptance, deduplication or terminal-rejection guarantees.
+
+Retained logs inspected:
+
+- evidence/task4-final-verification.log: 117 core tests and 68 affected native tests pass, followed by formatting admission.
+- evidence/task4-clippy-final.log: strict core/conformance all-target Clippy completes successfully.
+- evidence/task4-runtime-conformance-green.log: independent 19-test target passes, including both child-process runs.
+
+The initial missing-API/behavior/process RED and intermediate large-enum Clippy failure remain separate historical evidence.
+The Box<WorkRecord> correction changes representation only; no lint suppression was added.
+No reported test was repeated during this review.
+
+## Public results fact review
+
+docs/research/operator-recovery-results.md accurately distinguishes focused checks from pending combined acceptance.
+Native8/archive6 compatibility ranges, current authority before replay, held delivery behavior,
+bounded evidence retention, callback cooperation and actual CLI coverage match the reviewed contracts.
+Its 19 native and 14 CLI target counts include the stated helper and remain test-function counts.
+The report preserves unknown-outcome, process-exit and controlled-provider limitations.
+It leaves real identity/secrets, extension conformance and package acceptance for later release tasks.
+No additional fact correction found.
+
+## Follow-up qualification and HTTP fixture review
+
+The coordinator amended the live design's inconclusive-key instruction after this review.
+It now permits repeating unchanged Unresolved input because no receipt/transition exists,
+requires a new key for changed input or a separate intent, and retains original-key terminal replay.
+Source reread confirms the Minor is resolved. Both Spec and Quality are accepted without remaining findings.
+
+The final combined gate also exposed an older HTTP success fixture whose owner-only Task policy
+denied the notification service's source read. The new task4 preflight correctly rejects that retry.
+The coordinator changed only crates/rom-http/tests/loopback/operator_flow.rs.
+The delta against the prior accepted HTTP snapshot is retained in http-fixture-followup.patch.
+
+The fixture now runs both denied and allowed service-read variants.
+The negative case preserves owner inspection, rejects control despite operator authority,
+and asserts no operator receipt, domain count change or provider send.
+The positive case explicitly grants only Read to the exact local service authority/subject/kind,
+then retains the original schedule/replay/native receipt assertions.
+Both cases retain other-principal denial and private payload/service/root projection assertions.
+The shared operator_flow helper avoids duplication. No core behavior, default application grant or production policy changed.
+This scoped fixture correction is accepted. Its focused verification remains coordinator-owned.
+The coordinator's /var/tmp/rom-operator-http-service-red.log reproduces the prior 403-versus-200 success-oracle failure.
+The inspected green log reports 26 HTTP loopback tests passed and strict Clippy completed successfully.
+The restarted combined gate remains separate; no tests were repeated by this reviewer.

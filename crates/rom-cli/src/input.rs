@@ -51,6 +51,9 @@ fn invocation(m: &Mutation, operation: Operation) -> Invocation {
     }
 }
 pub fn request(command: &Command) -> Result<Request, Failure> {
+    if let Command::Work { command } = command {
+        return crate::operator::request(command);
+    }
     let mut result = Request {
         route: "/invoke",
         body: Value::Null,
@@ -165,6 +168,9 @@ pub fn request(command: &Command) -> Result<Request, Failure> {
             _ => unreachable!(),
         }
     }
+    bound(result)
+}
+pub(crate) fn bound(result: Request) -> Result<Request, Failure> {
     if serde_json::to_vec(&result.body)
         .map_err(|_| Failure::local("invalid request"))?
         .len()

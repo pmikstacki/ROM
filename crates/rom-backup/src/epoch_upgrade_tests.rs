@@ -1,5 +1,5 @@
 //! Epoch-aware predecessor archives preserve metadata instead of rebinding it.
-use crate::tests::unchecked_archive;
+use crate::tests::{legacy_manifest, legacy_state, unchecked_archive};
 use crate::*;
 use rom::{
     Bundle, Cause, Descriptor, Error, FieldDescriptor, Key, PendingWork, ReactionLimits, Receipt,
@@ -43,6 +43,7 @@ fn snapshot(origin: Option<u32>) -> Snapshot {
             changed: true,
             effects: vec![],
             reactions: vec![PendingWork {
+                delivery_profile: rom::DeliveryProfile::AtLeastOnce,
                 id: "pending".into(),
                 cause: Cause {
                     retry_epoch: 3,
@@ -82,32 +83,38 @@ fn snapshot(origin: Option<u32>) -> Snapshot {
 #[test]
 fn archive_four_requires_explicit_upgrade_and_preserves_epochs_and_origins() {
     for backend in [Backend::Sqlite, Backend::Redb] {
-        for origin in [None, Some(1)] {
+        for (archive_version, storage_format, origin) in
+            [(4, 6, None), (4, 6, Some(1)), (5, 7, None), (5, 7, Some(1))]
+        {
             let target = std::env::temp_dir().join(format!(
-                "rom-epoch-upgrade-{}-{backend:?}-{origin:?}",
+                "rom-epoch-upgrade-{}-{backend:?}-{origin:?}-{archive_version}",
                 std::process::id()
             ));
             let source = Stage::new(&target.with_extension("source")).unwrap();
             let snapshot = snapshot(origin);
             snapshot.validate().unwrap();
             let mut manifest = snapshot.manifest(backend);
-            manifest.archive_version = 4;
-            manifest.storage_format = 6;
+            manifest.archive_version = archive_version;
+            manifest.storage_format = storage_format;
+            let mut manifest = serde_json::to_value(manifest).unwrap();
+            legacy_manifest(&mut manifest);
             let before = serde_json::to_value(&snapshot).unwrap();
-            unchecked_archive(
-                source.path(),
-                &serde_json::to_value(manifest).unwrap(),
-                &before,
-            );
+            let mut legacy = before.clone();
+            legacy_state(&mut legacy["state"]);
+            unchecked_archive(source.path(), &manifest, &legacy);
             let original = std::fs::read(source.path()).unwrap();
             assert!(matches!(
                 read(source.path(), backend, BackupLimits::default()),
                 Err(Error::Unsupported(_))
             ));
+            let upgrade = if archive_version == 4 {
+                upgrade_v4_archive
+            } else {
+                upgrade_v5_archive
+            };
             let manifest =
-                upgrade_v4_archive(source.path(), &target, backend, BackupLimits::default())
-                    .unwrap();
-            assert_eq!((manifest.archive_version, manifest.storage_format), (5, 7));
+                upgrade(source.path(), &target, backend, BackupLimits::default()).unwrap();
+            assert_eq!((manifest.archive_version, manifest.storage_format), (6, 8));
             let (_, after) = read(&target, backend, BackupLimits::default()).unwrap();
             assert_eq!(serde_json::to_value(after).unwrap(), before);
             assert!(
@@ -115,12 +122,216 @@ fn archive_four_requires_explicit_upgrade_and_preserves_epochs_and_origins() {
                 "source archive changed"
             );
             assert_eq!(
-                upgrade_v4_archive(source.path(), &target, backend, BackupLimits::default()),
+                upgrade(source.path(), &target, backend, BackupLimits::default()),
                 Err(Error::Conflict)
             );
             std::fs::remove_file(target).unwrap();
         }
     }
+}
+
+#[test]
+fn legacy_decoder_rejects_injected_recovery_metadata() {
+    let mut genuine = serde_json::to_value(snapshot(Some(1)).state).unwrap();
+    legacy_state(&mut genuine);
+    for field in ["operator", "revision", "delivery_profile", "hold"] {
+        let mut invalid = genuine.clone();
+        match field {
+            "operator" => {
+                invalid["operator"] =
+                    json!({"limits":{"max_records":1,"max_bytes":1024},"receipts":{}})
+            }
+            "revision" => invalid["work"]["work"]["pending"]["revision"] = json!(0),
+            "delivery_profile" => {
+                invalid["work"]["work"]["pending"]["pending"]["delivery_profile"] =
+                    json!("AtLeastOnce")
+            }
+            "hold" => invalid["work"]["work"]["pending"]["state"] = json!("AwaitingReconciliation"),
+            _ => unreachable!(),
+        }
+        let bytes = serde_json::to_string(&invalid).unwrap();
+        assert!(
+            matches!(
+                Collector::legacy(&bytes, BackupLimits::default()),
+                Err(Error::Storage)
+            ),
+            "injected {field}"
+        );
+    }
+    let upgraded = decode_legacy_storage_state(genuine).unwrap();
+    assert_eq!(upgraded.work.records()[0].revision, 0);
+    assert_eq!(
+        upgraded.work.records()[0].pending.delivery_profile,
+        rom::DeliveryProfile::AtLeastOnce
+    );
+    assert_eq!(upgraded.operator_receipt_count(), 0);
+}
+
+#[test]
+fn current_decoder_requires_each_recovery_metadata_field() {
+    let current = serde_json::to_value(snapshot(Some(1)).state).unwrap();
+    for field in ["operator", "revision", "delivery_profile"] {
+        let mut invalid = current.clone();
+        match field {
+            "operator" => {
+                invalid.as_object_mut().unwrap().remove(field);
+            }
+            "revision" => {
+                invalid["work"]["work"]["pending"]
+                    .as_object_mut()
+                    .unwrap()
+                    .remove(field);
+            }
+            "delivery_profile" => {
+                invalid["work"]["work"]["pending"]["pending"]
+                    .as_object_mut()
+                    .unwrap()
+                    .remove(field);
+            }
+            _ => unreachable!(),
+        }
+        assert!(
+            matches!(
+                Collector::new(
+                    &serde_json::to_string(&invalid).unwrap(),
+                    BackupLimits::default()
+                ),
+                Err(Error::Storage)
+            ),
+            "absent {field}"
+        );
+    }
+}
+
+fn operator_snapshot() -> (Snapshot, rom::StorageWorkControl) {
+    use rom::operator::{WorkControlOperation, WorkControlRequest, WorkHandle};
+    let mut snapshot = snapshot(Some(1));
+    let view = snapshot.state.work_snapshot(16, 65536).unwrap();
+    let control = rom::StorageWorkControl {
+        principal: "operator".into(),
+        request: WorkControlRequest {
+            handle: WorkHandle::from_work_id("pending"),
+            expected: view.version(&view.records[0]),
+            key: "retry".into(),
+            retry_epoch: 4,
+            operation: WorkControlOperation::Retry,
+        },
+        decision: rom::WorkControlDecision::Retry,
+        now: 2,
+    };
+    snapshot.state.control_work(&control).unwrap();
+    (snapshot, control)
+}
+
+#[test]
+fn operator_receipts_count_toward_collector_archive_and_maintenance_bounds() {
+    let (snapshot, _) = operator_snapshot();
+    let state = serde_json::to_string(&snapshot.state).unwrap();
+    let limits = BackupLimits {
+        max_records: 1,
+        ..BackupLimits::default()
+    };
+    assert!(matches!(
+        Collector::new(&state, limits),
+        Err(Error::TooLarge)
+    ));
+    let manifest = snapshot.manifest(Backend::Sqlite);
+    assert_eq!(manifest.operator_receipts, 1);
+    let limits = BackupLimits {
+        max_records: 5,
+        ..BackupLimits::default()
+    };
+    assert_eq!(
+        crate::archive::check_count(&manifest, limits),
+        Err(Error::TooLarge)
+    );
+    let descriptors = snapshot.descriptors.clone();
+    assert!(matches!(
+        upgrade_current_snapshot(snapshot, &descriptors, limits),
+        Err(Error::TooLarge)
+    ));
+}
+
+#[test]
+fn archive_restore_and_retention_preserve_historical_operator_receipts() {
+    let (mut snapshot, control) = operator_snapshot();
+    let accepted = snapshot.state.operator.clone();
+    let rom::WorkResult::Claimed(claim) = snapshot
+        .state
+        .update_work(rom::WorkUpdate::Claim { now: 2 })
+        .unwrap()
+    else {
+        panic!("work must be claimable")
+    };
+    snapshot
+        .state
+        .update_work(rom::WorkUpdate::Finish {
+            claim: claim.key(),
+            now: 2,
+            outcome: rom::WorkOutcome::Done,
+        })
+        .unwrap();
+    let policy = RetentionPolicy::new(RetryEpochs {
+        current: 5,
+        admission_floor: 5,
+        replay_floor: 4,
+    });
+    let (mut retained, report) =
+        retain_snapshot(snapshot, &policy, BackupLimits::default()).unwrap();
+    assert_eq!(report.work_records_removed, 1);
+    assert!(retained.state.work.records().is_empty());
+    assert_eq!(retained.state.operator, accepted);
+    retained.state.prepare_restore().unwrap();
+    assert_eq!(retained.state.operator, accepted);
+    assert!(
+        retained
+            .state
+            .control_work(&control)
+            .unwrap()
+            .result
+            .replayed
+    );
+    let target = std::env::temp_dir().join(format!(
+        "rom-operator-receipt-archive-{}",
+        std::process::id()
+    ));
+    let manifest = write(&target, Backend::Sqlite, &retained, BackupLimits::default()).unwrap();
+    assert_eq!(manifest.operator_receipts, 1);
+    let (_, reopened) = read(&target, Backend::Sqlite, BackupLimits::default()).unwrap();
+    assert_eq!(reopened.state.operator, accepted);
+    std::fs::remove_file(target).unwrap();
+}
+
+#[test]
+fn current_archive_and_restore_preserve_reconciliation_hold_and_profile() {
+    let mut input = snapshot(Some(1));
+    let mut state = serde_json::to_value(&input.state).unwrap();
+    let record = &mut state["work"]["work"]["pending"];
+    record["pending"]["payload"] = json!({"Notification": {
+        "source": input.rows[0], "payload": {"provider":"protected"}
+    }});
+    record["pending"]["delivery_profile"] = json!("ReconcileBeforeRetry");
+    record["state"] = json!("AwaitingReconciliation");
+    record["attempts"] = json!(2);
+    record["generation"] = json!(2);
+    record["revision"] = json!(17);
+    record["delivery"] = json!("TimedOut");
+    state["work"]["roots"]["original"] = json!(2);
+    input.state = serde_json::from_value(state).unwrap();
+    let before = input.state.work.records();
+    let old_view = input.state.work_snapshot(16, 65536).unwrap();
+    let target =
+        std::env::temp_dir().join(format!("rom-reconciliation-archive-{}", std::process::id()));
+    write(&target, Backend::Sqlite, &input, BackupLimits::default()).unwrap();
+    let (_, mut restored) = read(&target, Backend::Sqlite, BackupLimits::default()).unwrap();
+    assert_eq!(restored.state.work.records(), before);
+    restored.state.prepare_restore().unwrap();
+    assert_eq!(restored.state.work.records(), before);
+    assert_ne!(
+        restored.state.work_snapshot(16, 65536).unwrap().generation,
+        old_view.generation
+    );
+    std::fs::remove_file(target).unwrap();
 }
 #[test]
 fn current_snapshot_upgrade_checks_catalog_integrity_and_complete_bounds() {
@@ -202,4 +413,46 @@ fn physical_records_share_logical_collector_budgets_without_entering_snapshot() 
     )
     .unwrap();
     assert_eq!(collect.physical(usize::MAX), Err(Error::TooLarge));
+}
+
+#[test]
+fn archive_four_upgrades_genuine_legacy_work_without_current_metadata() {
+    let target =
+        std::env::temp_dir().join(format!("rom-legacy-work-upgrade-{}", std::process::id()));
+    let source = Stage::new(&target.with_extension("source")).unwrap();
+    let input = snapshot(Some(1));
+    let mut manifest = serde_json::to_value(input.manifest(Backend::Sqlite)).unwrap();
+    manifest["archive_version"] = json!(4);
+    manifest["storage_format"] = json!(6);
+    manifest
+        .as_object_mut()
+        .unwrap()
+        .remove("operator_receipts");
+    let mut body = serde_json::to_value(&input).unwrap();
+    body["state"].as_object_mut().unwrap().remove("operator");
+    for record in body["state"]["work"]["work"]
+        .as_object_mut()
+        .unwrap()
+        .values_mut()
+    {
+        record.as_object_mut().unwrap().remove("revision");
+        record["pending"]
+            .as_object_mut()
+            .unwrap()
+            .remove("delivery_profile");
+    }
+    unchecked_archive(source.path(), &manifest, &body);
+    upgrade_v4_archive(
+        source.path(),
+        &target,
+        Backend::Sqlite,
+        BackupLimits::default(),
+    )
+    .unwrap();
+    let (_, output) = read(&target, Backend::Sqlite, BackupLimits::default()).unwrap();
+    let record = &output.state.work.records()[0];
+    assert_eq!(record.revision, 0);
+    assert_eq!(output.state.retry_epochs(), input.state.retry_epochs());
+    assert_eq!(output.receipts, input.receipts);
+    std::fs::remove_file(target).unwrap();
 }

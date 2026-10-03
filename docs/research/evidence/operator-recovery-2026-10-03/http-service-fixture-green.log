@@ -1,0 +1,55 @@
+   Compiling rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+    Finished `test` profile [unoptimized] target(s) in 0.95s
+     Running tests/loopback.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/loopback-4ea42631b9e5364e)
+
+running 26 tests
+test operator::operator_capabilities_use_current_verified_actor_and_default_to_false ... ok
+test discovery_http_never_returns_an_oversized_partial_catalog ... ok
+test journal_pages_are_bounded_and_cancelled_wait_does_not_acknowledge_a_fact ... ok
+test discovery_route_uses_explicit_grants_and_strict_authenticated_input ... ok
+test operator::default_policy_denies_work_without_disclosing_its_existence ... ok
+test operator::operator_capabilities_accept_only_an_empty_object ... ok
+test operator::structured_request_admission_preserves_nested_resource_arrays ... ok
+test lost_commit_ack_is_unknown_on_wire_and_same_identity_resolves_it ... ok
+test disconnect_after_acceptance_retains_work_permit_and_retry_replays_one_commit ... ok
+test all_wire_observation_forms_apply_field_projection_and_predicate_authority ... ok
+test operator::operator_routes_refuse_actor_fields_and_oversized_bodies ... ok
+test expired_history_requires_explicit_head_then_snapshot_recovery ... ok
+test operator::operator_routes_reject_top_level_positional_arrays ... ok
+test idle_stream_expiry_rechecks_without_a_resource_write ... ok
+test embedded_and_wire_share_mutation_identity_authorization_and_projection ... ok
+test strict_json_and_declared_and_chunked_body_bounds_reject_before_execution ... ok
+test retention_loss_is_explicit_for_both_missing_and_expired_cursor ... ok
+test journal_replays_distinct_facts_and_rejects_wrong_generation_scope_and_future_cursor ... ok
+test ranges_sort_and_client_anchor_share_query_and_live_wire_paths ... ok
+test live_is_fresh_coalescing_state_and_revocation_and_shutdown_close_streams ... ok
+test stream_capacity_is_bounded_and_disconnect_releases_the_subscription ... ok
+test operator_flow::operator_http_matches_embedded_inspection_and_atomic_retry_without_resending ... ok
+test structured_queries_and_patches_use_the_generic_wire_contract ... ok
+test live_keeps_one_pending_read_across_keepalives ... ok
+test slow_body_owns_independent_admission_until_timeout ... ok
+test journal_keeps_one_pending_read_across_keepalives ... ok
+
+test result: ok. 26 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
+    Checking tokio v1.53.1
+    Checking serde v1.0.229
+    Checking icu_normalizer v2.3.0
+    Checking idna_adapter v1.2.2
+    Checking sync_wrapper v1.0.2
+    Checking futures-util v0.3.34
+    Checking idna v1.1.0
+    Checking form_urlencoded v1.2.2
+    Checking rusqlite v0.40.2
+    Checking rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+    Checking hyper v1.11.1
+    Checking hyper-util v0.1.21
+    Checking tower v0.5.3
+    Checking axum-core v0.5.6
+    Checking url v2.5.8
+    Checking axum v0.8.9
+    Checking rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+    Checking rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+    Checking rom-consumer v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/examples/consumer)
+    Checking rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+    Finished `dev` profile [unoptimized] target(s) in 8.00s

@@ -7,6 +7,7 @@ mod error;
 mod error_tests;
 mod json;
 mod observation;
+mod operator;
 mod request;
 mod routes;
 mod server;

@@ -1,7 +1,7 @@
 //! Offline operations after abrupt exit and callback changes to process state.
 use super::{
     MemoryRecord,
-    support::{BACKENDS, Backend, Process, Scratch, assert_saved, seed},
+    support::{BACKENDS, Backend, Scratch, assert_saved, seed, spawn_child},
 };
 use rom::{Error, Resource, Storage};
 use rom_backup::{BackupLimits, MigrationPlan, ResourceMigration};
@@ -13,7 +13,7 @@ fn sqlite_offline_rebuild_after_sigkill_preserves_committed_source_wal() {
     use std::os::{unix::fs::MetadataExt, unix::process::ExitStatusExt};
     let scratch = Scratch::new();
     // Reuse the established process fixture; it parks with the native engine open.
-    let mut child = Process::spawn("process::native_owner_child", &scratch.0, Backend::Sqlite);
+    let mut child = spawn_child("process::native_owner_child", &scratch.0, Backend::Sqlite);
     child.wait_ready(&scratch.0.join("ready"));
     let source = scratch.path();
     let sidecar = scratch.0.join("database.rom-owner");
@@ -169,7 +169,7 @@ fn maintenance_cwd_child() {
 fn callback_cwd_change_keeps_native_maintenance_paths_canonical() {
     let scratch = Scratch::new();
     let parent_directory = std::env::current_dir().unwrap();
-    let mut child = Process::spawn(
+    let mut child = spawn_child(
         "offline_recovery::maintenance_cwd_child",
         &scratch.0,
         Backend::Sqlite,

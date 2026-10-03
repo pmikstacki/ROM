@@ -1,0 +1,47 @@
+   Compiling rom-cli v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-cli)
+    Finished `test` profile [unoptimized] target(s) in 0.58s
+     Running tests/operator.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator-c52932895c6e32d9)
+
+running 14 tests
+test control_revision_transition_cannot_wrap_at_the_numeric_limit ... ok
+test configured_host_page_above_the_default_still_fits_the_cli_bounds ... ok
+test object_shape::operator_input_files_reject_top_level_positional_arrays ... ok
+test object_shape::operator_responses_reject_top_level_positional_arrays ... ok
+test work_commands_map_exactly_to_public_operator_requests ... ok
+test capability_denial_and_untrusted_provider_errors_remain_sanitized ... ok
+test lost_control_reply_replays_the_exact_file_only_after_an_explicit_new_command ... ok
+test list_and_show_responses_respect_scope_filters_uniqueness_and_limits ... ok
+test reconcile_outcomes_and_exact_replay_have_their_declared_versions ... ok
+test malformed_operator_files_and_wrong_operations_fail_before_submission ... ok
+test reconciliation::verified_reconciliation_completes_without_resending_and_replays_exactly ... ok
+test control_responses_match_request_identity_operation_and_version_transition ... ok
+test signals::control_interrupt_does_not_wait_on_blocked_stdout_or_stderr ... ok
+test native::real_operator_commands_inspect_retry_and_replay_without_domain_or_provider_effects ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.45s
+
+    Checking rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+error: large size difference between variants
+  --> crates/rom/src/operator/control_execution.rs:7:1
+   |
+ 7 | /  enum CurrentControl {
+ 8 | |      Replay(WorkControlResult),
+   | |      ------------------------- the second-largest variant contains at least 112 bytes
+ 9 | |/     Work {
+10 | ||         record: WorkRecord,
+11 | ||         scope: WorkScope,
+12 | ||     },
+   | ||_____- the largest variant contains at least 600 bytes
+13 | |  }
+   | |__^ the entire enum is at least 600 bytes
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#large_enum_variant
+   = note: `-D clippy::large-enum-variant` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(clippy::large_enum_variant)]`
+help: consider boxing the large fields or introducing indirection in some other way to reduce the total size of the enum
+   |
+10 -         record: WorkRecord,
+10 +         record: Box<WorkRecord>,
+   |
+
+error: could not compile `rom` (lib) due to 1 previous error

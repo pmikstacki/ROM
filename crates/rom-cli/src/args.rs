@@ -35,6 +35,11 @@ pub enum Format {
 }
 #[derive(Subcommand)]
 pub enum Command {
+    /// Inspect, retry or reconcile durable work with explicit operator authority
+    Work {
+        #[command(subcommand)]
+        command: crate::operator::WorkCommand,
+    },
     /// Inspect explicitly disclosed metadata; it grants no operation permission
     Discover {
         kind: Option<String>,

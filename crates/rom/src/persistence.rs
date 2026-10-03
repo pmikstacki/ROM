@@ -1,6 +1,8 @@
 use super::*;
 mod maintenance;
+mod operator;
 mod receipt;
+pub use operator::{StorageWorkControl, WorkControlDecision};
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct Key {
     pub kind: String,
@@ -101,6 +103,18 @@ pub trait Storage: Send + Sync + 'static {
     /// Trusted host inspection, bounded by the persisted ledger policy.
     fn reaction_records(&self) -> Result<Vec<WorkRecord>> {
         Err(Error::Unsupported("durable reactions".into()))
+    }
+    /// True only when bounded operator snapshots and atomic controls are implemented.
+    fn supports_operator(&self) -> bool {
+        false
+    }
+    /// Coherent trusted ledger data, bounded before projection.
+    fn work_snapshot(&self, _max_records: usize, _max_bytes: usize) -> Result<StorageWorkSnapshot> {
+        Err(Error::Unsupported("operator work snapshots".into()))
+    }
+    /// Atomically arbitrate CAS and idempotency, publishing work and receipt together.
+    fn control_work(&self, _control: &StorageWorkControl) -> Result<WorkControlReceipt> {
+        Err(Error::Unsupported("atomic operator work control".into()))
     }
     fn capabilities(&self) -> Capabilities;
     fn load(&self, key: &Key) -> Result<Option<Row>>;

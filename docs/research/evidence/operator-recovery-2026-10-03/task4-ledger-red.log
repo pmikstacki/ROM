@@ -1,0 +1,103 @@
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+    Finished `test` profile [unoptimized] target(s) in 1.31s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom-35bf88f84bdceb82)
+
+running 12 tests
+test reaction_work::delivery_profile_tests::expired_started_delivery_holds_while_active_and_unstarted_leases_are_not_held ... FAILED
+test reaction_work::delivery_profile_tests::expired_hold_conversion_does_not_skip_other_ready_work ... FAILED
+test reaction_work::delivery_profile_tests::hold_generation_or_revision_overflow_rolls_back_all_candidate_changes ... FAILED
+test reaction_work::delivery_profile_tests::panicked_hold_profile_fences_without_consuming_retry_budgets ... FAILED
+test reaction_work::delivery_profile_tests::generic_finish_retry_cannot_make_started_unknown_delivery_resendable ... FAILED
+test reaction_work::delivery_profile_tests::plain_retry_cannot_bypass_unresolved_evidence_after_a_lifecycle_stop ... FAILED
+test reaction_work::delivery_profile_tests::verified_not_accepted_releases_hold_under_original_budgets ... FAILED
+test reaction_work::delivery_profile_tests::timed_out_hold_profile_fences_without_consuming_retry_budgets ... FAILED
+test reaction_work::delivery_profile_tests::confirmed_delivery_outcomes_keep_existing_terminal_and_retry_semantics ... ok
+test reaction_work::delivery_profile_tests::retry_profiles_keep_frozen_identity_and_default_unknown_retry ... ok
+test reaction_work::delivery_profile_tests::unknown_hold_profile_fences_without_consuming_retry_budgets ... FAILED
+test reaction_work::delivery_profile_tests::restore_holds_only_unresolved_started_profile_and_fences_each_lease_once ... FAILED
+
+failures:
+
+---- reaction_work::delivery_profile_tests::expired_started_delivery_holds_while_active_and_unstarted_leases_are_not_held stdout ----
+
+thread 'reaction_work::delivery_profile_tests::expired_started_delivery_holds_while_active_and_unstarted_leases_are_not_held' (1481916) panicked at crates/rom/src/reaction_work/delivery_profile_tests.rs:89:5:
+assertion `left == right` failed
+  left: Claimed(WorkClaim { work: WorkRecord { pending: PendingWork { id: "a", cause: Cause { retry_epoch: 0, root: "root", parent: None, depth: 0, started_at: 10, path: [] }, definition: "channel", version: 1, service_key: "service", delivery_profile: ReconcileBeforeRetry, payload: Notification { source: Row { key: Key { kind: "test", id: "1" }, revision: 1, value: Some(Object {}), protected: ProtectedMetadata { deletion_authorization: None, source_provenance: None } }, payload: Object {"message": String("frozen")} } }, state: Leased { until: 70, generation: 2, resolution_only: None }, attempts: 2, generation: 2, revision: 3, due: 10, delivery: Some(Unknown) }, resolution_only: false, stop_reason: None })
+ right: Changed
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- reaction_work::delivery_profile_tests::expired_hold_conversion_does_not_skip_other_ready_work stdout ----
+
+thread 'reaction_work::delivery_profile_tests::expired_hold_conversion_does_not_skip_other_ready_work' (1481915) panicked at crates/rom/src/reaction_work/delivery_profile_tests.rs:106:5:
+assertion `left == right` failed
+  left: "a"
+ right: "b"
+
+---- reaction_work::delivery_profile_tests::hold_generation_or_revision_overflow_rolls_back_all_candidate_changes stdout ----
+
+thread 'reaction_work::delivery_profile_tests::hold_generation_or_revision_overflow_rolls_back_all_candidate_changes' (1481918) panicked at crates/rom/src/reaction_work/delivery_profile_tests.rs:216:13:
+generation/finish: Ok(())
+
+---- reaction_work::delivery_profile_tests::panicked_hold_profile_fences_without_consuming_retry_budgets stdout ----
+
+thread 'reaction_work::delivery_profile_tests::panicked_hold_profile_fences_without_consuming_retry_budgets' (1481919) panicked at crates/rom/src/reaction_work/delivery_profile_tests.rs:65:9:
+assertion `left == right` failed
+  left: Stopped(CallbackPanicked)
+ right: AwaitingReconciliation
+
+---- reaction_work::delivery_profile_tests::generic_finish_retry_cannot_make_started_unknown_delivery_resendable stdout ----
+
+thread 'reaction_work::delivery_profile_tests::generic_finish_retry_cannot_make_started_unknown_delivery_resendable' (1481917) panicked at crates/rom/src/reaction_work/delivery_profile_tests.rs:168:5:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+
+---- reaction_work::delivery_profile_tests::plain_retry_cannot_bypass_unresolved_evidence_after_a_lifecycle_stop stdout ----
+
+thread 'reaction_work::delivery_profile_tests::plain_retry_cannot_bypass_unresolved_evidence_after_a_lifecycle_stop' (1481920) panicked at crates/rom/src/reaction_work/delivery_profile_tests.rs:181:9:
+assertion failed: matches!(ledger.control("a", &request), Err(Error::Conflict))
+
+---- reaction_work::delivery_profile_tests::verified_not_accepted_releases_hold_under_original_budgets stdout ----
+
+thread 'reaction_work::delivery_profile_tests::verified_not_accepted_releases_hold_under_original_budgets' (1481925) panicked at crates/rom/src/reaction_work/delivery_profile_tests.rs:191:5:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+
+---- reaction_work::delivery_profile_tests::timed_out_hold_profile_fences_without_consuming_retry_budgets stdout ----
+
+thread 'reaction_work::delivery_profile_tests::timed_out_hold_profile_fences_without_consuming_retry_budgets' (1481923) panicked at crates/rom/src/reaction_work/delivery_profile_tests.rs:65:9:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+
+---- reaction_work::delivery_profile_tests::unknown_hold_profile_fences_without_consuming_retry_budgets stdout ----
+
+thread 'reaction_work::delivery_profile_tests::unknown_hold_profile_fences_without_consuming_retry_budgets' (1481924) panicked at crates/rom/src/reaction_work/delivery_profile_tests.rs:65:9:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+
+---- reaction_work::delivery_profile_tests::restore_holds_only_unresolved_started_profile_and_fences_each_lease_once stdout ----
+
+thread 'reaction_work::delivery_profile_tests::restore_holds_only_unresolved_started_profile_and_fences_each_lease_once' (1481921) panicked at crates/rom/src/reaction_work/delivery_profile_tests.rs:127:9:
+assertion `left == right` failed
+  left: Pending
+ right: AwaitingReconciliation
+
+
+failures:
+    reaction_work::delivery_profile_tests::expired_hold_conversion_does_not_skip_other_ready_work
+    reaction_work::delivery_profile_tests::expired_started_delivery_holds_while_active_and_unstarted_leases_are_not_held
+    reaction_work::delivery_profile_tests::generic_finish_retry_cannot_make_started_unknown_delivery_resendable
+    reaction_work::delivery_profile_tests::hold_generation_or_revision_overflow_rolls_back_all_candidate_changes
+    reaction_work::delivery_profile_tests::panicked_hold_profile_fences_without_consuming_retry_budgets
+    reaction_work::delivery_profile_tests::plain_retry_cannot_bypass_unresolved_evidence_after_a_lifecycle_stop
+    reaction_work::delivery_profile_tests::restore_holds_only_unresolved_started_profile_and_fences_each_lease_once
+    reaction_work::delivery_profile_tests::timed_out_hold_profile_fences_without_consuming_retry_budgets
+    reaction_work::delivery_profile_tests::unknown_hold_profile_fences_without_consuming_retry_budgets
+    reaction_work::delivery_profile_tests::verified_not_accepted_releases_hold_under_original_budgets
+
+test result: FAILED. 2 passed; 10 failed; 0 ignored; 0 measured; 66 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p rom --lib`

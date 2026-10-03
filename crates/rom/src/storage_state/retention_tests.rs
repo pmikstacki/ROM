@@ -31,6 +31,7 @@ fn pending(id: &str, root: &str, epoch: u64) -> PendingWork {
         },
         definition: "react".into(),
         version: 1,
+        delivery_profile: DeliveryProfile::AtLeastOnce,
         service_key: "service".into(),
         payload: WorkPayload::Source(row()),
     }

@@ -1,6 +1,6 @@
 use super::{
     MemoryRecord,
-    support::{BACKENDS, Backend, Process, Scratch, assert_saved, seed},
+    support::{BACKENDS, Backend, Scratch, assert_saved, seed, spawn_child},
 };
 use rom::{
     Action, Actor, Channel, Command, Delivery, DeliveryOutcome, Error, PrincipalKind, Resource,
@@ -84,7 +84,7 @@ async fn native_owner_child() {
 async fn native_owner_process_exit_releases_lock_and_recovers_committed_data() {
     for backend in BACKENDS {
         let scratch = Scratch::new();
-        let mut child = Process::spawn("process::native_owner_child", &scratch.0, backend);
+        let mut child = spawn_child("process::native_owner_child", &scratch.0, backend);
         child.wait_ready(&scratch.0.join("ready"));
         assert!(
             matches!(backend.open(&scratch.path()), Err(Error::Conflict)),

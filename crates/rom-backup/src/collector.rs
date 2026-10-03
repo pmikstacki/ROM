@@ -11,11 +11,27 @@ pub struct Collector {
 }
 impl Collector {
     pub fn new(state: &str, limits: BackupLimits) -> Result<Self> {
+        Self::collect(state, limits, false)
+    }
+    /// Collect state from an explicit pre-format-8 source, initializing recovery metadata.
+    pub fn legacy(state: &str, limits: BackupLimits) -> Result<Self> {
+        Self::collect(state, limits, true)
+    }
+    fn collect(state: &str, limits: BackupLimits, legacy: bool) -> Result<Self> {
         if state.len() > limits.max_bytes || limits.max_records == 0 {
             return Err(Error::TooLarge);
         }
-        let parsed: rom::StorageState = decode(state)?;
-        let records = parsed.work.records().len();
+        let parsed: rom::StorageState = if legacy {
+            crate::decode_legacy_storage_state(decode(state)?)?
+        } else {
+            decode(state)?
+        };
+        let records = parsed
+            .work
+            .records()
+            .len()
+            .checked_add(parsed.operator_receipt_count())
+            .ok_or(Error::TooLarge)?;
         if records > limits.max_records {
             return Err(Error::TooLarge);
         }

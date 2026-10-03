@@ -245,6 +245,7 @@ fn invalid_policy_and_limits_reject_without_partial_result() {
 fn unfinished_root_blocks_settlement_and_any_retained_work_blocks_purge() {
     let mut original = snapshot(true, true);
     let work = PendingWork {
+        delivery_profile: rom::DeliveryProfile::AtLeastOnce,
         id: "work".into(),
         cause: Cause {
             retry_epoch: 0,
@@ -295,6 +296,7 @@ fn unfinished_root_blocks_settlement_and_any_retained_work_blocks_purge() {
         .enqueue(
             &ReactionLimits::default(),
             vec![PendingWork {
+                delivery_profile: rom::DeliveryProfile::AtLeastOnce,
                 id: "unrelated".into(),
                 cause: Cause {
                     retry_epoch: 1,

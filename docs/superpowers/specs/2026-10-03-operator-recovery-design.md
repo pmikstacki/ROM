@@ -195,7 +195,8 @@ Never let request JSON claim a trusted verification result.
 That result permits Pending only if the host's retry profile and original budgets permit it.
 Otherwise keep the record stopped with its established delivery result.
 `Unresolved` performs no state change and returns an explicit unresolved result; it grants no resend permission.
-A later verification attempt uses a new operator request key. Exact retries of an accepted operation use the original key.
+An unchanged inconclusive request can be repeated with its original key because `Unresolved` stores no receipt or transition.
+Changed input or a distinct intent needs a new key. Exact retries of an accepted operation use the original key.
 
 Providers without an authoritative verifier can still use their declared at-least-once or deduplicated profile.
 For a hold profile without usable verification, the API reports that reconciliation is unavailable.

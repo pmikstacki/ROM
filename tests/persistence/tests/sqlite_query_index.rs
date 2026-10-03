@@ -1,3 +1,5 @@
+#[path = "support/legacy_native.rs"]
+mod legacy_native;
 use rom::*;
 use rom_backup::BackupLimits;
 use rom_sqlite::Sqlite;
@@ -228,8 +230,8 @@ fn format_six_upgrade_preserves_retry_epochs_and_does_not_rebind_receipt_origins
         [serde_json::to_string(&state).unwrap()],
     )
     .unwrap();
-    c.execute_batch("DROP TABLE query_keys; DROP TABLE query_kinds; DROP TABLE query_profile; PRAGMA user_version=6;").unwrap();
     drop(c);
+    legacy_native::mark(false, &s.path("source.db"), 6, false);
     let original = std::fs::read(s.path("source.db")).unwrap();
     assert!(matches!(
         Sqlite::open(s.path("source.db")),

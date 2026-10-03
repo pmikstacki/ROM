@@ -1,6 +1,6 @@
 //! Explicit format upgrade. The source is never modified.
 use crate::{Backend, BackupLimits, Manifest, Snapshot, StoredEffect, archive, write};
-use rom::{Descriptor, Error, Receipt, Result, Row, StorageState};
+use rom::{Descriptor, Error, Receipt, Result, Row};
 use serde::Deserialize;
 use std::path::Path;
 
@@ -22,7 +22,7 @@ struct LegacyManifest {
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct LegacySnapshot {
-    state: StorageState,
+    state: serde_json::Value,
     rows: Vec<Row>,
     receipts: Vec<Receipt>,
     events: Vec<(String, Row)>,
@@ -60,6 +60,7 @@ pub fn upgrade_v1_archive(
         events: old.events,
         effects: old.effects,
         work: old.work,
+        operator_receipts: 0,
         descriptors: 0,
         references: 0,
         external_blobs_included: false,
@@ -69,7 +70,7 @@ pub fn upgrade_v1_archive(
     let original: LegacySnapshot =
         serde_json::from_slice(&bytes[h..]).map_err(|_| Error::Storage)?;
     let snapshot = Snapshot {
-        state: original.state,
+        state: crate::decode_legacy_storage_state(original.state)?,
         rows: original.rows,
         receipts: original.receipts,
         events: original.events,
@@ -138,6 +139,17 @@ pub fn upgrade_v4_archive(
     limits: BackupLimits,
 ) -> Result<Manifest> {
     upgrade_catalogued_archive(source.as_ref(), destination.as_ref(), backend, limits, 4, 6)
+}
+
+/// Upgrade an archive-5/storage-7 backup with explicit initial recovery metadata.
+/// Preserve epochs, receipt origins, work budgets and at-least-once delivery semantics.
+pub fn upgrade_v5_archive(
+    source: impl AsRef<Path>,
+    destination: impl AsRef<Path>,
+    backend: Backend,
+    limits: BackupLimits,
+) -> Result<Manifest> {
+    upgrade_catalogued_archive(source.as_ref(), destination.as_ref(), backend, limits, 5, 7)
 }
 
 fn upgrade_catalogued_archive(

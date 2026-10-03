@@ -205,3 +205,10 @@ versioned Checkout migration with reference rebuild, backup/restore and recovery
 The larger release program remains open. Query index lifecycle, production
 identity and final package acceptance remain in
 [the release checklist](../openspec/changes/prepare-framework-release/tasks.md).
+
+## Operator recovery journey
+
+Run `./demo/run operator sqlite` or `./demo/run operator redb`.
+This finite journey uses public APIs to inspect a denied delivery, restart, retry unchanged work and replay its operator receipt.
+It then invokes the existing compensation action with its own Resource revision and idempotency key.
+The default demo HTTP session receives no operator grant. See [operator recovery](../docs/operator-recovery.md).

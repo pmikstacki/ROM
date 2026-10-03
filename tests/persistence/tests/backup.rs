@@ -130,6 +130,7 @@ fn bundle(id: &str) -> Bundle {
 }
 fn pending(id: &str, row: &Row) -> PendingWork {
     PendingWork {
+        delivery_profile: rom::DeliveryProfile::AtLeastOnce,
         id: id.into(),
         cause: Cause {
             retry_epoch: 0,

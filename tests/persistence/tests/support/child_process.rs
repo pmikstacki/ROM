@@ -1,23 +1,14 @@
-//! Shared bounded subprocess lifecycle for native ownership acceptance tests.
-use super::Backend;
+//! Shared bounded subprocess lifecycle for native persistence acceptance tests.
 use std::{
     path::Path,
-    process::{Child, Command, ExitStatus, Stdio},
+    process::{Child, Command, ExitStatus},
     time::{Duration, Instant},
 };
 
 pub struct Process(Child);
 impl Process {
-    pub fn spawn(test: &str, root: &Path, backend: Backend) -> Self {
-        Self(
-            Command::new(std::env::current_exe().unwrap())
-                .args(["--exact", test, "--nocapture"])
-                .env("ROM_OWNERSHIP_TEST_ROOT", root)
-                .env("ROM_OWNERSHIP_TEST_BACKEND", backend.name())
-                .stdin(Stdio::null())
-                .spawn()
-                .unwrap(),
-        )
+    pub fn spawn(mut command: Command) -> Self {
+        Self(command.spawn().unwrap())
     }
 
     pub fn wait_ready(&mut self, ready: &Path) {
@@ -25,7 +16,7 @@ impl Process {
         while !ready.exists() {
             assert!(
                 self.0.try_wait().unwrap().is_none(),
-                "child exited before commit"
+                "child exited before readiness"
             );
             assert!(Instant::now() < deadline, "child readiness timed out");
             std::thread::sleep(Duration::from_millis(10));

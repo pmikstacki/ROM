@@ -1,6 +1,8 @@
 //! Driver-independent bounded metadata persisted inside each native bundle transaction.
 use super::*;
 mod maintenance;
+mod operator;
+pub use operator::StorageWorkSnapshot;
 mod retention;
 mod work;
 pub use retention::RetentionStateReport;
@@ -26,6 +28,7 @@ impl Default for StorageLimits {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct StorageState {
     pub work: WorkLedger,
+    pub operator: OperatorLedger,
     #[serde(default)]
     retry_epochs: RetryEpochs,
     limits: StorageLimits,
@@ -60,6 +63,7 @@ impl StorageState {
         );
         Ok(Self {
             work: WorkLedger::default(),
+            operator: OperatorLedger::default(),
             retry_epochs: RetryEpochs::default(),
             limits,
             generation,
@@ -78,6 +82,11 @@ impl StorageState {
         events: &[(String, Row)],
     ) -> Result<()> {
         Self::new(self.limits.clone())?;
+        crate::operator::WorkVersion {
+            generation: self.generation.clone(),
+            revision: 0,
+        }
+        .validate()?;
         if self.generation.is_empty()
             || self.floor > self.head
             || self.receipts != receipts
@@ -107,6 +116,15 @@ impl StorageState {
         if bytes > self.limits.journal_bytes {
             return Err(Error::Storage);
         }
+        self.operator.validate_archive()?;
+        if self
+            .operator
+            .receipts
+            .values()
+            .any(|receipt| receipt.request.retry_epoch > self.retry_epochs.current)
+        {
+            return Err(Error::Storage);
+        }
         self.work.validate_archive()?;
         self.work.validate_retry_epochs(self.retry_epochs)
     }
@@ -126,6 +144,7 @@ impl StorageState {
         if &self.limits != limits {
             Err(Error::Unsupported("persisted storage limits differ".into()))
         } else {
+            self.operator.validate_archive()?;
             self.work.check_compatible_capacity()
         }
     }
@@ -252,5 +271,7 @@ impl StorageState {
     }
 }
 
+#[cfg(test)]
+mod operator_tests;
 #[cfg(test)]
 mod retention_tests;

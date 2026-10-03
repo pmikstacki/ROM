@@ -2,9 +2,9 @@ use rom::{Descriptor, Error, Intent, Receipt, ReferenceEdge, Result, Row, Storag
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 
-pub(crate) const ARCHIVE_VERSION: u32 = 5;
+pub(crate) const ARCHIVE_VERSION: u32 = 6;
 /// Current native format, including adapter-owned query index metadata.
-pub const STORAGE_FORMAT: u32 = 7;
+pub const STORAGE_FORMAT: u32 = 8;
 
 #[derive(Clone, Copy, Debug)]
 pub struct BackupLimits {
@@ -37,6 +37,7 @@ pub struct Manifest {
     pub descriptors: usize,
     pub references: usize,
     pub work: usize,
+    pub operator_receipts: usize,
     pub external_blobs_included: bool,
     pub external_deliveries_included: bool,
 }
@@ -168,6 +169,7 @@ impl Snapshot {
             descriptors: self.descriptors.len(),
             references: self.references.len(),
             work: self.state.work.records().len(),
+            operator_receipts: self.state.operator_receipt_count(),
             external_blobs_included: false,
             external_deliveries_included: false,
         }

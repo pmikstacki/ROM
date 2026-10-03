@@ -63,6 +63,7 @@ pub(crate) fn check_count(m: &Manifest, l: BackupLimits) -> Result<()> {
         m.events,
         m.effects,
         m.work,
+        m.operator_receipts,
         m.descriptors,
         m.references,
     ]
@@ -99,17 +100,39 @@ pub(crate) fn read_version(
 ) -> Result<(Manifest, Snapshot)> {
     let (data, h) = read_envelope(path, limits)?;
     let bytes = &data[52..];
-    let m: Manifest = serde_json::from_slice(&bytes[..h]).map_err(|_| Error::Storage)?;
-    if m.backend != backend
-        || m.archive_version != archive_version
-        || m.storage_format != storage_format
-        || m.external_blobs_included
-        || m.external_deliveries_included
+    let mut header: serde_json::Value =
+        serde_json::from_slice(&bytes[..h]).map_err(|_| Error::Storage)?;
+    if header
+        .get("archive_version")
+        .and_then(serde_json::Value::as_u64)
+        != Some(u64::from(archive_version))
+        || header
+            .get("storage_format")
+            .and_then(serde_json::Value::as_u64)
+            != Some(u64::from(storage_format))
     {
         return Err(Error::Unsupported("backup format or backend".into()));
     }
+    if archive_version < crate::model::ARCHIVE_VERSION {
+        let header = header.as_object_mut().ok_or(Error::Storage)?;
+        if header.contains_key("operator_receipts") {
+            return Err(Error::Storage);
+        }
+        header.insert("operator_receipts".into(), serde_json::json!(0));
+    }
+    let m: Manifest = serde_json::from_value(header).map_err(|_| Error::Storage)?;
+    if m.backend != backend || m.external_blobs_included || m.external_deliveries_included {
+        return Err(Error::Unsupported("backup format or backend".into()));
+    }
     check_count(&m, limits)?;
-    let snapshot: Snapshot = serde_json::from_slice(&bytes[h..]).map_err(|_| Error::Storage)?;
+    let snapshot: Snapshot = if archive_version < crate::model::ARCHIVE_VERSION {
+        let mut value: serde_json::Value =
+            serde_json::from_slice(&bytes[h..]).map_err(|_| Error::Storage)?;
+        crate::legacy_state::upgrade_state(value.get_mut("state").ok_or(Error::Storage)?)?;
+        serde_json::from_value(value).map_err(|_| Error::Storage)?
+    } else {
+        serde_json::from_slice(&bytes[h..]).map_err(|_| Error::Storage)?
+    };
     snapshot.validate()?;
     let mut expected = snapshot.manifest(backend);
     expected.archive_version = archive_version;

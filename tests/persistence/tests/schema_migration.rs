@@ -1,3 +1,5 @@
+#[path = "support/legacy_native.rs"]
+mod legacy_native;
 use rom::*;
 use rom_backup::{BackupLimits, MigrationPlan, ResourceMigration};
 use std::{
@@ -179,6 +181,7 @@ fn seed(redb: bool, path: &Path, quantity: &str) -> Seed {
         .push(Intent::new("audit", json!({"message":"unchanged effect"})));
     child.reaction_limits = Some(ReactionLimits::default());
     child.reactions.push(PendingWork {
+        delivery_profile: rom::DeliveryProfile::AtLeastOnce,
         id: "notify-child".into(),
         definition: "notify".into(),
         version: 1,
@@ -458,31 +461,6 @@ fn native_schema_migration_interruption_is_retryable() {
     }
 }
 
-fn mark_legacy_format(redb: bool, path: &Path, version: u32, erase_catalog: bool) {
-    if redb {
-        let db = redb::Database::open(path).unwrap();
-        let tx = db.begin_write().unwrap();
-        tx.open_table(redb::TableDefinition::<&str, u64>::new("rom_metadata"))
-            .unwrap()
-            .insert("format", u64::from(version))
-            .unwrap();
-        if erase_catalog {
-            tx.open_table(redb::TableDefinition::<&str, &str>::new("rom_schemas"))
-                .unwrap()
-                .retain(|_, _| false)
-                .unwrap();
-        }
-        tx.commit().unwrap();
-    } else {
-        let c = rusqlite::Connection::open(path).unwrap();
-        c.execute_batch("DROP TABLE query_keys; DROP TABLE query_kinds; DROP TABLE query_profile;")
-            .unwrap();
-        c.pragma_update(None, "user_version", version).unwrap();
-        if erase_catalog {
-            c.execute("DELETE FROM schemas", []).unwrap();
-        }
-    }
-}
 fn upgrade_four(
     redb: bool,
     source: &Path,
@@ -499,12 +477,12 @@ fn upgrade_four(
 }
 #[test]
 fn legacy_catalogued_formats_require_explicit_upgrade_or_migration_without_source_writes() {
-    for version in [4, 5] {
+    for version in [4, 5, 6, 7] {
         for redb in [false, true] {
             let dir = Scratch::new();
             let source = dir.path("source");
             let fixture = seed(redb, &source, "7");
-            mark_legacy_format(redb, &source, version, false);
+            legacy_native::mark(redb, &source, version, false);
             let original = std::fs::read(&source).unwrap();
             let ordinary = if redb {
                 rom_redb::Redb::open(&source).map(|_| ())
@@ -525,7 +503,14 @@ fn legacy_catalogued_formats_require_explicit_upgrade_or_migration_without_sourc
                 .receipt(&fixture.child.receipt.identity)
                 .unwrap()
                 .unwrap();
-            assert_eq!(receipt.replay_version, Some(1));
+            assert_eq!(
+                receipt.replay_version,
+                if version < 6 {
+                    Some(1)
+                } else {
+                    fixture.child.receipt.replay_version
+                }
+            );
             assert_eq!(receipt.row, fixture.child.receipt.row);
             assert_eq!(
                 upgraded.storage().commit(&remove_parent()),
@@ -552,7 +537,7 @@ fn format_four_upgrade_requires_exact_valid_catalog() {
             let dir = Scratch::new();
             let source = dir.path("source");
             seed(redb, &source, "7");
-            mark_legacy_format(redb, &source, 4, empty);
+            legacy_native::mark(redb, &source, 4, empty);
             let original = std::fs::read(&source).unwrap();
             let descriptors = if empty {
                 vec![Before::descriptor()]
@@ -564,4 +549,23 @@ fn format_four_upgrade_requires_exact_valid_catalog() {
             assert!(std::fs::read(&source).unwrap() == original);
         }
     }
+}
+
+#[test]
+fn sqlite_format_seven_upgrade_validates_derived_index_records() {
+    let dir = Scratch::new();
+    let source = dir.path("source");
+    seed(false, &source, "7");
+    legacy_native::mark(false, &source, 7, false);
+    let connection = rusqlite::Connection::open(&source).unwrap();
+    assert!(connection.execute("DELETE FROM query_keys", []).unwrap() > 0);
+    drop(connection);
+    let before = std::fs::read(&source).unwrap();
+    let destination = dir.path("upgraded");
+    assert!(matches!(
+        upgrade_four(false, &source, &destination, &[Before::descriptor()]),
+        Err(Error::Storage)
+    ));
+    assert!(!destination.exists());
+    assert_eq!(std::fs::read(source).unwrap(), before);
 }

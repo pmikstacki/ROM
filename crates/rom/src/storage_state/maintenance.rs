@@ -3,8 +3,9 @@ use super::{Error, Key, Result, StorageState, Value};
 
 impl StorageState {
     /// Maintenance only: map Resource values in journal rows and frozen work sources.
-    /// Preserves all identities, revisions, lifecycle state, budgets and opaque action
-    /// and notification payloads. Rejects growth beyond persisted bounds without eviction.
+    /// Preserves identities, Resource revisions, lifecycle state, budgets and opaque
+    /// action and notification payloads. Changed work records advance their revision.
+    /// Rejects growth beyond persisted bounds without eviction.
     /// An error leaves this state unchanged; callback side effects are not rolled back.
     pub fn map_resource_values(
         &mut self,

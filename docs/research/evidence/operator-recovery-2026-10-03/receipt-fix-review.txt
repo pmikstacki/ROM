@@ -1,0 +1,25 @@
+# Independent scoped receipt-validation fix review
+
+Verdict: accept. The original P2 finding is resolved. No new Spec or Quality finding was found in the fix.
+
+Reviewed the original task3 finding, brief, frozen fix patch, before/source files and author evidence. All five frozen-source hashes match source.json. No product source was edited. No reported test suite was rerun.
+
+## Spec
+
+Runtime receipt validation now invokes the same trusted receipt coherence contract as archive validation. Retry accepts Scheduled only. Durable receipts reject Unresolved, including an advanced-version reply. Runtime maps failed post-commit validation to Unknown on the existing path. The native-wrapper regressions alter only the reply after a genuine commit; they check one retained receipt and exact replay of the genuine Scheduled result without another transition.
+
+The extraction preserves prior archive constraints: principal and request validity, immutable result identity, protocol version, checked revision advancement, generation, prior state, category, scope and evidence. Archive validation still separately checks canonical receipt-map identity and forbids a persisted replayed flag. Trusted reply validation permits that flag for a legitimate replay response. Historical validation does not depend on a current work record or current storage generation.
+
+The new public WorkControlResult::validate_for method checks complete bounds and exact request correspondence. Runtime and CLI share it. Accepted outcomes require the original generation and exactly one checked revision increment. Only Reconcile permits unchanged-version, non-replayed Unresolved. CLI top-level object admission, page/read handling, sanitized output and uncertain submitted-control behavior remain unchanged.
+
+No serialized field, format version or legacy converter changed. Legacy archives still initialize an empty operator ledger. Current archive validation retains its prior acceptance conditions through the shared helper. No legacy/archive regression was found by source comparison; this review did not execute the backup suite.
+
+## Quality
+
+The fix removes duplicated public correspondence checks from the CLI and repeated trusted receipt checks from archive validation. It keeps richer trusted prior/category/evidence validation separate from the public response contract. Module responsibilities and public API paths remain stable. Tests share one native-wrapper scenario helper and preserve the actual durable receipt for recovery checks.
+
+## Evidence and limits
+
+Inspected RED showing all three malformed committed replies incorrectly returning Ok, then GREEN for the three cases on both native adapters. Inspected author verification:117 core,40 CLI and25 native operator/Runtime tests passed, with scoped Clippy and formatting green. These are author-executed results, not reviewer reproductions.
+
+This verdict covers the original P2 correction and direct fix regressions only. Task4 verifier/profile implementation and the final combined acceptance gate remain separate work.

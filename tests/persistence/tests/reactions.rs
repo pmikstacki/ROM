@@ -16,6 +16,7 @@ fn pending(id: &str) -> PendingWork {
         definition: "copy".into(),
         version: 1,
         service_key: "service".into(),
+        delivery_profile: rom::DeliveryProfile::AtLeastOnce,
         payload: WorkPayload::Action(
             json!({"kind":"notes","id":"one","expected":null,"idempotency":"frozen","operation":{"type":"create","input":{"frozen":1}}}),
         ),

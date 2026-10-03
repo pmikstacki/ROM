@@ -2,7 +2,7 @@
 
 ## Current maintained profile
 
-Both adapters currently use **format 7**, with no implicit migration from earlier
+Both adapters currently use **format 8**, with no implicit migration from earlier
 experimental formats. The core-owned bundle includes state/revision, durable
 receipt, journal and effect/work records in one native transaction. Journal
 retention and receipt/effect/work capacities are bounded; cursor gaps and
@@ -38,17 +38,23 @@ Existing stores receive a complete bounded validation at open. The default budge
 is 128 MiB and 400,000 physical records. Use `open_with_validation_limits` to supply
 a larger host budget. Exceeded limits fail; validation never truncates success.
 
-For a format-3 through format-6 source, use the explicit [native upgrade](native-upgrade.md) into a
+For a format-3 through format-7 source, use the explicit [native upgrade](native-upgrade.md) into a
 fresh destination. redb also checks the format before writable open. If its header
 requires recovery, that check uses a private temporary copy first. This preserves
 unsupported sources and requires temporary disk space approximately equal to their file size.
 
 For field changes, use a typed [Resource migration](resource-migrations.md).
-Format 7 protects query metadata, receipt codec versions and retry epoch boundaries from older
+Format 8 also protects work revisions, delivery profiles and operator receipts from older
 maintenance tools. New commits bind an explicit replay version. Migrated receipts keep
 their original version and use a registered legacy codec for retry.
 Transparent Storage wrappers must also forward `retry_epochs` when their backing
 store supports nonzero epochs. Its default describes an epoch-zero-only store.
+
+Operator recovery adds coherent bounded `work_snapshot` and atomic `control_work` ports.
+An adapter advertises both through `supports_operator`; the default is false.
+A transparent wrapper must forward all three methods to preserve this capability.
+The control transaction persists a work transition and its operator receipt together.
+See [operator recovery](operator-recovery.md) for authority, response limits and current integration status.
 
 Run `cargo test -p rom-storage-conformance --locked` from the repository root.
 The sections below preserve the original format-one milestone and its test

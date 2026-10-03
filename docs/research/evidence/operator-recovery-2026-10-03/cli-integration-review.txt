@@ -1,0 +1,70 @@
+# Additive CLI reconciliation review
+
+Reviewed 2026-10-03. Scope: the five frozen files in source.json, their extraction from
+the previously accepted CLI fixture, and the added delivery-profile guide.
+All five package hashes match. No product changes or test reruns.
+
+## Verdict
+
+Spec: accept the additive CLI/native coverage. Quality: one Minor documentation qualification.
+No code finding or regression found in this scope.
+The final combined verification gate remains separate from this source review.
+
+## Minor: qualify callback execution bounds
+
+The frozen guide, docs/operator-recovery.md:123, says:
+
+> ROM bounds its execution, then checks current operator, service and Resource authority again before committing a result.
+
+This can imply a finite wall-time bound for arbitrary trusted Rust callbacks.
+`channels::supervision::run` applies a Tokio timeout, aborts the task, and awaits its completion.
+Tokio cannot preempt blocking or non-yielding callback code.
+Joining such code can retain the existing supervised work permit beyond the requested timeout.
+
+State that host verifier callbacks must use cooperative async work and bounded I/O.
+Describe the timeout and abort/join behavior without promising preemption of arbitrary native code.
+Keep the existing guarantee that callbacks run outside the core commit gate and native transactions.
+This is a documentation correction; the review does not request a new execution mechanism.
+
+## Reviewed behavior
+
+The added reconciliation test uses the actual CLI executable, numeric-loopback HTTP,
+Runtime and scratch SQLite/redb stores. Public Resource commands create the notification.
+One actual delivery returns Unknown under ReconcileBeforeRetry.
+The HTTP list reports AwaitingReconciliation, and CLI retry is refused.
+
+The first exact reconciliation request returns Unresolved at the original version.
+Processing work sends nothing. The second request invokes the verifier and returns Completed.
+Repeating that exact request returns the same result with replayed=true.
+The final work view reports Done; later processing still sends nothing.
+Assertions require one delivery call, two verifier calls and unchanged native Resource/event/receipt/effect counts.
+This proves the declared local journey, not external provider exactly-once delivery.
+
+The public responses exclude the frozen payload and trusted provider evidence markers.
+The caller-supplied opaque lookup reference remains in the echoed operation for response correspondence.
+That echo is intentional. The guide explains that the reference must not contain secrets.
+Existing CLI tests still cover static error privacy, malformed correspondence and lost acknowledgements.
+The denied retry has no success output. No new product error formatting was introduced.
+
+The native fixture extraction preserves the previous declarations, session policy and database constructors.
+Both journeys reuse the same cohesive native_support module.
+No production demo grant or transport authentication behavior changed.
+The guide's profile registration names and trusted result variants match the public source.
+Persisted profile matching, default AtLeastOnce, terminal NotAccepted, inconclusive lookup handling,
+post-verification authority checks and private receipt evidence are described accurately, subject to the bound qualification above.
+
+## Evidence
+
+The retained tests-and-intermediate-clippy.log reports 14 operator CLI tests passing,
+including the new reconciliation journey and both native fixtures.
+The same log then reports an intermediate core large-enum Clippy failure.
+The report explicitly assigns that correction to the core implementer and leaves the combined gate open.
+This review does not convert that intermediate log into a final Clippy success claim.
+
+## Qualification fix review
+
+The coordinator amended the live guide after this frozen-package review.
+The new paragraph requires cooperative async execution and bounded I/O.
+It describes abort/join, permit retention and the absence of a hard limit for blocking or non-yielding Rust callbacks.
+Source reread confirms the qualification addresses the Minor finding without changing the authority or gate guarantees.
+The additive slice is accepted on both Spec and Quality axes.

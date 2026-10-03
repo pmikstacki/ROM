@@ -66,6 +66,10 @@ impl Http {
             .route("/journal", post(journal))
             .route("/journal/head", post(journal_head))
             .route("/subscribe", post(subscribe))
+            .route("/work/capabilities", post(crate::operator::capabilities))
+            .route("/work/list", post(crate::operator::list))
+            .route("/work/read", post(crate::operator::read))
+            .route("/work/control", post(crate::operator::control))
             .with_state(self.shared.clone())
     }
     /// Close application intake and observers; drain runtime-owned accepted work.

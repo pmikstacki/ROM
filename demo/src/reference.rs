@@ -230,23 +230,9 @@ fn open(redb: bool, path: &Path) -> Result<Runtime> {
     };
     build(storage, Notices::default())
 }
-struct Scratch(std::path::PathBuf);
-impl Drop for Scratch {
-    fn drop(&mut self) {
-        let _ = std::fs::remove_dir_all(&self.0);
-    }
-}
 /// Run on a fresh private scratch database, close and reopen with the same declarations.
 pub async fn run(redb: bool) -> crate::smoke::SmokeResult<()> {
-    let path = std::env::temp_dir().join(format!(
-        "rom-reference-{}-{}",
-        std::process::id(),
-        std::time::SystemTime::now()
-            .duration_since(std::time::UNIX_EPOCH)?
-            .as_nanos()
-    ));
-    std::fs::create_dir(&path)?;
-    let scratch = Scratch(path);
+    let scratch = crate::scratch::Scratch::new("reference")?;
     let database = scratch.0.join("db");
     let objects = scratch.0.join("objects");
     let runtime = open(redb, &database)?;

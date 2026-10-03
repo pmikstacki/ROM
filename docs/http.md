@@ -21,6 +21,13 @@ these POST streams are not the browser's GET-only `EventSource` API.
 | `/journal/head` | `{kind}` | Explicit current `JournalCursor` |
 | `/journal` | `{kind,after}` | Bounded `JournalBatch` |
 | `/subscribe` | `{kind,after}` | SSE ordered journal batches |
+| `/work/capabilities` | `{}` | `OperatorCapabilities` |
+| `/work/list` | `WorkQuery` | `WorkPage` |
+| `/work/read` | `{handle}` | `WorkView` |
+| `/work/control` | `WorkControlRequest` | `WorkControlResult` |
+
+Operator routes use the [authorized work recovery contract](operator-recovery.md).
+Their policy defaults to denial and is independent of Resource discovery.
 
 Example invocation:
 

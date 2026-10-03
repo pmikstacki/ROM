@@ -56,10 +56,10 @@ pub(super) fn collect_upgrade_snapshot(
     let version: u32 = c
         .pragma_query_value(None, "user_version", |r| r.get(0))
         .map_err(|_| Error::Storage)?;
-    let snapshot = collect_supported_snapshot(c, limits, &[3, 4, 5, 6])?;
+    let snapshot = collect_supported_snapshot(c, limits, &[3, 4, 5, 6, 7])?;
     if version == 3 {
         rom_backup::bind_legacy_schema(snapshot, descriptors, limits)
-    } else if version == 6 {
+    } else if version >= 6 {
         rom_backup::upgrade_current_snapshot(snapshot, descriptors, limits)
     } else {
         rom_backup::upgrade_legacy_snapshot(snapshot, descriptors, limits)
@@ -67,7 +67,7 @@ pub(super) fn collect_upgrade_snapshot(
 }
 
 pub(super) fn collect_migration_snapshot(c: &Connection, limits: BackupLimits) -> Result<Snapshot> {
-    collect_supported_snapshot(c, limits, &[4, 5, 6, rom_backup::STORAGE_FORMAT])
+    collect_supported_snapshot(c, limits, &[4, 5, 6, 7, rom_backup::STORAGE_FORMAT])
 }
 
 fn collect_supported_snapshot(
@@ -103,7 +103,7 @@ fn validate_inventory(c: &Connection, format: u32) -> Result<()> {
             ("table", "resources", "resources"),
             ("table", "rom_state", "rom_state"),
         ]
-    } else if format == 7 {
+    } else if matches!(format, 7 | 8) {
         &[
             ("table", "effects", "effects"),
             ("table", "events", "events"),
@@ -193,7 +193,11 @@ fn collect_records(
         .next()
         .map_err(|_| Error::Storage)?
         .ok_or(Error::Storage)?;
-    let mut collect = Collector::new(text(state_row, 0)?, limits)?;
+    let mut collect = if format < rom_backup::STORAGE_FORMAT {
+        Collector::legacy(text(state_row, 0)?, limits)?
+    } else {
+        Collector::new(text(state_row, 0)?, limits)?
+    };
     for table in ["resources", "receipts", "events", "effects"] {
         let sql = match table {
             "resources" => "SELECT kind,id,revision,data FROM resources",
@@ -271,7 +275,7 @@ fn collect_records(
             },
         })?;
     }
-    if format == rom_backup::STORAGE_FORMAT && validate_indexes {
+    if format >= 7 && validate_indexes {
         crate::index::validate(c, &mut collect, limits)?;
     }
     Ok(collect.snapshot)

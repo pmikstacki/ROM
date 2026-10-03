@@ -1,5 +1,9 @@
 //! Previous native format is inspected without changing its retry protocol.
-use crate::{Redb, format::META};
+use crate::{
+    Redb,
+    format::{META, STATE},
+};
+use redb::ReadableTable;
 use rom::{
     Bundle, Error, Key, Receipt, Resource, RetryEpochs, Row, Storage, StorageLimits, StorageState,
     json,
@@ -71,6 +75,19 @@ fn source(path: &std::path::Path, origin: Option<u32>) -> RetryEpochs {
     drop(db);
     let db = redb::Database::open(path).unwrap();
     let tx = db.begin_write().unwrap();
+    let state = {
+        let table = tx.open_table(STATE).unwrap();
+        let raw = table.get("state").unwrap().unwrap();
+        let mut state: serde_json::Value = serde_json::from_str(raw.value()).unwrap();
+        // This fixture has no work, so the only new state field is the operator ledger.
+        assert_eq!(state["work"]["work"], json!({}));
+        state.as_object_mut().unwrap().remove("operator").unwrap();
+        serde_json::to_string(&state).unwrap()
+    };
+    tx.open_table(STATE)
+        .unwrap()
+        .insert("state", state.as_str())
+        .unwrap();
     tx.open_table(META).unwrap().insert("format", 6).unwrap();
     tx.commit().unwrap();
     drop(db);

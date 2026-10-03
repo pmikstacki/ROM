@@ -1,13 +1,26 @@
 //! Synchronous Storage operations over coherent native transactions.
 use crate::{Redb, format::*};
-use redb::{Durability, ReadableDatabase, ReadableTable};
+use redb::{Durability, ReadableDatabase};
 use rom::{
     Bundle, Capabilities, Descriptor, Error, JournalCursor, JournalPage, Key, Receipt, Result, Row,
-    Storage, StorageState, WorkRecord, WorkResult, WorkUpdate,
+    Storage, WorkRecord, WorkResult, WorkUpdate,
 };
 use std::sync::atomic::Ordering;
 
 impl Storage for Redb {
+    fn supports_operator(&self) -> bool {
+        true
+    }
+    fn work_snapshot(
+        &self,
+        max_records: usize,
+        max_bytes: usize,
+    ) -> Result<rom::StorageWorkSnapshot> {
+        self.operator_snapshot(max_records, max_bytes)
+    }
+    fn control_work(&self, control: &rom::StorageWorkControl) -> Result<rom::WorkControlReceipt> {
+        self.operator_control(control)
+    }
     fn acquire_owner(&self) -> Result<rom::StorageOwner> {
         self.ownership.acquire()
     }
@@ -15,14 +28,7 @@ impl Storage for Redb {
         self.available()?;
         let tx = self.db.begin_read().map_err(|_| Error::Storage)?;
         let table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
-        let state: StorageState = serde_json::from_str(
-            table
-                .get("state")
-                .map_err(|_| Error::Storage)?
-                .ok_or(Error::Storage)?
-                .value(),
-        )
-        .map_err(|_| Error::Storage)?;
+        let state = crate::state::read(&table)?;
         Ok(state.retry_epochs())
     }
     fn register(&self, descriptors: &[Descriptor]) -> Result<()> {
@@ -35,14 +41,7 @@ impl Storage for Redb {
         self.available()?;
         let tx = self.db.begin_read().map_err(|_| Error::Storage)?;
         let table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
-        let s: StorageState = serde_json::from_str(
-            table
-                .get("state")
-                .map_err(|_| Error::Storage)?
-                .ok_or(Error::Storage)?
-                .value(),
-        )
-        .map_err(|_| Error::Storage)?;
+        let s = crate::state::read(&table)?;
         Ok(s.work.records())
     }
     fn reaction_update(&self, update: WorkUpdate) -> Result<WorkResult> {
@@ -53,23 +52,9 @@ impl Storage for Redb {
             .map_err(|_| Error::Storage)?;
         let result = {
             let mut table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
-            let mut s: StorageState = serde_json::from_str(
-                table
-                    .get("state")
-                    .map_err(|_| Error::Storage)?
-                    .ok_or(Error::Storage)?
-                    .value(),
-            )
-            .map_err(|_| Error::Storage)?;
+            let mut s = crate::state::read(&table)?;
             let result = s.update_work(update)?;
-            table
-                .insert(
-                    "state",
-                    serde_json::to_string(&s)
-                        .map_err(|_| Error::Storage)?
-                        .as_str(),
-                )
-                .map_err(|_| Error::NotCommitted)?;
+            crate::state::write(&mut table, &s)?;
             result
         };
         if tx.commit().is_err() {
@@ -85,14 +70,7 @@ impl Storage for Redb {
         self.available()?;
         let tx = self.db.begin_read().map_err(|_| Error::Storage)?;
         let table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
-        let s: StorageState = serde_json::from_str(
-            table
-                .get("state")
-                .map_err(|_| Error::Storage)?
-                .ok_or(Error::Storage)?
-                .value(),
-        )
-        .map_err(|_| Error::Storage)?;
+        let s = crate::state::read(&table)?;
         Ok(s.journal_head(kind))
     }
     fn journal(
@@ -105,14 +83,7 @@ impl Storage for Redb {
         self.available()?;
         let tx = self.db.begin_read().map_err(|_| Error::Storage)?;
         let table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
-        let s: StorageState = serde_json::from_str(
-            table
-                .get("state")
-                .map_err(|_| Error::Storage)?
-                .ok_or(Error::Storage)?
-                .value(),
-        )
-        .map_err(|_| Error::Storage)?;
+        let s = crate::state::read(&table)?;
         s.journal(kind, after, max_rows, max_bytes)
     }
 

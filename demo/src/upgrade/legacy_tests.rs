@@ -102,6 +102,7 @@ fn row<R: Resource>(value: R) -> Row {
 fn work(definition: &str, payload: WorkPayload) -> PendingWork {
     let actor = service();
     PendingWork {
+        delivery_profile: rom::DeliveryProfile::AtLeastOnce,
         id: "pending".into(),
         definition: definition.into(),
         version: 1,

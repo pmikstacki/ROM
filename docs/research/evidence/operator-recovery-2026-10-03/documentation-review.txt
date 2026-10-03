@@ -1,0 +1,32 @@
+# Bounded operator documentation consistency review
+
+Reviewed current text and changed hunks in docs/operator-recovery.md, docs/{http,cli,native-upgrade,storage-adapters,references,resource-migrations,retention}.md, demo/README.md, crates/rom-backup/README.md and docs/research/framework-release-progress.md. Compared them with current compatibility, operator, CLI and demo source. No external research or tests were repeated. Historical reports were preserved.
+
+## Findings
+
+Two Minor qualifications were found. No Important or Critical factual or clarity error was found. The coordinator accepted both findings.
+
+1. **Operator replay availability needs its epoch condition.** docs/operator-recovery.md:77 and102 promise exact replay without stating the replay-floor limit. Runtime and StorageState check the operator epoch before receipt lookup. A retained operator receipt can remain as audit evidence after its request returns `IdentityExpired`. Current authority also controls disclosure. Qualify replay by current authority and retry epoch checks, and distinguish retained evidence from replay eligibility.
+2. **The CLI epoch mechanism needs its command scope.** docs/retention.md:41 says CLI mutations accept `--retry-epoch N`. Resource mutation commands accept that option. `work retry` and `work reconcile` instead require `retry_epoch` inside their exact request file. State both mechanisms without permitting an epoch change on retry.
+
+## Confirmed facts
+
+Current native format8 and archive6 match shared constants. Native upgrades accept3–7; Resource migration accepts4–8; archive upgrade APIs cover1–5. Format6/7 native and archive4/5 conversion preserve retry boundaries and receipt origins. Earlier conversion requires epoch-zero metadata. Legacy conversion initializes revision0, AtLeastOnce and an empty operator ledger; ordinary current decoding requires the new fields.
+
+Backup, restore and retention preserve operator audit receipts. Restore rotates storage generation and retains operator request identity. Work and operator receipts share bounded snapshot record accounting. Public64-record/64-KiB and raw2048-record/4-MiB defaults match source. Native atomic controls persist a transition and receipt together; unsupported custom adapters advertise false by default.
+
+Public method names, HTTP routes, CLI commands and request JSON match current source. The retry example marks handle/generation placeholders and instructs the reader to copy the complete current version. Default operator policy denies access. The finite demo authorizer is private to its bootstrap-only journey; ordinary demo declarations and HTTP sessions receive no operator grant. Compensation uses the existing Resource action path.
+
+Verifier integration and combined acceptance remain explicitly provisional. Release progress identifies stage3 and4.1 commits without rewriting their older milestone sections. No stage4.2 or full release completion is claimed.
+
+## Writing guidance
+
+Applied docs/writing.md and the ASD-STE100 skill as guidance for meaning, conditions, terminology and concise instructions. Kept Resource, mutation receipt, operator receipt, retry epoch, WorkVersion and AtLeastOnce as project technical terms. No arbitrary synonym changes were requested. This bounded review does not certify all prose against the standard.
+
+Vocabulary was checked against known rulings and high-risk patterns only, not against the official ASD-STE100 Part2 dictionary. Full compliance requires verification against the official standard.
+
+## Authorized correction
+
+After this review, the coordinator authorized only these two qualifications in docs/operator-recovery.md and docs/retention.md. The scoped correction preserves commands, API identifiers, replay identity and retry boundaries. The coordinator will verify the final diff against source; the final whole-branch review still covers documentation. No prose-only test run is necessary.
+
+Both narrow qualifications are implemented. task6-docs-qualification.patch records only this correction against the reviewed text. Scoped git diff --check passed. No product source or other documentation was changed by the correction. Coordinator verification remains pending.

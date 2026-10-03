@@ -22,6 +22,7 @@ fn pending(notification: bool) -> PendingWork {
         definition: "reaction".into(),
         version: 1,
         service_key: "service".into(),
+        delivery_profile: rom::DeliveryProfile::AtLeastOnce,
         payload: if notification {
             WorkPayload::Notification {
                 source: row,

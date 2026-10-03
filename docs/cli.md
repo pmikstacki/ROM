@@ -202,3 +202,9 @@ and redb, with actual stream updates and revocation. Fault coverage includes los
 commit replies, post-commit denial and arbitrary host-gate errors, identical retry,
 identity mismatch, exact integers and partial presence, malformed inputs/frames,
 redirect rejection, stream inactivity, broken output pipes and signal interruption.
+
+## Operator work recovery
+
+The `work capabilities`, `work list`, `work show`, `work retry` and `work reconcile` commands use the shared operator contract.
+See [operator recovery](operator-recovery.md) for exact request files, authority, receipt replay and support limits.
+These commands do not open the database, reset budgets or infer a compensation.

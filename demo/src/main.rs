@@ -11,6 +11,15 @@ async fn main() -> smoke::SmokeResult<()> {
     }
     let redb = backend == "redb";
     match mode.as_str() {
+        "operator" => {
+            if args.next().is_some() {
+                return Err("usage: rom-demo operator [sqlite|redb]".into());
+            }
+            rom_demo::operator::run(redb).await?;
+            println!(
+                "Operator recovery passed ({backend}): denied delivery, restart, authorized unchanged retry, receipt replay and explicit Resource compensation."
+            );
+        }
         "upgrade" => {
             if args.next().is_some() {
                 return Err("usage: rom-demo upgrade [sqlite|redb]".into());
@@ -87,7 +96,7 @@ async fn main() -> smoke::SmokeResult<()> {
         }
         _ => {
             return Err(
-                "usage: rom-demo [smoke|reference|upgrade|serve] [sqlite|redb] [database] [port]"
+                "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
                     .into(),
             );
         }

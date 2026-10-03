@@ -67,6 +67,7 @@ fn snapshot(work: bool) -> Snapshot {
             effects: vec![],
             reactions: if work {
                 vec![PendingWork {
+                    delivery_profile: rom::DeliveryProfile::AtLeastOnce,
                     id: "pending-one".into(),
                     cause: Cause {
                         retry_epoch: 0,

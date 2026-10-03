@@ -1,0 +1,25 @@
+- Validating...
+✓ change/add-structured-action-inputs
+✓ change/design-capability-adapters
+✓ change/design-provider-neutral-auth
+✓ change/enforce-resource-transitions
+✓ change/establish-rom
+✓ change/evaluate-query-compensation-and-skills
+✓ change/harden-core-and-add-cli
+✓ change/integrate-resource-mvp
+✓ change/prepare-framework-release
+Totals: 9 passed, 0 failed (9 items)
+rustc 1.99.0 (b940084d7 2026-09-28)
+Diff in /workspace/ROM/.worktrees/release-query-index/crates/rom-cli/tests/operator.rs:4:
+ mod native;
+ #[path = "operator/native_support.rs"]
+ mod native_support;
+-#[path = "operator/reconciliation.rs"]
+-mod reconciliation;
+ #[path = "operator/object_shape.rs"]
+ mod object_shape;
++#[path = "operator/reconciliation.rs"]
++mod reconciliation;
+ #[path = "operator/support.rs"]
+ mod support;
+ use common::*;

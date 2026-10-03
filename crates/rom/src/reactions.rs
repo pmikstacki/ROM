@@ -1,5 +1,6 @@
 //! Typed, post-commit reactions. Mapping functions must be pure and bounded.
 use super::*;
+mod receipt;
 /// A custom action input for an existing target Resource.
 pub struct Target<I> {
     pub id: String,
@@ -162,8 +163,7 @@ impl Runtime {
                 }
                 let replay_exists = {
                     let _guard = self.0.gate.lock().map_err(|_| Error::Panicked)?;
-                    self.retry_receipt(&identity, invocation.retry_epoch, true)?
-                        .is_some()
+                    self.resolve_frozen_action(&def.actor, &invocation)?
                 };
                 if replay_exists {
                     return self.finish_claim(&claim, WorkOutcome::Done);
@@ -254,6 +254,7 @@ impl Runtime {
                     cause,
                     definition: def.name.clone(),
                     version: def.version,
+                    delivery_profile: DeliveryProfile::AtLeastOnce,
                     service_key: def.actor.key(),
                     payload: WorkPayload::Action(
                         serde_json::to_value(invocation).map_err(|_| Error::Storage)?,
@@ -340,6 +341,7 @@ impl Runtime {
                 cause,
                 definition: def.name.clone(),
                 version: def.version,
+                delivery_profile: DeliveryProfile::AtLeastOnce,
                 service_key: def.actor.key(),
                 payload: WorkPayload::Source(row.clone()),
             });

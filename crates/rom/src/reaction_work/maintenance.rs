@@ -7,7 +7,8 @@ impl WorkLedger {
         &mut self,
         transform: &mut impl FnMut(&Key, &Value) -> Result<Value>,
     ) -> Result<()> {
-        for record in self.work.values_mut() {
+        let mut next = self.clone();
+        for record in next.work.values_mut() {
             match &mut record.pending.payload {
                 WorkPayload::Source(row) | WorkPayload::Notification { source: row, .. } => {
                     *row = row.map_resource_values(transform)?;
@@ -15,6 +16,6 @@ impl WorkLedger {
                 WorkPayload::Action(_) => {}
             }
         }
-        self.check_bounds()
+        self.publish(next)
     }
 }

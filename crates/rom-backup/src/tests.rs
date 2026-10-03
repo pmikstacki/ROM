@@ -3,6 +3,21 @@ use crate::*;
 use rom::{Descriptor, Error, StorageLimits, StorageState, json};
 use sha2::{Digest, Sha256};
 use std::{fs, path::Path};
+
+pub(super) fn legacy_state(value: &mut serde_json::Value) {
+    value.as_object_mut().unwrap().remove("operator");
+    for record in value["work"]["work"].as_object_mut().unwrap().values_mut() {
+        record.as_object_mut().unwrap().remove("revision");
+        record["pending"]
+            .as_object_mut()
+            .unwrap()
+            .remove("delivery_profile");
+    }
+}
+
+pub(super) fn legacy_manifest(value: &mut serde_json::Value) {
+    value.as_object_mut().unwrap().remove("operator_receipts");
+}
 pub(super) fn unchecked_archive(
     path: &Path,
     manifest: &serde_json::Value,
@@ -38,12 +53,27 @@ fn reader_rejects_valid_checksum_wrong_format_counts_or_metadata() {
     };
     let manifest = serde_json::to_value(snapshot.manifest(Backend::Sqlite)).unwrap();
     let body = serde_json::to_value(snapshot).unwrap();
-    for field in ["archive_version", "storage_format", "rows"] {
+    for field in [
+        "archive_version",
+        "storage_format",
+        "rows",
+        "operator_receipts",
+    ] {
         let mut bad = manifest.clone();
         bad[field] = json!(42);
         unchecked_archive(stage.path(), &bad, &body);
         assert!(read(stage.path(), Backend::Sqlite, BackupLimits::default()).is_err());
     }
+    let mut incomplete = manifest.clone();
+    incomplete
+        .as_object_mut()
+        .unwrap()
+        .remove("operator_receipts");
+    unchecked_archive(stage.path(), &incomplete, &body);
+    assert!(matches!(
+        read(stage.path(), Backend::Sqlite, BackupLimits::default()),
+        Err(Error::Storage)
+    ));
     for field in ["head", "receipts", "effects"] {
         let mut bad = body.clone();
         bad["state"][field] = json!(42);
@@ -90,7 +120,8 @@ fn explicit_legacy_archive_upgrade_preserves_data_and_requires_descriptors() {
             completed_work: None,
         })
         .unwrap();
-    let body = json!({"state":state,"rows":[row],"receipts":[receipt],"events":[["original",row]],"effects":[]});
+    let mut body = json!({"state":state,"rows":[row],"receipts":[receipt],"events":[["original",row]],"effects":[]});
+    legacy_state(&mut body["state"]);
     let manifest = json!({"archive_version":1,"storage_format":3,"backend":"Sqlite","rows":1,"receipts":1,"events":1,"effects":0,"work":0,"external_blobs_included":false,"external_deliveries_included":false});
     unchecked_archive(source.path(), &manifest, &body);
     let original = fs::read(source.path()).unwrap();
@@ -122,9 +153,11 @@ fn explicit_legacy_archive_upgrade_preserves_data_and_requires_descriptors() {
         BackupLimits::default(),
     )
     .unwrap();
-    assert_eq!((result.archive_version, result.storage_format), (5, 7));
+    assert_eq!((result.archive_version, result.storage_format), (6, 8));
     let (_, upgraded) = read(&target, Backend::Sqlite, BackupLimits::default()).unwrap();
-    let upgraded = serde_json::to_value(upgraded).unwrap();
+    let mut upgraded = serde_json::to_value(upgraded).unwrap();
+    assert_eq!(upgraded["state"]["operator"]["receipts"], json!({}));
+    legacy_state(&mut upgraded["state"]);
     let mut expected_body = body.clone();
     expected_body["receipts"][0]["replay_version"] = json!(1);
     for field in ["state", "rows", "receipts", "events", "effects"] {
@@ -236,8 +269,10 @@ fn catalogued_archive_upgrade_preserves_or_binds_receipt_origin() {
             let mut manifest = snapshot.manifest(Backend::Sqlite);
             manifest.archive_version = archive_version;
             manifest.storage_format = archive_version + 2;
-            let manifest = serde_json::to_value(manifest).unwrap();
+            let mut manifest = serde_json::to_value(manifest).unwrap();
+            legacy_manifest(&mut manifest);
             let mut legacy_body = serde_json::to_value(&snapshot).unwrap();
+            legacy_state(&mut legacy_body["state"]);
             legacy_body["state"]
                 .as_object_mut()
                 .unwrap()
@@ -253,7 +288,7 @@ fn catalogued_archive_upgrade_preserves_or_binds_receipt_origin() {
                 Err(Error::Unsupported(_))
             ));
             let upgraded = upgrade(source.path(), &target).unwrap();
-            assert_eq!((upgraded.archive_version, upgraded.storage_format), (5, 7));
+            assert_eq!((upgraded.archive_version, upgraded.storage_format), (6, 8));
             let (_, data) = read(&target, Backend::Sqlite, BackupLimits::default()).unwrap();
             assert_eq!(data.receipts[0].replay_version, Some(origin.unwrap_or(2)));
             assert_eq!(data.receipts[0].row, snapshot.receipts[0].row);

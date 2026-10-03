@@ -21,6 +21,8 @@ pub(crate) struct Inner {
     pub(crate) reaction_limits: ReactionLimits,
     pub(crate) channels: BTreeMap<String, Arc<channels::RegisteredChannel>>,
     pub(crate) delivery_timeout: std::time::Duration,
+    pub(crate) operator_authorizer: crate::operator::authorization::Authorizer,
+    pub(crate) operator_limits: crate::operator::OperatorLimits,
     pub(crate) reaction_worker: Arc<Semaphore>,
     pub(crate) gate: Mutex<()>,
     pub(super) denied: Mutex<BTreeSet<String>>,

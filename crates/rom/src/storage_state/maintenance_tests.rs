@@ -32,6 +32,7 @@ fn pending(id: &str, payload: WorkPayload) -> PendingWork {
         },
         definition: "notify".into(),
         version: 4,
+        delivery_profile: DeliveryProfile::AtLeastOnce,
         service_key: "service".into(),
         payload,
     }
@@ -133,6 +134,8 @@ fn state_mapping_preserves_obligation_identity_lifecycle_and_opaque_payloads() {
         json!({"new": "source"});
     expected["work"]["work"]["b-source"]["pending"]["payload"]["Source"]["protected"]["deletion_authorization"] =
         json!({"new": "deleted"});
+    expected["work"]["work"]["a-notice"]["revision"] = json!(3);
+    expected["work"]["work"]["b-source"]["revision"] = json!(1);
     state.map_resource_values(&mut rename).unwrap();
     assert_eq!(serde_json::to_value(&state).unwrap(), expected);
 }

@@ -144,3 +144,18 @@ uses an adapter-owned coherent operation without application callbacks under
 native connection locks. The physical-index and semantic-gate reviews identify
 the remaining implementation contracts. This is preparation; maintained index
 selection, index recovery and new performance measurements are not complete.
+
+## Subsequent stage 3 and stage 4 work
+
+Stage 3 is complete in commit `2494a20`.
+The [maintained query cost results](maintained-query-cost-results.md) record measured selection, limits, independent review and the full local verifier.
+The earlier preparation sections above describe their original milestones.
+
+Stage 4.1 is complete in commit `62285bd`.
+The [ownership results](runtime-ownership-results.md) record native locks, Runtime ownership, maintenance exclusion and pending-work recovery after process exit.
+
+Stage 4.2 is complete in the reviewed release worktree.
+The [operator recovery results](operator-recovery-results.md) record atomic controls, authorized views, explicit delivery profiles and verified reconciliation.
+HTTP, CLI, the reference recovery journey and both native upgrades passed the final combined local verifier.
+Independent reviews accepted the implementation. The source manifest identifies the executed tree.
+Stages 4.3 through 4.6 remain open. These intermediate results do not complete the release goal.

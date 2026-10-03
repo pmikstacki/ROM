@@ -1,0 +1,31 @@
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+   Compiling rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+   Compiling rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+   Compiling rom-consumer v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/examples/consumer)
+   Compiling rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+    Finished `test` profile [unoptimized] target(s) in 7.32s
+     Running tests/loopback.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/loopback-4ea42631b9e5364e)
+
+running 1 test
+
+thread 'operator_flow::operator_http_matches_embedded_inspection_and_atomic_retry_without_resending' (1554353) panicked at crates/rom-http/tests/loopback/operator_flow.rs:114:5:
+assertion `left == right` failed: HTTP/1.1 403 Forbidden
+content-type: application/json
+content-length: 18
+connection: close
+date: Sat, 03 Oct 2026 18:03:30 GMT
+
+{"error":"denied"}
+  left: 403
+ right: 200
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test operator_flow::operator_http_matches_embedded_inspection_and_atomic_retry_without_resending ... FAILED
+
+failures:
+
+failures:
+    operator_flow::operator_http_matches_embedded_inspection_and_atomic_retry_without_resending
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 25 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p rom-http --test loopback`

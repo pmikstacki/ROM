@@ -2,6 +2,18 @@ use crate::{error::Failure, json, server::Shared};
 use axum::{body::to_bytes, extract::Request};
 use rom::{Actor, Error};
 
+pub(super) async fn decode_empty(
+    shared: &Shared,
+    request: Request,
+) -> Result<(Actor, tokio::sync::OwnedSemaphorePermit), Failure> {
+    let (actor, fields, permit) =
+        decode::<serde_json::Map<String, rom::Value>>(shared, request).await?;
+    if !fields.is_empty() {
+        return Err(Error::invalid("request", "expected empty object").into());
+    }
+    Ok((actor, permit))
+}
+
 pub(super) async fn decode<T: serde::de::DeserializeOwned>(
     shared: &Shared,
     request: Request,

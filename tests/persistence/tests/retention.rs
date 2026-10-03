@@ -1,3 +1,5 @@
+#[path = "support/legacy_native.rs"]
+mod legacy_native;
 use rom::*;
 use rom_backup::{BackupLimits, RetentionPolicy, RetentionReport};
 use std::{
@@ -113,6 +115,7 @@ fn seed(redb: bool, path: &Path, work: bool) -> Bundle {
     if work {
         last.reaction_limits = Some(ReactionLimits::default());
         last.reactions.push(PendingWork {
+            delivery_profile: rom::DeliveryProfile::AtLeastOnce,
             id: "pending".into(),
             definition: "copy".into(),
             version: 1,
@@ -410,22 +413,7 @@ fn legacy_native_format_cannot_import_nonzero_retry_epochs() {
         let source = dir.path("source");
         let (retained, _) = Db::retain(redb, &original_path, &source, &expired_policy()).unwrap();
         drop(retained);
-        if redb {
-            let db = redb::Database::open(&source).unwrap();
-            let tx = db.begin_write().unwrap();
-            tx.open_table(redb::TableDefinition::<&str, u64>::new("rom_metadata"))
-                .unwrap()
-                .insert("format", 5)
-                .unwrap();
-            tx.commit().unwrap();
-        } else {
-            let c = rusqlite::Connection::open(&source).unwrap();
-            c.execute_batch(
-                "DROP TABLE query_keys; DROP TABLE query_kinds; DROP TABLE query_profile;",
-            )
-            .unwrap();
-            c.pragma_update(None, "user_version", 5).unwrap();
-        }
+        legacy_native::mark(redb, &source, 5, false);
         let bytes = std::fs::read(&source).unwrap();
         let dest = dir.path("upgraded");
         let result = if redb {
@@ -469,114 +457,157 @@ fn legacy_native_format_cannot_import_nonzero_retry_epochs() {
 #[test]
 fn current_format_migration_preserves_nonzero_epochs_receipts_and_work() {
     for redb in [false, true] {
-        let dir = Scratch::new();
-        let initial = dir.path("initial");
-        seed(redb, &initial, false);
-        let source = dir.path("epoch-one");
-        let epochs = RetryEpochs {
-            current: 1,
-            admission_floor: 1,
-            replay_floor: 0,
-        };
-        let (db, _) = Db::retain(redb, &initial, &source, &RetentionPolicy::new(epochs)).unwrap();
-        let mut input = bundle("work-source", "epoch-one-receipt", 1, 1);
-        input.reaction_limits = Some(ReactionLimits::default());
-        input.reactions.push(PendingWork {
-            id: "epoch-one-work".into(),
-            definition: "notify".into(),
-            version: 1,
-            service_key: "service".into(),
-            cause: Cause {
-                retry_epoch: 1,
-                root: "epoch-one-root".into(),
-                parent: None,
-                depth: 1,
-                started_at: 0,
-                path: vec!["epoch-one-work".into()],
-            },
-            payload: WorkPayload::Notification {
-                source: input.receipt.row.clone(),
-                payload: json!({"channel":"audit"}),
-            },
-        });
-        db.storage().commit(&input).unwrap();
-        drop(db);
-        let original = std::fs::read(&source).unwrap();
-        let plan = rom_backup::MigrationPlan::new(vec![
-            rom_backup::ResourceMigration::new::<Counter, CounterV2>(|old| {
-                Ok(CounterV2 { total: old.count })
-            })
-            .unwrap(),
-        ])
-        .unwrap()
-        .validate_work(|work| {
-            if work.cause.retry_epoch != 1 || work.definition != "notify" || work.version != 1 {
-                return Err(Error::Storage);
-            }
-            let WorkPayload::Notification { source, payload } = &work.payload else {
-                return Err(Error::Storage);
+        for version in [6, 7, rom_backup::STORAGE_FORMAT] {
+            let dir = Scratch::new();
+            let initial = dir.path("initial");
+            seed(redb, &initial, false);
+            let source = dir.path("epoch-one");
+            let epochs = RetryEpochs {
+                current: 1,
+                admission_floor: 1,
+                replay_floor: 0,
             };
-            CounterV2::decode(source.value.clone().ok_or(Error::Storage)?)?;
-            if payload != &json!({"channel":"audit"}) {
-                return Err(Error::Storage);
+            let (db, _) =
+                Db::retain(redb, &initial, &source, &RetentionPolicy::new(epochs)).unwrap();
+            let mut input = bundle("work-source", "epoch-one-receipt", 1, 1);
+            input.reaction_limits = Some(ReactionLimits::default());
+            input.reactions.push(PendingWork {
+                delivery_profile: rom::DeliveryProfile::AtLeastOnce,
+                id: "epoch-one-work".into(),
+                definition: "notify".into(),
+                version: 1,
+                service_key: "service".into(),
+                cause: Cause {
+                    retry_epoch: 1,
+                    root: "epoch-one-root".into(),
+                    parent: None,
+                    depth: 1,
+                    started_at: 0,
+                    path: vec!["epoch-one-work".into()],
+                },
+                payload: WorkPayload::Notification {
+                    source: input.receipt.row.clone(),
+                    payload: json!({"channel":"audit"}),
+                },
+            });
+            db.storage().commit(&input).unwrap();
+            drop(db);
+            if version < rom_backup::STORAGE_FORMAT {
+                legacy_native::mark(redb, &source, version, false);
+                let destination = dir.path("upgraded");
+                let upgraded = if redb {
+                    Db::Redb(
+                        rom_redb::Redb::upgrade_from(
+                            &source,
+                            &destination,
+                            &[Counter::descriptor()],
+                            BackupLimits::default(),
+                        )
+                        .unwrap(),
+                    )
+                } else {
+                    Db::Sqlite(
+                        rom_sqlite::Sqlite::upgrade_from(
+                            &source,
+                            &destination,
+                            &[Counter::descriptor()],
+                            BackupLimits::default(),
+                        )
+                        .unwrap(),
+                    )
+                };
+                assert_eq!(upgraded.storage().retry_epochs().unwrap(), epochs);
+                assert_eq!(
+                    upgraded.storage().receipt(&input.receipt.identity).unwrap(),
+                    Some(input.receipt.clone())
+                );
+                let work = upgraded.storage().reaction_records().unwrap();
+                assert_eq!(work[0].revision, 0);
+                assert_eq!(work[0].pending, input.reactions[0]);
             }
-            Ok(())
-        });
-        let destination = dir.path("migrated");
-        let migrated = if redb {
-            Db::Redb(
-                rom_redb::Redb::migrate_from(&source, &destination, &plan, BackupLimits::default())
-                    .unwrap(),
-            )
-        } else {
-            Db::Sqlite(
-                rom_sqlite::Sqlite::migrate_from(
-                    &source,
-                    &destination,
-                    &plan,
-                    BackupLimits::default(),
-                )
+            let original = std::fs::read(&source).unwrap();
+            let plan = rom_backup::MigrationPlan::new(vec![
+                rom_backup::ResourceMigration::new::<Counter, CounterV2>(|old| {
+                    Ok(CounterV2 { total: old.count })
+                })
                 .unwrap(),
-            )
-        };
-        let check = |db: &Db| {
-            let storage = db.storage();
-            storage.register(&[CounterV2::descriptor()]).unwrap();
-            assert_eq!(storage.retry_epochs().unwrap(), epochs);
-            let receipt = storage.receipt(&input.receipt.identity).unwrap().unwrap();
-            assert_eq!(receipt.identity, input.receipt.identity);
-            assert_eq!(receipt.fingerprint, input.receipt.fingerprint);
-            assert_eq!(receipt.retry_epoch, 1);
-            assert_eq!(receipt.replay_version, Some(1));
-            assert_eq!(
-                CounterV2::decode(receipt.row.value.clone().unwrap())
-                    .unwrap()
-                    .total,
-                1
-            );
-            assert_eq!(storage.load(&receipt.row.key).unwrap(), Some(receipt.row));
-            let records = storage.reaction_records().unwrap();
-            assert_eq!(records.len(), 1);
-            let pending = &records[0].pending;
-            assert_eq!(pending.id, input.reactions[0].id);
-            assert_eq!(pending.cause, input.reactions[0].cause);
-            let WorkPayload::Notification { source, payload } = &pending.payload else {
-                panic!("notification expected")
+            ])
+            .unwrap()
+            .validate_work(|work| {
+                if work.cause.retry_epoch != 1 || work.definition != "notify" || work.version != 1 {
+                    return Err(Error::Storage);
+                }
+                let WorkPayload::Notification { source, payload } = &work.payload else {
+                    return Err(Error::Storage);
+                };
+                CounterV2::decode(source.value.clone().ok_or(Error::Storage)?)?;
+                if payload != &json!({"channel":"audit"}) {
+                    return Err(Error::Storage);
+                }
+                Ok(())
+            });
+            let destination = dir.path("migrated");
+            let migrated = if redb {
+                Db::Redb(
+                    rom_redb::Redb::migrate_from(
+                        &source,
+                        &destination,
+                        &plan,
+                        BackupLimits::default(),
+                    )
+                    .unwrap(),
+                )
+            } else {
+                Db::Sqlite(
+                    rom_sqlite::Sqlite::migrate_from(
+                        &source,
+                        &destination,
+                        &plan,
+                        BackupLimits::default(),
+                    )
+                    .unwrap(),
+                )
             };
-            assert_eq!(
-                CounterV2::decode(source.value.clone().unwrap())
-                    .unwrap()
-                    .total,
-                1
-            );
-            assert_eq!(payload, &json!({"channel":"audit"}));
-        };
-        check(&migrated);
-        let archive = dir.path("archive");
-        migrated.backup(&archive);
-        drop(migrated);
-        let restored = Db::restore(redb, &archive, &dir.path("restored"));
-        check(&restored);
-        assert!(std::fs::read(&source).unwrap() == original);
+            let check = |db: &Db| {
+                let storage = db.storage();
+                storage.register(&[CounterV2::descriptor()]).unwrap();
+                assert_eq!(storage.retry_epochs().unwrap(), epochs);
+                let receipt = storage.receipt(&input.receipt.identity).unwrap().unwrap();
+                assert_eq!(receipt.identity, input.receipt.identity);
+                assert_eq!(receipt.fingerprint, input.receipt.fingerprint);
+                assert_eq!(receipt.retry_epoch, 1);
+                assert_eq!(receipt.replay_version, Some(1));
+                assert_eq!(
+                    CounterV2::decode(receipt.row.value.clone().unwrap())
+                        .unwrap()
+                        .total,
+                    1
+                );
+                assert_eq!(storage.load(&receipt.row.key).unwrap(), Some(receipt.row));
+                let records = storage.reaction_records().unwrap();
+                assert_eq!(records.len(), 1);
+                let pending = &records[0].pending;
+                assert_eq!(pending.delivery_profile, rom::DeliveryProfile::AtLeastOnce);
+                assert_eq!(pending.id, input.reactions[0].id);
+                assert_eq!(pending.cause, input.reactions[0].cause);
+                let WorkPayload::Notification { source, payload } = &pending.payload else {
+                    panic!("notification expected")
+                };
+                assert_eq!(
+                    CounterV2::decode(source.value.clone().unwrap())
+                        .unwrap()
+                        .total,
+                    1
+                );
+                assert_eq!(payload, &json!({"channel":"audit"}));
+            };
+            check(&migrated);
+            let archive = dir.path("archive");
+            migrated.backup(&archive);
+            drop(migrated);
+            let restored = Db::restore(redb, &archive, &dir.path("restored"));
+            check(&restored);
+            assert!(std::fs::read(&source).unwrap() == original);
+        }
     }
 }
