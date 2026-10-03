@@ -1,0 +1,12 @@
+   Compiling rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+error[E0761]: file for module `studio_resilience` found at both "tests/persistence/tests/studio_resilience.rs" and "tests/persistence/tests/studio_resilience/mod.rs"
+ --> tests/persistence/tests/studio_resilience.rs:6:1
+  |
+6 | mod studio_resilience;
+  | ^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = help: delete or rename one of them to remove the ambiguity
+
+For more information about this error, try `rustc --explain E0761`.
+error: could not compile `rom-storage-conformance` (test "studio_resilience") due to 1 previous error

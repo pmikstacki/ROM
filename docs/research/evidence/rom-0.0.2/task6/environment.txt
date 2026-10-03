@@ -1,0 +1,12 @@
+6268e301e9e14b96684eefe7889f5298c70bf893
+c278b15a2fc06ea33f253f9f3a2d70888f5de0d46c2e2d796cc63cb3d48e134b  Cargo.lock
+container: rom-dev
+cwd: /workspace/ROM/.worktrees/release-query-index
+CARGO_TARGET_DIR=/var/tmp/rom-release-measured-verification-target
+CARGO_PROFILE_DEV_DEBUG=0
+CARGO_PROFILE_TEST_DEBUG=0
+CARGO_BUILD_JOBS=1
+cargo test -p rom-storage-conformance --test studio_resilience --locked (exit 0 final)
+cargo clippy -p rom-storage-conformance --test studio_resilience --locked -- -D warnings (exit 0 final)
+owned rustfmt --edition 2024 --config skip_children=true --check (exit 0)
+rustc 1.99.0 (b940084d7 2026-09-28)

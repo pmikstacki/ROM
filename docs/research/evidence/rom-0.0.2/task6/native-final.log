@@ -1,0 +1,37 @@
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 0.34s
+     Running tests/studio_resilience.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/studio_resilience-e45f0eaccc4a29c3)
+
+running 5 tests
+test studio_resilience::query::query_policy_child ... ok
+
+running 1 test
+test studio_resilience::migration::seeded_strict_hold_and_operator_receipt_survive_native_migration_and_replay ... ok
+test studio_resilience::migration::native_maintenance_requires_closed_owner_then_fresh_identity_and_current_replay ... ok
+test studio_resilience::query::query_policy_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.22s
+
+
+running 1 test
+test studio_resilience::authority::managed_identity_change_denies_accepted_proposal_and_all_subsequent_disclosure ... ok
+test studio_resilience::query::query_policy_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.21s
+
+
+running 1 test
+test studio_resilience::query::query_policy_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.28s
+
+
+running 1 test
+test studio_resilience::query::query_policy_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.28s
+
+test studio_resilience::query::reentrant_native_storage_policy_completes_on_reference_and_eligible_query_paths ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.04s
+

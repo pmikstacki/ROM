@@ -1,0 +1,22 @@
+   Compiling rom-derive v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-derive)
+    Checking rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+    Checking rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+    Checking rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+    Checking rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+    Checking rom-redb v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+    Checking rom-identity v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+    Checking rom-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-conformance)
+    Checking rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+error: using `contains()` instead of `iter().any()` is more efficient
+   --> tests/persistence/tests/studio_resilience/query.rs:130:9
+    |
+130 | /         calls
+131 | |             .iter()
+132 | |             .any(|stage| *stage == if eligible { "read" } else { "row" })
+    | |_________________________________________________________________________^ help: try: `calls.contains(&(if eligible { "read" } else { "row" }))`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#manual_contains
+    = note: `-D clippy::manual-contains` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::manual_contains)]`
+
+error: could not compile `rom-storage-conformance` (test "studio_resilience") due to 1 previous error

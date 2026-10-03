@@ -1,0 +1,65 @@
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+warning: methods `wait_ready` and `kill` are never used
+  --> tests/persistence/tests/support/child_process.rs:20:12
+   |
+ 9 | impl Process {
+   | ------------ methods in this implementation
+...
+20 |     pub fn wait_ready(&mut self, ready: &Path) {
+   |            ^^^^^^^^^^
+...
+43 |     pub fn kill(&mut self) -> ExitStatus {
+   |            ^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `rom-storage-conformance` (test "studio_resilience") generated 1 warning
+    Finished `test` profile [unoptimized] target(s) in 1.33s
+     Running tests/studio_resilience.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/studio_resilience-e45f0eaccc4a29c3)
+
+running 5 tests
+test studio_resilience::query::query_policy_child ... ok
+
+running 1 test
+test studio_resilience::migration::seeded_strict_hold_and_operator_receipt_survive_native_migration_and_replay ... FAILED
+test studio_resilience::migration::native_maintenance_requires_closed_owner_then_fresh_identity_and_current_replay ... ok
+test studio_resilience::query::query_policy_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.23s
+
+
+running 1 test
+test studio_resilience::authority::managed_identity_change_denies_accepted_proposal_and_all_subsequent_disclosure ... ok
+test studio_resilience::query::query_policy_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.22s
+
+
+running 1 test
+test studio_resilience::query::query_policy_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.28s
+
+
+running 1 test
+test studio_resilience::query::query_policy_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.28s
+
+test studio_resilience::query::reentrant_native_storage_policy_completes_on_reference_and_eligible_query_paths ... ok
+
+failures:
+
+---- studio_resilience::migration::seeded_strict_hold_and_operator_receipt_survive_native_migration_and_replay stdout ----
+
+thread 'studio_resilience::migration::seeded_strict_hold_and_operator_receipt_survive_native_migration_and_replay' (2038140) panicked at tests/persistence/tests/studio_resilience/migration.rs:238:9:
+assertion failed: record.generation > old.generation
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    studio_resilience::migration::seeded_strict_hold_and_operator_receipt_survive_native_migration_and_replay
+
+test result: FAILED. 4 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.04s
+
+error: test failed, to rerun pass `-p rom-storage-conformance --test studio_resilience`

@@ -1,0 +1,73 @@
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+warning: unused import: `BackupLimits`
+ --> tests/persistence/tests/studio_resilience/migration.rs:4:18
+  |
+4 | use rom_backup::{BackupLimits, MigrationPlan, ResourceMigration};
+  |                  ^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+error[E0618]: expected function, found `ProviderActivation`
+   --> tests/persistence/tests/studio_resilience/migration.rs:78:23
+    |
+ 24 |         let activation = provision(&runtime).await;
+    |             ---------- `activation` has type `ProviderActivation`
+...
+ 78 |         let current = activation(&runtime).await;
+    |                       ^^^^^^^^^^----------
+    |                       |
+    |                       call expression requires function
+    |
+   ::: tests/persistence/tests/studio_resilience/support.rs:258:1
+    |
+258 | pub async fn activation(runtime: &Runtime) -> ProviderActivation {
+    | ---------------------------------------------------------------- this function of the same name is available here, but it's shadowed by the local binding
+
+error[E0599]: no method named `work_control` found for struct `Arc<dyn rom::Storage>` in the current scope
+   --> tests/persistence/tests/studio_resilience/migration.rs:208:32
+    |
+208 |         let accepted = storage.work_control(&control).unwrap();
+    |                                ^^^^^^^^^^^^ method not found in `Arc<dyn rom::Storage>`
+
+error[E0599]: no method named `work_control` found for struct `Arc<dyn rom::Storage>` in the current scope
+   --> tests/persistence/tests/studio_resilience/migration.rs:252:28
+    |
+252 |         assert_eq!(storage.work_control(&control).unwrap(), expected);
+    |                            ^^^^^^^^^^^^ method not found in `Arc<dyn rom::Storage>`
+
+error[E0599]: no method named `work_control` found for struct `Arc<dyn rom::Storage>` in the current scope
+   --> tests/persistence/tests/studio_resilience/migration.rs:264:28
+    |
+264 |         assert_eq!(storage.work_control(&changed), Err(Error::IdentityMismatch));
+    |                            ^^^^^^^^^^^^ method not found in `Arc<dyn rom::Storage>`
+
+error[E0599]: no method named `work_control` found for struct `Arc<dyn rom::Storage>` in the current scope
+   --> tests/persistence/tests/studio_resilience/migration.rs:267:28
+    |
+267 |         assert_eq!(storage.work_control(&stale), Err(Error::Conflict));
+    |                            ^^^^^^^^^^^^ method not found in `Arc<dyn rom::Storage>`
+
+error[E0599]: no method named `work_control` found for struct `Arc<(dyn rom::Storage + 'static)>` in the current scope
+   --> tests/persistence/tests/studio_resilience/migration.rs:280:39
+    |
+280 |         assert_eq!(reopened.storage().work_control(&control).unwrap(), expected);
+    |                                       ^^^^^^^^^^^^ method not found in `Arc<(dyn rom::Storage + 'static)>`
+
+error[E0369]: binary operation `!=` cannot be applied to type `rom::Access`
+   --> tests/persistence/tests/studio_resilience/query.rs:27:12
+    |
+ 27 |     access != Access::Read || (reenter("row") && actor.subject == value.owner)
+    |     ------ ^^ ------------ rom::Access
+    |     |
+    |     rom::Access
+    |
+note: `rom::Access` does not implement `PartialEq`
+   --> crates/rom/src/policy.rs:106:1
+    |
+106 | pub enum Access {
+    | ^^^^^^^^^^^^^^^ `rom::Access` is defined in another crate
+
+Some errors have detailed explanations: E0369, E0599, E0618.
+For more information about an error, try `rustc --explain E0369`.
+warning: `rom-storage-conformance` (test "studio_resilience") generated 1 warning
+error: could not compile `rom-storage-conformance` (test "studio_resilience") due to 7 previous errors; 1 warning emitted
