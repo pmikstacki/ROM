@@ -1,0 +1,40 @@
+## ADDED Requirements
+
+### Requirement: Stable Resource semantics across implementations
+The Resource/action/committed-change/event contract SHALL have the same meaning across conforming adapters. Optional execution optimizations MUST NOT change results or weaken mandatory persistence guarantees.
+
+#### Scenario: Exact query pushdown is unavailable
+- **GIVEN** a conforming adapter without an optimization for an accepted query
+- **WHEN** the query executes through ROM
+- **THEN** the common evaluator preserves its meaning within declared work bounds
+- **AND** the application does not supply a backend-specific query or accept an approximate result
+
+### Requirement: Fair query approach comparison
+Generated, hybrid and runtime query authoring SHALL be compared over identical semantics and data. Construction, translation, compilation and execution measurements MUST be distinguished.
+
+#### Scenario: Backend translation preserves meaning
+- **GIVEN** field codecs, row/field policies and moving-view query semantics
+- **WHEN** an adapter translates a filter and order
+- **THEN** authorized results match the shared evaluator without numeric coercion or premature limiting
+- **AND** unsupported capabilities fail explicitly
+
+### Requirement: Explicit compensation evidence
+The compensation harness SHALL preserve prior commits and use explicitly declared actions. It MUST distinguish confirmed failure, transient failure and unknown outcome.
+
+#### Scenario: Uncertain external outcome
+- **GIVEN** a synthetic provider may have accepted an operation before its response was lost
+- **WHEN** the chain cannot establish its outcome
+- **THEN** the harness preserves reconciliation state instead of assuming failure and compensating
+
+#### Scenario: Concurrent changes survive repair
+- **GIVEN** another operation changed the same Resource after the original step
+- **WHEN** a declared compensation releases its own reservation
+- **THEN** unrelated changes and committed history remain intact
+
+### Requirement: Version-aware skills and bounded extension research
+Skills and WASM recommendations SHALL cite actual ROM seams, current primary sources and reproducible checks. Standalone probes MUST NOT be reported as integrated features.
+
+#### Scenario: Public extension seam lacks required state
+- **GIVEN** an adapter needs state but a public hook accepts only a function pointer
+- **WHEN** the research recommends a sandbox integration
+- **THEN** it identifies the missing seam and proposes an explicit contract instead of ambient global authority
