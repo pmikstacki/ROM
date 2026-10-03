@@ -1,0 +1,162 @@
+TAP version 13
+# (node:2050206) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: POST deadline rejects even when transport ignores abort
+not ok 1 - POST deadline rejects even when transport ignores abort
+  ---
+  duration_ms: 113.999896
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:7:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /timeout/. Input:
+    
+    'Error: test completion bound'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'test completion bound'
+  stack: |-
+    Timeout._onTimeout (file:///workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:6:108)
+    listOnTimeout (node:internal/timers:588:17)
+    process.processTimers (node:internal/timers:523:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:11:8)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: already aborted request does not invoke transport
+not ok 2 - already aborted request does not invoke transport
+  ---
+  duration_ms: 1.171565
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:13:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:16:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: oversized body rejection does not await transport cancellation
+not ok 3 - oversized body rejection does not await transport cancellation
+  ---
+  duration_ms: 100.80669
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:18:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /bytes limit/. Input:
+    
+    'Error: test completion bound'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'test completion bound'
+  stack: |-
+    Timeout._onTimeout (file:///workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:6:108)
+    listOnTimeout (node:internal/timers:588:17)
+    process.processTimers (node:internal/timers:523:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:22:7)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: query reply obeys explicit page limit
+not ok 4 - query reply obeys explicit page limit
+  ---
+  duration_ms: 1.057839
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:24:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:26:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: mutation reply must match revision and deletion semantics
+not ok 5 - mutation reply must match revision and deletion semantics
+  ---
+  duration_ms: 0.660083
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:28:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:32:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: legal no-op revision and deletion are accepted
+ok 6 - legal no-op revision and deletion are accepted
+  ---
+  duration_ms: 0.445416
+  type: 'test'
+  ...
+# Subtest: response reader and parser use the same byte policy
+not ok 7 - response reader and parser use the same byte policy
+  ---
+  duration_ms: 2.659791
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:40:1'
+  failureType: 'testCodeFailure'
+  error: 'wire byte limit'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    parseWire (file:///workspace/ROM/.worktrees/release-query-index/studio/src/lib/client/serialization.ts:35:11)
+    post (file:///workspace/ROM/.worktrees/release-query-index/studio/src/lib/client/request.ts:75:17)
+    async call (file:///workspace/ROM/.worktrees/release-query-index/studio/src/lib/client/session.ts:54:22)
+    async Object.read (file:///workspace/ROM/.worktrees/release-query-index/studio/src/lib/client/session.ts:76:24)
+    async TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:42:16)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: timer values outside execution range are rejected before transport
+not ok 8 - timer values outside execution range are rejected before transport
+  ---
+  duration_ms: 0.190031
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:44:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:45:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 1
+# fail 7
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 304.870093

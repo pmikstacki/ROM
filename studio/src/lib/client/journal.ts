@@ -9,21 +9,21 @@ export function journalBatch(
   const o = record(value),
     cursor = record(o.cursor),
     generation = text(cursor.generation),
-    position = unsigned(cursor.position);
+    position = unsigned(cursor.position, cursor, "position");
   if (text(cursor.kind) !== kind) throw new Error("journal identity mismatch");
   let previous = 0n;
   if (after) {
     if (text(after.kind) !== kind) throw new Error("journal identity mismatch");
     if (text(after.generation) !== generation)
       throw new Error("journal generation mismatch");
-    previous = unsigned(after.position);
+    previous = unsigned(after.position, after, "position");
     if (position < previous) throw new Error("journal position regressed");
   }
   if (!Array.isArray(o.events) || o.events.length > maxRows)
     throw new Error("journal events limit");
   const events = o.events.map((value) => {
     const e = record(value),
-      at = unsigned(e.position);
+      at = unsigned(e.position, e, "position");
     if (at <= previous || at > position)
       throw new Error("journal position order");
     previous = at;

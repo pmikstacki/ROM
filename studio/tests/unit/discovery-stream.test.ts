@@ -204,3 +204,55 @@ test("invalid stream media cancels its body, and opening errors retain server ca
       (error as { category: string }).category === "identity_expired",
   );
 });
+
+test("live snapshots obey the requested page limit", async () => {
+  const c = createClient({
+    base: "/api",
+    maxRows: 10,
+    fetch: async () =>
+      eventResponse([
+        `event: data\ndata: [${view},${view.replace('"a"', '"b"')}]\n\n`,
+      ]),
+  });
+  await assert.rejects(
+    c
+      .observe("task", { limit: 1 }, new AbortController().signal)
+      [Symbol.asyncIterator]()
+      .next(),
+    /rows limit/,
+  );
+});
+test("observation admission is finite and cancellation releases its slot", async () => {
+  const c = createClient({
+    base: "/api",
+    maxObservations: 1,
+    fetch: async () =>
+      new Response(
+        new ReadableStream({
+          start(controller) {
+            controller.enqueue(
+              new TextEncoder().encode(`event: data\ndata: [${view}]\n\n`),
+            );
+          },
+        }),
+        { headers: { "content-type": "text/event-stream" } },
+      ),
+  });
+  const a = new AbortController();
+  const first = c.observe("task", {}, a.signal)[Symbol.asyncIterator]();
+  await first.next();
+  await assert.rejects(
+    c
+      .observe("task", {}, new AbortController().signal)
+      [Symbol.asyncIterator]()
+      .next(),
+    /observation limit/,
+  );
+  a.abort(Error("cancelled"));
+  await assert.rejects(first.next(), /cancelled/);
+  const b = new AbortController();
+  const replacement = c.observe("task", {}, b.signal)[Symbol.asyncIterator]();
+  assert.equal((await replacement.next()).value?.length, 1);
+  b.abort();
+  await assert.rejects(replacement.next());
+});

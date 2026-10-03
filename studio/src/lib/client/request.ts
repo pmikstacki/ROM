@@ -14,6 +14,7 @@ export class RemoteError extends Error {
 export async function boundedBody(
   response: Response,
   maxBytes: number,
+  signal?: AbortSignal,
 ): Promise<string> {
   const declared = response.headers.get("content-length");
   if (
@@ -23,11 +24,17 @@ export async function boundedBody(
     throw new Error("response bytes limit");
   if (!response.body) return "";
   const reader = response.body.getReader();
+  const cancel = () => {
+    void reader.cancel().catch(() => {});
+  };
+  signal?.addEventListener("abort", cancel, { once: true });
   const chunks: Uint8Array[] = [];
   let size = 0;
   try {
+    if (signal?.aborted) throw signal.reason ?? Error("request aborted");
     for (;;) {
       const { value, done } = await reader.read();
+      if (signal?.aborted) throw signal.reason ?? Error("request aborted");
       if (done) break;
       size += value.byteLength;
       if (size > maxBytes) throw new Error("response bytes limit");
@@ -41,7 +48,8 @@ export async function boundedBody(
     }
     return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
   } finally {
-    await reader.cancel().catch(() => {});
+    signal?.removeEventListener("abort", cancel);
+    cancel();
     reader.releaseLock();
   }
 }
@@ -73,7 +81,8 @@ export async function post(
   )
     throw new Error("invalid response content type");
   const value = parseWire(
-    await boundedBody(response, options.maxBytes ?? 1048576),
+    await boundedBody(response, options.maxBytes ?? 1048576, signal),
+    options.maxBytes ?? 1048576,
   );
   if (!response.ok)
     throw new RemoteError(text(record(value).error), response.status);

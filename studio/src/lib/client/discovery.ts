@@ -6,6 +6,7 @@ import type {
   InputDescriptor,
   Shape,
   WireValue,
+  WireObject,
 } from "./types.ts";
 import { record, text, unsigned } from "./validation.ts";
 function list(value: WireValue | undefined): WireValue[] {
@@ -18,15 +19,15 @@ function unique<T>(values: T[], key: (value: T) => string): T[] {
     throw new Error("duplicate metadata");
   return values;
 }
-function version(value: WireValue | undefined): number {
-  const n = unsigned(value);
+function version(owner: WireObject): number {
+  const n = unsigned(owner.version, owner, "version");
   if (n < 1n || n > 4294967295n) throw new Error("invalid metadata version");
   return Number(n);
 }
 function codec(value: WireValue | undefined): CodecIdentity | undefined {
   if (value === undefined) return undefined;
   const o = record(value);
-  return { name: text(o.name), version: version(o.version) };
+  return { name: text(o.name), version: version(o) };
 }
 function shape(value: WireValue, depth = 0): Shape {
   if (depth > 16) throw new Error("shape depth limit");
@@ -85,7 +86,8 @@ function input(value: WireValue): InputDescriptor | null {
 }
 export function discovery(value: WireValue): Discovery {
   const o = record(value);
-  if (o.version !== 1) throw new Error("unsupported discovery version");
+  if (unsigned(o.version, o, "version") !== 1n)
+    throw new Error("unsupported discovery version");
   const resources = unique(
     list(o.resources).map((v) => {
       const resource = record(v),
@@ -95,7 +97,7 @@ export function discovery(value: WireValue): Discovery {
           const a = record(v);
           return {
             name: text(a.name),
-            version: version(a.version),
+            version: version(a),
             input: input(a.input),
           };
         }),
@@ -110,7 +112,7 @@ export function discovery(value: WireValue): Discovery {
         throw new Error("unsupported action input version");
       return {
         kind: text(resource.kind),
-        version: version(resource.version),
+        version: version(resource),
         fields: fields(resource.fields),
         actions,
         action_inputs,

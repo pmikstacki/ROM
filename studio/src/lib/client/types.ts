@@ -63,6 +63,13 @@ export interface Invocation {
   operation: Operation;
 }
 export type CompareOp = "eq" | "ne" | "lt" | "le" | "gt" | "ge";
+/** A moving boundary with exact native codec JSON. It grants no authority. */
+export interface QueryAnchor {
+  readonly kind: string;
+  readonly id: string;
+  readonly schema_version: number;
+  readonly canonical: string;
+}
 export interface QuerySpec {
   filters?: { field: string; value: WireValue; absent?: boolean }[];
   comparisons?: {
@@ -72,7 +79,7 @@ export interface QuerySpec {
     absent?: boolean;
   }[];
   order?: { field: string; direction: "asc" | "desc" }[];
-  after?: WireObject | null;
+  after?: QueryAnchor | null;
   after_id?: string | null;
   limit?: number | null;
 }
@@ -83,6 +90,7 @@ export interface ClientOptions {
   maxBytes?: number;
   timeoutMs?: number;
   maxRows?: number;
+  maxObservations?: number;
 }
 export type MutationState =
   "pending" | "unknown" | "succeeded" | "rejected" | "conflict";
@@ -104,6 +112,11 @@ export interface RomClient {
     query: QuerySpec,
     signal?: AbortSignal,
   ): Promise<ProjectedView[]>;
+  anchor(
+    query: QuerySpec,
+    last: ProjectedView,
+    signal?: AbortSignal,
+  ): Promise<QueryAnchor>;
   prepare(request: Invocation): PendingMutation;
   submit(
     mutation: PendingMutation,

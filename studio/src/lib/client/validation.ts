@@ -1,3 +1,4 @@
+import { floatingMember } from "./serialization.ts";
 import type { ProjectedView, WireObject, WireValue } from "./types.ts";
 export function record(value: WireValue): WireObject {
   if (value === null || typeof value !== "object" || Array.isArray(value))
@@ -9,7 +10,13 @@ export function text(value: WireValue | undefined): string {
     throw new Error("invalid text");
   return value;
 }
-export function unsigned(value: WireValue | undefined): bigint {
+export function unsigned(
+  value: WireValue | undefined,
+  owner?: object,
+  key?: string,
+): bigint {
+  if (owner && key !== undefined && floatingMember(owner, key))
+    throw Error("invalid integer token");
   if (
     typeof value !== "bigint" &&
     !(typeof value === "number" && Number.isSafeInteger(value))
@@ -35,7 +42,7 @@ export function projected(
     throw new Error("missing projected value");
   return {
     key: { kind: actualKind, id: actualId },
-    revision: unsigned(object.revision),
+    revision: unsigned(object.revision, object, "revision"),
     value: object.value === null ? null : record(object.value),
   };
 }

@@ -1,3 +1,4 @@
+import { pageLimit } from "./query.ts";
 import { parseWire, stringifyWire } from "./codec.ts";
 import { projectedRows, record, text } from "./validation.ts";
 import { boundedBody, RemoteError } from "./request.ts";
@@ -65,7 +66,10 @@ export async function* live(
       "application/json"
     )
       throw new Error("invalid response content type");
-    throw new RemoteError(text(record(parseWire(body)).error), response.status);
+    throw new RemoteError(
+      text(record(parseWire(body, options.maxBytes ?? 1048576)).error),
+      response.status,
+    );
   }
   if (
     response.headers.get("content-type")?.split(";")[0].trim() !==
@@ -100,7 +104,7 @@ export async function* live(
     return projectedRows(
       parseWire(payload, maxBytes),
       kind,
-      options.maxRows ?? 10000,
+      pageLimit(query, options.maxRows ?? 10000),
     );
   };
   try {

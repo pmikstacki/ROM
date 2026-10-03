@@ -7,7 +7,10 @@ import {
   objectInput,
   patchInput,
 } from "../../src/lib/client/codec.ts";
-import type { FieldDescriptor } from "../../src/lib/client/types.ts";
+import type {
+  FieldDescriptor,
+  WireObject,
+} from "../../src/lib/client/types.ts";
 
 test("wire codec preserves boundary integers and ordinary false/zero/null/empty values", () => {
   const text =
@@ -206,4 +209,13 @@ test("array and map accessors are rejected without executing user code", () => {
     /getter/,
   );
   assert.equal(reads, 0);
+});
+
+test("parsed floating integer tokens retain their Rust number category on replay", () => {
+  const input = '{"one":1.0,"exponent":1e3,"items":[2.0,-0.0]}';
+  const value = parseWire(input);
+  assert.equal(stringifyWire(value), input);
+  const map = value as WireObject;
+  map.one = 2;
+  assert.match(stringifyWire(map), /"one":2,/);
 });

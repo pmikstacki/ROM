@@ -1,15 +1,21 @@
 import { parseWire, stringifyWire } from "./codec.ts";
+import { deadline } from "./deadline.ts";
+import { mutationResult } from "./mutation.ts";
+import { pageLimit } from "./query.ts";
 import { post, RemoteError } from "./request.ts";
 import { projected, projectedRows } from "./validation.ts";
 import { discovery } from "./discovery.ts";
 import { live } from "./stream.ts";
 import { journalBatch } from "./journal.ts";
 import { workResponse } from "./work-validation.ts";
+import { acceptedAnchor, anchorRequest, queryWire } from "./query.ts";
 import type {
   ClientOptions,
   Invocation,
   PendingMutation,
   RomClient,
+  QuerySpec,
+  WireObject,
   WireValue,
 } from "./types.ts";
 
@@ -18,11 +24,17 @@ export function createClient(options: ClientOptions): RomClient {
     maxBytes: options.maxBytes ?? 1048576,
     timeoutMs: options.timeoutMs ?? 15000,
     maxRows: options.maxRows ?? 10000,
+    maxObservations: options.maxObservations ?? 8,
   })) {
-    if (!Number.isSafeInteger(value) || value < 1)
+    if (
+      !Number.isSafeInteger(value) ||
+      value < 1 ||
+      (name === "timeoutMs" && value > 2147483647)
+    )
       throw new Error(`invalid ${name}`);
   }
   let generation = 0;
+  let observations = 0;
   const active = new Set<AbortController>();
   const prepared = new WeakMap<
     PendingMutation,
@@ -45,16 +57,17 @@ export function createClient(options: ClientOptions): RomClient {
     const abort = () => controller.abort(external?.reason);
     if (external?.aborted) abort();
     else external?.addEventListener("abort", abort, { once: true });
-    const timer = setTimeout(
-      () => controller.abort(new Error("request timeout")),
-      options.timeoutMs ?? 15000,
-    );
     try {
-      const result = await post(options, route, body, controller.signal);
+      if (controller.signal.aborted) throw controller.signal.reason;
+      const result = await deadline(
+        post(options, route, body, controller.signal),
+        controller.signal,
+        options.timeoutMs ?? 15000,
+        () => controller.abort(new Error("request timeout")),
+      );
       if (started !== generation) throw new Error("session changed");
       return result;
     } finally {
-      clearTimeout(timer);
       external?.removeEventListener("abort", abort);
       active.delete(controller);
     }
@@ -75,10 +88,24 @@ export function createClient(options: ClientOptions): RomClient {
       return projected(await call("read", { kind, id }, signal), kind, id);
     },
     async query(kind, query, signal) {
+      const limit = pageLimit(query, options.maxRows ?? 10000);
       return projectedRows(
-        await call("query", { kind, query } as unknown as WireValue, signal),
+        await call("query", { kind, query: queryWire(kind, query) }, signal),
         kind,
-        options.maxRows ?? 10000,
+        limit,
+      );
+    },
+    async anchor(query, last, signal) {
+      const submitted = parseWire(
+        stringifyWire(anchorRequest(query, last)),
+      ) as WireObject;
+      const view = submitted.view as WireObject,
+        key = view.key as WireObject;
+      return acceptedAnchor(
+        await call("query/anchor", submitted, signal),
+        key.kind as string,
+        key.id as string,
+        submitted.query as unknown as QuerySpec,
       );
     },
     prepare(request) {
@@ -115,6 +142,7 @@ export function createClient(options: ClientOptions): RomClient {
           entry.body.kind,
           entry.body.id,
         );
+        mutationResult(entry.body, result);
         mutation.result = result;
         mutation.state = "succeeded";
         return result;
@@ -138,6 +166,15 @@ export function createClient(options: ClientOptions): RomClient {
       }
     },
     async *observe(kind, query, external) {
+      if (external.aborted)
+        throw external.reason ?? Error("observation aborted");
+      if (observations >= (options.maxObservations ?? 8))
+        throw Error("observation limit");
+      const submitted = parseWire(
+        stringifyWire(queryWire(kind, query)),
+      ) as unknown as QuerySpec;
+      pageLimit(submitted, options.maxRows ?? 10000);
+      observations++;
       const started = generation,
         controller = new AbortController();
       active.add(controller);
@@ -148,11 +185,12 @@ export function createClient(options: ClientOptions): RomClient {
         yield* live(
           options,
           kind,
-          query,
+          submitted,
           controller.signal,
           () => started === generation,
         );
       } finally {
+        observations--;
         external.removeEventListener("abort", abort);
         active.delete(controller);
         controller.abort();

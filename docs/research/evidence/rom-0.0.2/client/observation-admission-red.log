@@ -1,0 +1,71 @@
+TAP version 13
+# (node:2051314) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: accepts authorized descriptor and rejects duplicate or inconsistent metadata
+ok 1 - accepts authorized descriptor and rejects duplicate or inconsistent metadata
+  ---
+  duration_ms: 14.366895
+  type: 'test'
+  ...
+# Subtest: bounded POST stream handles split CRLF frames and surfaces terminal errors
+ok 2 - bounded POST stream handles split CRLF frames and surfaces terminal errors
+  ---
+  duration_ms: 1.550906
+  type: 'test'
+  ...
+# Subtest: stream rejects oversized frames and a wrong kind before disclosure
+ok 3 - stream rejects oversized frames and a wrong kind before disclosure
+  ---
+  duration_ms: 0.958821
+  type: 'test'
+  ...
+# Subtest: idle stream closes its reader on timeout and cancellation
+ok 4 - idle stream closes its reader on timeout and cancellation
+  ---
+  duration_ms: 12.850204
+  type: 'test'
+  ...
+# Subtest: stream flushes UTF8 decoder and treats silent EOF as stale
+ok 5 - stream flushes UTF8 decoder and treats silent EOF as stale
+  ---
+  duration_ms: 0.923835
+  type: 'test'
+  ...
+# Subtest: invalid stream media cancels its body, and opening errors retain server category
+ok 6 - invalid stream media cancels its body, and opening errors retain server category
+  ---
+  duration_ms: 0.69494
+  type: 'test'
+  ...
+# Subtest: live snapshots obey the requested page limit
+ok 7 - live snapshots obey the requested page limit
+  ---
+  duration_ms: 0.386564
+  type: 'test'
+  ...
+# Subtest: observation admission is finite and cancellation releases its slot
+not ok 8 - observation admission is finite and cancellation releases its slot
+  ---
+  duration_ms: 0.815769
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/studio/tests/unit/discovery-stream.test.ts:212:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/studio/tests/unit/discovery-stream.test.ts:216:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 7
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 204.447708

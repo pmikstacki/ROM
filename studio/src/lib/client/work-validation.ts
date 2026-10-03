@@ -31,19 +31,20 @@ function bool(value: WireValue | undefined): boolean {
   if (typeof value !== "boolean") throw Error("invalid boolean");
   return value;
 }
-function u32(value: WireValue | undefined): number {
-  const result = unsigned(value);
+function u32(owner: WireObject, key: string): number {
+  const result = unsigned(owner[key], owner, key);
   if (result > 4294967295n) throw Error("integer bounds");
   return Number(result);
 }
 function protocol(o: WireObject): void {
-  if (o.protocol_version !== 1) throw Error("unsupported operator version");
+  if (unsigned(o.protocol_version, o, "protocol_version") !== 1n)
+    throw Error("unsupported operator version");
 }
 function version(value: WireValue): WireObject {
   const v = record(value);
   return {
     generation: identifier(v.generation, 128),
-    revision: unsigned(v.revision),
+    revision: unsigned(v.revision, v, "revision"),
   };
 }
 function state(value: WireValue, allowed: string[]): WireValue {
@@ -90,7 +91,7 @@ function view(value: WireValue): WireObject {
     category: o.category,
     definition: {
       name: identifier(definition.name),
-      version: u32(definition.version),
+      version: u32(definition, "version"),
     },
     state: state(o.state, [
       "Pending",
@@ -98,8 +99,8 @@ function view(value: WireValue): WireObject {
       "AwaitingReconciliation",
       "Done",
     ]),
-    attempts: u32(o.attempts),
-    due: unsigned(o.due),
+    attempts: u32(o, "attempts"),
+    due: unsigned(o.due, o, "due"),
     delivery: o.delivery,
     source: key(o.source),
     target: key(o.target),
@@ -147,7 +148,7 @@ export function workResponse(
     if (
       !Array.isArray(o.records) ||
       o.records.length > maxRows ||
-      unsigned(request.limit) < BigInt(o.records.length)
+      unsigned(request.limit, request, "limit") < BigInt(o.records.length)
     )
       throw Error("work records limit");
     const records = o.records.map(view);

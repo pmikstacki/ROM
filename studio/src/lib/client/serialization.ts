@@ -3,7 +3,18 @@ import type { WireObject, WireValue } from "./types.ts";
 export const DEFAULT_BYTES = 1024 * 1024;
 const encoder = new TextEncoder();
 const numberToken = /-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/y;
+const floatTokens = new WeakMap<object, Map<string, string>>();
 
+/** Retained lexical category applies only to the original parsed container. */
+export function floatingMember(owner: object, key: string): boolean {
+  const token = floatTokens.get(owner)?.get(key);
+  const current = Object.getOwnPropertyDescriptor(owner, key)?.value;
+  return (
+    token !== undefined &&
+    typeof current === "number" &&
+    Object.is(Number(token), current)
+  );
+}
 function unicode(value: string): string {
   for (let index = 0; index < value.length; index++) {
     const code = value.charCodeAt(index);
@@ -39,6 +50,22 @@ export function parseWire(
   const invalid = (): never => {
     throw Error(`invalid wire JSON at ${position}`);
   };
+  function member(container: object, key: string, depth: number): WireValue {
+    const start = position;
+    const result = value(depth);
+    if (typeof result === "number") {
+      const token = text.slice(start, position).trim();
+      if (/[.eE]/.test(token)) {
+        let tokens = floatTokens.get(container);
+        if (!tokens) {
+          tokens = new Map();
+          floatTokens.set(container, tokens);
+        }
+        tokens.set(key, token);
+      }
+    }
+    return result;
+  }
   function string(): string {
     if (text[position] !== '"') return invalid();
     const start = position++;
@@ -69,7 +96,7 @@ export function parseWire(
         if (Object.hasOwn(object, key)) throw Error("duplicate wire key");
         whitespace();
         if (text[position++] !== ":") return invalid();
-        object[key] = value(depth + 1);
+        object[key] = member(object, key, depth + 1);
         whitespace();
         const next = text[position++];
         if (next === "}") return object;
@@ -85,7 +112,7 @@ export function parseWire(
         return array;
       }
       while (true) {
-        array.push(value(depth + 1));
+        array.push(member(array, String(array.length), depth + 1));
         whitespace();
         const next = text[position++];
         if (next === "]") return array;
@@ -140,7 +167,7 @@ export function stringifyWire(
     if (bytes > maxBytes) throw Error("wire byte limit");
     fragments.push(fragment);
   };
-  function write(current: WireValue, depth: number): void {
+  function write(current: WireValue, depth: number, token?: string): void {
     if (depth > 64) throw Error("wire depth limit");
     if (typeof current === "bigint") {
       append(current.toString());
@@ -160,7 +187,13 @@ export function stringifyWire(
     }
     if (typeof current === "number") {
       if (!Number.isFinite(current)) throw Error("wire number must be finite");
-      append(Object.is(current, -0) ? "-0.0" : JSON.stringify(current));
+      append(
+        token && Object.is(Number(token), current)
+          ? token
+          : Object.is(current, -0)
+            ? "-0.0"
+            : JSON.stringify(current),
+      );
       return;
     }
     if (typeof current !== "object") throw Error("unsupported wire value");
@@ -173,7 +206,11 @@ export function stringifyWire(
         const member = Object.getOwnPropertyDescriptor(current, String(index));
         if (!member || !Object.hasOwn(member, "value"))
           throw Error("wire array getters or holes are unsupported");
-        write(member.value, depth + 1);
+        write(
+          member.value,
+          depth + 1,
+          floatTokens.get(current)?.get(String(index)),
+        );
       }
       append("]");
     } else {
@@ -193,7 +230,7 @@ export function stringifyWire(
         if (index++) append(",");
         append(JSON.stringify(unicode(key)));
         append(":");
-        write(member.value, depth + 1);
+        write(member.value, depth + 1, floatTokens.get(current)?.get(key));
       }
       append("}");
     }
