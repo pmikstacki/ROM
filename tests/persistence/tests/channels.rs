@@ -512,6 +512,7 @@ fn stale_external_ack_cannot_finish_new_claim() {
     let pending = PendingWork {
         id: "delivery".into(),
         cause: Cause {
+            retry_epoch: 0,
             root: "root".into(),
             parent: None,
             depth: 0,

@@ -12,6 +12,7 @@ fn pending(notification: bool) -> PendingWork {
     PendingWork {
         id: "step".into(),
         cause: Cause {
+            retry_epoch: 0,
             root: "root".into(),
             parent: None,
             depth: 1,
@@ -140,7 +141,9 @@ fn rejected_materialization_leaves_capacity_to_finish_parent() {
     let before = ledger.clone();
     let mut child = pending(false);
     child.id = "child".into();
-    child.payload = WorkPayload::Action(json!({"input":"frozen"}));
+    child.payload = WorkPayload::Action(
+        json!({"kind":"notes","id":"one","expected":null,"idempotency":"frozen","operation":{"type":"create","input":{"input":"frozen"}}}),
+    );
     assert_eq!(
         ledger.apply(WorkUpdate::Materialize {
             claim: c.key(),
@@ -198,10 +201,17 @@ fn restored_generation_growth_and_exhaustion_fit_at_capacity() {
 #[test]
 fn legacy_insufficient_headroom_is_explicitly_unsupported_without_mutation() {
     let (ledger, _) = minimum(false);
-    let mut value = serde_json::to_value(&ledger).unwrap();
-    value["limits"]["max_bytes"] = json!(525);
-    let mut legacy: WorkLedger = serde_json::from_value(value).unwrap();
-    assert_eq!(serde_json::to_vec(&legacy).unwrap().len(), 525);
+    let value = serde_json::to_value(&ledger).unwrap();
+    // The old admission rule counted only the current encoding, without reserving
+    // lifecycle growth. Find that boundary independently of metadata field widths.
+    let mut legacy: WorkLedger = (1..4096)
+        .find_map(|max_bytes| {
+            let mut candidate = value.clone();
+            candidate["limits"]["max_bytes"] = json!(max_bytes);
+            let ledger: WorkLedger = serde_json::from_value(candidate).unwrap();
+            (serde_json::to_vec(&ledger).unwrap().len() == max_bytes).then_some(ledger)
+        })
+        .unwrap();
     let before = legacy.clone();
     assert!(matches!(
         legacy.apply(WorkUpdate::Claim { now: 1 }),
@@ -231,7 +241,9 @@ fn admitted_materialized_children_keep_their_lifecycle_reservation() {
     let parent = pending(false);
     let mut child = parent.clone();
     child.id = "z-child".into();
-    child.payload = WorkPayload::Action(json!({"frozen":true}));
+    child.payload = WorkPayload::Action(
+        json!({"kind":"notes","id":"one","expected":null,"idempotency":"frozen","operation":{"type":"create","input":{"frozen":true}}}),
+    );
     let limits = (1..4096)
         .find_map(|max_bytes| {
             let limits = ReactionLimits {

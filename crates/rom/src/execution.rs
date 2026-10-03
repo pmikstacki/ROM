@@ -51,6 +51,7 @@ impl Default for Limits {
 }
 #[derive(Default)]
 pub struct Builder {
+    retry_fence: RetryEpochs,
     registry: BTreeMap<String, Arc<dyn Registered>>,
     reactions: BTreeMap<String, Arc<reactions::RegisteredReaction>>,
     reaction_limits: ReactionLimits,
@@ -62,6 +63,11 @@ pub struct Builder {
     actor_gate: Option<Arc<dyn ActorGate>>,
 }
 impl Builder {
+    /// Minimum persisted boundaries from trusted state outside rollback backups.
+    pub fn retry_fence(mut self, fence: RetryEpochs) -> Self {
+        self.retry_fence = fence;
+        self
+    }
     pub fn channel<P, F, Fut>(mut self, channel: Channel<P>, actor: Actor, send: F) -> Self
     where
         P: Input,
@@ -219,6 +225,7 @@ impl Builder {
                 "concurrency exceeds semaphore limit".into(),
             ));
         }
+        storage.retry_epochs()?.check_fence(self.retry_fence)?;
         storage.register(
             &self
                 .registry
@@ -637,7 +644,9 @@ impl Runtime {
         {
             let _guard = self.0.gate.lock().map_err(|_| Error::Panicked)?;
             self.check_authority(actor)?;
-            if let Some(receipt) = self.0.storage.receipt(&identity)? {
+            if let Some(receipt) =
+                self.retry_receipt(&identity, cmd.retry_epoch, causal.is_some())?
+            {
                 let current = self.0.storage.load(&key)?;
                 return self.replay_outcome(actor, def.as_ref(), current.as_ref(), receipt, &cmd);
             }
@@ -653,7 +662,9 @@ impl Runtime {
             let _denied = self.0.gate.lock().unwrap();
             self.check_authority(actor)?;
             let prior = self.0.storage.load(&key)?;
-            if let Some(receipt) = self.0.storage.receipt(&identity)? {
+            if let Some(receipt) =
+                self.retry_receipt(&identity, cmd.retry_epoch, causal.is_some())?
+            {
                 return self.replay_outcome(actor, def.as_ref(), prior.as_ref(), receipt, &cmd);
             }
             let authorization = prior
@@ -755,7 +766,7 @@ impl Runtime {
         let denied = self.0.gate.lock().unwrap();
         self.check_authority(actor)?;
         let current = self.0.storage.load(&key)?;
-        if let Some(receipt) = self.0.storage.receipt(&identity)? {
+        if let Some(receipt) = self.retry_receipt(&identity, cmd.retry_epoch, causal.is_some())? {
             return self.replay_outcome(actor, def.as_ref(), current.as_ref(), receipt, &cmd);
         }
         // Recheck authoritative current state after CPU work and before conditional commit.
@@ -837,6 +848,7 @@ impl Runtime {
                 current.as_ref(),
                 &row,
                 &identity,
+                cmd.retry_epoch,
                 causal.as_ref().map(|(cause, _)| cause),
             )?
         } else {
@@ -846,6 +858,7 @@ impl Runtime {
             &row,
             &effects,
             &identity,
+            cmd.retry_epoch,
             causal.as_ref().map(|(cause, _)| cause),
         )?);
         let bundle = Bundle {
@@ -854,6 +867,7 @@ impl Runtime {
             completed_work: causal.map(|(_, claim)| (claim, self.0.clock.now())),
             expected: cmd.expected,
             receipt: Receipt {
+                retry_epoch: cmd.retry_epoch,
                 replay_version: Some(def.descriptor_ref().version),
                 identity,
                 fingerprint,

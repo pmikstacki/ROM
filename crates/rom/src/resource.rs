@@ -726,6 +726,7 @@ pub(crate) enum Mutation {
 }
 #[derive(Clone, Debug)]
 pub struct Command<R> {
+    pub(crate) retry_epoch: u64,
     pub(crate) id: String,
     pub(crate) expected: Option<u64>,
     pub(crate) identity: String,
@@ -733,50 +734,30 @@ pub struct Command<R> {
     marker: PhantomData<fn() -> R>,
 }
 impl<R: Resource> Command<R> {
-    pub fn create(id: &str, value: R) -> Self {
+    fn new(id: &str, mutation: Mutation) -> Self {
         Self {
             id: id.into(),
             expected: None,
+            retry_epoch: 0,
             identity: String::new(),
-            mutation: Mutation::Create(value.encode()),
+            mutation,
             marker: PhantomData,
         }
+    }
+    pub fn create(id: &str, value: R) -> Self {
+        Self::new(id, Mutation::Create(value.encode()))
     }
     pub fn replace(id: &str, value: R) -> Self {
-        Self {
-            id: id.into(),
-            expected: None,
-            identity: String::new(),
-            mutation: Mutation::Replace(value.encode()),
-            marker: PhantomData,
-        }
+        Self::new(id, Mutation::Replace(value.encode()))
     }
     pub fn patch(id: &str, patch: Patch<R>) -> Self {
-        Self {
-            id: id.into(),
-            expected: None,
-            identity: String::new(),
-            mutation: Mutation::Patch(patch.fields),
-            marker: PhantomData,
-        }
+        Self::new(id, Mutation::Patch(patch.fields))
     }
     pub fn delete(id: &str) -> Self {
-        Self {
-            id: id.into(),
-            expected: None,
-            identity: String::new(),
-            mutation: Mutation::Delete,
-            marker: PhantomData,
-        }
+        Self::new(id, Mutation::Delete)
     }
     pub fn action<I: Input>(id: &str, action: Action<R, I>, input: I) -> Self {
-        Self {
-            id: id.into(),
-            expected: None,
-            identity: String::new(),
-            mutation: Mutation::Action(action.name.into(), input.encode()),
-            marker: PhantomData,
-        }
+        Self::new(id, Mutation::Action(action.name.into(), input.encode()))
     }
     pub fn at_revision(mut self, revision: u64) -> Self {
         self.expected = Some(revision);
@@ -784,6 +765,11 @@ impl<R: Resource> Command<R> {
     }
     pub fn idempotency(mut self, key: &str) -> Self {
         self.identity = key.into();
+        self
+    }
+    /// Select the original request's epoch. Defaults to zero, never the current epoch.
+    pub fn retry_epoch(mut self, epoch: u64) -> Self {
+        self.retry_epoch = epoch;
         self
     }
 }

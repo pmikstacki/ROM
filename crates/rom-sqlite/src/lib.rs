@@ -3,6 +3,7 @@ mod maintenance;
 mod migration;
 mod persistence;
 mod references;
+mod retention;
 mod snapshot;
 mod store;
 mod upgrade;

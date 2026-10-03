@@ -12,6 +12,7 @@ async fn remote_categories_do_not_invent_rollback_and_never_echo_body() {
         (503, "not_committed", 5),
         (409, "conflict", 5),
         (409, "identity_mismatch", 5),
+        (410, "identity_expired", 5),
         (400, "invalid", 5),
         (200, "secret-malformed-envelope", 5),
     ] {

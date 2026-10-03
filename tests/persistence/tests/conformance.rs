@@ -152,6 +152,7 @@ fn redb_atomic_bundle_available_through_storage() {
         }])
         .unwrap();
     let receipt = Receipt {
+        retry_epoch: 0,
         replay_version: None,
         identity: "one".into(),
         fingerprint: "create-one".into(),

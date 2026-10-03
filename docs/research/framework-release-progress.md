@@ -98,8 +98,13 @@ Explicit native upgrades support formats 3 and 4; archive upgrades support versi
 1 and 2. The earlier [native upgrade results](native-format-upgrade-results.md)
 record the initial format-only milestone. Neither milestone completes the whole release.
 
-- Stage 2 still needs dependency-aware retention and
-  reference application upgrade/backup/restore evidence. The
+Stage 2.3 is complete for explicit offline dependency-aware retention. Retry epochs
+prevent reclaimed receipts from reopening old mutations. Whole-root work checks,
+current-row proofs, journal/effect pins and trusted restore fences pass tests on
+both adapters. Native format 6 and archive 4 now protect that metadata. The full
+local verifier passed. See [retention results](retention-results.md).
+
+- Stage 2 still needs reference application upgrade/backup/restore evidence. The
   [integration preparation](restrict-reference-integration-plan.md) explains why
   checks must share the adapter transaction and how edges affect backup/migration.
 - Stage 3 integrates actual planner/index execution and maintenance; prototype

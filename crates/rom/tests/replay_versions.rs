@@ -141,6 +141,7 @@ fn actor() -> Actor {
 }
 fn create(input: Value) -> Invocation {
     Invocation {
+        retry_epoch: 0,
         kind: Current::KIND.into(),
         id: "one".into(),
         expected: None,
@@ -313,6 +314,7 @@ async fn renamed_patch_replays_with_the_original_field_codec() {
         Old::definition().policy(|_, _, _| true).allow_all_fields(),
     );
     let patch = Invocation {
+        retry_epoch: 0,
         kind: Current::KIND.into(),
         id: "one".into(),
         expected: Some(1),

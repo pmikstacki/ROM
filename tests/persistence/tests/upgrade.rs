@@ -56,6 +56,7 @@ fn create(id: &str, target: Option<&str>) -> Bundle {
     Bundle {
         expected: None,
         receipt: Receipt {
+            retry_epoch: 0,
             replay_version: None,
             identity: format!("create-{id}"),
             fingerprint: format!("node-{id}"),
@@ -86,6 +87,7 @@ impl Legacy {
         child.reactions.push(PendingWork {
             id: "pending-child".into(),
             cause: Cause {
+                retry_epoch: 0,
                 root: "root-child".into(),
                 parent: None,
                 depth: 1,

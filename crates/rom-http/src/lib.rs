@@ -3,6 +3,8 @@
 //! belong to the host. Use `serve` to coordinate stream termination and runtime draining.
 #![forbid(unsafe_code)]
 mod error;
+#[cfg(test)]
+mod error_tests;
 mod json;
 mod observation;
 mod request;

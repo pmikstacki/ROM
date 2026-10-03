@@ -42,6 +42,7 @@ pub fn file(path: &str) -> Result<Value, Failure> {
 }
 fn invocation(m: &Mutation, operation: Operation) -> Invocation {
     Invocation {
+        retry_epoch: m.retry_epoch,
         kind: m.kind.clone(),
         id: m.id.clone(),
         expected: Some(m.expected),
@@ -61,9 +62,11 @@ pub fn request(command: &Command) -> Result<Request, Failure> {
         Command::Create {
             kind,
             id,
+            retry_epoch,
             idempotency,
             input_file,
         } => Some(Invocation {
+            retry_epoch: *retry_epoch,
             kind: kind.clone(),
             id: id.clone(),
             expected: None,

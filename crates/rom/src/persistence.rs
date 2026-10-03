@@ -47,6 +47,8 @@ impl Row {
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Receipt {
+    #[serde(default)]
+    pub retry_epoch: u64,
     /// Schema version whose codec defines this committed request fingerprint.
     /// Legacy data without this marker uses its unmigrated source catalog version.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -75,6 +77,10 @@ pub struct Capabilities {
 /// arbitrate expected revision and identity and atomically persist row/event/receipt/effects.
 /// Implementations must not claim rollback for uncertain acknowledgment.
 pub trait Storage: Send + Sync + 'static {
+    /// Persisted retry admission and replay boundaries. Legacy adapters use epoch zero.
+    fn retry_epochs(&self) -> Result<RetryEpochs> {
+        Ok(RetryEpochs::default())
+    }
     /// Bind the persisted schema before intake. Existing kinds must match exactly.
     /// Omitted kinds remain in the catalog and retain their integrity obligations.
     /// New commits require registration; matching receipts remain replayable.

@@ -70,6 +70,24 @@ receipt identities, pending work and recovery sources.
 - **WHEN** a maintenance tool without support for that metadata opens it
 - **THEN** the format marker prevents that tool from silently dropping the metadata
 
+#### Scenario: Retention expires an idempotency epoch
+- **GIVEN** explicit monotonic admission and replay floors selected by the host
+- **WHEN** maintenance removes eligible receipts from an expired epoch
+- **THEN** a retry in that epoch fails without another mutation, even if its input changes
+- **AND** omission of an epoch never assigns the current epoch to an old request
+- **AND** native commit enforces expiry even for a retained current-row proof
+
+#### Scenario: Sealed work drains before expiry
+- **GIVEN** an epoch closed to new external commands with unfinished causal work
+- **WHEN** an exact persisted claim completes work in that epoch
+- **THEN** its mutation retains the original epoch and can commit
+- **AND** expiry rejects unfinished or uncertain roots without deleting their budgets
+
+#### Scenario: Old backup predates a retention policy
+- **GIVEN** an older backup and a newer trusted retry fence stored outside that backup
+- **WHEN** the host builds a Runtime from the restored store with that fence
+- **THEN** activation fails before older retry boundaries can admit requests
+
 ### Requirement: Optimization preserves observable semantics
 ROM SHALL integrate strategy selection and native planner adapters only with
 transactionally maintained indexes, bounded rebuild/recovery and conformance to

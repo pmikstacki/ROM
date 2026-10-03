@@ -41,6 +41,7 @@ impl ActorGate for CurrentAuthority {
 }
 fn invocation(kind: &str, operation: Operation) -> Invocation {
     Invocation {
+        retry_epoch: 0,
         kind: kind.into(),
         id: "one".into(),
         expected: None,

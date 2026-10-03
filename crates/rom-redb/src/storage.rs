@@ -8,6 +8,20 @@ use rom::{
 use std::sync::atomic::Ordering;
 
 impl Storage for Redb {
+    fn retry_epochs(&self) -> Result<rom::RetryEpochs> {
+        self.available()?;
+        let tx = self.db.begin_read().map_err(|_| Error::Storage)?;
+        let table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
+        let state: StorageState = serde_json::from_str(
+            table
+                .get("state")
+                .map_err(|_| Error::Storage)?
+                .ok_or(Error::Storage)?
+                .value(),
+        )
+        .map_err(|_| Error::Storage)?;
+        Ok(state.retry_epochs())
+    }
     fn register(&self, descriptors: &[Descriptor]) -> Result<()> {
         self.register_descriptors(descriptors)
     }
@@ -44,7 +58,7 @@ impl Storage for Redb {
                     .value(),
             )
             .map_err(|_| Error::Storage)?;
-            let result = s.work.apply(update)?;
+            let result = s.update_work(update)?;
             table
                 .insert(
                     "state",

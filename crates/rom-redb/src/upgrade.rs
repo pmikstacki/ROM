@@ -1,11 +1,11 @@
-//! Explicit read-only format-three/four upgrade into a fresh format-five database.
+//! Explicit read-only legacy native upgrade into the current format database.
 use crate::{Redb, maintenance::read_upgrade_snapshot};
 use rom::{Descriptor, Result};
 use rom_backup::BackupLimits;
 use std::path::Path;
 
 impl Redb {
-    /// Bind an explicit schema to a read-only format-three or format-four source and publish a fresh database.
+    /// Bind an explicit schema to a read-only format-three, format-four or format-five source and publish a fresh database.
     /// Values are preserved; invalid layouts and dangling references require separate repair.
     /// The source must be offline. Existing destinations are never overwritten.
     /// An unclean source needs temporary disk space approximately equal to its size

@@ -44,6 +44,7 @@ Research informs the design; candidate crates are not an approved dependency lis
 - [Configuration ingestion](docs/research/maintained-configuration-results.md)
 - [Blob lifecycle and real storage trials](docs/research/mvp-blob-results.md)
 - [Backup and recovery](docs/research/maintained-backup-results.md)
+- [Retention and retry epochs](docs/retention.md)
 - [RIM source assessment and ideas carried into ROM](docs/research/rim-source-assessment.md)
 - [Framework comparisons and Rust crate candidates](docs/research/frameworks-and-rust-crates.md)
 - [2026-10-03: parallel experiments, maintained changes and next steps](docs/research/2026-10-03-results.md)

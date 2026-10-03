@@ -1,6 +1,7 @@
 //! Shared durable work state machine. Adapters apply each update in one native transaction.
 use super::*;
 mod maintenance;
+mod retention;
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ReactionLimits {
     pub max_depth: u32,
@@ -47,6 +48,8 @@ impl ReactionLimits {
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Cause {
+    #[serde(default)]
+    pub retry_epoch: u64,
     pub root: String,
     pub parent: Option<String>,
     pub depth: u32,
@@ -169,6 +172,7 @@ pub struct WorkLedger {
 }
 impl WorkLedger {
     pub(crate) fn validate_archive(&self) -> Result<()> {
+        self.root_epochs()?;
         let Some(limits) = &self.limits else {
             return if self.work.is_empty() && self.roots.is_empty() {
                 Ok(())
@@ -244,6 +248,7 @@ impl WorkLedger {
                 },
             );
         }
+        next.root_epochs()?;
         next.check_bounds()?;
         *self = next;
         Ok(())
@@ -418,7 +423,8 @@ impl WorkLedger {
                     return Err(Error::TooLarge);
                 }
                 if children.iter().any(|c| {
-                    c.cause.root != parent.pending.cause.root
+                    c.cause.retry_epoch != parent.pending.cause.retry_epoch
+                        || c.cause.root != parent.pending.cause.root
                         || c.cause.depth != parent.pending.cause.depth
                         || c.cause.started_at != parent.pending.cause.started_at
                         || c.service_key != parent.pending.service_key

@@ -328,6 +328,7 @@ async fn authority_links_and_provider_config_are_validated_and_bootstrap_is_expl
     let mut invalid = provider().encode();
     invalid["profile"] = rom::json!("unverified-anything");
     let invocation = rom::Invocation {
+        retry_epoch: 0,
         kind: IdentityProvider::KIND.into(),
         id: "invalid".into(),
         expected: None,

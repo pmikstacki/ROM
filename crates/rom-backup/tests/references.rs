@@ -17,6 +17,7 @@ fn snapshot() -> Snapshot {
         protected: Default::default(),
     };
     let receipt = Receipt {
+        retry_epoch: 0,
         replay_version: None,
         identity: "create-one".into(),
         fingerprint: "input".into(),

@@ -134,6 +134,79 @@ fn clock() -> Arc<Time> {
     Arc::new(Time(AtomicU64::new(100)))
 }
 
+#[tokio::test]
+async fn explicit_reload_epoch_survives_ticket_recovery_without_automatic_renewal() {
+    static NEXT_EPOCH_TEST: AtomicU64 = AtomicU64::new(0);
+    let directory = std::env::temp_dir().join(format!(
+        "rom-config-epoch-{}-{}",
+        std::process::id(),
+        NEXT_EPOCH_TEST.fetch_add(1, Ordering::Relaxed)
+    ));
+    std::fs::create_dir(&directory).unwrap();
+    let source_path = directory.join("source");
+    let destination = directory.join("destination");
+    drop(rom_sqlite::Sqlite::open(&source_path).unwrap());
+    let policy = rom_backup::RetentionPolicy::new(rom::RetryEpochs {
+        current: 1,
+        admission_floor: 1,
+        replay_floor: 1,
+    });
+    let (store, _) = rom_sqlite::Sqlite::retain_from(
+        &source_path,
+        &destination,
+        &policy,
+        rom_backup::BackupLimits::default(),
+    )
+    .unwrap();
+    let runtime = build(Arc::new(store), clock());
+    runtime
+        .execute(
+            &admin(),
+            Command::create("deployment", source(Settings::KIND, "settings"))
+                .idempotency("source")
+                .retry_epoch(1),
+        )
+        .await
+        .unwrap();
+    let loader = worker("settings-loader");
+    let ticket = ReloadTicket::request_with_epoch(&runtime, &loader, "deployment", "v1", 1)
+        .await
+        .unwrap();
+    assert_eq!(ticket.retry_epoch(), 1);
+    let first = ticket
+        .load(&runtime, Format::Json, FIRST, "deployment")
+        .await
+        .unwrap();
+    let recovered = ReloadTicket::resume_with_epoch(&runtime, &loader, "deployment", 1)
+        .await
+        .unwrap();
+    assert_eq!(recovered.retry_epoch(), 1);
+    assert_eq!(
+        recovered
+            .load(&runtime, Format::Json, FIRST, "deployment")
+            .await
+            .unwrap(),
+        first
+    );
+    assert!(matches!(
+        ReloadTicket::request(&runtime, &loader, "deployment", "v2").await,
+        Err(Error::IdentityExpired)
+    ));
+    let legacy = ReloadTicket::resume(&runtime, &loader, "deployment")
+        .await
+        .unwrap();
+    assert_eq!(legacy.retry_epoch(), 0);
+    assert!(
+        legacy
+            .load(&runtime, Format::Json, FIRST, "deployment")
+            .await
+            .is_err()
+    );
+    runtime.shutdown().await.unwrap();
+    drop(runtime);
+    std::fs::remove_dir_all(directory).unwrap();
+}
+
 #[derive(Clone)]
 struct BadDiagnostic(String);
 impl rom::Field for BadDiagnostic {

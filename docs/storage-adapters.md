@@ -2,7 +2,7 @@
 
 ## Current maintained profile
 
-Both adapters currently use **format 5**, with no implicit migration from earlier
+Both adapters currently use **format 6**, with no implicit migration from earlier
 experimental formats. The core-owned bundle includes state/revision, durable
 receipt, journal and effect/work records in one native transaction. Journal
 retention and receipt/effect/work capacities are bounded; cursor gaps and
@@ -17,7 +17,8 @@ See the current [journal](research/maintained-http-journal.md),
 [backup/recovery](research/maintained-backup-results.md) reports. Both adapters
 provide a bounded, checksummed native backup and fresh-destination restore.
 External blob bytes and original-host cutover fencing remain operator duties.
-Deletion is a logical tombstone, not physical erasure.
+Normal deletion writes a logical tombstone. Explicit offline [retention](retention.md)
+can purge an eligible tombstone after its dependencies expire.
 
 Runtime binds canonical descriptors through `Storage::register` before intake.
 New native commits require a stored descriptor. Matching receipt replay precedes
@@ -32,15 +33,17 @@ Existing stores receive a complete bounded validation at open. The default budge
 is 128 MiB and 400,000 archive records. Use `open_with_validation_limits` to supply
 a larger host budget. Exceeded limits fail; validation never truncates success.
 
-For a format-3 or format-4 source, use the explicit [native upgrade](native-upgrade.md) into a
+For a format-3, format-4 or format-5 source, use the explicit [native upgrade](native-upgrade.md) into a
 fresh destination. redb also checks the format before writable open. If its header
 requires recovery, that check uses a private temporary copy first. This preserves
 unsupported sources and requires temporary disk space approximately equal to their file size.
 
 For field changes, use a typed [Resource migration](resource-migrations.md).
-Format 5 protects receipt codec versions from older maintenance tools that would
-discard them. New commits bind an explicit replay version. Migrated receipts keep
+Format 6 protects receipt codec versions and retry epoch boundaries from older
+maintenance tools. New commits bind an explicit replay version. Migrated receipts keep
 their original version and use a registered legacy codec for retry.
+Transparent Storage wrappers must also forward `retry_epochs` when their backing
+store supports nonzero epochs. Its default describes an epoch-zero-only store.
 
 Run `cargo test -p rom-storage-conformance --locked` from the repository root.
 The sections below preserve the original format-one milestone and its test

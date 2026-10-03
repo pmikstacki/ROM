@@ -157,7 +157,15 @@ impl Runtime {
                     serde_json::from_value(value.clone()).map_err(|_| Error::Storage)?;
                 invocation.check_size(&def.actor, self.0.limits.command_bytes)?;
                 let identity = invocation.durable_identity(&def.actor);
-                if self.0.storage.receipt(&identity)?.is_some() {
+                if invocation.retry_epoch != pending.cause.retry_epoch {
+                    return Err(Error::Storage);
+                }
+                let replay_exists = {
+                    let _guard = self.0.gate.lock().map_err(|_| Error::Panicked)?;
+                    self.retry_receipt(&identity, invocation.retry_epoch, true)?
+                        .is_some()
+                };
+                if replay_exists {
                     return self.finish_claim(&claim, WorkOutcome::Done);
                 }
                 if claim.resolution_only {
@@ -230,6 +238,7 @@ impl Runtime {
                 cause.path.push(index.to_string());
                 let work_id = json!([cause.root, cause.path]).to_string();
                 let invocation = Invocation {
+                    retry_epoch: cause.retry_epoch,
                     kind: def.target.clone(),
                     id,
                     expected: Some(target.revision),
@@ -266,9 +275,10 @@ impl Runtime {
                     Error::Denied => Some(StopReason::Denied),
                     Error::Conflict => Some(StopReason::Conflict),
                     Error::Missing => Some(StopReason::Missing),
-                    Error::Invalid { .. } | Error::TooLarge | Error::IdentityMismatch => {
-                        Some(StopReason::Invalid)
-                    }
+                    Error::Invalid { .. }
+                    | Error::TooLarge
+                    | Error::IdentityMismatch
+                    | Error::IdentityExpired => Some(StopReason::Invalid),
                     Error::Unregistered | Error::Unsupported(_) => {
                         Some(StopReason::DefinitionChanged)
                     }
@@ -294,6 +304,7 @@ impl Runtime {
         previous: Option<&Row>,
         row: &Row,
         identity: &str,
+        retry_epoch: u64,
         cause: Option<&Cause>,
     ) -> Result<Vec<PendingWork>> {
         let mut work = vec![];
@@ -314,6 +325,7 @@ impl Runtime {
                 continue;
             }
             let mut cause = cause.cloned().unwrap_or_else(|| Cause {
+                retry_epoch,
                 root: identity.into(),
                 parent: None,
                 depth: 0,

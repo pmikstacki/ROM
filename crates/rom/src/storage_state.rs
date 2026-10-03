@@ -1,6 +1,9 @@
 //! Driver-independent bounded metadata persisted inside each native bundle transaction.
 use super::*;
 mod maintenance;
+mod retention;
+mod work;
+pub use retention::RetentionStateReport;
 #[cfg(test)]
 mod maintenance_tests;
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -23,6 +26,8 @@ impl Default for StorageLimits {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct StorageState {
     pub work: WorkLedger,
+    #[serde(default)]
+    retry_epochs: RetryEpochs,
     limits: StorageLimits,
     generation: String,
     head: u64,
@@ -55,6 +60,7 @@ impl StorageState {
         );
         Ok(Self {
             work: WorkLedger::default(),
+            retry_epochs: RetryEpochs::default(),
             limits,
             generation,
             head: 0,
@@ -101,7 +107,8 @@ impl StorageState {
         if bytes > self.limits.journal_bytes {
             return Err(Error::Storage);
         }
-        self.work.validate_archive()
+        self.work.validate_archive()?;
+        self.work.validate_retry_epochs(self.retry_epochs)
     }
     /// Persisted maintenance limits; restore does not silently replace them with defaults.
     pub fn storage_limits(&self) -> StorageLimits {
@@ -124,6 +131,17 @@ impl StorageState {
     }
     /// Apply only after native identity/revision arbitration. Returned identities left journal retention.
     pub fn bundle(&mut self, b: &Bundle) -> Result<Vec<String>> {
+        self.check_retry_epoch(
+            b.receipt.retry_epoch,
+            false,
+            b.completed_work.as_ref().map(|(claim, now)| (claim, *now)),
+        )?;
+        if b.reactions
+            .iter()
+            .any(|work| work.cause.retry_epoch != b.receipt.retry_epoch)
+        {
+            return Err(Error::Conflict);
+        }
         let mut next = self.clone();
         if let Some((claim, now)) = &b.completed_work {
             next.work.apply(WorkUpdate::Finish {
@@ -176,6 +194,7 @@ impl StorageState {
                 removed.push(old.identity);
             }
         }
+        next.work.validate_retry_epochs(next.retry_epochs)?;
         *self = next;
         Ok(removed)
     }
@@ -232,3 +251,6 @@ impl StorageState {
         Ok(JournalPage { events, cursor })
     }
 }
+
+#[cfg(test)]
+mod retention_tests;

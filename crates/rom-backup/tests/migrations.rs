@@ -52,6 +52,7 @@ fn snapshot(work: bool) -> Snapshot {
         protected: Default::default(),
     };
     let receipt = Receipt {
+        retry_epoch: 0,
         identity: "create-one".into(),
         fingerprint: "original-input".into(),
         row: row.clone(),
@@ -68,6 +69,7 @@ fn snapshot(work: bool) -> Snapshot {
                 vec![PendingWork {
                     id: "pending-one".into(),
                     cause: Cause {
+                        retry_epoch: 0,
                         root: "create-one".into(),
                         parent: None,
                         depth: 1,

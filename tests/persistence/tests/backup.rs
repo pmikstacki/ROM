@@ -111,6 +111,7 @@ fn bundle(id: &str) -> Bundle {
     Bundle {
         expected: None,
         receipt: Receipt {
+            retry_epoch: 0,
             replay_version: None,
             identity: format!("receipt-{id}"),
             fingerprint: "fingerprint".into(),
@@ -131,6 +132,7 @@ fn pending(id: &str, row: &Row) -> PendingWork {
     PendingWork {
         id: id.into(),
         cause: Cause {
+            retry_epoch: 0,
             root: "chain".into(),
             parent: None,
             depth: 1,

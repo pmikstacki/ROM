@@ -48,6 +48,9 @@ pub enum Command {
     Create {
         kind: String,
         id: String,
+        /// Original retry epoch; omission always means epoch zero
+        #[arg(long, default_value_t = 0)]
+        retry_epoch: u64,
         #[arg(long)]
         idempotency: String,
         #[arg(long)]
@@ -103,6 +106,9 @@ pub struct Journal {
 }
 #[derive(Args)]
 pub struct Mutation {
+    /// Original retry epoch; omission always means epoch zero
+    #[arg(long, default_value_t = 0)]
+    pub retry_epoch: u64,
     pub kind: String,
     pub id: String,
     #[arg(long)]

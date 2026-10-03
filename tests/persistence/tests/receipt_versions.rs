@@ -40,6 +40,7 @@ fn bundle(version: Option<u32>) -> Bundle {
     Bundle {
         expected: None,
         receipt: Receipt {
+            retry_epoch: 0,
             replay_version: version,
             identity: "create".into(),
             fingerprint: "original".into(),

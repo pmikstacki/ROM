@@ -1612,6 +1612,7 @@ version = "0.1.0-alpha.1"
 dependencies = [
  "config",
  "rom",
+ "rom-backup",
  "rom-identity",
  "rom-redb",
  "rom-sqlite",

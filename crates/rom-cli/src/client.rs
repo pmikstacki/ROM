@@ -240,6 +240,10 @@ fn remote(category: Option<&str>, status: Option<u16>, mutation: bool) -> Failur
             409,
             "idempotency identity does not match the original input",
         ),
+        Some("identity_expired") => (
+            410,
+            "retry identity expired; do not retry the old operation with a new epoch",
+        ),
         Some("too_large") => (413, "server size limit exceeded"),
         Some("not_committed") => (503, "server category: not_committed"),
         Some("history_gap") => (

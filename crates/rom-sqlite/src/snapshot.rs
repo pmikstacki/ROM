@@ -20,7 +20,7 @@ pub(super) fn read_snapshot(
 }
 
 pub(super) fn collect_snapshot(c: &Connection, limits: BackupLimits) -> Result<Snapshot> {
-    collect_snapshot_for_format(c, limits, 5)
+    collect_snapshot_for_format(c, limits, rom_backup::STORAGE_FORMAT)
 }
 
 pub(super) fn collect_upgrade_snapshot(
@@ -31,7 +31,7 @@ pub(super) fn collect_upgrade_snapshot(
     let version: u32 = c
         .pragma_query_value(None, "user_version", |r| r.get(0))
         .map_err(|_| Error::Storage)?;
-    let snapshot = collect_supported_snapshot(c, limits, &[3, 4])?;
+    let snapshot = collect_supported_snapshot(c, limits, &[3, 4, 5])?;
     if version == 3 {
         rom_backup::bind_legacy_schema(snapshot, descriptors, limits)
     } else {
@@ -40,7 +40,7 @@ pub(super) fn collect_upgrade_snapshot(
 }
 
 pub(super) fn collect_migration_snapshot(c: &Connection, limits: BackupLimits) -> Result<Snapshot> {
-    collect_supported_snapshot(c, limits, &[4, 5])
+    collect_supported_snapshot(c, limits, &[4, 5, rom_backup::STORAGE_FORMAT])
 }
 
 fn collect_supported_snapshot(
@@ -54,7 +54,11 @@ fn collect_supported_snapshot(
     if !supported.contains(&format) {
         return Err(Error::Unsupported("SQLite storage format".into()));
     }
-    collect_snapshot_for_format(c, limits, format)
+    let snapshot = collect_snapshot_for_format(c, limits, format)?;
+    if format < rom_backup::STORAGE_FORMAT {
+        rom_backup::validate_legacy_retry_epochs(&snapshot)?;
+    }
+    Ok(snapshot)
 }
 
 fn validate_inventory(c: &Connection, format: u32) -> Result<()> {

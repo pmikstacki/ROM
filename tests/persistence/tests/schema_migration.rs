@@ -127,6 +127,7 @@ fn bundle(id: &str, target: Option<&str>, quantity: &str) -> Bundle {
     Bundle {
         expected: None,
         receipt: Receipt {
+            retry_epoch: 0,
             replay_version: None,
             identity: format!("create-{id}"),
             fingerprint: format!("before-{id}"),
@@ -183,6 +184,7 @@ fn seed(redb: bool, path: &Path, quantity: &str) -> Seed {
         version: 1,
         service_key: "service".into(),
         cause: Cause {
+            retry_epoch: 0,
             root: "chain".into(),
             parent: None,
             depth: 1,
@@ -456,13 +458,13 @@ fn native_schema_migration_interruption_is_retryable() {
     }
 }
 
-fn mark_format_four(redb: bool, path: &Path, erase_catalog: bool) {
+fn mark_legacy_format(redb: bool, path: &Path, version: u32, erase_catalog: bool) {
     if redb {
         let db = redb::Database::open(path).unwrap();
         let tx = db.begin_write().unwrap();
         tx.open_table(redb::TableDefinition::<&str, u64>::new("rom_metadata"))
             .unwrap()
-            .insert("format", 4)
+            .insert("format", u64::from(version))
             .unwrap();
         if erase_catalog {
             tx.open_table(redb::TableDefinition::<&str, &str>::new("rom_schemas"))
@@ -473,7 +475,7 @@ fn mark_format_four(redb: bool, path: &Path, erase_catalog: bool) {
         tx.commit().unwrap();
     } else {
         let c = rusqlite::Connection::open(path).unwrap();
-        c.pragma_update(None, "user_version", 4).unwrap();
+        c.pragma_update(None, "user_version", version).unwrap();
         if erase_catalog {
             c.execute("DELETE FROM schemas", []).unwrap();
         }
@@ -494,49 +496,51 @@ fn upgrade_four(
     }
 }
 #[test]
-fn format_four_requires_explicit_upgrade_or_migration_without_source_writes() {
-    for redb in [false, true] {
-        let dir = Scratch::new();
-        let source = dir.path("source");
-        let fixture = seed(redb, &source, "7");
-        mark_format_four(redb, &source, false);
-        let original = std::fs::read(&source).unwrap();
-        let ordinary = if redb {
-            rom_redb::Redb::open(&source).map(|_| ())
-        } else {
-            rom_sqlite::Sqlite::open(&source).map(|_| ())
-        };
-        assert!(matches!(ordinary, Err(Error::Unsupported(_))));
-        assert!(std::fs::read(&source).unwrap() == original);
-        let upgraded = upgrade_four(
-            redb,
-            &source,
-            &dir.path("upgraded"),
-            &[Before::descriptor()],
-        )
-        .unwrap();
-        let receipt = upgraded
-            .storage()
-            .receipt(&fixture.child.receipt.identity)
-            .unwrap()
+fn legacy_catalogued_formats_require_explicit_upgrade_or_migration_without_source_writes() {
+    for version in [4, 5] {
+        for redb in [false, true] {
+            let dir = Scratch::new();
+            let source = dir.path("source");
+            let fixture = seed(redb, &source, "7");
+            mark_legacy_format(redb, &source, version, false);
+            let original = std::fs::read(&source).unwrap();
+            let ordinary = if redb {
+                rom_redb::Redb::open(&source).map(|_| ())
+            } else {
+                rom_sqlite::Sqlite::open(&source).map(|_| ())
+            };
+            assert!(matches!(ordinary, Err(Error::Unsupported(_))));
+            assert!(std::fs::read(&source).unwrap() == original);
+            let upgraded = upgrade_four(
+                redb,
+                &source,
+                &dir.path("upgraded"),
+                &[Before::descriptor()],
+            )
             .unwrap();
-        assert_eq!(receipt.replay_version, Some(1));
-        assert_eq!(receipt.row, fixture.child.receipt.row);
-        assert_eq!(
-            upgraded.storage().commit(&remove_parent()),
-            Err(Error::Conflict)
-        );
-        drop(upgraded);
-        let migrated = Db::migrate(
-            redb,
-            &source,
-            &dir.path("migrated"),
-            &plan(),
-            BackupLimits::default(),
-        )
-        .unwrap();
-        assert_after(&migrated, &fixture);
-        assert!(std::fs::read(&source).unwrap() == original);
+            let receipt = upgraded
+                .storage()
+                .receipt(&fixture.child.receipt.identity)
+                .unwrap()
+                .unwrap();
+            assert_eq!(receipt.replay_version, Some(1));
+            assert_eq!(receipt.row, fixture.child.receipt.row);
+            assert_eq!(
+                upgraded.storage().commit(&remove_parent()),
+                Err(Error::Conflict)
+            );
+            drop(upgraded);
+            let migrated = Db::migrate(
+                redb,
+                &source,
+                &dir.path("migrated"),
+                &plan(),
+                BackupLimits::default(),
+            )
+            .unwrap();
+            assert_after(&migrated, &fixture);
+            assert!(std::fs::read(&source).unwrap() == original);
+        }
     }
 }
 #[test]
@@ -546,7 +550,7 @@ fn format_four_upgrade_requires_exact_valid_catalog() {
             let dir = Scratch::new();
             let source = dir.path("source");
             seed(redb, &source, "7");
-            mark_format_four(redb, &source, empty);
+            mark_legacy_format(redb, &source, 4, empty);
             let original = std::fs::read(&source).unwrap();
             let descriptors = if empty {
                 vec![Before::descriptor()]

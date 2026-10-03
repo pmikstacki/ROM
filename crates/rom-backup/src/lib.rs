@@ -6,10 +6,13 @@ mod archive;
 mod codec;
 mod collector;
 mod legacy;
+mod maintenance_limits;
 mod migration;
 mod migration_plan;
 mod model;
 mod publication;
+mod retention;
+mod retention_policy;
 mod schema;
 #[cfg(test)]
 mod tests;
@@ -18,8 +21,11 @@ pub use archive::{read, write};
 pub use collector::Collector;
 pub use legacy::{
     bind_legacy_schema, upgrade_legacy_snapshot, upgrade_v1_archive, upgrade_v2_archive,
+    upgrade_v3_archive, validate_legacy_retry_epochs,
 };
 pub use migration::migrate_snapshot;
 pub use migration_plan::{MigrationPlan, ResourceMigration};
-pub use model::{Backend, BackupLimits, Manifest, Snapshot, StoredEffect};
+pub use model::{Backend, BackupLimits, Manifest, STORAGE_FORMAT, Snapshot, StoredEffect};
 pub use publication::Stage;
+pub use retention::retain_snapshot;
+pub use retention_policy::{RetentionPolicy, RetentionReport};

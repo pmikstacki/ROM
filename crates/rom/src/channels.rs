@@ -104,6 +104,7 @@ impl Runtime {
         row: &Row,
         effects: &[Intent],
         identity: &str,
+        retry_epoch: u64,
         cause: Option<&Cause>,
     ) -> Result<Vec<PendingWork>> {
         let mut work = vec![];
@@ -121,6 +122,7 @@ impl Runtime {
             }
             (def.validate)(&intent.payload)?;
             let cause = cause.cloned().unwrap_or_else(|| Cause {
+                retry_epoch,
                 root: identity.into(),
                 parent: None,
                 depth: 0,

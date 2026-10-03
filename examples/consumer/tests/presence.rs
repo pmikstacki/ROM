@@ -187,6 +187,7 @@ async fn wire_patch_rejects_required_removal_and_action_preserves_explicit_missi
     .await
     .unwrap();
     let invalid = Invocation {
+        retry_epoch: 0,
         kind: "notes".into(),
         id: "n".into(),
         expected: Some(1),

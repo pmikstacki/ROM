@@ -44,7 +44,7 @@ impl Sqlite {
                 |r| r.get(0),
             )
             .map_err(|_| Error::Storage)?;
-        if version != 5 && (version != 0 || objects != 0) {
+        if version != rom_backup::STORAGE_FORMAT && (version != 0 || objects != 0) {
             return Err(Error::Unsupported("SQLite storage format".into()));
         }
         c.execute_batch("PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;")
@@ -61,7 +61,9 @@ impl Sqlite {
                 CREATE TABLE schemas(kind TEXT PRIMARY KEY NOT NULL,data TEXT NOT NULL);
                 CREATE TABLE reference_edges(source_kind TEXT NOT NULL,source_id TEXT NOT NULL,target_kind TEXT NOT NULL,target_id TEXT NOT NULL,PRIMARY KEY(source_kind,source_id,target_kind,target_id));
                 CREATE INDEX reference_edges_target ON reference_edges(target_kind,target_id,source_kind,source_id);
-                PRAGMA user_version=5;").map_err(|_|Error::Storage)?;
+").map_err(|_|Error::Storage)?;
+            tx.pragma_update(None, "user_version", rom_backup::STORAGE_FORMAT)
+                .map_err(|_| Error::Storage)?;
             tx.execute(
                 "INSERT INTO rom_state VALUES (1,?)",
                 [serde_json::to_string(&StorageState::new(limits.clone())?)

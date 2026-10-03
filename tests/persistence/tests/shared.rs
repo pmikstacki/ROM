@@ -267,6 +267,7 @@ fn create(id: &str) -> Bundle {
         completed_work: None,
         expected: None,
         receipt: Receipt {
+            retry_epoch: 0,
             replay_version: None,
             identity: format!("create-{id}"),
             fingerprint: format!("create-{id}-false"),

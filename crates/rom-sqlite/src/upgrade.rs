@@ -8,7 +8,7 @@ use rom_backup::BackupLimits;
 use std::path::Path;
 
 impl Sqlite {
-    /// Upgrade a format-3 or format-4 database into a fresh format-5 destination.
+    /// Upgrade a format-3, format-4 or format-5 database into a fresh current destination.
     /// The source is opened read-only. Descriptors must cover every stored kind;
     /// incompatible values or dangling live references prevent publication.
     /// Row values, receipts and pending work are retained; restore fences claims.

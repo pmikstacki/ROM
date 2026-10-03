@@ -17,6 +17,7 @@ pub(super) fn category(e: &Error) -> (&'static str, StatusCode) {
         Error::Missing | Error::Unregistered => ("missing", StatusCode::NOT_FOUND),
         Error::Conflict => ("conflict", StatusCode::CONFLICT),
         Error::IdentityMismatch => ("identity_mismatch", StatusCode::CONFLICT),
+        Error::IdentityExpired => ("identity_expired", StatusCode::GONE),
         Error::HistoryGap => ("history_gap", StatusCode::GONE),
         Error::TooLarge => ("too_large", StatusCode::PAYLOAD_TOO_LARGE),
         Error::Overloaded => ("overloaded", StatusCode::TOO_MANY_REQUESTS),

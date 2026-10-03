@@ -8,7 +8,7 @@ use rom_backup::{BackupLimits, MigrationPlan};
 use std::path::Path;
 
 impl Redb {
-    /// Apply an explicit schema migration to an offline format-4 or format-5 source.
+    /// Apply an explicit schema migration to an offline format-4, format-5 or current source.
     /// Read the source without changes and publish only to a fresh destination.
     /// The shared plan validates transformed records and rebuilds reference edges.
     /// Publication fences old journal cursors and active work claims.

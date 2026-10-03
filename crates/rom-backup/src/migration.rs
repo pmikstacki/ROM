@@ -1,5 +1,6 @@
 //! Shared conversion of the complete bounded Resource history and obligation graph.
-use crate::{Backend, BackupLimits, MigrationPlan, Snapshot, archive, codec};
+use crate::maintenance_limits::check_snapshot as check_limits;
+use crate::{BackupLimits, MigrationPlan, Snapshot, codec};
 use rom::{Error, Result, WorkState};
 use std::{
     collections::BTreeMap,
@@ -91,10 +92,4 @@ pub fn migrate_snapshot(
         }
     }
     Ok(snapshot)
-}
-
-fn check_limits(snapshot: &Snapshot, limits: BackupLimits) -> Result<()> {
-    archive::check_count(&snapshot.manifest(Backend::Sqlite), limits)?;
-    codec::encode(snapshot, limits.max_bytes)?;
-    Ok(())
 }

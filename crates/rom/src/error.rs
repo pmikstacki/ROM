@@ -7,6 +7,7 @@ pub enum Error {
     Denied,
     Conflict,
     IdentityMismatch,
+    IdentityExpired,
     Missing,
     Overloaded,
     Closed,

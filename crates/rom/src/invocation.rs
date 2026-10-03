@@ -4,6 +4,9 @@ use super::*;
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Invocation {
+    /// Explicit retry namespace. Omission always means the original epoch zero.
+    #[serde(default, skip_serializing_if = "retry_epoch::is_zero")]
+    pub retry_epoch: u64,
     pub kind: String,
     pub id: String,
     pub expected: Option<u64>,
@@ -26,6 +29,7 @@ pub enum Operation {
     Action { name: String, input: Value },
 }
 pub(crate) struct ErasedCommand {
+    pub(crate) retry_epoch: u64,
     pub(crate) kind: String,
     pub(crate) id: String,
     pub(crate) expected: Option<u64>,
@@ -69,7 +73,7 @@ impl Invocation {
             Operation::Delete => json!(["standard", "delete"]),
             Operation::Action { name, .. } => json!(["custom", name]),
         };
-        json!([
+        let legacy = json!([
             actor.authority,
             actor.principal_kind(),
             actor.subject,
@@ -77,12 +81,17 @@ impl Invocation {
             self.id,
             operation,
             self.idempotency
-        ])
-        .to_string()
+        ]);
+        if self.retry_epoch == 0 {
+            legacy.to_string()
+        } else {
+            json!(["rom-retry-epoch-v1", self.retry_epoch, legacy]).to_string()
+        }
     }
 
     pub(crate) fn into_command(self) -> ErasedCommand {
         ErasedCommand {
+            retry_epoch: self.retry_epoch,
             kind: self.kind,
             id: self.id,
             expected: self.expected,
@@ -99,6 +108,7 @@ impl Invocation {
 impl<R: Resource> From<Command<R>> for Invocation {
     fn from(command: Command<R>) -> Self {
         Self {
+            retry_epoch: command.retry_epoch,
             kind: R::KIND.into(),
             id: command.id,
             expected: command.expected,

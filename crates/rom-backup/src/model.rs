@@ -2,8 +2,9 @@ use rom::{Descriptor, Error, Intent, Receipt, ReferenceEdge, Result, Row, Storag
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 
-pub(crate) const ARCHIVE_VERSION: u32 = 3;
-pub(crate) const STORAGE_FORMAT: u32 = 5;
+pub(crate) const ARCHIVE_VERSION: u32 = 4;
+/// Current native format. Older readers must reject persisted retry epochs.
+pub const STORAGE_FORMAT: u32 = 6;
 
 #[derive(Clone, Copy, Debug)]
 pub struct BackupLimits {
@@ -109,6 +110,7 @@ impl Snapshot {
                 .get(&(&row.key.kind, &row.key.id))
                 .ok_or(Error::Storage)?;
             if receipt.identity.is_empty()
+                || receipt.retry_epoch > self.state.retry_epochs().current
                 || receipt.replay_version.is_some_and(|v| {
                     v == 0
                         || catalog

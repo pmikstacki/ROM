@@ -6,6 +6,7 @@ fn pending(id: &str) -> PendingWork {
     PendingWork {
         id: id.into(),
         cause: Cause {
+            retry_epoch: 0,
             root: "root".into(),
             parent: None,
             depth: 1,
@@ -15,7 +16,9 @@ fn pending(id: &str) -> PendingWork {
         definition: "copy".into(),
         version: 1,
         service_key: "service".into(),
-        payload: WorkPayload::Action(json!({"frozen":1})),
+        payload: WorkPayload::Action(
+            json!({"kind":"notes","id":"one","expected":null,"idempotency":"frozen","operation":{"type":"create","input":{"frozen":1}}}),
+        ),
     }
 }
 #[test]
@@ -115,6 +118,7 @@ fn bundle(id: &str) -> rom::Bundle {
         reaction_limits: None,
         completed_work: None,
         receipt: rom::Receipt {
+            retry_epoch: 0,
             replay_version: None,
             identity: id.into(),
             fingerprint: id.into(),

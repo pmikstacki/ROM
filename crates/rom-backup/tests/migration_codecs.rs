@@ -49,6 +49,7 @@ fn snapshot(descriptor: Descriptor, value: Value) -> Snapshot {
         protected: Default::default(),
     };
     let receipt = Receipt {
+        retry_epoch: 0,
         identity: "create-one".into(),
         fingerprint: "original-input".into(),
         row: row.clone(),

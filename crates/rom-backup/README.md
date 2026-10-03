@@ -9,9 +9,13 @@ let restored = rom_sqlite::Sqlite::restore_from(
 )?;
 ```
 
-The redb methods have the same signatures. The destination must be new. Restore refuses existing paths and symlinks. Archives are backend-specific, archive format 3 / database format 5. This is not a cross-backend migration or automatic format upgrade. Archives include canonical descriptors and the validated live reference graph.
+The redb methods have the same signatures. The destination must be new. Restore refuses existing paths and symlinks. Archives are backend-specific, archive format 4 / database format 6. This is not a cross-backend migration or automatic format upgrade. Archives include canonical descriptors, retry epoch boundaries and the validated live reference graph.
 
-To upgrade an older archive, call `rom_backup::upgrade_v1_archive(source, destination, backend, descriptors, limits)`. Supply explicit descriptors for every stored kind. Use `upgrade_v2_archive(source, destination, backend, limits)` for an archive that already contains its catalog. Both operations preserve the source. Native adapters also provide `upgrade_from` for formats 3 and 4 into a fresh format-5 destination.
+To upgrade an older archive, call `rom_backup::upgrade_v1_archive(source, destination, backend, descriptors, limits)`. Supply explicit descriptors for every stored kind. Use `upgrade_v2_archive(source, destination, backend, limits)` or `upgrade_v3_archive` for archives that already contain their catalog. These operations preserve the source. Native adapters also provide `upgrade_from` for formats 3, 4 and 5 into a fresh format-6 destination.
+
+Use [offline retention](../../docs/retention.md) to reclaim expired history. It shares
+dependency checks across adapters and requires explicit host retry boundaries.
+Keep a trusted retry fence outside rollback backups before activating new boundaries.
 
 Use a typed `MigrationPlan` and native `migrate_from` to change Resource fields.
 See [Resource migrations](../../docs/resource-migrations.md). Receipts preserve

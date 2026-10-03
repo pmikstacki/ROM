@@ -113,6 +113,7 @@ async fn structured_input_executes_through_public_action_pipeline() {
         .invoke(
             &actor,
             rom::Invocation {
+                retry_epoch: 0,
                 kind: Inventory::KIND.into(),
                 id: "stock".into(),
                 expected: Some(2),

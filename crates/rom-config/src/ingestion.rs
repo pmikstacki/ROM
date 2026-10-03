@@ -104,6 +104,7 @@ pub const REQUEST_RELOAD: Action<SourceActivation, ReloadRequest> =
 /// Prepared native request identity. No serde construction or credential retention.
 #[derive(Clone)]
 pub struct ReloadTicket {
+    retry_epoch: u64,
     actor: Actor,
     source_id: String,
     activation_revision: u64,
@@ -118,6 +119,17 @@ impl ReloadTicket {
         actor: &Actor,
         source_id: &str,
         version: &str,
+    ) -> Result<Self> {
+        Self::request_with_epoch(runtime, actor, source_id, version, 0).await
+    }
+    /// Begin with an explicit retry epoch. Retain this epoch with the request's
+    /// recovery information; never substitute a newer epoch when retrying it.
+    pub async fn request_with_epoch(
+        runtime: &Runtime,
+        actor: &Actor,
+        source_id: &str,
+        version: &str,
+        retry_epoch: u64,
     ) -> Result<Self> {
         if actor.principal_kind() != PrincipalKind::Service {
             return Err(Error::Denied);
@@ -150,11 +162,13 @@ impl ReloadTicket {
                     },
                 )
                 .at_revision(before.revision)
+                .retry_epoch(retry_epoch)
                 .idempotency(&format!("request-{}", before.revision)),
             )
             .await?;
         let activation = outcome.value.ok_or(Error::Denied)?;
         Ok(Self {
+            retry_epoch,
             actor,
             source_id: source_id.into(),
             activation_revision: outcome.revision,
@@ -165,6 +179,17 @@ impl ReloadTicket {
     /// Recover the current request without advancing generation, preserving its
     /// original target revision and idempotency scope across a process restart.
     pub async fn resume(runtime: &Runtime, actor: &Actor, source_id: &str) -> Result<Self> {
+        Self::resume_with_epoch(runtime, actor, source_id, 0).await
+    }
+    /// Recover using the original epoch retained by the caller. SourceActivation
+    /// does not persist this epoch, so the default resume method always uses zero.
+    /// This method never queries or substitutes the current admission epoch.
+    pub async fn resume_with_epoch(
+        runtime: &Runtime,
+        actor: &Actor,
+        source_id: &str,
+        retry_epoch: u64,
+    ) -> Result<Self> {
         if actor.principal_kind() != PrincipalKind::Service {
             return Err(Error::Denied);
         }
@@ -183,6 +208,7 @@ impl ReloadTicket {
                     end.min(activation.valid_until)
                 }));
         Ok(Self {
+            retry_epoch,
             actor,
             source_id: source_id.into(),
             activation_revision: row.revision,
@@ -193,6 +219,9 @@ impl ReloadTicket {
     /// Source generation requested by this ticket, distinct from accepted target state.
     pub fn generation(&self) -> u64 {
         self.activation.requested_generation
+    }
+    pub fn retry_epoch(&self) -> u64 {
+        self.retry_epoch
     }
     /// Parse errors do not apply an empty document or delete anything.
     pub async fn load(
@@ -231,6 +260,7 @@ impl ReloadTicket {
     }
     fn invocation(&self, operation: Operation) -> Invocation {
         Invocation {
+            retry_epoch: self.retry_epoch,
             kind: self.activation.target_kind.clone(),
             id: self.activation.target_id.clone(),
             expected: self.expected,

@@ -16,19 +16,6 @@ impl Redb {
         tx.set_durability(Durability::Immediate)
             .map_err(|_| Error::Storage)?;
         {
-            let mut receipts = tx.open_table(RECEIPTS).map_err(|_| Error::Storage)?;
-            if let Some(prior) = receipts
-                .get(b.receipt.identity.as_str())
-                .map_err(|_| Error::Storage)?
-            {
-                let prior: Receipt =
-                    serde_json::from_str(prior.value()).map_err(|_| Error::Storage)?;
-                return if prior.fingerprint == b.receipt.fingerprint {
-                    Ok(prior)
-                } else {
-                    Err(Error::IdentityMismatch)
-                };
-            }
             let mut state_table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
             let mut state: StorageState = serde_json::from_str(
                 state_table
@@ -38,6 +25,27 @@ impl Redb {
                     .value(),
             )
             .map_err(|_| Error::Storage)?;
+            let mut receipts = tx.open_table(RECEIPTS).map_err(|_| Error::Storage)?;
+            let prior: Option<Receipt> = receipts
+                .get(b.receipt.identity.as_str())
+                .map_err(|_| Error::Storage)?
+                .map(|value| serde_json::from_str(value.value()).map_err(|_| Error::Storage))
+                .transpose()?;
+            state.check_retry_epoch(
+                b.receipt.retry_epoch,
+                prior.is_some(),
+                b.completed_work.as_ref().map(|(key, now)| (key, *now)),
+            )?;
+            if let Some(prior) = prior {
+                state.check_retry_epoch(prior.retry_epoch, true, None)?;
+                return if prior.fingerprint == b.receipt.fingerprint
+                    && prior.retry_epoch == b.receipt.retry_epoch
+                {
+                    Ok(prior)
+                } else {
+                    Err(Error::IdentityMismatch)
+                };
+            }
             let mut rows = tx.open_table(ROWS).map_err(|_| Error::Storage)?;
             let key = (
                 b.receipt.row.key.kind.as_str(),

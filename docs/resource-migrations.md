@@ -39,7 +39,7 @@ ROM catches a converter panic, but it cannot stop an infinite native loop.
 4. Start the destination with its new Resource definitions and retained replay codecs.
 5. Run application acceptance checks. Preserve the original source until they pass.
 
-The source can use native format 4 or 5. The destination uses format 5.
+The source can use native format 4, 5 or 6. The destination uses format 6.
 For an older format-3 source, first use the [native format upgrade](native-upgrade.md).
 A destination must be new. Existing files and symlinks are not replaced.
 Native rebuild and validation finish before publication. A post-publication error
@@ -97,7 +97,7 @@ attempt budget or guarantee exactly-once external delivery.
 
 ## Compatibility
 
-Native format 5 and archive version 3 preserve replay codec metadata. Older tools
+Native format 6 and archive version 4 preserve replay codec and retry epoch metadata. Older tools
 reject these formats. Use explicit archive/native upgrade methods for older formats.
 This profile supports offline field transformations. Resource kind renames, identity
 changes, online cutover and concurrent writers require different contracts.

@@ -45,6 +45,9 @@ pub(crate) fn save_state(c: &Connection, state: &StorageState) -> Result<()> {
     Ok(())
 }
 impl Storage for Sqlite {
+    fn retry_epochs(&self) -> Result<rom::RetryEpochs> {
+        Ok(state(&*self.connection.lock().map_err(|_| Error::Panicked)?)?.retry_epochs())
+    }
     fn register(&self, descriptors: &[Descriptor]) -> Result<()> {
         let mut c = self.connection.lock().map_err(|_| Error::Panicked)?;
         let tx = c
@@ -69,7 +72,7 @@ impl Storage for Sqlite {
             .transaction_with_behavior(rusqlite::TransactionBehavior::Immediate)
             .map_err(|_| Error::Storage)?;
         let mut s = state(&tx)?;
-        let result = s.work.apply(update)?;
+        let result = s.update_work(update)?;
         save_state(&tx, &s)?;
         tx.commit().map_err(|_| Error::Unknown)?;
         Ok(result)
@@ -137,8 +140,18 @@ impl Storage for Sqlite {
         let tx = c
             .transaction_with_behavior(rusqlite::TransactionBehavior::Immediate)
             .map_err(|_| Error::Storage)?;
-        if let Some(prior) = receipt(&tx, &b.receipt.identity)? {
-            if prior.fingerprint != b.receipt.fingerprint {
+        let mut metadata = state(&tx)?;
+        let prior = receipt(&tx, &b.receipt.identity)?;
+        metadata.check_retry_epoch(
+            b.receipt.retry_epoch,
+            prior.is_some(),
+            b.completed_work.as_ref().map(|(key, now)| (key, *now)),
+        )?;
+        if let Some(prior) = prior {
+            metadata.check_retry_epoch(prior.retry_epoch, true, None)?;
+            if prior.fingerprint != b.receipt.fingerprint
+                || prior.retry_epoch != b.receipt.retry_epoch
+            {
                 return Err(Error::IdentityMismatch);
             }
             return Ok(prior);
@@ -158,7 +171,6 @@ impl Storage for Sqlite {
             return Err(Error::NotCommitted);
         }
         let targets = references::prepare(&tx, &b.receipt)?;
-        let mut metadata = state(&tx)?;
         let retired = metadata.bundle(b)?;
         #[cfg(feature = "test-support")]
         let f = self.fault.swap(0, Ordering::SeqCst);

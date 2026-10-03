@@ -67,6 +67,7 @@ async fn routing_and_host_identity_are_bounded_before_identity_encoding() {
         .unwrap();
     let actor = Actor::trusted("local", "alice");
     let base = Invocation {
+        retry_epoch: 0,
         kind: Task::KIND.into(),
         id: "x".into(),
         expected: None,
@@ -75,6 +76,7 @@ async fn routing_and_host_identity_are_bounded_before_identity_encoding() {
     };
     for invocation in [
         Invocation {
+            retry_epoch: 0,
             kind: "x".repeat(20_000),
             ..base.clone()
         },

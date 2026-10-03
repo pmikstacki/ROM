@@ -68,6 +68,7 @@ fn explicit_legacy_archive_upgrade_preserves_data_and_requires_descriptors() {
         protected: Default::default(),
     };
     let receipt = rom::Receipt {
+        retry_epoch: 0,
         replay_version: None,
         identity: "original".into(),
         fingerprint: "unchanged".into(),
@@ -117,7 +118,7 @@ fn explicit_legacy_archive_upgrade_preserves_data_and_requires_descriptors() {
         BackupLimits::default(),
     )
     .unwrap();
-    assert_eq!((result.archive_version, result.storage_format), (3, 5));
+    assert_eq!((result.archive_version, result.storage_format), (4, 6));
     let (_, upgraded) = read(&target, Backend::Sqlite, BackupLimits::default()).unwrap();
     let upgraded = serde_json::to_value(upgraded).unwrap();
     let mut expected_body = body.clone();
@@ -157,92 +158,118 @@ fn publication_race_and_symlink_refuse_overwrite() {
 }
 
 #[test]
-fn archive_two_explicit_upgrade_preserves_or_binds_receipt_origin() {
-    for origin in [None, Some(1)] {
-        let target = std::env::temp_dir().join(format!(
-            "rom-archive2-upgrade-{}-{origin:?}",
-            std::process::id()
-        ));
-        let source = Stage::new(&target.with_extension("source")).unwrap();
-        let row = rom::Row {
-            key: rom::Key {
-                kind: "items".into(),
-                id: "one".into(),
-            },
-            revision: 1,
-            value: Some(json!({"name":"retained"})),
-            protected: Default::default(),
+fn catalogued_archive_upgrade_preserves_or_binds_receipt_origin() {
+    for archive_version in [2, 3] {
+        let upgrade = if archive_version == 2 {
+            |source: &Path, destination: &Path| {
+                upgrade_v2_archive(
+                    source,
+                    destination,
+                    Backend::Sqlite,
+                    BackupLimits::default(),
+                )
+            }
+        } else {
+            |source: &Path, destination: &Path| {
+                upgrade_v3_archive(
+                    source,
+                    destination,
+                    Backend::Sqlite,
+                    BackupLimits::default(),
+                )
+            }
         };
-        let receipt = rom::Receipt {
-            replay_version: origin,
-            identity: "original".into(),
-            fingerprint: "unchanged".into(),
-            row: row.clone(),
-        };
-        let mut state = StorageState::new(StorageLimits::default()).unwrap();
-        state
-            .bundle(&rom::Bundle {
-                expected: None,
-                receipt: receipt.clone(),
-                changed: true,
+        for origin in [None, Some(1)] {
+            let target = std::env::temp_dir().join(format!(
+                "rom-archive-upgrade-{archive_version}-{}-{origin:?}",
+                std::process::id()
+            ));
+            let source = Stage::new(&target.with_extension("source")).unwrap();
+            let row = rom::Row {
+                key: rom::Key {
+                    kind: "items".into(),
+                    id: "one".into(),
+                },
+                revision: 1,
+                value: Some(json!({"name":"retained"})),
+                protected: Default::default(),
+            };
+            let receipt = rom::Receipt {
+                retry_epoch: 0,
+                replay_version: origin,
+                identity: "original".into(),
+                fingerprint: "unchanged".into(),
+                row: row.clone(),
+            };
+            let mut state = StorageState::new(StorageLimits::default()).unwrap();
+            state
+                .bundle(&rom::Bundle {
+                    expected: None,
+                    receipt: receipt.clone(),
+                    changed: true,
+                    effects: vec![],
+                    reactions: vec![],
+                    reaction_limits: None,
+                    completed_work: None,
+                })
+                .unwrap();
+            let snapshot = Snapshot {
+                state,
+                rows: vec![row.clone()],
+                receipts: vec![receipt],
+                events: vec![("original".into(), row)],
                 effects: vec![],
-                reactions: vec![],
-                reaction_limits: None,
-                completed_work: None,
-            })
-            .unwrap();
-        let snapshot = Snapshot {
-            state,
-            rows: vec![row.clone()],
-            receipts: vec![receipt],
-            events: vec![("original".into(), row)],
-            effects: vec![],
-            references: vec![],
-            descriptors: vec![Descriptor {
-                kind: "items".into(),
-                version: 2,
-                fields: vec![rom::FieldDescriptor {
-                    name: "name".into(),
-                    shape: rom::Shape::String,
+                references: vec![],
+                descriptors: vec![Descriptor {
+                    kind: "items".into(),
+                    version: 2,
+                    fields: vec![rom::FieldDescriptor {
+                        name: "name".into(),
+                        shape: rom::Shape::String,
+                    }],
                 }],
-            }],
-        };
-        let mut manifest = snapshot.manifest(Backend::Sqlite);
-        manifest.archive_version = 2;
-        manifest.storage_format = 4;
-        unchecked_archive(
-            source.path(),
-            &serde_json::to_value(manifest).unwrap(),
-            &serde_json::to_value(&snapshot).unwrap(),
-        );
-        let original = fs::read(source.path()).unwrap();
-        assert!(matches!(
-            read(source.path(), Backend::Sqlite, BackupLimits::default()),
-            Err(Error::Unsupported(_))
-        ));
-        let upgraded = upgrade_v2_archive(
-            source.path(),
-            &target,
-            Backend::Sqlite,
-            BackupLimits::default(),
-        )
-        .unwrap();
-        assert_eq!((upgraded.archive_version, upgraded.storage_format), (3, 5));
-        let (_, data) = read(&target, Backend::Sqlite, BackupLimits::default()).unwrap();
-        assert_eq!(data.receipts[0].replay_version, Some(origin.unwrap_or(2)));
-        assert_eq!(data.receipts[0].row, snapshot.receipts[0].row);
-        assert_eq!(data.receipts[0].fingerprint, "unchanged");
-        assert_eq!(data.descriptors, snapshot.descriptors);
-        assert_eq!(fs::read(source.path()).unwrap(), original);
-        assert_eq!(
-            upgrade_v2_archive(
-                source.path(),
-                &target,
-                Backend::Sqlite,
-                BackupLimits::default()
-            ),
-            Err(Error::Conflict)
-        );
-        fs::remove_file(target).unwrap();
+            };
+            let mut manifest = snapshot.manifest(Backend::Sqlite);
+            manifest.archive_version = archive_version;
+            manifest.storage_format = archive_version + 2;
+            let manifest = serde_json::to_value(manifest).unwrap();
+            let mut legacy_body = serde_json::to_value(&snapshot).unwrap();
+            legacy_body["state"]
+                .as_object_mut()
+                .unwrap()
+                .remove("retry_epochs");
+            legacy_body["receipts"][0]
+                .as_object_mut()
+                .unwrap()
+                .remove("retry_epoch");
+            unchecked_archive(source.path(), &manifest, &legacy_body);
+            let original = fs::read(source.path()).unwrap();
+            assert!(matches!(
+                read(source.path(), Backend::Sqlite, BackupLimits::default()),
+                Err(Error::Unsupported(_))
+            ));
+            let upgraded = upgrade(source.path(), &target).unwrap();
+            assert_eq!((upgraded.archive_version, upgraded.storage_format), (4, 6));
+            let (_, data) = read(&target, Backend::Sqlite, BackupLimits::default()).unwrap();
+            assert_eq!(data.receipts[0].replay_version, Some(origin.unwrap_or(2)));
+            assert_eq!(data.receipts[0].row, snapshot.receipts[0].row);
+            assert_eq!(data.receipts[0].fingerprint, "unchanged");
+            assert_eq!(data.receipts[0].retry_epoch, 0);
+            assert_eq!(data.state.retry_epochs(), rom::RetryEpochs::default());
+            assert_eq!(data.descriptors, snapshot.descriptors);
+            assert_eq!(fs::read(source.path()).unwrap(), original);
+            assert_eq!(upgrade(source.path(), &target), Err(Error::Conflict));
+            fs::remove_file(&target).unwrap();
+            legacy_body["state"]["retry_epochs"] =
+                json!({"current":1,"admission_floor":0,"replay_floor":0});
+            unchecked_archive(source.path(), &manifest, &legacy_body);
+            let original = fs::read(source.path()).unwrap();
+            assert!(matches!(
+                upgrade(source.path(), &target),
+                Err(Error::Unsupported(_))
+            ));
+            assert!(!target.exists());
+            assert_eq!(fs::read(source.path()).unwrap(), original);
+        }
     }
 }

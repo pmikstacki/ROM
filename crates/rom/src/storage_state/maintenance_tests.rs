@@ -23,6 +23,7 @@ fn pending(id: &str, payload: WorkPayload) -> PendingWork {
     PendingWork {
         id: id.into(),
         cause: Cause {
+            retry_epoch: 0,
             root: "root".into(),
             parent: Some("parent".into()),
             depth: 3,

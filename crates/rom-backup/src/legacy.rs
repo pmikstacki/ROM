@@ -29,7 +29,7 @@ struct LegacySnapshot {
     effects: Vec<StoredEffect>,
 }
 
-/// Upgrade an archive-1/storage-3 backup into a new archive-3/storage-5 path.
+/// Upgrade an archive-1/storage-3 backup into a new archive-4/storage-6 path.
 /// Supply explicit descriptors for every stored kind. No row transformations occur.
 /// Missing targets, incompatible values and exceeded limits prevent publication.
 /// Receipt identities and pending work remain unchanged. Restore fences active claims.
@@ -92,6 +92,7 @@ pub fn bind_legacy_schema(
     descriptors: &[Descriptor],
     limits: BackupLimits,
 ) -> Result<Snapshot> {
+    validate_legacy_retry_epochs(&snapshot)?;
     if !snapshot.descriptors.is_empty() || !snapshot.references.is_empty() {
         return Err(Error::Unsupported(
             "legacy snapshot already has schema metadata".into(),
@@ -114,7 +115,31 @@ pub fn upgrade_v2_archive(
     backend: Backend,
     limits: BackupLimits,
 ) -> Result<Manifest> {
-    let (_, mut snapshot) = archive::read_version(source.as_ref(), backend, limits, 2, 4)?;
+    upgrade_catalogued_archive(source.as_ref(), destination.as_ref(), backend, limits, 2, 4)
+}
+
+/// Upgrade an archive-3/storage-5 backup to the epoch-aware archive format.
+/// Existing receipt origins are retained; absent retry epochs start at zero.
+pub fn upgrade_v3_archive(
+    source: impl AsRef<Path>,
+    destination: impl AsRef<Path>,
+    backend: Backend,
+    limits: BackupLimits,
+) -> Result<Manifest> {
+    upgrade_catalogued_archive(source.as_ref(), destination.as_ref(), backend, limits, 3, 5)
+}
+
+fn upgrade_catalogued_archive(
+    source: &Path,
+    destination: &Path,
+    backend: Backend,
+    limits: BackupLimits,
+    archive_version: u32,
+    storage_format: u32,
+) -> Result<Manifest> {
+    let (_, mut snapshot) =
+        archive::read_version(source, backend, limits, archive_version, storage_format)?;
+    validate_legacy_retry_epochs(&snapshot)?;
     bind_receipt_origins(&mut snapshot)?;
     write(destination, backend, &snapshot, limits)
 }
@@ -126,6 +151,7 @@ pub fn upgrade_legacy_snapshot(
     descriptors: &[Descriptor],
     limits: BackupLimits,
 ) -> Result<Snapshot> {
+    validate_legacy_retry_epochs(&snapshot)?;
     snapshot.validate()?;
     if rom::validate_descriptors(descriptors)? != snapshot.descriptors {
         return Err(Error::Unsupported(
@@ -153,6 +179,27 @@ fn bind_receipt_origins(snapshot: &mut Snapshot) -> Result<()> {
                     .ok_or(Error::Storage)?,
             );
         }
+    }
+    Ok(())
+}
+
+/// Legacy formats predate retry epochs. Nonzero metadata cannot be interpreted safely.
+/// Zero fields are accepted so default serialization remains backward-compatible.
+pub fn validate_legacy_retry_epochs(snapshot: &Snapshot) -> Result<()> {
+    if snapshot.state.retry_epochs() != rom::RetryEpochs::default()
+        || snapshot
+            .receipts
+            .iter()
+            .any(|receipt| receipt.retry_epoch != 0)
+        || snapshot.state.work.records().iter().any(|record| {
+            record.pending.cause.retry_epoch != 0
+                || matches!(&record.pending.payload, rom::WorkPayload::Action(value)
+                    if value.get("retry_epoch").is_some_and(|epoch| epoch.as_u64() != Some(0)))
+        })
+    {
+        return Err(Error::Unsupported(
+            "legacy storage cannot contain retry epochs".into(),
+        ));
     }
     Ok(())
 }

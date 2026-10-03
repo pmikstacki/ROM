@@ -37,6 +37,8 @@ mod persistence;
 mod query;
 mod references;
 mod replay;
+mod retry_epoch;
+pub use retry_epoch::RetryEpochs;
 mod resource;
 pub use discovery::*;
 pub use execution::*;

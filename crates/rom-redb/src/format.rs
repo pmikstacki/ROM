@@ -6,5 +6,5 @@ pub(super) const RECEIPTS: TableDefinition<&str, &str> = TableDefinition::new("r
 pub(super) const EVENTS: TableDefinition<&str, &str> = TableDefinition::new("events");
 pub(super) const EFFECTS: TableDefinition<(&str, u64), &str> = TableDefinition::new("effects");
 pub(super) const META: TableDefinition<&str, u64> = TableDefinition::new("rom_metadata");
-pub(super) const FORMAT: u64 = 5;
+pub(super) const FORMAT: u64 = rom_backup::STORAGE_FORMAT as u64;
 pub(super) const STATE: TableDefinition<&str, &str> = TableDefinition::new("rom_state");
