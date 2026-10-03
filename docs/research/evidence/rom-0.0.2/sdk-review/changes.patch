@@ -1,0 +1,208 @@
+diff --git a/studio/src/lib/client/serialization.ts b/studio/src/lib/client/serialization.ts
+index b709e75..d2d88ec 100644
+--- a/studio/src/lib/client/serialization.ts
++++ b/studio/src/lib/client/serialization.ts
+@@ -3,6 +3,7 @@ import type { WireObject, WireValue } from "./types.ts";
+ export const DEFAULT_BYTES = 1024 * 1024;
+ const encoder = new TextEncoder();
+ const numberToken = /-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/y;
++const floatTokens = new WeakMap<object, Map<string, string>>();
+ 
+ function unicode(value: string): string {
+   for (let index = 0; index < value.length; index++) {
+@@ -39,6 +40,22 @@ export function parseWire(
+   const invalid = (): never => {
+     throw Error(`invalid wire JSON at ${position}`);
+   };
++  function member(container: object, key: string, depth: number): WireValue {
++    const start = position;
++    const result = value(depth);
++    if (typeof result === "number") {
++      const token = text.slice(start, position).trim();
++      if (/[.eE]/.test(token)) {
++        let tokens = floatTokens.get(container);
++        if (!tokens) {
++          tokens = new Map();
++          floatTokens.set(container, tokens);
++        }
++        tokens.set(key, token);
++      }
++    }
++    return result;
++  }
+   function string(): string {
+     if (text[position] !== '"') return invalid();
+     const start = position++;
+@@ -69,7 +86,7 @@ export function parseWire(
+         if (Object.hasOwn(object, key)) throw Error("duplicate wire key");
+         whitespace();
+         if (text[position++] !== ":") return invalid();
+-        object[key] = value(depth + 1);
++        object[key] = member(object, key, depth + 1);
+         whitespace();
+         const next = text[position++];
+         if (next === "}") return object;
+@@ -85,7 +102,7 @@ export function parseWire(
+         return array;
+       }
+       while (true) {
+-        array.push(value(depth + 1));
++        array.push(member(array, String(array.length), depth + 1));
+         whitespace();
+         const next = text[position++];
+         if (next === "]") return array;
+@@ -140,7 +157,7 @@ export function stringifyWire(
+     if (bytes > maxBytes) throw Error("wire byte limit");
+     fragments.push(fragment);
+   };
+-  function write(current: WireValue, depth: number): void {
++  function write(current: WireValue, depth: number, token?: string): void {
+     if (depth > 64) throw Error("wire depth limit");
+     if (typeof current === "bigint") {
+       append(current.toString());
+@@ -160,7 +177,13 @@ export function stringifyWire(
+     }
+     if (typeof current === "number") {
+       if (!Number.isFinite(current)) throw Error("wire number must be finite");
+-      append(Object.is(current, -0) ? "-0.0" : JSON.stringify(current));
++      append(
++        token && Object.is(Number(token), current)
++          ? token
++          : Object.is(current, -0)
++            ? "-0.0"
++            : JSON.stringify(current),
++      );
+       return;
+     }
+     if (typeof current !== "object") throw Error("unsupported wire value");
+@@ -173,7 +196,11 @@ export function stringifyWire(
+         const member = Object.getOwnPropertyDescriptor(current, String(index));
+         if (!member || !Object.hasOwn(member, "value"))
+           throw Error("wire array getters or holes are unsupported");
+-        write(member.value, depth + 1);
++        write(
++          member.value,
++          depth + 1,
++          floatTokens.get(current)?.get(String(index)),
++        );
+       }
+       append("]");
+     } else {
+@@ -193,7 +220,7 @@ export function stringifyWire(
+         if (index++) append(",");
+         append(JSON.stringify(unicode(key)));
+         append(":");
+-        write(member.value, depth + 1);
++        write(member.value, depth + 1, floatTokens.get(current)?.get(key));
+       }
+       append("}");
+     }
+diff --git a/studio/src/lib/client/session.ts b/studio/src/lib/client/session.ts
+index 5cf6e56..2da1c51 100644
+--- a/studio/src/lib/client/session.ts
++++ b/studio/src/lib/client/session.ts
+@@ -5,6 +5,7 @@ import { discovery } from "./discovery.ts";
+ import { live } from "./stream.ts";
+ import { journalBatch } from "./journal.ts";
+ import { workResponse } from "./work-validation.ts";
++import { acceptedAnchor, anchorRequest, queryWire } from "./query.ts";
+ import type {
+   ClientOptions,
+   Invocation,
+@@ -76,11 +77,18 @@ export function createClient(options: ClientOptions): RomClient {
+     },
+     async query(kind, query, signal) {
+       return projectedRows(
+-        await call("query", { kind, query } as unknown as WireValue, signal),
++        await call("query", { kind, query: queryWire(kind, query) }, signal),
+         kind,
+         options.maxRows ?? 10000,
+       );
+     },
++    async anchor(query, last, signal) {
++      return acceptedAnchor(
++        await call("query/anchor", anchorRequest(query, last), signal),
++        last.key.kind,
++        last.key.id,
++      );
++    },
+     prepare(request) {
+       const fingerprint = stringifyWire(request as unknown as WireValue);
+       const body = parseWire(fingerprint) as unknown as Invocation;
+@@ -148,7 +156,7 @@ export function createClient(options: ClientOptions): RomClient {
+         yield* live(
+           options,
+           kind,
+-          query,
++          queryWire(kind, query) as unknown as typeof query,
+           controller.signal,
+           () => started === generation,
+         );
+diff --git a/studio/src/lib/client/types.ts b/studio/src/lib/client/types.ts
+index 4989ec2..baca625 100644
+--- a/studio/src/lib/client/types.ts
++++ b/studio/src/lib/client/types.ts
+@@ -63,6 +63,13 @@ export interface Invocation {
+   operation: Operation;
+ }
+ export type CompareOp = "eq" | "ne" | "lt" | "le" | "gt" | "ge";
++/** A moving boundary with exact native codec JSON. It grants no authority. */
++export interface QueryAnchor {
++  readonly kind: string;
++  readonly id: string;
++  readonly schema_version: number;
++  readonly canonical: string;
++}
+ export interface QuerySpec {
+   filters?: { field: string; value: WireValue; absent?: boolean }[];
+   comparisons?: {
+@@ -72,7 +79,7 @@ export interface QuerySpec {
+     absent?: boolean;
+   }[];
+   order?: { field: string; direction: "asc" | "desc" }[];
+-  after?: WireObject | null;
++  after?: QueryAnchor | null;
+   after_id?: string | null;
+   limit?: number | null;
+ }
+@@ -104,6 +111,11 @@ export interface RomClient {
+     query: QuerySpec,
+     signal?: AbortSignal,
+   ): Promise<ProjectedView[]>;
++  anchor(
++    query: QuerySpec,
++    last: ProjectedView,
++    signal?: AbortSignal,
++  ): Promise<QueryAnchor>;
+   prepare(request: Invocation): PendingMutation;
+   submit(
+     mutation: PendingMutation,
+diff --git a/studio/tests/unit/codec.test.ts b/studio/tests/unit/codec.test.ts
+index ab4950c..afe0f5e 100644
+--- a/studio/tests/unit/codec.test.ts
++++ b/studio/tests/unit/codec.test.ts
+@@ -7,7 +7,10 @@ import {
+   objectInput,
+   patchInput,
+ } from "../../src/lib/client/codec.ts";
+-import type { FieldDescriptor } from "../../src/lib/client/types.ts";
++import type {
++  FieldDescriptor,
++  WireObject,
++} from "../../src/lib/client/types.ts";
+ 
+ test("wire codec preserves boundary integers and ordinary false/zero/null/empty values", () => {
+   const text =
+@@ -207,3 +210,12 @@ test("array and map accessors are rejected without executing user code", () => {
+   );
+   assert.equal(reads, 0);
+ });
++
++test("parsed floating integer tokens retain their Rust number category on replay", () => {
++  const input = '{"one":1.0,"exponent":1e3,"items":[2.0,-0.0]}';
++  const value = parseWire(input);
++  assert.equal(stringifyWire(value), input);
++  const map = value as WireObject;
++  map.one = 2;
++  assert.match(stringifyWire(map), /"one":2,/);
++});

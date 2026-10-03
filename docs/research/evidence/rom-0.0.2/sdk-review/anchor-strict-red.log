@@ -1,0 +1,96 @@
+TAP version 13
+# (node:2052920) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: canonical query boundary survives cloning and float integer replay
+ok 1 - canonical query boundary survives cloning and float integer replay
+  ---
+  duration_ms: 13.706691
+  type: 'test'
+  ...
+# Subtest: anchors reject journal cursors and response identity changes
+ok 2 - anchors reject journal cursors and response identity changes
+  ---
+  duration_ms: 0.865314
+  type: 'test'
+  ...
+# Subtest: anchor admission rejects malformed native envelope members
+ok 3 - anchor admission rejects malformed native envelope members
+  ---
+  duration_ms: 0.628433
+  type: 'test'
+  ...
+# Subtest: anchor replies bind the requested literal order and predicate structure
+ok 4 - anchor replies bind the requested literal order and predicate structure
+  ---
+  duration_ms: 0.334675
+  type: 'test'
+  ...
+# Subtest: anchor correspondence leaves canonical codec operands opaque
+ok 5 - anchor correspondence leaves canonical codec operands opaque
+  ---
+  duration_ms: 1.001913
+  type: 'test'
+  ...
+# Subtest: anchor value states keep missing distinct from present null
+ok 6 - anchor value states keep missing distinct from present null
+  ---
+  duration_ms: 0.172949
+  type: 'test'
+  ...
+# Subtest: native comparison operators cannot be coerced from arrays
+not ok 7 - native comparison operators cannot be coerced from arrays
+  ---
+  duration_ms: 0.382727
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/studio/tests/unit/anchor.test.ts:181:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/studio/tests/unit/anchor.test.ts:184:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: native absence predicates retain their null and equality constraints
+not ok 8 - native absence predicates retain their null and equality constraints
+  ---
+  duration_ms: 0.186775
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/studio/tests/unit/anchor.test.ts:187:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/studio/tests/unit/anchor.test.ts:193:12)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: public anchor response is bound to the submitted snapshot despite caller edits
+ok 9 - public anchor response is bound to the submitted snapshot despite caller edits
+  ---
+  duration_ms: 0.902463
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 7
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 103.91488

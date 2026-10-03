@@ -88,3 +88,28 @@ Its complete log is retained as `client/native-combined-final.log`.
 This accepts the combined metadata and OIDC slices before the new host workspace member.
 The host and persistence resilience test dependencies now resolve offline from the existing locked package versions.
 Their implementations and final combined verifier remain pending.
+
+## SDK, native anchors, and browser gates
+
+Native query anchors are committed as `c86e9cb`. The actual TCP test preserves canonical `FiniteF64` values and verifies token rejection.
+The route delegates to the existing runtime contract. It does not make the core depend on HTTP.
+
+SDK resilience corrections are committed as `6a5fcc4`. The coordinator retained failing regression runs and a successful 48-test run.
+The independent anchor worker subsequently reports 51 passing SDK tests and zero type errors or warnings.
+Its scoped anchor commit and evidence remain separate from the coordinator's request fixes.
+
+The repeated frontend gate passed 16 model/auth cases and 28 browser cases across Chromium and WebKit.
+These browser cases use API fixtures. They do not establish browser-to-native-host acceptance.
+The successful gate ran on the NixOS host, where its pinned browser downloads exist.
+The initial container invocation failed because the container did not contain that browser download; its failure log is retained.
+
+The native resilience worker completed both-store cases for current identity, reentrant policies, migration, operator receipt replay, and maintenance ordering.
+Its Task 6 evidence remains distinct from accepted-work interruption through an actual serving process.
+
+The optional host worker reports real upstream OIDC journeys on both stores, finite proof renewal, stream expiry, callback replay rejection, and logout closure.
+Final scoped host verification and supervised BlobService routes remain in progress.
+A separate worker is building the actual demo launcher and browser acceptance against production Studio assets.
+It will register existing Resources plus a held-out custom-codec Resource without Resource-specific controllers.
+
+No 0.0.2 release artifact, actual durable preview, or complete release acceptance exists yet.
+The remaining gates include actual host/browser integration, accepted-work shutdown, package alignment, extracted artifacts, and persistent protected preview.

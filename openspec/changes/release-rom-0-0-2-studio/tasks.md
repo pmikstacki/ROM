@@ -1,24 +1,24 @@
 ## 1. Research and contracts
-- [ ] 1.1 Verify current Svelte/shadcn compatibility, dependencies, and browser test strategy.
+- [x] 1.1 Verify current Svelte/shadcn compatibility, dependencies, and browser test strategy.
 - [x] 1.2 Audit transport, identity, discovery, and prior release evidence; record actual gaps.
-- [ ] 1.3 Freeze design, executable plan, acceptance matrix, and source ownership.
+- [x] 1.3 Freeze design, executable plan, acceptance matrix, and source ownership.
 
 ## 2. Public metadata and client contract
-- [ ] 2.1 Introduce codec-conformant action-input descriptions with bounded authorized discovery.
+- [x] 2.1 Introduce codec-conformant action-input descriptions with bounded authorized discovery.
 - [ ] 2.2 Build lossless generic browser SDK, request binding, and authenticated bounded stream lifecycle.
 - [ ] 2.3 Verify derive/manual metadata and external author/custom Field workflows.
 
 ## 3. Studio and human identity
-- [ ] 3.1 Verify and lock the selected frontend stack with actual shadcn components.
-- [ ] 3.2 Implement shared field renderers, forms, tables, queries, and action controls.
+- [x] 3.1 Verify and lock the selected frontend stack with actual shadcn components.
+- [x] 3.2 Implement shared field renderers, forms, tables, queries, and action controls.
 - [ ] 3.3 Implement optional Rust hosting and tested human login/session boundaries.
-- [ ] 3.4 Add Users, Providers, Settings, and Work views using shared Resource components.
+- [x] 3.4 Add Users, Providers, Settings, and Work views using shared Resource components.
 
 ## 4. Integrated resilience and ergonomics
 - [ ] 4.1 Test real browser workflows on both stores, including held-out Resources and keyboard operation.
 - [ ] 4.2 Test uncertain outcomes, authority changes, conflicts, reconnect, and draft reconciliation.
 - [ ] 4.3 Close actual active-work shutdown and provider-to-maintenance evidence gaps.
-- [ ] 4.4 Test reentrant storage policy and seeded native operator migration obligations.
+- [x] 4.4 Test reentrant storage policy and seeded native operator migration obligations.
 - [ ] 4.5 Measure renderer/query/stream costs and independently review shared invariants.
 
 ## 5. Release and preview

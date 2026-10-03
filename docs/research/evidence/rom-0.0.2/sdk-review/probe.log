@@ -1,0 +1,67 @@
+(node:2047444) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2047444) TimeoutOverflowWarning: 9007199254740991 does not fit into a 32-bit signed integer.
+Timeout duration was set to 1.
+{
+  "node": "v22.16.0",
+  "observations": [
+    {
+      "case": "POST deadline",
+      "after40ms": "pending",
+      "lateReply": "accepted"
+    },
+    {
+      "case": "already cancelled POST",
+      "calls": 1,
+      "reply": "accepted"
+    },
+    {
+      "case": "oversized body with pending cancel",
+      "after40ms": "pending",
+      "afterRelease": "rejected"
+    },
+    {
+      "case": "floating revision metadata",
+      "wire": "1.0",
+      "accepted": "1n"
+    },
+    {
+      "case": "delete correspondence",
+      "expected": "7n",
+      "result": "3n",
+      "value": "non-null",
+      "state": "succeeded"
+    },
+    {
+      "case": "query response count",
+      "requested": 1,
+      "accepted": 2
+    },
+    {
+      "case": "float token scope",
+      "original": "{\"value\":1.0,\"nested\":[2e0]}",
+      "cloned": "{\"value\":1,\"nested\":[2]}",
+      "scalar": "1"
+    },
+    {
+      "case": "configured 2MiB response",
+      "actualBytes": 1100065,
+      "result": "wire byte limit at default 1MiB parser"
+    },
+    {
+      "case": "unrepresentable timer",
+      "configured": 9007199254740991,
+      "after10ms": "aborted (Node clamps to 1ms)"
+    },
+    {
+      "case": "floating protocol version",
+      "wire": "1.0",
+      "accepted": 1
+    },
+    {
+      "case": "negative controls",
+      "malformedUtf8": "rejected",
+      "duplicateMetadata": "rejected"
+    }
+  ]
+}

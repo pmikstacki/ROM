@@ -1,0 +1,48 @@
+TAP version 13
+# (node:2052619) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: canonical query boundary survives cloning and float integer replay
+ok 1 - canonical query boundary survives cloning and float integer replay
+  ---
+  duration_ms: 13.535155
+  type: 'test'
+  ...
+# Subtest: anchors reject journal cursors and response identity changes
+ok 2 - anchors reject journal cursors and response identity changes
+  ---
+  duration_ms: 0.731019
+  type: 'test'
+  ...
+# Subtest: anchor admission rejects malformed native envelope members
+ok 3 - anchor admission rejects malformed native envelope members
+  ---
+  duration_ms: 0.812613
+  type: 'test'
+  ...
+# Subtest: anchor replies bind the requested literal order and predicate structure
+ok 4 - anchor replies bind the requested literal order and predicate structure
+  ---
+  duration_ms: 0.386995
+  type: 'test'
+  ...
+# Subtest: anchor correspondence leaves canonical codec operands opaque
+ok 5 - anchor correspondence leaves canonical codec operands opaque
+  ---
+  duration_ms: 1.146557
+  type: 'test'
+  ...
+# Subtest: anchor value states keep missing distinct from present null
+ok 6 - anchor value states keep missing distinct from present null
+  ---
+  duration_ms: 0.274801
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 102.50884

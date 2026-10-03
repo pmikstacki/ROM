@@ -1,0 +1,48 @@
+(node:2050896) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{
+  "node": "v22.16.0",
+  "observations": [
+    {
+      "case": "invalid nested tags",
+      "result": "accepted"
+    },
+    {
+      "case": "non-object filter",
+      "result": "accepted"
+    },
+    {
+      "case": "unknown envelope field",
+      "result": "accepted"
+    },
+    {
+      "case": "missing anchor value",
+      "result": "accepted"
+    },
+    {
+      "case": "anchor response query binding",
+      "requested": "asc",
+      "acceptedAndResent": "desc"
+    },
+    {
+      "case": "canonical clone positive",
+      "floatCategory": "preserved",
+      "unrelatedField": "removed"
+    },
+    {
+      "case": "deleted/recreated property",
+      "freshNumber": 1,
+      "serialized": "{\"number\":1.0}"
+    },
+    {
+      "case": "moved float array element",
+      "serialized": "[2,1]",
+      "floatCategory": "lost"
+    },
+    {
+      "case": "explicit integer replacement",
+      "serialized": "{\"number\":1}",
+      "oldFloatToken": "ignored"
+    }
+  ]
+}
