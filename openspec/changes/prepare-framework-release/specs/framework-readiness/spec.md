@@ -344,3 +344,49 @@ Compensation SHALL remain an explicit ordinary Resource action without generic r
 - **WHEN** backup, restore, migration or retention processes operator metadata
 - **THEN** durable control receipts and declared delivery profiles remain validated and retained
 - **AND** explicit format upgrade initializes prior-format work without silently changing its delivery guarantee
+
+### Requirement: A release identity profile uses real provider evidence
+ROM SHALL provide one reproducible configured provider profile that uses its unchanged public verification and identity APIs.
+The profile SHALL preserve provider-independent core behavior and generic transport routes.
+It SHALL distinguish actual-provider interoperability from synthetic failure fixtures and deployment claims outside the tested profile.
+
+#### Scenario: An actual service token reaches an ordinary Resource
+- **GIVEN** a pinned configured OAuth provider and an explicit provider, User and IdentityLink in ROM
+- **WHEN** the actual CLI submits a valid service token over the configured HTTP adapter
+- **THEN** the host verifies the original provider evidence and binds current identity state before the authorized Resource operation
+- **AND** unlinked, expired or incorrectly bound evidence cannot disclose Resource data
+
+### Requirement: Authentication acquisition has bounded owned execution
+An asynchronous transport authentication callback SHALL use the same generic request path as the synchronous callback.
+The deployment host SHALL bound authentication admission, credential acquisition and caller waiting.
+Caller cancellation or timeout SHALL NOT release admission while accepted verification remains active.
+
+#### Scenario: A caller leaves during blocking verification
+- **GIVEN** an admitted authentication job that is still performing bounded blocking acquisition
+- **WHEN** the caller disconnects or reaches its response deadline
+- **THEN** the job retains its permit until acquisition and identity binding finish or fail
+- **AND** host drain remains able to await that job after a previous drain waiter is cancelled
+
+### Requirement: Provider configuration cannot grant arbitrary acquisition authority
+The host SHALL approve provider settings and map opaque credential references to explicitly approved secret material.
+Resource configuration SHALL NOT directly authorize arbitrary file paths or external endpoints.
+The local Linux profile SHALL validate the opened regular-file handle and private permissions without blocking on FIFO input.
+Credential bytes SHALL NOT enter Resource state, journal, receipts, archives or diagnostics.
+
+#### Scenario: Configuration changes while evidence is obtained
+- **GIVEN** verification bound to one provider Resource revision
+- **WHEN** an authorized local maintainer changes that revision before identity binding
+- **THEN** the old activation cannot produce a currently authorized Actor
+- **AND** replacement preparation failure denies authentication instead of restoring stale configuration
+
+### Requirement: Local provisioning is explicit and restartable
+The reference host SHALL provision identity Resources through ordinary authorized mutations with stable exact identities.
+Serving SHALL exclude provisioning authority from network authentication and SHALL NOT use a first-caller enrollment rule.
+The local maintenance command SHALL validate configured target keys and expected revisions before applying identity changes.
+
+#### Scenario: Provisioning stops between Resource commits
+- **GIVEN** an explicit local provisioning sequence with at least one committed step
+- **WHEN** the host restarts and repeats the original requests
+- **THEN** accepted steps replay without duplicate state or events and remaining steps can finish
+- **AND** changed input under an accepted identity is rejected
+- **AND** the procedure does not claim a multi-Resource atomic transaction
