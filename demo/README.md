@@ -7,6 +7,8 @@ From the repository root with Rust 1.99:
 ```sh
 ./demo/run smoke                     # finite actual TCP journey, SQLite
 ./demo/run smoke redb                # same declarations, different adapter
+./demo/run reference sqlite          # public-API application recovery journey
+./demo/run reference redb            # identical journey on the other store
 ./demo/verify                       # fmt, Clippy, tests, both smoke commands, docs
 ./demo/run serve sqlite ./demo.db 8080
 ```
@@ -159,3 +161,33 @@ also check clean reopen and current service revocation; TCP smoke exercises the
 same commands through the existing HTTP API. The separate disposable experiment
 covers failure injection and SQLite subprocess exits; the maintained demo does
 not include that experimental orchestration harness.
+
+## Reference application: recover committed work
+
+`./demo/run reference sqlite` (or `redb`) runs a finite journey in a fresh private
+scratch directory and removes that directory afterwards. It never opens your
+`serve` database. Read [`src/reference.rs`](src/reference.rs) for the application
+code: only public Runtime, Command, query and live APIs are used.
+
+1. Attach a real file, persist compensation context, reserve three units for checkout A and two for B.
+2. Record an unknown payment outcome; processing reactions keeps both reservations.
+3. Record a **confirmed** rejection for A and stop before processing its reaction.
+4. Open the same database and folder with the same declarations, and read the file without reuploading. Read a typed, filtered,
+   descending inventory query and its next moving page; an unprovisioned actor is
+   still denied.
+5. Observe the stock query, recover pending work and see the stock enter its result
+   after only A is released. B remains reserved. Replaying the original rejection
+   adds no event or work.
+6. Complete a Task: it leaves its live list and its reaction updates the Dashboard.
+
+The command demonstrates orderly shutdown/reopen. The integration test
+`committed_rejection_recovers_after_process_exit_without_shutdown` additionally
+runs preparation in a child, exits with code 86 immediately after the rejection
+commit (no shutdown or destructors), then recovers in the parent. Both adapters
+run that test. This is process-exit evidence, not a power-loss or migration test.
+The ignored `reference_process_exit_child` test is a fixture invoked explicitly by
+its parent, not a skipped acceptance requirement.
+
+The larger release program remains open: enforced references, schema/format
+upgrades, index lifecycle and production identity setup are separate stages in
+[the release checklist](../openspec/changes/prepare-framework-release/tasks.md).

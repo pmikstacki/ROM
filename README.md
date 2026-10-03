@@ -96,6 +96,12 @@ Research informs the design; candidate crates are not an approved dependency lis
 
 ## Development
 
+The active [framework release program](openspec/changes/prepare-framework-release/tasks.md)
+proceeds through reference-app/API ergonomics, relations and migrations, measured
+execution optimization, then operational recovery and release preparation.
+[Progress and evidence](docs/research/framework-release-progress.md) distinguish
+delivered slices from the remaining release requirements.
+
 Use `./scripts/check` for local verification and `./scripts/build` to build. The initial tested Rust floor is 1.99.0. See the [persistent NixOS environment](infra/nixos/README.md). GitHub Actions is disabled. The [consumer](examples/consumer/src/main.rs) exercises two Resources through the public library; the [demo](demo/README.md) now combines the maintained packages in an executable author workshop.
 
 ```sh

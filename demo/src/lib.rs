@@ -328,3 +328,6 @@ pub mod attachments;
 
 /// Token-specific recovery from an explicit simulated business failure.
 pub mod compensation;
+
+/// Public-API reference journey through pending work recovery and live queries.
+pub mod reference;

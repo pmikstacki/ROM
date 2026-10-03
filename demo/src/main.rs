@@ -11,6 +11,15 @@ async fn main() -> smoke::SmokeResult<()> {
     }
     let redb = backend == "redb";
     match mode.as_str() {
+        "reference" => {
+            if args.next().is_some() {
+                return Err("usage: rom-demo reference [sqlite|redb]".into());
+            }
+            rom_demo::reference::run(redb).await?;
+            println!(
+                "Reference recovery passed ({backend}): pending compensation, preserved unrelated reservation, replay without duplicate events, typed ordered pages, live membership and task reaction."
+            );
+        }
         "smoke" => {
             if args.next().is_some() {
                 return Err("usage: rom-demo smoke [sqlite|redb]".into());
@@ -67,7 +76,11 @@ async fn main() -> smoke::SmokeResult<()> {
             blobs.shutdown().await?;
             println!("Stopped: {}", serde_json::to_string(&runtime.status()?)?);
         }
-        _ => return Err("usage: rom-demo [smoke|serve] [sqlite|redb] [database] [port]".into()),
+        _ => {
+            return Err(
+                "usage: rom-demo [smoke|reference|serve] [sqlite|redb] [database] [port]".into(),
+            );
+        }
     }
     Ok(())
 }
