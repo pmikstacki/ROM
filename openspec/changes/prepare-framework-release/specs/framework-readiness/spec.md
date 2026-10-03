@@ -390,3 +390,34 @@ The local maintenance command SHALL validate configured target keys and expected
 - **THEN** accepted steps replay without duplicate state or events and remaining steps can finish
 - **AND** changed input under an accepted identity is rejected
 - **AND** the procedure does not claim a multi-Resource atomic transaction
+
+### Requirement: Native extension releases expose versioned conformance
+The native alpha release SHALL identify its source-level extension profile and each supported boundary's version owner.
+It SHALL provide shared executable codec, persistence, and optional blob assertions through public development interfaces.
+Production core and adapters SHALL NOT depend on the conformance package.
+This profile SHALL explicitly distinguish Resource-owned codecs from the still-open independent Field registry proposal.
+
+#### Scenario: An external adapter runs the baseline profile
+- **GIVEN** a fresh exclusive test fixture implemented outside the conformance crate
+- **WHEN** it runs the shared persistence assertions and reopens its backing store
+- **THEN** state, receipt, event, effect, conflict, and exact replay checks use the same assertions as the maintained native adapters
+- **AND** a deliberately broken fixture fails the named case
+- **AND** a baseline pass does not replace engine-specific interruption and crash tests
+
+#### Scenario: An author selects an obsolete profile
+- **GIVEN** a profile revision that the distributed fixture or skill does not support
+- **WHEN** the author runs its verifier
+- **THEN** verification rejects the revision before it executes the requested workflow
+- **AND** the verifier does not silently substitute an older interface
+
+### Requirement: Author skills have portable executable evidence
+The release SHALL include Resource, native extension, operator, and local release workflows with precise triggers and declared profile requirements.
+Each workflow SHALL reference included executable assets and a canonical contract guide.
+The distributed bundle SHALL identify any external source-checkout prerequisite explicitly and SHALL reject missing assets or incompatible features.
+
+#### Scenario: A skill is extracted outside the development checkout
+- **GIVEN** the assembled skill bundle and its explicitly supplied supported ROM source or package location
+- **WHEN** an independent evaluator follows its workflow
+- **THEN** referenced assets resolve without hard-coded development paths
+- **AND** the workflow's valid and invalid cases execute against public interfaces
+- **AND** the result records source identity and remains distinct from claims about human usability
