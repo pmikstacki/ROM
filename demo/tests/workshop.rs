@@ -32,15 +32,7 @@ async fn local_cli_discovers_only_deliberately_published_domain_metadata() {
             .iter()
             .map(|resource| resource.kind.as_str())
             .collect::<Vec<_>>(),
-        ["inventory", "tasks"]
-    );
-    assert_eq!(
-        discovery.resources[0]
-            .fields
-            .iter()
-            .map(|field| field.name.as_str())
-            .collect::<Vec<_>>(),
-        ["code", "quantity"]
+        ["checkouts", "inventory", "reservation-stock", "tasks"]
     );
     assert_eq!(
         discovery.resources[1]
@@ -48,9 +40,35 @@ async fn local_cli_discovers_only_deliberately_published_domain_metadata() {
             .iter()
             .map(|field| field.name.as_str())
             .collect::<Vec<_>>(),
+        ["code", "quantity"]
+    );
+    assert_eq!(
+        discovery.resources[3]
+            .fields
+            .iter()
+            .map(|field| field.name.as_str())
+            .collect::<Vec<_>>(),
         ["done", "title"]
     );
-    assert_eq!(discovery.resources[1].actions, ["complete"]);
+    assert_eq!(discovery.resources[3].actions, ["complete"]);
+    assert_eq!(
+        discovery.resources[0]
+            .fields
+            .iter()
+            .map(|f| f.name.as_str())
+            .collect::<Vec<_>>(),
+        ["payment_outcome", "reservation_id", "stock_id"]
+    );
+    assert_eq!(discovery.resources[0].actions, ["record-payment"]);
+    assert_eq!(
+        discovery.resources[2]
+            .fields
+            .iter()
+            .map(|f| f.name.as_str())
+            .collect::<Vec<_>>(),
+        ["reservations", "total"]
+    );
+    assert_eq!(discovery.resources[2].actions, ["release", "reserve"]);
     assert!(matches!(
         runtime
             .discover(&rom::Actor::trusted("demo-host", "unprovisioned"))

@@ -138,6 +138,7 @@ pub async fn run(redb: bool) -> SmokeResult<()> {
     Ok(())
 }
 async fn journey(client: &Client, runtime: &Runtime, notices: &Notices) -> SmokeResult<()> {
+    compensation_journey(client, runtime).await?;
     assert_eq!(
         client
             .post("/read", json!({"kind":"settings","id":"workshop"}), false)
@@ -263,5 +264,62 @@ async fn journey(client: &Client, runtime: &Runtime, notices: &Notices) -> Smoke
             .0,
         403
     );
+    Ok(())
+}
+
+async fn compensation_journey(client: &Client, runtime: &Runtime) -> SmokeResult<()> {
+    use crate::compensation::{RECORD_PAYMENT, RESERVE};
+    for (token, quantity, revision) in [("checkout-a", 3, 1), ("checkout-b", 2, 2)] {
+        client
+            .invoke(
+                Command::action(
+                    "workshop-stock",
+                    RESERVE,
+                    std::collections::BTreeMap::from([(token.into(), quantity)]),
+                )
+                .at_revision(revision)
+                .idempotency(token),
+            )
+            .await?;
+    }
+    client
+        .invoke(
+            Command::action("checkout-a", RECORD_PAYMENT, "unknown".into())
+                .at_revision(1)
+                .idempotency("payment-unknown"),
+        )
+        .await?;
+    runtime.process_work(16).await?;
+    let (status, held) = client
+        .post(
+            "/read",
+            json!({"kind":"reservation-stock","id":"workshop-stock"}),
+            true,
+        )
+        .await?;
+    assert_eq!(status, 200);
+    assert_eq!(
+        held["value"]["reservations"],
+        json!({"checkout-a":3,"checkout-b":2})
+    );
+    let rejected = || {
+        Command::action("checkout-a", RECORD_PAYMENT, "confirmed_rejected".into())
+            .at_revision(2)
+            .idempotency("payment-rejected")
+    };
+    client.invoke(rejected()).await?;
+    runtime.process_work(16).await?;
+    client.invoke(rejected()).await?;
+    assert_eq!(runtime.process_work(16).await?, 0);
+    let (status, released) = client
+        .post(
+            "/read",
+            json!({"kind":"reservation-stock","id":"workshop-stock"}),
+            true,
+        )
+        .await?;
+    assert_eq!(status, 200);
+    assert_eq!(released["value"]["reservations"], json!({"checkout-b":2}));
+    assert_eq!(released["revision"], 4);
     Ok(())
 }

@@ -17,7 +17,7 @@ async fn main() -> smoke::SmokeResult<()> {
             }
             smoke::run(redb).await?;
             println!(
-                "Smoke passed ({backend}): two Resource kinds, codec rejection, typed patch, TCP query/live/journal, configuration, reaction, typed notification, access denial, folder attachment/reopen/detach, graceful shutdown."
+                "Smoke passed ({backend}): two Resource kinds, codec rejection, typed patch, TCP query/live/journal, configuration, reaction, explicit compensation, typed notification, access denial, folder attachment/reopen/detach, graceful shutdown."
             );
         }
         "serve" => {

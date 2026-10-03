@@ -118,7 +118,7 @@ pub fn declarations(notices: Notices) -> Result<rom::Builder> {
         .allow_host("demo-host", PrincipalKind::Embedded, "local-session")?
         .allow_host("demo-host", PrincipalKind::Service, "worker")?
         .allow_host("rom-blob-host", PrincipalKind::Service, "attachments")?;
-    Ok(Runtime::builder()
+    let builder = Runtime::builder()
         .actor_gate(Arc::new(gate))
         .resource(rom_blob::definition())
         .resource(
@@ -127,7 +127,9 @@ pub fn declarations(notices: Notices) -> Result<rom::Builder> {
                     domain(a)
                         && match target {
                             rom::DiscoveryTarget::Resource => true,
-                            rom::DiscoveryTarget::Field(name) => matches!(name, "title" | "done"),
+                            rom::DiscoveryTarget::Field(name) => {
+                                matches!(name, "title" | "done")
+                            }
                             rom::DiscoveryTarget::Action(name) => name == "complete",
                         }
                 })
@@ -205,7 +207,8 @@ pub fn declarations(notices: Notices) -> Result<rom::Builder> {
                 }
                 DeliveryOutcome::Accepted
             }
-        }))
+        });
+    Ok(compensation::declarations(builder))
 }
 pub fn build(storage: Arc<dyn Storage>, notices: Notices) -> Result<Runtime> {
     declarations(notices)?.build(storage, Runtime::shared_cpu_pool(2)?)
@@ -221,6 +224,7 @@ async fn seed<R: Resource>(runtime: &Runtime, id: &str, value: R) -> Result<()> 
 }
 /// Explicit host startup, never an HTTP endpoint. Stable seed receipts preserve user edits.
 pub async fn bootstrap(runtime: &Runtime) -> Result<()> {
+    compensation::bootstrap(runtime).await?;
     seed(
         runtime,
         "workshop",
@@ -321,3 +325,6 @@ pub mod smoke;
 
 /// Host-owned folder adapter and attachment lifecycle.
 pub mod attachments;
+
+/// Token-specific recovery from an explicit simulated business failure.
+pub mod compensation;

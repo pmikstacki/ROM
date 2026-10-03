@@ -34,7 +34,7 @@ async fn two_kinds_use_same_binary_protocol_on_both_adapters() {
                 .iter()
                 .map(|r| r["kind"].as_str().unwrap())
                 .collect::<Vec<_>>(),
-            vec!["inventory", "tasks"]
+            vec!["checkouts", "inventory", "reservation-stock", "tasks"]
         );
         assert_eq!(
             json(&run(&endpoint, Some(&auth), &["discover", "tasks"], "").await)["actions"],

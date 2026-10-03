@@ -102,3 +102,60 @@ curl -s http://127.0.0.1:8080/read -H 'Authorization: Demo local' \
 ```
 
 There is no public byte upload/download route. Keep the folder and all ancestors exclusively host-owned: the filesystem adapter is not a symlink sandbox. Backup must account for both metadata and referenced external bytes; a database copy alone is not a complete attachment backup. Physical cleanup requires host-established detachment, grace and quiescence.
+
+## 7. Compensate only an explicitly confirmed business failure
+
+[`compensation.rs`](src/compensation.rs) declares Stock and Checkout Resources and
+one reaction. Checkout's durable context exists before the forward reservation.
+A **simulated** confirmed payment rejection releases that checkout's token. Unknown
+or transient outcomes keep the reservation for reconciliation. This is an
+application-authored failure fact, not automatic compensation for a terminal
+worker error, HTTP error, timeout or uncertain acknowledgment. No payment provider
+is contacted.
+
+Start `serve` on a fresh database, then use the generic CLI (from the repository
+root; the function avoids assuming a particular target directory or installed binary):
+
+```sh
+printf '%s\n' 'Demo local' > /tmp/rom-demo-auth
+rom() { cargo run --quiet --locked -p rom-cli -- --endpoint http://127.0.0.1:8080 --auth-file /tmp/rom-demo-auth "$@"; }
+rom action reservation-stock workshop-stock reserve --expected 1 --idempotency reserve-a --input-file - <<'JSON'
+{"checkout-a":3}
+JSON
+rom action reservation-stock workshop-stock reserve --expected 2 --idempotency reserve-b --input-file - <<'JSON'
+{"checkout-b":2}
+JSON
+rom action checkouts checkout-a record-payment --expected 1 --idempotency payment-unknown --input-file - <<'JSON'
+"unknown"
+JSON
+rom read reservation-stock workshop-stock
+# Both reservations remain. The following is an explicit simulated rejection:
+rom action checkouts checkout-a record-payment --expected 2 --idempotency payment-rejected --input-file - <<'JSON'
+"confirmed_rejected"
+JSON
+rom read reservation-stock workshop-stock
+```
+
+The asynchronous worker eventually leaves `{"checkout-b":2}` with total stock 10.
+A read immediately after the command may still show A; read again after the worker
+runs. Replaying the **identical** final command with its original expected revision
+and key returns its receipt and adds no event. Use unique reservation tokens per
+checkout; never recycle a token for a new workflow. This shared local workshop is
+not a tenant-isolation or adversarial business-policy example: its synthetic
+session may directly mutate these ordinary Resources.
+
+The targeted release changes only its token, and preserves concurrent reservations
+and restocks. If the target changes after work materialization, normal revision
+conflict handling stops that action instead of rebasing it silently. Revocation
+also blocks it. Inspect/reconcile stopped work through trusted host APIs; this
+example introduces no privileged public retry route. Committed history remains.
+
+Tests on both adapters count one mapper claim for an unknown outcome, and two
+claims (mapper plus target action) for confirmed rejection. Targeted recovery adds
+one Stock journal event; receipt replay adds zero. There are no collection scans,
+new queues or per-kind routes. Fanout from this mapper is at most one; the existing
+runtime bounds attempts, depth, total work and ledger capacity. SQLite/redb tests
+also check clean reopen and current service revocation; TCP smoke exercises the
+same commands through the existing HTTP API. The separate disposable experiment
+covers failure injection and SQLite subprocess exits; the maintained demo does
+not include that experimental orchestration harness.
