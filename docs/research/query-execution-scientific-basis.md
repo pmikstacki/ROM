@@ -38,6 +38,31 @@ for ROM performance or a tested dependency.
 These papers establish useful distinctions. They do not prove that ROM preserves
 authorization, exact codecs or commit/event invariants; local tests must do that.
 
+## Existing optimizers rather than starting from scratch
+
+SQLite already estimates competing plans using indexes and statistics. ROM's
+SQLite adapter should provide exact, optimizable SQL and let that engine choose
+its local access path. Its planner does not, however, model the Rust codec,
+residual authorization or the cost of fetching data into ROM.
+[SQLite optimizer overview](https://www.sqlite.org/optoverview.html)
+
+Apache DataFusion provides a Rust query engine and optimizer with logical and
+physical optimization passes. It is a candidate for a later integration trial,
+especially broader analytical queries, rather than an adopted dependency here.
+Mapping ROM's exact scalar/presence/policy rules, compile footprint and startup
+cost requires measurement before replacing the small evaluator.
+[Official optimizer guide](https://datafusion.apache.org/library-user-guide/query-optimizer.html)
+
+`egg` supplies equality-saturation machinery and extraction according to a cost
+function. It does not supply ROM's rewrite laws, statistics or cost model. A
+trial would need to demonstrate that this machinery improves selection beyond a
+small explicit strategy table, without changing semantics or unbounded planning.
+[Official tutorial](https://docs.rs/egg/latest/egg/tutorials/_01_background/index.html)
+
+Neither DataFusion nor egg was compiled or benchmarked in this experiment. The
+current recommendation is to reuse the database planner locally and keep ROM's
+cross-boundary selection small until measured workloads justify another engine.
+
 ## Functional variants
 
 All variants accept the same normalized query, dataset and policy, and compare
