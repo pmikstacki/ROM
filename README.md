@@ -45,6 +45,7 @@ Research informs the design; candidate crates are not an approved dependency lis
 - [Backup and recovery](docs/research/maintained-backup-results.md)
 - [RIM source assessment and ideas carried into ROM](docs/research/rim-source-assessment.md)
 - [Framework comparisons and Rust crate candidates](docs/research/frameworks-and-rust-crates.md)
+- [2026-10-03: parallel experiments, maintained changes and next steps](docs/research/2026-10-03-results.md)
 - [Query authoring and three execution strategies: measured results](docs/research/query-planning-results.md)
 - [Small strategy selector and database planner adapters: prototype results](docs/research/query-selector-results.md)
 - [Optimizer adoption cost and scientific basis](docs/research/optimizer-adoption-cost.md)
