@@ -1,5 +1,19 @@
 ## ADDED Requirements
 
+### Requirement: Database planning remains adapter-owned
+The selector experiment SHALL compare semantically equivalent core and native paths without forcing a database index or importing vendor planning into the Resource contract. Estimates MUST remain performance hints.
+
+#### Scenario: Statistics become stale
+- **GIVEN** an admitted query and statistics from an earlier storage generation
+- **WHEN** the selector chooses an execution path
+- **THEN** it uses the correct bounded fallback
+- **AND** estimates cannot change authorization, query meaning or admission limits
+
+#### Scenario: Planner output is unknown
+- **GIVEN** a version-pinned planner adapter encounters an unrecognized diagnostic form
+- **WHEN** it cannot supply a validated estimate
+- **THEN** the selector uses the reference path without inventing a cheaper plan
+
 ### Requirement: Stable Resource semantics across implementations
 The Resource/action/committed-change/event contract SHALL have the same meaning across conforming adapters. Optional execution optimizations MUST NOT change results or weaken mandatory persistence guarantees.
 
