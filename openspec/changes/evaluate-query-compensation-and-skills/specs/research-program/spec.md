@@ -12,6 +12,21 @@ The Resource/action/committed-change/event contract SHALL have the same meaning 
 ### Requirement: Fair query approach comparison
 Generated, hybrid and runtime query authoring SHALL be compared over identical semantics and data. Construction, translation, compilation and execution measurements MUST be distinguished.
 
+#### Scenario: Three physical execution variants
+- **GIVEN** an identical normalized query, data and authorization rule
+- **WHEN** core evaluation, unindexed exact pushdown and indexed execution are compared
+- **THEN** every variant must pass the same semantic assertions before performance ranking
+- **AND** measurements distinguish latency from candidate counts and actual database work
+
+### Requirement: Measured performance in every experiment
+Experiments SHALL consider performance alongside correctness and ergonomics. Reports MUST name workloads, measurement methods and unmeasured costs rather than claiming universal optimality.
+
+#### Scenario: Optimization trades read cost for maintenance work
+- **GIVEN** an index or retained runtime object reduces repeated-read or invocation cost
+- **WHEN** the report recommends adoption
+- **THEN** it includes measured maintenance or setup costs where feasible
+- **AND** it identifies memory, allocations or concurrency costs not yet measured
+
 #### Scenario: Backend translation preserves meaning
 - **GIVEN** field codecs, row/field policies and moving-view query semantics
 - **WHEN** an adapter translates a filter and order
