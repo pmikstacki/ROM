@@ -1,0 +1,2 @@
+generated: expected compile failure (E0308): expected u64, found &str
+hybrid: expected compile failure (E0308): expected u64, found &str
