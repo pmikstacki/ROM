@@ -11,6 +11,10 @@ async fn main() -> smoke::SmokeResult<()> {
     }
     let redb = backend == "redb";
     match mode.as_str() {
+        #[cfg(feature = "provider-profile")]
+        "provider-provision" | "provider-maintain" | "provider-serve" => {
+            rom_demo::provider_profile::run_command(&mode, redb, args.collect()).await?;
+        }
         "operator" => {
             if args.next().is_some() {
                 return Err("usage: rom-demo operator [sqlite|redb]".into());

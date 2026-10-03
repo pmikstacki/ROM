@@ -1,0 +1,9 @@
+{
+  "name": "rom-provider-acceptance-fixture",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "oidc-provider": "9.12.2"
+  }
+}

@@ -1,0 +1,11 @@
+# Scratch fixture scoped independent review
+
+Verdict: Spec accepted for the fixture correction. Quality accepted. No findings.
+
+Reviewed the frozen patch, helper and separate new test module, coordinated Process reexports, report and retained logs. All seven live hash entries and six source snapshots match source-sha256.txt. No product edits or test reruns were made.
+
+A checked process-local atomic sequence replaces wall-clock uniqueness. Exclusive private directory creation determines ownership. AlreadyExists advances the sequence and retries within1024 attempts; the helper does not adopt or remove the occupied path. Counter overflow and other filesystem failures stop rather than wrap or silently reuse. Drop removes only the acquired owned path. This preserves unrelated stale fixtures while providing a private trusted parent.
+
+The concurrent regression holds64 directories from16 callers and checks uniqueness,0700 permissions and owned cleanup. A bounded child deliberately preoccupies its first sequence name and confirms its marker survives another acquisition. The FIFO and collision child tests load the existing process owner once through shared support. Profile tests reuse the same Scratch and Process modules. No new lifecycle mechanism, dependency or product API appears.
+
+Inspected red.log, green.log, clippy.log and fmt.log. The deterministic RED detects prior0755 privacy, while the coordinator's earlier combined log separately records the observed clock-name collision. These are accurately distinguished. Reported frozen results are13 host drivers, two explicitly executed ignored child fixtures,12 profile tests, strict scoped Clippy and formatting. Earlier duplicate-module/API failures remain retained. The scoped results do not substitute for the pending combined gate.

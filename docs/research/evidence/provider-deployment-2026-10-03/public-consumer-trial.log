@@ -1,0 +1,48 @@
+    Updating crates.io index
+     Locking 251 packages to highest Rust 1.99.0 compatible versions
+      Adding generic-array v0.14.7 (available: v0.14.9)
+      Adding libc v0.2.189 (available: v0.2.190)
+      Adding matchit v0.8.4 (available: v0.8.6)
+      Adding tokio v1.53.1 (available: v1.53.2)
+   Compiling cc v1.6.0
+    Checking mio v1.2.4
+    Checking tokio v1.53.1
+    Checking generic-array v0.14.7
+   Compiling cmake v0.1.58
+   Compiling aws-lc-sys v0.45.0
+    Checking block-buffer v0.10.4
+    Checking crypto-common v0.1.7
+    Checking digest v0.10.7
+    Checking tokio-util v0.7.19
+    Checking sha2 v0.10.9
+    Checking h2 v0.4.19
+    Checking hyper v1.11.1
+   Compiling rom-derive v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-derive)
+    Checking hyper-util v0.1.21
+    Checking rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+    Checking tower v0.5.3
+    Checking tower-http v0.6.11
+   Compiling libsqlite3-sys v0.38.2
+    Checking crc-fast v1.10.0
+    Checking rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+    Checking rusqlite v0.40.2
+    Checking axum v0.8.9
+    Checking rom-blob v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob)
+    Checking rom-redb v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+    Checking rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+    Checking rom-config v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-config)
+    Checking rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+   Compiling aws-lc-rs v1.18.1
+   Compiling rustls v0.23.45
+    Checking rustls-webpki v0.103.15
+    Checking tokio-rustls v0.26.6
+    Checking rustls-platform-verifier v0.7.1
+    Checking hyper-rustls v0.27.10
+    Checking reqwest v0.13.5
+    Checking object_store v0.14.2
+    Checking rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+    Checking rom-identity v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+    Checking rom-blob-object-store v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob-object-store)
+    Checking rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Checking rom-provider-public-consumer v0.0.0 (/workspace/ROM/.worktrees/release-query-index/.superpowers/sdd/2026-10-03-provider-deployment/public-consumer)
+    Finished `dev` profile [unoptimized] target(s) in 32.88s

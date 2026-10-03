@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+export CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-2}"
+export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$PWD/target/author-demo}"
+if [[ "$CARGO_TARGET_DIR" != /* ]]; then
+  export CARGO_TARGET_DIR="$PWD/$CARGO_TARGET_DIR"
+fi
+# This Linux-only acceptance profile uses private local files and numeric loopback.
+cargo fmt -p rom-demo -p rom-http --check
+cargo clippy -p rom-demo -p rom-http --all-targets --features rom-demo/provider-profile --locked -- -D warnings
+cargo test -p rom-demo -p rom-http --features rom-demo/provider-profile --locked
+cargo build -p rom-demo -p rom-cli --features rom-demo/provider-profile --locked
+(
+  cd demo/provider-fixture
+  npm ci --ignore-scripts --no-fund --no-audit
+  node --test fixture.test.mjs commands.test.mjs
+  node acceptance.mjs "$CARGO_TARGET_DIR/debug/rom-demo" "$CARGO_TARGET_DIR/debug/rom"
+)
+RUSTDOCFLAGS='-D warnings' cargo doc -p rom-demo -p rom-http --features rom-demo/provider-profile --no-deps --locked

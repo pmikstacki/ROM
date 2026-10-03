@@ -27,10 +27,11 @@ pub(super) async fn decode<T: serde::de::DeserializeOwned>(
             _ => Error::Overloaded,
         })
     })?;
-    let actor = (shared.auth)(request.headers())?;
+    let (parts, body) = request.into_parts();
+    let actor = shared.auth.resolve(parts.headers).await?;
     let bytes = tokio::time::timeout(
         shared.limits.body_timeout,
-        to_bytes(request.into_body(), shared.limits.body_bytes),
+        to_bytes(body, shared.limits.body_bytes),
     )
     .await
     .map_err(|_| Failure(Error::Overloaded))?

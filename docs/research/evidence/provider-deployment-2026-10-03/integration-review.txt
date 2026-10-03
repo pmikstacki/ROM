@@ -1,0 +1,41 @@
+# Task 4 actual-provider and evidence independent review
+
+Spec verdict: accepted. Quality verdict: accepted. Final integration evidence accepted for the assigned stage4.3 profile. No open findings.
+
+Reviewed the final maintained provider fixture, CLI driver and journey, acceptance script, accepted Task1/2/3 implementations and fix packages, binding design/plan, public evidence and initial combined log. No product edits, external research or test reruns were made. Detailed requirement mapping remains in task4-provider-requirement-notes.md. The outage addition below closes that note's only pending coverage item.
+
+## Actual journey and exact oracles
+
+The pinned oidc-provider9.12.2 configuration retains separate token/introspection clients and real opaque token issuance. Its service claim hook is part of provider configuration. No response proxy, replacement introspection body or relaxed verifier appears. The provider owns its ephemeral loopback listener before constructing its issuer.
+
+Both native adapters execute the same real CLI→HTTP→HostAuth→strict verifier→current identity binding→Resource route journey. Creation/action outcomes assert Task identity, title, done and revision. Queries assert the one expected row. Journal checks assert exactly creation and completion, their values/revisions, order and cursor. Replays compare the complete original accepted result after ordinary retry, reopen, re-enable and reference restoration. Final query/history assertions reject additional Task events.
+
+The real service obtains false operator capability flags and denied work inspection. The synthetic Demo local header fails. Provider/link/User disablement denies current access; disabled links also deny retained receipt disclosure. Audience mutation updates both host and Resource settings so denial exercises real token binding instead of only approval mismatch.
+
+Rotation retains immutable host v1/v2 files. The selected disposable provider replaces its credential through restart, preserving the issuer but losing token state. A newly issued and accepted pre-restart token must fail within a50-second margin under the pinned60-second lifetime. A post-restart token fails with the obsolete introspection credential and succeeds after explicit Resource reference update. Unapproved references deny, and restoration recovers exact receipt replay. The separate natural-expiry leg waits62 seconds and contrasts expired denial with fresh acceptance. These distinguish ROM reopen, provider reset, credential replacement and ordinary expiry.
+
+## Required fault and disclosure evidence
+
+The composed outage gap found during final matrix review is now addressed by the separate accepted task2-outage-conformance-review. Existing product code passed its first execution. A received request remains paused through the finite verifier timeout, yielding static Denied before the longer caller deadline. The test checks marker privacy, one contact, bounded drain and successful capacity reuse through the same host/endpoint.14 host drivers and two explicitly executed child fixtures are reported green. This is synthetic composition coverage, distinct from actual-provider interoperability.
+
+Existing paused cases cover caller cancellation/deadline retaining admission, overload without provider contact, reawaitable drain and provider revision mutation without holding the core gate. Both-store profile tests cover auth-before-Runtime shutdown, lost acknowledgement after each provisioning commit, native reopen/resume, exact maintenance keys/operations and stale established identity stamps. Current binding reads link/User state; it does not claim that every enabled non-security field change must reject a fresh bind.
+
+Secrets and tokens enter processes through private files. Static failures do not expose captured child data. Output and decoded-provider bounds, finite readiness/child waits, attempt-all teardown and isolated FIFO rejection remain present. Structured native backup Snapshots scan rows, receipts, events and persisted state. The actual journey supplements them with secret/token/path marker scans in captured output and closed database bytes. These exact scans do not certify disk encryption, zeroization or comprehensive side-channel absence.
+
+All earlier corrections remain accepted: successful-response oracles, valid reset margin, cleanup aggregation, isolated FIFO reader, private atomic Scratch identities, prereadiness Unix signal registration and shared Process imports. Original failed runs and unsuccessful NONBLOCK-removal probe remain separate retained evidence.
+
+## Quality
+
+Rust facade files contain declarations and reexports. Product behavior resides in cohesive authentication, lifecycle, verification, secrets, model, application, provisioning, command and serving modules. Public paths remain stable. Sync/async HTTP share one decoder and limits validator. The host reuses strict introspection and activation/binding rather than constructing another provider mechanism. Profile declarations and file/document parsing are shared.
+
+The Node fixture separates provider behavior, private acquisition, process ownership, host driving and acceptance oracles. Shared file/provider/process helpers serve the standalone fixture tests and actual journey. Test DTO construction remains an independent consumer of the production schema, not another parser or trust path. No copied decoder, unbounded task-handle history, provider-specific core dependency or default demo operator grant appears.
+
+## Verification provenance and limits
+
+Inspected /var/tmp/rom-provider-final-combined-fixed.log, the prior successful440-file run, containing scripts/check, demo/verify, demo/verify-provider and independent Cargo consumer completion. Its actual-provider lines report both-store ordinary/recovery journeys and real expiry, plus fixture checks. The old source record and log are preserved as reviewed-source-sha256.txt and combined-reviewed-source.log.
+
+The outage amendment refreshes the maintained source manifest to441 entries; every hash matches the inspected live source. Manifest SHA-256:6141fbfb39057049dda483886241a097bb6bfa943ecf8025bbdaf0ccf2e08646. The coordinator completed the amended full command sequence at /var/tmp/rom-provider-final-with-outage.log with exit0. This reviewer inspected that completed log:14 host drivers,12 profile cases, both native actual-provider journeys, real expiry/fresh-token contrast, three Node cases, default demo smoke and independent locked consumer completion are present. There are no failed-test/error markers. Log SHA-256:955fe747b207f3728957439a8b6160c21ad533428407fc6d83edcde8d78d8db8. This accepted integration result belongs to the441-file source and is distinct from the preserved440-file run.
+
+The evidence identifies dirty source, base commit, Cargo/npm locks, Rust1.99.0, Node22.16.0, npm10.9.2, container, target and command sequence. The independent consumer uses its own workspace/lock; it establishes source-level public API compilation. Final packaged-consumer release acceptance remains a later stage. The exact npm graph/audit record is separate from Rust dependency gates.
+
+This closes the assigned reference-profile source/coverage review. It establishes one configured Linux numeric-loopback service integration, with explicit local authority and separate provisioning commits. It does not certify human login, arbitrary OAuth providers, hosted tenants, persistent provider storage, production TLS, privileged file mutation, machine power loss or arbitrary blocking callback preemption. Extension conformance, author skills and final package/release audit remain outside stage4.3.

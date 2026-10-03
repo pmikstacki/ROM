@@ -14,6 +14,8 @@ With Rust 1.99, run `./demo/run smoke` from this repository. This command tests 
 
 The generic [command-line client](docs/cli.md) now supports discovery, queries, mutations, live snapshots and journal streams. Run `cargo run --locked -p rom-cli -- --help` to start. See the [core/CLI verification results](docs/research/core-cli-results.md). Studio implementation remains deferred.
 
+The opt-in [provider deployment profile](docs/provider-deployment.md) adds explicit service provisioning, private secret references, and authentication through a real provider. Its [verification record](docs/research/provider-deployment-results.md) separates integration trials from the final release gates.
+
 ## Design
 
 - One main ROM library with typed resources and extensible field types.
@@ -41,6 +43,8 @@ Research informs the design; candidate crates are not an approved dependency lis
 - [Structured action payloads](docs/action-inputs.md)
 - [Authorized Resource discovery](docs/discovery.md)
 - [Executable author workshop](demo/README.md)
+- [Service provider deployment and recovery](docs/provider-deployment.md)
+- [Provider deployment tests and review findings](docs/research/provider-deployment-results.md)
 - [Configuration ingestion](docs/research/maintained-configuration-results.md)
 - [Blob lifecycle and real storage trials](docs/research/mvp-blob-results.md)
 - [Backup and recovery](docs/research/maintained-backup-results.md)

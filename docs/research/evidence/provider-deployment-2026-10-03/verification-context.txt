@@ -1,0 +1,15 @@
+Base commit: 2084965a5388d231c0bc9bc4730012343bd973fd
+Source files: 441
+Worktree: /root/ROM/.worktrees/release-query-index
+Container: rom-dev
+Target: /var/tmp/rom-release-measured-verification-target
+Build jobs: 2
+Dev/test debug info: 0
+
+Command sequence:
+./scripts/check
+./demo/verify
+./demo/verify-provider
+cargo check --locked --manifest-path .superpowers/sdd/2026-10-03-provider-deployment/public-consumer/Cargo.toml
+
+Source snapshot includes reviewed SIGINT and Scratch fixes plus the composed provider-outage test. Dirty source is identified by source-sha256.txt; this is not a clean-base verification claim.

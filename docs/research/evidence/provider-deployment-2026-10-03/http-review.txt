@@ -1,0 +1,13 @@
+# Task1 HTTP independent review
+
+Verdict: Spec accepted. Quality accepted. No findings in the scoped change.
+
+Reviewed the six frozen files and changes.patch against the accepted provider deployment design and plan. All six snapshot and live source hashes match source.json. The recorded author lockfile belongs to this scoped verification; the live lockfile has since changed during parallel host work. This review does not extend the author verification claim to that later dependency change.
+
+The additive asynchronous callback receives owned headers. Http::new preserves the existing synchronous resolver API. Both constructors share limits, routes, errors and one request decoder. Body admission precedes authentication; body reading follows successful authentication. The host contract explicitly owns callback deadlines, bounded admission and cancellation supervision. This seam does not claim those guarantees itself.
+
+The five TCP cases exercise compatibility, cooperative concurrency, authorization before body reading, admission saturation and shutdown rejection. The sixth case checks shared constructor limits. The delayed callback retains owned headers and does not block an unrelated commit. Shutdown prevents later Resource mutation through the closed Runtime.
+
+Quality review confirms cohesive authentication and server responsibilities, a facade-only lib.rs, one decoder, one constructor validator and a shared listener fixture. The approved HeaderMap export keeps callback authors from needing another direct transport dependency. No provider mechanism, credential cache or alternate authorization path appears in this change.
+
+Evidence: inspected task1-http-verification.log and the author report. The reported complete HTTP suite has34 passing tests; strict all-target Clippy and formatting passed. No tests were repeated during independent review. Host lifecycle, provider interoperability and secret-file handling remain subsequent acceptance gates.

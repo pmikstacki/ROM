@@ -1,0 +1,13 @@
+# Composed outage coverage independent review
+
+Verdict: Spec accepted for the coverage amendment. Quality accepted. The final resilience matrix gap is addressed. No new findings.
+
+Reviewed the frozen outage.rs, driver declaration, unchanged provider/support contracts, report and execution logs. All four live hash entries and retained source copies match source-sha256.txt. No product edits or tests repeated.
+
+The existing provider pauses after receiving a complete request. With a longer caller deadline, the admitted IntrospectionAdapter reaches its own HTTP timeout and returns static Denied through HostAuth. The test checks one contact, diagnostic marker absence and bounded drain. It then releases the same provider and obtains the expected linked Actor through the same HostAuth, with a second contact and preserved proof expiry. This exercises capacity reuse and owned worker completion after transport failure without changing approval or rebuilding the host. Final close/drain is bounded.
+
+The new responsibility belongs in a separate outage test module. It reuses the existing provider, Scratch and HostAuth composition instead of adding another decoder, provider API or process implementation. Product, dependency and public API sources are unchanged.
+
+Inspected green.log:14 host drivers pass, and both normally ignored child fixtures are explicitly executed successfully. Strict scoped Clippy and formatting pass. This test passed existing product behavior on its first run; it is added conformance coverage, not a reproduced product defect or RED/GREEN fix. It is a synthetic transport-timeout test, separate from the actual-provider interoperability evidence.
+
+Final combined verification on the amended441-file source remains the coordinator's integration gate.

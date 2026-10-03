@@ -84,7 +84,10 @@ Host-only `bootstrap()` creates SourceActivation and loads [`settings.toml`](set
 
 Bootstrap also creates a User, a **disabled** synthetic IdentityProvider, and an explicit authority/subject/kind IdentityLink. These are ordinary Resources. They are not a working login and do not give the demo session Human authority. `IdentityGate` permits only explicitly configured host principals (including the Blob worker). The app has no privileged public bootstrap endpoint, first-caller admin rule, or email auto-linking.
 
-For actual verified Human/Service actors, follow `rom-identity`'s ProviderActivation → verifier proof → bind flow and its executable signed-token tests. A production host must choose its provider configuration, key/secret acquisition, login/session handling, tenant policy and revocation behavior. The demo resolver must be replaced before deployment.
+The optional [provider profile](../docs/provider-deployment.md) composes ProviderActivation → verifier proof → bind for one configured Service identity.
+It has separate provisioning and serving commands. It does not accept the synthetic session header.
+The existing Human verifier tests do not establish a human-login deployment.
+Production provider configuration, session handling, tenant policy, and deployment requirements remain host decisions.
 
 ## Verification and boundaries
 
@@ -202,8 +205,8 @@ its parent, not a skipped acceptance requirement.
 
 Use the separate [upgrade journey](../docs/reference-upgrade.md) to combine a
 versioned Checkout migration with reference rebuild, backup/restore and recovery.
-The larger release program remains open. Query index lifecycle, production
-identity and final package acceptance remain in
+The larger release program remains open. Extension conformance, executable author skills,
+final package acceptance and the completion audit remain in
 [the release checklist](../openspec/changes/prepare-framework-release/tasks.md).
 
 ## Operator recovery journey
@@ -212,3 +215,11 @@ Run `./demo/run operator sqlite` or `./demo/run operator redb`.
 This finite journey uses public APIs to inspect a denied delivery, restart, retry unchanged work and replay its operator receipt.
 It then invokes the existing compensation action with its own Resource revision and idempotency key.
 The default demo HTTP session receives no operator grant. See [operator recovery](../docs/operator-recovery.md).
+
+## Service provider journey
+
+Run `./demo/verify-provider` on Linux with Rust, Node.js, and npm.
+This opt-in journey uses an actual development provider, both native stores, and the generic CLI.
+It tests explicit provisioning, receipt replay, access revocation, credential rotation, restart, and natural token expiry.
+It creates private temporary inputs and stops its child processes after the finite journey.
+See [the deployment guide](../docs/provider-deployment.md) and [verification record](../docs/research/provider-deployment-results.md) for current status and limits.

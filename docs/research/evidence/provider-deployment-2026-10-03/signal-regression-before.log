@@ -1,0 +1,31 @@
+   Compiling rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `test` profile [unoptimized] target(s) in 0.63s
+     Running tests/provider_profile.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_profile-800302a87d9d7d60)
+
+running 1 test
+test provider_profile::commands::readiness_allows_immediate_sigint_and_serving_never_provisions ... FAILED
+
+failures:
+
+---- provider_profile::commands::readiness_allows_immediate_sigint_and_serving_never_provisions stdout ----
+
+thread 'provider_profile::commands::readiness_allows_immediate_sigint_and_serving_never_provisions' (1606269) panicked at demo/tests/provider_profile/commands.rs:163:9:
+file:///workspace/ROM/.worktrees/release-query-index/demo/[eval1]:18
+    if (code !== 0 || signal !== null || owned.exceeded()) throw new Error('SIGINT did not drain');
+                                                                 ^
+
+Error: SIGINT did not drain
+    at file:///workspace/ROM/.worktrees/release-query-index/demo/[eval1]:18:66
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+
+Node.js v22.16.0
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    provider_profile::commands::readiness_allows_immediate_sigint_and_serving_never_provisions
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.06s
+
+error: test failed, to rerun pass `-p rom-demo --test provider_profile`

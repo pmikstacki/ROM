@@ -1,0 +1,4 @@
+Provider acceptance (sqlite): operations, receipt replay, ROM reopen, access revocation, audience binding and credential rotation passed.
+Provider acceptance (redb): operations, receipt replay, ROM reopen, access revocation, audience binding and credential rotation passed.
+Provider acceptance (sqlite): expired token denied, fresh token accepted and output/database marker scans passed.
+Provider acceptance (redb): expired token denied, fresh token accepted and output/database marker scans passed.

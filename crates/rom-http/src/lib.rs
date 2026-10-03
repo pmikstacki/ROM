@@ -2,6 +2,7 @@
 //! Every route is generic across registered Resource kinds. TLS and credential verification
 //! belong to the host. Use `serve` to coordinate stream termination and runtime draining.
 #![forbid(unsafe_code)]
+mod authentication;
 mod error;
 #[cfg(test)]
 mod error_tests;
@@ -12,4 +13,6 @@ mod request;
 mod routes;
 mod server;
 
-pub use server::{AuthResolver, Http, Limits};
+pub use authentication::{AsyncAuthResolver, AuthFuture, AuthResolver};
+pub use axum::http::HeaderMap;
+pub use server::{Http, Limits};

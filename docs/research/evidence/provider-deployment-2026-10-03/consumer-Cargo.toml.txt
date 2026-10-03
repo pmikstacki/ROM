@@ -1,0 +1,11 @@
+[package]
+name = "rom-provider-public-consumer"
+version = "0.0.0"
+edition = "2024"
+publish = false
+[workspace]
+[dependencies]
+rom = { path = "../../../../crates/rom" }
+rom-http = { path = "../../../../crates/rom-http" }
+rom-demo = { path = "../../../../demo", features = ["provider-profile"] }
+rom-auth = { path = "../../../../crates/rom-auth", features = ["introspection"] }

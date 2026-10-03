@@ -1,0 +1,29 @@
+# Task 2 HostAuth independent review
+
+Verdict: Spec accepted. Quality accepted. No findings in the frozen Task 2 source.
+
+Reviewed the source package, tracked patch, binding design and plan, and existing introspection/identity contracts. All16 live entries match source-sha256.txt; all15 source snapshot files match their recorded hashes. The shared child helper is retained separately as review context. No product edits or test repeats were made.
+
+## Spec
+
+Admission and close share a short mutex. Each accepted job owns one semaphore permit and a completion guard. The caller waits through a oneshot with its own finite deadline. Dropping or timing out that caller does not abort the spawned owner or its blocking verifier. The completion guard retains capacity until authentication finishes. The watch counter gives repeatable drain without an unbounded completed-handle collection. Canceling a drain waiter leaves tracking intact. No mutex spans filesystem, provider or Runtime I/O.
+
+ProviderActivation is read with the explicit reader, and authority, profile, issuer, audience and endpoint must match approval. Only the current approved reference selects a file. Blocking work constructs, uses and drops the existing strict IntrospectionAdapter. Its configured network limits, redirect rejection, proxy rejection, bounded response and supported service claims remain unchanged. ActivatedIdentity.bind checks the captured provider revision and current link/User state through Runtime. No request metadata constructs an Actor, selects a host stamp or supplies verification time. The shared clock is explicit.
+
+The opened secret handle uses Linux no-follow/nonblocking flags before regular-file and private-permission checks. Both metadata and actual byte counts are bounded. Invalid UTF-8, empty material and unsafe paths produce static Denied errors. Secret bytes are preserved. The non-Linux path denies acquisition. Approved references cannot become arbitrary Resource-supplied paths. Trusted local parents and immutable versioned files remain required; this does not claim preemption of arbitrary blocking host code or privileged concurrent file changes.
+
+The public constructor, resolver, close and drain signatures match the plan. The profile stop composition must still close and drain HostAuth before Runtime shutdown. This source does not itself implement that future application lifecycle or grant a provisioner/network actor.
+
+## Quality
+
+The facade and crate root contain declarations and exports. Five cohesive modules separate inputs, private acquisition, verification, authentication and lifecycle tracking. Shared read_private is the intentional Task 3 acquisition seam; no second provider verifier or body decoder is added. The code reuses existing activation/binding and introspection contracts instead of reproducing their policy or response parsing. The synthetic provider is a separate test module. The FIFO test reuses the existing bounded child-process owner.
+
+The optional dependency changes reuse exact existing rom-auth and libc packages. Cargo.lock only adds the demo dependency edges. The default-feature evidence shows no introspection feature introduced through the normal demo graph. No unsafe block, provider SDK or core dependency change appears.
+
+## Evidence and remaining gates
+
+Inspected author green, feature/default, final scoped Clippy, formatting and dependency-feature logs. The frozen focused suite has11 passing driver tests; its normally ignored FIFO child is explicitly executed by the parent and passes. The child boundary prevents a regressed blocking open from hanging Tokio teardown. Paused verification cases cover cancellation, deadline, overload without contact, repeated drain and provider revision change without holding the core gate. File/header/approval cases assert rejection before provider contact and static diagnostics without sensitive markers.
+
+The broader feature suite and all-target Clippy ran before the final fixture extraction. The focused suite and scoped Clippy ran after extraction, as the author report states. No broader frozen-tree verification claim is inferred from those earlier commands.
+
+These synthetic host tests use SQLite and do not establish real-provider interoperability or the complete serving/CLI journey on both stores. Task 3 facade integration, application authority/lifecycle, actual-provider acceptance, the public consumer gate and the coordinator's full verifier remain separate integration evidence.

@@ -1,0 +1,13 @@
+# Task 3 amended final independent review
+
+Verdict: Spec accepted. Quality accepted. No open findings in the reviewed Task 3 product and test slices.
+
+This final disposition combines the original twelve-file Task 3 review with the frozen task3-signal-fix, task2-scratch-fix-review and task3-fixture-reuse-fix deltas. Each package retains its initial source and evidence. The initial review remains unchanged as historical evidence. No product edits or tests were performed by the reviewer.
+
+The Important readiness/SIGINT finding is resolved: both Unix signal receivers exist before readiness publication, and the stop future retains the accepted auth-first drain order. The process regression reproduces the original failure and reports12 amended profile cases passing. The test-only Scratch correction supplies checked concurrent identities, exclusive0700 acquisition, bounded collision retry and preservation of existing paths. Shared Process imports avoid duplicate-module loading and retain the same bounded subprocess owner. All amended live/snapshot hashes matched their package records.
+
+The accepted product contract remains one Resource pipeline, current identity binding, explicit separate-commit provisioning, exact local maintenance keys and revision checks, serving without provisioner access, approved private inputs, loopback serving and no network host actor or operator grant. Named modules and facade-only exports preserve public paths. Shared declarations, input/file parsing, activation/verifier/binding and process fixtures satisfy the assigned DRY/module gates.
+
+The draft harness source corrections remain accepted: successful state/history/replay outcomes have concrete oracles, reset denial uses a newly valid token within its lifetime margin, actual expiry contrasts a fresh token, captured output stays private, and cleanup attempts every owned child. This is source assessment alongside the coordinator's reported both-store actual-provider trial.
+
+Integration acceptance still requires the coordinator's new combined local verifier after these amendments. Earlier combined failures and the signal pre-fix RED remain retained; this review does not relabel them or claim the pending verifier passed. Public documentation and release status must use the final executed gate results.

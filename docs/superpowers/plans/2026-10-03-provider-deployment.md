@@ -51,14 +51,14 @@ Do not create files just to meet this inventory. Combine responsibilities that h
 **Consumes:** Existing synchronous `AuthResolver`, `Limits`, request decoder and all routes.
 **Produces:** `AuthFuture`, `AsyncAuthResolver` and `Http::new_async(Runtime, AsyncAuthResolver, Limits) -> rom::Result<Http>` exactly as specified.
 
-- [ ] Add failing TCP tests: delayed async auth permits unrelated requests to progress; denied auth does not consume a streamed body; admission rejects an extra pending request.
-- [ ] Add a constructor compatibility case that runs the same ordinary Resource request through sync and async authentication.
-- [ ] Test that shutdown closes new admission and a request awaiting auth cannot bypass Runtime closure afterward.
-- [ ] Record missing-API or behavioral RED accurately; do not count a compilation failure as a reproduced runtime defect.
-- [ ] Implement one private resolver enum in `authentication.rs`; split owned request parts once and await the chosen resolver in the shared decoder.
-- [ ] Reuse validation of `Limits` and existing error/body handling. Add no provider-specific route or credential cache.
-- [ ] Document host-owned deadlines and cancellation supervision on the public async resolver.
-- [ ] Run `cargo test -p rom-http` and strict all-target Clippy; obtain independent source review before dependent acceptance.
+- [x] Add failing TCP tests: delayed async auth permits unrelated requests to progress; denied auth does not consume a streamed body; admission rejects an extra pending request.
+- [x] Add a constructor compatibility case that runs the same ordinary Resource request through sync and async authentication.
+- [x] Test that shutdown closes new admission and a request awaiting auth cannot bypass Runtime closure afterward.
+- [x] Record missing-API or behavioral RED accurately; do not count a compilation failure as a reproduced runtime defect.
+- [x] Implement one private resolver enum in `authentication.rs`; split owned request parts once and await the chosen resolver in the shared decoder.
+- [x] Reuse validation of `Limits` and existing error/body handling. Add no provider-specific route or credential cache.
+- [x] Document host-owned deadlines and cancellation supervision on the public async resolver.
+- [x] Run `cargo test -p rom-http` and strict all-target Clippy; obtain independent source review before dependent acceptance.
 
 ## Task 2: Approved secrets and supervised authentication
 
@@ -91,65 +91,72 @@ impl HostAuth {
 
 These types are host inputs, not remotely decoded credentials or proof constructors. Record any necessary signature correction before dependent code starts.
 
-- [ ] Add secret file tests for allowed reference, unknown reference, empty/oversized/non-UTF8 material, symlink, non-regular file and non-private Linux permissions.
-- [ ] Bound secrets to the existing verifier's 4,096-byte maximum. Require a trusted host directory; check file metadata and reject unsafe acquisition.
-- [ ] On Linux, use `OpenOptionsExt::custom_flags` with `libc::O_NOFOLLOW | libc::O_NONBLOCK`, then validate the opened regular-file handle and private permissions. Add a bounded FIFO test with no writer; use the existing locked libc version as an optional dependency, with no unsafe block.
-- [ ] Add authentication tests for duplicate/malformed/oversized Authorization, wrong approved endpoint/profile/reference and static redacted failures.
-- [ ] Add deterministic paused-verifier tests: caller cancellation and deadline retain capacity, overload contacts no provider, close denies new work, drain waits for the accepted worker.
-- [ ] Cancel a drain waiter and start another; it must still wait for the owned worker. Pass the same `Arc<dyn Clock>` into Runtime and host construction.
-- [ ] Add a provider-revision race between verification and binding. It must fail without publishing a stale Actor.
-- [ ] Record RED, then implement owned admission and completion tracking. Do not build another executor or leave unbounded completed task handles.
-- [ ] Read activation before blocking work. Construct, use and drop the blocking verifier inside the worker, then bind asynchronously through Runtime.
-- [ ] Match authority/issuer/audience/endpoint and service profile to approved host settings before external acquisition. Resolve only an approved versioned secret reference.
-- [ ] Add `provider-profile` feature and the exact existing `rom-auth` package with `introspection`; preserve normal demo dependency behavior.
-- [ ] Run feature-enabled tests, strict Clippy and default-feature checks. Review file safety, admission races, permit lifetime and secret redaction independently.
+- [x] Add secret file tests for allowed reference, unknown reference, empty/oversized/non-UTF8 material, symlink, non-regular file and non-private Linux permissions.
+- [x] Bound secrets to the existing verifier's 4,096-byte maximum. Require a trusted host directory; check file metadata and reject unsafe acquisition.
+- [x] On Linux, use `OpenOptionsExt::custom_flags` with `libc::O_NOFOLLOW | libc::O_NONBLOCK`, then validate the opened regular-file handle and private permissions. Add a bounded FIFO test with no writer; use the existing locked libc version as an optional dependency, with no unsafe block.
+- [x] Add authentication tests for duplicate/malformed/oversized Authorization, wrong approved endpoint/profile/reference and static redacted failures.
+- [x] Add deterministic paused-verifier tests: caller cancellation and deadline retain capacity, overload contacts no provider, close denies new work, drain waits for the accepted worker.
+- [x] Cancel a drain waiter and start another; it must still wait for the owned worker. Pass the same `Arc<dyn Clock>` into Runtime and host construction.
+- [x] Add a provider-revision race between verification and binding. It must fail without publishing a stale Actor.
+- [x] Record RED, then implement owned admission and completion tracking. Do not build another executor or leave unbounded completed task handles.
+- [x] Read activation before blocking work. Construct, use and drop the blocking verifier inside the worker, then bind asynchronously through Runtime.
+- [x] Match authority/issuer/audience/endpoint and service profile to approved host settings before external acquisition. Resolve only an approved versioned secret reference.
+- [x] Add `provider-profile` feature and the exact existing `rom-auth` package with `introspection`; preserve normal demo dependency behavior.
+- [x] Run feature-enabled tests, strict Clippy and default-feature checks. Review file safety, admission races, permit lifetime and secret redaction independently.
 
 ## Task 3: Explicit provisioning and serving
 
 **Consumes:** Task 2 `HostAuth`, existing User/provider/link definitions and the shared reference business Resource.
 **Produces:** Opt-in profile construction plus host-local commands, never new public provisioning routes.
 
-- [ ] Define `Provisioning` with the provider Resource ID/value, local User ID and trusted service subject. Use `link_key` for its canonical IdentityLink.
-- [ ] Add `provision(&Runtime, &Provisioning) -> rom::Result<()>`, using stable step identities and ordinary Resource creates.
-- [ ] Test interruption after each committed step, both-store reopen and exact resume. Assert unchanged accepted revisions/events and changed-input rejection.
-- [ ] Register provisioning and serving through one shared declaration helper with an explicit local mode. Serving excludes the provisioner allowance.
-- [ ] Give the configuration reader only required provider reads. Grant linked service actors only the reference operations declared by this profile.
-- [ ] Add a distinct embedded host-local maintainer for identity Resource types. Its control API validates the three configured keys before a revision-checked invocation. Network authentication never returns that actor.
-- [ ] Test missing/forged host stamps, unlinked identities and ordinary authenticated operator denial. Keep default synthetic demo behavior unchanged.
-- [ ] Add thin `provider-provision` and `provider-serve` dispatch with backend, database and bounded host configuration file inputs.
-- [ ] Add an explicit offline `provider-maintain` mode for revision-checked identity Resource operations under native ownership. Reuse the same narrow local authority in in-flight host tests.
-- [ ] Read host configuration without logging its values. Credentials remain in private referenced files, not flags or process arguments.
-- [ ] In the profile stop future, close and drain host auth while Runtime remains open, then let `Http::serve` close and drain Runtime. Serving never provisions automatically.
-- [ ] Run both-store lifecycle tests and default demo regression checks; obtain independent review.
+- [x] Define `Provisioning` with the provider Resource ID/value, local User ID and trusted service subject. Use `link_key` for its canonical IdentityLink.
+- [x] Add `provision(&Runtime, &Provisioning) -> rom::Result<()>`, using stable step identities and ordinary Resource creates.
+- [x] Test interruption after each committed step, both-store reopen and exact resume. Assert unchanged accepted revisions/events and changed-input rejection.
+- [x] Register provisioning and serving through one shared declaration helper with an explicit local mode. Serving excludes the provisioner allowance.
+- [x] Give the configuration reader only required provider reads. Grant linked service actors only the reference operations declared by this profile.
+- [x] Add a distinct embedded host-local maintainer for identity Resource types. Its control API validates the three configured keys before a revision-checked invocation. Network authentication never returns that actor.
+- [x] Test missing/forged host stamps, unlinked identities and ordinary authenticated operator denial. Keep default synthetic demo behavior unchanged.
+- [x] Add thin `provider-provision` and `provider-serve` dispatch with backend, database and bounded host configuration file inputs.
+- [x] Add an explicit offline `provider-maintain` mode for revision-checked identity Resource operations under native ownership. Reuse the same narrow local authority in in-flight host tests.
+- [x] Read host configuration without logging its values. Credentials remain in private referenced files, not flags or process arguments.
+- [x] In the profile stop future, close and drain host auth while Runtime remains open, then let `Http::serve` close and drain Runtime. Serving never provisions automatically.
+- [x] Run both-store lifecycle tests and default demo regression checks; obtain independent review.
 
 ## Task 4: Actual provider and CLI acceptance
 
 **Consumes:** Reviewed tasks 1–3 and the successful pinned-provider compatibility experiment.
 **Produces:** One finite `./demo/verify-provider` command and retained source/version evidence.
 
-- [ ] Promote only the reviewed fixture configuration into `demo/provider-fixture`, with exact package/lockfile and license/audit evidence. Keep secrets and node_modules untracked.
-- [ ] Generate private credentials and an isolated loopback provider at runtime; bound readiness, requests, child waits and teardown.
-- [ ] Obtain actual client-credentials tokens through the provider's normal endpoint. Do not fabricate or modify introspection responses.
-- [ ] Use actual `rom` CLI over TCP for successful declared Resource operations and denial of unlinked, expired, wrong-audience and forbidden operator requests.
-- [ ] Run the same host journey on SQLite and redb, including provisioning resume and ROM reopen while the provider remains running.
-- [ ] Rotate a versioned credential reference with the provider's supported replacement procedure. Test stale activation, failed preparation, new credentials and reopen.
-- [ ] Test provider restart separately: old opaque tokens are unavailable; fresh credentials must be acquired explicitly.
-- [ ] Test disablement and relinking against existing Actors, in-flight verification and ordinary receipt replay. Re-enable must not revive an old stamp.
-- [ ] Search captured outputs, Resource state, journal, receipts, work views and archives for unique credential markers without printing those markers.
-- [ ] Record exact versions, locks, source hashes, commands and sanitized outcomes. Distinguish fixture mechanism tests from actual provider checks.
-- [ ] Obtain independent integration review; no claim of hosted-provider, human-login or TLS certification.
+- [x] Promote only the reviewed fixture configuration into `demo/provider-fixture`, with exact package/lockfile and license/audit evidence. Keep secrets and node_modules untracked.
+- [x] Generate private credentials and an isolated loopback provider at runtime; bound readiness, requests, child waits and teardown.
+- [x] Obtain actual client-credentials tokens through the provider's normal endpoint. Do not fabricate or modify introspection responses.
+- [x] Use actual `rom` CLI over TCP for successful declared Resource operations and denial of unlinked, expired, wrong-audience and forbidden operator requests.
+- [x] Run the same host journey on SQLite and redb, including provisioning resume and ROM reopen while the provider remains running.
+- [x] Rotate a versioned credential reference with the provider's supported replacement procedure. Test stale activation, failed preparation, new credentials and reopen.
+- [x] Test provider restart separately: old opaque tokens are unavailable; fresh credentials must be acquired explicitly.
+- [x] Test disablement and relinking against existing Actors, in-flight verification and ordinary receipt replay. Re-enable must not revive an old stamp.
+- [x] Search captured outputs, Resource state, journal, receipts, work views and archives for unique credential markers without printing those markers.
+- [x] Record exact versions, locks, source hashes, commands and sanitized outcomes. Distinguish fixture mechanism tests from actual provider checks.
+- [x] Obtain independent integration review; no claim of hosted-provider, human-login or TLS certification.
 
 ## Task 5: Guide, compatibility and final gate
 
-- [ ] Write a guide for local provisioning, external token acquisition, private auth files, start/stop, credential rotation and recovery.
-- [ ] State explicit host authority, exact supported provider/profile, proof windows, Linux file assumptions and separate-commit provisioning limits.
-- [ ] Keep npm provider dependencies development-only and their audit distinct from Rust dependency checks.
-- [ ] Run the full local verifier, default demo verification, feature-enabled profile checks and actual-provider acceptance after all source changes.
-- [ ] Check feature-disabled core/HTTP dependencies and compile a public consumer of the added API.
-- [ ] Record requirement-by-requirement results and update release task 4.3 only when evidence supports completion.
-- [ ] Coordinator integrates the reviewed slice. Stages 4.4–4.6 remain open until their own checks pass.
+- [x] Write a guide for local provisioning, external token acquisition, private auth files, start/stop, credential rotation and recovery.
+- [x] State explicit host authority, exact supported provider/profile, proof windows, Linux file assumptions and separate-commit provisioning limits.
+- [x] Keep npm provider dependencies development-only and their audit distinct from Rust dependency checks.
+- [x] Run the full local verifier, default demo verification, feature-enabled profile checks and actual-provider acceptance after all source changes.
+- [x] Check feature-disabled core/HTTP dependencies and compile a public consumer of the added API.
+- [x] Record requirement-by-requirement results and update release task 4.3 only when evidence supports completion.
+- [x] Coordinator integrates the reviewed slice. Stages 4.4–4.6 remain open until their own checks pass.
 
 ## Execution status
 
-Design and plan are under review. Provider probe results are being packaged separately.
-No product implementation task in this plan is complete.
+Design and plan passed independent review. The provider probe reports are committed.
+Task 1 passed its 34 HTTP tests, strict Clippy, formatting, and independent source review.
+The coordinator ran the combined gate after all source amendments.
+Task 2 passed its focused host tests and independent source review. Its FIFO driver also ran an isolated child.
+Task 3 passed its focused profile tests and independent review, including the signal and fixture amendments.
+The development provider fixture passed its three Node tests.
+The final combined verification passed on both native stores, including real token expiry and the independent public API consumer.
+The source manifest identifies 441 files. The composed provider-outage test passed and received independent review.
+The [results report](../../research/provider-deployment-results.md) records the requirement audit and retained evidence.

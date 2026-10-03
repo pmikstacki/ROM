@@ -11,6 +11,7 @@ description = "Runnable ROM Resource author walkthrough with local synthetic dat
 workspace = true
 [features]
 default = []
+provider-profile = ["dep:rom-auth", "dep:libc"]
 [dependencies]
 rom.workspace = true
 rom-sqlite.workspace = true
@@ -25,3 +26,5 @@ rom-blob-object-store = { path = "../crates/rom-blob-object-store", version = "=
 futures-util = { version = "=0.3.34", default-features = false, features = ["std"] }
 
 rom-backup = { path = "../crates/rom-backup", version = "=0.1.0-alpha.1" }
+rom-auth = { path = "../crates/rom-auth", version = "=0.1.0-alpha.1", optional = true, features = ["introspection"] }
+libc = { version = "=0.2.189", optional = true }

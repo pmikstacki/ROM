@@ -1,0 +1,13 @@
+# Task 3 signal correction scoped review
+
+Verdict: Spec accepted for this correction. Quality accepted. The original Important readiness finding is addressed. No new findings in the delta.
+
+Reviewed the two-file patch, before/source snapshots and author evidence. Both original and amended hashes match source.json; the amended live files and shared Node helper also match. No product edits or tests were repeated.
+
+Both SIGINT and SIGTERM receivers are constructed before readiness publication. A signal received before the stop future is polled is retained by the registered receiver. The future selects those receivers and preserves the existing HostAuth close/drain before HTTP/Runtime shutdown. It removes the lazy ctrl_c registration gap without adding another lifecycle mechanism.
+
+The regression sends SIGINT synchronously when readiness output arrives, requires a successful normal exit, and repeats on both stores. It then reopens the database and checks that serving did not automatically provision rows, events or receipts. The feature-only test reuses shared finite process helpers; the default demo acquires no Node test requirement.
+
+Inspected task3-signal-before.log: the pre-fix test failed with SIGINT did not drain. Inspected task3-signal-green.log: all12 profile cases and strict feature all-target Clippy passed. The later workspace formatting failure belongs to the concurrent Scratch fixture edit; the owned signal files pass their separate formatting log. The failed log is retained and is not relabeled as a fully green combined gate.
+
+The private Scratch correction remains a separate delta. Final frozen-tree combined verification and its fixture review remain required before the final integration verdict.

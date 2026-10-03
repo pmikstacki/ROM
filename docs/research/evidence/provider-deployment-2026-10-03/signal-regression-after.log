@@ -1,0 +1,85 @@
+   Compiling rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `test` profile [unoptimized] target(s) in 1.94s
+     Running tests/provider_profile.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_profile-800302a87d9d7d60)
+
+running 12 tests
+test provider_profile::configuration::config_rejects_duplicate_unknown_fields_and_nonprivate_file_without_diagnostics ... ok
+test provider_profile::configuration::valid_config_safe_defaults_and_closed_bounded_schema ... ok
+test provider_profile::authority::local_maintenance_validates_key_revision_identity_and_operation_before_mutation ... ok
+test provider_profile::authority::serving_excludes_provisioner_and_local_roles_cannot_mutate_business_resource ... ok
+test provider_profile::provisioning::both_store_resume_preserves_revisions_and_changed_input_is_rejected ... ok
+test provider_profile::authority::linked_service_discovers_only_declared_task_metadata ... ok
+test provider_profile::commands::offline_command_refuses_a_database_owned_by_a_live_runtime ... ok
+test provider_profile::serving::stop_drains_paused_authentication_before_closing_runtime ... ok
+test provider_profile::provisioning::each_lost_ack_step_resumes_after_native_close_and_reopen ... ok
+test provider_profile::commands::offline_commands_on_both_stores_reject_unconfigured_targets_and_emit_only_safe_results ... ok
+test provider_profile::authority::linked_service_authority_revocation_and_structured_archive_redaction ... ok
+test provider_profile::commands::readiness_allows_immediate_sigint_and_serving_never_provisions ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.29s
+
+    Checking rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `dev` profile [unoptimized] target(s) in 1.10s
+Diff in /workspace/ROM/.worktrees/release-query-index/demo/tests/provider_auth/scratch.rs:1:
+ use super::support::Scratch;
+-use std::{collections::BTreeSet, os::unix::fs::PermissionsExt, sync::{Arc,Barrier}};
++use std::{
++    collections::BTreeSet,
++    os::unix::fs::PermissionsExt,
++    sync::{Arc, Barrier},
++};
+ 
+ #[test]
+ fn concurrent_scratch_directories_are_unique_and_private() {
+Diff in /workspace/ROM/.worktrees/release-query-index/demo/tests/provider_auth/scratch.rs:6:
+-    let start=Arc::new(Barrier::new(16));
+-    let directories=std::thread::scope(|threads| {
+-        let handles=(0..16).map(|_| {
+-            let start=start.clone();
+-            threads.spawn(move || {
+-                start.wait();
+-                (0..4).map(|_| Scratch::new()).collect::<Vec<_>>()
++    let start = Arc::new(Barrier::new(16));
++    let directories = std::thread::scope(|threads| {
++        let handles = (0..16)
++            .map(|_| {
++                let start = start.clone();
++                threads.spawn(move || {
++                    start.wait();
++                    (0..4).map(|_| Scratch::new()).collect::<Vec<_>>()
++                })
+             })
+-        }).collect::<Vec<_>>();
+-        handles.into_iter().flat_map(|h|h.join().unwrap()).collect::<Vec<_>>()
++            .collect::<Vec<_>>();
++        handles
++            .into_iter()
++            .flat_map(|h| h.join().unwrap())
++            .collect::<Vec<_>>()
+     });
+-    let paths=directories.iter().map(|scratch|scratch.0.clone()).collect::<BTreeSet<_>>();
+-    assert_eq!(paths.len(),64,"concurrent fixtures must own distinct directories");
++    let paths = directories
++        .iter()
++        .map(|scratch| scratch.0.clone())
++        .collect::<BTreeSet<_>>();
++    assert_eq!(
++        paths.len(),
++        64,
++        "concurrent fixtures must own distinct directories"
++    );
+     for scratch in directories {
+-        assert_eq!(std::fs::metadata(&scratch.0).unwrap().permissions().mode() & 0o777,0o700,"fixture parent must be private");
++        assert_eq!(
++            std::fs::metadata(&scratch.0).unwrap().permissions().mode() & 0o777,
++            0o700,
++            "fixture parent must be private"
++        );
+     }
+-    assert!(paths.iter().all(|path|!path.exists()),"each fixture cleans up only its owned directory");
++    assert!(
++        paths.iter().all(|path| !path.exists()),
++        "each fixture cleans up only its owned directory"
++    );
+ }
+ 

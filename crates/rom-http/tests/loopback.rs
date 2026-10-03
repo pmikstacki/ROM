@@ -8,6 +8,8 @@ use tokio::{
     net::{TcpListener, TcpStream},
     sync::oneshot,
 };
+#[path = "loopback/authentication.rs"]
+mod authentication;
 #[path = "loopback/operator.rs"]
 mod operator;
 #[path = "loopback/operator_flow.rs"]
@@ -77,6 +79,9 @@ impl Server {
     }
     async fn with_runtime(runtime: Runtime, store: Arc<Sqlite>, limits: Limits) -> Self {
         let http = Http::new(runtime.clone(), resolver(), limits).unwrap();
+        Self::with_http(runtime, store, http).await
+    }
+    async fn with_http(runtime: Runtime, store: Arc<Sqlite>, http: Http) -> Self {
         let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
         let address = listener.local_addr().unwrap();
         let (stop, receiver) = oneshot::channel();

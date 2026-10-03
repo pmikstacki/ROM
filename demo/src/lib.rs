@@ -34,3 +34,7 @@ pub mod upgrade;
 
 /// Authorized work recovery and explicit domain compensation through public APIs.
 pub mod operator;
+
+/// Opt-in host authentication from current provider configuration.
+#[cfg(feature = "provider-profile")]
+pub mod provider_profile;

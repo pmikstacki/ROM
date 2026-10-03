@@ -1,0 +1,22 @@
+use rom_demo::provider_profile::{ApprovedProvider, AuthLimits, HostAuth, SecretFiles};
+use rom_http::{AsyncAuthResolver, AuthResolver, HeaderMap, Http, Limits};
+use std::{collections::BTreeMap, sync::Arc};
+fn main() {
+    let _sync: AuthResolver = Arc::new(|_| Err(rom::Error::Denied));
+    let _asynchronous: AsyncAuthResolver = Arc::new(|_: HeaderMap| {
+        Box::pin(async { Err(rom::Error::Denied) })
+    });
+    let _sync_constructor: fn(rom::Runtime, AuthResolver, Limits) -> rom::Result<Http> = Http::new;
+    let _async_constructor: fn(rom::Runtime, AsyncAuthResolver, Limits) -> rom::Result<Http> = Http::new_async;
+    let _secrets = SecretFiles::new(BTreeMap::new()).unwrap();
+    let _limits = AuthLimits::default();
+    let _settings = ApprovedProvider {
+        authority: "provider".into(), issuer: "https://issuer.invalid".into(),
+        audience: "service".into(), endpoint: "https://issuer.invalid/introspection".into(),
+        introspection_client: "rom-host".into(),
+    };
+    let _new = HostAuth::new;
+    let _resolver: fn(&HostAuth) -> AsyncAuthResolver = HostAuth::resolver;
+    let _close: fn(&HostAuth) = HostAuth::close;
+    let _drain = HostAuth::drain;
+}

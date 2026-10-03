@@ -1,0 +1,1924 @@
+- Validating...
+✓ change/add-structured-action-inputs
+✓ change/design-capability-adapters
+✓ change/design-provider-neutral-auth
+✓ change/enforce-resource-transitions
+✓ change/establish-rom
+✓ change/evaluate-query-compensation-and-skills
+✓ change/harden-core-and-add-cli
+✓ change/integrate-resource-mvp
+✓ change/prepare-framework-release
+Totals: 9 passed, 0 failed (9 items)
+rustc 1.99.0 (b940084d7 2026-09-28)
+    Checking rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `dev` profile [unoptimized] target(s) in 0.14s
+   Compiling rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `test` profile [unoptimized] target(s) in 0.21s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom-7b5f17594ef135a9)
+
+running 82 tests
+test query_storage::tests::checked_score_rejects_addition_overflow_and_unrelated_snapshot_identity ... ok
+test query_storage::tests::default_read_delegates_to_one_bounded_snapshot ... ok
+test query_storage::tests::legacy_adapter_does_not_claim_runtime_ownership ... ok
+test query_storage::tests::canonical_candidate_bytes_do_not_claim_stored_text_length ... ok
+test query_storage::tests::public_scalar_classification_preserves_wrapped_container_boundary ... ok
+test query_storage::tests::native_rejects_unknown_response_profiles_and_duplicate_candidates ... ok
+test query_storage::tests::reference_preserves_validation_order_and_sorts_ids ... ok
+test query_storage::tests::native_admits_whole_kind_and_rejects_inconsistent_responses ... ok
+test query_storage::tests::scalar_wrappers_and_unreferenced_containers_are_eligible ... ok
+test query_storage::tests::selector_rejects_opaque_unknown_shapes_versions_and_identity ... ok
+test query_storage::tests::selector_requires_exact_capability_binding_and_strict_checked_saving ... ok
+test reaction_work::delivery_profile_tests::another_records_revision_overflow_rolls_back_prior_hold_conversion ... ok
+test reaction_work::delivery_profile_tests::generic_finish_retry_cannot_make_started_unknown_delivery_resendable ... ok
+test reaction_work::delivery_profile_tests::panicked_hold_profile_fences_without_consuming_retry_budgets ... ok
+test reaction_work::delivery_profile_tests::default_profile_plain_retry_keeps_existing_unknown_delivery_policy ... ok
+test reaction_work::delivery_profile_tests::timed_out_hold_profile_fences_without_consuming_retry_budgets ... ok
+test reaction_work::delivery_profile_tests::expired_hold_conversion_does_not_skip_other_ready_work ... ok
+test reaction_work::delivery_profile_tests::unknown_hold_profile_fences_without_consuming_retry_budgets ... ok
+test reaction_work::revision_tests::bounded_snapshot_rejects_colliding_opaque_handles ... ok
+test reaction_work::delivery_profile_tests::verified_not_accepted_releases_hold_under_original_budgets ... ok
+test reaction_work::delivery_profile_tests::verified_accepted_completes_hold_without_retrying_or_consuming_budget ... ok
+test reaction_work::delivery_profile_tests::expired_started_delivery_holds_while_active_and_unstarted_leases_are_not_held ... ok
+test resource::definition::tests::explicit_denial_never_calls_decoder_or_grants_field_access ... ok
+test reaction_work::revision_tests::finish_preserves_attempt_and_root_budget_precedence_when_age_also_expires ... ok
+test resource::definition::tests::explicit_read_rule_replaces_reads_and_keeps_row_dependent_writes ... ok
+test resource::definition::tests::later_policy_restores_opaque_reads_and_later_read_policy_replaces_only_reads ... ok
+test resource::definition::tests::only_explicit_whole_field_grant_sets_proof_and_field_override_clears_it ... ok
+test storage_ownership::tests::storage_ownership_clones_share_claim_and_guard_outlives_helper ... ok
+test resource::definition::tests::explicit_reads_skip_decoder_but_writes_and_field_disclosure_keep_it ... ok
+test reaction_work::delivery_profile_tests::retry_profiles_keep_frozen_identity_and_default_unknown_retry ... ok
+test storage_ownership::tests::storage_ownership_excludes_until_guard_drops ... ok
+test reaction_work::revision_tests::revision_overflow_rejects_claim_without_consuming_budget ... ok
+test reaction_work::revision_tests::bounded_snapshot_versions_invalidate_delivery_views ... ok
+test reaction_work::revision_tests::rejected_updates_preserve_revision_and_all_budgets ... ok
+test reaction_work::revision_tests::delivery_updates_increment_once_and_preserve_claim_generation ... ok
+test storage_state::maintenance_tests::empty_state_never_calls_transform ... ok
+test reaction_work::delivery_profile_tests::plain_retry_cannot_bypass_unresolved_evidence_after_a_lifecycle_stop ... ok
+test storage_ownership::tests::storage_ownership_guard_can_move_between_threads ... ok
+test storage_state::maintenance_tests::row_mapping_changes_only_resource_values_and_is_atomic_on_error ... ok
+test storage_state::maintenance_tests::tombstone_mapping_does_not_restore_a_live_value ... ok
+test reaction_work::revision_tests::materialization_versions_parent_and_initializes_children ... ok
+test reaction_work::revision_tests::claim_retry_and_terminal_updates_invalidate_each_prior_revision ... ok
+test reaction_work::revision_tests::restore_invalidates_revision_and_overflow_is_atomic ... ok
+test reaction_work::delivery_profile_tests::uncertainty_holds_at_exhausted_budgets_and_verified_rejection_retains_stop_precedence ... ok
+test reaction_work::delivery_profile_tests::confirmed_delivery_outcomes_keep_existing_terminal_and_retry_semantics ... ok
+test storage_state::operator_tests::delivery_profile_and_operator_metadata_are_required_and_category_checked ... ok
+test storage_state::maintenance_tests::work_expansion_preserves_lifecycle_capacity_and_rolls_back ... ok
+test storage_state::maintenance_tests::mapping_rejects_growth_that_fits_current_bytes_but_consumes_lifecycle_reserve ... ok
+test storage_state::operator_tests::invalid_snapshot_generation_and_archive_generation_are_rejected ... ok
+test storage_state::operator_tests::malformed_claim_identity_cannot_publish_candidate_before_error ... ok
+test storage_state::operator_tests::active_leases_hard_budgets_and_wrong_decisions_are_refused ... ok
+test storage_state::operator_tests::exact_replay_precedes_cas_and_preserves_identity_budgets ... ok
+test storage_state::operator_tests::frozen_action_resolution_completes_without_consuming_attempts_or_mutation_budget ... ok
+test reaction_work::delivery_profile_tests::restore_holds_only_unresolved_started_profile_and_fences_each_lease_once ... ok
+test storage_state::operator_tests::retry_cannot_bypass_fanout_stops ... ok
+test storage_state::maintenance_tests::state_mapping_rolls_back_journal_and_work_if_a_later_transform_fails ... ok
+test storage_state::operator_tests::byte_capacity_and_revision_overflow_cannot_leave_a_receipt ... ok
+test storage_state::maintenance_tests::state_mapping_preserves_obligation_identity_lifecycle_and_opaque_payloads ... ok
+test storage_state::maintenance_tests::journal_expansion_rejects_without_eviction_or_partial_changes ... ok
+test reaction_work::delivery_profile_tests::hold_generation_or_revision_overflow_rolls_back_all_candidate_changes ... ok
+test storage_state::operator_tests::receipt_capacity_cannot_block_worker_completion_or_restore_replay ... ok
+test storage_state::retention_tests::archive_and_enqueue_reject_inconsistent_work_epochs ... ok
+test storage_state::operator_tests::epochs_control_new_admission_and_replay_without_destroying_historical_receipts ... ok
+test storage_state::retention_tests::bundle_cannot_persist_future_or_unrelated_reaction_epochs ... ok
+test storage_state::operator_tests::snapshot_charges_receipts_and_all_metadata_without_truncation ... ok
+test storage_state::operator_tests::archive_validation_rejects_incoherent_retained_prior_control_states ... ok
+test storage_state::retention_tests::invalid_retention_never_mutates_state ... ok
+test storage_state::retention_tests::causal_admission_requires_the_current_stored_claim_in_the_same_epoch ... ok
+test storage_state::operator_tests::persisted_hold_is_not_claimable_and_requires_verified_reconciliation ... ok
+test storage_state::retention_tests::archive_requires_action_epoch_to_match_cause_and_floors_to_cover_obligations ... ok
+test storage_state::retention_tests::materialization_cannot_change_the_parent_epoch ... ok
+test storage_state::operator_tests::unverified_receipt_evidence_and_invalid_retained_epoch_fail_archive_validation ... ok
+test storage_state::retention_tests::retry_epoch_defaults_and_journal_retention_are_explicit_and_repeatable ... ok
+test storage_state::operator_tests::stale_versions_and_receipt_limits_reject_atomically ... ok
+test storage_state::retention_tests::replay_floor_and_resolution_only_claims_cannot_be_bypassed ... ok
+test storage_state::operator_tests::reconciliation_preserves_original_budgets_and_fences_stale_completion ... ok
+test storage_state::operator_tests::current_receipt_decoding_requires_prior_state_and_explicit_delivery ... ok
+test storage_state::retention_tests::work_update_rejects_action_epoch_mismatch_without_finishing_source ... ok
+test storage_state::operator_tests::stopped_action_retry_retains_redacted_failure_history_through_replay_retirement_and_restore ... ok
+test storage_state::retention_tests::retention_removes_complete_roots_and_preserves_newer_budgets ... ok
+test storage_state::retention_tests::unresolved_or_unknown_roots_block_retention_atomically ... ok
+test storage_state::retention_tests::only_accepted_done_notifications_are_retirable ... ok
+
+test result: ok. 82 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/operator_protocol.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator_protocol-3b61a70714a68fce)
+
+running 9 tests
+test handles_are_stable_opaque_and_canonical ... ok
+test control_identifiers_and_evidence_are_bounded_before_submission ... ok
+test page_charges_full_envelope_and_record_count_after_nested_validation ... ok
+test persisted_reconciliation_hold_has_a_public_safe_status ... ok
+test individual_outputs_validate_nested_fields_and_complete_envelope_bytes ... ok
+test query_and_response_bounds_reject_zero_oversized_and_overflow ... ok
+test page_rejects_nested_fields_its_json_decoder_cannot_accept ... ok
+test page_rejects_wrong_protocol_on_envelope_and_nested_view ... ok
+test requests_reject_unknown_fields_at_each_boundary ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/reference_schema.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reference_schema-c67a78a41278ba15)
+
+running 5 tests
+test absence_null_and_tombstones_have_no_live_edges ... ok
+test catalog_validation_checks_targets_duplicates_and_canonical_order ... ok
+test descriptors_round_trip_and_reject_invalid_layouts ... ok
+test nested_references_are_unique_and_preserve_full_identity ... ok
+test malformed_reference_values_fail_instead_of_omitting_edges ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/replay_versions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/replay_versions-a2e0286b6270a973)
+
+running 9 tests
+test replay_registration_rejects_wrong_kind_current_future_and_duplicate_versions ... ok
+test current_receipt_never_tries_a_legacy_codec_that_would_match ... ok
+test current_authority_denial_precedes_legacy_normalization ... ok
+test unavailable_legacy_codec_fails_closed_without_reexecution ... ok
+test exact_legacy_codec_is_used_even_when_the_current_codec_accepts_input ... ok
+test legacy_codec_panic_does_not_poison_the_runtime_gate ... ok
+test unmarked_unmigrated_receipt_uses_the_current_catalog_version ... ok
+test renamed_create_replays_original_fingerprint_and_never_admits_legacy_fresh_writes ... ok
+test renamed_patch_replays_with_the_original_field_codec ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/retry_epochs.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/retry_epochs-e5db2c6e74ea9fd0)
+
+running 6 tests
+test omitted_wire_epoch_stays_zero ... ok
+test epoch_query_checks_current_actor_authority ... ok
+test epochs_validate_order_and_builder_fence_detects_rollback ... ok
+test floors_are_rechecked_after_normalization_and_after_proposal_work ... ok
+test epochs_separate_identity_and_zero_preserves_the_legacy_identity ... ok
+test sealed_epochs_replay_but_never_admit_fresh_input_and_expired_receipts_fail_closed ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/storage_ownership.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/storage_ownership-e0ec6d48ff97cc2c)
+
+running 4 tests
+test storage_ownership_pure_validation_precedes_acquisition ... ok
+test storage_ownership_failed_registration_releases_claim ... ok
+test storage_ownership_excludes_wrapped_and_direct_builders_before_storage_reads ... ok
+test storage_ownership_shutdown_retains_claim_until_last_runtime_drops ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_auth-79991e1c34207229)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/profiles.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/profiles-ee347792b2611240)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_backup-5e7d30ed5c34a491)
+
+running 26 tests
+test native_ownership::lock::tests::post_lock_permission_and_link_changes_are_not_accepted ... ok
+test epoch_upgrade_tests::physical_records_share_logical_collector_budgets_without_entering_snapshot ... ok
+test native_ownership::lifetime_tests::incidental_descriptor_duplicate_does_not_extend_guard_ownership ... ok
+test native_ownership::lock::tests::sidecar_replacement_is_detected_while_the_original_inode_remains_locked ... ok
+test native_ownership::path::tests::a_new_symlink_or_hardlink_cannot_replace_a_reserved_absent_path ... ok
+test native_ownership::path::tests::database_replacement_or_disappearance_fails_the_post_lock_identity_check ... ok
+test publication::tests::native_publication_child ... ok
+test publication::tests::native_finalization_refuses_unknown_additional_hard_links ... ok
+test publication::tests::native_finalization_rejects_replaced_destination_without_removal ... ok
+test publication::tests::native_finalization_rejects_before_publication_without_removal ... ok
+test epoch_upgrade_tests::operator_receipts_count_toward_collector_archive_and_maintenance_bounds ... ok
+test epoch_upgrade_tests::current_decoder_requires_each_recovery_metadata_field ... ok
+test publication::tests::native_finalization_removes_only_the_private_alias_and_keeps_reservation ... ok
+test publication::tests::native_finalization_rejects_symlinks_and_missing_private_artifacts ... ok
+test epoch_upgrade_tests::legacy_decoder_rejects_injected_recovery_metadata ... ok
+test tests::publication_race_and_symlink_refuse_overwrite ... ok
+test epoch_upgrade_tests::current_snapshot_upgrade_checks_catalog_integrity_and_complete_bounds ... ok
+test epoch_upgrade_tests::archive_four_upgrades_genuine_legacy_work_without_current_metadata ... ok
+test epoch_upgrade_tests::current_archive_and_restore_preserve_reconciliation_hold_and_profile ... ok
+
+running 1 test
+test tests::explicit_legacy_archive_upgrade_preserves_data_and_requires_descriptors ... ok
+test epoch_upgrade_tests::archive_restore_and_retention_preserve_historical_operator_receipts ... ok
+test tests::reader_rejects_valid_checksum_wrong_format_counts_or_metadata ... ok
+test tests::catalogued_archive_upgrade_preserves_or_binds_receipt_origin ... ok
+test publication::tests::native_publication_exit_after_link_requires_exact_artifact_recovery ... ok
+test epoch_upgrade_tests::archive_four_requires_explicit_upgrade_and_preserves_epochs_and_origins ... ok
+
+running 1 test
+test publication::tests::native_publication_exit_before_link_leaves_destination_absent ... ok
+
+test result: ok. 26 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/migration_codecs.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/migration_codecs-89f0707435962225)
+
+running 3 tests
+test migration_rejects_noncanonical_source_before_running_converter ... ok
+test canonical_custom_codecs_still_migrate ... ok
+test migration_rejects_target_bytes_that_decode_to_a_different_value ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/migrations.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/migrations-464338e975d0b675)
+
+running 5 tests
+test typed_migration_converts_history_and_preserves_identity_and_codec_version ... ok
+test ordered_steps_preserve_first_receipt_version_across_interleaved_kinds ... ok
+test versions_catalog_panics_and_budgets_fail_closed ... ok
+test conversion_memoizes_repeated_values_and_contains_validator_panics_and_growth ... ok
+test work_requires_explicit_validation_after_source_conversion ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/native_ownership.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/native_ownership-389a295bf070e61b)
+
+running 10 tests
+test paths::metadata_errors_do_not_become_missing_file_creation ... ok
+test paths::missing_parent_aliases_and_non_utf8_names_preserve_native_path_identity ... ok
+test paths::dangling_symlinks_hardlinks_nonregular_databases_and_reserved_names_are_rejected ... ok
+test processes::ownership_child ... ok
+test paths::separate_opens_conflict_until_guard_drop_and_keep_the_same_sidecar ... ok
+test paths::missing_paths_are_reserved_without_creating_databases_and_fresh_guard_can_transfer ... ok
+test paths::relative_and_symlink_aliases_share_one_canonical_owner ... ok
+test paths::unsafe_owner_sidecars_are_rejected_without_following_or_truncating_them ... ok
+test processes::process_exit_releases_ownership_without_sidecar_removal ... ok
+test processes::two_processes_contend_before_a_fresh_database_is_created ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/references.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/references-fe1a47080f08f6ec)
+
+running 5 tests
+test exact_edges_do_not_make_dangling_references_valid ... ok
+test collector_charges_schema_and_edge_records ... ok
+test legacy_binding_rejects_missing_schema_dangling_values_and_output_limits ... ok
+test archive_requires_exact_live_reference_graph ... ok
+test legacy_binding_preserves_records_and_builds_only_current_edges ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/retention.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/retention-b25ad48c539a9de2)
+
+running 6 tests
+test proof_selection_is_order_independent_and_future_receipts_are_invalid ... ok
+test expiry_reclaims_noops_but_keeps_one_current_proof_and_journal_gap ... ok
+test retained_journal_and_unsettled_effects_pin_history ... ok
+test invalid_policy_and_limits_reject_without_partial_result ... ok
+test unfinished_root_blocks_settlement_and_any_retained_work_blocks_purge ... ok
+test sealing_keeps_retry_history_and_explicit_purge_rejects_dependencies ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_blob-ddbfa8d0e6cecac4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/lifecycle.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/lifecycle-7501cea2e1750afb)
+
+running 12 tests
+test conflicting_or_partial_input_never_publishes ... ok
+test backend_panic_releases_work_and_closes_service ... ok
+test generic_invocation_cannot_forge_ready_or_replace_pending_with_ready ... ok
+test changed_reservation_returns_explicit_unattached_object ... ok
+test pending_detachment_keeps_one_cleanup_identity_and_cannot_publish ... ok
+test lost_metadata_ack_is_explicit_and_retry_resolves_one_attachment ... ok
+test revocation_during_backend_read_prevents_disclosure ... ok
+test complete_verified_upload_is_attached_and_private ... ok
+test unknown_object_ack_retries_complete_input_without_overwrite ... ok
+test input_bounds_and_timeout_publish_nothing ... ok
+test canceled_waiter_retains_capacity_and_shutdown_drains_publication ... ok
+test shutdown_releases_all_adapter_owners_before_return ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_blob_object_store-050b195f8b6b96f3)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/conformance.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/conformance-7890c268bf28b23c)
+
+running 5 tests
+test real_s3_lost_publish_response_is_unknown_and_reconcilable ... ignored, requires disposable real MinIO; run verify-s3
+test real_s3_uses_identical_contract ... ignored, requires disposable real MinIO; run verify-s3
+test physical_keys_and_remote_endpoint_policy_reject_unsafe_input ... ok
+test folder_atomic_create_bounds_and_reopen ... ok
+test folder_and_sqlite_restart_recover_real_attachment_and_detachment ... ok
+
+test result: ok. 3 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src/main.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom-3891ab78606cb962)
+
+running 1 test
+test sse::tests::crlf_bytes_all_count_against_frame_budget ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+     Running tests/commands.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/commands-d3e427985f3635c0)
+
+running 3 tests
+test help_lists_generic_operations_and_recovery_contract ... ok
+test mutation_requires_explicit_key_and_revision ... ok
+test invalid_urls_and_payloads_fail_before_network_without_echoing_input ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/failures.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/failures-3c53735ba89a6b19)
+
+running 13 tests
+test auth_file_header_injection_and_oversize_are_local_redacted_failures ... ok
+test output_escapes_terminal_controls_in_values_and_identifiers ... ok
+test interrupt_during_mutation_returns_uncertain_130 ... ok
+test mutation_interrupt_does_not_wait_for_a_full_stderr_pipe ... ok
+test arbitrary_actor_gate_error_after_commit_cannot_prove_rejection ... ok
+test authorization_revoked_after_commit_is_uncertain_but_state_is_durable ... ok
+test strict_json_matches_http_duplicate_key_rejection ... ok
+test environment_proxy_is_not_used ... ok
+test redirect_is_not_followed_or_treated_as_a_success ... ok
+test committed_mutation_with_lost_http_reply_recovers_only_with_original_identity ... ok
+test invalid_responses_are_transport_errors_for_reads_and_uncertain_for_mutations ... ok
+test response_identities_and_journal_continuity_match_the_request ... ok
+test remote_categories_do_not_invent_rollback_and_never_echo_body ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+     Running tests/loopback.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/loopback-956278414ccc62e5)
+
+running 3 tests
+test partial_projection_preserves_null_absence_false_and_exact_u64 ... ok
+test real_live_and_journal_streams_flush_updates_and_stop_on_revocation ... ok
+test two_kinds_use_same_binary_protocol_on_both_adapters ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.77s
+
+     Running tests/operator.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator-49bfc5f23eba079d)
+
+running 14 tests
+test control_revision_transition_cannot_wrap_at_the_numeric_limit ... ok
+test configured_host_page_above_the_default_still_fits_the_cli_bounds ... ok
+test object_shape::operator_input_files_reject_top_level_positional_arrays ... ok
+test object_shape::operator_responses_reject_top_level_positional_arrays ... ok
+test capability_denial_and_untrusted_provider_errors_remain_sanitized ... ok
+test work_commands_map_exactly_to_public_operator_requests ... ok
+test lost_control_reply_replays_the_exact_file_only_after_an_explicit_new_command ... ok
+test list_and_show_responses_respect_scope_filters_uniqueness_and_limits ... ok
+test reconcile_outcomes_and_exact_replay_have_their_declared_versions ... ok
+test malformed_operator_files_and_wrong_operations_fail_before_submission ... ok
+test reconciliation::verified_reconciliation_completes_without_resending_and_replays_exactly ... ok
+test control_responses_match_request_identity_operation_and_version_transition ... ok
+test signals::control_interrupt_does_not_wait_on_blocked_stdout_or_stderr ... ok
+test native::real_operator_commands_inspect_retry_and_replay_without_domain_or_provider_effects ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.42s
+
+     Running tests/retry_epochs.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/retry_epochs-e9fd8cc137f6e4b8)
+
+running 1 test
+test explicit_epoch_is_sent_unchanged_and_expiry_never_triggers_automatic_retry ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s
+
+     Running tests/streaming.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/streaming-d5fa479bb7648558)
+
+running 6 tests
+test completed_snapshot_is_emitted_before_stream_loss ... ok
+test fragmented_multiline_crlf_keeps_whole_batches_and_explicit_errors ... ok
+test journal_stream_keeps_prior_generation_and_position_between_frames ... ok
+test malformed_oversized_and_unfinished_streams_stop_without_success ... ok
+test closed_stdout_stops_stream_cleanly_and_ctrl_c_exits_a_blocked_pipe ... ok
+test inactive_stream_times_out ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.02s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_config-73e1bb7fe86c2fa3)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/ingestion.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/ingestion-1a8352be3fad7688)
+
+running 8 tests
+test reading_activation_does_not_grant_its_worker_identity ... ok
+test target_codec_diagnostics_are_redacted_at_ingestion_boundary ... ok
+test explicit_reload_epoch_survives_ticket_recovery_without_automatic_renewal ... ok
+test invalid_new_request_preserves_last_valid_and_supersedes_old_completion ... ok
+test disabled_then_reenabled_source_does_not_restore_old_ticket_authority ... ok
+test native_users_and_trust_configuration_use_the_same_acceptance_pipeline ... ok
+test metadata_only_reload_expiry_and_explicit_delete_have_distinct_semantics ... ok
+test both_adapters_recover_atomic_provenance_and_original_identity_after_lost_ack ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/parser.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/parser-a94e1e5481553223)
+
+running 3 tests
+test ambiguous_duplicate_values_and_nonobjects_are_rejected ... ok
+test parser_errors_and_debug_do_not_disclose_values_or_paths ... ok
+test both_formats_preserve_types_and_literal_fields_without_path_merging ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_consumer-42dd036e6ea34807)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_consumer-7230c70d0bf3083b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/actor_gate.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/actor_gate-2dab84ca11e52447)
+
+running 3 tests
+test principal_kind_separates_receipt_and_revocation_identity ... ok
+test gate_runs_on_bounded_io_and_denies_cached_receipt_and_live_delivery ... ok
+test gate_reads_are_bounded_and_policy_panic_fails_closed ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/bounds.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/bounds-2b9f6053811b0052)
+
+running 4 tests
+test live_closes_on_shutdown ... ok
+test subscription_capacity_released_on_drop ... ok
+test zero_and_payload_limits_are_explicit ... ok
+test snapshot_limits_reject_before_return ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/capacity_configuration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/capacity_configuration-8a02b84e39832dff)
+
+running 2 tests
+test maximum_concurrency_is_valid_and_reported ... ok
+test invalid_concurrency_returns_error_without_unwinding ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/discovery.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/discovery-d324f45885ba4d9a)
+
+running 12 tests
+test current_authority_denial_precedes_metadata_callbacks ... ok
+test callback_panic_is_supervised_and_terminal ... ok
+test expiry_during_discovery_does_not_return_metadata ... ok
+test authority_changed_during_metadata_work_denies_the_catalog ... ok
+test catalog_omits_secrets_and_nested_hidden_references_without_running_domain_code ... ok
+test discovery_denies_by_default_and_requires_resource_grant ... ok
+test discovery_stops_at_exhaustion_before_later_metadata_callbacks ... ok
+test revocation_while_callback_is_blocked_prevents_disclosure ... ok
+test catalog_sorts_resources_fields_and_actions_and_serializes_recursive_shapes ... ok
+test discovery_byte_budget_counts_the_complete_wire_envelope ... ok
+test metadata_visibility_does_not_grant_mutation_authority ... ok
+test reviewer_catalog_budget_matches_wire_for_every_smaller_limit ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/extensions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/extensions-91a8b4bce1c1e35c)
+
+running 1 test
+test downstream_custom_field_and_manual_definition_use_identical_contract ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/fields.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/fields-a842abef9bf54d61)
+
+running 8 tests
+test invalid_float_cannot_silently_become_null ... ok
+test nested_field_values_reject_wrong_shapes_and_nonfinite_numbers ... ok
+test nullable_ambiguity_is_rejected_inside_collections ... ok
+test typed_reference_requires_registered_target_kind ... ok
+test invalid_enum_definition_is_rejected_at_registration ... ok
+test mutually_referencing_kinds_register_without_graph_recursion ... ok
+test enum_metadata_enforces_the_custom_codec_contract ... ok
+test standard_fields_roundtrip_through_the_same_resource_pipeline ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/initial_authority.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/initial_authority-7e93fb4cdf724c78)
+
+running 1 test
+test current_denial_precedes_registry_and_all_input_codecs ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/integrated.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/integrated-75738249ff4f4265)
+
+running 17 tests
+test descriptor_codec_rename_null_false_zero_and_unknown_input_agree ... ok
+test derived_and_manual_definitions_share_registration_and_capability_checks ... ok
+test missing_policy_is_default_deny_and_authorities_are_distinct ... ok
+test negative_control_cached_payload_would_leak_after_revoke ... ok
+test no_op_receipt_does_not_advance_revision_or_emit_event ... ok
+test pure_action_panic_releases_permit_without_committing ... ok
+test revoke_buffered_live_signal_and_durable_replay ... ok
+test revision_race_and_changed_input_identity_are_distinct ... ok
+test concurrent_same_identity_replays_one_durable_transition ... ok
+test authority_and_revision_are_rechecked_after_cpu_proposal ... ok
+test owner_change_removes_live_membership_and_denies_old_outcome ... ok
+test downstream_failure_preserves_upstream_and_recovery_retries_same_action_identity ... ok
+test two_resources_share_actions_codec_and_live_membership ... ok
+test unknown_after_actual_commit_reopens_and_deduplicates ... ok
+test rollback_after_each_real_sql_write_leaves_full_bundle_absent ... ok
+test caller_cancellation_keeps_capacity_and_shutdown_drains_real_work ... ok
+test live_initialization_coalescing_delete_and_tombstone_retry ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/invocation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/invocation-0176108412e59743)
+
+running 2 tests
+test routing_and_host_identity_are_bounded_before_identity_encoding ... ok
+test typed_and_erased_invocation_share_identity_policy_and_custom_actions ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/lifecycle.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/lifecycle-e86ccf08bd66ba20)
+
+running 15 tests
+test ownership_transparent_wrapper_forwards_underlying_claim ... ok
+test ownership_rejects_second_builder_until_final_stopped_clone_drops ... ok
+test adapter_panic_is_terminal_and_never_success ... ok
+test policy_panic_stops_runtime_without_partial_state ... ok
+test expired_actor_cannot_commit_an_already_admitted_proposal ... ok
+test cancelled_live_refresh_can_retry_without_another_mutation ... ok
+test cancelled_read_keeps_io_capacity_until_storage_completes ... ok
+test expired_actor_denied_at_result_and_live_delivery ... ok
+test invalidation_during_live_query_remains_pending_after_success ... ok
+test overloaded_live_refresh_can_retry_without_another_mutation ... ok
+test blocking_storage_does_not_block_tokio_heartbeat ... ok
+test shutdown_races_admission_without_orphan ... ok
+test ownership_cancelled_action_and_drain_waiter_keep_accepted_work_alive ... ok
+test cancelled_shutdown_can_be_joined_again ... ok
+test concurrent_shutdown_waits_for_same_work ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/presence.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/presence-ae5843e8cbbe7270)
+
+running 6 tests
+test presence_codec_distinguishes_missing_null_value_and_action_input ... ok
+test nested_presence_is_rejected_at_registration ... ok
+test complete_reads_cannot_reveal_that_a_forbidden_field_is_absent ... ok
+test forbidden_unchanged_patch_field_is_rejected_without_blocking_other_fields ... ok
+test wire_patch_rejects_required_removal_and_action_preserves_explicit_missing ... ok
+test patch_preserves_omitted_fields_null_removal_retry_and_live_query ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/projection.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/projection-21c9c62139370938)
+
+running 5 tests
+test hidden_filter_is_denied_even_when_database_is_empty ... ok
+test forbidden_derived_write_does_not_commit ... ok
+test projected_live_rechecks_revocation_before_buffered_delivery ... ok
+test projected_outcomes_never_decode_as_complete_resources ... ok
+test field_permissions_default_to_deny_and_mixed_replace_is_atomic ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/promotion.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/promotion-087dad31866e02a4)
+
+running 3 tests
+test unsupported_nested_nullable_is_rejected_instead_of_losing_presence ... ok
+test revoked_read_does_not_reveal_resource_existence ... ok
+test built_in_and_custom_operation_names_have_distinct_durable_identity ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/query_all.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/query_all-feeddeb0f17a5194)
+
+running 2 tests
+test all_queries_do_not_turn_page_limits_into_scan_limits ... ok
+test all_queries_preserve_row_fields_pages_and_live_authorization ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/query_contract.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/query_contract-c466cdd6be504b94)
+
+running 3 tests
+test projected_and_typed_predicates_use_the_actual_field_codec ... ok
+test query_bounds_and_unknown_operators_fail_explicitly ... ok
+test conjunction_and_keyset_pages_share_authorized_identity_order ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/source_authority.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/source_authority-c2159c1f20472c1a)
+
+running 3 tests
+test wrong_owner_scope_expiry_and_target_revision_fail_closed ... ok
+test owner_permit_and_current_revision_are_required_before_publication ... ok
+test metadata_only_reload_is_a_durable_revision_and_exact_replay_is_not ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/structured_input.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/structured_input-a587ab8b167000a1)
+
+running 6 tests
+test existing_resource_raw_identifier_keeps_its_persisted_wire_name ... ok
+test invalid_field_shape_is_rejected_before_decoding ... ok
+test custom_fields_use_the_same_codec_and_required_nullable_member ... ok
+test object_members_preserve_omission_null_and_aliases ... ok
+test undeclared_custom_input_errors_stay_sanitized ... ok
+test structured_input_executes_through_public_action_pipeline ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-8e5077fb739914b1)
+
+running 4 tests
+test upgrade::legacy::tests::frozen_checkout_preserves_the_original_string_codec ... ok
+test upgrade::legacy::tests::migration_accepts_only_frozen_callback_identity_and_payload_contracts ... ok
+test upgrade::legacy::tests::old_profile_keeps_checkout_validation_before_reference_migration ... ok
+test upgrade::legacy::tests::current_wire_commands_prepare_the_frozen_profile_without_changing_its_catalog_or_rules ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src/main.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-a37fc0af5886edda)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/compensation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/compensation-6c384b3d2bd2f67a)
+
+running 1 test
+test explicit_compensation_and_revocation_on_both_adapters ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running tests/documented_commands.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/documented_commands-8d260753e12525a0)
+
+running 1 test
+test readme_invocations_decode_without_a_second_schema ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/operator.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator-c7fc944c81babbc8)
+
+running 1 test
+test operator_command_recovers_work_then_runs_explicit_compensation_on_both_stores ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+     Running tests/provider_auth.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_auth-c3b15b9e21cab271)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/provider_profile.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_profile-e6dc6e983fb796de)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/reference.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reference-0a64d7da1223128f)
+
+running 3 tests
+test reference_process_exit_child ... ignored, fault helper invoked only by committed_rejection_recovers_after_process_exit_without_shutdown
+
+running 1 test
+
+running 1 test
+test reference_command_recovers_pending_work_on_both_stores ... ok
+test committed_rejection_recovers_after_process_exit_without_shutdown ... ok
+
+test result: ok. 2 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+     Running tests/reservation_input.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reservation_input-ee94310f1d440aa7)
+
+running 1 test
+test reservation_arguments_are_named_and_invalid_fields_do_not_commit ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/transitions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/transitions-4a4f3ed8f5cdd397)
+
+running 5 tests
+test checkout_v2_declares_stock_reference_without_changing_wire_values ... ok
+test generic_patch_cannot_reverse_a_confirmed_checkout ... ok
+test checkout_reference_restricts_an_empty_stock_until_pending_checkout_is_deleted ... ok
+test transported_mutations_preserve_demo_invariants_on_both_adapters ... ok
+test generic_writes_cannot_retarget_compensation_or_corrupt_reservations ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/upgrade.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/upgrade-ece29bd673987616)
+
+running 6 tests
+test upgrade_process_exit_child ... ignored, actual process-exit fixture invoked by process_exit_preserves_pending_compensation_through_migration_backup_and_restore
+
+running 1 test
+test upgrade_rejects_invalid_arguments_without_creating_files ... ok
+
+running 1 test
+test migrated_receipt_requires_its_recorded_codec_and_current_authority ... ok
+test invalid_conversion_missing_target_and_unaccepted_work_never_publish ... ok
+test upgrade_command_runs_the_real_application_on_both_backends ... ok
+test process_exit_preserves_pending_compensation_through_migration_backup_and_restore ... ok
+
+test result: ok. 5 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.35s
+
+     Running tests/workshop.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/workshop-0d44e646429afa23)
+
+running 3 tests
+test custom_field_canonicalizes_and_rejects_invalid_stock_codes ... ok
+test local_cli_discovers_only_deliberately_published_domain_metadata ... ok
+test same_author_application_runs_on_sqlite_and_redb ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_derive-f5033494de5532c1)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_http-9a32a5cef81f62e1)
+
+running 1 test
+test error_tests::expired_identity_has_a_distinct_gone_category ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/capacity_configuration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/capacity_configuration-dd14842f11dc0794)
+
+running 1 test
+test http_body_capacity_is_fallible_at_engine_boundaries ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/loopback.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/loopback-299e1ee18372fae5)
+
+running 32 tests
+test authentication::denied_async_authentication_responds_without_waiting_for_streamed_body ... ok
+test discovery_http_never_returns_an_oversized_partial_catalog ... ok
+test authentication::shutdown_closes_admission_and_pending_auth_cannot_bypass_runtime_closure ... ok
+test authentication::delayed_async_authentication_allows_unrelated_tcp_request_to_commit ... ok
+test authentication::body_admission_rejects_extra_request_before_async_authentication ... ok
+test disconnect_after_acceptance_retains_work_permit_and_retry_replays_one_commit ... ok
+test discovery_route_uses_explicit_grants_and_strict_authenticated_input ... ok
+test all_wire_observation_forms_apply_field_projection_and_predicate_authority ... ok
+test expired_history_requires_explicit_head_then_snapshot_recovery ... ok
+test embedded_and_wire_share_mutation_identity_authorization_and_projection ... ok
+test lost_commit_ack_is_unknown_on_wire_and_same_identity_resolves_it ... ok
+test journal_replays_distinct_facts_and_rejects_wrong_generation_scope_and_future_cursor ... ok
+test operator::operator_capabilities_use_current_verified_actor_and_default_to_false ... ok
+test operator::default_policy_denies_work_without_disclosing_its_existence ... ok
+test operator::operator_capabilities_accept_only_an_empty_object ... ok
+test authentication::synchronous_and_asynchronous_constructors_share_limit_validation ... ok
+test operator::structured_request_admission_preserves_nested_resource_arrays ... ok
+test operator::operator_routes_reject_top_level_positional_arrays ... ok
+test authentication::sync_and_async_authentication_share_resource_and_body_contracts ... ok
+test journal_pages_are_bounded_and_cancelled_wait_does_not_acknowledge_a_fact ... ok
+test operator::operator_routes_refuse_actor_fields_and_oversized_bodies ... ok
+test live_is_fresh_coalescing_state_and_revocation_and_shutdown_close_streams ... ok
+test strict_json_and_declared_and_chunked_body_bounds_reject_before_execution ... ok
+test idle_stream_expiry_rechecks_without_a_resource_write ... ok
+test stream_capacity_is_bounded_and_disconnect_releases_the_subscription ... ok
+test retention_loss_is_explicit_for_both_missing_and_expired_cursor ... ok
+test structured_queries_and_patches_use_the_generic_wire_contract ... ok
+test ranges_sort_and_client_anchor_share_query_and_live_wire_paths ... ok
+test operator_flow::operator_http_matches_embedded_inspection_and_atomic_retry_without_resending ... ok
+test live_keeps_one_pending_read_across_keepalives ... ok
+test slow_body_owns_independent_admission_until_timeout ... ok
+test journal_keeps_one_pending_read_across_keepalives ... ok
+
+test result: ok. 32 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_identity-c15773cade76aee2)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/integration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/integration-d62e47f0e959ed98)
+
+running 5 tests
+test authority_links_and_provider_config_are_validated_and_bootstrap_is_explicit ... ok
+test user_disable_during_action_proposal_prevents_commit ... ok
+test real_signed_proof_links_through_native_resources_and_expiry_is_preserved ... ok
+test disabled_user_denies_cached_retry_and_live_without_repeating_commit ... ok
+test provider_revision_and_unlink_relink_cannot_revive_old_bindings ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_query_measure-0ab6adff0ab4e303)
+
+running 6 tests
+test tests::duplicate_dataset_sizes_cannot_reuse_a_measured_database ... ok
+test tests::trial_orders_cover_all_six_mode_permutations ... ok
+test tests::heldout_seed_does_not_repeat_shifted_calibration_random_fields ... ok
+test tests::fixture_is_deterministic_and_skew_is_independent_of_amount ... ok
+test tests::reusable_write_workload_commits_and_preserves_expected_revisions ... ok
+test tests::smoke_compares_complete_runtime_results_and_emits_all_three_modes ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.26s
+
+     Running unittests src/main.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_query_measure-7ac6a6e71e4f75ca)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/write.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_query_write_measure-302c7fb38efe6f0f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_redb-cf8dc2cbca4d3264)
+
+running 1 test
+test upgrade_tests::format_six_requires_upgrade_preserving_epochs_origins_and_source_bytes ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_sqlite-67b16d4c3a4a1d05)
+
+running 29 tests
+test index::encoding_tests::float_equality_matches_core_and_presence_is_distinct ... ok
+test index::encoding_tests::exact_numeric_and_text_boundaries ... ok
+test index::encoding_tests::invalid_values_and_non_scalar_shapes_fail_closed ... ok
+test index::catalog_tests::registration_preserves_omitted_kinds_and_accepts_canonical_field_order ... ok
+test index::catalog_tests::physical_entries_share_the_logical_record_budget ... ok
+test index::catalog_tests::rebuild_counts_native_text_and_preserves_the_complete_catalog ... ok
+test index::catalog_tests::key_deltas_change_only_indexed_values_and_tombstones_still_count ... ok
+test index::catalog_tests::checkpoint_failure_rolls_back_keys_metadata_and_authoritative_row ... ok
+test index::catalog_tests::validation_rejects_changed_index_collation_and_table_layout ... ok
+test index::query_tests::native_absence_null_and_ranges_keep_distinct_semantics ... ok
+test index::query_tests::observed_controls_keep_plan_fallback_execution_errors_and_stored_byte_scope ... ok
+test index::query_tests::opaque_and_no_predicate_reads_use_reference_and_limits_admit_whole_kind ... ok
+test index::query_tests::planner_failure_falls_back_but_selected_execution_failure_propagates ... ok
+test index::catalog_tests::validation_rejects_missing_extra_wrong_membership_and_metadata ... ok
+test index::query_tests::ranges_leave_other_predicates_residual_and_descriptor_must_match_catalog ... ok
+test index::query_tests::real_index_returns_complete_candidates_and_exact_binding ... ok
+test index::query_tests::native_unsigned_float_and_unicode_boundaries_are_exact ... ok
+test index::query_tests::metadata_corruption_is_not_an_optional_planner_failure ... ok
+test index::planner::tests::duplicate_predicates_do_not_consume_the_bounded_selection_slots ... ok
+test index::planner::tests::empty_candidate_stops_probing_and_opaque_reads_do_not_probe ... ok
+test index::planner::tests::first_pass_selectivity_avoids_expanding_a_common_earlier_predicate ... ok
+test index::planner::tests::conjunction_order_does_not_hide_the_eight_row_candidate ... ok
+test index::planner::tests::more_than_four_distinct_predicates_use_the_documented_bounded_prefix ... ok
+test index::planner::tests::broad_skew_and_ranges_choose_reference_after_whole_kind_admission ... ok
+test index::planner::tests::unknown_physical_index_layout_disables_optional_probes ... ok
+test index::planner::tests::probes_distinguish_exact_counts_saturation_and_reference_control ... ok
+test index::planner::tests::saturated_probe_does_not_truncate_forced_native_materialization ... ok
+test index::planner::tests::medium_selectivity_above_128_matches_can_still_choose_native ... ok
+test index::planner::tests::expanded_probe_shrinks_against_an_exact_candidate_and_keeps_total_work_bounded ... ok
+
+test result: ok. 29 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.52s
+
+     Running tests/query_observation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/query_observation-6ad32a8a2c8bc083)
+
+running 2 tests
+test observed_modes_share_real_reads_and_count_materialization ... ok
+test forcing_changes_only_cost_and_keeps_capability_and_admission ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running tests/backup.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/backup-46c5e45d6bf122b4)
+
+running 10 tests
+test archive_rejects_noncanonical_descriptors_before_publication ... ok
+test writer_rejects_inconsistent_logical_tables ... ok
+test startup_record_budget_includes_durable_pending_work ... ok
+test rejects_overwrite_wrong_backend_corruption_and_bounds_without_publication ... ok
+test reopening_rejects_missing_reference_index_entries_without_repair ... ok
+test archived_limits_and_retention_survive_restore ... ok
+test backup_restore_preserves_restrict_edges_and_rejects_missing_edges ... ok
+test full_snapshot_recovers_receipts_protected_values_work_and_fences_old_owners ... ok
+test concurrent_writer_snapshots_are_complete_bundles ... ok
+test reference_replacement_rolls_back_each_write_and_resolves_lost_ack ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+     Running tests/channels.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/channels-ea976733db45c002)
+
+running 19 tests
+test stale_external_ack_cannot_finish_new_claim ... ok
+test redb_notification_format_rejects_older_marker_without_migrating ... ok
+test notification_format_rejects_older_marker_without_migrating ... ok
+test status_reports_terminal_failure_without_error_payload ... ok
+test status_distinguishes_ready_draining_and_fully_stopped ... ok
+test cancelled_observer_cannot_orphan_delivery_and_shutdown_drains ... ok
+test revoked_channel_service_never_sees_payload ... ok
+test ordinary_action_records_typed_notification_atomically_without_sending ... ok
+test shared_worker_invokes_typed_function_and_records_acceptance ... ok
+test registration_changes_stop_old_work_instead_of_reinterpreting_payload ... ok
+test differently_typed_functions_share_one_worker ... ok
+test unresolved_last_attempt_reopens_as_unknown_terminal_work ... ok
+test unknown_channel_version_and_payload_reject_upstream_commit ... ok
+test native_commit_failure_never_detaches_notification_from_resource ... ok
+test channel_requires_current_and_historical_source_field_permission ... ok
+test drained_work_releases_its_database_handle_before_reopen ... ok
+test effect_then_lost_ack_reopens_with_stable_key_and_receiver_owned_dedup ... ok
+test retry_and_permanent_outcomes_are_durable_and_bounded ... ok
+test timeout_is_uncertain_and_panics_are_inspectable ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running tests/conformance.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/conformance-1f3b6d0fbc64290d)
+
+running 5 tests
+test sqlite_rejects_future_format_before_schema_writes ... ok
+test sqlite_rejects_unversioned_view_only_database ... ok
+test sqlite_rejects_unversioned_user_table_with_internal_like_prefix ... ok
+test redb_rejects_unversioned_multimap_only_database ... ok
+test redb_atomic_bundle_available_through_storage ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/journal_head.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/journal_head-51b1102ccba7af37)
+
+running 1 test
+test explicit_head_survives_reopen_and_allows_recovery_after_retention_gap ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/ledger_capacity.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/ledger_capacity-3297f193c2f5cb55)
+
+running 7 tests
+test rejected_materialization_leaves_capacity_to_finish_parent ... ok
+test resolution_lease_maximum_timestamp_width_fits_reservation ... ok
+test accepted_work_can_claim_retry_and_stop_at_the_smallest_byte_budget ... ok
+test restored_generation_growth_and_exhaustion_fit_at_capacity ... ok
+test legacy_insufficient_headroom_is_explicitly_unsupported_without_mutation ... ok
+test admitted_materialized_children_keep_their_lifecycle_reservation ... ok
+test every_delivery_outcome_and_stop_reason_fit_reserved_capacity ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
+
+     Running tests/migration_runtime.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/migration_runtime-e3ec4dcb441a3d55)
+
+running 2 tests
+test migrated_tombstone_keeps_current_policy_context_and_delete_replay ... ok
+test migrated_runtime_replays_old_input_and_resumes_both_reaction_phases ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running tests/native_profile.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/native_profile-1046566f3504531e)
+
+running 1 test
+test sqlite_native_engine_matches_selected_build_profile ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/operator.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator-91f3be8b9092bc93)
+
+running 6 tests
+test process::operator_owner_child ... ok
+
+running 1 test
+test native_control_cas_and_exact_replay_preserve_domain_state_and_budgets ... ok
+test persisted_control_receipt_survives_reopen_and_snapshot_bounds_are_exact ... ok
+test concurrent_controls_arbitrate_version_or_replay_the_same_identity ... ok
+test native_control_failures_do_not_split_work_and_receipt_publication ... ok
+
+running 1 test
+
+running 1 test
+
+running 1 test
+test process::owner_exit_preserves_exactly_the_committed_operator_transition ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running tests/operator_reconciliation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator_reconciliation-ef8e89af974710fa)
+
+running 19 tests
+test recovery::delivery_owner_child ... ok
+
+running 1 test
+test verification::active_lease_is_rejected_before_external_verification ... ok
+test races::caller_cancellation_retains_verifier_capacity_until_commit_and_replay ... ok
+test recovery::absent_verifier_reports_unavailable_without_releasing_a_hold ... ok
+test races::stale_work_version_after_verification_cannot_publish_a_second_receipt ... ok
+test races::concurrent_exact_request_replays_the_receipt_before_rechecking_stale_cas ... ok
+test verification::zero_and_unrepresentable_verification_timeouts_are_invalid_registrations ... ok
+test recovery::expired_started_claim_holds_after_clean_reopen_and_late_finish_is_fenced ... ok
+test races::verifier_wait_holds_neither_core_commit_gate_nor_native_transaction ... ok
+
+running 1 test
+test verification::unresolved_eventual_lookup_miss_cannot_grant_resend_before_later_acceptance ... ok
+test recovery::held_state_and_accepted_receipt_survive_clean_native_reopen ... ok
+test verification::terminal_not_accepted_cannot_reset_exhausted_attempts_or_root_budget ... ok
+test recovery::changed_registration_cannot_reinterpret_pending_or_held_profile ... ok
+test verification::accepted_and_terminal_not_accepted_commit_once_without_a_provider_send ... ok
+test recovery::actual_process_exit_after_delivery_start_cannot_trigger_unsafe_resend ... ok
+test races::current_operator_actor_and_service_revocation_are_rechecked_after_verification ... ok
+test profiles::confirmed_delivery_outcomes_remain_terminal_or_retryable_for_every_profile ... ok
+test verification::unresolved_timeout_panic_and_malformed_evidence_preserve_the_full_hold ... ok
+test profiles::all_declared_profiles_preserve_their_uncertain_delivery_policy ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.38s
+
+     Running tests/operator_runtime.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator_runtime-11bb603d68b2e2e6)
+
+running 19 tests
+test authoritative_gate_revocation_denies_saved_receipts_without_callback_text ... ok
+test cancelled_control_keeps_supervision_and_capacity_until_accepted_commit_finishes ... ok
+test exact_control_replay_rechecks_current_operator_and_actor_authority ... ok
+test default_operator_policy_denies_views_and_controls_without_disclosing_existence ... ok
+test accepted_receipt_remains_replayable_after_target_retirement_with_current_scope_authority ... ok
+test committed_retry_unresolved_is_unknown_and_exact_replay_recovers ... ok
+test post_commit_wrong_target_response_is_unknown_and_exact_replay_uses_saved_receipt ... ok
+test committed_retry_completed_is_unknown_and_exact_replay_recovers ... ok
+test raw_snapshot_bounds_and_generation_are_checked_before_projection ... ok
+test committed_retry_stopped_is_unknown_and_exact_replay_recovers ... ok
+test moving_page_rechecks_scope_permission_after_anchor_revocation ... ok
+test unsupported_adapter_does_not_advertise_operator_permissions ... ok
+test moving_page_continues_after_anchor_is_absent_from_current_snapshot ... ok
+test inspect_and_control_permissions_are_independent_and_views_are_redacted ... ok
+test concurrent_runtime_controls_arbitrate_stale_views_and_exact_identities ... ok
+test response_limits_refuse_new_controls_before_commit_and_preserve_unknown_for_committed_replays ... ok
+test authorized_pages_use_visible_limits_and_cursors_bind_filters ... ok
+test resolution::committed_unacknowledged_action_reconciles_without_domain_writes ... ok
+test resolution::same_identity_wrong_fingerprint_or_target_cannot_confirm_frozen_action ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running tests/ownership.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/ownership-a73105a72e9d431d)
+
+running 13 tests
+test offline_recovery::maintenance_cwd_child ... ok
+test process::native_owner_child ... ok
+
+running 1 test
+
+running 1 test
+
+running 1 test
+test sqlite_uri_input_is_explicitly_unsupported_instead_of_reinterpreted ... ok
+test sqlite_memory_sentinel_keeps_stores_independent ... ok
+test hardlinked_database_is_rejected_before_native_open ... ok
+test maintenance::maintenance_rejects_a_live_source_before_conversion ... ok
+test symlink_alias_cannot_create_a_second_native_owner ... ok
+test native_duplicate_open_conflicts_until_final_adapter_drop ... ok
+test maintenance::conversion_holds_both_reservations_and_failure_releases_them ... ok
+test offline_recovery::maintenance_cwd_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 12 filtered out; finished in 0.02s
+
+test maintenance::publication_retains_reservations_and_returns_a_single_link_destination ... ok
+test offline_recovery::callback_cwd_change_keeps_native_maintenance_paths_canonical ... ok
+test offline_recovery::sqlite_offline_rebuild_after_sigkill_preserves_committed_source_wal ... ok
+
+running 1 test
+test process::native_owner_process_exit_releases_lock_and_recovers_committed_data ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running tests/query_planning.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/query_planning-a00eca8b9d8a2b9f)
+
+running 9 tests
+test opaque_row_policy_runs_before_a_nonmatching_predicate_can_skip_the_row ... ok
+test shared_sort_authority_is_checked_on_empty_and_hidden_values ... ok
+test sorted_field_denial_precedes_predicates_anchor_and_page_limit ... ok
+test id_page_short_circuit_does_not_evaluate_later_opaque_policy ... ok
+test shared_anchor_binding_shape_bounds_and_dynamic_roundtrip ... ok
+test shared_default_sort_deny_and_small_page_does_not_bypass_snapshot_bound ... ok
+test shared_null_missing_ranges_and_both_sort_directions ... ok
+test shared_float_custom_codec_signed_extremes_and_structural_equality ... ok
+test shared_exact_ranges_multisort_typed_wire_live_and_moving_anchor ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/query_read.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/query_read-5681bbec59bc337e)
+
+running 11 tests
+test read_grant_runs_once_after_query_validation_and_disclosure_rechecks_authority ... ok
+test explicit_denial_precedes_empty_or_overbound_storage_reads ... ok
+test native_candidates_cannot_bypass_whole_kind_admission_with_a_small_page ... ok
+test normalized_predicates_reach_storage_and_returned_rows_still_decode ... ok
+test reference_and_complete_candidates_share_typed_projected_and_live_results ... ok
+test excluded_decoder_is_skipped_only_under_explicit_uniform_contract ... ok
+test builder_overrides_keep_opaque_selection_and_field_preflight ... ok
+test malformed_native_responses_and_execution_failures_never_fall_back ... ok
+test actual_native_candidates_still_require_current_disclosure_authority ... ok
+test actual_native_index_skips_excluded_decoder_only_with_uniform_authority ... ok
+test actual_native_storage_preserves_denial_before_limits_and_opaque_field_preflight ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.37s
+
+     Running tests/reactions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reactions-feedad27433f5a0d)
+
+running 5 tests
+test finite_work_budget_allows_receipt_resolution_but_no_new_execution ... ok
+test persisted_work_lease_and_input_are_fenced ... ok
+test saturated_work_rejects_entire_upstream_bundle ... ok
+test native_commit_reopen_and_journal_retention ... ok
+test native_precommit_failure_and_postcommit_loss_keep_obligations_atomic ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/receipt_versions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/receipt_versions-6c9145c4aeec2be5)
+
+running 3 tests
+test unmarked_receipt_uses_the_registered_version ... ok
+test matching_receipt_replay_precedes_candidate_version_validation ... ok
+test new_receipt_requires_the_registered_version_without_partial_writes ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/references.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/references-d6d8fee2e09cf493)
+
+running 25 tests
+test redb::competing_runtime_owner_is_rejected ... ok
+test redb::missing_direct_target_conflicts_without_a_receipt ... ok
+test redb::competing_adapter_create_delete_cannot_commit_dangling_reference ... ok
+test redb::missing_list_target_conflicts_without_a_receipt ... ok
+test redb::missing_nullable_target_conflicts_without_a_receipt ... ok
+test redb::incoming_source_restricts_deletion ... ok
+test redb::missing_map_target_conflicts_without_a_receipt ... ok
+test redb::clearing_nullable_list_and_map_links_allows_deletion ... ok
+test redb::own_reference_does_not_prevent_deletion ... ok
+test sqlite::competing_runtime_owner_is_rejected ... ok
+test sqlite::own_reference_does_not_prevent_deletion ... ok
+test sqlite::missing_list_target_conflicts_without_a_receipt ... ok
+test redb::source_deletion_releases_target ... ok
+test redb::old_receipt_replay_after_unlink_does_not_add_an_edge ... ok
+test redb::omitted_kind_and_changed_schema_preserve_persisted_integrity ... ok
+test sqlite::missing_direct_target_conflicts_without_a_receipt ... ok
+test sqlite::competing_adapter_create_delete_cannot_commit_dangling_reference ... ok
+test sqlite::incoming_source_restricts_deletion ... ok
+test sqlite::missing_nullable_target_conflicts_without_a_receipt ... ok
+test sqlite::missing_map_target_conflicts_without_a_receipt ... ok
+test sqlite::old_receipt_replay_after_unlink_does_not_add_an_edge ... ok
+test sqlite::omitted_kind_and_changed_schema_preserve_persisted_integrity ... ok
+test sqlite::source_deletion_releases_target ... ok
+test sqlite_writes_only_changed_reference_edges ... ok
+test sqlite::clearing_nullable_list_and_map_links_allows_deletion ... ok
+
+test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/retention.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/retention-8349af2b4e99b6b4)
+
+running 8 tests
+test retention_child_exits_before_publication ... ignored, subprocess fixture invoked by retention_interruption_before_publication_is_retryable
+test retention_reclaims_bounded_receipt_and_effect_capacity ... ok
+test purged_tombstone_can_be_recreated_without_reviving_expired_requests ... ok
+test legacy_native_format_cannot_import_nonzero_retry_epochs ... ok
+test sealed_epoch_allows_replay_and_only_exact_causal_claim_for_fresh_work ... ok
+test retention_interruption_before_publication_is_retryable ... ok
+test retention_expires_even_retained_anchors_and_survives_reopen_backup ... ok
+test current_format_migration_preserves_nonzero_epochs_receipts_and_work ... ok
+
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+     Running tests/retry_epochs.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/retry_epochs-ed302ae7767a9b3f)
+
+running 2 tests
+test trusted_fence_rejects_an_older_restored_backup ... ok
+test sealed_epoch_drains_nonzero_root_actions_and_notifications_without_fresh_admission ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/runtime_reactions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/runtime_reactions-ca82113d9d10f27a)
+
+running 9 tests
+test runtime_worker_is_single_and_shutdown_joins_lifetime ... ok
+test cancelled_batch_is_drained_and_materialized_work_survives_shutdown ... ok
+test revoked_service_stops_without_touching_target ... ok
+test actual_adapter_two_resource_chain_call_counts ... ok
+test lost_target_ack_is_done_atomically_and_restart_does_not_repeat ... ok
+test downstream_failure_preserves_upstream_then_restarts_and_retries_once ... ok
+test mapper_requires_all_historical_and_current_source_fields ... ok
+test revisiting_same_resource_can_converge ... ok
+test noops_dependencies_and_oscillations_are_bounded ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running tests/schema_migration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/schema_migration-eed64357c8ddea25)
+
+running 7 tests
+test migration_child_exits_before_publication ... ignored, subprocess fixture invoked by native_schema_migration_interruption_is_retryable
+test sqlite_format_seven_upgrade_validates_derived_index_records ... ok
+test format_four_upgrade_requires_exact_valid_catalog ... ok
+test native_schema_migration_interruption_is_retryable ... ok
+test native_schema_migration_preserves_history_references_work_and_backup ... ok
+test rejected_migration_never_publishes_or_modifies_source ... ok
+test legacy_catalogued_formats_require_explicit_upgrade_or_migration_without_source_writes ... ok
+
+test result: ok. 6 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.14s
+
+     Running tests/shared.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/shared-72f2bdebe6d27187)
+
+running 15 tests
+test crash_child ... ignored, subprocess fixture invoked by shared_actual_subprocess_exit_at_every_write_and_commit_boundary
+test redb_unknown_format_rejected_without_application_table_writes ... ok
+test shared_missing_format_marker_on_nonempty_database_is_not_implicitly_migrated ... ok
+test shared_delete_tombstone_and_invalid_revision_preserve_contract ... ok
+test shared_bounded_snapshot_exact_limit_overflow_and_kind_isolation ... ok
+test shared_atomic_bundle_and_noop_identity_validation ... ok
+test shared_core_typed_actions_work_without_application_repositories ... ok
+test shared_legacy_tombstones_without_policy_context_fail_closed ... ok
+test shared_revision_race_arbitrates_one_transition ... ok
+test shared_same_identity_race_returns_one_receipt ... ok
+test shared_open_rejects_oversized_encoded_row_before_deserializing ... ok
+test shared_lost_commit_acknowledgement_reopen_resolves_original_identity ... ok
+test shared_deleted_history_retains_private_authorization_across_restart ... ok
+test shared_rollback_after_every_write_and_before_commit ... ok
+test shared_actual_subprocess_exit_at_every_write_and_commit_boundary ... ok
+
+test result: ok. 14 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+     Running tests/sqlite_index_recovery.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/sqlite_index_recovery-4385aec0debc5f22)
+
+running 6 tests
+test child_exits_after_index_validation_before_publication ... ignored, invoked by the process-exit parent
+test rebuilding_derived_data_cannot_repair_missing_authoritative_receipt_proof ... ok
+test logical_archive_fits_but_combined_native_index_budget_blocks_publication ... ok
+test omitted_catalog_kinds_survive_registration_and_index_rebuild ... ok
+test noncanonical_text_is_charged_then_decremented_and_rebuild_uses_destination_bytes ... ok
+test process_exit_leaves_source_unchanged_and_no_published_index_rebuild ... ok
+
+test result: ok. 5 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/sqlite_offline_read.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/sqlite_offline_read-9c1b5d715173d52c)
+
+running 6 tests
+test sqlite_wal_child ... ignored, invoked by parent to retain committed WAL without finalizers
+test missing_source_never_creates_source_or_destination ... ok
+
+running 1 test
+test rollback_journal_requires_recovery_without_changing_source ... ok
+test non_utf8_clean_source_path_is_preserved ... ok
+test clean_source_stays_identical_after_success_and_rejected_conversion ... ok
+test symlink_to_offline_dirty_source_reads_committed_wal ... ok
+
+test result: ok. 5 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/sqlite_query_index.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/sqlite_query_index-24df6c5dccfed69d)
+
+running 4 tests
+test native_commit_replay_rollback_delete_and_reopen_are_coherent ... ok
+test format_six_upgrade_preserves_retry_epochs_and_does_not_rebind_receipt_origins ... ok
+test backup_restore_and_explicit_rebuild_preserve_logical_data_and_fence_indexes ... ok
+test native_and_reference_resources_keep_same_residual_order_and_live_results ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.32s
+
+     Running tests/transitions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/transitions-e559f1bd443da49d)
+
+running 4 tests
+test transition_sees_normalized_previous_and_candidate_values ... ok
+test validator_panic_does_not_poison_commit_gate_and_cannot_grant_authority ... ok
+test receipts_do_not_revalidate_obsolete_transitions_but_authority_still_applies ... ok
+test every_mutation_path_validates_and_rejection_is_atomic ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/upgrade.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/upgrade-17cf5b5e6248de63)
+
+running 10 tests
+test legacy_redb_child_exits_with_writable_handle ... ignored, actual process fixture for a dirty legacy redb header
+test upgrade_child_exits_before_publication ... ignored, actual child-process fixture used by native_upgrade_interruption_before_publication_is_retryable
+test ordinary_open_rejects_legacy_format_without_modifying_source ... ok
+test native_upgrade_refuses_existing_destination_and_never_creates_missing_source ... ok
+test sqlite_upgrade_reads_committed_wal_without_changing_source ... ok
+test ordinary_open_rejects_dirty_legacy_redb_without_repairing_source ... ok
+test native_upgrade_fences_active_work_claims_without_losing_attempts ... ok
+test explicit_native_upgrade_preserves_durable_records_and_enforces_references ... ok
+test native_upgrade_interruption_before_publication_is_retryable ... ok
+test invalid_native_upgrade_leaves_source_unchanged_and_destination_absent ... ok
+
+test result: ok. 8 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+   Doc-tests rom
+
+running 2 tests
+test crates/rom/src/lib.rs - (line 3) ... ok
+test crates/rom/src/channels.rs - channels (line 3) ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+all doctests ran in 0.22s; merged doctests compilation took 0.21s
+   Doc-tests rom_auth
+
+running 1 test
+test crates/rom-auth/src/jwt.rs - jwt (line 4) - compile ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 2 tests
+test crates/rom-auth/src/identity.rs - identity::VerifiedIdentity (line 16) - compile fail ... ok
+test crates/rom-auth/src/jwt.rs - jwt (line 21) - compile fail ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+all doctests ran in 0.18s; merged doctests compilation took 0.15s
+   Doc-tests rom_backup
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rom_blob
+
+running 1 test
+test crates/rom-blob/src/lib.rs - (line 9) - compile ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+all doctests ran in 0.16s; merged doctests compilation took 0.15s
+   Doc-tests rom_blob_object_store
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rom_config
+
+running 1 test
+test crates/rom-config/src/lib.rs - (line 15) ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+all doctests ran in 0.17s; merged doctests compilation took 0.17s
+   Doc-tests rom_consumer
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rom_demo
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rom_derive
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rom_http
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rom_identity
+
+running 1 test
+test crates/rom-identity/src/lib.rs - (line 20) ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 1 test
+test crates/rom-identity/src/binding.rs - binding::ActivatedIdentity (line 122) - compile fail ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+all doctests ran in 0.21s; merged doctests compilation took 0.18s
+   Doc-tests rom_query_measure
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rom_redb
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rom_sqlite
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+warning: output filename collision at /var/tmp/rom-release-measured-verification-target/doc/rom/index.html
+  |
+  = note: the bin target `rom` in package `rom-cli v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-cli)` has the same output filename as the lib target `rom` in package `rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)`
+  = note: this is a known bug where multiple crates with the same name use the same path; see <https://github.com/rust-lang/cargo/issues/6313>
+ Documenting rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+ Documenting rom-identity v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+ Documenting rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+    Finished `dev` profile [unoptimized] target(s) in 0.42s
+   Generated /var/tmp/rom-release-measured-verification-target/doc/rom/index.html and 15 other files
+    Finished `dev` profile [unoptimized] target(s) in 0.04s
+    Finished `dev` profile [unoptimized] target(s) in 0.04s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/rom-consumer`
+open task membership: 1
+after complete: 0
+settings: [Snapshot { id: "preferences", revision: 2, value: Some(Setting { owner: "alice", enabled: true, attempts: 1 }) }]
+state/event/receipt/effect counts: [2, 4, 4, 1]
+Expected compile failure: resource_version_zero, primary line 3
+Expected compile failure: resource_version_duplicate, primary line 3
+Expected compile failure: resource_version_string, primary line 3
+Expected compile failure: resource_version_float, primary line 3
+Expected compile failure: resource_version_overflow, primary line 3
+Expected compile failure: input_version, primary line 3
+Expected compile failure: unsupported, primary line 5
+Expected compile failure: serde, primary line 5
+Expected compile failure: duplicate, primary line 6
+Expected compile failure: wrong_input, primary line 6
+Expected compile failure: wrong_selector, primary line 5
+Expected compile failure: input_unsupported, primary line 4
+Expected compile failure: input_duplicate, primary line 5
+Expected compile failure: input_serde, primary line 4
+Expected compile failure: input_generic, primary line 3
+Expected compile failure: input_duplicate_option, primary line 4
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/renamed`
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/input_renamed`
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/rom-renamed-input-fixture`
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/resource_version`
+    Finished `dev` profile [unoptimized] target(s) in 0.08s
+    Finished `test` profile [unoptimized] target(s) in 0.09s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_auth-d3799e1a04071383)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/profiles.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/profiles-dd82bdb4a0c23e49)
+
+running 19 tests
+test introspection_real_http_form_authenticated_service_mapping_and_cache ... ok
+test introspection_server_rejects_wrong_client_credentials ... ok
+test introspection_basic_credentials_use_oauth_form_encoding ... ok
+test introspection_cache_never_outlives_expiry_and_unavailable_cannot_extend_actor ... ok
+test introspection_cache_capacity_is_bounded_and_oversize_token_does_not_send ... ok
+test introspection_revocation_observed_after_cache_bound_or_explicit_invalidation ... ok
+test introspection_present_time_or_proof_claim_cannot_be_null ... ok
+test host_configuration_requires_explicit_bindings_and_transport_policy ... ok
+test jwt_uses_one_trusted_host_clock_and_enforces_exact_expiry ... ok
+test jwt_valid_access_profile_constructs_bounded_human_actor_without_credentials_or_claim_dump ... ok
+test jwt_untrusted_key_urls_critical_headers_oversize_and_malformed_fail_before_fetch ... ok
+test jwt_rotation_refresh_is_bounded_replaces_old_keys_and_expired_cache_fails_closed ... ok
+test bounded_key_source_rejects_oversized_set_and_missing_requested_key ... ok
+test jwt_same_subject_different_issuers_is_not_same_identity ... ok
+test jwt_issuer_must_be_one_exact_string_not_a_matching_array ... ok
+test jwt_claim_shapes_reject_wrong_types_and_explicit_null_optional_claims ... ok
+test jwt_rejects_wrong_signature_issuer_audience_times_missing_claims_and_profile ... ok
+test introspection_inactive_wrong_binding_missing_claims_and_ambiguous_kind_fail_closed ... ok
+test introspection_redirect_timeout_bad_json_oversize_and_unsafe_endpoint_rejected ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.72s
+
+   Doc-tests rom_auth
+
+running 2 tests
+test crates/rom-auth/src/introspection.rs - introspection (line 3) - compile ... ok
+test crates/rom-auth/src/jwt.rs - jwt (line 4) - compile ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 2 tests
+test crates/rom-auth/src/identity.rs - identity::VerifiedIdentity (line 16) - compile fail ... ok
+test crates/rom-auth/src/jwt.rs - jwt (line 21) - compile fail ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+all doctests ran in 0.23s; merged doctests compilation took 0.20s
+    Finished `dev` profile [unoptimized] target(s) in 0.03s
+    Finished `dev` profile [unoptimized] target(s) in 0.05s
+    Finished `dev` profile [unoptimized] target(s) in 0.05s
+ Documenting rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+    Finished `dev` profile [unoptimized] target(s) in 0.27s
+   Generated /var/tmp/rom-release-measured-verification-target/doc/rom_auth/index.html
+rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+    Finished `dev` profile [unoptimized] target(s) in 0.07s
+    Finished `test` profile [unoptimized] target(s) in 0.08s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_identity-a23912207b55b201)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/integration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/integration-224618a88521093b)
+
+running 5 tests
+test authority_links_and_provider_config_are_validated_and_bootstrap_is_explicit ... ok
+test user_disable_during_action_proposal_prevents_commit ... ok
+test real_signed_proof_links_through_native_resources_and_expiry_is_preserved ... ok
+test disabled_user_denies_cached_retry_and_live_without_repeating_commit ... ok
+test provider_revision_and_unlink_relink_cannot_revive_old_bindings ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+   Doc-tests rom_identity
+
+running 1 test
+test crates/rom-identity/src/lib.rs - (line 20) ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 1 test
+test crates/rom-identity/src/binding.rs - binding::ActivatedIdentity (line 122) - compile fail ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+all doctests ran in 0.23s; merged doctests compilation took 0.20s
+ Documenting rom-identity v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+    Finished `dev` profile [unoptimized] target(s) in 0.19s
+   Generated /var/tmp/rom-release-measured-verification-target/doc/rom_identity/index.html
+    Checking rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `dev` profile [unoptimized] target(s) in 0.12s
+   Compiling rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `test` profile [unoptimized] target(s) in 0.20s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-870f1fb6abd107c4)
+
+running 4 tests
+test upgrade::legacy::tests::frozen_checkout_preserves_the_original_string_codec ... ok
+test upgrade::legacy::tests::migration_accepts_only_frozen_callback_identity_and_payload_contracts ... ok
+test upgrade::legacy::tests::old_profile_keeps_checkout_validation_before_reference_migration ... ok
+test upgrade::legacy::tests::current_wire_commands_prepare_the_frozen_profile_without_changing_its_catalog_or_rules ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src/main.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-be4b9c431d1aace5)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/compensation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/compensation-51b7b4655cafe74c)
+
+running 1 test
+test explicit_compensation_and_revocation_on_both_adapters ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running tests/documented_commands.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/documented_commands-a50aa53c437c7198)
+
+running 1 test
+test readme_invocations_decode_without_a_second_schema ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/operator.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator-647d0660bce293ef)
+
+running 1 test
+test operator_command_recovers_work_then_runs_explicit_compensation_on_both_stores ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+     Running tests/provider_auth.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_auth-5160dbb312a98862)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/provider_profile.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_profile-c1d2bc8ccee6d0b2)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/reference.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reference-62f2ccd08c888e03)
+
+running 3 tests
+test reference_process_exit_child ... ignored, fault helper invoked only by committed_rejection_recovers_after_process_exit_without_shutdown
+
+running 1 test
+
+running 1 test
+test reference_command_recovers_pending_work_on_both_stores ... ok
+test committed_rejection_recovers_after_process_exit_without_shutdown ... ok
+
+test result: ok. 2 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.21s
+
+     Running tests/reservation_input.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reservation_input-d16c2f793725a566)
+
+running 1 test
+test reservation_arguments_are_named_and_invalid_fields_do_not_commit ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/transitions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/transitions-45f04c92b8a64bf1)
+
+running 5 tests
+test checkout_v2_declares_stock_reference_without_changing_wire_values ... ok
+test generic_patch_cannot_reverse_a_confirmed_checkout ... ok
+test checkout_reference_restricts_an_empty_stock_until_pending_checkout_is_deleted ... ok
+test transported_mutations_preserve_demo_invariants_on_both_adapters ... ok
+test generic_writes_cannot_retarget_compensation_or_corrupt_reservations ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/upgrade.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/upgrade-200643dafc55d44f)
+
+running 6 tests
+test upgrade_process_exit_child ... ignored, actual process-exit fixture invoked by process_exit_preserves_pending_compensation_through_migration_backup_and_restore
+
+running 1 test
+test upgrade_rejects_invalid_arguments_without_creating_files ... ok
+
+running 1 test
+test migrated_receipt_requires_its_recorded_codec_and_current_authority ... ok
+test invalid_conversion_missing_target_and_unaccepted_work_never_publish ... ok
+test upgrade_command_runs_the_real_application_on_both_backends ... ok
+test process_exit_preserves_pending_compensation_through_migration_backup_and_restore ... ok
+
+test result: ok. 5 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.34s
+
+     Running tests/workshop.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/workshop-59e34a2eec59ef9a)
+
+running 3 tests
+test custom_field_canonicalizes_and_rejects_invalid_stock_codes ... ok
+test local_cli_discovers_only_deliberately_published_domain_metadata ... ok
+test same_author_application_runs_on_sqlite_and_redb ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.67s
+
+   Doc-tests rom_demo
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `dev` profile [unoptimized] target(s) in 0.07s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/rom-demo smoke sqlite`
+Smoke passed (sqlite): two Resource kinds, codec rejection, typed patch, TCP query/live/journal, configuration, reaction, explicit compensation, typed notification, access denial, folder attachment/reopen/detach, graceful shutdown.
+    Finished `dev` profile [unoptimized] target(s) in 0.07s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/rom-demo smoke redb`
+Smoke passed (redb): two Resource kinds, codec rejection, typed patch, TCP query/live/journal, configuration, reaction, explicit compensation, typed notification, access denial, folder attachment/reopen/detach, graceful shutdown.
+Serve/reopen/SIGINT drain passed (SQLite and redb).
+ Documenting rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `dev` profile [unoptimized] target(s) in 0.36s
+   Generated /var/tmp/rom-release-measured-verification-target/doc/rom_demo/index.html
+    Checking rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `dev` profile [unoptimized] target(s) in 0.70s
+   Compiling rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `test` profile [unoptimized] target(s) in 3.92s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-a14583929fbd514c)
+
+running 4 tests
+test upgrade::legacy::tests::frozen_checkout_preserves_the_original_string_codec ... ok
+test upgrade::legacy::tests::migration_accepts_only_frozen_callback_identity_and_payload_contracts ... ok
+test upgrade::legacy::tests::old_profile_keeps_checkout_validation_before_reference_migration ... ok
+test upgrade::legacy::tests::current_wire_commands_prepare_the_frozen_profile_without_changing_its_catalog_or_rules ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src/main.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-ed950a744c3af98f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/compensation.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/compensation-9a419219693c3b96)
+
+running 1 test
+test explicit_compensation_and_revocation_on_both_adapters ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running tests/documented_commands.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/documented_commands-ffcf3cec41499ba4)
+
+running 1 test
+test readme_invocations_decode_without_a_second_schema ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/operator.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/operator-536914cb87dd37f2)
+
+running 1 test
+test operator_command_recovers_work_then_runs_explicit_compensation_on_both_stores ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+     Running tests/provider_auth.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_auth-aea1c73ee0c1e800)
+
+running 15 tests
+test files::fifo_child ... ignored, private subprocess fixture invoked by fifo_without_writer_denies_within_bound
+test scratch::collision_child ... ignored, private subprocess fixture invoked by preexisting_directory_is_preserved_and_creation_retries
+
+running 1 test
+
+running 1 test
+test scratch::collision_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 14 filtered out; finished in 0.00s
+
+test scratch::concurrent_scratch_directories_are_unique_and_private ... ok
+test files::fifo_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 14 filtered out; finished in 0.01s
+
+test approval::invalid_host_capacity_and_unrepresentable_timeout_reject_at_construction ... ok
+test approval::unsafe_endpoint_and_missing_provider_are_static_denials ... ok
+test approval::malformed_duplicate_and_oversized_bearers_never_contact_provider ... ok
+test files::invalid_files_deny_before_contact_and_errors_disclose_no_path_or_material ... ok
+test files::fifo_without_writer_denies_within_bound ... ok
+test scratch::preexisting_directory_is_preserved_and_creation_retries ... ok
+test files::exact_secret_and_bearer_byte_bounds_are_admitted ... ok
+test approval::current_unapproved_configuration_denies_before_external_acquisition ... ok
+test files::private_regular_file_verifies_without_trimming_secret_material ... ok
+test admission::provider_revision_change_while_verifying_denies_stale_binding_without_holding_core_gate ... ok
+test admission::caller_deadline_retains_capacity_until_verifier_completion ... ok
+test admission::caller_cancellation_retains_capacity_and_cancelled_drain_can_be_reawaited ... ok
+
+test result: ok. 13 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running tests/provider_profile.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_profile-403e0556ba93ba45)
+
+running 12 tests
+test provider_profile::configuration::config_rejects_duplicate_unknown_fields_and_nonprivate_file_without_diagnostics ... ok
+test provider_profile::configuration::valid_config_safe_defaults_and_closed_bounded_schema ... ok
+test provider_profile::authority::local_maintenance_validates_key_revision_identity_and_operation_before_mutation ... ok
+test provider_profile::authority::serving_excludes_provisioner_and_local_roles_cannot_mutate_business_resource ... ok
+test provider_profile::provisioning::both_store_resume_preserves_revisions_and_changed_input_is_rejected ... ok
+test provider_profile::authority::linked_service_discovers_only_declared_task_metadata ... ok
+test provider_profile::commands::offline_command_refuses_a_database_owned_by_a_live_runtime ... ok
+test provider_profile::serving::stop_drains_paused_authentication_before_closing_runtime ... ok
+test provider_profile::provisioning::each_lost_ack_step_resumes_after_native_close_and_reopen ... ok
+test provider_profile::commands::offline_commands_on_both_stores_reject_unconfigured_targets_and_emit_only_safe_results ... ok
+test provider_profile::authority::linked_service_authority_revocation_and_structured_archive_redaction ... ok
+test provider_profile::commands::readiness_allows_immediate_sigint_and_serving_never_provisions ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.26s
+
+     Running tests/reference.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reference-41a1ba5df881de1f)
+
+running 3 tests
+test reference_process_exit_child ... ignored, fault helper invoked only by committed_rejection_recovers_after_process_exit_without_shutdown
+
+running 1 test
+
+running 1 test
+test reference_command_recovers_pending_work_on_both_stores ... ok
+test committed_rejection_recovers_after_process_exit_without_shutdown ... ok
+
+test result: ok. 2 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+     Running tests/reservation_input.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/reservation_input-161e43bc4d1f3a94)
+
+running 1 test
+test reservation_arguments_are_named_and_invalid_fields_do_not_commit ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/transitions.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/transitions-740f56a6a519da33)
+
+running 5 tests
+test checkout_v2_declares_stock_reference_without_changing_wire_values ... ok
+test generic_patch_cannot_reverse_a_confirmed_checkout ... ok
+test checkout_reference_restricts_an_empty_stock_until_pending_checkout_is_deleted ... ok
+test transported_mutations_preserve_demo_invariants_on_both_adapters ... ok
+test generic_writes_cannot_retarget_compensation_or_corrupt_reservations ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/upgrade.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/upgrade-d1b22fc5ef4500ec)
+
+running 6 tests
+test upgrade_process_exit_child ... ignored, actual process-exit fixture invoked by process_exit_preserves_pending_compensation_through_migration_backup_and_restore
+
+running 1 test
+test upgrade_rejects_invalid_arguments_without_creating_files ... ok
+
+running 1 test
+test migrated_receipt_requires_its_recorded_codec_and_current_authority ... ok
+test invalid_conversion_missing_target_and_unaccepted_work_never_publish ... ok
+test upgrade_command_runs_the_real_application_on_both_backends ... ok
+test process_exit_preserves_pending_compensation_through_migration_backup_and_restore ... ok
+
+test result: ok. 5 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.34s
+
+     Running tests/workshop.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/workshop-895363faa4310821)
+
+running 3 tests
+test custom_field_canonicalizes_and_rejects_invalid_stock_codes ... ok
+test local_cli_discovers_only_deliberately_published_domain_metadata ... ok
+test same_author_application_runs_on_sqlite_and_redb ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_http-aed8aa02ff5ad722)
+
+running 1 test
+test error_tests::expired_identity_has_a_distinct_gone_category ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/capacity_configuration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/capacity_configuration-92ea2dfdf19aefd1)
+
+running 1 test
+test http_body_capacity_is_fallible_at_engine_boundaries ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/loopback.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/loopback-4ced0496091fc7e8)
+
+running 32 tests
+test authentication::denied_async_authentication_responds_without_waiting_for_streamed_body ... ok
+test discovery_http_never_returns_an_oversized_partial_catalog ... ok
+test authentication::shutdown_closes_admission_and_pending_auth_cannot_bypass_runtime_closure ... ok
+test authentication::body_admission_rejects_extra_request_before_async_authentication ... ok
+test authentication::delayed_async_authentication_allows_unrelated_tcp_request_to_commit ... ok
+test disconnect_after_acceptance_retains_work_permit_and_retry_replays_one_commit ... ok
+test discovery_route_uses_explicit_grants_and_strict_authenticated_input ... ok
+test all_wire_observation_forms_apply_field_projection_and_predicate_authority ... ok
+test expired_history_requires_explicit_head_then_snapshot_recovery ... ok
+test embedded_and_wire_share_mutation_identity_authorization_and_projection ... ok
+test authentication::synchronous_and_asynchronous_constructors_share_limit_validation ... ok
+test lost_commit_ack_is_unknown_on_wire_and_same_identity_resolves_it ... ok
+test operator::default_policy_denies_work_without_disclosing_its_existence ... ok
+test journal_replays_distinct_facts_and_rejects_wrong_generation_scope_and_future_cursor ... ok
+test operator::operator_capabilities_use_current_verified_actor_and_default_to_false ... ok
+test operator::operator_capabilities_accept_only_an_empty_object ... ok
+test authentication::sync_and_async_authentication_share_resource_and_body_contracts ... ok
+test live_is_fresh_coalescing_state_and_revocation_and_shutdown_close_streams ... ok
+test journal_pages_are_bounded_and_cancelled_wait_does_not_acknowledge_a_fact ... ok
+test idle_stream_expiry_rechecks_without_a_resource_write ... ok
+test operator::operator_routes_reject_top_level_positional_arrays ... ok
+test operator::structured_request_admission_preserves_nested_resource_arrays ... ok
+test strict_json_and_declared_and_chunked_body_bounds_reject_before_execution ... ok
+test retention_loss_is_explicit_for_both_missing_and_expired_cursor ... ok
+test stream_capacity_is_bounded_and_disconnect_releases_the_subscription ... ok
+test operator::operator_routes_refuse_actor_fields_and_oversized_bodies ... ok
+test structured_queries_and_patches_use_the_generic_wire_contract ... ok
+test ranges_sort_and_client_anchor_share_query_and_live_wire_paths ... ok
+test operator_flow::operator_http_matches_embedded_inspection_and_atomic_retry_without_resending ... ok
+test live_keeps_one_pending_read_across_keepalives ... ok
+test journal_keeps_one_pending_read_across_keepalives ... ok
+test slow_body_owns_independent_admission_until_timeout ... ok
+
+test result: ok. 32 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s
+
+   Doc-tests rom_demo
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rom_http
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling rom-cli v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-cli)
+    Finished `dev` profile [unoptimized] target(s) in 0.76s
+
+added 40 packages in 190ms
+TAP version 13
+# Subtest: separate commands issue a private CLI auth file and redact credentials
+ok 1 - separate commands issue a private CLI auth file and redact credentials
+  ---
+  duration_ms: 504.068626
+  type: 'test'
+  ...
+# Subtest: fixture private reads reject unsafe and unbounded files without FIFO blocking
+ok 2 - fixture private reads reject unsafe and unbounded files without FIFO blocking
+  ---
+  duration_ms: 24.94254
+  type: 'test'
+  ...
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# Subtest: actual provider preserves service profile and loses opaque tokens at restart
+ok 3 - actual provider preserves service profile and loses opaque tokens at restart
+  ---
+  duration_ms: 73.980372
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 563.484599
+Provider acceptance (sqlite): operations, receipt replay, ROM reopen, access revocation, audience binding and credential rotation passed.
+Provider acceptance (redb): operations, receipt replay, ROM reopen, access revocation, audience binding and credential rotation passed.
+Provider acceptance (sqlite): expired token denied, fresh token accepted and output/database marker scans passed.
+Provider acceptance (redb): expired token denied, fresh token accepted and output/database marker scans passed.
+    Checking rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+    Checking rom-blob v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob)
+    Checking rom-identity v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+    Checking rom-blob-object-store v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob-object-store)
+    Checking rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+ Documenting rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+ Documenting rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `dev` profile [unoptimized] target(s) in 0.73s
+   Generated /var/tmp/rom-release-measured-verification-target/doc/rom_demo/index.html and 1 other file
+    Checking rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Checking rom-provider-public-consumer v0.0.0 (/workspace/ROM/.worktrees/release-query-index/.superpowers/sdd/2026-10-03-provider-deployment/public-consumer)
+    Finished `dev` profile [unoptimized] target(s) in 0.50s

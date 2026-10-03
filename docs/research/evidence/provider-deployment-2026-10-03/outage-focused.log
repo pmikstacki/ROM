@@ -1,0 +1,36 @@
+   Compiling rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `test` profile [unoptimized] target(s) in 0.48s
+     Running tests/provider_auth.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_auth-0452dc49c90231c3)
+
+running 16 tests
+test files::fifo_child ... ignored, private subprocess fixture invoked by fifo_without_writer_denies_within_bound
+test scratch::collision_child ... ignored, private subprocess fixture invoked by preexisting_directory_is_preserved_and_creation_retries
+
+running 1 test
+
+running 1 test
+test scratch::collision_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.00s
+
+test scratch::concurrent_scratch_directories_are_unique_and_private ... ok
+test files::fifo_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.01s
+
+test files::fifo_without_writer_denies_within_bound ... ok
+test scratch::preexisting_directory_is_preserved_and_creation_retries ... ok
+test approval::invalid_host_capacity_and_unrepresentable_timeout_reject_at_construction ... ok
+test approval::malformed_duplicate_and_oversized_bearers_never_contact_provider ... ok
+test approval::unsafe_endpoint_and_missing_provider_are_static_denials ... ok
+test files::invalid_files_deny_before_contact_and_errors_disclose_no_path_or_material ... ok
+test files::private_regular_file_verifies_without_trimming_secret_material ... ok
+test files::exact_secret_and_bearer_byte_bounds_are_admitted ... ok
+test admission::provider_revision_change_while_verifying_denies_stale_binding_without_holding_core_gate ... ok
+test approval::current_unapproved_configuration_denies_before_external_acquisition ... ok
+test admission::caller_cancellation_retains_capacity_and_cancelled_drain_can_be_reawaited ... ok
+test admission::caller_deadline_retains_capacity_until_verifier_completion ... ok
+test outage::transport_timeout_denies_statically_then_drains_and_recovers_capacity ... ok
+
+test result: ok. 14 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.55s
+

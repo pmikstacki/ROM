@@ -1,0 +1,9 @@
+# Task 3 shared fixture scoped review
+
+Verdict: Spec accepted. Quality accepted. No findings.
+
+Reviewed the two-file before/source patch and source.json. Both snapshot and amended live hashes match. Product source and lifecycle behavior are unchanged.
+
+Profile support reexports the existing Process from shared authentication support. Command tests use that export and remove their second module inclusion. This preserves the same bounded spawn/wait/drop implementation and avoids duplicate-module Clippy failure. It adds no dependency, helper implementation or lint suppression.
+
+Inspected task3-shared-process-green.log: all12 profile tests, strict feature-enabled all-target Clippy and workspace formatting passed. No tests were repeated. The separate Scratch fixture package still requires its frozen-source acceptance.

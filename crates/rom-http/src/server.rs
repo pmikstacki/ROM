@@ -1,12 +1,10 @@
+use crate::authentication::{AsyncAuthResolver, AuthResolver, Resolver};
 use crate::routes::{discover, invoke, journal, journal_head, live, query, read, subscribe};
-use axum::{Router, http::HeaderMap, routing::post};
-use rom::{Actor, Error, Runtime};
+use axum::{Router, routing::post};
+use rom::{Error, Runtime};
 use std::{future::Future, sync::Arc, time::Duration};
 use tokio::sync::{Semaphore, watch};
 
-/// Must be fast and nonblocking. The host verifies credentials before returning an Actor.
-/// Arbitrary subject/authority headers must never be treated as proof of identity.
-pub type AuthResolver = Arc<dyn Fn(&HeaderMap) -> rom::Result<Actor> + Send + Sync>;
 #[derive(Clone, Copy)]
 pub struct Limits {
     pub body_bytes: usize,
@@ -27,7 +25,7 @@ impl Default for Limits {
 #[derive(Clone)]
 pub(super) struct Shared {
     pub(super) runtime: Runtime,
-    pub(super) auth: AuthResolver,
+    pub(super) auth: Resolver,
     pub(super) limits: Limits,
     pub(super) bodies: Arc<Semaphore>,
     pub(super) closed: watch::Sender<bool>,
@@ -38,6 +36,18 @@ pub struct Http {
 }
 impl Http {
     pub fn new(runtime: Runtime, auth: AuthResolver, limits: Limits) -> rom::Result<Self> {
+        Self::configured(runtime, Resolver::Sync(auth), limits)
+    }
+    /// Add async host authentication to the same route and body-admission pipeline.
+    /// The host is responsible for finite deadlines and retained work after cancellation.
+    pub fn new_async(
+        runtime: Runtime,
+        auth: AsyncAuthResolver,
+        limits: Limits,
+    ) -> rom::Result<Self> {
+        Self::configured(runtime, Resolver::Async(auth), limits)
+    }
+    fn configured(runtime: Runtime, auth: Resolver, limits: Limits) -> rom::Result<Self> {
         if limits.body_bytes == 0
             || limits.bodies == 0
             || limits.bodies > Semaphore::MAX_PERMITS

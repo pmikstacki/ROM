@@ -1,0 +1,24 @@
+   Compiling rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `test` profile [unoptimized] target(s) in 0.44s
+     Running tests/provider_profile.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/provider_profile-800302a87d9d7d60)
+
+running 1 test
+test provider_profile::authority::linked_service_discovers_only_declared_task_metadata ... FAILED
+
+failures:
+
+---- provider_profile::authority::linked_service_discovers_only_declared_task_metadata stdout ----
+
+thread 'provider_profile::authority::linked_service_discovers_only_declared_task_metadata' (1585170) panicked at demo/tests/provider_profile/authority.rs:56:58:
+assertion `left == right` failed
+  left: 0
+ right: 1
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    provider_profile::authority::linked_service_discovers_only_declared_task_metadata
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.02s
+
+error: test failed, to rerun pass `-p rom-demo --test provider_profile`
