@@ -39,3 +39,29 @@ Ruling: custom codec identity remains Resource-owned metadata. Independent Field
 
 Parallel workers must have separate file ownership. Keep native and frontend build concurrency bounded.
 Do not create redundant Cargo targets while shared disk capacity remains constrained.
+
+## Implemented slices, before release acceptance
+
+The isolated branch is `codex/rom-0.0.2-studio` in `.worktrees/release-query-index`.
+The unchanged native baseline passed `./scripts/check` in `rom-dev` with the shared measured-verification target.
+
+Task 1 is committed as `ba96fe7`. It supplies authorized action-input discovery and separate codec presentation metadata.
+Six metadata cases, three native cases, actual HTTP fixtures, CLI compatibility, compile fixtures, and scoped Clippy passed.
+A metadata-only reopen preserves catalogs, values, revisions, journal heads, and receipt replay on both stores.
+The combined full verifier still belongs to the coordinator after concurrent source stabilizes.
+
+The locked frontend trial passed installation, type checking, production build, Chromium controls, and dependency audit.
+The product control worker reports eight Chromium cases; its final scoped verification and review remain pending.
+WebKit needs its NixOS runtime libraries before it can be a successful browser gate.
+
+The coordinator's first SDK slice passes 21 unit tests and zero-error Studio type checking.
+It includes lossless wire values, descriptor validation, request-bound replies, explicit mutation retry, session generations, and bounded live snapshots.
+It does not yet establish journal validation or real browser-to-host acceptance.
+The human-provider fixture passes three real code/PKCE flow tests; Rust signature acceptance remains separate.
+Independent review found malformed intent/shape, getter, signed-zero, and Unicode issues. The SDK now has regression tests for those findings.
+
+The human OIDC proof worker has compiling sealed-profile integration and passing initial real-signature tests.
+It is extending negative and bounded key-cache cases before its scoped commit.
+The host and application workers will use these stable interfaces rather than a fabricated browser Actor.
+
+These are tested slices. No 0.0.2 archive, durable preview, or completed release is claimed.
