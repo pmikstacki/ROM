@@ -82,3 +82,9 @@ The host must reverify finite server-side ID tokens through current Resource gat
 It cannot extend an existing Actor proof. A live observer closes at its proof lease;
 the client revalidates the session and opens a fresh authorized snapshot.
 The application and resilience workers continue in separate file scopes.
+
+The second combined native `./scripts/check` completed with exit zero.
+Its complete log is retained as `client/native-combined-final.log`.
+This accepts the combined metadata and OIDC slices before the new host workspace member.
+The host and persistence resilience test dependencies now resolve offline from the existing locked package versions.
+Their implementations and final combined verifier remain pending.
