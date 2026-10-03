@@ -4,6 +4,17 @@ use std::{collections::BTreeMap, marker::PhantomData};
 
 pub trait Field: Clone + Send + Sync + 'static {
     fn shape() -> Shape;
+    /// Optional codec identity for descriptor-driven presentation.
+    fn codec_identity() -> Option<crate::CodecIdentity> {
+        None
+    }
+    /// Describe standalone input encoding; override when it differs from field encoding.
+    fn input_descriptor() -> Option<crate::InputDescriptor> {
+        Some(crate::InputDescriptor::Scalar {
+            shape: Self::shape(),
+            codec: Self::codec_identity(),
+        })
+    }
     fn encode(&self) -> Value;
     fn decode(value: Value) -> Result<Self>;
     fn is_present(&self) -> bool {
@@ -174,6 +185,10 @@ impl<T: Field> Field for Option<T> {
     }
 }
 pub trait Input: Clone + Send + Sync + 'static {
+    /// Describe this input from its actual codec. Manual inputs are opaque by default.
+    fn descriptor() -> Option<crate::InputDescriptor> {
+        None
+    }
     /// Declared object member names allowed in safe action validation diagnostics.
     /// Scalar/manual inputs default to action-level errors. This does not register a Resource.
     fn field_names() -> &'static [&'static str] {
@@ -183,6 +198,9 @@ pub trait Input: Clone + Send + Sync + 'static {
     fn decode(v: Value) -> Result<Self>;
 }
 impl<T: Field> Input for T {
+    fn descriptor() -> Option<crate::InputDescriptor> {
+        T::input_descriptor()
+    }
     fn encode(&self) -> Value {
         Field::encode_input(self)
     }
@@ -192,6 +210,9 @@ impl<T: Field> Input for T {
     }
 }
 impl Input for () {
+    fn descriptor() -> Option<crate::InputDescriptor> {
+        Some(crate::InputDescriptor::Unit)
+    }
     fn encode(&self) -> Value {
         Value::Null
     }

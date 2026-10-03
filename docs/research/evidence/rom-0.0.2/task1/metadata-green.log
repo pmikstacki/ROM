@@ -1,0 +1,10 @@
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+    Finished `test` profile [unoptimized] target(s) in 1.83s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom-35bf88f84bdceb82)
+
+running 2 tests
+test resource::input_descriptor_tests::descriptors_reject_ambiguous_or_invalid_metadata ... ok
+test resource::input_descriptor_tests::typed_inputs_describe_their_actual_wire_values ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 82 filtered out; finished in 0.00s
+

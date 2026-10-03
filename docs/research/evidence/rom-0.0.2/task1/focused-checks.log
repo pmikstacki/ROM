@@ -1,0 +1,74 @@
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+   Compiling rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+   Compiling rom-redb v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+   Compiling rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+   Compiling rom-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-conformance)
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 1.69s
+     Running tests/studio_discovery.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/studio_discovery-d2a53ecff27b4b54)
+
+running 3 tests
+test invalid_input_metadata_and_unregistered_targets_fail_before_runtime ... ok
+test enabling_presentation_metadata_does_not_change_native_catalog_or_values ... ok
+test authorized_metadata_preserves_codec_bindings_and_hides_nested_targets ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+Expected compile failure: resource_version_zero, primary line 3
+Expected compile failure: resource_version_duplicate, primary line 3
+Expected compile failure: resource_version_string, primary line 3
+Expected compile failure: resource_version_float, primary line 3
+Expected compile failure: resource_version_overflow, primary line 3
+Expected compile failure: input_version, primary line 3
+Expected compile failure: unsupported, primary line 5
+Expected compile failure: serde, primary line 5
+Expected compile failure: duplicate, primary line 6
+Expected compile failure: wrong_input, primary line 6
+Expected compile failure: wrong_selector, primary line 5
+Expected compile failure: input_unsupported, primary line 4
+Expected compile failure: input_duplicate, primary line 5
+Expected compile failure: input_serde, primary line 4
+Expected compile failure: input_generic, primary line 3
+Expected compile failure: input_duplicate_option, primary line 4
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+   Compiling rom-fixtures v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/compile)
+    Finished `dev` profile [unoptimized] target(s) in 1.82s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/renamed`
+    Checking rom-fixtures v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/compile)
+    Finished `dev` profile [unoptimized] target(s) in 0.05s
+   Compiling rom-fixtures v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/compile)
+    Finished `dev` profile [unoptimized] target(s) in 0.12s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/input_renamed`
+   Compiling rom-renamed-input-fixture v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/compile-renamed)
+    Finished `dev` profile [unoptimized] target(s) in 0.12s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/rom-renamed-input-fixture`
+   Compiling rom-fixtures v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/compile)
+    Finished `dev` profile [unoptimized] target(s) in 0.12s
+     Running `/var/tmp/rom-release-measured-verification-target/debug/resource_version`
+   Compiling rom-derive v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-derive)
+    Checking rom-auth v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+    Checking rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+error: this `if` statement can be collapsed
+   --> crates/rom/src/resource/definition.rs:197:9
+    |
+197 | /         if let Some(descriptor) = &input {
+198 | |             if let Err(error) = descriptor.validate(None) {
+199 | |                 self.metadata_error = Some(error);
+200 | |             }
+201 | |         }
+    | |_________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+    = note: `-D clippy::collapsible-if` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::collapsible_if)]`
+help: collapse nested if block
+    |
+197 ~         if let Some(descriptor) = &input
+198 ~             && let Err(error) = descriptor.validate(None) {
+199 |                 self.metadata_error = Some(error);
+200 ~             }
+    |
+
+error: could not compile `rom` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `rom` (lib test) due to 1 previous error

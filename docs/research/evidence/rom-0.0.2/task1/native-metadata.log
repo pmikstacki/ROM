@@ -1,0 +1,11 @@
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 0.59s
+     Running tests/studio_discovery.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/studio_discovery-d2a53ecff27b4b54)
+
+running 3 tests
+test invalid_input_metadata_and_unregistered_targets_fail_before_runtime ... ok
+test enabling_presentation_metadata_does_not_change_native_catalog_or_values ... ok
+test authorized_metadata_preserves_codec_bindings_and_hides_nested_targets ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

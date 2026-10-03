@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-03T22:44:36.353Z",
+  "baseline": "91954b6",
+  "checkout": "891744945d333c480a52a499aeb1a2b070e3374f",
+  "branch": "codex/rom-0.0.2-studio",
+  "lock_sha256": "17ba0e390f683f9081945703b15d4e9f9d2504e988b1bdb776063ce098fdd201",
+  "owned_files": [
+    {
+      "path": "crates/rom/src/resource.rs",
+      "sha256": "780b79c3aaa7640b57dbeab39a3a493371496054209e76cb6d205a250bf8b67b"
+    },
+    {
+      "path": "crates/rom/src/resource/schema.rs",
+      "sha256": "214113d17d4eaa44b994f1792d91d4f917ae7c6c945db65edf19149c3f1464bc"
+    },
+    {
+      "path": "crates/rom/src/resource/fields.rs",
+      "sha256": "566d94d3876ba2291203ff4cdc855c8ddb28b1dfaf2a4001661111ee96a1a8f3"
+    },
+    {
+      "path": "crates/rom/src/resource/definition.rs",
+      "sha256": "12f04da917fa9fd2d178bb77216e1ef84403aab8fbdbfc6bee202adf4e1034b7"
+    },
+    {
+      "path": "crates/rom/src/resource/input_descriptor.rs",
+      "sha256": "4d1b681341d69bd536d00dfeea06403487eb6ed12be33662b30b7ff25e31f761"
+    },
+    {
+      "path": "crates/rom/src/resource/input_descriptor_tests.rs",
+      "sha256": "460f4c4b01c70ad28b9d42b246f62f26b5c633dee1a9bc7808bbc922ac50d736"
+    },
+    {
+      "path": "crates/rom/src/discovery.rs",
+      "sha256": "37b0e980247f448e89cca9314a6dcf3a9a32aca7a039e6099d94c9d297615ec6"
+    },
+    {
+      "path": "crates/rom/src/execution/builder.rs",
+      "sha256": "7f7250fe8f6301e32161cf218d5700966e35d475aaa0cf683b4ceca55347a585"
+    },
+    {
+      "path": "crates/rom/src/patch.rs",
+      "sha256": "b9ca774e72657a715b06d0e3d8e903149147aa0c2a7d35e4116822163a633240"
+    },
+    {
+      "path": "crates/rom-derive/src/expansion.rs",
+      "sha256": "4293418619043706826392966a2e071e09cdf96400ac3ad4843d4c66e88af0f5"
+    },
+    {
+      "path": "crates/rom-http/tests/loopback/discovery.rs",
+      "sha256": "529c59ebb45be5c1bd6626e8650df80346f5e74d3e505b169849ab6192ed7fa6"
+    },
+    {
+      "path": "tests/persistence/tests/studio_discovery.rs",
+      "sha256": "40848aea56f3da7e3a02e2b5c8544c6bb4abef3ed7ac98f952bb966ebefde21f"
+    },
+    {
+      "path": "tests/compile/src/bin/input_renamed.rs",
+      "sha256": "612708605f056eea9eb1885c1500e1d6e7ae215bfb5374e0ab16dd65051fe462"
+    },
+    {
+      "path": "tests/compile-renamed/src/main.rs",
+      "sha256": "f3898ac407e2fa9586ae59d84256cc36efe2c0344559c8409545e3173135fb8f"
+    }
+  ],
+  "context": "Shared worktree contains concurrent OIDC/frontend changes. This task does not own those files or the lockfile. Full combined verifier belongs to coordinator."
+}

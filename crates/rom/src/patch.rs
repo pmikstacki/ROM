@@ -7,6 +7,10 @@ pub enum Presence<T> {
     Value(T),
 }
 impl<T: Field> Field for Presence<T> {
+    // Standalone input uses a conditional tagged envelope, not field-value syntax.
+    fn input_descriptor() -> Option<InputDescriptor> {
+        None
+    }
     fn shape() -> Shape {
         Shape::Optional(Box::new(T::shape()))
     }

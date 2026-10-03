@@ -1,0 +1,18 @@
+   Compiling rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+    Finished `test` profile [unoptimized] target(s) in 1.10s
+     Running tests/loopback.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/loopback-4ea42631b9e5364e)
+
+running 1 test
+STUDIO_DISCOVERY_FIXTURE={"resources":[{"action_inputs":[{"input":{"type":"object","value":[{"name":"count-value","shape":{"type":"u64"}},{"name":"note","shape":{"type":"nullable","value":{"type":"string"}}}]},"name":"details","version":1},{"input":{"type":"scalar","value":{"shape":{"type":"bool"}}},"name":"toggle","version":1}],"actions":["details","toggle"],"fields":[{"name":"display-title","shape":{"type":"string"}},{"name":"done","shape":{"type":"bool"}},{"name":"note","shape":{"type":"nullable","value":{"type":"string"}}},{"name":"owner","shape":{"type":"string"}}],"kind":"tasks","version":1}],"version":1}
+STUDIO_INVOCATION_FIXTURE={"kind":"tasks","id":"one","expected":null,"idempotency":"create","operation":{"type":"create","input":{"display-title":"visible","done":false,"note":null,"owner":"alice"}}}
+STUDIO_VIEW_FIXTURE={"key":{"id":"one","kind":"tasks"},"revision":1,"value":{"display-title":"visible","done":false,"note":null,"owner":"alice"}}
+STUDIO_QUERY_FIXTURE={"kind":"tasks","query":{"filters":[{"field":"done","value":false}],"limit":1}}
+STUDIO_SNAPSHOT_FIXTURE=[{"key":{"id":"one","kind":"tasks"},"revision":1,"value":{"display-title":"visible","done":false,"note":null,"owner":"alice"}}]
+STUDIO_LIVE_FIXTURE=93\r\nevent: data\ndata: [{\"key\":{\"kind\":\"tasks\",\"id\":\"one\"},\"revision\":1,\"value\":{\"display-title\":\"visible\",\"done\":false,\"note\":null,\"owner\":\"alice\"}}]\n\n\r\n
+STUDIO_ERROR_FIXTURE={"error":"denied"}
+STUDIO_ACTION_FIXTURE={"kind":"tasks","id":"one","expected":1,"idempotency":"toggle-one","operation":{"type":"action","input":{"name":"toggle","input":true}}}
+STUDIO_NAMED_ACTION_FIXTURE={"kind":"tasks","id":"one","expected":1,"idempotency":"details-one","operation":{"type":"action","input":{"name":"details","input":{"count-value":18446744073709551615,"note":null}}}}
+test discovery::studio_wire_fixtures_use_actual_http_values_and_live_frames ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 32 filtered out; finished in 0.01s
+

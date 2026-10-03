@@ -21,13 +21,23 @@ pub struct DiscoveredResource {
     pub kind: String,
     pub version: u32,
     pub fields: Vec<DiscoveredField>,
-    /// Input codecs remain opaque; these names imply no input schema or grant.
+    /// Compatible action names; names alone imply no input schema or invocation grant.
     pub actions: Vec<String>,
+    /// Versioned descriptions of visible actions; null input is explicitly opaque.
+    pub action_inputs: Vec<DiscoveredActionInput>,
+}
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+pub struct DiscoveredActionInput {
+    pub name: String,
+    pub version: u32,
+    pub input: Option<InputDescriptor>,
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 pub struct DiscoveredField {
     pub name: String,
     pub shape: Shape,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub codec: Option<CodecIdentity>,
 }
 
 // Borrow accepted descriptors until their complete wire representation fits.
@@ -38,11 +48,20 @@ struct ResourceHeader<'a> {
     version: u32,
     fields: [(); 0],
     actions: [(); 0],
+    action_inputs: [(); 0],
 }
 #[derive(Serialize)]
 struct FieldMetadata<'a> {
     name: &'a str,
     shape: &'a Shape,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    codec: Option<&'a CodecIdentity>,
+}
+#[derive(Serialize)]
+struct ActionMetadata<'a> {
+    name: &'a str,
+    version: u32,
+    input: Option<&'a InputDescriptor>,
 }
 struct Budget(usize);
 impl std::io::Write for Budget {
@@ -66,16 +85,6 @@ impl Budget {
             self.0 = self.0.checked_sub(1).ok_or(Error::TooLarge)?;
         }
         Ok(())
-    }
-}
-fn visible_references(shape: &Shape, kinds: &BTreeSet<&str>) -> bool {
-    match shape {
-        Shape::Reference { kind } => kinds.contains(kind.as_str()),
-        Shape::Nullable(inner)
-        | Shape::Optional(inner)
-        | Shape::List(inner)
-        | Shape::Map(inner) => visible_references(inner, kinds),
-        _ => true,
     }
 }
 impl Runtime {
@@ -104,6 +113,7 @@ impl Runtime {
                     version: descriptor.version,
                     fields: [],
                     actions: [],
+                    action_inputs: [],
                 })?;
                 kinds.insert(kind.as_str());
                 visible.push(definition);
@@ -115,11 +125,12 @@ impl Runtime {
                     version: descriptor.version,
                     fields: Vec::new(),
                     actions: Vec::new(),
+                    action_inputs: Vec::new(),
                 };
                 for field in &descriptor.fields {
                     if !definition
                         .allows_discovery(&actor_for_policy, DiscoveryTarget::Field(&field.name))
-                        || !visible_references(&field.shape, &kinds)
+                        || !resource::visible_shape(&field.shape, &kinds)
                     {
                         continue;
                     }
@@ -127,10 +138,12 @@ impl Runtime {
                     budget.charge(&FieldMetadata {
                         name: &field.name,
                         shape: &field.shape,
+                        codec: definition.field_codecs().get(&field.name),
                     })?;
                     resource.fields.push(DiscoveredField {
                         name: field.name.clone(),
                         shape: field.shape.clone(),
+                        codec: definition.field_codecs().get(&field.name).cloned(),
                     });
                 }
                 resource.fields.sort_by(|a, b| a.name.cmp(&b.name));
@@ -140,6 +153,20 @@ impl Runtime {
                         budget.comma(resource.actions.len())?;
                         budget.charge(name)?;
                         resource.actions.push(name.clone());
+                        let input = &definition.action_inputs()[name];
+                        if input.as_ref().is_none_or(|input| input.visible(&kinds)) {
+                            budget.comma(resource.action_inputs.len())?;
+                            budget.charge(&ActionMetadata {
+                                name,
+                                version: 1,
+                                input: input.as_ref(),
+                            })?;
+                            resource.action_inputs.push(DiscoveredActionInput {
+                                name: name.clone(),
+                                version: 1,
+                                input: input.clone(),
+                            });
+                        }
                     }
                 }
                 result.resources.push(resource);

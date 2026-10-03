@@ -1,0 +1,29 @@
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+    Finished `test` profile [unoptimized] target(s) in 1.99s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom-35bf88f84bdceb82)
+
+running 6 tests
+test resource::input_descriptor_tests::manual_and_derived_inputs_share_metadata_and_codec_results ... ok
+test resource::input_descriptor_tests::descriptors_reject_ambiguous_or_invalid_metadata ... ok
+test resource::input_descriptor_tests::field_bindings_reject_duplicate_unknown_and_invalid_codec_identities ... ok
+test resource::input_descriptor_tests::derived_optional_nullable_input_members_preserve_missing_null_and_false ... ok
+test resource::input_descriptor_tests::standalone_presence_keeps_its_existing_tagged_codec_and_is_opaque ... ok
+test resource::input_descriptor_tests::typed_inputs_describe_their_actual_wire_values ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 82 filtered out; finished in 0.00s
+
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+error[E0599]: no method named `counts` found for struct `Arc<dyn rom::Storage>` in the current scope
+   --> tests/persistence/tests/studio_discovery.rs:260:30
+    |
+260 |         let counts = storage.counts().unwrap();
+    |                              ^^^^^^ method not found in `Arc<dyn rom::Storage>`
+
+error[E0599]: no method named `counts` found for struct `Arc<dyn rom::Storage>` in the current scope
+   --> tests/persistence/tests/studio_discovery.rs:276:28
+    |
+276 |         assert_eq!(storage.counts().unwrap(), counts);
+    |                            ^^^^^^ method not found in `Arc<dyn rom::Storage>`
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `rom-storage-conformance` (test "studio_discovery") due to 2 previous errors

@@ -1,0 +1,156 @@
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+error[E0433]: cannot find `rom` in the list of imported crates
+ --> crates/rom/src/resource/input_descriptor_tests.rs:4:17
+  |
+4 | #[derive(Clone, crate::Input)]
+  |                 ^^^^^^^^^^^^ could not find `rom` in the list of imported crates
+  |
+  = note: this error originates in the derive macro `crate::Input` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0433]: cannot find `rom` in the list of imported crates
+ --> crates/rom/src/resource/input_descriptor_tests.rs:4:17
+  |
+4 | #[derive(Clone, crate::Input)]
+  |                 ^^^^^^^^^^^^ could not find `rom` in the list of imported crates
+  |
+  = note: this error originates in the derive macro `crate::Input` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider importing this struct
+  |
+1 + use std::iter::Map;
+  |
+
+error[E0433]: cannot find `rom` in the list of imported crates
+ --> crates/rom/src/resource/input_descriptor_tests.rs:4:17
+  |
+4 | #[derive(Clone, crate::Input)]
+  |                 ^^^^^^^^^^^^ could not find `rom` in the list of imported crates
+  |
+  = note: this error originates in the derive macro `crate::Input` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider importing one of these items
+  |
+1 + use crate::Error;
+  |
+1 + use std::error::Error;
+  |
+1 + use std::fmt::Error;
+  |
+1 + use std::io::Error;
+  |
+  = and 2 other candidates
+
+error[E0433]: cannot find `rom` in the list of imported crates
+ --> crates/rom/src/resource/input_descriptor_tests.rs:4:17
+  |
+4 | #[derive(Clone, crate::Input)]
+  |                 ^^^^^^^^^^^^ could not find `rom` in the list of imported crates
+  |
+  = note: this error originates in the derive macro `crate::Input` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider importing this module
+  |
+1 + use crate::__private;
+  |
+
+error[E0576]: cannot find method or associated constant `descriptor` in trait `Input`
+  --> crates/rom/src/resource/input_descriptor_tests.rs:13:31
+   |
+13 |     assert_eq!(<() as Input>::descriptor(), Some(InputDescriptor::Unit));
+   |                               ^^^^^^^^^^ not found in `Input`
+
+error[E0576]: cannot find method or associated constant `descriptor` in trait `Input`
+  --> crates/rom/src/resource/input_descriptor_tests.rs:14:32
+   |
+14 |     assert_eq!(<u64 as Input>::descriptor(), Some(InputDescriptor::Scalar { shape: Shape::U64, codec: None }));
+   |                                ^^^^^^^^^^ not found in `Input`
+
+error[E0422]: cannot find struct, variant or union type `InputFieldDescriptor` in this scope
+  --> crates/rom/src/resource/input_descriptor_tests.rs:24:17
+   |
+24 |     let field = InputFieldDescriptor { name: "same".into(), shape: Shape::Bool, codec: None };
+   |                 ^^^^^^^^^^^^^^^^^^^^
+   |
+  ::: crates/rom/src/resource/schema.rs:36:1
+   |
+36 | pub struct FieldDescriptor {
+   | -------------------------- similarly named struct `FieldDescriptor` defined here
+   |
+help: a struct with a similar name exists
+   |
+24 -     let field = InputFieldDescriptor { name: "same".into(), shape: Shape::Bool, codec: None };
+24 +     let field = FieldDescriptor { name: "same".into(), shape: Shape::Bool, codec: None };
+   |
+
+error[E0422]: cannot find struct, variant or union type `CodecIdentity` in this scope
+  --> crates/rom/src/resource/input_descriptor_tests.rs:26:13
+   |
+26 |     assert!(CodecIdentity { name: String::new(), version: 1 }.validate().is_err());
+   |             ^^^^^^^^^^^^^ not found in this scope
+
+error[E0422]: cannot find struct, variant or union type `CodecIdentity` in this scope
+  --> crates/rom/src/resource/input_descriptor_tests.rs:27:13
+   |
+27 |     assert!(CodecIdentity { name: "money".into(), version: 0 }.validate().is_err());
+   |             ^^^^^^^^^^^^^ not found in this scope
+
+error[E0433]: cannot find type `InputDescriptor` in this scope
+  --> crates/rom/src/resource/input_descriptor_tests.rs:13:50
+   |
+13 |     assert_eq!(<() as Input>::descriptor(), Some(InputDescriptor::Unit));
+   |                                                  ^^^^^^^^^^^^^^^ use of undeclared type `InputDescriptor`
+   |
+help: a struct with a similar name exists
+   |
+13 -     assert_eq!(<() as Input>::descriptor(), Some(InputDescriptor::Unit));
+13 +     assert_eq!(<() as Input>::descriptor(), Some(Descriptor::Unit));
+   |
+
+error[E0433]: cannot find type `InputDescriptor` in this scope
+  --> crates/rom/src/resource/input_descriptor_tests.rs:14:51
+   |
+14 |     assert_eq!(<u64 as Input>::descriptor(), Some(InputDescriptor::Scalar { shape: Shape::U64, codec: None }));
+   |                                                   ^^^^^^^^^^^^^^^ use of undeclared type `InputDescriptor`
+   |
+help: a struct with a similar name exists
+   |
+14 -     assert_eq!(<u64 as Input>::descriptor(), Some(InputDescriptor::Scalar { shape: Shape::U64, codec: None }));
+14 +     assert_eq!(<u64 as Input>::descriptor(), Some(Descriptor::Scalar { shape: Shape::U64, codec: None }));
+   |
+
+error[E0433]: cannot find type `InputDescriptor` in this scope
+  --> crates/rom/src/resource/input_descriptor_tests.rs:15:9
+   |
+15 |     let InputDescriptor::Object(fields) = Named::descriptor().unwrap() else { panic!("object required") };
+   |         ^^^^^^^^^^^^^^^ use of undeclared type `InputDescriptor`
+   |
+help: a struct with a similar name exists
+   |
+15 -     let InputDescriptor::Object(fields) = Named::descriptor().unwrap() else { panic!("object required") };
+15 +     let Descriptor::Object(fields) = Named::descriptor().unwrap() else { panic!("object required") };
+   |
+
+error[E0433]: cannot find type `InputDescriptor` in this scope
+  --> crates/rom/src/resource/input_descriptor_tests.rs:25:13
+   |
+25 |     assert!(InputDescriptor::Object(vec![field.clone(), field]).validate(None).is_err());
+   |             ^^^^^^^^^^^^^^^ use of undeclared type `InputDescriptor`
+   |
+help: a struct with a similar name exists
+   |
+25 -     assert!(InputDescriptor::Object(vec![field.clone(), field]).validate(None).is_err());
+25 +     assert!(Descriptor::Object(vec![field.clone(), field]).validate(None).is_err());
+   |
+
+error[E0433]: cannot find type `InputDescriptor` in this scope
+  --> crates/rom/src/resource/input_descriptor_tests.rs:28:13
+   |
+28 |     assert!(InputDescriptor::Scalar { shape: Shape::Optional(Box::new(Shape::Bool)), codec: None }.validate(None).is_err());
+   |             ^^^^^^^^^^^^^^^ use of undeclared type `InputDescriptor`
+   |
+help: a struct with a similar name exists
+   |
+28 -     assert!(InputDescriptor::Scalar { shape: Shape::Optional(Box::new(Shape::Bool)), codec: None }.validate(None).is_err());
+28 +     assert!(Descriptor::Scalar { shape: Shape::Optional(Box::new(Shape::Bool)), codec: None }.validate(None).is_err());
+   |
+
+Some errors have detailed explanations: E0422, E0433, E0576.
+For more information about an error, try `rustc --explain E0422`.
+error: could not compile `rom` (lib test) due to 14 previous errors

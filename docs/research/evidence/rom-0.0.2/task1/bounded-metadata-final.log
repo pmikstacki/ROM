@@ -1,0 +1,41 @@
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+   Compiling rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+   Compiling rom-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-conformance)
+   Compiling rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+   Compiling rom-redb v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+   Compiling rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 2.65s
+     Running tests/studio_discovery.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/studio_discovery-d2a53ecff27b4b54)
+
+running 3 tests
+test invalid_input_metadata_and_unregistered_targets_fail_before_runtime ... ok
+test enabling_presentation_metadata_does_not_change_native_catalog_or_values ... ok
+test authorized_metadata_preserves_codec_bindings_and_hides_nested_targets ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+   Compiling rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+   Compiling rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+   Compiling rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+   Compiling rom-consumer v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/examples/consumer)
+    Finished `test` profile [unoptimized] target(s) in 5.08s
+     Running tests/loopback.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/loopback-4ea42631b9e5364e)
+
+running 3 tests
+test discovery::discovery_http_never_returns_an_oversized_partial_catalog ... ok
+test discovery::discovery_route_uses_explicit_grants_and_strict_authenticated_input ... ok
+test discovery::studio_wire_fixtures_use_actual_http_values_and_live_frames ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 30 filtered out; finished in 0.01s
+
+   Compiling rom-derive v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-derive)
+    Checking rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+    Checking rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+    Checking rom-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-conformance)
+    Checking rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+    Checking rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+    Checking rom-redb v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+    Checking rom-consumer v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/examples/consumer)
+    Checking rom-storage-conformance v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/tests/persistence)
+    Finished `dev` profile [unoptimized] target(s) in 9.83s

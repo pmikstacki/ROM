@@ -113,6 +113,8 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
     let mut names = std::collections::BTreeSet::new();
     let mut wire_names = vec![];
     let mut descriptors = vec![];
+    let mut input_descriptors = vec![];
+    let mut codec_bindings = vec![];
     let mut encodes = vec![];
     let mut decodes = vec![];
     let mut selectors = vec![];
@@ -155,6 +157,8 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
         }
         wire_names.push(wire.clone());
         descriptors.push(quote_spanned!(ty.span()=> #facade::FieldDescriptor { name:#wire.into(), shape:<#ty as #facade::Field>::shape() }));
+        input_descriptors.push(quote_spanned!(ty.span()=> #facade::InputFieldDescriptor { name:#wire.into(), shape:<#ty as #facade::Field>::shape(), codec:<#ty as #facade::Field>::codec_identity() }));
+        codec_bindings.push(quote_spanned!(ty.span()=> if let Some(codec)=<#ty as #facade::Field>::codec_identity() { bindings.push(#facade::FieldCodec {name:#wire.into(),codec}); }));
         encodes.push(quote_spanned!(ty.span()=> if <#ty as #facade::Field>::is_present(&self.#id) { map.insert(#wire.into(),<#ty as #facade::Field>::encode(&self.#id)); }));
         let decode = if model == Model::Input {
             quote_spanned!(ty.span()=> #facade::__private::decode_input_member::<#ty>(map.remove(#wire)))
@@ -181,6 +185,7 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
     if model == Model::Input {
         return Ok(quote! {
             impl #facade::Input for #name {
+                fn descriptor()->Option<#facade::InputDescriptor> { Some(#facade::InputDescriptor::Object(vec![#(#input_descriptors),*])) }
                 fn field_names()-> &'static [&'static str] { &[#(#wire_names),*] }
                 fn encode(&self)->#facade::Value { #encode }
                 fn decode(value:#facade::Value)->#facade::Result<Self> { #decode }
@@ -191,6 +196,7 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
         impl #facade::Resource for #name {
             const KIND:&'static str=#kind;
             fn descriptor()->#facade::Descriptor { #facade::Descriptor {kind:Self::KIND.into(),version:#version,fields:vec![#(#descriptors),*]} }
+            fn field_codecs()->Vec<#facade::FieldCodec> { let mut bindings=Vec::new(); #(#codec_bindings)* bindings }
             fn normalize_field(name:&str,value:#facade::Value)->#facade::Result<#facade::Value> {
                 match name { #(#field_codecs)* _=>Err(#facade::Error::invalid(Self::KIND,name)) }
             }

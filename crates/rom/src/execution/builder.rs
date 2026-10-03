@@ -113,6 +113,9 @@ impl Builder {
         {
             self.error = Some(Error::invalid(R::KIND, "descriptor"));
         }
+        if let Some(error) = d.metadata_error.take() {
+            self.error = Some(error);
+        }
         if let Some(error) = d.replay_error.take() {
             self.error = Some(error);
         }
@@ -151,6 +154,9 @@ impl Builder {
         }
         let kinds: BTreeSet<String> = self.registry.keys().cloned().collect();
         for definition in self.registry.values() {
+            for input in definition.action_inputs().values().flatten() {
+                input.validate(Some(&kinds))?;
+            }
             for field in &definition.descriptor().fields {
                 validate_shape(&field.shape, 0, Some(&kinds))?;
             }

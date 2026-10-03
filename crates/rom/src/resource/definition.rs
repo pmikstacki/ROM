@@ -1,7 +1,7 @@
 //! Typed Resource definitions and their erased runtime registration contract.
 use crate::{
-    Access, Actor, Descriptor, DiscoveryTarget, Error, Input, Resource, Result, Value,
-    canonical_fields, discovery, replay,
+    Access, Actor, CodecIdentity, Descriptor, DiscoveryTarget, Error, Input, InputDescriptor,
+    Resource, Result, Value, canonical_fields, discovery, replay,
 };
 use serde::{Deserialize, Serialize};
 use std::{collections::BTreeMap, sync::Arc};
@@ -50,6 +50,9 @@ type TransitionValidator<R> = fn(&Actor, Option<&R>, Option<&R>) -> Result<()>;
 pub struct Definition<R: Resource> {
     descriptor: Descriptor,
     actions: BTreeMap<String, ErasedAction>,
+    action_inputs: BTreeMap<String, Option<InputDescriptor>>,
+    field_codecs: BTreeMap<String, CodecIdentity>,
+    pub(crate) metadata_error: Option<Error>,
     policy: Option<Policy<R>>,
     read_policy: Option<fn(&Actor) -> bool>,
     transition_validator: Option<TransitionValidator<R>>,
@@ -71,8 +74,17 @@ impl<R: Resource> Default for Definition<R> {
 }
 impl<R: Resource> Definition<R> {
     pub fn new() -> Self {
+        let descriptor = R::descriptor();
+        let bindings = super::input_descriptor::field_bindings(&descriptor, R::field_codecs());
+        let (field_codecs, metadata_error) = match bindings {
+            Ok(bindings) => (bindings, None),
+            Err(error) => (BTreeMap::new(), Some(error)),
+        };
         Self {
-            descriptor: R::descriptor(),
+            descriptor,
+            field_codecs,
+            metadata_error,
+            action_inputs: BTreeMap::new(),
             actions: BTreeMap::new(),
             policy: None,
             read_policy: None,
@@ -181,6 +193,13 @@ impl<R: Resource> Definition<R> {
         self
     }
     pub fn action<I: Input>(mut self, action: Action<R, I>) -> Self {
+        let input = I::descriptor();
+        if let Some(descriptor) = &input
+            && let Err(error) = descriptor.validate(None)
+        {
+            self.metadata_error = Some(error);
+        }
+        self.action_inputs.insert(action.name.into(), input);
         let f: ErasedAction = Arc::new(move |state, input| {
             let mut r = R::decode(state)?;
             let i = I::decode(input).map_err(|error| match error {
@@ -204,6 +223,8 @@ pub(crate) trait Registered: Send + Sync {
     fn replay_codec(&self, version: u32) -> Option<&replay::Codec>;
     fn allows_discovery(&self, actor: &Actor, target: DiscoveryTarget<'_>) -> bool;
     fn actions(&self) -> &BTreeMap<String, ErasedAction>;
+    fn action_inputs(&self) -> &BTreeMap<String, Option<InputDescriptor>>;
+    fn field_codecs(&self) -> &BTreeMap<String, CodecIdentity>;
     fn normalize(&self, v: Value) -> Result<Value>;
     fn normalize_field(&self, name: &str, value: Value) -> Result<Value>;
     fn allows(&self, actor: &Actor, access: Access, v: &Value) -> bool;
@@ -246,6 +267,12 @@ impl<R: Resource> Registered for Definition<R> {
         self.discovery_policy
             .as_ref()
             .is_some_and(|policy| policy(actor, target))
+    }
+    fn action_inputs(&self) -> &BTreeMap<String, Option<InputDescriptor>> {
+        &self.action_inputs
+    }
+    fn field_codecs(&self) -> &BTreeMap<String, CodecIdentity> {
+        &self.field_codecs
     }
     fn actions(&self) -> &BTreeMap<String, ErasedAction> {
         &self.actions

@@ -47,6 +47,10 @@ pub struct Descriptor {
 pub trait Resource: Clone + Send + Sync + 'static {
     const KIND: &'static str;
     fn descriptor() -> Descriptor;
+    /// Optional presentation codec bindings; never part of persisted layout identity.
+    fn field_codecs() -> Vec<crate::FieldCodec> {
+        Vec::new()
+    }
     fn normalize_field(name: &str, value: Value) -> Result<Value>;
     fn encode(&self) -> Value;
     fn decode(value: Value) -> Result<Self>;
