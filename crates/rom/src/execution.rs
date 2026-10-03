@@ -770,6 +770,16 @@ impl Runtime {
             new_value.as_ref(),
             explicit_fields,
         )?;
+        // Validate the actual CAS-checked transition for every mutation path.
+        // Catch locally: application failure must not unwind through/poison the gate.
+        catch_unwind(AssertUnwindSafe(|| {
+            def.validate_transition(
+                actor,
+                current.as_ref().and_then(|r| r.value.as_ref()),
+                new_value.as_ref(),
+            )
+        }))
+        .unwrap_or(Err(Error::Panicked))?;
         let source_provenance = actor
             .source
             .as_ref()

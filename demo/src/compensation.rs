@@ -1,7 +1,7 @@
 //! Explicit business compensation after a confirmed, simulated payment rejection.
 //! Unknown outcomes require reconciliation; terminal worker errors are not inferred here.
 use crate::{domain, seed, service};
-use rom::{Action, Builder, Error, Reaction, Resource, Result, Runtime, Snapshot, Target};
+use rom::{Action, Actor, Builder, Error, Reaction, Resource, Result, Runtime, Snapshot, Target};
 use std::collections::BTreeMap;
 
 #[derive(Clone, Debug, Resource)]
@@ -16,6 +16,60 @@ pub struct Checkout {
     pub stock_id: String,
     pub reservation_id: String,
     pub payment_outcome: String,
+}
+// Invariants belong to the Resource, so generic patch/replace cannot bypass them.
+fn valid_stock(_: &Actor, before: Option<&Stock>, after: Option<&Stock>) -> Result<()> {
+    let Some(stock) = after else {
+        return if before.is_some_and(|stock| !stock.reservations.is_empty()) {
+            Err(Error::invalid(Stock::KIND, "outstanding reservations"))
+        } else {
+            Ok(())
+        };
+    };
+    let used = stock
+        .reservations
+        .iter()
+        .try_fold(0u64, |sum, (token, quantity)| {
+            if token.is_empty() || *quantity == 0 {
+                return Err(Error::invalid(Stock::KIND, "reservation"));
+            }
+            sum.checked_add(*quantity)
+                .ok_or_else(|| Error::invalid(Stock::KIND, "quantity overflow"))
+        })?;
+    if used > stock.total {
+        return Err(Error::invalid(Stock::KIND, "insufficient stock"));
+    }
+    Ok(())
+}
+fn valid_checkout(_: &Actor, before: Option<&Checkout>, after: Option<&Checkout>) -> Result<()> {
+    if let Some(checkout) = after
+        && (checkout.stock_id.is_empty()
+            || checkout.reservation_id.is_empty()
+            || !matches!(
+                checkout.payment_outcome.as_str(),
+                "pending" | "unknown" | "transient" | "confirmed_rejected" | "succeeded"
+            ))
+    {
+        return Err(Error::invalid(Checkout::KIND, "checkout state"));
+    }
+    if let Some(old) = before {
+        if let Some(new) = after
+            && (old.stock_id != new.stock_id || old.reservation_id != new.reservation_id)
+        {
+            return Err(Error::invalid(Checkout::KIND, "compensation context"));
+        }
+        if matches!(
+            old.payment_outcome.as_str(),
+            "confirmed_rejected" | "succeeded"
+        ) && after.is_none_or(|new| new.payment_outcome != old.payment_outcome)
+        {
+            return Err(Error::invalid(
+                Checkout::KIND,
+                "terminal outcome cannot change",
+            ));
+        }
+    }
+    Ok(())
 }
 /// One token and quantity. Tokens are unique per checkout and are never recycled.
 pub const RESERVE: Action<Stock, BTreeMap<String, u64>> = Action::new("reserve", |stock, input| {
@@ -88,6 +142,7 @@ pub fn declarations(builder: Builder) -> Builder {
     builder
         .resource(
             Stock::definition()
+                .validate_transition(valid_stock)
                 .policy(|a, _, _| domain(a))
                 .allow_all_fields()
                 .discovery_policy(|a, _| domain(a))
@@ -96,6 +151,7 @@ pub fn declarations(builder: Builder) -> Builder {
         )
         .resource(
             Checkout::definition()
+                .validate_transition(valid_checkout)
                 .policy(|a, _, _| domain(a))
                 .allow_all_fields()
                 .discovery_policy(|a, _| domain(a))

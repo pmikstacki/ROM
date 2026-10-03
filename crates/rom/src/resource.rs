@@ -384,10 +384,12 @@ pub(crate) type ErasedAction =
     Arc<dyn Fn(Value, Value) -> Result<(Value, Vec<Intent>)> + Send + Sync>;
 type Policy<R> = fn(&Actor, Access, &R) -> bool;
 type FieldPolicy<R> = fn(&Actor, Access, &str, &R) -> bool;
+type TransitionValidator<R> = fn(&Actor, Option<&R>, Option<&R>) -> Result<()>;
 pub struct Definition<R: Resource> {
     descriptor: Descriptor,
     actions: BTreeMap<String, ErasedAction>,
     policy: Option<Policy<R>>,
+    transition_validator: Option<TransitionValidator<R>>,
     field_policy: Option<FieldPolicy<R>>,
     query_policy: Option<fn(&Actor, &str) -> bool>,
     sort_policy: Option<fn(&Actor, &str) -> bool>,
@@ -407,6 +409,7 @@ impl<R: Resource> Definition<R> {
             descriptor: R::descriptor(),
             actions: BTreeMap::new(),
             policy: None,
+            transition_validator: None,
             field_policy: None,
             query_policy: None,
             sort_policy: None,
@@ -418,6 +421,21 @@ impl<R: Resource> Definition<R> {
     }
     pub fn policy(mut self, policy: Policy<R>) -> Self {
         self.policy = Some(policy);
+        self
+    }
+    /// Validate every proposed Resource transition after authority and revision checks.
+    ///
+    /// The optional previous/candidate values represent creation/deletion. Values
+    /// have passed Resource codecs. This hook applies equally to built-ins and
+    /// custom actions; returning an error prevents all durable effects.
+    ///
+    /// The callback must be pure, deterministic and bounded: it runs on supervised
+    /// blocking execution under the commit gate, so it must not perform I/O or
+    /// reenter the runtime. It may be evaluated again on a caller retry. Matching
+    /// receipt replay does not revalidate an obsolete transition; current access
+    /// rules still govern replay disclosure. A panic fails only this operation.
+    pub fn validate_transition(mut self, validate: TransitionValidator<R>) -> Self {
+        self.transition_validator = Some(validate);
         self
     }
     /// Explicit per-field permission. Missing field policy denies every field.
@@ -486,8 +504,27 @@ pub(crate) trait Registered: Send + Sync {
     fn source_owner(&self) -> Option<&str>;
     fn allows_source_metadata(&self, actor: &Actor) -> bool;
     fn action(&self, name: &str) -> Result<ErasedAction>;
+    fn validate_transition(
+        &self,
+        actor: &Actor,
+        before: Option<&Value>,
+        after: Option<&Value>,
+    ) -> Result<()>;
 }
 impl<R: Resource> Registered for Definition<R> {
+    fn validate_transition(
+        &self,
+        actor: &Actor,
+        before: Option<&Value>,
+        after: Option<&Value>,
+    ) -> Result<()> {
+        let Some(validate) = self.transition_validator else {
+            return Ok(());
+        };
+        let before = before.cloned().map(R::decode).transpose()?;
+        let after = after.cloned().map(R::decode).transpose()?;
+        validate(actor, before.as_ref(), after.as_ref())
+    }
     fn descriptor_ref(&self) -> &Descriptor {
         &self.descriptor
     }
