@@ -6,7 +6,7 @@ Experimental engine fixture only: no ROM dependency, adapter or integrated WASM 
 CARGO_BUILD_JOBS=2 CARGO_TARGET_DIR=/var/tmp/rom-wasmi-probe-target cargo test --locked --manifest-path experiments/wasmi-capability-probe/Cargo.toml
 ```
 
-Wasmi 2.0.0 runs actual WAT guests. Seven tests cover fuel exhaustion, missing
+Wasmi 2.0.0 runs actual WAT guests. Nine tests cover fuel exhaustion, missing
 host import, memory growth denial, valid bounded JSON proposal, oversized length,
 invalid pointer/range, and malformed/duplicate/unknown/invalid proposal values.
 The 64-byte output and 64KiB memory limits are fixture choices, not production defaults.

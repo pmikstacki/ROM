@@ -54,6 +54,48 @@ mod tests {
         assert!(format!("{error:?}").contains("database-write"), "{error:?}");
     }
     #[test]
+    fn guest_start_function_is_also_fuel_bounded() {
+        let engine = engine();
+        let module =
+            Module::new(&engine, "(module (func $start (loop br 0)) (start $start))").unwrap();
+        let error = Linker::new(&engine)
+            .instantiate_and_start(&mut store(&engine), &module)
+            .unwrap_err();
+        assert!(format!("{error:?}").contains("OutOfFuel"), "{error:?}");
+    }
+    #[test]
+    fn native_import_work_is_not_metered_as_guest_instructions() {
+        use std::sync::{
+            Arc,
+            atomic::{AtomicUsize, Ordering},
+        };
+        let engine = engine();
+        let module = Module::new(
+            &engine,
+            "(module (import \"host\" \"work\" (func $work)) (func (export \"run\") call $work))",
+        )
+        .unwrap();
+        let work = Arc::new(AtomicUsize::new(0));
+        let called = work.clone();
+        let mut linker = Linker::new(&engine);
+        linker
+            .func_wrap("host", "work", move || {
+                for _ in 0..100_000 {
+                    called.fetch_add(1, Ordering::Relaxed);
+                }
+            })
+            .unwrap();
+        let mut store = store(&engine);
+        let instance = linker.instantiate_and_start(&mut store, &module).unwrap();
+        instance
+            .get_typed_func::<(), ()>(&store, "run")
+            .unwrap()
+            .call(&mut store, ())
+            .unwrap();
+        assert_eq!(work.load(Ordering::Relaxed), 100_000);
+        assert!(store.get_fuel().unwrap() > 0);
+    }
+    #[test]
     fn memory_growth_limit_is_enforced_before_growth() {
         let (mut store, instance) = instantiate(
             "(module (memory (export \"memory\") 1 10) (func (export \"grow\") (result i32) i32.const 1 memory.grow))",
