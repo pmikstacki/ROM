@@ -1,0 +1,89 @@
+TAP version 13
+# (node:2724369) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: POST deadline rejects even when transport ignores abort
+ok 1 - POST deadline rejects even when transport ignores abort
+  ---
+  duration_ms: 17.503692
+  type: 'test'
+  ...
+# Subtest: already aborted request does not invoke transport
+ok 2 - already aborted request does not invoke transport
+  ---
+  duration_ms: 0.218605
+  type: 'test'
+  ...
+# Subtest: oversized body rejection does not await transport cancellation
+ok 3 - oversized body rejection does not await transport cancellation
+  ---
+  duration_ms: 0.746918
+  type: 'test'
+  ...
+# Subtest: query reply obeys explicit page limit
+ok 4 - query reply obeys explicit page limit
+  ---
+  duration_ms: 1.059773
+  type: 'test'
+  ...
+# Subtest: mutation reply must match revision and deletion semantics
+ok 5 - mutation reply must match revision and deletion semantics
+  ---
+  duration_ms: 0.994068
+  type: 'test'
+  ...
+# Subtest: legal no-op revision and deletion are accepted
+ok 6 - legal no-op revision and deletion are accepted
+  ---
+  duration_ms: 0.403937
+  type: 'test'
+  ...
+# Subtest: response reader and parser use the same byte policy
+ok 7 - response reader and parser use the same byte policy
+  ---
+  duration_ms: 8.600183
+  type: 'test'
+  ...
+# Subtest: timer values outside execution range are rejected before transport
+ok 8 - timer values outside execution range are rejected before transport
+  ---
+  duration_ms: 0.190702
+  type: 'test'
+  ...
+# Subtest: floating wire tokens cannot become integer metadata
+ok 9 - floating wire tokens cannot become integer metadata
+  ---
+  duration_ms: 1.048652
+  type: 'test'
+  ...
+# Subtest: request timeout cancels an opened idle response body
+ok 10 - request timeout cancels an opened idle response body
+  ---
+  duration_ms: 6.319031
+  type: 'test'
+  ...
+# Subtest: a mutation without a prior row binds the initial revision
+not ok 11 - a mutation without a prior row binds the initial revision
+  ---
+  duration_ms: 0.788367
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:153:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/studio/tests/unit/request-resilience.test.ts:156:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 10
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 213.395662

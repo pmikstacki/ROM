@@ -11,6 +11,7 @@ const request = {
 } as const;
 const view =
   '{"key":{"kind":"task","id":"a"},"revision":18446744073709551615,"value":{"title":"x"}}';
+const created = view.replace("18446744073709551615", "1");
 test("binds result identity and preserves revision, never accepts wrong resource", async () => {
   let response = view;
   const client = createClient({
@@ -36,7 +37,7 @@ test("lost response retains exact frozen request and key for explicit retry", as
       assert.equal(new Headers(init?.headers).get("x-rom-csrf"), "csrf");
       bodies.push(String(init?.body));
       if (bodies.length === 1) throw new TypeError("connection lost");
-      return new Response(view, {
+      return new Response(created, {
         headers: { "content-type": "application/json" },
       });
     },
@@ -61,7 +62,7 @@ test("session generation rejects stale replies and old mutation retries", async 
   const reading = client.read("task", "a");
   client.invalidateSession();
   resolve(
-    new Response(view, { headers: { "content-type": "application/json" } }),
+    new Response(created, { headers: { "content-type": "application/json" } }),
   );
   await assert.rejects(reading, /session/);
   await assert.rejects(client.submit(pending), /session/);
@@ -104,7 +105,7 @@ test("response bounds, content type and rows are enforced", async () => {
   });
   await assert.rejects(client.read("task", "a"), /limit/);
   response = () =>
-    new Response(view, { headers: { "content-type": "text/html" } });
+    new Response(created, { headers: { "content-type": "text/html" } });
   await assert.rejects(client.read("task", "a"), /content/);
   response = () =>
     new Response(`[${view},${view}]`, {
@@ -118,7 +119,7 @@ test("public mutation status cannot bypass private ownership or reuse a failed a
     base: "/api",
     fetch: async () => {
       calls++;
-      return new Response(view, {
+      return new Response(created, {
         headers: { "content-type": "application/json" },
       });
     },
@@ -149,7 +150,7 @@ test("receipt replay rechecks current server authority rather than returning a c
     base: "/api",
     fetch: async () =>
       allowed
-        ? new Response(view, {
+        ? new Response(created, {
             headers: { "content-type": "application/json" },
           })
         : new Response('{"error":"denied"}', {

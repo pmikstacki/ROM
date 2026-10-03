@@ -149,3 +149,16 @@ test("request timeout cancels an opened idle response body", async () => {
   await new Promise((resolve) => setTimeout(resolve, 0));
   assert.equal(cancellations, 1);
 });
+
+test("a mutation without a prior row binds the initial revision", async () => {
+  const c = createClient({ base: "/api", fetch: async () => reply(view) });
+  const pending = c.prepare({
+    kind: "task",
+    id: "a",
+    expected: null,
+    idempotency: "new",
+    operation: { type: "create", input: {} },
+  });
+  await assert.rejects(c.submit(pending), /mutation revision/);
+  assert.equal(pending.state, "unknown");
+});

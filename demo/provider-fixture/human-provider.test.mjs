@@ -42,6 +42,7 @@ async function authorize(provider, { subject = 'alice', verifier = randomBytes(3
       continue;
     }
     assert.equal(response.status, 200);
+    assert.ok((response.headers.get("content-security-policy") ?? "").includes(`form-action 'self' ${new URL(callback).origin};`), "CSP must allow the configured callback origin");
     const html = await response.text();
     assert.ok(html.length < 16 * 1024);
     const form = /<form method="post" action="([^"]+)">/.exec(html);

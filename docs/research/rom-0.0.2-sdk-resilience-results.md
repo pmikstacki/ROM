@@ -36,3 +36,28 @@ Evidence:
 The fixtures exercise injected browser transport seams. They do not establish actual host or provider behavior.
 Dual-browser application tests and real-host acceptance remain separate release gates.
 The canonical query-anchor string preserves native floating values across cloning. Ordinary cloned projections do not provide that guarantee.
+
+## Initial revisions and actual provider redirects
+
+A later source review found an incomplete revision check when the frozen request had no prior row.
+The native execution path requires the stored prior revision to equal the submitted expected revision.
+Without a prior row, a non-deleting mutation starts at revision one. A no-op delete starts at zero.
+The client now checks those initial revisions. Its test fixtures retain large revision values for read tests, not impossible initial creates.
+
+The new regression failed before the correction. The subsequent full frontend gate passed 52 SDK tests, 16 model/auth cases, and 28 browser cases.
+Type checking reported zero errors and zero warnings.
+The browser cases still use API fixtures; actual native host acceptance remains separate.
+
+Actual-host Chromium testing also found a provider-fixture redirect problem.
+The fixture's `form-action 'self'` policy blocked the cross-origin callback after consent.
+The fixture now permits only its explicitly configured callback origin in addition to itself.
+The origin comes from host configuration, not incoming browser parameters. No wildcard was added.
+Three real provider tests passed, including the new CSP header assertion.
+Actual browser confirmation of the correction belongs to the host acceptance worker.
+
+Evidence:
+
+- [Initial revision regression](evidence/rom-0.0.2/client/initial-revision-red.log)
+- [Full frontend acceptance after revision correction](evidence/rom-0.0.2/client/initial-revision-frontend-green.log)
+- [Provider CSP regression](evidence/rom-0.0.2/client/provider-csp-red.log)
+- [Provider CSP correction](evidence/rom-0.0.2/client/provider-csp-green.log)

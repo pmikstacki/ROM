@@ -13,25 +13,25 @@ async function fields(req) {
   return result;
 }
 
-function render(res, action, prompt, accounts) {
+function render(res, action, prompt, accounts, callbackOrigin) {
   const control = prompt === 'login'
     ? `<label for="account">Fixture account</label><select id="account" name="account">${accounts.map(account => `<option value="${account}">${account}</option>`).join('')}</select><button type="submit">Sign in</button>`
     : '<p>Allow ROM Studio to identify this fixture account?</p><button name="consent" value="accept" type="submit">Allow</button>';
   res.writeHead(200, {
     'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store',
-    'content-security-policy': "default-src 'none'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
+    'content-security-policy': `default-src 'none'; form-action 'self' ${callbackOrigin}; base-uri 'none'; frame-ancestors 'none'`,
   });
   res.end(`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>ROM fixture login</title></head><body><h1>ROM human identity fixture</h1><p>Local test accounts only. This is not production authentication.</p><form method="post" action="${action}">${control}</form></body></html>`);
 }
 
-export async function interaction(provider, issuer, accounts, req, res) {
+export async function interaction(provider, issuer, accounts, req, res, callbackOrigin) {
   const path = new URL(req.url, issuer).pathname;
   const details = await provider.interactionDetails(req, res);
   if (!/^[a-zA-Z0-9_-]+$/.test(details.uid)) throw Error('invalid interaction');
   const { prompt: { name, details: missing }, session, params, grantId } = details;
   if (!['login', 'consent'].includes(name)) throw Error('unsupported prompt');
   const expected = `/interaction/${details.uid}`;
-  if (req.method === 'GET' && path === expected) return render(res, `${expected}/${name}`, name, accounts);
+  if (req.method === 'GET' && path === expected) return render(res, `${expected}/${name}`, name, accounts, callbackOrigin);
   if (req.method !== 'POST' || path !== `${expected}/${name}` || (req.headers.origin && req.headers.origin !== issuer)) throw Error('invalid interaction route');
   const body = await fields(req);
   if (name === 'login') {

@@ -1,0 +1,540 @@
+
+> rom-studio@0.0.2 check
+> svelte-check --tsconfig ./tsconfig.json
+
+Loading svelte-check in workspace: /root/ROM/.worktrees/release-query-index/studio
+Getting Svelte diagnostics...
+
+svelte-check found 0 errors and 0 warnings
+
+> rom-studio@0.0.2 test:unit
+> node --experimental-strip-types --test tests/unit/*.test.ts
+
+TAP version 13
+# (node:2725611) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: canonical query boundary survives cloning and float integer replay
+ok 1 - canonical query boundary survives cloning and float integer replay
+  ---
+  duration_ms: 22.809228
+  type: 'test'
+  ...
+# Subtest: anchors reject journal cursors and response identity changes
+ok 2 - anchors reject journal cursors and response identity changes
+  ---
+  duration_ms: 1.07933
+  type: 'test'
+  ...
+# Subtest: anchor admission rejects malformed native envelope members
+ok 3 - anchor admission rejects malformed native envelope members
+  ---
+  duration_ms: 0.657248
+  type: 'test'
+  ...
+# Subtest: anchor replies bind the requested literal order and predicate structure
+ok 4 - anchor replies bind the requested literal order and predicate structure
+  ---
+  duration_ms: 0.324386
+  type: 'test'
+  ...
+# Subtest: anchor correspondence leaves canonical codec operands opaque
+ok 5 - anchor correspondence leaves canonical codec operands opaque
+  ---
+  duration_ms: 1.14808
+  type: 'test'
+  ...
+# Subtest: anchor value states keep missing distinct from present null
+ok 6 - anchor value states keep missing distinct from present null
+  ---
+  duration_ms: 0.185662
+  type: 'test'
+  ...
+# Subtest: native comparison operators cannot be coerced from arrays
+ok 7 - native comparison operators cannot be coerced from arrays
+  ---
+  duration_ms: 0.16326
+  type: 'test'
+  ...
+# Subtest: native absence predicates retain their null and equality constraints
+ok 8 - native absence predicates retain their null and equality constraints
+  ---
+  duration_ms: 0.160515
+  type: 'test'
+  ...
+# Subtest: public anchor response is bound to the submitted snapshot despite caller edits
+ok 9 - public anchor response is bound to the submitted snapshot despite caller edits
+  ---
+  duration_ms: 0.992414
+  type: 'test'
+  ...
+# (node:2725613) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: binds result identity and preserves revision, never accepts wrong resource
+ok 10 - binds result identity and preserves revision, never accepts wrong resource
+  ---
+  duration_ms: 22.1572
+  type: 'test'
+  ...
+# Subtest: lost response retains exact frozen request and key for explicit retry
+ok 11 - lost response retains exact frozen request and key for explicit retry
+  ---
+  duration_ms: 1.49541
+  type: 'test'
+  ...
+# Subtest: session generation rejects stale replies and old mutation retries
+ok 12 - session generation rejects stale replies and old mutation retries
+  ---
+  duration_ms: 0.894098
+  type: 'test'
+  ...
+# Subtest: denial is rejected, conflict is distinct and unknown outcome is recoverable
+ok 13 - denial is rejected, conflict is distinct and unknown outcome is recoverable
+  ---
+  duration_ms: 1.63233
+  type: 'test'
+  ...
+# Subtest: response bounds, content type and rows are enforced
+ok 14 - response bounds, content type and rows are enforced
+  ---
+  duration_ms: 1.714477
+  type: 'test'
+  ...
+# Subtest: public mutation status cannot bypass private ownership or reuse a failed attempt
+ok 15 - public mutation status cannot bypass private ownership or reuse a failed attempt
+  ---
+  duration_ms: 0.253591
+  type: 'test'
+  ...
+# Subtest: an unclassified server failure remains unknown and must not imply rollback
+ok 16 - an unclassified server failure remains unknown and must not imply rollback
+  ---
+  duration_ms: 1.605779
+  type: 'test'
+  ...
+# Subtest: receipt replay rechecks current server authority rather than returning a cached result
+ok 17 - receipt replay rechecks current server authority rather than returning a cached result
+  ---
+  duration_ms: 0.66343
+  type: 'test'
+  ...
+# (node:2725614) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: wire codec preserves boundary integers and ordinary false/zero/null/empty values
+ok 18 - wire codec preserves boundary integers and ordinary false/zero/null/empty values
+  ---
+  duration_ms: 1.707162
+  type: 'test'
+  ...
+# Subtest: wire parser rejects duplicate keys, oversized text, excessive nesting, and infinite numbers
+ok 19 - wire parser rejects duplicate keys, oversized text, excessive nesting, and infinite numbers
+  ---
+  duration_ms: 0.57403
+  type: 'test'
+  ...
+# Subtest: wire maps preserve reserved names without prototype mutation
+ok 20 - wire maps preserve reserved names without prototype mutation
+  ---
+  duration_ms: 0.190281
+  type: 'test'
+  ...
+# Subtest: wire encoder refuses nonfinite and recursive values before sending them
+ok 21 - wire encoder refuses nonfinite and recursive values before sending them
+  ---
+  duration_ms: 0.248793
+  type: 'test'
+  ...
+# Subtest: scalar normalization applies exact integer ranges and finite float semantics
+ok 22 - scalar normalization applies exact integer ranges and finite float semantics
+  ---
+  duration_ms: 1.452789
+  type: 'test'
+  ...
+# Subtest: object and patch encoders distinguish omission, null, value and removal
+ok 23 - object and patch encoders distinguish omission, null, value and removal
+  ---
+  duration_ms: 0.651948
+  type: 'test'
+  ...
+# Subtest: structural normalization bounds nesting and validates enums, references and maps
+ok 24 - structural normalization bounds nesting and validates enums, references and maps
+  ---
+  duration_ms: 0.939384
+  type: 'test'
+  ...
+# Subtest: malformed runtime modes and shapes are refused, not coerced
+ok 25 - malformed runtime modes and shapes are refused, not coerced
+  ---
+  duration_ms: 0.163891
+  type: 'test'
+  ...
+# Subtest: wire strings agree with Rust Unicode and preserve signed zero
+ok 26 - wire strings agree with Rust Unicode and preserve signed zero
+  ---
+  duration_ms: 1.072477
+  type: 'test'
+  ...
+# Subtest: array and map accessors are rejected without executing user code
+ok 27 - array and map accessors are rejected without executing user code
+  ---
+  duration_ms: 1.131499
+  type: 'test'
+  ...
+# Subtest: parsed floating integer tokens retain their Rust number category on replay
+ok 28 - parsed floating integer tokens retain their Rust number category on replay
+  ---
+  duration_ms: 0.44246
+  type: 'test'
+  ...
+# (node:2725615) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: accepts authorized descriptor and rejects duplicate or inconsistent metadata
+ok 29 - accepts authorized descriptor and rejects duplicate or inconsistent metadata
+  ---
+  duration_ms: 29.238889
+  type: 'test'
+  ...
+# Subtest: bounded POST stream handles split CRLF frames and surfaces terminal errors
+ok 30 - bounded POST stream handles split CRLF frames and surfaces terminal errors
+  ---
+  duration_ms: 2.192925
+  type: 'test'
+  ...
+# Subtest: stream rejects oversized frames and a wrong kind before disclosure
+ok 31 - stream rejects oversized frames and a wrong kind before disclosure
+  ---
+  duration_ms: 1.034885
+  type: 'test'
+  ...
+# Subtest: idle stream closes its reader on timeout and cancellation
+ok 32 - idle stream closes its reader on timeout and cancellation
+  ---
+  duration_ms: 11.930017
+  type: 'test'
+  ...
+# Subtest: stream flushes UTF8 decoder and treats silent EOF as stale
+ok 33 - stream flushes UTF8 decoder and treats silent EOF as stale
+  ---
+  duration_ms: 0.962969
+  type: 'test'
+  ...
+# Subtest: invalid stream media cancels its body, and opening errors retain server category
+ok 34 - invalid stream media cancels its body, and opening errors retain server category
+  ---
+  duration_ms: 0.685622
+  type: 'test'
+  ...
+# Subtest: live snapshots obey the requested page limit
+ok 35 - live snapshots obey the requested page limit
+  ---
+  duration_ms: 0.443472
+  type: 'test'
+  ...
+# Subtest: observation admission is finite and cancellation releases its slot
+ok 36 - observation admission is finite and cancellation releases its slot
+  ---
+  duration_ms: 0.83196
+  type: 'test'
+  ...
+# (node:2725617) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: journal validates cursor generation, kind and strictly advancing positions
+ok 37 - journal validates cursor generation, kind and strictly advancing positions
+  ---
+  duration_ms: 23.655365
+  type: 'test'
+  ...
+# (node:2725627) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: POST deadline rejects even when transport ignores abort
+ok 38 - POST deadline rejects even when transport ignores abort
+  ---
+  duration_ms: 19.788541
+  type: 'test'
+  ...
+# Subtest: already aborted request does not invoke transport
+ok 39 - already aborted request does not invoke transport
+  ---
+  duration_ms: 0.257569
+  type: 'test'
+  ...
+# Subtest: oversized body rejection does not await transport cancellation
+ok 40 - oversized body rejection does not await transport cancellation
+  ---
+  duration_ms: 0.902113
+  type: 'test'
+  ...
+# Subtest: query reply obeys explicit page limit
+ok 41 - query reply obeys explicit page limit
+  ---
+  duration_ms: 1.150905
+  type: 'test'
+  ...
+# Subtest: mutation reply must match revision and deletion semantics
+ok 42 - mutation reply must match revision and deletion semantics
+  ---
+  duration_ms: 1.104127
+  type: 'test'
+  ...
+# Subtest: legal no-op revision and deletion are accepted
+ok 43 - legal no-op revision and deletion are accepted
+  ---
+  duration_ms: 0.407605
+  type: 'test'
+  ...
+# Subtest: response reader and parser use the same byte policy
+ok 44 - response reader and parser use the same byte policy
+  ---
+  duration_ms: 8.385796
+  type: 'test'
+  ...
+# Subtest: timer values outside execution range are rejected before transport
+ok 45 - timer values outside execution range are rejected before transport
+  ---
+  duration_ms: 0.144895
+  type: 'test'
+  ...
+# Subtest: floating wire tokens cannot become integer metadata
+ok 46 - floating wire tokens cannot become integer metadata
+  ---
+  duration_ms: 1.346807
+  type: 'test'
+  ...
+# Subtest: request timeout cancels an opened idle response body
+ok 47 - request timeout cancels an opened idle response body
+  ---
+  duration_ms: 7.047715
+  type: 'test'
+  ...
+# Subtest: a mutation without a prior row binds the initial revision
+ok 48 - a mutation without a prior row binds the initial revision
+  ---
+  duration_ms: 0.606381
+  type: 'test'
+  ...
+# (node:2725642) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: work reads bind handles and validate protocol, state and counters
+ok 49 - work reads bind handles and validate protocol, state and counters
+  ---
+  duration_ms: 18.388783
+  type: 'test'
+  ...
+# Subtest: operator control binds key, operation, history and coherent revision
+ok 50 - operator control binds key, operation, history and coherent revision
+  ---
+  duration_ms: 2.061345
+  type: 'test'
+  ...
+# Subtest: work capabilities and lists reject invalid booleans, handles, duplicate rows and limits
+ok 51 - work capabilities and lists reject invalid booleans, handles, duplicate rows and limits
+  ---
+  duration_ms: 1.972496
+  type: 'test'
+  ...
+# Subtest: response is bound to the original submitted control despite caller edits
+ok 52 - response is bound to the original submitted control despite caller edits
+  ---
+  duration_ms: 0.323935
+  type: 'test'
+  ...
+1..52
+# tests 52
+# suites 0
+# pass 52
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 303.461641
+TAP version 13
+# (node:2725812) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: connect exposes discovered resources and selected rows
+ok 1 - connect exposes discovered resources and selected rows
+  ---
+  duration_ms: 1.095821
+  type: 'test'
+  ...
+# Subtest: late query cannot replace another navigation
+ok 2 - late query cannot replace another navigation
+  ---
+  duration_ms: 0.252089
+  type: 'test'
+  ...
+# Subtest: unknown outcome blocks another mutation and exact retry uses same object
+ok 3 - unknown outcome blocks another mutation and exact retry uses same object
+  ---
+  duration_ms: 2.171564
+  type: 'test'
+  ...
+# Subtest: disconnect aborts and suppresses delayed discovery
+ok 4 - disconnect aborts and suppresses delayed discovery
+  ---
+  duration_ms: 0.249244
+  type: 'test'
+  ...
+# Subtest: finite lease revalidation reopens once with fresh snapshot
+ok 5 - finite lease revalidation reopens once with fresh snapshot
+  ---
+  duration_ms: 0.676555
+  type: 'test'
+  ...
+# Subtest: repeated finite lease failure stays bounded and clears projections
+ok 6 - repeated finite lease failure stays bounded and clears projections
+  ---
+  duration_ms: 0.397355
+  type: 'test'
+  ...
+# Subtest: separated normal lease expiries renew after each accepted snapshot
+ok 7 - separated normal lease expiries renew after each accepted snapshot
+  ---
+  duration_ms: 0.351407
+  type: 'test'
+  ...
+# Subtest: moving pagination uses server envelope, refetches previous and resets on new query
+ok 8 - moving pagination uses server envelope, refetches previous and resets on new query
+  ---
+  duration_ms: 0.47946
+  type: 'test'
+  ...
+# Subtest: delayed anchor cannot paginate a different Resource
+ok 9 - delayed anchor cannot paginate a different Resource
+  ---
+  duration_ms: 0.346608
+  type: 'test'
+  ...
+# Subtest: pagination history is bounded and first page remains available
+ok 10 - pagination history is bounded and first page remains available
+  ---
+  duration_ms: 3.098674
+  type: 'test'
+  ...
+# Subtest: moving page changes cancel the old live stream and open a new one
+ok 11 - moving page changes cancel the old live stream and open a new one
+  ---
+  duration_ms: 5.268014
+  type: 'test'
+  ...
+# (node:2725816) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: browser session supplies CSRF only after verified authenticated response
+ok 12 - browser session supplies CSRF only after verified authenticated response
+  ---
+  duration_ms: 14.59063
+  type: 'test'
+  ...
+# Subtest: unauthenticated authority and expired session fail closed
+ok 13 - unauthenticated authority and expired session fail closed
+  ---
+  duration_ms: 0.785802
+  type: 'test'
+  ...
+# Subtest: logout includes last CSRF and clears it before request returns
+ok 14 - logout includes last CSRF and clears it before request returns
+  ---
+  duration_ms: 0.441549
+  type: 'test'
+  ...
+# Subtest: primary provider must exist; provider URL is encoded
+ok 15 - primary provider must exist; provider URL is encoded
+  ---
+  duration_ms: 0.408816
+  type: 'test'
+  ...
+# Subtest: delayed session response cannot restore authority after logout
+ok 16 - delayed session response cannot restore authority after logout
+  ---
+  duration_ms: 0.464271
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 109.47449
+
+> rom-studio@0.0.2 build
+> vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 168 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.37 kB │ gzip:  0.26 kB
+dist/assets/index-D0oHaqBV.css   23.56 kB │ gzip:  5.34 kB
+dist/assets/index-dOojKWtd.js   183.60 kB │ gzip: 61.82 kB
+
+✓ built in 223ms
+
+> rom-studio@0.0.2 test:components
+> npm run build:components && playwright test --config tests/components/playwright.config.ts
+
+
+> rom-studio@0.0.2 build:components
+> vite build --mode components --outDir .component-dist
+
+vite v8.3.2 building client environment for components...
+transforming...
+✓ 175 modules transformed.
+rendering chunks...
+computing gzip size...
+.component-dist/tests/components/details.html         0.49 kB │ gzip:  0.27 kB
+.component-dist/tests/components/harness.html         0.61 kB │ gzip:  0.32 kB
+.component-dist/index.html                            0.63 kB │ gzip:  0.33 kB
+.component-dist/assets/app-D0oHaqBV.css              23.56 kB │ gzip:  5.34 kB
+.component-dist/assets/details-CmvhtATT.js            0.80 kB │ gzip:  0.52 kB
+.component-dist/assets/ResourceDetails-DrZpPl7I.js    2.23 kB │ gzip:  1.11 kB
+.component-dist/assets/components-CL4ko8uI.js         2.60 kB │ gzip:  1.17 kB
+.component-dist/assets/QueryEditor-BMmf7vs7.js        7.70 kB │ gzip:  2.53 kB
+.component-dist/assets/main-YPreTqzw.js              34.37 kB │ gzip: 11.31 kB
+.component-dist/assets/app-BLScbuGB.js              141.19 kB │ gzip: 49.64 kB
+
+✓ built in 247ms
+[WebServer] (node:2726195) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 28 tests using 2 workers
+
+(node:2726279) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2726278) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [webkit] › tests/components/controls.spec.ts:6:1 › Resource controls preserve integer, presence, boolean and nested edits (369ms)
+  ✓   1 [webkit] › tests/components/application.spec.ts:9:1 › real SDK composes two metadata-driven pages; logout clears details (413ms)
+  ✓   4 [webkit] › tests/components/application.spec.ts:84:1 › real app reports unavailable session without simulated data (272ms)
+  ✓   3 [webkit] › tests/components/controls.spec.ts:34:1 › same field hosts support custom codec, nested collections and generic action input (419ms)
+  ✓   5 [webkit] › tests/components/application.spec.ts:97:1 › moving pages use native query anchors and previous refetches (373ms)
+  ✓   6 [webkit] › tests/components/controls.spec.ts:54:1 › unsupported action stays visible, generic table selects, query emits values (347ms)
+  ✓   7 [webkit] › tests/components/details.spec.ts:2:1 › live revision retains draft and disables stale submission until explicit reload (356ms)
+(node:2726725) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [webkit] › tests/components/controls.spec.ts:71:1 › keyboard controls and assembled accessibility (671ms)
+  ✓  10 [webkit] › tests/components/controls.spec.ts:81:1 › optional remove and empty string remain distinct from omitted fields (345ms)
+  ✓   9 [chromium] › tests/components/application.spec.ts:9:1 › real SDK composes two metadata-driven pages; logout clears details (429ms)
+  ✓  12 [chromium] › tests/components/application.spec.ts:84:1 › real app reports unavailable session without simulated data (109ms)
+  ✓  11 [webkit] › tests/components/controls.spec.ts:102:1 › nested invalid input survives sibling edits and removal releases only its error (382ms)
+  ✓  13 [chromium] › tests/components/application.spec.ts:97:1 › moving pages use native query anchors and previous refetches (326ms)
+  ✓  14 [webkit] › tests/components/controls.spec.ts:121:1 › enum reference and prototype-shaped map keys use generic controls (322ms)
+  ✓  15 [chromium] › tests/components/controls.spec.ts:6:1 › Resource controls preserve integer, presence, boolean and nested edits (172ms)
+  ✓  16 [webkit] › tests/components/controls.spec.ts:139:1 › opaque input uses the shared strict lossless codec (311ms)
+  ✓  17 [chromium] › tests/components/controls.spec.ts:34:1 › same field hosts support custom codec, nested collections and generic action input (246ms)
+  ✓  19 [chromium] › tests/components/controls.spec.ts:54:1 › unsupported action stays visible, generic table selects, query emits values (209ms)
+  ✓  18 [webkit] › tests/components/controls.spec.ts:155:1 › sort field is independent from filter field (335ms)
+  ✓  21 [webkit] › tests/components/controls.spec.ts:169:1 › sort picker excludes collection fields but retains scalar fields (238ms)
+  ✓  20 [chromium] › tests/components/controls.spec.ts:71:1 › keyboard controls and assembled accessibility (493ms)
+(node:2727314) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  22 [chromium] › tests/components/controls.spec.ts:81:1 › optional remove and empty string remain distinct from omitted fields (230ms)
+  ✓  24 [chromium] › tests/components/controls.spec.ts:102:1 › nested invalid input survives sibling edits and removal releases only its error (245ms)
+  ✓  23 [chromium] › tests/components/details.spec.ts:2:1 › live revision retains draft and disables stale submission until explicit reload (322ms)
+  ✓  25 [chromium] › tests/components/controls.spec.ts:121:1 › enum reference and prototype-shaped map keys use generic controls (211ms)
+  ✓  26 [chromium] › tests/components/controls.spec.ts:139:1 › opaque input uses the shared strict lossless codec (174ms)
+  ✓  27 [chromium] › tests/components/controls.spec.ts:155:1 › sort field is independent from filter field (174ms)
+  ✓  28 [chromium] › tests/components/controls.spec.ts:169:1 › sort picker excludes collection fields but retains scalar fields (110ms)
+
+  28 passed (6.2s)

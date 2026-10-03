@@ -47,7 +47,7 @@ export async function startHumanProvider({ clientId, clientSecret, redirectUri, 
     });
     server.on('request', (req, res) => {
       if (req.url.startsWith('/interaction/')) {
-        interaction(provider, issuer, accounts, req, res).catch(() => {
+        interaction(provider, issuer, accounts, req, res, redirect.origin).catch(() => {
           if (!res.headersSent) res.writeHead(400, { 'content-type': 'text/plain', 'cache-control': 'no-store' });
           res.end('Fixture interaction rejected');
         });

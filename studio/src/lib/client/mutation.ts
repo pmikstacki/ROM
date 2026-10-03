@@ -6,6 +6,11 @@ export function mutationResult(
 ): void {
   const expected = request.expected === null ? null : BigInt(request.expected);
   if (
+    expected === null &&
+    result.revision !== (request.operation.type === "delete" ? 0n : 1n)
+  )
+    throw Error("mutation revision mismatch");
+  if (
     expected !== null &&
     result.revision !== expected &&
     result.revision !== expected + 1n
