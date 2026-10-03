@@ -1,6 +1,7 @@
 import { parseWire, stringifyWire } from "./codec.ts";
-import { projectedRows } from "./validation.ts";
+import { projectedRows, record, text } from "./validation.ts";
 import { boundedBody, RemoteError } from "./request.ts";
+import { deadline } from "./deadline.ts";
 import type {
   ClientOptions,
   ProjectedView,
@@ -16,34 +17,72 @@ export async function* live(
   current: () => boolean,
 ): AsyncIterable<ProjectedView[]> {
   const csrf = options.csrf?.();
-  const response = await (options.fetch ?? globalThis.fetch)(
-    `${options.base.replace(/\/$/, "")}/live`,
-    {
-      method: "POST",
-      credentials: "same-origin",
-      redirect: "error",
+  const opening = new AbortController();
+  const forwardAbort = () => opening.abort(signal.reason);
+  if (signal.aborted) forwardAbort();
+  else signal.addEventListener("abort", forwardAbort, { once: true });
+  let response: Response;
+  try {
+    response = await deadline(
+      (options.fetch ?? globalThis.fetch)(
+        `${options.base.replace(/\/$/, "")}/live`,
+        {
+          method: "POST",
+          credentials: "same-origin",
+          redirect: "error",
+          signal: opening.signal,
+          headers: {
+            "content-type": "application/json",
+            accept: "text/event-stream",
+            ...(csrf ? { "x-rom-csrf": csrf } : {}),
+          },
+          body: stringifyWire({ kind, query } as unknown as WireValue),
+        },
+      ),
       signal,
-      headers: {
-        "content-type": "application/json",
-        accept: "text/event-stream",
-        ...(csrf ? { "x-rom-csrf": csrf } : {}),
-      },
-      body: stringifyWire({ kind, query } as unknown as WireValue),
-    },
-  );
-  if (!current()) throw new Error("session changed");
+      options.timeoutMs ?? 15000,
+      () => opening.abort(Error("stream timeout")),
+    );
+  } catch (error) {
+    opening.abort(error);
+    throw error;
+  } finally {
+    signal.removeEventListener("abort", forwardAbort);
+  }
+  if (!current()) {
+    opening.abort();
+    throw new Error("session changed");
+  }
   if (!response.ok) {
-    await boundedBody(response, options.maxBytes ?? 1048576);
-    throw new RemoteError("stream rejected", response.status);
+    const body = await deadline(
+      boundedBody(response, options.maxBytes ?? 1048576),
+      signal,
+      options.timeoutMs ?? 15000,
+      () => opening.abort(),
+    );
+    if (
+      response.headers.get("content-type")?.split(";")[0].trim() !==
+      "application/json"
+    )
+      throw new Error("invalid response content type");
+    throw new RemoteError(text(record(parseWire(body)).error), response.status);
   }
   if (
     response.headers.get("content-type")?.split(";")[0].trim() !==
       "text/event-stream" ||
     !response.body
-  )
+  ) {
+    opening.abort();
+    void response.body?.cancel().catch(() => {});
     throw new Error("invalid stream content type");
+  }
   const reader = response.body.getReader(),
     decoder = new TextDecoder("utf-8", { fatal: true });
+  const cancel = () => {
+    opening.abort();
+    void reader.cancel().catch(() => {});
+  };
+  signal.addEventListener("abort", cancel, { once: true });
   const maxBytes = options.maxBytes ?? 1048576;
   let pending = "",
     frameBytes = 0,
@@ -67,12 +106,19 @@ export async function* live(
   try {
     for (;;) {
       if (signal.aborted) throw signal.reason ?? new Error("stream aborted");
-      const { value, done } = await reader.read();
+      const { value, done } = await deadline(
+        reader.read(),
+        signal,
+        options.timeoutMs ?? 15000,
+        cancel,
+      );
+      if (signal.aborted) throw signal.reason ?? Error("stream aborted");
       if (!current()) throw new Error("session changed");
       if (done) {
+        pending += decoder.decode();
         if (pending !== "" || data.length > 0)
           throw new Error("truncated stream frame");
-        return;
+        throw new Error("live stream closed");
       }
       pending += decoder.decode(value, { stream: true });
       for (;;) {
@@ -100,7 +146,9 @@ export async function* live(
         throw new Error("stream frame limit");
     }
   } finally {
-    await reader.cancel().catch(() => {});
+    signal.removeEventListener("abort", cancel);
+    opening.abort();
+    void reader.cancel().catch(() => {});
     reader.releaseLock();
   }
 }

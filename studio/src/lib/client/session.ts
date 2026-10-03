@@ -4,6 +4,7 @@ import { projected, projectedRows } from "./validation.ts";
 import { discovery } from "./discovery.ts";
 import { live } from "./stream.ts";
 import { journalBatch } from "./journal.ts";
+import { workResponse } from "./work-validation.ts";
 import type {
   ClientOptions,
   Invocation,
@@ -158,15 +159,25 @@ export function createClient(options: ClientOptions): RomClient {
       }
     },
     async journal(kind, after = null, signal) {
+      const checkpoint =
+        after === null
+          ? null
+          : (parseWire(stringifyWire(after)) as typeof after);
       return journalBatch(
-        await call("journal", { kind, after }, signal),
+        await call("journal", { kind, after: checkpoint }, signal),
         kind,
-        after,
+        checkpoint,
         options.maxRows ?? 10000,
       );
     },
     async work(route, request, signal) {
-      return call(`work/${route}`, request, signal);
+      const submitted = parseWire(stringifyWire(request)) as typeof request;
+      return workResponse(
+        route,
+        await call(`work/${route}`, submitted, signal),
+        submitted,
+        options.maxRows ?? 10000,
+      );
     },
   };
   return client;

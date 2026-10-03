@@ -79,3 +79,20 @@ Positions are normalized to bigint. Gaps are valid because authorization can hid
 
 The extended suite passes 22 tests, recorded in `evidence/rom-0.0.2/client/unit-journal.log`.
 Operator response validation and stream inactivity bounds remain unfinished.
+
+## Bounded live lifecycle and operator replies
+
+The client now bounds stream opening and idle reads.
+Cancellation closes the upstream reader. Silent EOF marks the live query as stopped.
+The UTF-8 decoder flushes at EOF, so an incomplete character is rejected.
+An invalid media type cancels the response body. HTTP errors retain their structured category.
+
+Operator replies are validated against protocol version 1.
+Work handles, state enums, delivery outcomes, counters, and row bounds are checked before display.
+Control replies must match the submitted handle, key, operation, generation, and expected revision transition.
+An unresolved reconciliation must retain its expected revision and cannot claim replay.
+The client snapshots submitted requests so later caller edits cannot change reply correspondence.
+
+The extended suite passes 29 tests with zero type diagnostics.
+Evidence: `client/unit-stream-work.log` and `client/typecheck-stream-work.log`.
+These remain client-side failure fixtures. Actual host/browser acceptance is still required.

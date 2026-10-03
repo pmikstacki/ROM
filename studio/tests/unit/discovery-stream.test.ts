@@ -106,3 +106,101 @@ test("stream rejects oversized frames and a wrong kind before disclosure", async
     /identity/,
   );
 });
+
+test("idle stream closes its reader on timeout and cancellation", async () => {
+  let canceled = 0;
+  const fetcher = async () =>
+    new Response(
+      new ReadableStream({
+        cancel() {
+          canceled++;
+        },
+      }),
+      { headers: { "content-type": "text/event-stream" } },
+    );
+  const client = createClient({ base: "/api", timeoutMs: 10, fetch: fetcher });
+  const stream = client
+    .observe("task", {}, new AbortController().signal)
+    [Symbol.asyncIterator]();
+  await assert.rejects(
+    Promise.race([
+      stream.next(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(Error("test deadline")), 100),
+      ),
+    ]),
+    /timeout/,
+  );
+  assert.equal(canceled, 1);
+  const abort = new AbortController();
+  const next = client
+    .observe("task", {}, abort.signal)
+    [Symbol.asyncIterator]()
+    .next();
+  setTimeout(() => abort.abort(Error("caller aborted")), 1);
+  await assert.rejects(next, /aborted/);
+  assert.equal(canceled, 2);
+});
+test("stream flushes UTF8 decoder and treats silent EOF as stale", async () => {
+  const invalid = createClient({
+    base: "/api",
+    fetch: async () =>
+      new Response(new Uint8Array([0xf0, 0x9f]), {
+        headers: { "content-type": "text/event-stream" },
+      }),
+  });
+  await assert.rejects(
+    invalid
+      .observe("task", {}, new AbortController().signal)
+      [Symbol.asyncIterator]()
+      .next(),
+  );
+  const empty = createClient({
+    base: "/api",
+    fetch: async () => eventResponse([]),
+  });
+  await assert.rejects(
+    empty
+      .observe("task", {}, new AbortController().signal)
+      [Symbol.asyncIterator]()
+      .next(),
+    /closed/,
+  );
+});
+
+test("invalid stream media cancels its body, and opening errors retain server category", async () => {
+  let canceled = 0;
+  const invalid = createClient({
+    base: "/api",
+    fetch: async () =>
+      new Response(
+        new ReadableStream({
+          cancel() {
+            canceled++;
+          },
+        }),
+        { headers: { "content-type": "text/html" } },
+      ),
+  });
+  await assert.rejects(
+    invalid
+      .observe("task", {}, new AbortController().signal)
+      [Symbol.asyncIterator]()
+      .next(),
+    /content/,
+  );
+  assert.equal(canceled, 1);
+  const expired = createClient({
+    base: "/api",
+    fetch: async () =>
+      Response.json({ error: "identity_expired" }, { status: 410 }),
+  });
+  await assert.rejects(
+    expired
+      .observe("task", {}, new AbortController().signal)
+      [Symbol.asyncIterator]()
+      .next(),
+    (error: unknown) =>
+      (error as { category: string }).category === "identity_expired",
+  );
+});
