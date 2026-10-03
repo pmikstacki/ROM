@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+export ROM_WEBKIT_EXECUTABLE
+ROM_WEBKIT_EXECUTABLE="$("$repo_root/scripts/studio-browser-runtime")"
+cd "$repo_root/studio"
+npm run check
+npm run test:unit
+node --experimental-strip-types --test tests/components/application-model.test.ts tests/components/auth.test.ts
+npm run build
+npm run test:components
