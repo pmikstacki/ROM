@@ -68,3 +68,14 @@ A VPN preview still needs a correctly configured public issuer and callback.
 The tests use injected HTTP responses for client failure cases.
 The provider tests use the actual local provider endpoints.
 Actual Studio authentication and both-store browser acceptance remain release gates.
+
+## Journal validation extension
+
+A further failing test demonstrated that the first journal method returned unchecked cursor data.
+The corrected method binds cursor kind and history generation to the submitted checkpoint.
+It requires strictly advancing disclosed event positions within the returned cursor bound.
+Each event view receives the same identity and revision validation as a Resource reply.
+Positions are normalized to bigint. Gaps are valid because authorization can hide events.
+
+The extended suite passes 22 tests, recorded in `evidence/rom-0.0.2/client/unit-journal.log`.
+Operator response validation and stream inactivity bounds remain unfinished.

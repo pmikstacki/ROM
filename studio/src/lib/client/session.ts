@@ -3,6 +3,7 @@ import { post, RemoteError } from "./request.ts";
 import { projected, projectedRows } from "./validation.ts";
 import { discovery } from "./discovery.ts";
 import { live } from "./stream.ts";
+import { journalBatch } from "./journal.ts";
 import type {
   ClientOptions,
   Invocation,
@@ -157,7 +158,12 @@ export function createClient(options: ClientOptions): RomClient {
       }
     },
     async journal(kind, after = null, signal) {
-      return call("journal", { kind, after }, signal);
+      return journalBatch(
+        await call("journal", { kind, after }, signal),
+        kind,
+        after,
+        options.maxRows ?? 10000,
+      );
     },
     async work(route, request, signal) {
       return call(`work/${route}`, request, signal);

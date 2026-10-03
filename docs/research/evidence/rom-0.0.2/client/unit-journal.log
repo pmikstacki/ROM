@@ -1,0 +1,154 @@
+
+> rom-studio@0.0.2 test:unit
+> node --experimental-strip-types --test tests/unit/*.test.ts
+
+TAP version 13
+# (node:2630984) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: binds result identity and preserves revision, never accepts wrong resource
+ok 1 - binds result identity and preserves revision, never accepts wrong resource
+  ---
+  duration_ms: 15.161115
+  type: 'test'
+  ...
+# Subtest: lost response retains exact frozen request and key for explicit retry
+ok 2 - lost response retains exact frozen request and key for explicit retry
+  ---
+  duration_ms: 0.981102
+  type: 'test'
+  ...
+# Subtest: session generation rejects stale replies and old mutation retries
+ok 3 - session generation rejects stale replies and old mutation retries
+  ---
+  duration_ms: 0.566465
+  type: 'test'
+  ...
+# Subtest: denial is rejected, conflict is distinct and unknown outcome is recoverable
+ok 4 - denial is rejected, conflict is distinct and unknown outcome is recoverable
+  ---
+  duration_ms: 1.177395
+  type: 'test'
+  ...
+# Subtest: response bounds, content type and rows are enforced
+ok 5 - response bounds, content type and rows are enforced
+  ---
+  duration_ms: 1.173718
+  type: 'test'
+  ...
+# Subtest: public mutation status cannot bypass private ownership or reuse a failed attempt
+ok 6 - public mutation status cannot bypass private ownership or reuse a failed attempt
+  ---
+  duration_ms: 0.17918
+  type: 'test'
+  ...
+# Subtest: an unclassified server failure remains unknown and must not imply rollback
+ok 7 - an unclassified server failure remains unknown and must not imply rollback
+  ---
+  duration_ms: 0.402975
+  type: 'test'
+  ...
+# Subtest: receipt replay rechecks current server authority rather than returning a cached result
+ok 8 - receipt replay rechecks current server authority rather than returning a cached result
+  ---
+  duration_ms: 0.55332
+  type: 'test'
+  ...
+# (node:2630985) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: wire codec preserves boundary integers and ordinary false/zero/null/empty values
+ok 9 - wire codec preserves boundary integers and ordinary false/zero/null/empty values
+  ---
+  duration_ms: 1.558718
+  type: 'test'
+  ...
+# Subtest: wire parser rejects duplicate keys, oversized text, excessive nesting, and infinite numbers
+ok 10 - wire parser rejects duplicate keys, oversized text, excessive nesting, and infinite numbers
+  ---
+  duration_ms: 0.522291
+  type: 'test'
+  ...
+# Subtest: wire maps preserve reserved names without prototype mutation
+ok 11 - wire maps preserve reserved names without prototype mutation
+  ---
+  duration_ms: 0.175964
+  type: 'test'
+  ...
+# Subtest: wire encoder refuses nonfinite and recursive values before sending them
+ok 12 - wire encoder refuses nonfinite and recursive values before sending them
+  ---
+  duration_ms: 0.234715
+  type: 'test'
+  ...
+# Subtest: scalar normalization applies exact integer ranges and finite float semantics
+ok 13 - scalar normalization applies exact integer ranges and finite float semantics
+  ---
+  duration_ms: 1.484828
+  type: 'test'
+  ...
+# Subtest: object and patch encoders distinguish omission, null, value and removal
+ok 14 - object and patch encoders distinguish omission, null, value and removal
+  ---
+  duration_ms: 0.559773
+  type: 'test'
+  ...
+# Subtest: structural normalization bounds nesting and validates enums, references and maps
+ok 15 - structural normalization bounds nesting and validates enums, references and maps
+  ---
+  duration_ms: 0.316951
+  type: 'test'
+  ...
+# Subtest: malformed runtime modes and shapes are refused, not coerced
+ok 16 - malformed runtime modes and shapes are refused, not coerced
+  ---
+  duration_ms: 0.148762
+  type: 'test'
+  ...
+# Subtest: wire strings agree with Rust Unicode and preserve signed zero
+ok 17 - wire strings agree with Rust Unicode and preserve signed zero
+  ---
+  duration_ms: 0.355154
+  type: 'test'
+  ...
+# Subtest: array and map accessors are rejected without executing user code
+ok 18 - array and map accessors are rejected without executing user code
+  ---
+  duration_ms: 0.424075
+  type: 'test'
+  ...
+# (node:2630986) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: accepts authorized descriptor and rejects duplicate or inconsistent metadata
+ok 19 - accepts authorized descriptor and rejects duplicate or inconsistent metadata
+  ---
+  duration_ms: 17.491728
+  type: 'test'
+  ...
+# Subtest: bounded POST stream handles split CRLF frames and surfaces terminal errors
+ok 20 - bounded POST stream handles split CRLF frames and surfaces terminal errors
+  ---
+  duration_ms: 1.193745
+  type: 'test'
+  ...
+# Subtest: stream rejects oversized frames and a wrong kind before disclosure
+ok 21 - stream rejects oversized frames and a wrong kind before disclosure
+  ---
+  duration_ms: 0.608285
+  type: 'test'
+  ...
+# (node:2630988) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: journal validates cursor generation, kind and strictly advancing positions
+ok 22 - journal validates cursor generation, kind and strictly advancing positions
+  ---
+  duration_ms: 16.678585
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 132.40883
