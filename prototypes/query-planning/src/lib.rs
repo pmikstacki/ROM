@@ -1,5 +1,6 @@
 //! Disposable experiment: fixed scalar schema, no maintained ROM API or format.
-use redb::{ReadableDatabase, ReadableTable};
+pub mod selector;
+use redb::{ReadableDatabase, ReadableTable, ReadableTableMetadata};
 use rusqlite::{params, params_from_iter, types::Value as SqlValue};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
@@ -303,7 +304,7 @@ fn sql(plan: &Plan, anchor: Option<&Row>) -> (String, Vec<SqlValue>) {
         values,
     )
 }
-pub struct Sqlite(rusqlite::Connection);
+pub struct Sqlite(rusqlite::Connection, u64);
 impl Sqlite {
     pub fn new(rows: &[Row], index: bool) -> Result<Self> {
         Self::initialize(rusqlite::Connection::open_in_memory()?, rows, index)
@@ -312,10 +313,13 @@ impl Sqlite {
         Self::initialize(rusqlite::Connection::open(path)?, rows, index)
     }
     pub fn reopen(path: &std::path::Path) -> Result<Self> {
-        Ok(Self(rusqlite::Connection::open_with_flags(
-            path,
-            rusqlite::OpenFlags::SQLITE_OPEN_READ_WRITE,
-        )?))
+        Ok(Self(
+            rusqlite::Connection::open_with_flags(
+                path,
+                rusqlite::OpenFlags::SQLITE_OPEN_READ_WRITE,
+            )?,
+            0,
+        ))
     }
     fn initialize(mut db: rusqlite::Connection, rows: &[Row], index: bool) -> Result<Self> {
         db.execute_batch("CREATE TABLE items(id TEXT PRIMARY KEY COLLATE BINARY,amount BLOB NOT NULL,title TEXT NOT NULL COLLATE BINARY,note_state INTEGER NOT NULL,note_value TEXT NOT NULL COLLATE BINARY,visible INTEGER NOT NULL);")?;
@@ -343,9 +347,10 @@ impl Sqlite {
         if index {
             db.execute_batch("CREATE INDEX amount_order ON items(amount DESC,title COLLATE BINARY ASC,id COLLATE BINARY ASC)")?;
         }
-        Ok(Self(db))
+        Ok(Self(db, 0))
     }
     pub fn mutate_amount(&mut self, id: &str, amount: u64) -> Result<()> {
+        let next_generation = self.1.checked_add(1).ok_or("generation overflow")?;
         let tx = self.0.transaction()?;
         let bytes = amount.to_be_bytes();
         if tx.execute(
@@ -360,7 +365,18 @@ impl Sqlite {
             params![id, bytes.as_slice()],
         )?;
         tx.commit()?;
+        self.1 = next_generation;
         Ok(())
+    }
+    /// Session-local generation. Statistics must not be reused across reopen.
+    pub fn generation(&self) -> u64 {
+        self.1
+    }
+    pub fn row_count(&self) -> Result<usize> {
+        let count: i64 = self
+            .0
+            .query_row("SELECT COUNT(*) FROM items", [], |r| r.get(0))?;
+        Ok(usize::try_from(count)?)
     }
     pub fn journal(&self) -> Result<Vec<(i64, String, u64)>> {
         let mut statement = self
@@ -453,6 +469,14 @@ impl Sqlite {
         let rows = s.query_map(params_from_iter(values), |r| r.get(3))?;
         Ok(rows.collect::<std::result::Result<Vec<_>, _>>()?)
     }
+    pub fn explain_with_budget(&self, plan: &Plan, budget: usize) -> Result<Vec<String>> {
+        let (mut sql, mut values) = sql(plan, None);
+        sql.push_str(" LIMIT ?");
+        values.push(SqlValue::Integer(i64::try_from(budget.saturating_add(1))?));
+        let mut statement = self.0.prepare(&format!("EXPLAIN QUERY PLAN {sql}"))?;
+        let rows = statement.query_map(params_from_iter(values), |r| r.get(3))?;
+        Ok(rows.collect::<std::result::Result<Vec<_>, _>>()?)
+    }
     pub fn version(&self) -> String {
         rusqlite::version().into()
     }
@@ -482,6 +506,10 @@ pub struct Redb {
     db: redb::Database,
 }
 impl Redb {
+    pub fn row_count(&self) -> Result<usize> {
+        let tx = self.db.begin_read()?;
+        Ok(usize::try_from(tx.open_table(TABLE)?.len()?)?)
+    }
     pub fn reopen(path: &std::path::Path) -> Result<Self> {
         Ok(Self {
             db: redb::Database::open(path)?,
@@ -518,6 +546,12 @@ impl Redb {
         limit: usize,
         budget: usize,
     ) -> Result<Read> {
+        let raw = self.snapshot(budget)?;
+        let mut out = oracle(&raw.rows, plan, anchor, limit);
+        out.decoded_bytes = raw.decoded_bytes;
+        Ok(out)
+    }
+    pub fn snapshot(&self, budget: usize) -> Result<Read> {
         let tx = self.db.begin_read()?;
         let table = tx.open_table(TABLE)?;
         let mut rows = Vec::new();
@@ -530,9 +564,12 @@ impl Redb {
             bytes += v.value().len();
             rows.push(serde_json::from_slice(v.value())?);
         }
-        let mut out = oracle(&rows, plan, anchor, limit);
-        out.decoded_bytes = bytes;
-        Ok(out)
+        Ok(Read {
+            candidates: rows.len(),
+            rows,
+            decoded_bytes: bytes,
+            vm_steps: 0,
+        })
     }
 }
 pub fn dataset(n: usize) -> Vec<Row> {
