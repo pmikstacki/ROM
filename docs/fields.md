@@ -2,7 +2,7 @@
 
 A declaration uses the same `Field` contract for metadata, input decoding,
 persistence normalization and typed selectors. Supported built-ins are `String`,
-`bool`, `u64`, `i64`, `FiniteF64`, `Option<T>`, `Vec<T>`,
+`bool`, `u64`, `i64`, `FiniteF64`, `Option<T>`, `Presence<T>`, `Vec<T>`,
 `BTreeMap<String, T>` and `ResourceRef<R>`. A native plugin implements `Field` for
 its own newtype and declares its wire shape. `Shape::Enum` constrains custom
 string codecs to a nonempty, distinct list of at most 256 variants.
@@ -44,12 +44,13 @@ cannot distinguish their states. Shape nesting is limited to 16. These are
 structural constraints, not a memory allocator budget; the execution boundary
 also limits serialized commands and snapshots.
 
-Create and replace require every declared field, including an explicit null for
-an optional value. Unknown fields and mismatched shapes are rejected. Partial
-updates and explicit field removal have not yet been added by this package;
-omission must not be described as a supported PATCH operation until that separate
-shared mutation contract is implemented. No separate Serde attribute schema is
-accepted by derive.
+Create and replace require every field except top-level `Presence<T>` fields;
+an `Option<T>` field still requires an explicit value or null. Unknown fields and
+mismatched shapes are rejected. [Partial changes](presence-and-patch.md) use
+`Command::patch` with `Patch::set` and `Patch::remove`: omitted patch entries stay
+unchanged, nullable values can be set to null, and only Presence fields can be
+removed. The same codecs, authorization and revision checks apply. No separate
+Serde attribute schema is accepted by derive.
 
 Validation evidence: eight public consumer tests exercise roundtrip through the
 runtime, bad nested data, enum/codecs disagreement, invalid nullable shapes,
