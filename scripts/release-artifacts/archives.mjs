@@ -31,5 +31,6 @@ export function extract(archive, parent, prefix) {
 }
 export function archiveCommit(path) {
   const tar = execFileSync('gzip', ['-dc', path], { timeout: 30000, maxBuffer: 128 * 1024 * 1024 });
-  return execFileSync('git', ['get-tar-commit-id'], { input: tar, timeout: 10000, encoding: 'utf8' }).trim();
+  // Git consumes two 512-byte records then closes stdin; body writes can produce EPIPE.
+  return execFileSync('git', ['get-tar-commit-id'], { input: tar.subarray(0, 1024), timeout: 10000, encoding: 'utf8' }).trim();
 }
