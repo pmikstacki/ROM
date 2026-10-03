@@ -9,7 +9,8 @@ This is an implementation ledger, not a release readiness declaration.
 The first maintained slice extends the existing application with
 `./demo/run reference sqlite` and `./demo/run reference redb`. Its public API
 journey combines inventory filtering/sorting/moving pages, pending checkout
-compensation, replay, live membership and Task-to-Dashboard reactions.
+compensation, replay, live membership, Task-to-Dashboard reactions and actual
+folder attachments read after reopening without reuploading.
 
 The initial executable test failed on the absent `reference` command. After
 implementation, two parent integration tests passed: the executable journey and
@@ -24,6 +25,14 @@ Clippy, all demo tests, both actual TCP smokes, server restart/SIGINT checks and
 rustdoc. Log: `/var/tmp/rom-reference-verify.log` inside the container.
 The release OpenSpec change passes strict validation.
 
+After integrating the reference journey and transition validator, the coordinator
+ran the full `./scripts/check` on main at `4acbe7d`; exit 0. This includes the
+workspace tests, warning-free Clippy/docs, compile fixtures, dependency isolation,
+consumer and authentication/identity checks. Log:
+`/var/tmp/rom-release-stage1-check.log`. The attachment follow-up also passed
+`./demo/verify` (`/var/tmp/rom-reference-final-demo.log`) and an independent rerun
+of both reference tests.
+
 An independent reviewer reran the focused test and both direct commands, and
 checked invalid backend/extra-argument rejection. No P1/P2 findings remained in
 this slice. Review confirmed that public Runtime/Command/query/live APIs perform
@@ -37,8 +46,13 @@ Process-exit evidence does not certify power loss, schema upgrade or migration.
 Code inspection found that terminal Checkout rules and Stock reservation capacity
 were enforced only in actions, while generic patch/replace remained writable.
 A separate regression reproduced a direct patch changing a confirmed rejection.
-The correction in progress adds a typed Resource transition validator through
+The maintained correction adds a typed Resource transition validator through
 the shared mutation pipeline, rather than per-kind transport controllers.
+See [transition validation evidence](resource-transition-validation-results.md).
+Independent review reran four core tests, three demo transition tests and the
+existing compensation test without blocking findings. Immutable compensation
+context and protected deletion are also covered. The validator is trusted bounded
+native code and runs under the commit gate; it is not a cross-Resource constraint.
 
 Other identified friction remains open: structured action inputs require manual
 Field/Input implementations; discovery declarations repeat field/action strings;
