@@ -71,12 +71,15 @@ fn valid_checkout(_: &Actor, before: Option<&Checkout>, after: Option<&Checkout>
     }
     Ok(())
 }
-/// One token and quantity. Tokens are unique per checkout and are never recycled.
-pub const RESERVE: Action<Stock, BTreeMap<String, u64>> = Action::new("reserve", |stock, input| {
-    if input.len() != 1 {
-        return Err(Error::invalid("reservation", "one token required"));
-    }
-    let (token, quantity) = input.into_iter().next().expect("one entry");
+/// Typed command arguments, not another domain entity or independent schema.
+#[derive(Clone, Debug, rom::Input)]
+pub struct ReserveInput {
+    pub token: String,
+    pub quantity: u64,
+}
+/// Tokens are unique per checkout and are never recycled.
+pub const RESERVE: Action<Stock, ReserveInput> = Action::new("reserve", |stock, input| {
+    let ReserveInput { token, quantity } = input;
     if token.is_empty() || quantity == 0 {
         return Err(Error::invalid(
             "reservation",

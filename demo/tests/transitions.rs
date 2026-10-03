@@ -213,7 +213,10 @@ async fn generic_writes_cannot_retarget_compensation_or_corrupt_reservations() {
                 Command::action(
                     "workshop-stock",
                     RESERVE,
-                    BTreeMap::from([("checkout-a".into(), 2)]),
+                    rom_demo::compensation::ReserveInput {
+                        token: "checkout-a".into(),
+                        quantity: 2,
+                    },
                 )
                 .at_revision(1)
                 .idempotency("reserve"),

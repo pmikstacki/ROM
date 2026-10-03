@@ -1,8 +1,8 @@
 ## 1. Reference application and author ergonomics
 - [x] 1.1 Add a runnable public-API recovery journey and actual process-exit tests on both stores.
-- [ ] 1.2 Audit and improve author friction with concrete compile/runtime evidence.
+- [x] 1.2 Audit and improve author friction with concrete compile/runtime evidence.
 - [x] 1.3 Expand the reference app to exercise related Resources, policies, live reads and attachments as one documented workflow.
-- [ ] 1.4 Independently review the application and freeze stage-one evidence.
+- [x] 1.4 Independently review the application and freeze stage-one evidence.
 
 ## 2. Relations and durable lifecycle
 - [ ] 2.1 Specify and enforce restrict references atomically; test concurrent create/delete on both stores.

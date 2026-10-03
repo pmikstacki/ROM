@@ -5,7 +5,6 @@ use rom_demo::{
     session_actor,
 };
 use std::{
-    collections::BTreeMap,
     path::{Path, PathBuf},
     sync::Arc,
 };
@@ -52,7 +51,10 @@ async fn case(redb: bool, revoked: bool) {
                 Command::action(
                     "workshop-stock",
                     RESERVE,
-                    BTreeMap::from([(token.into(), quantity)]),
+                    rom_demo::compensation::ReserveInput {
+                        token: token.into(),
+                        quantity,
+                    },
                 )
                 .at_revision(revision)
                 .idempotency(token),

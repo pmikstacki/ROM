@@ -39,7 +39,10 @@ pub async fn prepare(runtime: &Runtime) -> Result<()> {
                 Command::action(
                     "workshop-stock",
                     RESERVE,
-                    BTreeMap::from([(token.into(), quantity)]),
+                    crate::compensation::ReserveInput {
+                        token: token.into(),
+                        quantity,
+                    },
                 )
                 .at_revision(revision)
                 .idempotency(&format!("reference-reserve-{token}")),

@@ -275,7 +275,10 @@ async fn compensation_journey(client: &Client, runtime: &Runtime) -> SmokeResult
                 Command::action(
                     "workshop-stock",
                     RESERVE,
-                    std::collections::BTreeMap::from([(token.into(), quantity)]),
+                    crate::compensation::ReserveInput {
+                        token: token.into(),
+                        quantity,
+                    },
                 )
                 .at_revision(revision)
                 .idempotency(token),

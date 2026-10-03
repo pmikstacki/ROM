@@ -54,18 +54,37 @@ existing compensation test without blocking findings. Immutable compensation
 context and protected deletion are also covered. The validator is trusted bounded
 native code and runs under the commit gate; it is not a cross-Resource constraint.
 
-Other identified friction remains open: structured action inputs require manual
-Field/Input implementations; discovery declarations repeat field/action strings;
-Checkout references are strings and ResourceRef currently promises identity only.
-Reference integrity belongs to stage 2. These findings are not silently marked
-resolved by the new recovery journey.
+Structured action inputs now use `#[derive(Input)]`: ReserveInput declares token
+and quantity directly. A single named-object generator supplies Resource and Input
+codecs, preserving the established Resource raw-identifier wire spelling. Static
+`Input::field_names()` permits sanitized action.field diagnostics; arbitrary custom
+errors remain masked. The independent review reproduced and verified fixes for
+both raw-identifier compatibility and lost field diagnostics. See
+[action input contract](../action-inputs.md) and its OpenSpec change.
+
+The adaptation's wire test first failed with an action-only error, then passed
+with `reserve.quantity`, no state change on invalid input and normal durable
+replay for valid input. Independent final integration ran seven parent tests
+(compensation, reference recovery, named reservation and transition invariants),
+including actual TCP and both storage adapters, with no blocking findings.
+Final `./demo/verify` and `./scripts/check` both passed on the combined tree:
+`/var/tmp/rom-release-stage1-final-demo.log` and
+`/var/tmp/rom-release-stage1-final-check.log` in rom-dev.
+
+Stage 1's application/API/review acceptance is complete; the whole release goal
+is not. This is automated author-contract evidence, not an external human study.
+Explicit discovery allowlists remain a deliberate metadata policy; authors can
+already grant all metadata via the existing discovery callback when appropriate.
+Checkout references remain strings and ResourceRef currently promises identity
+only; enforced reference integrity belongs to stage 2. Nested structured Inputs,
+generic payload declarations and input discovery schemas are not implemented.
 
 ## Remaining stage boundaries
 
-- Complete stage 1 with invariant enforcement, author ergonomics, a coherent
-  reference workflow including attachments and independent review.
 - Stage 2 adds enforced restrict references, versioned migrations, retention and
-  reference application upgrade/backup/restore evidence.
+  reference application upgrade/backup/restore evidence. The
+  [integration preparation](restrict-reference-integration-plan.md) explains why
+  checks must share the adapter transaction and how edges affect backup/migration.
 - Stage 3 integrates actual planner/index execution and maintenance; prototype
   selector results do not prove maintained transactional index behavior.
 - Stage 4 adds operator recovery, single-writer ownership, real identity/secrets

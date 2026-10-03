@@ -34,13 +34,13 @@ Interfaces: `reference::prepare(&Runtime) -> rom::Result<()>`,
 `reference::recover(&Runtime) -> rom::Result<()>`,
 `reference::run(bool) -> smoke::SmokeResult<()>`.
 
-- [ ] Write a CLI test invoking `rom-demo reference sqlite` and `redb`; assert successful completion and the recovery summary. Observe failure for the absent command.
-- [ ] Implement preparation through existing public Resource actions with stable identities; unknown outcome holds both reservations; confirmed rejection remains pending.
-- [ ] Implement recovery: verify initial state, observe filtered live stock, process bounded work, assert only checkout-a released, replay rejection and assert unchanged Stock and Checkout journal heads.
-- [ ] Expose the command using fresh scratch databases, shutdown and reopen; clean up only its owned scratch directory.
-- [ ] Add subprocess tests: child prepares then exits with code 86 without destructors; parent verifies code and recovers persisted data on each store. Check denied identity and unknown outcomes with existing application authority.
-- [ ] Run demo tests, formatting and Clippy; document exact limits and reproduce commands.
-- [ ] Obtain independent review, resolve findings, run repository check and commit.
+- [x] Write a CLI test invoking `rom-demo reference sqlite` and `redb`; assert successful completion and the recovery summary. Observe failure for the absent command.
+- [x] Implement preparation through existing public Resource actions with stable identities; unknown outcome holds both reservations; confirmed rejection remains pending.
+- [x] Implement recovery: verify initial state, observe filtered live stock, process bounded work, assert only checkout-a released, replay rejection and assert unchanged Stock and Checkout journal heads.
+- [x] Expose the command using fresh scratch databases, shutdown and reopen; clean up only its owned scratch directory.
+- [x] Add subprocess tests: child prepares then exits with code 86 without destructors; parent verifies code and recovers persisted data on each store. Check denied identity and unknown outcomes with existing application authority.
+- [x] Run demo tests, formatting and Clippy; document exact limits and reproduce commands.
+- [x] Obtain independent review, resolve findings, run repository check and commit.
 
 Later stages receive separate implementation plans after source inspection; this
 plan deliberately does not invent migration or index interfaces before that work.

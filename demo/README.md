@@ -122,10 +122,10 @@ root; the function avoids assuming a particular target directory or installed bi
 printf '%s\n' 'Demo local' > /tmp/rom-demo-auth
 rom() { cargo run --quiet --locked -p rom-cli -- --endpoint http://127.0.0.1:8080 --auth-file /tmp/rom-demo-auth "$@"; }
 rom action reservation-stock workshop-stock reserve --expected 1 --idempotency reserve-a --input-file - <<'JSON'
-{"checkout-a":3}
+{"token":"checkout-a","quantity":3}
 JSON
 rom action reservation-stock workshop-stock reserve --expected 2 --idempotency reserve-b --input-file - <<'JSON'
-{"checkout-b":2}
+{"token":"checkout-b","quantity":2}
 JSON
 rom action checkouts checkout-a record-payment --expected 1 --idempotency payment-unknown --input-file - <<'JSON'
 "unknown"
@@ -139,6 +139,17 @@ rom read reservation-stock workshop-stock
 ```
 
 The asynchronous worker eventually leaves `{"checkout-b":2}` with total stock 10.
+
+`ReserveInput { token: String, quantity: u64 }` derives `rom::Input`; the generated
+codec supplies the same named arguments to Rust and transported calls. A malformed
+quantity reports `reserve.quantity` without echoing its value. The previous demo's
+one-entry map payload is rejected for new reserve invocations; update clients to the named fields
+above and use a fresh fixture for this walkthrough. Stored Resource shapes are
+unchanged, but this is an experimental action-input API change, not an automatic
+conversion of old requests or their idempotency fingerprints.
+An identical historical request with a matching retained receipt still follows
+normal authorized idempotent replay before action-input decoding.
+
 A read immediately after the command may still show A; read again after the worker
 runs. Replaying the **identical** final command with its original expected revision
 and key returns its receipt and adds no event. Use unique reservation tokens per
