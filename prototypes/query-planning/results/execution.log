@@ -1,0 +1,8 @@
+   Compiling rom-query-planning-prototype v0.0.0 (/workspace/ROM/.worktrees/query-probe/prototypes/query-planning)
+    Finished `release` profile [optimized] target(s) in 1.46s
+     Running `/var/tmp/rom-query-probe-target/release/rom-query-planning-prototype all`
+SQLite 3.53.2 / redb 4.3.0 / exact-u64 BLOB order / 10% row visibility
+selective: indexed ["SEARCH items USING INDEX amount_order (amount>?)"]; unindexed ["SCAN items", "USE TEMP B-TREE FOR ORDER BY"]
+broad: indexed ["SEARCH items USING INDEX amount_order (amount>?)"]; unindexed ["SCAN items", "USE TEMP B-TREE FOR ORDER BY"]
+title_sort: indexed ["SEARCH items USING INDEX amount_order (amount>?)", "USE TEMP B-TREE FOR ORDER BY"]; unindexed ["SCAN items", "USE TEMP B-TREE FOR ORDER BY"]
+none: indexed ["SEARCH items USING INDEX amount_order (amount>?)", "USE TEMP B-TREE FOR LAST TERM OF ORDER BY"]; unindexed ["SCAN items", "USE TEMP B-TREE FOR ORDER BY"]
