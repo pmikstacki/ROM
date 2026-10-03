@@ -1,0 +1,14 @@
+
+> rom-0.0.2-frontend-stack-trial@0.0.2 check
+> svelte-check --tsconfig ./tsconfig.json
+
+Loading svelte-check in workspace: /var/tmp/rom-0.0.2-frontend-stack
+Getting Svelte diagnostics...
+
+/var/tmp/rom-0.0.2-frontend-stack/src/NegativeFixture.svelte:4:9
+Error: Type '"not-a-supported-variant"' is not assignable to type '"default" | "outline" | "secondary" | "ghost" | "destructive" | "link" | undefined'. (ts)
+</script>
+<Button variant="not-a-supported-variant">Invalid</Button>
+
+====================================
+svelte-check found 1 error and 0 warnings in 1 file

@@ -1,0 +1,15 @@
+
+> rom-0.0.2-frontend-stack-trial@0.0.2 check
+> svelte-check --tsconfig ./tsconfig.json
+
+Loading svelte-check in workspace: /var/tmp/rom-0.0.2-frontend-stack
+Getting Svelte diagnostics...
+
+/var/tmp/rom-0.0.2-frontend-stack/src/main.ts:3:8
+Error: Cannot find module or type declarations for side-effect import of './app.css'. 
+import App from './App.svelte';
+import './app.css';
+mount(App,{target:document.getElementById('app')!});
+
+====================================
+svelte-check found 1 error and 0 warnings in 1 file

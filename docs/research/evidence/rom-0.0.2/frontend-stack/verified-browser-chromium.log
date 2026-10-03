@@ -1,0 +1,16 @@
+
+> rom-0.0.2-frontend-stack-trial@0.0.2 test
+> playwright test --project=chromium
+
+
+Running 3 tests using 1 worker
+
+  ✓  1 [chromium] › tests/controls.spec.ts:3:1 › imports render and respond to input without browser errors (248ms)
+  ✓  2 [chromium] › tests/controls.spec.ts:10:1 › dialog traps focus, closes with Escape, and restores trigger focus (267ms)
+  ✓  3 [chromium] › tests/controls.spec.ts:16:1 › assembled base and dialog have no axe A/AA violations (658ms)
+
+  3 passed (2.9s)
+[WebServer] (node:2518547) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:2518611) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

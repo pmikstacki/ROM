@@ -1,0 +1,393 @@
+
+> rom-0.0.2-frontend-stack-trial@0.0.2 test
+> playwright test
+
+[WebServer] (node:2507497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 2 workers
+
+(node:2507613) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2507612) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium] › tests/controls.spec.ts:3:1 › imports render and respond to input without browser errors (1ms)
+  ✘  1 [webkit] › tests/controls.spec.ts:3:1 › imports render and respond to input without browser errors (1ms)
+(node:2507723) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2507898) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [chromium] › tests/controls.spec.ts:10:1 › dialog traps focus, closes with Escape, and restores trigger focus (1ms)
+(node:2507932) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [webkit] › tests/controls.spec.ts:10:1 › dialog traps focus, closes with Escape, and restores trigger focus (1ms)
+  ✘  5 [chromium] › tests/controls.spec.ts:16:1 › assembled base and dialog have no axe A/AA violations (1ms)
+(node:2508173) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  6 [webkit] › tests/controls.spec.ts:16:1 › assembled base and dialog have no axe A/AA violations (1ms)
+
+
+  1) [chromium] › tests/controls.spec.ts:3:1 › imports render and respond to input without browser errors 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-y91U0r --remote-debugging-pipe --no-startup-window
+    <launched> pid=2507684
+    [pid=2507684][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    [pid=2507684][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=2507684][err] linux environments out of the box. For more information, see:
+    [pid=2507684][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-y91U0r --remote-debugging-pipe --no-startup-window
+      - <launched> pid=2507684
+      - [pid=2507684][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+      - [pid=2507684][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=2507684][err] linux environments out of the box. For more information, see:
+      - [pid=2507684][err] https://nix.dev/permalink/stub-ld
+      - [pid=2507684] <gracefully close start>
+      - [pid=2507684] <kill>
+      - [pid=2507684] <will force kill>
+      - [pid=2507684] exception while trying to kill process: Error: kill ESRCH
+      - [pid=2507684] <process did exit: exitCode=127, signal=null>
+      - [pid=2507684] starting temporary directories cleanup
+      - [pid=2507684] finished temporary directories cleanup
+      - [pid=2507684] <gracefully close end>
+
+
+    Error Context: test-results/controls-imports-render-an-ecb90-nput-without-browser-errors-chromium/error-context.md
+
+  2) [chromium] › tests/controls.spec.ts:10:1 › dialog traps focus, closes with Escape, and restores trigger focus 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-Rb1E5q --remote-debugging-pipe --no-startup-window
+    <launched> pid=2507927
+    [pid=2507927][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    [pid=2507927][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=2507927][err] linux environments out of the box. For more information, see:
+    [pid=2507927][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-Rb1E5q --remote-debugging-pipe --no-startup-window
+      - <launched> pid=2507927
+      - [pid=2507927][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+      - [pid=2507927][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=2507927][err] linux environments out of the box. For more information, see:
+      - [pid=2507927][err] https://nix.dev/permalink/stub-ld
+      - [pid=2507927] <gracefully close start>
+      - [pid=2507927] <kill>
+      - [pid=2507927] <will force kill>
+      - [pid=2507927] exception while trying to kill process: Error: kill ESRCH
+      - [pid=2507927] <process did exit: exitCode=127, signal=null>
+      - [pid=2507927] starting temporary directories cleanup
+      - [pid=2507927] finished temporary directories cleanup
+      - [pid=2507927] <gracefully close end>
+
+
+    Error Context: test-results/controls-dialog-traps-focu-3dfbb--and-restores-trigger-focus-chromium/error-context.md
+
+  3) [chromium] › tests/controls.spec.ts:16:1 › assembled base and dialog have no axe A/AA violations 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-CXDt9l --remote-debugging-pipe --no-startup-window
+    <launched> pid=2508200
+    [pid=2508200][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    [pid=2508200][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=2508200][err] linux environments out of the box. For more information, see:
+    [pid=2508200][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-CXDt9l --remote-debugging-pipe --no-startup-window
+      - <launched> pid=2508200
+      - [pid=2508200][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+      - [pid=2508200][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=2508200][err] linux environments out of the box. For more information, see:
+      - [pid=2508200][err] https://nix.dev/permalink/stub-ld
+      - [pid=2508200] <gracefully close start>
+      - [pid=2508200] <kill>
+      - [pid=2508200] <will force kill>
+      - [pid=2508200] exception while trying to kill process: Error: kill ESRCH
+      - [pid=2508200] <process did exit: exitCode=127, signal=null>
+      - [pid=2508200] starting temporary directories cleanup
+      - [pid=2508200] finished temporary directories cleanup
+      - [pid=2508200] <gracefully close end>
+
+
+    Error Context: test-results/controls-assembled-base-an-2fcbe-have-no-axe-A-AA-violations-chromium/error-context.md
+
+  4) [webkit] › tests/controls.spec.ts:3:1 › imports render and respond to input without browser errors 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgstreamer-1.0.so.0                            ║
+    ║     libgmodule-2.0.so.0                              ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libpangocairo-1.0.so.0                           ║
+    ║     libpango-1.0.so.0                                ║
+    ║     libharfbuzz.so.0                                 ║
+    ║     libgdk_pixbuf-2.0.so.0                           ║
+    ║     libcairo-gobject.so.2                            ║
+    ║     libcairo.so.2                                    ║
+    ║     libvulkan.so.1                                   ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libgio-2.0.so.0                                  ║
+    ║     libgobject-2.0.so.0                              ║
+    ║     libglib-2.0.so.0                                 ║
+    ║     libicudata.so.74                                 ║
+    ║     libicui18n.so.74                                 ║
+    ║     libatomic.so.1                                   ║
+    ║     libsystemd.so.0                                  ║
+    ║     libicuuc.so.74                                   ║
+    ║     libxml2.so.2                                     ║
+    ║     libsqlite3.so.0                                  ║
+    ║     libxslt.so.1                                     ║
+    ║     liblcms2.so.2                                    ║
+    ║     libevent-2.1.so.7                                ║
+    ║     libopus.so.0                                     ║
+    ║     libgcrypt.so.20                                  ║
+    ║     libgpg-error.so.0                                ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstbase-1.0.so.0                              ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libwebpdemux.so.2                                ║
+    ║     libavif.so.16                                    ║
+    ║     libharfbuzz-icu.so.0                             ║
+    ║     libepoxy.so.0                                    ║
+    ║     libjpeg.so.8                                     ║
+    ║     libpng16.so.16                                   ║
+    ║     libz.so.1                                        ║
+    ║     libfreetype.so.6                                 ║
+    ║     libfontconfig.so.1                               ║
+    ║     libwebpmux.so.3                                  ║
+    ║     libwebp.so.7                                     ║
+    ║     libexpat.so.1                                    ║
+    ║     libX11.so.6                                      ║
+    ║     libwayland-server.so.0                           ║
+    ║     libwayland-egl.so.1                              ║
+    ║     libwayland-client.so.0                           ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libgbm.so.1                                      ║
+    ║     libdrm.so.2                                      ║
+    ║     libstdc++.so.6                                   ║
+    ║     libtasn1.so.6                                    ║
+    ║     libhyphen.so.0                                   ║
+    ║     libsecret-1.so.0                                 ║
+    ║     libpsl.so.5                                      ║
+    ║     libnghttp2.so.14                                 ║
+    ║     libatk-1.0.so.0                                  ║
+    ║     libatk-bridge-2.0.so.0                           ║
+    ║     libxkbcommon.so.0                                ║
+    ╚══════════════════════════════════════════════════════╝
+
+    Error Context: test-results/controls-imports-render-an-ecb90-nput-without-browser-errors-webkit/error-context.md
+
+  5) [webkit] › tests/controls.spec.ts:10:1 › dialog traps focus, closes with Escape, and restores trigger focus 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgstreamer-1.0.so.0                            ║
+    ║     libgmodule-2.0.so.0                              ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libpangocairo-1.0.so.0                           ║
+    ║     libpango-1.0.so.0                                ║
+    ║     libharfbuzz.so.0                                 ║
+    ║     libgdk_pixbuf-2.0.so.0                           ║
+    ║     libcairo-gobject.so.2                            ║
+    ║     libcairo.so.2                                    ║
+    ║     libvulkan.so.1                                   ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libgio-2.0.so.0                                  ║
+    ║     libgobject-2.0.so.0                              ║
+    ║     libglib-2.0.so.0                                 ║
+    ║     libicudata.so.74                                 ║
+    ║     libicui18n.so.74                                 ║
+    ║     libatomic.so.1                                   ║
+    ║     libsystemd.so.0                                  ║
+    ║     libicuuc.so.74                                   ║
+    ║     libxml2.so.2                                     ║
+    ║     libsqlite3.so.0                                  ║
+    ║     libxslt.so.1                                     ║
+    ║     liblcms2.so.2                                    ║
+    ║     libevent-2.1.so.7                                ║
+    ║     libopus.so.0                                     ║
+    ║     libgcrypt.so.20                                  ║
+    ║     libgpg-error.so.0                                ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstbase-1.0.so.0                              ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libwebpdemux.so.2                                ║
+    ║     libavif.so.16                                    ║
+    ║     libharfbuzz-icu.so.0                             ║
+    ║     libepoxy.so.0                                    ║
+    ║     libjpeg.so.8                                     ║
+    ║     libpng16.so.16                                   ║
+    ║     libz.so.1                                        ║
+    ║     libfreetype.so.6                                 ║
+    ║     libfontconfig.so.1                               ║
+    ║     libwebpmux.so.3                                  ║
+    ║     libwebp.so.7                                     ║
+    ║     libexpat.so.1                                    ║
+    ║     libX11.so.6                                      ║
+    ║     libwayland-server.so.0                           ║
+    ║     libwayland-egl.so.1                              ║
+    ║     libwayland-client.so.0                           ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libgbm.so.1                                      ║
+    ║     libdrm.so.2                                      ║
+    ║     libstdc++.so.6                                   ║
+    ║     libtasn1.so.6                                    ║
+    ║     libhyphen.so.0                                   ║
+    ║     libsecret-1.so.0                                 ║
+    ║     libpsl.so.5                                      ║
+    ║     libnghttp2.so.14                                 ║
+    ║     libatk-1.0.so.0                                  ║
+    ║     libatk-bridge-2.0.so.0                           ║
+    ║     libxkbcommon.so.0                                ║
+    ╚══════════════════════════════════════════════════════╝
+
+    Error Context: test-results/controls-dialog-traps-focu-3dfbb--and-restores-trigger-focus-webkit/error-context.md
+
+  6) [webkit] › tests/controls.spec.ts:16:1 › assembled base and dialog have no axe A/AA violations 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Missing libraries:                                   ║
+    ║     libgstreamer-1.0.so.0                            ║
+    ║     libgmodule-2.0.so.0                              ║
+    ║     libgtk-4.so.1                                    ║
+    ║     libpangocairo-1.0.so.0                           ║
+    ║     libpango-1.0.so.0                                ║
+    ║     libharfbuzz.so.0                                 ║
+    ║     libgdk_pixbuf-2.0.so.0                           ║
+    ║     libcairo-gobject.so.2                            ║
+    ║     libcairo.so.2                                    ║
+    ║     libvulkan.so.1                                   ║
+    ║     libgraphene-1.0.so.0                             ║
+    ║     libgio-2.0.so.0                                  ║
+    ║     libgobject-2.0.so.0                              ║
+    ║     libglib-2.0.so.0                                 ║
+    ║     libicudata.so.74                                 ║
+    ║     libicui18n.so.74                                 ║
+    ║     libatomic.so.1                                   ║
+    ║     libsystemd.so.0                                  ║
+    ║     libicuuc.so.74                                   ║
+    ║     libxml2.so.2                                     ║
+    ║     libsqlite3.so.0                                  ║
+    ║     libxslt.so.1                                     ║
+    ║     liblcms2.so.2                                    ║
+    ║     libevent-2.1.so.7                                ║
+    ║     libopus.so.0                                     ║
+    ║     libgcrypt.so.20                                  ║
+    ║     libgpg-error.so.0                                ║
+    ║     libgstallocators-1.0.so.0                        ║
+    ║     libgstapp-1.0.so.0                               ║
+    ║     libgstbase-1.0.so.0                              ║
+    ║     libgstpbutils-1.0.so.0                           ║
+    ║     libgstaudio-1.0.so.0                             ║
+    ║     libgsttag-1.0.so.0                               ║
+    ║     libgstvideo-1.0.so.0                             ║
+    ║     libgstgl-1.0.so.0                                ║
+    ║     libgstcodecparsers-1.0.so.0                      ║
+    ║     libgstfft-1.0.so.0                               ║
+    ║     libflite.so.1                                    ║
+    ║     libflite_usenglish.so.1                          ║
+    ║     libflite_cmu_grapheme_lang.so.1                  ║
+    ║     libflite_cmu_grapheme_lex.so.1                   ║
+    ║     libflite_cmu_indic_lang.so.1                     ║
+    ║     libflite_cmu_indic_lex.so.1                      ║
+    ║     libflite_cmulex.so.1                             ║
+    ║     libflite_cmu_time_awb.so.1                       ║
+    ║     libflite_cmu_us_awb.so.1                         ║
+    ║     libflite_cmu_us_kal16.so.1                       ║
+    ║     libflite_cmu_us_kal.so.1                         ║
+    ║     libflite_cmu_us_rms.so.1                         ║
+    ║     libflite_cmu_us_slt.so.1                         ║
+    ║     libwebpdemux.so.2                                ║
+    ║     libavif.so.16                                    ║
+    ║     libharfbuzz-icu.so.0                             ║
+    ║     libepoxy.so.0                                    ║
+    ║     libjpeg.so.8                                     ║
+    ║     libpng16.so.16                                   ║
+    ║     libz.so.1                                        ║
+    ║     libfreetype.so.6                                 ║
+    ║     libfontconfig.so.1                               ║
+    ║     libwebpmux.so.3                                  ║
+    ║     libwebp.so.7                                     ║
+    ║     libexpat.so.1                                    ║
+    ║     libX11.so.6                                      ║
+    ║     libwayland-server.so.0                           ║
+    ║     libwayland-egl.so.1                              ║
+    ║     libwayland-client.so.0                           ║
+    ║     libmanette-0.2.so.0                              ║
+    ║     libenchant-2.so.2                                ║
+    ║     libgbm.so.1                                      ║
+    ║     libdrm.so.2                                      ║
+    ║     libstdc++.so.6                                   ║
+    ║     libtasn1.so.6                                    ║
+    ║     libhyphen.so.0                                   ║
+    ║     libsecret-1.so.0                                 ║
+    ║     libpsl.so.5                                      ║
+    ║     libnghttp2.so.14                                 ║
+    ║     libatk-1.0.so.0                                  ║
+    ║     libatk-bridge-2.0.so.0                           ║
+    ║     libxkbcommon.so.0                                ║
+    ╚══════════════════════════════════════════════════════╝
+
+    Error Context: test-results/controls-assembled-base-an-2fcbe-have-no-axe-A-AA-violations-webkit/error-context.md
+
+  6 failed
+    [chromium] › tests/controls.spec.ts:3:1 › imports render and respond to input without browser errors 
+    [chromium] › tests/controls.spec.ts:10:1 › dialog traps focus, closes with Escape, and restores trigger focus 
+    [chromium] › tests/controls.spec.ts:16:1 › assembled base and dialog have no axe A/AA violations 
+    [webkit] › tests/controls.spec.ts:3:1 › imports render and respond to input without browser errors 
+    [webkit] › tests/controls.spec.ts:10:1 › dialog traps focus, closes with Escape, and restores trigger focus 
+    [webkit] › tests/controls.spec.ts:16:1 › assembled base and dialog have no axe A/AA violations ─

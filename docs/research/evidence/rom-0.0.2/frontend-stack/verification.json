@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-03T22:27:34.289Z",
+  "sourceCommit": "91954b66a1d2808a8747ec79700e3c41196daf21",
+  "sourceDirty": "?? docs/research/evidence/rom-0.0.2/",
+  "trialRoot": "/var/tmp/rom-0.0.2-frontend-stack",
+  "node": "v22.16.0",
+  "npm": "10.9.2",
+  "chromium": "Chromium 138.0.7204.49",
+  "lockSha256": "06c59e8bbb8a57acc4394eef9b1dac5e24f70ab0cd435dd99ea39e29bbdc8e24",
+  "results": [
+    {
+      "name": "clean-install",
+      "command": [
+        "npm",
+        "ci",
+        "--ignore-scripts"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "browser-chromium",
+      "command": [
+        "npm",
+        "test",
+        "--",
+        "--project=chromium"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "audit",
+      "command": [
+        "npm",
+        "audit",
+        "--json"
+      ],
+      "exit": 0
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+<script lang="ts">
+import { Button } from '$lib/ui/button/index.js';
+</script>
+<Button variant="not-a-supported-variant">Invalid</Button>

@@ -1,0 +1,170 @@
+{
+  "date": "2026-10-03T22:23:39.580Z",
+  "style": "vega",
+  "source": "https://shadcn-svelte.com/registry/styles/vega",
+  "files": [
+    {
+      "registry": "https://shadcn-svelte.com/registry/styles/vega/button.json",
+      "sha256": "85a930546e908e4c8412faf6e1adc6920de91d1b530fc11f6d2ce70c8d67e2fb",
+      "devDependencies": [
+        "tailwind-variants@^3.3.0"
+      ]
+    },
+    {
+      "target": "src/lib/ui/button/button.svelte",
+      "upstreamContentSha256": "2b2fd88f236c242e6d3d315eb741a1af212463c83067650a1e32a7cff7e4d881",
+      "adaptedContentSha256": "d24d95b0118b100ba81b9089ef9fe6b284fd3632d4dd298ebc1a5d684cfedbe6"
+    },
+    {
+      "target": "src/lib/ui/button/index.ts",
+      "upstreamContentSha256": "0f6b6f040d92b4153821d3f9b4d6b9cbc567247e4fda913e64c1d0fcc4a2f386",
+      "adaptedContentSha256": "0f6b6f040d92b4153821d3f9b4d6b9cbc567247e4fda913e64c1d0fcc4a2f386"
+    },
+    {
+      "registry": "https://shadcn-svelte.com/registry/styles/vega/input.json",
+      "sha256": "6dd02076dadee4939c28ecf61529b68fbc077ce2405ca210877b18402dddd684"
+    },
+    {
+      "target": "src/lib/ui/input/index.ts",
+      "upstreamContentSha256": "4e0ad69d49a27194c7f3dfd0cdd5933ee13fc40cc13a77138b547d300701d390",
+      "adaptedContentSha256": "4e0ad69d49a27194c7f3dfd0cdd5933ee13fc40cc13a77138b547d300701d390"
+    },
+    {
+      "target": "src/lib/ui/input/input.svelte",
+      "upstreamContentSha256": "4eaf22c34cabe5e6f03cbb4de76f9961f6dd1bedf661e7472b238821ffd4e416",
+      "adaptedContentSha256": "32493bfcb99f8f817f70952e0425a593dd56a59b36de01f4e002041f12773c81"
+    },
+    {
+      "registry": "https://shadcn-svelte.com/registry/styles/vega/dialog.json",
+      "sha256": "78530de74f561e38d324db6a123d051d0f21a9dbbfd08e65d48cea5d2e6329c4",
+      "devDependencies": [
+        "bits-ui@^2.18.0",
+        "@internationalized/date@^3.12.0"
+      ]
+    },
+    {
+      "target": "src/lib/ui/dialog/dialog-close.svelte",
+      "upstreamContentSha256": "4a9a1a6327d4e68fd87e8292dcb176eab244ba8da455f15997d2308b1fa03d46",
+      "adaptedContentSha256": "4a9a1a6327d4e68fd87e8292dcb176eab244ba8da455f15997d2308b1fa03d46"
+    },
+    {
+      "target": "src/lib/ui/dialog/dialog-content.svelte",
+      "upstreamContentSha256": "ce9a7ebc47c03e3ac208cac64f82eaa71180857f142817613f932596eed62ba9",
+      "adaptedContentSha256": "57adc9401f1a46fbe8335290586b8f400ed58c250ed397f90d1a44042abd274f"
+    },
+    {
+      "target": "src/lib/ui/dialog/dialog-description.svelte",
+      "upstreamContentSha256": "55847482a30ce0ca48208ef4e0aa3e5444f18ed84cc144b00e68204635a10db2",
+      "adaptedContentSha256": "b2f4226eaceee5e8da55b7365ad9a23f539fbbf0fbc0fcac9739e0fb9be304c7"
+    },
+    {
+      "target": "src/lib/ui/dialog/dialog-footer.svelte",
+      "upstreamContentSha256": "71982a96b5bf01cacf68bb81fd45a500315d213df4908e294894a182fd1434fa",
+      "adaptedContentSha256": "8cc6b7b7b7509df89c97938fcd528ef06445fe62e5cbdc3ef1e5bf5481cec5c5"
+    },
+    {
+      "target": "src/lib/ui/dialog/dialog-header.svelte",
+      "upstreamContentSha256": "bf13196818547884634977bcb0fa7d54763e938e756596129a50c79bcdc598c6",
+      "adaptedContentSha256": "5fc5789263f2fe5df64a7e055a898d146b3853df534814ebb1e38618c6b03dcb"
+    },
+    {
+      "target": "src/lib/ui/dialog/dialog-overlay.svelte",
+      "upstreamContentSha256": "bde55e30b11d828ab562dd9882144b09dd67b9d98ca30f6536eabb2325a8d998",
+      "adaptedContentSha256": "a064d8faf9f2c05621b70cf23bb10625623c822f5da33c281825560fbd587ff4"
+    },
+    {
+      "target": "src/lib/ui/dialog/dialog-portal.svelte",
+      "upstreamContentSha256": "718c0b6672a2911d7f9398e4ef14813cceabcf0be02b7920f10028d213a674b6",
+      "adaptedContentSha256": "718c0b6672a2911d7f9398e4ef14813cceabcf0be02b7920f10028d213a674b6"
+    },
+    {
+      "target": "src/lib/ui/dialog/dialog-title.svelte",
+      "upstreamContentSha256": "f46141735bbbe385ecb1811212d67812e02d0d0592e07015c09f01964881ba2f",
+      "adaptedContentSha256": "94ab0e4e7bce0a9d558f793554ad51abd358cc29113cd2c520ed98284f2e408f"
+    },
+    {
+      "target": "src/lib/ui/dialog/dialog-trigger.svelte",
+      "upstreamContentSha256": "7b72b3d7fc35bf00f331716f723ee711125263ab09329952728483bb3237dd09",
+      "adaptedContentSha256": "7b72b3d7fc35bf00f331716f723ee711125263ab09329952728483bb3237dd09"
+    },
+    {
+      "target": "src/lib/ui/dialog/dialog.svelte",
+      "upstreamContentSha256": "cc60100e895410b9b5f17b6071c933dfc950e5dbf4d00b261edec1e443008a27",
+      "adaptedContentSha256": "cc60100e895410b9b5f17b6071c933dfc950e5dbf4d00b261edec1e443008a27"
+    },
+    {
+      "target": "src/lib/ui/dialog/index.ts",
+      "upstreamContentSha256": "8357364bc114cc306188b2ed974986fa47d1c2018ae9b730b66e75ea7ae77753",
+      "adaptedContentSha256": "8357364bc114cc306188b2ed974986fa47d1c2018ae9b730b66e75ea7ae77753"
+    },
+    {
+      "registry": "https://shadcn-svelte.com/registry/styles/vega/table.json",
+      "sha256": "76e7f96d099264fc6b24c423c2e3c96579d42be4cad1d733b610bfddb0c7794b"
+    },
+    {
+      "target": "src/lib/ui/table/index.ts",
+      "upstreamContentSha256": "25acd0f0d67391720a63212a88a31b27490041addf0000284e3200a18e808eea",
+      "adaptedContentSha256": "25acd0f0d67391720a63212a88a31b27490041addf0000284e3200a18e808eea"
+    },
+    {
+      "target": "src/lib/ui/table/table-body.svelte",
+      "upstreamContentSha256": "1cd221bb2ef6dcfa58590799bc0bceeb7c3b4e54f419ed6f325e1161526b1f9d",
+      "adaptedContentSha256": "e3ec1611effda1f3e4c3adfafa3b309aa0b025d7e0d7f27d57a151ea0080413d"
+    },
+    {
+      "target": "src/lib/ui/table/table-caption.svelte",
+      "upstreamContentSha256": "a631650d692024eb032a9f17b98b7d5672ebbc182e4c40295c3aad243c71491c",
+      "adaptedContentSha256": "833673985bccdd540589c920ee98a0ea00b20b2e31da0f99c2dedf4856956092"
+    },
+    {
+      "target": "src/lib/ui/table/table-cell.svelte",
+      "upstreamContentSha256": "9fdeaad2f81218dbbfb48f6d0f8d626577f01e0e51df4ad2a69409dfae2ad0d6",
+      "adaptedContentSha256": "74106aa62ac91587aee22c13566f492a548f5f2ae36955eeff733047390a6a76"
+    },
+    {
+      "target": "src/lib/ui/table/table-footer.svelte",
+      "upstreamContentSha256": "94e292ca538f3d67c724af15424ae7e1ba61d7b0459b90d7b3e7ea79318a2295",
+      "adaptedContentSha256": "32a2b703dfda48031ec87496f02e3b22a0429ca67a0ef17ec8fd69984f311130"
+    },
+    {
+      "target": "src/lib/ui/table/table-head.svelte",
+      "upstreamContentSha256": "209ff217eec44bac0a91733b3f9c7068bcda00a0a2c999462b9e0c19c460cf49",
+      "adaptedContentSha256": "d3c793b0e6d0884c4aa09be6889be65ac28c280f4f3c54ee5ac989a0aa3531b1"
+    },
+    {
+      "target": "src/lib/ui/table/table-header.svelte",
+      "upstreamContentSha256": "60f127c155d713f565b8c523717b8931dfa96d0761e92be54fb14ab2fb95939c",
+      "adaptedContentSha256": "a5a1add2ce67ab43c67ea86359e36d44866177c522a49ff308c0640ee4ab51fd"
+    },
+    {
+      "target": "src/lib/ui/table/table-row.svelte",
+      "upstreamContentSha256": "48b08521424f34129f35e3fff7d92970fbe3d981c76630ae9b84375b8946c101",
+      "adaptedContentSha256": "ec608e4fbd83403b78ce1bd1688b61d23e716417fcc3cae85c420289cdf6d9bf"
+    },
+    {
+      "target": "src/lib/ui/table/table.svelte",
+      "upstreamContentSha256": "c420dd0ce67f62db2c2b309eded58c22e9ad58e2b8a058cf4885cce100f688b6",
+      "adaptedContentSha256": "f834ba7ac657f84a507447364a3befdda5d393540a3dda88a0098dd15ee5be93"
+    },
+    {
+      "registry": "https://shadcn-svelte.com/registry/styles/vega/utils.json",
+      "sha256": "bfc2f8b9f0ce3347c1e4ef24460451c4e8e32ccd453f7cd0aba1e49b2c1033b2",
+      "devDependencies": [
+        "cn@^0.3.0"
+      ]
+    },
+    {
+      "target": "src/lib/utils.ts",
+      "upstreamContentSha256": "d56c48595cabedfe55b5233e04383a388eec79bd43a595bdbd36081a8342fd8c",
+      "adaptedContentSha256": "d56c48595cabedfe55b5233e04383a388eec79bd43a595bdbd36081a8342fd8c"
+    }
+  ],
+  "adaptations": [
+    "Replace $UTILS$ with $lib/utils and $UI$ with $lib/ui",
+    "Resolve upstream IconPlaceholder close icon to @lucide/svelte XIcon"
+  ],
+  "license": {
+    "url": "https://raw.githubusercontent.com/huntabyte/shadcn-svelte/main/LICENSE.md",
+    "sha256": "230594c9dedb06fb0759381a520b449c1b47b0f63b95fc88ef9d7e851e2540a9"
+  }
+}

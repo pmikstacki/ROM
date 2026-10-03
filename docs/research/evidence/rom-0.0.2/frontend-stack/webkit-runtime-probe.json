@@ -1,0 +1,18 @@
+{
+ "host": "NixOS x86_64; no NIX_LD or NIX_LD_LIBRARY_PATH configured",
+ "systemInterpreter": "/nix/store/g8925n75f8f4gj7zls19izmb9dmj0n8x-stub-ld-x86_64-unknown-linux-musl",
+ "availableGlibcLoader": "/nix/store/5m9amsvvh2z8sl7jrnc87hzy21glw6k1-glibc-2.40-66/lib/ld-linux-x86-64.so.2",
+ "nixpkgsSource": "/nix/store/lc5bxq4vsgpjjc7i9phdm8s0bxjz0drm-source",
+ "nixpkgsSourceNarHash": "sha256-/bVBlRpECLVzjV19t5KMdMFWSwKLtb5RyXdjz3LJT+g=",
+ "webkitRevision": "2359",
+ "webkitHeadlessBinary": "/root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser",
+ "loaderProbe": "Explicit glibc loader with downloaded WPE lib/sys/lib and existing Nix store lib directories; exit127, missing libavif.so.16",
+ "candidateAdditionalOutputs": {
+   "libavif": "/nix/store/w0hcakfcz24vw3f9a0ncxys23jg83bpb-libavif-1.1.1",
+   "enchant": "/nix/store/kmywn5ivcz44v4nd8d6snh6viaawfmh6-enchant-2.6.9",
+   "libmanette": "/nix/store/fdhs2scwssjcsrsqw11z49gv0r2a21wh-libmanette-0.2.9"
+ },
+ "availablePatchelf": "/nix/store/4wyd0nnxzknglw4j5pw7xr7giw3fpb0k-patchelf-0.15.0/bin/patchelf",
+ "constraint": "Upstream MiniBrowser shell wrapper overwrites LD_LIBRARY_PATH; four WPE ELF helpers require correct loader and library closure. Plain parent LD_LIBRARY_PATH is insufficient.",
+ "nextTrial": "Create a local copied WebKit runtime wrapper or pinned Nix FHS environment; include matching missing SONAMEs, patch/route all child ELF helpers, rerun real WebKit browser tests. Do not modify system configuration or substitute Chromium evidence for WebKit. Candidate closure is not yet accepted or proven minimal."
+}

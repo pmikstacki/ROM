@@ -1,0 +1,74 @@
+
+> rom-0.0.2-frontend-stack-trial@0.0.2 test
+> playwright test --project=chromium
+
+[WebServer] (node:2510400) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:2510502) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/controls.spec.ts:3:1 › imports render and respond to input without browser errors (2ms)
+node:internal/modules/cjs/loader:664
+      throw e;
+      ^
+
+Error: Cannot find module '/var/tmp/rom-0.0.2-frontend-stack/node_modules/playwright-core/lib/coreBundle.js'
+    at createEsmNotFoundErr (node:internal/modules/cjs/loader:1437:15)
+    at finalizeEsmResolution (node:internal/modules/cjs/loader:1426:15)
+    at resolveExports (node:internal/modules/cjs/loader:657:14)
+    at Function._findPath (node:internal/modules/cjs/loader:749:31)
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1387:27)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24) {
+  code: 'MODULE_NOT_FOUND',
+  path: '/var/tmp/rom-0.0.2-frontend-stack/node_modules/playwright-core'
+}
+
+Node.js v22.16.0
+  ✘  2 [chromium] › tests/controls.spec.ts:10:1 › dialog traps focus, closes with Escape, and restores trigger focus (0ms)
+  -  3 [chromium] › tests/controls.spec.ts:16:1 › assembled base and dialog have no axe A/AA violations
+
+
+  1) [chromium] › tests/controls.spec.ts:3:1 › imports render and respond to input without browser errors 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-XKGYdl --remote-debugging-pipe --no-startup-window
+    <launched> pid=2510591
+    [pid=2510591][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+    [pid=2510591][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=2510591][err] linux environments out of the box. For more information, see:
+    [pid=2510591][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-XKGYdl --remote-debugging-pipe --no-startup-window
+      - <launched> pid=2510591
+      - [pid=2510591][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+      - [pid=2510591][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=2510591][err] linux environments out of the box. For more information, see:
+      - [pid=2510591][err] https://nix.dev/permalink/stub-ld
+      - [pid=2510591] <gracefully close start>
+      - [pid=2510591] <kill>
+      - [pid=2510591] <will force kill>
+      - [pid=2510591] exception while trying to kill process: Error: kill ESRCH
+      - [pid=2510591] <process did exit: exitCode=127, signal=null>
+      - [pid=2510591] starting temporary directories cleanup
+      - [pid=2510591] finished temporary directories cleanup
+      - [pid=2510591] <gracefully close end>
+
+
+    Error Context: test-results/controls-imports-render-an-ecb90-nput-without-browser-errors-chromium/error-context.md
+
+  2) [chromium] › tests/controls.spec.ts:10:1 › dialog traps focus, closes with Escape, and restores trigger focus 
+
+    Error: worker process exited unexpectedly (code=1, signal=null)
+
+  2 failed
+    [chromium] › tests/controls.spec.ts:3:1 › imports render and respond to input without browser errors 
+    [chromium] › tests/controls.spec.ts:10:1 › dialog traps focus, closes with Escape, and restores trigger focus 
+  1 did not run
