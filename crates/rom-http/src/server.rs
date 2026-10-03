@@ -1,5 +1,7 @@
 use crate::authentication::{AsyncAuthResolver, AuthResolver, Resolver};
-use crate::routes::{discover, invoke, journal, journal_head, live, query, read, subscribe};
+use crate::routes::{
+    discover, invoke, journal, journal_head, live, query, query_anchor, read, subscribe,
+};
 use axum::{Router, routing::post};
 use rom::{Error, Runtime};
 use std::{future::Future, sync::Arc, time::Duration};
@@ -72,6 +74,7 @@ impl Http {
             .route("/invoke", post(invoke))
             .route("/read", post(read))
             .route("/query", post(query))
+            .route("/query/anchor", post(query_anchor))
             .route("/live", post(live))
             .route("/journal", post(journal))
             .route("/journal/head", post(journal_head))

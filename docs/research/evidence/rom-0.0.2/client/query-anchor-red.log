@@ -1,0 +1,29 @@
+   Compiling rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.46s
+     Running tests/loopback.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/loopback-7ea64dd08e9fa9de)
+
+running 1 test
+test query_anchor::query_anchor_route_preserves_native_float_codec_and_moving_boundary ... FAILED
+
+failures:
+
+---- query_anchor::query_anchor_route_preserves_native_float_codec_and_moving_boundary stdout ----
+
+thread 'query_anchor::query_anchor_route_preserves_native_float_codec_and_moving_boundary' (2043538) panicked at crates/rom-http/tests/loopback/query_anchor.rs:25:5:
+assertion `left == right` failed: HTTP/1.1 404 Not Found
+connection: close
+content-length: 0
+date: Sat, 03 Oct 2026 23:24:15 GMT
+
+
+  left: 404
+ right: 200
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    query_anchor::query_anchor_route_preserves_native_float_codec_and_moving_boundary
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 33 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p rom-http --test loopback`

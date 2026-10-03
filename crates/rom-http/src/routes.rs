@@ -70,6 +70,34 @@ pub(super) async fn query(State(s): State<Shared>, r: Request) -> Result<Respons
 }
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
+struct Anchor {
+    query: rom::QuerySpec,
+    view: AnchorView,
+}
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AnchorView {
+    key: rom::Key,
+    revision: u64,
+    value: Option<rom::Map<String, rom::Value>>,
+}
+pub(super) async fn query_anchor(State(s): State<Shared>, r: Request) -> Result<Response, Failure> {
+    let (actor, request, _permit) = decode::<Anchor>(&s, r).await?;
+    // This is a client-chosen moving boundary, not proof of row origin or visibility.
+    let view = rom::ProjectedView {
+        key: request.view.key,
+        revision: request.view.revision,
+        value: request.view.value,
+    };
+    Ok(Json(
+        s.runtime
+            .query_anchor(&actor, &request.query, &view)
+            .await?,
+    )
+    .into_response())
+}
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
 struct JournalHead {
     kind: String,
 }

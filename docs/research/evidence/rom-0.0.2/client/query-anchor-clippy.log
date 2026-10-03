@@ -1,0 +1,23 @@
+    Checking tokio v1.53.1
+    Checking serde v1.0.229
+    Checking icu_normalizer v2.3.0
+   Compiling rom-derive v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-derive)
+    Checking rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+    Checking idna_adapter v1.2.2
+    Checking sync_wrapper v1.0.2
+    Checking hyper v1.11.1
+    Checking futures-util v0.3.34
+    Checking libsqlite3-sys v0.38.2
+    Checking idna v1.1.0
+    Checking form_urlencoded v1.2.2
+    Checking rusqlite v0.40.2
+    Checking axum-core v0.5.6
+    Checking url v2.5.8
+    Checking tower v0.5.3
+    Checking hyper-util v0.1.21
+    Checking rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+    Checking axum v0.8.9
+    Checking rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+    Checking rom-consumer v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/examples/consumer)
+    Checking rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 7.47s

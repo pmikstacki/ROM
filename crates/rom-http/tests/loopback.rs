@@ -16,5 +16,7 @@ mod operator;
 mod operator_flow;
 #[path = "loopback/query.rs"]
 mod query;
+#[path = "loopback/query_anchor.rs"]
+mod query_anchor;
 #[path = "loopback/support.rs"]
 mod support;

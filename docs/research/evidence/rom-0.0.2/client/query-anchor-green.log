@@ -1,0 +1,9 @@
+   Compiling rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.75s
+     Running tests/loopback.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/loopback-7ea64dd08e9fa9de)
+
+running 1 test
+test query_anchor::query_anchor_route_preserves_native_float_codec_and_moving_boundary ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 33 filtered out; finished in 0.00s
+
