@@ -534,3 +534,108 @@ async fn shared_default_sort_deny_and_small_page_does_not_bypass_snapshot_bound(
         );
     }
 }
+
+#[tokio::test]
+async fn sorted_field_denial_precedes_predicates_anchor_and_page_limit() {
+    for redb in [false, true] {
+        let definition = Item::definition()
+            .policy(|_, _, _| true)
+            .allow_all_fields()
+            .field_policy(|actor, access, field, row| {
+                !matches!(access, Access::Read)
+                    || actor.subject == "owner"
+                    || field != "amount"
+                    || row.amount == 1
+            });
+        let f = Fixture::configured(redb, definition, Limits::default());
+        f.add("a", 1, Presence::Missing, true).await;
+        f.add("z", 9, Presence::Missing, true).await;
+        let observer = Actor::trusted("tests", "observer");
+        let query = Item::amount_field()
+            .equals(1)
+            .order_by(Item::amount_field(), Direction::Asc)
+            .limit(1);
+        // z is not a predicate match and a already fills the page. Its sort-field
+        // denial remains observable because explicit ordering scans all readable rows.
+        assert_eq!(
+            f.runtime
+                .query_spec_projected(&observer, Item::KIND, query.spec().clone())
+                .await
+                .unwrap_err(),
+            Error::Denied
+        );
+        let sorted = Query::<Item>::all().order_by(Item::amount_field(), Direction::Asc);
+        let rows = f.runtime.query(&actor(), &sorted).await.unwrap();
+        let after = sorted.after_snapshot(&rows[1]).unwrap().limit(1);
+        // Both rows are at/before this moving anchor, but sort authorization still runs.
+        assert_eq!(
+            f.runtime
+                .query_spec_projected(&observer, Item::KIND, after.spec().clone())
+                .await
+                .unwrap_err(),
+            Error::Denied
+        );
+        assert!(!f.runtime.status().unwrap().failed);
+    }
+}
+
+fn panic_on_nine(actor: &Actor, access: Access, row: &Item) -> bool {
+    if matches!(access, Access::Read) && actor.subject == "observer" && row.amount == 9 {
+        panic!("query oracle: opaque read policy reached amount nine");
+    }
+    true
+}
+
+#[tokio::test]
+async fn id_page_short_circuit_does_not_evaluate_later_opaque_policy() {
+    for redb in [false, true] {
+        let definition = Item::definition().policy(panic_on_nine).allow_all_fields();
+        let f = Fixture::configured(redb, definition, Limits::default());
+        f.add("a", 1, Presence::Missing, true).await;
+        f.add("z", 9, Presence::Missing, true).await;
+        let observer = Actor::trusted("tests", "observer");
+        let page = f
+            .runtime
+            .query_spec_projected(&observer, Item::KIND, QuerySpec::all().limit(1))
+            .await
+            .unwrap();
+        assert_eq!(page[0].key.id, "a");
+        assert!(!f.runtime.status().unwrap().failed);
+        // Once z enters the inspected ID prefix, its callback panic remains terminal.
+        assert_eq!(
+            f.runtime
+                .query_spec_projected(
+                    &observer,
+                    Item::KIND,
+                    QuerySpec::all().after_id("a").limit(1)
+                )
+                .await
+                .unwrap_err(),
+            Error::Panicked
+        );
+        assert!(f.runtime.status().unwrap().failed);
+    }
+}
+
+#[tokio::test]
+async fn opaque_row_policy_runs_before_a_nonmatching_predicate_can_skip_the_row() {
+    for redb in [false, true] {
+        let definition = Item::definition().policy(panic_on_nine).allow_all_fields();
+        let f = Fixture::configured(redb, definition, Limits::default());
+        f.add("a", 9, Presence::Missing, true).await;
+        f.add("b", 1, Presence::Missing, true).await;
+        let observer = Actor::trusted("tests", "observer");
+        assert_eq!(
+            f.runtime
+                .query_spec_projected(
+                    &observer,
+                    Item::KIND,
+                    QuerySpec::equal("amount", json!(1)).limit(1)
+                )
+                .await
+                .unwrap_err(),
+            Error::Panicked
+        );
+        assert!(f.runtime.status().unwrap().failed);
+    }
+}

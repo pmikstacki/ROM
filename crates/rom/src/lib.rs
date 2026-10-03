@@ -20,11 +20,11 @@ use std::{
     marker::PhantomData,
     panic::{AssertUnwindSafe, catch_unwind},
     sync::{
-        Arc, Mutex,
+        Arc,
         atomic::{AtomicU64, Ordering},
     },
 };
-use tokio::sync::{OwnedSemaphorePermit, Semaphore, oneshot, watch};
+use tokio::sync::{OwnedSemaphorePermit, watch};
 
 mod error;
 pub use error::{Error, Result};

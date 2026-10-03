@@ -108,6 +108,31 @@ the shared authorization, filter, ordering and admission contracts.
 - **WHEN** ROM selects an available valid execution strategy
 - **THEN** values, ordering and admission behavior retain the same defined semantics
 
+#### Scenario: An excluded row has a protected sort field
+- **GIVEN** an opaque row policy and a row-visible Resource whose sort field is not readable
+- **WHEN** a sorted query excludes that row through a predicate, anchor or result limit
+- **THEN** the query still returns Denied as the reference evaluator does
+- **AND** a cheaper native estimate cannot bypass that disclosure check
+
+#### Scenario: An opaque callback fails before filtering
+- **GIVEN** an opaque read callback that panics on an inspected row
+- **WHEN** a later predicate would exclude that row
+- **THEN** the existing policy contract still reports Panicked and fails the runtime
+- **AND** an ID-ordered page that stops before the row does not invoke that callback
+
+#### Scenario: Planning uses coherent admission metadata
+- **GIVEN** a native strategy with exact whole-kind row and byte admission metadata
+- **WHEN** the adapter estimates and executes a normalized query
+- **THEN** metadata, capabilities and execution refer to one coherent native read transaction
+- **AND** an optional estimate failure can select the reference path
+- **AND** an execution failure propagates without silently retrying another strategy
+
+#### Scenario: Application policy can read storage
+- **GIVEN** application-defined authorization or codec code evaluated during observation
+- **WHEN** ROM selects a query execution path
+- **THEN** the adapter does not invoke that code while holding its native connection mutex
+- **AND** observation retains the existing current-authority and generation rechecks
+
 ### Requirement: Release readiness includes operational recovery
 ROM SHALL provide tested CLI recovery, single-writer ownership, documented identity
 and secrets setup, versioned extension conformance and locally verified packages.

@@ -121,3 +121,17 @@ The complete demo and workspace verifiers passed. See
   setup, extension conformance, executable skills and final package acceptance.
 
 No stage or whole-goal completion follows merely from the current tests passing.
+
+## Stage 3 preparation
+
+The core Resource and Runtime implementations now have cohesive internal modules
+with stable public exports. Three additional query regressions preserve sort-field
+denial, ID-page callback stopping and panic-before-filter behavior on both stores.
+The full local verifier passed after the refactor. See
+[foundation results](query-integration-foundation-results.md).
+
+The [draft query design](../superpowers/specs/2026-10-03-maintained-query-strategies-design.md)
+uses an adapter-owned coherent operation without application callbacks under
+native connection locks. The physical-index and semantic-gate reviews identify
+the remaining implementation contracts. This is preparation; maintained index
+selection, index recovery and new performance measurements are not complete.
