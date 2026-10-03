@@ -5,7 +5,9 @@ This note owns research and proposed experiments only. No query prototype,
 third-party crate, benchmark or database translation was implemented or executed
 for this report. Source inspection and official documentation are the evidence.
 The owner accepts **moving views** and requests better filters/sorting and real
-comparative experiments. Aggregates, reporting and joins are outside this step;
+comparative experiments. Subsequent steering requires one semantic contract for
+every adapter: Resource actions and committed outcomes retain the same meaning;
+query operators cannot be reinterpreted or dropped by a backend. Aggregates, reporting and joins are outside this step;
 compensation is not part of the query work.
 
 ## Recommendation and decision status
@@ -158,9 +160,11 @@ adapter implements exactly, and retain final row authorization in core.
    value operands through the accepted codec; bind all SQL values. SQL/JSON path
    construction must handle descriptor names containing dots, quotes and brackets
    without reinterpreting them as client-defined paths.
-2. Separate semantic support, execution strategy and index availability. An
-   adapter reports which canonical predicates/order it executes exactly; core
-   evaluates the residual. Pushing a conjunct is safe only if it cannot exclude
+2. Keep semantic support common to all accepted adapters; distinguish execution
+   strategy and index availability. An adapter reports which canonical
+   predicates/order it can optimize exactly; core evaluates the residual or
+   performs the common fallback. An adapter unable to satisfy mandatory
+   correctness guarantees must be rejected at registration. Pushing a conjunct is safe only if it cannot exclude
    a true match. Pushing one branch of OR as the whole condition is unsound.
 3. Never take the client result limit before residual predicates and row policy.
    With ten denied rows followed by a readable row, SQL LIMIT 10 must not become
@@ -239,8 +243,9 @@ remain a positive control. Compiler fixtures are not a human usability study.
 Use one independent Rust reference evaluator for expected membership/order and
 literal fixtures with known IDs. Compare whole-snapshot baseline, exact candidate
 pushdown, and indexed seek only if an actual index is implemented in the trial.
-Run against both SQLite and redb; unsupported adapter capabilities must be visible
-rather than approximated. Optionally compare SeaQuery with a small handwritten
+Run against both SQLite and redb; absent optimization capabilities use the same
+reference semantics within common work budgets, never approximate or remove an
+operator. Authors write no per-backend query branches. Optionally compare SeaQuery with a small handwritten
 bound SQL renderer while holding the SQL semantics/schema/driver constant; this
 isolates construction cost from plan quality.
 
@@ -277,5 +282,5 @@ conformance and produces a measured benefit. A pleasant hybrid interface is the
 starting recommendation; generated dispatch or a SQL construction crate earns
 adoption only if its measured advantage justifies code size, compile time,
 dependencies and maintenance. Keep drivers/transports outside core. Publish each
-adapter's supported operations, ordering, index and work-budget profile without
-claiming universal database behavior. No aggregate/reporting API is implied.
+adapter's optimized execution paths and index evidence under the common operator,
+ordering and budget contract. This does not certify untested database vendors. No aggregate/reporting API is implied.
