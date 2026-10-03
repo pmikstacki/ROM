@@ -87,3 +87,50 @@ textarea:focus-visible {
   outline: 3px solid #2563eb;
   outline-offset: 2px;
 }
+.studio-shell {
+  max-width: 90rem;
+  margin: auto;
+  padding: 1.5rem;
+}
+.studio-shell h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.studio-shell nav,
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+.studio-layout {
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 1fr);
+  gap: 2rem;
+}
+.studio-layout aside {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.studio-content {
+  min-width: 0;
+}
+.studio-shell pre {
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.studio-shell dl {
+  display: grid;
+  grid-template-columns: minmax(7rem, 1fr) 3fr;
+  gap: 0.5rem;
+}
+.studio-shell dt {
+  font-weight: 600;
+}
+@media (max-width: 700px) {
+  .studio-layout {
+    grid-template-columns: 1fr;
+  }
+}

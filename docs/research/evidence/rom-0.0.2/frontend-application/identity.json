@@ -1,0 +1,14 @@
+{
+  "base": "1b3a32b6c7279287821cb2381c20d9f11fb92026",
+  "node": "v22.16.0",
+  "source": "dirty owned application files plus current shared client",
+  "hashes": {
+    "studio/src/lib/application/ResourcePage.svelte": "50ef8defc7ae5af67b87a45a5e0d26659233ef54f97cd9155dddc7942df3b81b",
+    "studio/src/lib/application/WorkPage.svelte": "2078a74016d08467e6d377f1dc7d806622c733beab9ad687bdfc7ac15cff47f8",
+    "studio/src/lib/application/auth.ts": "5ce6244a3b3e6609a63a95923c93a9e849328a9ca47c4dc6f4c133a164e81259",
+    "studio/src/lib/application/controller.ts": "2af15a033e0606c22780e76e6193bc37fec22300f1fd70319b75f5e5440bdaa3",
+    "studio/src/App.svelte": "98d09aa7d2651b6c5e30f6b8ebe2a3f9244010323aa6bcfd98a8674e3c40d5b0",
+    "studio/src/app.css": "d57a95f95f5a4d2aa13cfe3e46ded450c20dca92c980d037315a4e7ae49d04ae",
+    "studio/package-lock.json": "7830342279addd8dd5dab7ed82d66aa6574b0e70839b9c326b46225394c1f68e"
+  }
+}

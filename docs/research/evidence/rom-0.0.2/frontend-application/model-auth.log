@@ -1,0 +1,86 @@
+TAP version 13
+# (node:2667828) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: connect exposes discovered resources and selected rows
+ok 1 - connect exposes discovered resources and selected rows
+  ---
+  duration_ms: 0.676465
+  type: 'test'
+  ...
+# Subtest: late query cannot replace another navigation
+ok 2 - late query cannot replace another navigation
+  ---
+  duration_ms: 0.135227
+  type: 'test'
+  ...
+# Subtest: unknown outcome blocks another mutation and exact retry uses same object
+ok 3 - unknown outcome blocks another mutation and exact retry uses same object
+  ---
+  duration_ms: 1.351146
+  type: 'test'
+  ...
+# Subtest: disconnect aborts and suppresses delayed discovery
+ok 4 - disconnect aborts and suppresses delayed discovery
+  ---
+  duration_ms: 0.170504
+  type: 'test'
+  ...
+# Subtest: finite lease revalidation reopens once with fresh snapshot
+ok 5 - finite lease revalidation reopens once with fresh snapshot
+  ---
+  duration_ms: 0.53215
+  type: 'test'
+  ...
+# Subtest: repeated finite lease failure stays bounded and clears projections
+ok 6 - repeated finite lease failure stays bounded and clears projections
+  ---
+  duration_ms: 0.350476
+  type: 'test'
+  ...
+# Subtest: separated normal lease expiries renew after each accepted snapshot
+ok 7 - separated normal lease expiries renew after each accepted snapshot
+  ---
+  duration_ms: 0.273148
+  type: 'test'
+  ...
+# (node:2667829) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: browser session supplies CSRF only after verified authenticated response
+ok 8 - browser session supplies CSRF only after verified authenticated response
+  ---
+  duration_ms: 14.116307
+  type: 'test'
+  ...
+# Subtest: unauthenticated authority and expired session fail closed
+ok 9 - unauthenticated authority and expired session fail closed
+  ---
+  duration_ms: 0.682506
+  type: 'test'
+  ...
+# Subtest: logout includes last CSRF and clears it before request returns
+ok 10 - logout includes last CSRF and clears it before request returns
+  ---
+  duration_ms: 0.431079
+  type: 'test'
+  ...
+# Subtest: primary provider must exist; provider URL is encoded
+ok 11 - primary provider must exist; provider URL is encoded
+  ---
+  duration_ms: 0.438113
+  type: 'test'
+  ...
+# Subtest: delayed session response cannot restore authority after logout
+ok 12 - delayed session response cannot restore authority after logout
+  ---
+  duration_ms: 0.412674
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 98.389379
