@@ -7,10 +7,11 @@ import { hash, identity, relativePath, safePath } from '../skills/files.mjs';
 import { verify } from '../skills/admission.mjs';
 import { extract, archiveCommit } from './archives.mjs';
 import { contents } from './contents.mjs';
-import { requireCompleteGate } from './commands.mjs';
+import { requireCompleteGate, STUDIO_PROFILE, NATIVE_PROFILE } from './commands.mjs';
 import { extractedTree } from './tree.mjs';
+import { verifyStudioSource, verifyStudioExtraction } from './studio-verification.mjs';
 
-export function verifyExtraction(directory, source, artifacts) {
+export function verifyExtraction(directory, source, artifacts, frontend) {
   if (archiveCommit(join(directory, artifacts.source.path)) !== source.revision) throw Error('archive commit identity mismatch');
   const scratch = mkdtempSync(join(tmpdir(), 'rom-release-extraction-'));
   try {
@@ -29,13 +30,23 @@ export function verifyExtraction(directory, source, artifacts) {
     if (!isDeepStrictEqual(selected, source.selected) || selected.lock_sha256 !== source.lock_sha256) throw Error('archive selected source identity mismatch');
     const workflows = ['resource', 'native', 'operator', 'release'];
     for (const workflow of workflows) verify(bundle, extracted, workflow);
-    return { source_identity: selected.sha256, lock_sha256: selected.lock_sha256, workflows, examples_executed: false };
+    const verified = { source_identity: selected.sha256, lock_sha256: selected.lock_sha256, workflows, examples_executed: false };
+    if (artifacts.studio) {
+      const actual = verifyStudioSource(extracted, source, frontend);
+      const assets = extract(join(directory, artifacts.studio.path), scratch, artifacts.studio.prefix);
+      verified.studio = verifyStudioExtraction(assets, actual, frontend);
+    }
+    return verified;
   } finally { rmSync(scratch, { recursive: true, force: true }); }
 }
 export async function verifyArtifacts(directory) {
   const manifest = JSON.parse(readFileSync(join(directory, 'manifest.json'), 'utf8'));
-  if (manifest.manifest_version !== 1 || manifest.complete !== true || manifest.publication_enabled !== false || manifest.distribution !== 'source-only') throw Error('unsupported artifact manifest');
-  requireCompleteGate(manifest.command_results);
+  const modern = manifest.manifest_version === 2;
+  if ((!modern && manifest.manifest_version !== 1) || manifest.complete !== true || manifest.publication_enabled !== false ||
+      manifest.distribution !== (modern ? 'source-and-studio-assets' : 'source-only') ||
+      !isDeepStrictEqual(Object.keys(manifest.artifacts ?? {}).sort(), modern ? ['skills', 'source', 'studio'] : ['skills', 'source']) ||
+      (modern && manifest.verification_profile !== STUDIO_PROFILE)) throw Error('unsupported artifact manifest');
+  requireCompleteGate(manifest.command_results, modern ? STUDIO_PROFILE : NATIVE_PROFILE, manifest.archive_verification?.studio?.asset_directory);
   const expected = new Map();
   for (const line of readFileSync(join(directory, 'SHA256SUMS'), 'utf8').trim().split('\n')) {
     const match = /^([0-9a-f]{64})  (.+)$/.exec(line);
@@ -50,7 +61,7 @@ export async function verifyArtifacts(directory) {
     relativePath(payload.path);
     if (expected.get(payload.path) !== payload.sha256) throw Error('manifest artifact checksum mismatch');
   }
-  const verified = verifyExtraction(directory, manifest.source, manifest.artifacts);
+  const verified = verifyExtraction(directory, manifest.source, manifest.artifacts, manifest.archive_verification?.studio);
   if (!isDeepStrictEqual(verified, manifest.archive_verification)) throw Error('archive verification mismatch');
   return manifest;
 }

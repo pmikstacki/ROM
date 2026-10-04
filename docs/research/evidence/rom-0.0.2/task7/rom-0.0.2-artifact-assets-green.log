@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: complete static asset identity rejects changed, missing, and extra files
+ok 1 - complete static asset identity rejects changed, missing, and extra files
+  ---
+  duration_ms: 3.79645
+  type: 'test'
+  ...
+# Subtest: asset admission rejects links, caches, invalid UTF8, and external or escaping references
+ok 2 - asset admission rejects links, caches, invalid UTF8, and external or escaping references
+  ---
+  duration_ms: 1.477706
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 46.674793

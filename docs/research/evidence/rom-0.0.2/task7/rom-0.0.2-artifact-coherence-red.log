@@ -1,0 +1,100 @@
+TAP version 13
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-E63eTw/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-E63eTw/.rom-release-stage-JTZluN/.studio-work-WTAFNs/extracted/rom-0.1.0-alpha.1-84beea6a0274-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-E63eTw/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-NSfJwR/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-NSfJwR/.rom-release-stage-DO1BnE/.studio-work-xh6HNf/extracted/rom-0.1.0-alpha.1-aa97cef3890f-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-NSfJwR/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-svDCZ6/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-svDCZ6/.rom-release-stage-67HbtB/.studio-work-iLaSrP/extracted/rom-0.1.0-alpha.1-ef296d98e9f3-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-svDCZ6/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-Y9vBl7/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-Y9vBl7/.rom-release-stage-g6vtLl/.studio-work-54J1S5/extracted/rom-0.1.0-alpha.1-a99eb34a1c29-studio
+# Incomplete release evidence retained: /var/tmp/rom-artifact-test-Y9vBl7/.rom-release-stage-g6vtLl
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-usidE8/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-usidE8/.rom-release-stage-7aql69/.studio-work-rGVgIz/extracted/rom-0.1.0-alpha.1-a99eb34a1c29-studio
+# Incomplete release evidence retained: /var/tmp/rom-artifact-test-usidE8/.rom-release-stage-7aql69
+# Subtest: legacy version-one source-only manifest retains its six-gate contract
+ok 1 - legacy version-one source-only manifest retains its six-gate contract
+  ---
+  duration_ms: 388.197196
+  type: 'test'
+  ...
+# Subtest: frontend source, npm commands, asset inventory and profile are bound to their records
+not ok 2 - frontend source, npm commands, asset inventory and profile are bound to their records
+  ---
+  duration_ms: 693.283481
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:29:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:47:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: committed frontend generated caches are rejected before the first gate
+not ok 3 - committed frontend generated caches are rejected before the first gate
+  ---
+  duration_ms: 304.002805
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:51:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:58:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: host gate must consume unchanged extracted assets and succeed before publication
+ok 4 - host gate must consume unchanged extracted assets and succeed before publication
+  ---
+  duration_ms: 209.406813
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 2
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1639.011879

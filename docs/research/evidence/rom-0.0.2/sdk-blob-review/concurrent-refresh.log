@@ -1,0 +1,3 @@
+(node:2824021) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"probe":"older-capability-after-failed-refresh","calls":3,"reserve_reached_transport":true,"generation":0}

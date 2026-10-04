@@ -17,6 +17,10 @@ export function skillArchive(root, stage, prefix, output) {
     capture('tar', ['-czf', output, '-C', scratch, prefix], root);
   } finally { rmSync(scratch, { recursive: true, force: true }); }
 }
+export function directoryArchive(root, prefix, output) {
+  const archive = execFileSync('tar', ['-czf', '-', '-C', root, prefix], { timeout: 30000, maxBuffer: 128 * 1024 * 1024 });
+  writeFileSync(output, archive, { flag: 'wx' });
+}
 export function extract(archive, parent, prefix) {
   if (!/^[A-Za-z0-9][A-Za-z0-9._+-]*$/.test(prefix)) throw Error('invalid archive prefix');
   const listing = capture('tar', ['-tzf', archive], parent).trim().split('\n');

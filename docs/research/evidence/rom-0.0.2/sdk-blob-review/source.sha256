@@ -1,0 +1,8 @@
+d1c1615e185880ef171cfd10c0521443421ef929c55999a522074522c27f2c9e  studio/src/lib/client/blobs.ts
+51d9e9e772d7b62bdca1852d918450f5b7726ef58c3b768a2167324b518b2801  studio/src/lib/client/request.ts
+af0cd748c216bf53a86bc95bcdf15890622ad720e72e03100e4b07688e9c8ef5  studio/src/lib/client/session.ts
+12c898e0998243ee7032d5d106a224e47954110d181e04f9231667870ca2eec7  studio/src/lib/client/types.ts
+c501a991e2dc9c13868b1cd37fd5a0d8c118283c1b8ba3a1ddc1a4d1a66acdc8  studio/src/lib/client/deadline.ts
+2734159ced53821ca39f25309f6331be3e7f6438b3dd8d83f623718f99564cef  studio/src/lib/client/validation.ts
+acbfa47fa28e9edef94220a297da5a2c1755f3ce5aa00a5c8b13aa8ee2e03d6c  studio/src/lib/client/serialization.ts
+17c609dca7758b968f807412bc7900b532f4218fba181bcbc69c5e832aff7c85  studio/tests/unit/blobs.test.ts

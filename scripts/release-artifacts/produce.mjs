@@ -7,10 +7,14 @@ import { verifyCommands } from './commands.mjs';
 import { sourceArchive, skillArchive } from './archives.mjs';
 import { verifyExtraction, verifyArtifacts } from './verification.mjs';
 import { finalize } from './manifest.mjs';
+import { prepareStudioAssets } from '../packages/studio-build.mjs';
+import { requireStudioAssets } from '../packages/studio-assets.mjs';
+import { studioSource } from '../packages/studio-source.mjs';
 
 export async function produce({ root, output, runner }) {
   root = resolve(root);
   const source = snapshot(root);
+  if (studioSource(root).package_version !== source.package_version) throw Error('incompatible Studio release version');
   const name = `rom-${source.package_version}-${source.revision.slice(0, 12)}`;
   output = resolve(output ?? join(root, 'dist', name));
   admitOutput(output);
@@ -22,10 +26,16 @@ export async function produce({ root, output, runner }) {
   try {
     await verifyCommands(root, stage, results, runner);
     fence(root, source);
-    const artifacts = { source: { path: `${name}-source.tar.gz`, prefix: name }, skills: { path: `${name}-skills.tar.gz`, prefix: `${name}-skills` } };
+    const artifacts = { source: { path: `${name}-source.tar.gz`, prefix: name }, skills: { path: `${name}-skills.tar.gz`, prefix: `${name}-skills` }, studio: { path: `${name}-studio.tar.gz`, prefix: `${name}-studio` } };
+    const prepared = await prepareStudioAssets(root, stage, artifacts.studio, runner);
+    await verifyCommands(root, stage, results, runner, prepared.asset_directory);
+    requireStudioAssets(prepared.asset_directory, prepared.assets);
+    const { cleanup, ...frontend } = prepared;
+    cleanup();
+    fence(root, source);
     sourceArchive(root, source.revision, name, join(stage, artifacts.source.path));
     skillArchive(root, stage, artifacts.skills.prefix, join(stage, artifacts.skills.path));
-    const verification = verifyExtraction(stage, source, artifacts);
+    const verification = verifyExtraction(stage, source, artifacts, frontend);
     const manifest = finalize(stage, source, tools, results, publication, artifacts, verification);
     await verifyArtifacts(stage);
     fence(root, source);

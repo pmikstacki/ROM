@@ -1,0 +1,10 @@
+file:///workspace/ROM/.worktrees/release-query-index/scripts/packages/studio-build.mjs:20
+      if (result.exit_code !== 0 || result.bounded_abort || result.spawn_failed) throw Error('Studio build command failed');
+                                                                                       ^
+
+Error: Studio build command failed
+    at prepareStudioAssets (file:///workspace/ROM/.worktrees/release-query-index/scripts/packages/studio-build.mjs:20:88)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async file:///workspace/ROM/.worktrees/release-query-index/.superpowers/sdd/rom-0.0.2/task7-artifacts/build-probe.mjs:8:32
+
+Node.js v22.16.0

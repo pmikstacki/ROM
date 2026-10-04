@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: Studio copied inputs retain complete regular sources and exact npm identities
+ok 1 - Studio copied inputs retain complete regular sources and exact npm identities
+  ---
+  duration_ms: 10.261788
+  type: 'test'
+  ...
+# Subtest: Studio source refuses incomplete inputs, incompatible npm lock, and source links
+ok 2 - Studio source refuses incomplete inputs, incompatible npm lock, and source links
+  ---
+  duration_ms: 2.284088
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 55.057162

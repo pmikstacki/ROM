@@ -1,0 +1,407 @@
+TAP version 13
+# Subtest: application copy keeps required test support but excludes private files and build caches
+ok 1 - application copy keeps required test support but excludes private files and build caches
+  ---
+  duration_ms: 5.995127
+  type: 'test'
+  ...
+# Subtest: dependency path audit rejects a ROM dependency resolved from the checkout or a sibling prefix
+ok 2 - dependency path audit rejects a ROM dependency resolved from the checkout or a sibling prefix
+  ---
+  duration_ms: 0.210179
+  type: 'test'
+  ...
+# Subtest: copied application inventory includes hidden configuration and shared support bytes
+ok 3 - copied application inventory includes hidden configuration and shared support bytes
+  ---
+  duration_ms: 8.94828
+  type: 'test'
+  ...
+# Subtest: external application manifest retains exact identity, optional features and dependency scopes
+ok 4 - external application manifest retains exact identity, optional features and dependency scopes
+  ---
+  duration_ms: 0.862419
+  type: 'test'
+  ...
+# Subtest: unsupported dependency kinds and alternate registries fail explicitly
+ok 5 - unsupported dependency kinds and alternate registries fail explicitly
+  ---
+  duration_ms: 0.387917
+  type: 'test'
+  ...
+# Subtest: complete static asset identity rejects changed, missing, and extra files
+ok 6 - complete static asset identity rejects changed, missing, and extra files
+  ---
+  duration_ms: 5.363766
+  type: 'test'
+  ...
+# Subtest: asset admission rejects links, caches, invalid UTF8, and external or escaping references
+ok 7 - asset admission rejects links, caches, invalid UTF8, and external or escaping references
+  ---
+  duration_ms: 2.211293
+  type: 'test'
+  ...
+# Subtest: fresh offline build produces an exclusively created immutable asset extraction
+ok 8 - fresh offline build produces an exclusively created immutable asset extraction
+  ---
+  duration_ms: 38.154789
+  type: 'test'
+  ...
+# Subtest: npm failures and changed copied lock prevent acceptance and retain command evidence
+ok 9 - npm failures and changed copied lock prevent acceptance and retain command evidence
+  ---
+  duration_ms: 7.363136
+  type: 'test'
+  ...
+# Subtest: Studio copied inputs retain complete regular sources and exact npm identities
+ok 10 - Studio copied inputs retain complete regular sources and exact npm identities
+  ---
+  duration_ms: 19.096721
+  type: 'test'
+  ...
+# Subtest: Studio source refuses incomplete inputs, incompatible npm lock, and source links
+ok 11 - Studio source refuses incomplete inputs, incompatible npm lock, and source links
+  ---
+  duration_ms: 3.363613
+  type: 'test'
+  ...
+# gzip: /var/tmp/rom-artifact-test-g9ofEn/truncated-source.tar.gz: unexpected end of file
+# Subtest: commit extraction consumes only the Git header from a large source archive
+ok 12 - commit extraction consumes only the Git header from a large source archive
+  ---
+  duration_ms: 187.078669
+  type: 'test'
+  ...
+# Subtest: commit extraction rejects a tree archive with no commit marker
+ok 13 - commit extraction rejects a tree archive with no commit marker
+  ---
+  duration_ms: 73.002872
+  type: 'test'
+  ...
+# Subtest: commit extraction still rejects incomplete gzip content
+ok 14 - commit extraction still rejects incomplete gzip content
+  ---
+  duration_ms: 49.752154
+  type: 'test'
+  ...
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-Wvi13D/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-Wvi13D/.rom-release-stage-SEQZK8/.studio-work-CkHGIu/extracted/rom-0.1.0-alpha.1-7a3cab9fa669-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-Wvi13D/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-1opdxg/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-1opdxg/.rom-release-stage-IG3TmU/.studio-work-G7thxl/extracted/rom-0.1.0-alpha.1-bdba4efd2f86-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-1opdxg/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-bAn8U2/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-bAn8U2/.rom-release-stage-QC7tlU/.studio-work-r0rfJa/extracted/rom-0.1.0-alpha.1-bdba4efd2f86-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-bAn8U2/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-1HPRCW/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-1HPRCW/.rom-release-stage-ENKIoV/.studio-work-Y6JGgi/extracted/rom-0.1.0-alpha.1-3137dc84adf9-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-1HPRCW/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-VaFemN/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-VaFemN/.rom-release-stage-owDbyn/.studio-work-PBKFKS/extracted/rom-0.1.0-alpha.1-3137dc84adf9-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-VaFemN/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-uoaYF6/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-uoaYF6/.rom-release-stage-IF5eC9/.studio-work-l0aVMN/extracted/rom-0.1.0-alpha.1-3137dc84adf9-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-uoaYF6/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-InZqij/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-InZqij/.rom-release-stage-Y6GMZE/.studio-work-8oD7IL/extracted/rom-0.1.0-alpha.1-ee95c5a68a65-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-InZqij/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-5zTOP7/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-5zTOP7/.rom-release-stage-tJGxat/.studio-work-ngBimD/extracted/rom-0.1.0-alpha.1-ee95c5a68a65-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-5zTOP7/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-HqSaWP/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-HqSaWP/.rom-release-stage-WqvQiP/.studio-work-WLkQIJ/extracted/rom-0.1.0-alpha.1-ee95c5a68a65-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-HqSaWP/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-T8UCS5/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-T8UCS5/.rom-release-stage-JkPwUN/.studio-work-15XKyM/extracted/rom-0.1.0-alpha.1-f1e0bb0e9a95-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-T8UCS5/completed
+# Subtest: archive traversal or links are rejected before extraction
+ok 15 - archive traversal or links are rejected before extraction
+  ---
+  duration_ms: 30.423492
+  type: 'test'
+  ...
+# Subtest: changed declared archive identity fails even with refreshed manifest checksum
+ok 16 - changed declared archive identity fails even with refreshed manifest checksum
+  ---
+  duration_ms: 479.114612
+  type: 'test'
+  ...
+# Subtest: artifact verification rejects extra unchecksummed files
+ok 17 - artifact verification rejects extra unchecksummed files
+  ---
+  duration_ms: 367.844828
+  type: 'test'
+  ...
+# Subtest: verification checks archive commit and complete gate metadata
+ok 18 - verification checks archive commit and complete gate metadata
+  ---
+  duration_ms: 1109.810273
+  type: 'test'
+  ...
+# Subtest: verification notices unchecksummed cache directories
+ok 19 - verification notices unchecksummed cache directories
+  ---
+  duration_ms: 331.358309
+  type: 'test'
+  ...
+# Subtest: verification binds complete declared profile and package version to the extracted profile
+ok 20 - verification binds complete declared profile and package version to the extracted profile
+  ---
+  duration_ms: 1097.33259
+  type: 'test'
+  ...
+# Subtest: verification binds the complete declared selected file inventory
+ok 21 - verification binds the complete declared selected file inventory
+  ---
+  duration_ms: 392.253094
+  type: 'test'
+  ...
+# Subtest: Studio gate profile requires both source frontend and exact extracted host acceptance
+ok 22 - Studio gate profile requires both source frontend and exact extracted host acceptance
+  ---
+  duration_ms: 1.632884
+  type: 'test'
+  ...
+# Subtest: historical v1 profile retains exactly the original six command identities
+ok 23 - historical v1 profile retains exactly the original six command identities
+  ---
+  duration_ms: 0.171637
+  type: 'test'
+  ...
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-boH5Uk/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-boH5Uk/.rom-release-stage-GLR8zY/.studio-work-wn5PgK/extracted/rom-0.1.0-alpha.1-bdba4efd2f86-studio
+# Incomplete release evidence retained: /var/tmp/rom-artifact-test-boH5Uk/.rom-release-stage-GLR8zY
+# Release gate 1/8: ./scripts/check 
+# Incomplete release evidence retained: /var/tmp/rom-artifact-test-qhI9eZ/.rom-release-stage-YripQ9
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-UAEmSm/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Incomplete release evidence retained: /var/tmp/rom-artifact-test-UAEmSm/.rom-release-stage-qez8zj
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-7sb5Ft/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Incomplete release evidence retained: /var/tmp/rom-artifact-test-7sb5Ft/.rom-release-stage-EP39vy
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-NIhyOW/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-NIhyOW/.rom-release-stage-0mKjXh/.studio-work-UrMI2o/extracted/rom-0.1.0-alpha.1-bdba4efd2f86-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-NIhyOW/completed
+# Subtest: dirty tracked or untracked source refuses gates and artifacts
+ok 24 - dirty tracked or untracked source refuses gates and artifacts
+  ---
+  duration_ms: 106.513552
+  type: 'test'
+  ...
+# Subtest: existing output retains its bytes and refuses gates
+ok 25 - existing output retains its bytes and refuses gates
+  ---
+  duration_ms: 43.732041
+  type: 'test'
+  ...
+# Subtest: missing Git metadata or obsolete profile refuses gates
+ok 26 - missing Git metadata or obsolete profile refuses gates
+  ---
+  duration_ms: 129.615146
+  type: 'test'
+  ...
+# Subtest: late destination collision retains complete losing stage and existing output
+ok 27 - late destination collision retains complete losing stage and existing output
+  ---
+  duration_ms: 387.386455
+  type: 'test'
+  ...
+# Subtest: failed gate retains incomplete evidence and exposes no final output
+ok 28 - failed gate retains incomplete evidence and exposes no final output
+  ---
+  duration_ms: 126.379386
+  type: 'test'
+  ...
+# Subtest: post-gate lock change or new committed revision prevents publication
+ok 29 - post-gate lock change or new committed revision prevents publication
+  ---
+  duration_ms: 291.504593
+  type: 'test'
+  ...
+# Subtest: successful fixture creates complete checksummed artifacts with matching extraction admission
+ok 30 - successful fixture creates complete checksummed artifacts with matching extraction admission
+  ---
+  duration_ms: 440.517271
+  type: 'test'
+  ...
+# Subtest: unsupported no-replace utility rejects before any acceptance gate
+ok 31 - unsupported no-replace utility rejects before any acceptance gate
+  ---
+  duration_ms: 143.448252
+  type: 'test'
+  ...
+# Subtest: dangling existing output rejects before gates
+ok 32 - dangling existing output rejects before gates
+  ---
+  duration_ms: 42.442098
+  type: 'test'
+  ...
+# Subtest: unsupported output filesystem rejects before gates
+ok 33 - unsupported output filesystem rejects before gates
+  ---
+  duration_ms: 170.727005
+  type: 'test'
+  ...
+# Subtest: publication refuses an existing empty directory
+ok 34 - publication refuses an existing empty directory
+  ---
+  duration_ms: 16.22894
+  type: 'test'
+  ...
+# Subtest: concurrent no-replace contenders expose exactly one complete directory
+ok 35 - concurrent no-replace contenders expose exactly one complete directory
+  ---
+  duration_ms: 6.072604
+  type: 'test'
+  ...
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-cXsQYY/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-cXsQYY/.rom-release-stage-bRduGN/.studio-work-p4kRZZ/extracted/rom-0.1.0-alpha.1-7a3cab9fa669-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-cXsQYY/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-ABcEfr/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-ABcEfr/.rom-release-stage-PLot4q/.studio-work-QYlmVL/extracted/rom-0.1.0-alpha.1-bdba4efd2f86-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-ABcEfr/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-lTd892/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-lTd892/.rom-release-stage-wsl1T2/.studio-work-sCk00l/extracted/rom-0.1.0-alpha.1-3137dc84adf9-studio
+# Incomplete release evidence retained: /var/tmp/rom-artifact-test-lTd892/.rom-release-stage-wsl1T2
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-owqkrH/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-owqkrH/.rom-release-stage-TuMJQF/.studio-work-kK5qex/extracted/rom-0.1.0-alpha.1-3137dc84adf9-studio
+# Incomplete release evidence retained: /var/tmp/rom-artifact-test-owqkrH/.rom-release-stage-TuMJQF
+# Subtest: legacy version-one source-only manifest retains its six-gate contract
+ok 36 - legacy version-one source-only manifest retains its six-gate contract
+  ---
+  duration_ms: 523.988994
+  type: 'test'
+  ...
+# Subtest: frontend source, npm commands, asset inventory and profile are bound to their records
+ok 37 - frontend source, npm commands, asset inventory and profile are bound to their records
+  ---
+  duration_ms: 698.740189
+  type: 'test'
+  ...
+# Subtest: committed frontend generated caches are rejected before the first gate
+ok 38 - committed frontend generated caches are rejected before the first gate
+  ---
+  duration_ms: 225.784915
+  type: 'test'
+  ...
+# Subtest: host gate must consume unchanged extracted assets and succeed before publication
+ok 39 - host gate must consume unchanged extracted assets and succeed before publication
+  ---
+  duration_ms: 300.07299
+  type: 'test'
+  ...
+1..39
+# tests 39
+# suites 0
+# pass 39
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3887.75803

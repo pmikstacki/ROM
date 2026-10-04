@@ -46,9 +46,9 @@ test('missing Git metadata or obsolete profile refuses gates', async () => {
 
 test('late destination collision retains complete losing stage and existing output', async () => {
   const f = fixture(); let calls = 0;
-  await assert.rejects(produce({ ...f, runner: async () => {
+  await assert.rejects(produce({ ...f, runner: async (...command) => {
     if (++calls === 6) { mkdirSync(f.output); writeFileSync(join(f.output, 'keep'), 'winner'); }
-    return passed();
+    return passed(...command);
   } }));
   assert.equal(readFileSync(join(f.output, 'keep'), 'utf8'), 'winner');
   assert.deepEqual(readdirSync(f.output), ['keep']);
@@ -72,12 +72,12 @@ test('post-gate lock change or new committed revision prevents publication', asy
   for (const commit of [false, true]) {
     const f = fixture();
     let calls = 0;
-    await assert.rejects(produce({ ...f, runner: async () => {
+    await assert.rejects(produce({ ...f, runner: async (...command) => {
       if (calls++ === 0) {
         writeFileSync(join(f.root, 'Cargo.lock'), 'changed');
         if (commit) { git(f.root, ['add', '.']); git(f.root, ['-c', 'user.name=fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-qm', 'changed']); }
       }
-      return passed();
+      return passed(...command);
     } }), /source (changed|must remain clean)/);
     assert.equal(existsSync(f.output), false);
   }
@@ -86,12 +86,14 @@ test('post-gate lock change or new committed revision prevents publication', asy
 test('successful fixture creates complete checksummed artifacts with matching extraction admission', async () => {
   const f = fixture();
   const commands = [];
-  const result = await produce({ ...f, runner: async (program, args) => { commands.push([program, ...args]); return passed(); } });
-  assert.equal(commands.length, 6);
-  assert.deepEqual(commands.map(command => command[0]), ['./scripts/check', './scripts/build', './demo/verify', './demo/verify-provider', './scripts/check-skills', 'node']);
+  const result = await produce({ ...f, runner: async (program, args, options) => { commands.push([program, ...args]); return passed(program, args, options); } });
+  assert.equal(commands.length, 10);
+  assert.deepEqual(commands.map(command => command[0]), ['./scripts/check', './scripts/build', './demo/verify', './demo/verify-provider', './scripts/check-skills', 'node', './scripts/studio-browser-runtime-check', 'npm', 'npm', './demo/verify-studio']);
   assert.deepEqual(commands[5], ['node', 'scripts/check-packages.mjs', f.root]);
   assert.equal(result.publication_enabled, false);
-  assert.equal(result.distribution, 'source-only');
+  assert.equal(result.manifest_version, 2);
+  assert.equal(result.verification_profile, 'rom-studio-v2');
+  assert.equal(result.distribution, 'source-and-studio-assets');
   assert.equal(result.source.revision, git(f.root, ['rev-parse', 'HEAD']).trim());
   assert.deepEqual(result.archive_verification.workflows, ['resource', 'native', 'operator', 'release']);
   assert.equal(result.archive_verification.examples_executed, false);

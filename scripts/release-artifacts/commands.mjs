@@ -1,33 +1,36 @@
 // The production gate is fixed; only the directly imported test API injects execution.
-import { writeFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { runChild } from '../skills/process.mjs';
+import { execute, recordedCommand } from './command-result.mjs';
+import { isAbsolute, resolve } from 'node:path';
+export { execute } from './command-result.mjs';
 
-export function gates(root) {
-  return [
+export const STUDIO_PROFILE = 'rom-studio-v2';
+export const NATIVE_PROFILE = 'native-source-v1';
+export function gates(root, assets, profile = STUDIO_PROFILE) {
+  const native = [
     ['./scripts/check', []], ['./scripts/build', ['--release']], ['./demo/verify', []],
     ['./demo/verify-provider', []], ['./scripts/check-skills', []], ['node', ['scripts/check-packages.mjs', root]],
   ];
+  if (profile === NATIVE_PROFILE) return native;
+  if (profile !== STUDIO_PROFILE) throw Error('unsupported verification profile');
+  return [...native, ['./scripts/studio-browser-runtime-check', []], ['./demo/verify-studio', ['--assets-dir', assets]]];
 }
-export const execute = (program, args, options) => runChild(program, args, { ...options, timeout: 3_600_000, maxBytes: 32 * 1024 * 1024 });
-export async function verifyCommands(root, stage, results, runner = execute) {
-  for (const [program, args] of gates(root)) {
+export async function verifyCommands(root, stage, results, runner = execute, assets) {
+  const expected = gates(root, assets);
+  const selected = assets === undefined ? expected.slice(0, -1) : expected.slice(-1);
+  for (const [program, args] of selected) {
     const index = results.length + 1;
-    console.log(`Release gate ${index}/6: ${program} ${args.join(' ')}`);
-    const started = new Date().toISOString();
-    let outcome;
-    try { outcome = await runner(program, args, { cwd: root, env: { ...process.env, CARGO_BUILD_JOBS: '2' } }); }
-    catch (error) { outcome = { code: null, stdout: '', stderr: error.message, timedOut: false, spawn_failed: true }; }
-    const stdout = `evidence/gate-${index}.stdout.log`, stderr = `evidence/gate-${index}.stderr.log`;
-    writeFileSync(join(stage, stdout), outcome.stdout ?? '', { flag: 'wx' });
-    writeFileSync(join(stage, stderr), outcome.stderr ?? '', { flag: 'wx' });
-    results.push({ program, args, cwd: root, started_at: started, finished_at: new Date().toISOString(), exit_code: outcome.code, bounded_abort: outcome.timedOut === true, spawn_failed: outcome.spawn_failed === true, stdout, stderr });
-    if (outcome.code !== 0 || outcome.timedOut) throw Error(`release gate failed: ${program}`);
+    if (JSON.stringify([program, args]) !== JSON.stringify(expected[index - 1])) throw Error('out-of-order verification gate');
+    console.log(`Release gate ${index}/${expected.length}: ${program} ${args.join(' ')}`);
+    const result = await recordedCommand(program, args, root, stage, `gate-${index}`, runner);
+    results.push(result);
+    if (result.exit_code !== 0 || result.bounded_abort || result.spawn_failed) throw Error(`release gate failed: ${program}`);
   }
 }
-export function requireCompleteGate(results) {
+export function requireCompleteGate(results, profile = NATIVE_PROFILE, assets) {
   const root = results?.[0]?.cwd;
-  if (typeof root !== 'string' || !root.startsWith('/') || !Array.isArray(results) || results.length !== 6) throw Error('incomplete verification gate');
-  const expected = gates(root);
+  if (typeof root !== 'string' || !root.startsWith('/') || !Array.isArray(results)) throw Error('incomplete verification gate');
+  if (profile === STUDIO_PROFILE && (typeof assets !== 'string' || !isAbsolute(assets) || resolve(assets) !== assets)) throw Error('invalid verification gate assets');
+  const expected = gates(root, assets, profile);
+  if (results.length !== expected.length) throw Error('incomplete verification gate');
   if (results.some((result, index) => result.exit_code !== 0 || result.bounded_abort !== false || result.spawn_failed !== false || result.cwd !== root || JSON.stringify([result.program, result.args]) !== JSON.stringify(expected[index]))) throw Error('incomplete verification gate');
 }

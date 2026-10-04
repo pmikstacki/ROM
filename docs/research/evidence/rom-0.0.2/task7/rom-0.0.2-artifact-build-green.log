@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: fresh offline build produces an exclusively created immutable asset extraction
+ok 1 - fresh offline build produces an exclusively created immutable asset extraction
+  ---
+  duration_ms: 30.698361
+  type: 'test'
+  ...
+# Subtest: npm failures and changed copied lock prevent acceptance and retain command evidence
+ok 2 - npm failures and changed copied lock prevent acceptance and retain command evidence
+  ---
+  duration_ms: 5.440712
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 76.28147

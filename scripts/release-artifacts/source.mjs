@@ -3,6 +3,8 @@ import { execFileSync } from 'node:child_process';
 import { lstatSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { hash, identity, relativePath } from '../skills/files.mjs';
+import { isGeneratedStudioPath } from '../packages/studio-source.mjs';
+import { isPrivateSourcePath } from '../packages/source-policy.mjs';
 
 export const capture = (program, args, cwd) => execFileSync(program, args, {
   cwd, encoding: 'utf8', timeout: 10000, maxBuffer: 32 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'],
@@ -11,8 +13,8 @@ function excluded(path) {
   const parts = path.split('/');
   return /[\x00-\x1f\x7f]/.test(path)
     || parts.some(part => ['target', 'node_modules', '.git', '.superpowers'].includes(part))
-    || parts.some(part => /^\.env(?:\.|$)/.test(part) && part !== '.env.example')
-    || /\.(key|pem)$/.test(path);
+    || (parts[0] === 'studio' && isGeneratedStudioPath(parts.slice(1).join('/')))
+    || isPrivateSourcePath(path);
 }
 export function snapshot(root) {
   root = resolve(root);
@@ -46,7 +48,7 @@ export function fence(root, expected) {
 }
 export function toolchain(root) {
   return Object.fromEntries([
-    ['rustc', ['--version']], ['cargo', ['--version']], ['node', ['--version']],
+    ['rustc', ['--version']], ['cargo', ['--version']], ['node', ['--version']], ['npm', ['--version']],
     ['git', ['--version']], ['tar', ['--version']], ['gzip', ['--version']], ['mv', ['--version']], ['findmnt', ['--version']],
   ].map(([program, args]) => [program, capture(program, args, root).split('\n')[0]]));
 }

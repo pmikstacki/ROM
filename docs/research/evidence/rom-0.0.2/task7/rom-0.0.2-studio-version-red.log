@@ -1,0 +1,111 @@
+TAP version 13
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-0RGhmo/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-0RGhmo/.rom-release-stage-Ms8mCn/.studio-work-B1I0es/extracted/rom-0.0.2-6f6a3345bbc1-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-0RGhmo/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-zh9wdb/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-zh9wdb/.rom-release-stage-m6NEpp/.studio-work-q0WneM/extracted/rom-0.0.2-585901ba18b4-studio
+# Completed local source artifacts: /var/tmp/rom-artifact-test-zh9wdb/completed
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-MG960B/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-MG960B/.rom-release-stage-W3Tc4J/.studio-work-H7q3NT/extracted/rom-0.0.2-3dfa0902e7c3-studio
+# Incomplete release evidence retained: /var/tmp/rom-artifact-test-MG960B/.rom-release-stage-W3Tc4J
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-CdSwaV/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-CdSwaV/.rom-release-stage-dyruME/.studio-work-Wy9r3d/extracted/rom-0.0.2-838c8673b21e-studio
+# Incomplete release evidence retained: /var/tmp/rom-artifact-test-CdSwaV/.rom-release-stage-dyruME
+# Release gate 1/8: ./scripts/check 
+# Release gate 2/8: ./scripts/build --release
+# Release gate 3/8: ./demo/verify 
+# Release gate 4/8: ./demo/verify-provider 
+# Release gate 5/8: ./scripts/check-skills 
+# Release gate 6/8: node scripts/check-packages.mjs /var/tmp/rom-artifact-test-JySUyy/source
+# Release gate 7/8: ./scripts/studio-browser-runtime-check 
+# Release gate 8/8: ./demo/verify-studio --assets-dir /var/tmp/rom-artifact-test-JySUyy/.rom-release-stage-o64ZtW/.studio-work-yxxNUq/extracted/rom-0.0.2-838c8673b21e-studio
+# Incomplete release evidence retained: /var/tmp/rom-artifact-test-JySUyy/.rom-release-stage-o64ZtW
+# Subtest: legacy version-one source-only manifest retains its six-gate contract
+ok 1 - legacy version-one source-only manifest retains its six-gate contract
+  ---
+  duration_ms: 422.916052
+  type: 'test'
+  ...
+# Subtest: frontend source, npm commands, asset inventory and profile are bound to their records
+ok 2 - frontend source, npm commands, asset inventory and profile are bound to their records
+  ---
+  duration_ms: 669.625325
+  type: 'test'
+  ...
+# Subtest: committed frontend generated caches are rejected before the first gate
+ok 3 - committed frontend generated caches are rejected before the first gate
+  ---
+  duration_ms: 212.170755
+  type: 'test'
+  ...
+# Subtest: incompatible frontend release version is rejected before gates or npm execution
+not ok 4 - incompatible frontend release version is rejected before gates or npm execution
+  ---
+  duration_ms: 259.624999
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:63:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Studio release version/. Input:
+    
+    'Error: archive Studio source identity mismatch'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'archive Studio source identity mismatch'
+  stack: |-
+    verifyStudioSource (file:///workspace/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio-verification.mjs:9:112)
+    verifyExtraction (file:///workspace/ROM/.worktrees/release-query-index/scripts/release-artifacts/verification.mjs:35:22)
+    produce (file:///workspace/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:36:26)
+    async waitForActual (node:assert:566:5)
+    async Function.rejects (node:assert:687:25)
+    async TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:74:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:74:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: host gate must consume unchanged extracted assets and succeed before publication
+ok 5 - host gate must consume unchanged extracted assets and succeed before publication
+  ---
+  duration_ms: 317.665528
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 4
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1927.301716

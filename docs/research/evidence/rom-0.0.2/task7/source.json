@@ -1,0 +1,125 @@
+{
+  "baseline": "e2f999d49f98e4cc9d7b020721d86c7de7597927",
+  "files": [
+    {
+      "path": "scripts/check-studio-package.mjs",
+      "sha256": "45341678624f158bdd2a45af1742b5f4f014e592244d909236d83b2fe1fad186",
+      "tracked": false
+    },
+    {
+      "path": "scripts/packages/source-policy.mjs",
+      "sha256": "44739914f21b1da044f1931a5bca11717d7d414dddd5c46d3f2d1c8569feeea3",
+      "tracked": false
+    },
+    {
+      "path": "scripts/packages/studio-assets.mjs",
+      "sha256": "d454146bd6c2a49851a8d79bc287f9a106e621cda01944a173b8ba3fed79b3b9",
+      "tracked": false
+    },
+    {
+      "path": "scripts/packages/studio-assets.test.mjs",
+      "sha256": "58c6f14b263b660e8105bf4413bfcc6ebfc69c95a025542b0099ced8bfbc58f7",
+      "tracked": false
+    },
+    {
+      "path": "scripts/packages/studio-build.mjs",
+      "sha256": "c65c5530598a3037cac26412b239e5d66f552abd637ee728f0caeb80d0476de4",
+      "tracked": false
+    },
+    {
+      "path": "scripts/packages/studio-build.test.mjs",
+      "sha256": "a50c02b288b4e053ede6e07f46aadd37a129e5e41e4e7e65ebf857da5fabae51",
+      "tracked": false
+    },
+    {
+      "path": "scripts/packages/studio-consumer.mjs",
+      "sha256": "1353853a51c8fa3cfadc420b7654c66e27b7961aa98e11001c8fc4e1e0a6814a",
+      "tracked": false
+    },
+    {
+      "path": "scripts/packages/studio-consumer.test.mjs",
+      "sha256": "0ba1545630f87b3fe069877a8b06c4c3f86f11126ab25b01df693e933ab9eb43",
+      "tracked": false
+    },
+    {
+      "path": "scripts/packages/studio-source.mjs",
+      "sha256": "a092db2e1ce658b1672765a42d2d05613bd381909165df9ec62da2747ffd8bc1",
+      "tracked": false
+    },
+    {
+      "path": "scripts/packages/studio-source.test.mjs",
+      "sha256": "68f71d97ae723c2cab08479cb6eabefa6c85faf82bbb905d1f3cf932f77e2e7e",
+      "tracked": false
+    },
+    {
+      "path": "scripts/packages/studio-test-support.mjs",
+      "sha256": "f571d176b0b5d6807ff681236e079a542b852aab9a553de1f3b60886460f80f9",
+      "tracked": false
+    },
+    {
+      "path": "scripts/release-artifacts/README.md",
+      "sha256": "430b7df23d2a3daa5e6ee76fb7eab7bcc4b0c5df07ee00031e43902cb7cde362",
+      "tracked": true
+    },
+    {
+      "path": "scripts/release-artifacts/archives.mjs",
+      "sha256": "3cd83905fb5a7e466861365242b73d008285f3610c98753503bf4f8a72fbfc21",
+      "tracked": true
+    },
+    {
+      "path": "scripts/release-artifacts/command-result.mjs",
+      "sha256": "de893f7081ccea830eeeea1b8ba7da34eeb2735c19039018faae32b87db42889",
+      "tracked": false
+    },
+    {
+      "path": "scripts/release-artifacts/commands.mjs",
+      "sha256": "103c3593136467a9d0b72ae2ced175e25cd9e8f4064e9585c634340bcacceda2",
+      "tracked": true
+    },
+    {
+      "path": "scripts/release-artifacts/commands.test.mjs",
+      "sha256": "6e8ff8d138ef39c2fba280dda03a4b44b906f60cc265c365a020ca39491b4b9b",
+      "tracked": false
+    },
+    {
+      "path": "scripts/release-artifacts/manifest.mjs",
+      "sha256": "faa67d9471d3918a8886109ce123a8528825a5e74688b19d4a648fd2689bbdb0",
+      "tracked": true
+    },
+    {
+      "path": "scripts/release-artifacts/produce.mjs",
+      "sha256": "38feec08f038f1a82bf53609ea52842dc186c57c543a989ca9c106a4fd6f99c3",
+      "tracked": true
+    },
+    {
+      "path": "scripts/release-artifacts/producer.test.mjs",
+      "sha256": "ec3496763b5ecf42fb1a64a524533c6eb2af5a273798546987e71eb5ae84661c",
+      "tracked": true
+    },
+    {
+      "path": "scripts/release-artifacts/source.mjs",
+      "sha256": "052638fae692fd95b870a45cda6169ba509eba9963df56e184f5f1c0188aa307",
+      "tracked": true
+    },
+    {
+      "path": "scripts/release-artifacts/studio-verification.mjs",
+      "sha256": "665616bde8f8a3ec431df84838730762b7f2e2a87711c6bc3b41192fb2d9fc98",
+      "tracked": false
+    },
+    {
+      "path": "scripts/release-artifacts/studio.test.mjs",
+      "sha256": "f0ef8557b896d45f220002806fd2c90d11ff34e606758b287268e7962a237733",
+      "tracked": false
+    },
+    {
+      "path": "scripts/release-artifacts/test-support.mjs",
+      "sha256": "2a23444756a9c3e5d8e5a6242afdcafb485a4d5f39ba7f47a2756d44f87e6597",
+      "tracked": true
+    },
+    {
+      "path": "scripts/release-artifacts/verification.mjs",
+      "sha256": "4952e2079200cc84d2f9f92f98d2a3136a1f685901a8568e5cc4afef4346db66",
+      "tracked": true
+    }
+  ]
+}

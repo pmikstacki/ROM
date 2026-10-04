@@ -1,4 +1,4 @@
-# Produce local source artifacts
+# Produce local source and Studio artifacts
 
 Run the producer from a clean ordinary Git checkout:
 
@@ -24,7 +24,9 @@ These requirements concern trusted local process interruption and publication. T
 
 Git metadata must be visible to the host running the command.
 A mounted worktree whose Git directory points to an unavailable host path is insufficient.
-Dependency caches and the actual provider fixture prerequisites must be available for the complete gate.
+Dependency caches, actual browser runtimes, and provider fixture prerequisites must be available for the complete gate.
+The frontend package step requires npm's cache for `npm ci --offline`.
+Chromium and WebKit are both required. A mock browser cannot satisfy these gates.
 Retain the existing Cargo target through `CARGO_TARGET_DIR` and `ROM_PACKAGE_TARGET_DIR` when appropriate.
 Each Cargo gate receives two build jobs.
 
@@ -39,7 +41,24 @@ The production entrypoint always executes these commands in order:
 ./demo/verify-provider
 ./scripts/check-skills
 node scripts/check-packages.mjs ROM_ROOT
+./scripts/studio-browser-runtime-check
+./demo/verify-studio --assets-dir ABSOLUTE_EXTRACTED_ASSETS
 ```
+
+After the seventh gate, the producer copies complete frontend inputs into a private directory.
+It excludes generated frontend directories and rejects conventional private environment and key files.
+It runs these fixed commands in the copy:
+
+```sh
+npm ci --offline --no-audit --no-fund
+npm run build
+```
+
+The package step checks that original and copied source identities remain unchanged.
+It archives the production assets, extracts them, and verifies the complete asset inventory.
+It removes the copied inputs and dependency cache before the eighth gate.
+The eighth gate receives this extraction and uses the actual host, backend, provider, Chromium, and WebKit.
+It does not substitute development assets. The producer checks the asset inventory again after the gate.
 
 Each gate has a one-hour deadline and a combined 32-MiB output bound.
 The shared Linux process helper retains and terminates its owned process group on a bounded abort.
@@ -48,11 +67,12 @@ The producer checks clean status, HEAD, tree, tracked content, and lock identity
 
 ## Artifacts and verification
 
-The complete directory contains source and skills archives, `manifest.json`, `SHA256SUMS`, and gate evidence.
+The complete directory contains source, skills, and production Studio archives, `manifest.json`, `SHA256SUMS`, and command evidence.
 The source archive comes from the exact committed revision.
 Tracked links, cache paths, and conventional private credential paths are rejected.
 No ignored private host files are copied.
 Source archive buffers have a 128-MiB limit; an oversized source fails before publication.
+Studio archive buffers have the same limit.
 
 Verification rejects unsafe archive paths and links before extraction.
 It compares the complete extracted file inventory and digests with the captured source.
@@ -67,6 +87,12 @@ The manifest hashes its payloads; the checksum file also hashes the manifest and
 The selected skills identity covers workspace Cargo files and Rust/Cargo files under crates, demo, and examples.
 It excludes `tests/persistence`; Git tree and source archive identities remain separate records.
 
+New manifests use version 2 and verification profile `rom-studio-v2`.
+They bind the frontend package version and lock identity to the exact extracted source.
+They bind all extracted production asset files to the recorded eighth gate.
+Historical version 1 manifests retain their six-gate `source-only` contract.
+Their verification does not claim Studio acceptance. A Studio payload cannot use that earlier contract.
+
 The producer builds a private sibling stage and verifies the complete directory before moving it.
 GNU `mv -T --no-copy --update=none-fail` performs the no-replace move.
 A late collision preserves the existing output and retains the losing stage.
@@ -75,7 +101,7 @@ Failure evidence has `completed: false`; its directory is not a completed releas
 ## Focused tests
 
 ```sh
-node --test scripts/release-artifacts/*.test.mjs
+node --test scripts/packages/*.test.mjs scripts/release-artifacts/*.test.mjs
 ```
 
 Tests use private committed fixtures and the real archive, assembler, extraction, and admission code.
@@ -85,3 +111,16 @@ These tests prove artifact behavior; they do not replace the real complete produ
 Publication fixtures use `/var/tmp`, which is ext4 on the tested host.
 Set `ROM_RELEASE_TEST_TMP` to another existing ext4 parent if necessary.
 Tests do not change maintained source and retain their small fixture directories for diagnosis.
+
+## Standalone Studio package check
+
+Use an unused output directory and a source checkout with the required native and browser prerequisites:
+
+```sh
+node scripts/check-studio-package.mjs ROM_ROOT OUTPUT_DIR
+```
+
+This command runs the same fresh locked build and actual-host acceptance on extracted production assets.
+It rejects an existing output directory. It retains package and command evidence.
+It has no argument to skip browsers or substitute an existing build.
+Its success is a Studio package check. It does not replace the producer's complete eight-gate acceptance.

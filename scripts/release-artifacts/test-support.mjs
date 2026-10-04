@@ -4,6 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { hash } from '../skills/files.mjs';
+import { frontendFixture, fixtureRunner } from '../packages/studio-test-support.mjs';
 
 const source = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 export const scratch = name => mkdtempSync(join(process.env.ROM_RELEASE_TEST_TMP ?? '/var/tmp', `rom-artifact-${name}-`));
@@ -15,6 +16,7 @@ export function fixture() {
     mkdirSync(dirname(join(root, path)), { recursive: true });
     cpSync(join(source, path), join(root, path), { recursive: true });
   }
+  frontendFixture(root, JSON.parse(readFileSync(join(root, 'extensions/native-alpha-v1.json'))).package_version);
   writeFileSync(join(root, '.gitignore'), '/dist/\n');
   git(root, ['init', '-q']);
   git(root, ['add', '.']);
@@ -22,7 +24,7 @@ export function fixture() {
   return { root, parent, output: join(parent, 'completed') };
 }
 export const git = (root, args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', timeout: 5000 });
-export const passed = async () => ({ code: 0, stdout: 'finite fixture gate passed\n', stderr: '', timedOut: false });
+export const passed = fixtureRunner;
 export function mutateManifest(output, mutate) {
   const path = join(output, 'manifest.json');
   const manifest = JSON.parse(readFileSync(path));

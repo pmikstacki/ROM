@@ -1,0 +1,43 @@
+TAP version 13
+# Subtest: Studio copied inputs retain complete regular sources and exact npm identities
+ok 1 - Studio copied inputs retain complete regular sources and exact npm identities
+  ---
+  duration_ms: 10.708944
+  type: 'test'
+  ...
+# Subtest: Studio source refuses incomplete inputs, incompatible npm lock, and source links
+ok 2 - Studio source refuses incomplete inputs, incompatible npm lock, and source links
+  ---
+  duration_ms: 2.974003
+  type: 'test'
+  ...
+# Subtest: private frontend environment and key inputs are never admitted to a fresh copy
+not ok 3 - private frontend environment and key inputs are never admitted to a fresh copy
+  ---
+  duration_ms: 2.745278
+  type: 'test'
+  location: '/workspace/ROM/.worktrees/release-query-index/scripts/packages/studio-source.test.mjs:45:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/ROM/.worktrees/release-query-index/scripts/packages/studio-source.test.mjs:50:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 2
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 56.000287
