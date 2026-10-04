@@ -70,7 +70,12 @@ unbounded producer because a read-only snapshot shows enough free bytes.
 
 A [read-only retained-cache diagnostic](rom-0.0.2-retained-cache-diagnostic.md)
 identified all four attribute names in the selected failed image and preserved
-its before/after hash. It did not accept that image as a build-cache lower.
+its before/after hash. A later single-lower diagnostic completed on that same
+image: 6,775 raw and merged entries matched by path, type, and size; a selected
+origin-bearing file copied up into private tmpfs; the full image hash stayed
+unchanged and cleanup completed. This remains diagnostic evidence, not a
+build-cache or release acceptance. The bounded producer still needs a revised
+one-lower policy and a clean-source eight-gate run.
 The previous complete-producer reservation still does not fit above the floor.
 
 On inspected baseline `77cc178`, the ROM NixOS container ran

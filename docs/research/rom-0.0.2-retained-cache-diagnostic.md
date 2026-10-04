@@ -144,10 +144,26 @@ with SHA-256
 Both controllers reported code 0, no timeout, no host mount, and no remaining
 entries at their temporary mountpoints.
 
-These tests are synthetic. They do not admit the 34 GiB retained image or
-predict how much of a full ROM build it will reuse. The next test must mount
-that exact image as a sole read-only lower with a bounded fresh upper. It
-must verify the complete visible tree, selected copy-ups, unchanged image
-hash, exact source anchors, and clean teardown. Then the producer policy and
-mount must change from two lowers to one. Only a complete eight-gate producer
-and independent artifact verification can accept the release.
+The synthetic tests do not predict how much of a full ROM build the cache
+will reuse. A separate exact-image diagnostic now completed. Its reviewed
+single-lower mount used the retained 34 GiB image as a read-only ext4 lower,
+with a fresh private tmpfs upper and work directory. The raw and merged
+path/type/size trees each contained 6,775 entries. The selected origin-bearing
+file copied up into the new upper without inheriting its old origin value.
+The original file remained unchanged. The kernel reported one lower and the
+requested `index=off`, `metacopy=off`, `nfs_export=off`, and
+`redirect_dir=nofollow` flags were accepted without an enabled counterpart.
+The result is
+`/root/ipi/research/disk-coordination-2026-10-04/ROM-single-lower-diagnostic-v2-run.json`
+with SHA-256
+`e039cc70e3e4dc8cb5afc0d0865374d1ff4889b6c24eeca57e3227b9b343674e`.
+The image SHA-256 before and after matched the protected anchor
+`3c848435186404e8cd7f7d0d403ed7ea64609b105c149dd76fb805ba0b7968db`.
+The guardian found no remaining owned child or loop and no cleanup error.
+
+This is still a diagnostic result: `diagnosticOnly=true` and
+`compatible=false`. It checks complete path/type/size visibility and one
+copy-up, not every cached file's content or a Cargo build. The next step is
+to change the bounded producer policy and mount from two lowers to one,
+then test a clean-source build. Only a complete eight-gate producer and
+independent artifact verification can accept the release.
