@@ -28,7 +28,10 @@ function version(owner: WireObject): number {
 function codec(value: WireValue | undefined): CodecIdentity | undefined {
   if (value === undefined) return undefined;
   const o = record(value);
-  return { name: text(o.name), version: version(o) };
+  const name = text(o.name);
+  if (new TextEncoder().encode(name).byteLength > 256)
+    throw Error("codec identity bytes limit");
+  return { name, version: version(o) };
 }
 function shape(value: WireValue, depth = 0): Shape {
   if (depth > 16) throw new Error("shape depth limit");
@@ -42,12 +45,22 @@ function shape(value: WireValue, depth = 0): Shape {
     case "f64":
       return { type };
     case "optional":
-    case "nullable":
+      if (depth !== 0) throw Error("nested optional shape");
+      return { type, value: shape(o.value, depth + 1) };
+    case "nullable": {
+      const inner = shape(o.value, depth + 1);
+      if (inner.type === "nullable") throw Error("nested nullable shape");
+      return { type, value: inner };
+    }
     case "list":
     case "map":
       return { type, value: shape(o.value, depth + 1) };
-    case "enum":
-      return { type, value: unique(list(o.value).map(text), (v) => v) };
+    case "enum": {
+      const values = list(o.value);
+      if (values.length < 1 || values.length > 256)
+        throw Error("enum shape limit");
+      return { type, value: unique(values.map(text), (v) => v) };
+    }
     case "reference":
       return { type, value: { kind: text(record(o.value).kind) } };
     default:
@@ -100,6 +113,7 @@ function input(value: WireValue): InputDescriptor | null {
     const v = record(o.value),
       fieldShape = shape(v.shape),
       path = wrappers(v, fieldShape);
+    if (fieldShape.type === "optional") throw Error("scalar presence shape");
     return {
       type,
       value: {
@@ -130,10 +144,7 @@ export function discovery(value: WireValue): Discovery {
         }),
         (v) => v.name,
       );
-      if (
-        action_inputs.some((a) => !actions.includes(a.name)) ||
-        action_inputs.length !== actions.length
-      )
+      if (action_inputs.some((a) => !actions.includes(a.name)))
         throw new Error("inconsistent action descriptors");
       if (action_inputs.some((a) => a.version !== 1))
         throw new Error("unsupported action input version");

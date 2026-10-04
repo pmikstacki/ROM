@@ -61,3 +61,33 @@ Evidence:
 - [Full frontend acceptance after revision correction](evidence/rom-0.0.2/client/initial-revision-frontend-green.log)
 - [Provider CSP regression](evidence/rom-0.0.2/client/provider-csp-red.log)
 - [Provider CSP correction](evidence/rom-0.0.2/client/provider-csp-green.log)
+
+## Authorized action metadata subsets
+
+The integration reviewer found that the client required every visible action name to have a visible input descriptor.
+Native discovery intentionally omits an input descriptor when it would disclose a hidden referenced Resource kind.
+The action name can remain permitted. The browser must accept this authorized subset.
+
+The client now rejects unknown or duplicate input descriptor names without requiring a complete name-to-input mapping.
+Studio creates action forms from the supplied input descriptors only.
+A missing descriptor does not grant invocation authority or disclose the hidden target.
+
+The new regression failed before the correction. The complete SDK suite then passed 64 tests.
+The earlier counts in this report identify their respective source slices.
+
+- [Hidden input descriptor regression](evidence/rom-0.0.2/client/hidden-input-descriptor-red.log)
+- [Successful SDK acceptance](evidence/rom-0.0.2/client/hidden-input-descriptor-green.log)
+
+## Native metadata admission limits
+
+The client now rejects six descriptor forms that the native registration contract cannot produce.
+They are empty or oversized enums, nested optional presence, repeated nullable wrappers, scalar optional presence, and oversized UTF-8 codec names.
+These checks preserve the native shape contract before Studio selects a renderer.
+
+All six regression cases failed before the correction. The subsequent complete SDK run passed 70 tests.
+The successful type check reported zero errors and zero warnings.
+This evidence covers injected descriptor responses, not deployed HTTPS authentication.
+
+- [Metadata admission regressions](evidence/rom-0.0.2/client/metadata-shape-bounds-red.log)
+- [SDK acceptance](evidence/rom-0.0.2/client/metadata-final-unit.log)
+- [Type check](evidence/rom-0.0.2/client/metadata-final-typecheck.log)

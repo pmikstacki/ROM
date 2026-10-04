@@ -13,6 +13,77 @@ const descriptor = {
     },
   ],
 };
+test("authorized discovery can omit an input descriptor that would disclose a hidden target", async () => {
+  const client = createClient({
+    base: "/api",
+    fetch: async () =>
+      Response.json({
+        ...descriptor,
+        resources: [{ ...descriptor.resources[0], action_inputs: [] }],
+      }),
+  });
+  const resource = (await client.discover()).resources[0];
+  assert.deepEqual(resource.actions, ["finish"]);
+  assert.deepEqual(resource.action_inputs, []);
+});
+for (const [name, shape, input, codec] of [
+  ["empty enum", { type: "enum", value: [] }, { type: "unit" }],
+  [
+    "oversized enum",
+    {
+      type: "enum",
+      value: Array.from({ length: 257 }, (_, index) => String(index)),
+    },
+    { type: "unit" },
+  ],
+  [
+    "nested optional",
+    { type: "list", value: { type: "optional", value: { type: "string" } } },
+    { type: "unit" },
+  ],
+  [
+    "nested nullable",
+    {
+      type: "nullable",
+      value: { type: "nullable", value: { type: "string" } },
+    },
+    { type: "unit" },
+  ],
+  [
+    "scalar presence",
+    { type: "string" },
+    {
+      type: "scalar",
+      value: { shape: { type: "optional", value: { type: "string" } } },
+    },
+  ],
+  [
+    "codec UTF-8 bytes",
+    { type: "string" },
+    { type: "unit" },
+    { name: "é".repeat(129), version: 1 },
+  ],
+] as const) {
+  test(`discovery rejects native-impossible ${name}`, async () => {
+    const client = createClient({
+      base: "/api",
+      fetch: async () =>
+        Response.json({
+          version: 1,
+          resources: [
+            {
+              kind: "items",
+              version: 1,
+              fields: [{ name: "value", shape, ...(codec ? { codec } : {}) }],
+              actions: ["run"],
+              action_inputs: [{ name: "run", version: 1, input }],
+            },
+          ],
+        }),
+    });
+    await assert.rejects(client.discover());
+  });
+}
 test("accepts authorized descriptor and rejects duplicate or inconsistent metadata", async () => {
   let value: unknown = descriptor;
   const c = createClient({
