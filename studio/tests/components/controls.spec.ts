@@ -231,10 +231,61 @@ test("wrapped custom codecs apply only to leaves; unknown leaves remain read-onl
     '"maybe_code":{"op":"set","value":null}',
   );
 });
-test("query filters preserve wrapper provenance and edit only registered leaves", async ({ page }) => {
+test("query filters preserve wrapper provenance and edit only registered leaves", async ({
+  page,
+}) => {
   await page.getByLabel("Query field").selectOption("codes");
-  await page.getByRole("button", { name: "Add Query value item", exact: true }).click();
-  await page.getByLabel("Query value[0] custom value", { exact: true }).fill("FILTER");
+  await page
+    .getByRole("button", { name: "Add Query value item", exact: true })
+    .click();
+  await page
+    .getByLabel("Query value[0] custom value", { exact: true })
+    .fill("FILTER");
   await page.getByRole("button", { name: "Apply query", exact: true }).click();
-  await expect(page.getByTestId("query-submitted")).toContainText('"value":["FILTER"]');
+  await expect(page.getByTestId("query-submitted")).toContainText(
+    '"value":["FILTER"]',
+  );
 });
+for (const count of [100, 500])
+  test(`finite generic table ${count} row frame and DOM retention sample`, async ({
+    page,
+  }, testInfo) => {
+    await page.goto(`./tests/components/harness.html?benchmark_rows=${count}`);
+    const table = page.getByRole("table");
+    await expect(
+      table.getByRole("button", { name: `Open row-${count}`, exact: true }),
+    ).toBeVisible();
+    const visibleFrame = await page.evaluate(
+      () =>
+        new Promise<number>((resolve) =>
+          requestAnimationFrame(() => resolve(performance.now())),
+        ),
+    );
+    const columns = await table.getByRole("columnheader").count();
+    const retainedBefore = await table.getByRole("cell").count();
+    expect(retainedBefore).toBe(count * columns);
+    const clearing = await page.evaluate(() => performance.now());
+    await page
+      .getByRole("button", { name: "Clear benchmark rows", exact: true })
+      .click();
+    await expect(table.getByRole("cell")).toHaveCount(0);
+    const clearedFrame = await page.evaluate(
+      () =>
+        new Promise<number>((resolve) =>
+          requestAnimationFrame(() => resolve(performance.now())),
+        ),
+    );
+    const report = {
+      engine: testInfo.project.name,
+      rows: count,
+      columns,
+      cells_before: retainedBefore,
+      cells_after_clear: 0,
+      navigation_to_visible_frame_ms: visibleFrame,
+      clear_to_frame_ms: clearedFrame - clearing,
+      api_requests: 0,
+      scope:
+        "Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost.",
+    };
+    console.log("ROM_TABLE_FRAME " + JSON.stringify(report));
+  });

@@ -1,0 +1,6 @@
+Working directory: /root/ROM/.worktrees/release-query-index/studio
+npm run check
+ROM_WEBKIT_EXECUTABLE=$(../scripts/studio-browser-runtime) npx playwright test --config tests/components/playwright.config.ts --grep 'finite generic'
+ROM_WEBKIT_EXECUTABLE=$(../scripts/studio-browser-runtime) npx playwright test --config tests/components/playwright.config.ts
+ROM_STUDIO_DEMO_BINARY=/var/tmp/rom-studio-secure-files-acceptance/rom-demo ROM_STUDIO_ASSETS=$PWD/dist ROM_WEBKIT_EXECUTABLE=$(../scripts/studio-browser-runtime) npx playwright test --config tests/runtime/playwright.host.config.ts --grep 'shared session logout'
+Focused probe uses retained immutable binary. It does not replace the fresh-source producer gate.

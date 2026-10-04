@@ -5,7 +5,10 @@
   import QueryEditor from "../../src/lib/resources/QueryEditor.svelte";
   import { registerRenderer } from "../../src/lib/renderers/registry.ts";
   import { stringifyWire } from "../../src/lib/client/codec.ts";
-  import type { ResourceDescriptor } from "../../src/lib/client/types.ts";
+  import type {
+    ResourceDescriptor,
+    ProjectedView,
+  } from "../../src/lib/client/types.ts";
   import CustomCode from "./CustomCode.svelte";
   registerRenderer({ name: "fixture-code", version: 1 }, CustomCode);
   const descriptor: ResourceDescriptor = {
@@ -75,6 +78,25 @@
       { name: "opaque", version: 1, input: null },
     ],
   };
+  const requestedRows = new URL(location.href).searchParams.get(
+    "benchmark_rows",
+  );
+  const rowCount =
+    requestedRows === "100" ? 100 : requestedRows === "500" ? 500 : 1;
+  const benchmark = requestedRows === "100" || requestedRows === "500";
+  let rows = $state.raw<ProjectedView[]>(
+    Array.from({ length: rowCount }, (_, index) => ({
+      key: { kind: "fixture", id: "row-" + (index + 1) },
+      revision: 9007199254740993n,
+      value: {
+        count: 18446744073709551615n,
+        done: false,
+        maybe_code: "DETAIL",
+        codes: ["LEAF"],
+        code_map: { primary: "ENTRY" },
+      },
+    })),
+  );
   let submitted = $state("");
   let actionSubmitted = $state("");
   let opaqueSubmitted = $state("");
@@ -94,22 +116,13 @@
   <output data-testid="submitted">{submitted}</output>
   <ResourceTable
     {descriptor}
-    rows={[
-      {
-        key: { kind: "fixture", id: "row-1" },
-        revision: 9007199254740993n,
-        value: {
-          count: 18446744073709551615n,
-          done: false,
-          maybe_code: "DETAIL",
-          codes: ["LEAF"],
-          code_map: { primary: "ENTRY" },
-        },
-      },
-    ]}
+    {rows}
     onselect={(row) => (selected = row.key.id)}
   />
   <output data-testid="selected">{selected}</output>
+  {#if benchmark}<button onclick={() => (rows = [])}
+      >Clear benchmark rows</button
+    >{/if}
   <ActionForm
     {descriptor}
     action={descriptor.action_inputs[0]}

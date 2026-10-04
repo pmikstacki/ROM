@@ -1,0 +1,19 @@
+[WebServer] (node:2928059) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 2 workers
+
+(node:2928120) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2928119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ROM_TABLE_FRAME {"engine":"chromium","rows":100,"columns":16,"cells_before":1600,"cells_after_clear":0,"navigation_to_visible_frame_ms":202,"clear_to_frame_ms":67.69999998807907,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  1 [chromium] › tests/components/controls.spec.ts:250:3 › finite generic table 100 row frame and DOM retention sample (541ms)
+ROM_TABLE_FRAME {"engine":"webkit","rows":100,"columns":16,"cells_before":1600,"cells_after_clear":0,"navigation_to_visible_frame_ms":200,"clear_to_frame_ms":76,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  2 [webkit] › tests/components/controls.spec.ts:250:3 › finite generic table 100 row frame and DOM retention sample (562ms)
+ROM_TABLE_FRAME {"engine":"chromium","rows":500,"columns":16,"cells_before":8000,"cells_after_clear":0,"navigation_to_visible_frame_ms":842.0999999642372,"clear_to_frame_ms":113,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  3 [chromium] › tests/components/controls.spec.ts:250:3 › finite generic table 500 row frame and DOM retention sample (1.2s)
+ROM_TABLE_FRAME {"engine":"webkit","rows":500,"columns":16,"cells_before":8000,"cells_after_clear":0,"navigation_to_visible_frame_ms":998,"clear_to_frame_ms":371,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  4 [webkit] › tests/components/controls.spec.ts:250:3 › finite generic table 500 row frame and DOM retention sample (1.7s)
+
+  4 passed (3.9s)

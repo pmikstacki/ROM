@@ -542,3 +542,99 @@ for (const backend of ["sqlite", "redb"])
       await host.close();
     }
   });
+
+for (const backend of ["sqlite", "redb"])
+  test(`real ${backend} shared session logout clears two tabs and closes delivery`, async ({
+    page,
+    context,
+  }) => {
+    const host = await startHost(backend);
+    test.info().annotations.push({
+      type: "retained-fixture",
+      description: host.directory,
+    });
+    const second = await context.newPage();
+    try {
+      await page.goto(host.url);
+      await page
+        .getByRole("link", { name: "Sign in with Local fixture" })
+        .click();
+      await page.getByRole("button", { name: "Sign in", exact: true }).click();
+      await page.getByRole("button", { name: "Allow", exact: true }).click();
+      await page.getByRole("button", { name: "tasks", exact: true }).click();
+      await expect(
+        page.getByRole("button", { name: "Open task-a", exact: true }),
+      ).toBeVisible();
+      const opened = page.waitForResponse(
+        (response) =>
+          response.url().endsWith("/api/live") && response.status() === 200,
+      );
+      await page
+        .getByRole("button", { name: "Observe live query", exact: true })
+        .click();
+      const delivery = await opened;
+      await expect(
+        page.getByRole("button", { name: "Stop live query", exact: true }),
+      ).toBeVisible();
+      await second.goto(host.url);
+      await expect(
+        second.getByRole("button", { name: "Sign out", exact: true }),
+      ).toBeVisible();
+      await second.getByRole("button", { name: "tasks", exact: true }).click();
+      await expect(
+        second.getByRole("button", { name: "Open task-a", exact: true }),
+      ).toBeVisible();
+      // Both pages share the same BrowserContext cookie/session, not copied Actor data.
+      let terminal = "waiting";
+      let terminalAt = 0;
+      const observeTerminal = (
+        request: import("@playwright/test").Request,
+        result: string,
+      ) => {
+        if (request === delivery.request()) {
+          terminal = result;
+          terminalAt = Date.now();
+        }
+      };
+      page.on("requestfinished", (request) =>
+        observeTerminal(request, "finished"),
+      );
+      page.on("requestfailed", (request) => observeTerminal(request, "failed"));
+      const logoutAt = Date.now();
+      await second
+        .getByRole("button", { name: "Sign out", exact: true })
+        .click();
+      await expect.poll(() => terminal, { timeout: 5000 }).not.toBe("waiting");
+      for (const tab of [page, second]) {
+        await expect(
+          tab.getByRole("link", { name: "Sign in with Local fixture" }),
+        ).toBeVisible({ timeout: 20000 });
+        await expect(tab.getByRole("cell")).toHaveCount(0);
+        await expect(
+          tab.getByRole("button", { name: "Open task-a", exact: true }),
+        ).toHaveCount(0);
+      }
+      console.log(
+        "ROM_SHARED_SESSION " +
+          JSON.stringify({
+            backend,
+            engine: test.info().project.name,
+            delivery_terminal: terminal,
+            delivery_terminal_after_logout_ms: terminalAt - logoutAt,
+            both_tabs_cleared_after_logout_ms: Date.now() - logoutAt,
+            scope:
+              "Two pages share one real host session; browser request termination and current DOM clearing, not offline revocation.",
+          }),
+      );
+      const current = await context.request.get(
+        `${host.origin}/rom-studio/auth/session`,
+      );
+      expect(await current.json()).toEqual({
+        authenticated: false,
+        generation: "anonymous",
+      });
+    } finally {
+      await second.close();
+      await host.close();
+    }
+  });

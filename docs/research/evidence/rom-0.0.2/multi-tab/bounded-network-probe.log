@@ -1,0 +1,11 @@
+
+Running 2 tests using 1 worker
+
+(node:2929314) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓  1 [chromium] › tests/runtime/host.spec.ts:547:3 › real sqlite shared session logout clears two tabs and closes delivery (17.9s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓  2 [chromium] › tests/runtime/host.spec.ts:547:3 › real redb shared session logout clears two tabs and closes delivery (17.6s)
+
+  2 passed (36.4s)

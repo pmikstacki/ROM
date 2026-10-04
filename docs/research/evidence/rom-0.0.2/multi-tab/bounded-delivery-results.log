@@ -1,0 +1,21 @@
+
+Running 4 tests using 1 worker
+
+(node:2933602) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_SHARED_SESSION {"backend":"sqlite","engine":"chromium","delivery_terminal":"failed","delivery_terminal_after_logout_ms":34,"both_tabs_cleared_after_logout_ms":11494,"scope":"Two pages share one real host session; browser request termination and current DOM clearing, not offline revocation."}
+  ✓  1 [chromium] › tests/runtime/host.spec.ts:547:3 › real sqlite shared session logout clears two tabs and closes delivery (16.1s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_SHARED_SESSION {"backend":"redb","engine":"chromium","delivery_terminal":"failed","delivery_terminal_after_logout_ms":34,"both_tabs_cleared_after_logout_ms":11491,"scope":"Two pages share one real host session; browser request termination and current DOM clearing, not offline revocation."}
+  ✓  2 [chromium] › tests/runtime/host.spec.ts:547:3 › real redb shared session logout clears two tabs and closes delivery (16.0s)
+(node:2934029) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_SHARED_SESSION {"backend":"sqlite","engine":"webkit","delivery_terminal":"finished","delivery_terminal_after_logout_ms":38,"both_tabs_cleared_after_logout_ms":14927,"scope":"Two pages share one real host session; browser request termination and current DOM clearing, not offline revocation."}
+  ✓  3 [webkit] › tests/runtime/host.spec.ts:547:3 › real sqlite shared session logout clears two tabs and closes delivery (15.9s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_SHARED_SESSION {"backend":"redb","engine":"webkit","delivery_terminal":"finished","delivery_terminal_after_logout_ms":38,"both_tabs_cleared_after_logout_ms":14919,"scope":"Two pages share one real host session; browser request termination and current DOM clearing, not offline revocation."}
+  ✓  4 [webkit] › tests/runtime/host.spec.ts:547:3 › real redb shared session logout clears two tabs and closes delivery (15.9s)
+
+  4 passed (1.1m)

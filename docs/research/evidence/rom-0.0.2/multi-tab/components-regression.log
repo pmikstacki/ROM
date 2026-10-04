@@ -1,0 +1,55 @@
+[WebServer] (node:2931625) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 36 tests using 2 workers
+
+(node:2931681) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2931680) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [webkit] › tests/components/controls.spec.ts:6:1 › Resource controls preserve integer, presence, boolean and nested edits (444ms)
+  ✓   1 [webkit] › tests/components/application.spec.ts:9:1 › real SDK composes two metadata-driven pages; logout clears details (480ms)
+  ✓   4 [webkit] › tests/components/application.spec.ts:84:1 › real app reports unavailable session without simulated data (259ms)
+  ✓   3 [webkit] › tests/components/controls.spec.ts:34:1 › same field hosts support custom codec, nested collections and generic action input (437ms)
+  ✓   5 [webkit] › tests/components/application.spec.ts:97:1 › moving pages use native query anchors and previous refetches (371ms)
+  ✓   6 [webkit] › tests/components/controls.spec.ts:54:1 › unsupported action stays visible, generic table selects, query emits values (376ms)
+  ✓   7 [webkit] › tests/components/details.spec.ts:2:1 › live revision retains draft and disables stale submission until explicit reload (350ms)
+(node:2932123) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [webkit] › tests/components/controls.spec.ts:71:1 › keyboard controls and assembled accessibility (706ms)
+  ✓  10 [webkit] › tests/components/controls.spec.ts:81:1 › optional remove and empty string remain distinct from omitted fields (391ms)
+  ✓   9 [chromium] › tests/components/application.spec.ts:9:1 › real SDK composes two metadata-driven pages; logout clears details (460ms)
+  ✓  12 [chromium] › tests/components/application.spec.ts:84:1 › real app reports unavailable session without simulated data (111ms)
+  ✓  11 [webkit] › tests/components/controls.spec.ts:102:1 › nested invalid input survives sibling edits and removal releases only its error (397ms)
+  ✓  13 [chromium] › tests/components/application.spec.ts:97:1 › moving pages use native query anchors and previous refetches (301ms)
+  ✓  14 [webkit] › tests/components/controls.spec.ts:121:1 › enum reference and prototype-shaped map keys use generic controls (339ms)
+  ✓  15 [chromium] › tests/components/controls.spec.ts:6:1 › Resource controls preserve integer, presence, boolean and nested edits (181ms)
+  ✓  17 [chromium] › tests/components/controls.spec.ts:34:1 › same field hosts support custom codec, nested collections and generic action input (246ms)
+  ✓  16 [webkit] › tests/components/controls.spec.ts:139:1 › opaque input uses the shared strict lossless codec (308ms)
+  ✓  18 [chromium] › tests/components/controls.spec.ts:54:1 › unsupported action stays visible, generic table selects, query emits values (225ms)
+  ✓  19 [webkit] › tests/components/controls.spec.ts:155:1 › sort field is independent from filter field (317ms)
+  ✓  21 [webkit] › tests/components/controls.spec.ts:169:1 › sort picker excludes collection fields but retains scalar fields (244ms)
+  ✓  20 [chromium] › tests/components/controls.spec.ts:71:1 › keyboard controls and assembled accessibility (536ms)
+  ✓  23 [chromium] › tests/components/controls.spec.ts:81:1 › optional remove and empty string remain distinct from omitted fields (252ms)
+  ✓  22 [webkit] › tests/components/controls.spec.ts:177:1 › wrapped custom codecs apply only to leaves; unknown leaves remain read-only (413ms)
+  ✓  24 [chromium] › tests/components/controls.spec.ts:102:1 › nested invalid input survives sibling edits and removal releases only its error (278ms)
+  ✓  25 [webkit] › tests/components/controls.spec.ts:234:1 › query filters preserve wrapper provenance and edit only registered leaves (306ms)
+  ✓  26 [chromium] › tests/components/controls.spec.ts:121:1 › enum reference and prototype-shaped map keys use generic controls (214ms)
+  ✓  28 [chromium] › tests/components/controls.spec.ts:139:1 › opaque input uses the shared strict lossless codec (189ms)
+ROM_TABLE_FRAME {"engine":"webkit","rows":100,"columns":16,"cells_before":1600,"cells_after_clear":0,"navigation_to_visible_frame_ms":199,"clear_to_frame_ms":72,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  27 [webkit] › tests/components/controls.spec.ts:250:3 › finite generic table 100 row frame and DOM retention sample (534ms)
+  ✓  29 [chromium] › tests/components/controls.spec.ts:155:1 › sort field is independent from filter field (179ms)
+  ✓  31 [chromium] › tests/components/controls.spec.ts:169:1 › sort picker excludes collection fields but retains scalar fields (115ms)
+  ✓  32 [chromium] › tests/components/controls.spec.ts:177:1 › wrapped custom codecs apply only to leaves; unknown leaves remain read-only (303ms)
+  ✓  33 [chromium] › tests/components/controls.spec.ts:234:1 › query filters preserve wrapper provenance and edit only registered leaves (176ms)
+ROM_TABLE_FRAME {"engine":"chromium","rows":100,"columns":16,"cells_before":1600,"cells_after_clear":0,"navigation_to_visible_frame_ms":176.80000001192093,"clear_to_frame_ms":68.10000002384186,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  34 [chromium] › tests/components/controls.spec.ts:250:3 › finite generic table 100 row frame and DOM retention sample (371ms)
+ROM_TABLE_FRAME {"engine":"webkit","rows":500,"columns":16,"cells_before":8000,"cells_after_clear":0,"navigation_to_visible_frame_ms":1044,"clear_to_frame_ms":408,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  30 [webkit] › tests/components/controls.spec.ts:250:3 › finite generic table 500 row frame and DOM retention sample (1.8s)
+(node:2933154) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ROM_TABLE_FRAME {"engine":"chromium","rows":500,"columns":16,"cells_before":8000,"cells_after_clear":0,"navigation_to_visible_frame_ms":867.6999999880791,"clear_to_frame_ms":117.19999998807907,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  35 [chromium] › tests/components/controls.spec.ts:250:3 › finite generic table 500 row frame and DOM retention sample (1.2s)
+  ✓  36 [chromium] › tests/components/details.spec.ts:2:1 › live revision retains draft and disables stale submission until explicit reload (312ms)
+
+  36 passed (9.6s)
