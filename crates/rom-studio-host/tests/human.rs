@@ -4,6 +4,8 @@ use rom_studio_host::{HostConfig, OidcProviderConfig, StudioHost, StudioSettings
 use std::sync::atomic::{AtomicU64, Ordering};
 #[path = "support/blob.rs"]
 mod blob;
+#[path = "support/current_bind.rs"]
+mod current_bind;
 struct Time(AtomicU64);
 impl rom::Clock for Time {
     fn now(&self) -> u64 {
@@ -149,16 +151,50 @@ impl Browser {
 }
 #[tokio::test]
 async fn actual_provider_login_binds_current_resources_and_protects_generic_api() {
-    journey(Arc::new(rom_sqlite::Sqlite::open(":memory:").unwrap())).await;
+    journey(
+        Arc::new(rom_sqlite::Sqlite::open(":memory:").unwrap()),
+        ExpiryProbe::Stalled,
+    )
+    .await;
     let path = std::env::temp_dir().join(format!(
         "rom-human-redb-{}-{}.redb",
         std::process::id(),
         rom::Clock::now(&rom::SystemClock)
     ));
-    journey(Arc::new(rom_redb::Redb::open(&path).unwrap())).await;
+    journey(
+        Arc::new(rom_redb::Redb::open(&path).unwrap()),
+        ExpiryProbe::Stalled,
+    )
+    .await;
     std::fs::remove_file(&path).unwrap();
 }
-async fn journey(storage: Arc<dyn rom::Storage>) {
+#[tokio::test]
+async fn logout_closes_stalled_current_identity_bind() {
+    journey(
+        Arc::new(rom_sqlite::Sqlite::open(":memory:").unwrap()),
+        ExpiryProbe::Ordinary,
+    )
+    .await;
+}
+#[derive(Clone, Copy)]
+enum ExpiryProbe {
+    Ordinary,
+    Stalled,
+    FailedAfterExpiry,
+}
+#[tokio::test]
+async fn expiry_rechecks_original_lease_after_current_bind_fails() {
+    journey(
+        Arc::new(rom_sqlite::Sqlite::open(":memory:").unwrap()),
+        ExpiryProbe::FailedAfterExpiry,
+    )
+    .await;
+}
+async fn journey(storage: Arc<dyn rom::Storage>, expiry_probe: ExpiryProbe) {
+    let current_bind = Arc::new(current_bind::Controlled::new(storage));
+    let blob_metadata = Arc::new(std::sync::atomic::AtomicU8::new(0));
+    let visible_metadata = blob_metadata.clone();
+    let blob_names = Arc::new(std::sync::atomic::AtomicBool::new(false));
     let clock = Arc::new(Time(AtomicU64::new(0)));
     let admin = Actor::trusted("host", "configuration");
     let gate = IdentityGate::default()
@@ -167,7 +203,17 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
         .allow_host("rom-blob-host", PrincipalKind::Service, "attachments")
         .unwrap();
     let runtime = Runtime::builder()
-        .resource(rom_blob::definition())
+        .resource(
+            rom_blob::definition().discovery_policy(move |actor, target| {
+                actor.authority == "local"
+                    && actor.principal_kind() == PrincipalKind::Human
+                    && !matches!(
+                        (visible_metadata.load(Ordering::SeqCst), target),
+                        (1, rom::DiscoveryTarget::Field("store"))
+                            | (2, rom::DiscoveryTarget::Resource)
+                    )
+            }),
+        )
         .clock(clock.clone())
         .actor_gate(Arc::new(gate))
         .resource(
@@ -196,7 +242,7 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
                 .allow_all_fields()
                 .discovery_policy(|_, _| true),
         )
-        .build(storage, Runtime::shared_cpu_pool(1).unwrap())
+        .build(current_bind.clone(), Runtime::shared_cpu_pool(1).unwrap())
         .unwrap();
     let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
     let origin = format!("http://{}", listener.local_addr().unwrap());
@@ -273,6 +319,7 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
         })
         .build()
         .unwrap();
+    let visible_names = blob_names.clone();
     let config = HostConfig::new(
         &origin,
         "/rom-studio/",
@@ -283,6 +330,12 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
     .clock(clock.clone())
     .settings("main")
     .blobs(blobs)
+    .blob_store_discovery(move |actor, name| {
+        visible_names.load(Ordering::SeqCst)
+            && actor.authority == "local"
+            && actor.principal_kind() == PrincipalKind::Human
+            && name == "attachments"
+    })
     .provider(OidcProviderConfig {
         authority: "local".into(),
         label: "Local".into(),
@@ -343,6 +396,7 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
         serde_json::from_slice(&session.bytes().await.unwrap()).unwrap();
     assert_eq!(session["authenticated"], true);
     assert_eq!(session["user_id"], "alice-user");
+    capabilities_journey(&browser, &origin, &blob_metadata, &blob_names).await;
     blob_journey(
         &browser,
         &origin,
@@ -403,7 +457,19 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
         .unwrap();
     assert_eq!(live.status(), 200);
     assert!(live.chunk().await.unwrap().is_some());
+    if !matches!(expiry_probe, ExpiryProbe::Ordinary) {
+        current_bind.arm();
+        tokio::time::timeout(
+            std::time::Duration::from_secs(2),
+            current_bind.started.notified(),
+        )
+        .await
+        .unwrap();
+    }
     clock.0.fetch_add(31, Ordering::SeqCst);
+    if matches!(expiry_probe, ExpiryProbe::FailedAfterExpiry) {
+        current_bind.release();
+    }
     let lease_end = tokio::time::timeout(std::time::Duration::from_secs(2), async {
         let mut terminal = Vec::new();
         while let Some(chunk) = live.chunk().await.unwrap() {
@@ -411,8 +477,12 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
         }
         String::from_utf8(terminal).unwrap()
     })
-    .await
-    .expect("expired stream lease must close");
+    .await;
+    if !matches!(expiry_probe, ExpiryProbe::Ordinary) {
+        current_bind.release();
+    }
+    let lease_end =
+        lease_end.expect("expiry must close the stream while current bind remains stalled");
     assert!(lease_end.contains("identity_expired"), "{lease_end}");
     let renewed = browser
         .send(
@@ -436,6 +506,13 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
         .unwrap();
     assert_eq!(live.status(), 200);
     assert!(live.chunk().await.unwrap().is_some());
+    current_bind.arm();
+    tokio::time::timeout(
+        std::time::Duration::from_secs(2),
+        current_bind.started.notified(),
+    )
+    .await
+    .unwrap();
     let logout = browser
         .client
         .post(format!("{origin}/rom-studio/auth/logout"))
@@ -446,11 +523,36 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
         .await
         .unwrap();
     assert_eq!(logout.status(), 204);
-    tokio::time::timeout(std::time::Duration::from_secs(2), async {
+    let logout_end = tokio::time::timeout(std::time::Duration::from_secs(2), async {
         while live.chunk().await.unwrap().is_some() {}
     })
-    .await
-    .expect("logout must close a session-owned stream");
+    .await;
+    if logout_end.is_err() {
+        current_bind.release();
+    }
+    logout_end
+        .expect("logout must close a session-owned stream while current bind remains stalled");
+    assert!(
+        runtime.status().unwrap().owned_work > 0,
+        "the stopped observer must not abandon accepted storage work"
+    );
+    if matches!(expiry_probe, ExpiryProbe::Ordinary) {
+        stop.send(()).unwrap();
+        let mut task = task;
+        let pending = tokio::time::timeout(std::time::Duration::from_millis(30), &mut task).await;
+        current_bind.release();
+        assert!(
+            pending.is_err(),
+            "shutdown must still drain accepted current bind"
+        );
+        tokio::time::timeout(std::time::Duration::from_secs(2), task)
+            .await
+            .unwrap()
+            .unwrap()
+            .unwrap();
+        return;
+    }
+    current_bind.release();
     authorize(&mut browser, &origin, &issuer).await;
     runtime
         .execute(
@@ -477,6 +579,18 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
     let session: serde_json::Value =
         serde_json::from_slice(&session.bytes().await.unwrap()).unwrap();
     assert_eq!(session["authenticated"], false);
+    let hidden_capabilities = browser
+        .client
+        .get(format!("{origin}/rom-studio/blobs/capabilities"))
+        .header("cookie", browser.cookie(&origin))
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(
+        hidden_capabilities.status(),
+        401,
+        "disabled current User must not disclose cached capabilities"
+    );
     runtime
         .execute(
             &admin,
@@ -706,4 +820,95 @@ async fn blob_journey(browser: &Browser, origin: &str, csrf: &str, store: &blob:
         .await
         .unwrap();
     assert_eq!(invalid.status(), 400);
+    let missing_dot = browser
+        .client
+        .get(format!(
+            "{origin}/rom-studio/blobs/attachment?{}",
+            query_id(".")
+        ))
+        .header("cookie", browser.cookie(origin))
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(missing_dot.status(), 404);
+    let missing_dot: serde_json::Value =
+        serde_json::from_slice(&missing_dot.bytes().await.unwrap()).unwrap();
+    assert_eq!(missing_dot, serde_json::json!({"error":"missing"}));
+    for id in [".", "..", "folder/name"] {
+        let reserved=request("reserve").body(serde_json::json!({"id":id,"store":"attachments","digest":rom_blob::Digest::of(id.as_bytes()).as_str(),"bytes":id.len(),"idempotency":format!("exact-{id}")}).to_string()).send().await.unwrap();
+        assert_eq!(reserved.status(), 200);
+        let uploaded = request(&format!("upload?{}", query_id(id)))
+            .body(id.to_string())
+            .send()
+            .await
+            .unwrap();
+        assert_eq!(uploaded.status(), 200);
+        let download = browser
+            .client
+            .get(format!(
+                "{origin}/rom-studio/blobs/attachment?{}",
+                query_id(id)
+            ))
+            .header("cookie", browser.cookie(origin))
+            .send()
+            .await
+            .unwrap();
+        assert_eq!(download.status(), 200);
+        assert_eq!(download.bytes().await.unwrap().as_ref(), id.as_bytes());
+    }
+    let invalid_query = request("upload?id=avatar&id=uncertain")
+        .body("x")
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(invalid_query.status(), 400);
+    let invalid_query: serde_json::Value =
+        serde_json::from_slice(&invalid_query.bytes().await.unwrap()).unwrap();
+    assert_eq!(invalid_query, serde_json::json!({"error":"invalid"}));
+}
+
+async fn capabilities_journey(
+    browser: &Browser,
+    origin: &str,
+    metadata: &std::sync::atomic::AtomicU8,
+    names: &std::sync::atomic::AtomicBool,
+) {
+    let request = || {
+        browser
+            .client
+            .get(format!("{origin}/rom-studio/blobs/capabilities"))
+            .header("cookie", browser.cookie(origin))
+    };
+    let initial = request().send().await.unwrap();
+    assert_eq!(initial.status(), 200);
+    let initial: serde_json::Value =
+        serde_json::from_slice(&initial.bytes().await.unwrap()).unwrap();
+    assert_eq!(
+        initial["stores"],
+        serde_json::json!([]),
+        "descriptor visibility is not store-name disclosure authority"
+    );
+    names.store(true, Ordering::SeqCst);
+    let allowed = request().send().await.unwrap();
+    assert_eq!(allowed.status(), 200);
+    let allowed: serde_json::Value =
+        serde_json::from_slice(&allowed.bytes().await.unwrap()).unwrap();
+    assert_eq!(
+        allowed,
+        serde_json::json!({"version":1,"resource_kind":"blobs","stores":["attachments"],"limits":{"blob_bytes":1048576,"chunk_bytes":2,"chunks":1024},"operations":["reserve","upload","download","detach"]})
+    );
+    for hidden in [1, 2] {
+        metadata.store(hidden, Ordering::SeqCst);
+        let denied = request().send().await.unwrap();
+        assert_eq!(denied.status(), 403);
+        let denied: serde_json::Value =
+            serde_json::from_slice(&denied.bytes().await.unwrap()).unwrap();
+        assert_eq!(denied, serde_json::json!({"error":"denied"}));
+    }
+    metadata.store(0, Ordering::SeqCst);
+}
+fn query_id(id: &str) -> String {
+    url::form_urlencoded::Serializer::new(String::new())
+        .append_pair("id", id)
+        .finish()
 }

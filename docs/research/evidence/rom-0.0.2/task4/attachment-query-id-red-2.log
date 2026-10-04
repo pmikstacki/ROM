@@ -1,0 +1,25 @@
+   Compiling rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `test` profile [unoptimized] target(s) in 0.80s
+     Running tests/human.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/human-6f67740276f9d0b6)
+
+running 1 test
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+test expiry_rechecks_original_lease_after_current_bind_fails ... FAILED
+
+failures:
+
+---- expiry_rechecks_original_lease_after_current_bind_fails stdout ----
+
+thread 'expiry_rechecks_original_lease_after_current_bind_fails' (2131655) panicked at crates/rom-studio-host/tests/human.rs:825:5:
+assertion `left == right` failed
+  left: 200
+ right: 404
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    expiry_rechecks_original_lease_after_current_bind_fails
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.27s
+
+error: test failed, to rerun pass `-p rom-studio-host --test human`

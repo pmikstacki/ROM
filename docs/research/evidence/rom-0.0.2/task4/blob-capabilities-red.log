@@ -1,0 +1,18 @@
+   Compiling rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+error[E0599]: no method named `blob_store_discovery` found for struct `HostConfig` in the current scope
+   --> crates/rom-studio-host/tests/human.rs:310:6
+    |
+300 |       let config = HostConfig::new(
+    |  __________________-
+301 | |         &origin,
+302 | |         "/rom-studio/",
+303 | |         std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/assets"),
+...   |
+309 | |     .blobs(blobs)
+310 | |     .blob_store_discovery(move |actor,name| visible_names.load(Ordering::SeqCst) && actor.authority=="local" && actor.principal_k...
+    | |     -^^^^^^^^^^^^^^^^^^^^ method not found in `HostConfig`
+    | |_____|
+    |
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `rom-studio-host` (test "human") due to 1 previous error

@@ -1,4 +1,8 @@
-use crate::{router::Shared, session::Session};
+use crate::{
+    observation_gate::{self, Gate},
+    router::Shared,
+    session::Session,
+};
 use axum::{
     body::{Body, BodyDataStream, Bytes},
     response::Response,
@@ -31,21 +35,10 @@ pub(crate) fn guard(
         |state| async move {
             let mut state = state?;
             loop {
-                if *state.session.cancellation().borrow() {
-                    return None;
-                }
-                if state
-                    .actor
-                    .valid_until()
-                    .is_none_or(|end| state.shared.config.clock.now() >= end)
-                {
-                    return terminal("identity_expired");
-                }
-                let Some(credentials) = &state.session.evidence.credentials else {
-                    return terminal("denied");
-                };
-                if credentials.current(&state.shared).await.is_err() {
-                    return terminal("denied");
+                match observation_gate::check(&state.shared, &state.session, &state.actor).await {
+                    Gate::Ready => {}
+                    Gate::Cancelled => return None,
+                    Gate::Terminal(category) => return terminal(category),
                 }
                 let mut cancelled = state.session.cancellation();
                 let chunk = tokio::select! {biased;
@@ -53,18 +46,10 @@ pub(crate) fn guard(
                     chunk=state.body.next()=>chunk,
                     _=tokio::time::sleep(state.shared.config.limits.observation_poll)=>continue,
                 };
-                if *cancelled.borrow() {
-                    return None;
-                }
-                if state
-                    .actor
-                    .valid_until()
-                    .is_none_or(|end| state.shared.config.clock.now() >= end)
-                {
-                    return terminal("identity_expired");
-                }
-                if credentials.current(&state.shared).await.is_err() {
-                    return terminal("denied");
+                match observation_gate::check(&state.shared, &state.session, &state.actor).await {
+                    Gate::Ready => {}
+                    Gate::Cancelled => return None,
+                    Gate::Terminal(category) => return terminal(category),
                 }
                 match chunk {
                     Some(Ok(bytes)) => return Some((Ok::<_, Infallible>(bytes), Some(state))),

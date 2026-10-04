@@ -1,0 +1,23 @@
+   Compiling rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `test` profile [unoptimized] target(s) in 0.62s
+     Running tests/human.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/human-6f67740276f9d0b6)
+
+running 1 test
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+test logout_closes_stalled_current_identity_bind ... FAILED
+
+failures:
+
+---- logout_closes_stalled_current_identity_bind stdout ----
+
+thread 'logout_closes_stalled_current_identity_bind' (2118554) panicked at crates/rom-studio-host/tests/human.rs:469:16:
+logout must close a session-owned stream while current bind remains stalled: Elapsed(())
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    logout_closes_stalled_current_identity_bind
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 1 filtered out; finished in 2.48s
+
+error: test failed, to rerun pass `-p rom-studio-host --test human`

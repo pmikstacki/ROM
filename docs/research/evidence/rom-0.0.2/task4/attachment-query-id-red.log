@@ -1,0 +1,29 @@
+   Compiling rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+error[E0599]: no method named `query` found for struct `RequestBuilder` in the current scope
+   --> crates/rom-studio-host/tests/human.rs:824:10
+    |
+823 |       let missing_dot=browser.client.get(format!("{origin}/rom-studio/blobs/attachment"))
+    |  _____________________-
+824 | |         .query(&[("id",".")]).header("cookie",browser.cookie(origin)).send().await.unwrap();
+    | |         -^^^^^ method not found in `RequestBuilder`
+    | |_________|
+    |
+
+error[E0599]: no method named `query` found for struct `RequestBuilder` in the current scope
+   --> crates/rom-studio-host/tests/human.rs:831:40
+    |
+831 |         let uploaded=request("upload").query(&[("id",id)]).body(id.to_string()).send().await.unwrap();
+    |                                        ^^^^^ method not found in `RequestBuilder`
+
+error[E0599]: no method named `query` found for struct `RequestBuilder` in the current scope
+   --> crates/rom-studio-host/tests/human.rs:834:14
+    |
+833 |           let download=browser.client.get(format!("{origin}/rom-studio/blobs/attachment"))
+    |  ______________________-
+834 | |             .query(&[("id",id)]).header("cookie",browser.cookie(origin)).send().await.unwrap();
+    | |             -^^^^^ method not found in `RequestBuilder`
+    | |_____________|
+    |
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `rom-studio-host` (test "human") due to 3 previous errors

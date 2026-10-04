@@ -1,0 +1,7 @@
+f7888a62236f6ec5514f496a73cc84d27796b69328dc65cf00333a4cf3e45d96  Cargo.lock
+6d4414b99be67b85cbd01a9a70e55e4658f0fa469798a69853a91c3c0c197f22  crates/rom-studio-host/src/observation_gate.rs
+178387b788b2fd8768fe79fdfa122974d35aac2ba02bf1f5cbfce1021e06588a  crates/rom-studio-host/src/session_observation.rs
+ff2841aaf465703ae47b35071bdf50dff0fbff9ee41667cd370dad1ef35c5b87  crates/rom-studio-host/src/blob_capabilities.rs
+6f955a4e4904edecc4e77b326d0c14c871bfc72264c0d4f8533b7d8b7c67a2d1  crates/rom-studio-host/src/blobs.rs
+e0f2e81244d9bc3f6c9eb4fca7abb1584fd05a93d832bf8fe7ee2163f77abe6e  crates/rom-studio-host/src/configuration.rs
+4aa863f6f345439fa7f0a8687f5932932e42c22e891b6b10ff4ef491ba48068a  crates/rom-studio-host/tests/human.rs

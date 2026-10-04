@@ -3,11 +3,13 @@
 
 mod assets;
 mod authentication;
+mod blob_capabilities;
 mod blobs;
 mod configuration;
 mod csrf;
 mod lifecycle;
 mod login;
+mod observation_gate;
 mod oidc;
 mod router;
 mod session;

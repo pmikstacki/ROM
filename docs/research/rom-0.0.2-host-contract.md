@@ -120,7 +120,7 @@ The service exposes its validated limits. The host does not maintain an independ
 | --- | --- | --- |
 | `POST blobs/reserve` | Bounded JSON: `id`, `store`, `digest`, `bytes`, `idempotency` | `status:reserved` and current projected Resource |
 | `POST blobs/upload?id=...` | Raw body, normalized to service chunk bounds | `status:attached` and current projected Resource |
-| `GET blobs/attachment/{id}` | Current browser session | Bounded verified attachment bytes |
+| `GET blobs/attachment?id=...` | Current browser session and exact query-encoded ID | Bounded verified attachment bytes |
 | `POST blobs/detach` | Bounded JSON: `id` | `status:detached` and current projected Resource |
 
 Mutation routes require Origin and CSRF checks. Download checks current session identity and Resource access.
@@ -147,3 +147,40 @@ Its failing test is retained in `evidence/rom-0.0.2/task4/host-terminal-drain-re
 
 These are real TCP serving tests in a Cargo process. They do not prove SIGTERM handling in a separate demo process.
 The operating-system signal and packaged application checks remain separate acceptance work.
+
+## Slow current binding and capabilities
+
+Two fault-injection tests exposed stream closure delays during a blocked authoritative User read.
+The old stream wrapper waited for current binding before it checked logout or lease expiry again.
+Both failing results remain in `task4/current-bind-expiry-red.log` and `task4/current-bind-logout-red.log`.
+
+The new observation gate submits current binding to the existing authentication supervisor.
+The observer waits for that result while it monitors session cancellation and the original Actor lease.
+Logout closes the response without waiting for the blocked read. Known lease expiry emits `identity_expired`.
+The result branch checks the original lease again before it classifies a failed bind.
+It does not renew the Actor captured by the existing core query handle.
+
+Cancelling the observer wait does not cancel accepted binding work or release its supervision permit.
+The native storage test wrapper pauses one User read before delegation. Its private barrier has a five-second deadline.
+Shutdown still waits for the accepted read after the observer closes. The test releases the private barrier before completion.
+The same proof-expiry case runs on SQLite and redb. A separate case releases the read with a denial after expiry.
+
+`GET blobs/capabilities` returns version 1 transport metadata:
+
+```json
+{"version":1,"resource_kind":"blobs","stores":["attachments"],"limits":{"blob_bytes":1048576,"chunk_bytes":2,"chunks":1024},"operations":["reserve","upload","download","detach"]}
+```
+
+Current session authentication and Runtime discovery must permit the Blob Resource and its `store` field.
+Configured store names also require an explicit `HostConfig.blob_store_discovery` predicate. Its default denies name disclosure.
+The predicate receives the verified current Actor and one configured name. It does not authorize Resource operations.
+The actual OIDC tests hide the Resource and store field independently. Neither denial returns store names or limits.
+They also verify that disabling the current User prevents cached capability disclosure.
+
+The canonical attachment endpoint takes the ID in its query. The older path endpoint remains for compatibility.
+Real upload and download tests preserve `.`, `..`, and `folder/name` as exact Resource IDs.
+Duplicate upload query IDs return JSON `invalid` before upload admission. They do not become an unknown mutation outcome.
+
+The focused final host suite passes 28 tests. Blob integration and doctest counts remain 13 and one.
+The final verification log is `task4/current-bind-capabilities-final-5.log`.
+These tests use real TCP and real OIDC. Separate operating-system signal acceptance remains the demo harness's responsibility.

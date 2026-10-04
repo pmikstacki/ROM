@@ -30,7 +30,13 @@ The host uses the service's validated chunk limits. Accepted uploads remain unde
 Reservation, upload, and detachment require Origin and CSRF checks. Downloads use current session and Resource authorization.
 Browser responses use Resource projections. They do not expose raw object receipts or backend errors.
 An uncertain provider publication returns `outcome_unknown`. A retry verifies the existing immutable object before attachment.
+Use `GET blobs/attachment?id=...` for downloads. Query encoding preserves Resource IDs such as `.` and IDs that contain `/`.
+`GET blobs/capabilities` requires current Blob Resource and store-field discovery authority.
+Use `HostConfig.blob_store_discovery(...)` to permit disclosure of configured store names. The default denies all names.
+Capabilities describe available transport operations. They do not grant Resource mutation or read permissions.
 Real TCP tests pause accepted authentication and upload work, then disconnect both callers and stop intake.
 Shutdown waits for both private test barriers before closing Runtime. A separate test verifies draining after an authentication panic.
 These tests do not prove operating-system signal handling in the demo process. That acceptance check remains separate.
+Observation waits check logout and the original Actor lease while current identity binding waits for storage.
+They do not renew an existing stream Actor. Accepted identity checks retain their supervision permit until completion.
 The real-provider integration tests require Node and the installed `demo/provider-fixture` dependencies.

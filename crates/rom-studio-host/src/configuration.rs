@@ -1,6 +1,7 @@
 use rom::{Actor, Error, Result};
 use std::{collections::BTreeSet, path::PathBuf, time::Duration};
 use url::Url;
+type BlobStoreDisclosure = std::sync::Arc<dyn Fn(&Actor, &str) -> bool + Send + Sync>;
 
 /// Explicit host-approved OIDC network sources. Never deserialize this from browser input.
 #[derive(Clone)]
@@ -57,6 +58,7 @@ pub struct HostConfig {
     pub(crate) primary: Option<String>,
     pub(crate) settings_id: Option<String>,
     pub(crate) blobs: Option<rom_blob::BlobService>,
+    pub(crate) blob_store_discovery: BlobStoreDisclosure,
     pub(crate) loopback_http: bool,
     pub limits: HostLimits,
     pub http_limits: rom_http::Limits,
@@ -78,6 +80,7 @@ impl HostConfig {
             primary: None,
             settings_id: None,
             blobs: None,
+            blob_store_discovery: std::sync::Arc::new(|_, _| false),
             loopback_http: false,
             limits: HostLimits::default(),
             http_limits: rom_http::Limits::default(),
@@ -103,6 +106,15 @@ impl HostConfig {
     /// Add supervised binary transport for the same Resource runtime.
     pub fn blobs(mut self, service: rom_blob::BlobService) -> Self {
         self.blobs = Some(service);
+        self
+    }
+    /// Explicit metadata disclosure for configured store names, default denied.
+    /// This does not authorize reservation or other Resource mutations.
+    pub fn blob_store_discovery<P>(mut self, policy: P) -> Self
+    where
+        P: Fn(&Actor, &str) -> bool + Send + Sync + 'static,
+    {
+        self.blob_store_discovery = std::sync::Arc::new(policy);
         self
     }
     pub fn primary(mut self, authority: &str) -> Self {

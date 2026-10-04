@@ -96,9 +96,11 @@ impl StudioHost {
             .route("/auth/providers", get(providers))
             .route("/auth/logout", post(logout))
             .route("/blobs/reserve", post(crate::blobs::reserve))
+            .route("/blobs/capabilities", get(crate::blob_capabilities::read))
             .route("/blobs/upload", post(crate::blobs::upload))
             .route("/blobs/detach", post(crate::blobs::detach))
             .route("/blobs/attachment/{id}", get(crate::blobs::download))
+            .route("/blobs/attachment", get(crate::blobs::download_query))
             .fallback(assets)
             .with_state(self.shared.clone())
             .nest("/api", api);

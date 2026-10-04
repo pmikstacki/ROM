@@ -1,0 +1,114 @@
+   Compiling rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `test` profile [unoptimized] target(s) in 2.83s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_blob-648096cfb05d978b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/lifecycle.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/lifecycle-8872b6cd760466b7)
+
+running 13 tests
+test backend_panic_releases_work_and_closes_service ... ok
+test generic_invocation_cannot_forge_ready_or_replace_pending_with_ready ... ok
+test conflicting_or_partial_input_never_publishes ... ok
+test service_reports_exact_runtime_and_validated_transport_limits ... ok
+test changed_reservation_returns_explicit_unattached_object ... ok
+test lost_metadata_ack_is_explicit_and_retry_resolves_one_attachment ... ok
+test complete_verified_upload_is_attached_and_private ... ok
+test pending_detachment_keeps_one_cleanup_identity_and_cannot_publish ... ok
+test revocation_during_backend_read_prevents_disclosure ... ok
+test unknown_object_ack_retries_complete_input_without_overwrite ... ok
+test input_bounds_and_timeout_publish_nothing ... ok
+test canceled_waiter_retains_capacity_and_shutdown_drains_publication ... ok
+test shutdown_releases_all_adapter_owners_before_return ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_studio_host-66a9e296bc5c2cd3)
+
+running 18 tests
+test csrf_tests::unsafe_requests_require_one_exact_origin_without_normalizing_attacker_input ... ok
+test csrf_tests::duplicate_cookie_names_cannot_select_a_different_session ... ok
+test assets_tests::inventory_refuses_symbolic_links_instead_of_following_them ... ok
+test login_tests::finite_attempt_admission_recovers_capacity_after_expiry ... ok
+test login_tests::consumed_state_is_one_use_and_browser_and_provider_bound ... ok
+test assets_tests::asset_inventory_bounds_are_enforced_before_serving ... ok
+test assets_tests::navigation_fallback_does_not_serve_unknown_assets_or_traversal ... ok
+test oidc_tests::original_expiry_parser_is_a_bound_not_an_authenticator ... ok
+test session_tests::cookie_and_csrf_secrets_are_independent_and_opaque ... ok
+test lifecycle_tests::cancelled_caller_keeps_admission_until_owned_work_finishes ... ok
+test oidc_tests::key_sets_reject_duplicate_ids_and_token_selected_trust_fields ... ok
+test session_tests::expired_sessions_release_capacity_and_never_extend_identity_expiry ... ok
+test session_tests::shutdown_closes_existing_sessions_and_prevents_new_admission ... ok
+test session_tests::transient_admission_failure_does_not_log_out_a_valid_session ... ok
+test session_tests::logout_cancels_all_session_observers_without_revoking_other_sessions ... ok
+test assets_tests::empty_directory_trees_cannot_bypass_inventory_work_limits ... ok
+test lifecycle_tests::cancelled_drain_waiter_cannot_abandon_owned_authentication_work ... ok
+test shutdown_tests::authentication_failure_does_not_skip_accepted_blob_drain ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/coherence.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/coherence-a2f544d30fbbb976)
+
+running 2 tests
+test impossible_body_admission_is_rejected_without_a_semaphore_panic ... ok
+test blob_transport_requires_exact_shared_runtime_not_a_similar_configuration ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/configuration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/configuration-bf9f5ae9d2f6ae11)
+
+running 3 tests
+test loopback_exception_cannot_enable_plaintext_network_deployment ... ok
+test rejects_ambiguous_paths_duplicate_authorities_and_zero_limits ... ok
+test pins_exact_public_origin_and_confines_all_provider_endpoints ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/configuration_root.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/configuration_root-3313a5aa697acc4f)
+
+running 1 test
+test root_mount_is_valid_without_an_empty_slice_panic ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/host.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/host-90ce171e83213fc8)
+
+running 1 test
+test host_mounts_assets_and_session_without_accepting_browser_actor_shortcuts ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/human.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/human-4ae8a1201f7f8697)
+
+running 3 tests
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+test logout_closes_stalled_current_identity_bind ... ok
+test expiry_rechecks_original_lease_after_current_bind_fails ... ok
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+test actual_provider_login_binds_current_resources_and_protects_generic_api ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.41s
+
+   Doc-tests rom_blob
+
+running 1 test
+test crates/rom-blob/src/lib.rs - (line 9) - compile ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+all doctests ran in 0.20s; merged doctests compilation took 0.20s
+   Doc-tests rom_studio_host
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Checking rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `dev` profile [unoptimized] target(s) in 1.09s
+ Documenting rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `dev` profile [unoptimized] target(s) in 0.41s
+   Generated /var/tmp/rom-release-measured-verification-target/doc/rom_blob/index.html and 1 other file

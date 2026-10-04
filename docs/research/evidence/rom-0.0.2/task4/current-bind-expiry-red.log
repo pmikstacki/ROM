@@ -1,0 +1,32 @@
+   Compiling rom-derive v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-derive)
+   Compiling rom v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+   Compiling rom-auth v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+   Compiling rom-backup v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+   Compiling rom-identity v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+   Compiling rom-http v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+   Compiling rom-blob v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob)
+   Compiling rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+   Compiling rom-redb v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+   Compiling rom-sqlite v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+    Finished `test` profile [unoptimized] target(s) in 10.95s
+     Running tests/human.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/human-6f67740276f9d0b6)
+
+running 1 test
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+test actual_provider_login_binds_current_resources_and_protects_generic_api ... FAILED
+
+failures:
+
+---- actual_provider_login_binds_current_resources_and_protects_generic_api stdout ----
+
+thread 'actual_provider_login_binds_current_resources_and_protects_generic_api' (2114165) panicked at crates/rom-studio-host/tests/human.rs:422:31:
+expiry must close the stream while current bind remains stalled: Elapsed(())
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    actual_provider_login_binds_current_resources_and_protects_generic_api
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.35s
+
+error: test failed, to rerun pass `-p rom-studio-host --test human`

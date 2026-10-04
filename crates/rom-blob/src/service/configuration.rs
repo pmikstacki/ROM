@@ -36,6 +36,10 @@ impl BlobService {
     pub fn limits(&self) -> Limits {
         self.0.limits
     }
+    /// Trusted host inventory. Transports must separately authorize disclosure.
+    pub fn store_names(&self) -> impl Iterator<Item = &str> + '_ {
+        self.0.stores.keys().map(String::as_str)
+    }
     /// True only when this service shares the exact runtime lifecycle and identity gate.
     pub fn uses_runtime(&self, runtime: &rom::Runtime) -> bool {
         self.0.runtime.same_instance(runtime)

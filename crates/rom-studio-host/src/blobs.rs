@@ -29,7 +29,7 @@ pub(crate) struct Target {
     id: String,
 }
 
-async fn authorize(
+pub(crate) async fn authorize(
     shared: &Arc<Shared>,
     headers: &axum::http::HeaderMap,
     mutation: bool,
@@ -107,17 +107,17 @@ pub(crate) async fn reserve(State(shared): State<Arc<Shared>>, request: Request)
         Err(error) => failure(error),
     }
 }
-pub(crate) async fn upload(
-    State(shared): State<Arc<Shared>>,
-    Query(target): Query<Target>,
-    request: Request,
-) -> Response {
+pub(crate) async fn upload(State(shared): State<Arc<Shared>>, request: Request) -> Response {
     let actor = match authorize(&shared, request.headers(), true).await {
         Ok(a) => a,
         Err(e) => return *e,
     };
     let service = match service(&shared) {
         Ok(s) => s,
+        Err(e) => return *e,
+    };
+    let target = match target(&request) {
+        Ok(t) => t,
         Err(e) => return *e,
     };
     let upload = chunks(request.into_body(), service.limits());
@@ -145,11 +145,33 @@ pub(crate) async fn download(
         Ok(a) => a,
         Err(e) => return *e,
     };
-    let service = match service(&shared) {
+    attachment(&shared, &actor, &id).await
+}
+pub(crate) async fn download_query(
+    State(shared): State<Arc<Shared>>,
+    request: Request,
+) -> Response {
+    let actor = match authorize(&shared, request.headers(), false).await {
+        Ok(a) => a,
+        Err(e) => return *e,
+    };
+    let target = match target(&request) {
+        Ok(t) => t,
+        Err(e) => return *e,
+    };
+    attachment(&shared, &actor, &target.id).await
+}
+fn target(request: &Request) -> Result<Target, Box<Response>> {
+    Query::<Target>::try_from_uri(request.uri())
+        .map(|Query(target)| target)
+        .map_err(|_| Box::new(failure(Error::Invalid)))
+}
+async fn attachment(shared: &Shared, actor: &rom::Actor, id: &str) -> Response {
+    let service = match service(shared) {
         Ok(s) => s,
         Err(e) => return *e,
     };
-    match service.read(&actor, &id).await {
+    match service.read(actor, id).await {
         Ok(bytes) => no_store(
             (
                 [
@@ -216,7 +238,7 @@ fn chunks(body: Body, limits: rom_blob::Limits) -> Upload {
         },
     ))
 }
-fn failure(error: Error) -> Response {
+pub(crate) fn failure(error: Error) -> Response {
     let (status, category) = match error {
         Error::Unknown | Error::Core(rom::Error::Unknown) => {
             (StatusCode::SERVICE_UNAVAILABLE, "outcome_unknown")
