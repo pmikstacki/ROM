@@ -38,7 +38,7 @@ writeFileSync(sourceConfig, patches(p => dirname(p.manifest_path)));
 for (const p of packages) {
   if (!p.license || !p.description) throw Error(`${p.name}: license/description metadata missing`);
 }
-run('cargo', ['--config', sourceConfig, 'package', '--no-verify', '--allow-dirty',
+run('cargo', ['--config', sourceConfig, 'package', '--offline', '--no-verify', '--allow-dirty',
   ...packages.flatMap(p => ['-p', p.name])]);
 
 const unpacked = join(scratch, 'unpacked');
