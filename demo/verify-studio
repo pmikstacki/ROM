@@ -37,7 +37,13 @@ else
 fi
 source_inventory > "$gate_dir/native-source-after.sha256"
 cmp "$gate_dir/native-source-before.sha256" "$gate_dir/native-source-after.sha256"
+cp -- "$ROM_STUDIO_DEMO_BINARY" "$gate_dir/rom-demo"
+chmod 0555 -- "$gate_dir/rom-demo"
+export ROM_STUDIO_DEMO_BINARY=$gate_dir/rom-demo
 sha256sum -- "$ROM_STUDIO_DEMO_BINARY" > "$gate_dir/native-binary.sha256"
 printf 'Retained Studio gate evidence: %s\n' "$gate_dir"
 cd -- "$repo_dir/studio"
 npx --no-install playwright test --config tests/runtime/playwright.host.config.ts 2>&1 | tee "$gate_dir/browser.log"
+cd -- "$repo_dir"
+node scripts/research/verify-studio-consumer.mjs "$gate_dir/external-author" 2>&1 | tee "$gate_dir/external-author.log"
+sha256sum --check "$gate_dir/native-binary.sha256"

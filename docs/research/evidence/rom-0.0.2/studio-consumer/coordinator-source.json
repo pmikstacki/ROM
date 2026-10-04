@@ -1,0 +1,23 @@
+{
+  "recordedAt": "2026-10-04T02:17:01.902Z",
+  "acceptedStudioSource": "ea40116c413f05b6030178b4a296bb35342c5fa47bf69f4d57e03c23889f457f",
+  "binary": "c93a20cfc1d92cc6e3e6f613105bbbcc61468179008fc118fafabb994d1c88f3",
+  "files": [
+    {
+      "path": "studio/src/index.ts",
+      "sha256": "51c4dfa9dffe317bd967d87b52149015b158a4cf3b7851d80b35a866de4e6cbf"
+    },
+    {
+      "path": "scripts/research/verify-studio-consumer.mjs",
+      "sha256": "891c21199fd506a38e66cbb5de2387364b0cf17528113eb174f1b5b99f4175d9"
+    },
+    {
+      "path": "demo/verify-studio",
+      "sha256": "3ba3f338c5321d1ad2adb1978505b0dc9c5205f6316ee0b36abba4d5d6728cf8"
+    },
+    {
+      "path": "docs/research/rom-0.0.2-studio-author-workflow.md",
+      "sha256": "1dae21883349641918b81f24428c8840d52f2ca24838bd272316967dc9d077b3"
+    }
+  ]
+}

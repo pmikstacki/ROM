@@ -1,0 +1,14 @@
+{
+  "reviewed_at": "2026-10-04T02:16:37.753Z",
+  "method": "Read-only calls to the shared complete Studio and selected author inventory helpers; direct native binary SHA-256 comparison. No browser or native build.",
+  "result_path": "docs/research/evidence/rom-0.0.2/studio-consumer/result.json",
+  "source_sha256": "ea40116c413f05b6030178b4a296bb35342c5fa47bf69f4d57e03c23889f457f",
+  "binary_sha256": "c93a20cfc1d92cc6e3e6f613105bbbcc61468179008fc118fafabb994d1c88f3",
+  "checks": {
+    "current_studio_matches": true,
+    "extracted_studio_matches": true,
+    "current_author_matches": true,
+    "copied_author_matches": true,
+    "native_binary_matches": true
+  }
+}

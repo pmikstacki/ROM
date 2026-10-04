@@ -1,0 +1,1 @@
+{"node":"v22.16.0","timeout_ms":150,"elapsed_ms":153.293908,"error_code":"ETIMEDOUT","signal":"SIGTERM","status":null,"stdout":"{\"descendant_pid\":2950908,\"descendant_natural_lifetime_ms\":1200}\n","scope":"Finite inherited-pipe descendant reproduces direct-child spawnSync timeout semantics; no product process, credentials or native build"}

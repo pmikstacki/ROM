@@ -1,0 +1,4 @@
+{"program":"npm","args":["ci","--offline","--no-audit","--no-fund"],"cwd":"/var/tmp/rom-studio-author-ahjCP9/extracted/demo/provider-fixture","status":1,"signal":null}
+npm error code ENOTCACHED
+npm error request to https://registry.npmjs.org/vary/-/vary-1.1.2.tgz failed: cache mode is 'only-if-cached' but no cached response is available.
+npm error A complete log of this run can be found in: /root/.npm/_logs/2026-10-04T01_54_21_005Z-debug-0.log

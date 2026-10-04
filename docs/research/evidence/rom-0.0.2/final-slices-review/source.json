@@ -1,0 +1,189 @@
+{
+  "reviewed_at": "2026-10-04T02:16:37.770Z",
+  "head": "fadb38514a5043c8fc29352c7f8f685eda48a880",
+  "scope": "Named final maintenance/restock/public-consumer slices and read-only integration context; this is not a complete checkout inventory.",
+  "reviewer_executed": "Two finite Node mechanism probes and final inventory/hash comparisons only. Author-executed native/browser evidence reviewed; no reviewer native/browser rerun.",
+  "historical_slices": {
+    "maintenance": "f88964f",
+    "restock": "29f9b68"
+  },
+  "full_producer": "deferred; no acceptance claimed",
+  "files": {
+    "Cargo.lock": {
+      "sha256": "f288709d12f8c7adc39a5d72cb7253a9d86afa990dd94226724e39262500d992",
+      "bytes": 71913
+    },
+    "crates/rom-studio-host/Cargo.toml": {
+      "sha256": "5f4c1beb7874194dc2239e5a82af1f72d5e0ca2deac0900f053f6ff7b7ccbf7b",
+      "bytes": 1199
+    },
+    "crates/rom-studio-host/src/authentication.rs": {
+      "sha256": "b95050efc055ce54ba67a57c90ea2ca302fcf72d887af6a206e427f020603561",
+      "bytes": 7265
+    },
+    "crates/rom-studio-host/src/router.rs": {
+      "sha256": "445e7335be230a89ffb3f41b14277b57dfc26e2c6c73925741dc3c62117becf5",
+      "bytes": 11715
+    },
+    "crates/rom-studio-host/tests/human.rs": {
+      "sha256": "d98c5007b93357dec22cc90d3a12d0a129e0d6948e7a7864fa9824ee3d3038ed",
+      "bytes": 31537
+    },
+    "crates/rom-studio-host/tests/support/maintenance.rs": {
+      "sha256": "96cdb876c53c06fcb688f8a069ad6e81fc8d0b132e98dd3b94142ffad1f11969",
+      "bytes": 14501
+    },
+    "crates/rom/src/execution/command.rs": {
+      "sha256": "44f84f03880f722a9d92d561d96d9b5c7a7a423d0ef475aca8a1c41a01724eb4",
+      "bytes": 13382
+    },
+    "demo/src/lib.rs": {
+      "sha256": "f9e8561a8e4de3b828f3878fdc2578029cf18b5a48c292e26a0960eb44f849af",
+      "bytes": 2057
+    },
+    "demo/src/studio_application.rs": {
+      "sha256": "1d59cdde641b92a3093bab393649a48ec7802589e2ac16aca4cb590c4bf82a23",
+      "bytes": 4071
+    },
+    "demo/src/studio_model.rs": {
+      "sha256": "716be04c111cfe25e8628e66ad2bee2c823596b485464f70b9e9b8304520b2e4",
+      "bytes": 2685
+    },
+    "demo/src/studio_model_tests.rs": {
+      "sha256": "f9b8f458e85ba3aca562a26a6247d21fe9079f07a5a185176af7906f62d72ce0",
+      "bytes": 2035
+    },
+    "demo/verify-studio": {
+      "sha256": "3ba3f338c5321d1ad2adb1978505b0dc9c5205f6316ee0b36abba4d5d6728cf8",
+      "bytes": 2689
+    },
+    "docs/research/evidence/rom-0.0.2/final-slices-review/copied-author-binding.log": {
+      "sha256": "14c3746d1f86fa294cb4abf16f34e97bd6aac66f858b0236e36f6f5c5b24eb70",
+      "bytes": 442
+    },
+    "docs/research/evidence/rom-0.0.2/final-slices-review/direct-child-ownership.log": {
+      "sha256": "034a77f01ca01a52426c28e84ad636c104fe1ae1d2614c4b4c8ec0ee674c38e0",
+      "bytes": 454
+    },
+    "docs/research/evidence/rom-0.0.2/final-slices-review/final-identity-check.json": {
+      "sha256": "faa6d4c3d59feab78abb071ac910380ab0c7035ee7d977277ee972354075bcff",
+      "bytes": 670
+    },
+    "docs/research/evidence/rom-0.0.2/full-workflows/observer-only-results.log": {
+      "sha256": "2148d0ee2f6cfb26978187dc3170a661e8e0dd77fc281848a3a0f4564dd5281d",
+      "bytes": 2946
+    },
+    "docs/research/evidence/rom-0.0.2/inventory-action/green-build.log": {
+      "sha256": "c09e814efcdadbe1356942f153fbcbc395f4124e0596139b0f9c5ba5faaca65c",
+      "bytes": 955
+    },
+    "docs/research/evidence/rom-0.0.2/inventory-action/red.log": {
+      "sha256": "b39d3a2cdf77deb74d84c1e9eebba73e52232a77395415d3ddb5e817f5fa7302",
+      "bytes": 2448
+    },
+    "docs/research/evidence/rom-0.0.2/studio-consumer/browser.log": {
+      "sha256": "2e1e6cdd62de8797d840e6182777235dabb98c0395be3ebcbea5a1d04b6b0d25",
+      "bytes": 2197
+    },
+    "docs/research/evidence/rom-0.0.2/studio-consumer/copied-source-drift-control.log": {
+      "sha256": "b6c443ac76fefedb796fef756f40af08b49216005ea827437e863f42e6e1bea8",
+      "bytes": 251
+    },
+    "docs/research/evidence/rom-0.0.2/studio-consumer/process-supervision.log": {
+      "sha256": "d7e35fdb74d628ef20503cc5d3566969e02d31477098e69c79b755c3a773afa2",
+      "bytes": 532
+    },
+    "docs/research/evidence/rom-0.0.2/studio-consumer/result.json": {
+      "sha256": "f10b0bc6ff78f753bb1386b18e43c5efeb5f16e9d10de0874bc1cf9bc7c0ecd6",
+      "bytes": 15913
+    },
+    "docs/research/evidence/rom-0.0.2/studio-consumer/webkit-runtime.log": {
+      "sha256": "c7f7b928adf061183b83214958210416e236228f7a5324c63d97fca00a91ec17",
+      "bytes": 234
+    },
+    "docs/research/evidence/rom-0.0.2/task4/maintenance-provider-final.log": {
+      "sha256": "090b1609598ca5cdf1ae473e9943224bff1fdd70f87dd1f3bf66893fa914e7fb",
+      "bytes": 1111
+    },
+    "docs/research/evidence/rom-0.0.2/wire-parser/benchmark.json": {
+      "sha256": "f6a001df136ac3c263db0221e316c3a3c8a62f1e5aaa0206e282c8aecd6fd9ce",
+      "bytes": 10417
+    },
+    "docs/research/evidence/rom-0.0.2/wire-parser/capture.json": {
+      "sha256": "a7adf53037e776ae3429de49bf982d13f87e8bfbe55908b6933942268a2533f7",
+      "bytes": 3573
+    },
+    "docs/research/rom-0.0.2-provider-maintenance-journey.md": {
+      "sha256": "efa8e40d096b79720855316f368b879ae5baed9032eef4bde217b4a9f7aa2f16",
+      "bytes": 6952
+    },
+    "docs/research/rom-0.0.2-studio-author-workflow.md": {
+      "sha256": "1dae21883349641918b81f24428c8840d52f2ca24838bd272316967dc9d077b3",
+      "bytes": 7573
+    },
+    "docs/research/rom-0.0.2-wire-parser-results.md": {
+      "sha256": "e50129f61e149e28aba3baa6e1d97fc3a079e3a00c65789959cc0cda5ef95766",
+      "bytes": 3883
+    },
+    "examples/studio-consumer/README.md": {
+      "sha256": "e51deacc0e3e296a72254c2086ad774d6e126abbcaabe95f8b1539c454931489",
+      "bytes": 1855
+    },
+    "examples/studio-consumer/index.html": {
+      "sha256": "e3a7941c9f226fcaf4373b14adc2cc29e3ea28c87404e2d5795e59d439c42d88",
+      "bytes": 272
+    },
+    "examples/studio-consumer/src/AuthorCode.svelte": {
+      "sha256": "f70dd6ec28ef91c4dbd873382c26a6e5670eca09d7d0ab3f85af549cb519c288",
+      "bytes": 652
+    },
+    "examples/studio-consumer/src/main.ts": {
+      "sha256": "5b5f4b0c973803948b34eff4775c65a0f9c431f7efc2a6de7fbdf93456061476",
+      "bytes": 362
+    },
+    "examples/studio-consumer/src/vite-env.d.ts": {
+      "sha256": "2df243505132fd8119220214a73c474ddc9b29a82aef7063e04b4f726e78a607",
+      "bytes": 149
+    },
+    "examples/studio-consumer/svelte.config.js": {
+      "sha256": "450f0af4f4c1ecc4c7180f2e364c8a59bfed69dd350fb6b47bce8641c2a37786",
+      "bytes": 19
+    },
+    "examples/studio-consumer/tests/author.spec.ts": {
+      "sha256": "73dcdb084d5cfd67f4b326c9e2d8e6ce72b81a74c59b67d0fd3fc9fab8b2c7fd",
+      "bytes": 2312
+    },
+    "examples/studio-consumer/tests/playwright.config.ts": {
+      "sha256": "30336bc23a703b2f8f9e221a8ff258cd13f87ead8bb9806e56ccb28477fe6fa0",
+      "bytes": 539
+    },
+    "examples/studio-consumer/tsconfig.json": {
+      "sha256": "5005afdfa776988a14ec840ef1b06d921bc42bedb629677caa3d687a98657bb6",
+      "bytes": 501
+    },
+    "examples/studio-consumer/vite.config.ts": {
+      "sha256": "a35c6fa83c78a4b254267044c268b96b558bbba2fd94ea91b0644ba7966fe091",
+      "bytes": 662
+    },
+    "scripts/packages/application.mjs": {
+      "sha256": "194adff4e02777f7e222e72cf6ac12dfccc4d6e14a8027b55dfd53af3e39e131",
+      "bytes": 2967
+    },
+    "scripts/packages/studio-source.mjs": {
+      "sha256": "a092db2e1ce658b1672765a42d2d05613bd381909165df9ec62da2747ffd8bc1",
+      "bytes": 2905
+    },
+    "scripts/research/verify-studio-consumer.mjs": {
+      "sha256": "891c21199fd506a38e66cbb5de2387364b0cf17528113eb174f1b5b99f4175d9",
+      "bytes": 6116
+    },
+    "scripts/skills/process.mjs": {
+      "sha256": "c8147c8a4aff61bafc628a3d902ed468f42f0e9dc6e214dbfa0346340febdd31",
+      "bytes": 2061
+    },
+    "studio/src/index.ts": {
+      "sha256": "51c4dfa9dffe317bd967d87b52149015b158a4cf3b7851d80b35a866de4e6cbf",
+      "bytes": 430
+    }
+  }
+}

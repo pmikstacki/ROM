@@ -1,0 +1,16 @@
+{"program":"npm","args":["run","check"],"cwd":"/var/tmp/rom-studio-author-0YDcM6/extracted/consumer","status":1,"signal":null}
+
+> rom-studio-author-example@0.0.2 check
+> svelte-check --tsconfig ./tsconfig.json
+
+Loading svelte-check in workspace: /var/tmp/rom-studio-author-0YDcM6/extracted/consumer
+Getting Svelte diagnostics...
+
+/var/tmp/rom-studio-author-0YDcM6/extracted/consumer/src/main.ts:3:8
+Error: Cannot find module or type declarations for side-effect import of 'rom-studio/styles'. 
+import { App, registerRenderer } from "rom-studio";
+import "rom-studio/styles";
+import AuthorCode from "./AuthorCode.svelte";
+
+====================================
+svelte-check found 1 error and 0 warnings in 1 file

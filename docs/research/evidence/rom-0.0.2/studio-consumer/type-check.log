@@ -1,0 +1,9 @@
+{"program":"npm","args":["run","check"],"cwd":"/var/tmp/rom-studio-author-JJa0kn/extracted/consumer","code":0,"timedOut":false,"spawn_failed":false}
+
+> rom-studio-author-example@0.0.2 check
+> svelte-check --tsconfig ./tsconfig.json
+
+Loading svelte-check in workspace: /var/tmp/rom-studio-author-JJa0kn/extracted/consumer
+Getting Svelte diagnostics...
+
+svelte-check found 0 errors and 0 warnings

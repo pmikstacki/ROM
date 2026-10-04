@@ -1,0 +1,2 @@
+{"node":"v22.16.0","timeout_ms":150,"elapsed_ms":153.014431,"parent_error":"ETIMEDOUT","parent_signal":"SIGTERM","descendant_pid":2951968,"descendant_state_after_parent_return":"S","scope":"Exact spawnSync mechanism used by the consumer verifier; finite1200ms inherited-pipe descendant; no product/native process"}
+{"descendant_state_after_natural_exit":"absent","cleanup":"descendant had an explicit1200ms lifetime; no unrelated process was signalled"}

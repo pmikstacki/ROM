@@ -1,0 +1,3 @@
+{"completed":true,"negative_control":"copied author drift rejected","output":"/var/tmp/rom-studio-author-drift-STFkNB","verifier_exit":1,"admission_error":"copied author input changed during acceptance"}
+copied author input changed during acceptance
+

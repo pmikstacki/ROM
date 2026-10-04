@@ -1,0 +1,15 @@
+{"program":"npm","args":["run","build"],"cwd":"/var/tmp/rom-studio-author-JJa0kn/extracted/consumer","code":0,"timedOut":false,"spawn_failed":false}
+
+> rom-studio-author-example@0.0.2 build
+> vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 174 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:  0.28 kB
+dist/assets/index-D0oHaqBV.css   23.56 kB │ gzip:  5.34 kB
+dist/assets/index-CmDtrJ21.js   199.38 kB │ gzip: 66.14 kB
+
+✓ built in 249ms
