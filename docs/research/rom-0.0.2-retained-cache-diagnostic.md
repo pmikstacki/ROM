@@ -85,3 +85,31 @@ error. The result retains `diagnosticOnly=true` and `compatible=false`.
 This resolves the carrier and whiteout inventory for this image. It does not
 verify the 547 origin handles in a merged lower view. Test that exact overlay
 composition before admitting the image as a build cache.
+
+## Merged-lower admission boundary
+
+An independent review examined the Linux 6.6.94 OverlayFS implementation.
+The 547 stored `trusted.overlay.origin` values are not decoded as origin
+handles merely because the former upper becomes a lower layer. The proposed
+two-lower probe can test merged names, types, contents, opaque directories,
+and writes into a fresh upper layer. It cannot establish that each old origin
+handle remains valid. Linux processes whiteouts and opaque directories during
+lower lookup. Origin verification applies to a current upper entry. See the
+[6.6.94 lookup implementation](https://raw.githubusercontent.com/gregkh/linux/v6.6.94/fs/overlayfs/namei.c)
+and [OverlayFS documentation](https://raw.githubusercontent.com/gregkh/linux/v6.6.94/Documentation/filesystems/overlayfs.rst).
+
+Do not run the exact two-lower admission probe while the original lower may
+change. Its host filesystem is writable and `container@rom-dev.service` is
+active. A read-only bind would stop probe writes. It would not stop the
+container or another host writer. Linux documents underlying changes during
+an OverlayFS mount as undefined behavior. Prove that the source is quiet or
+use an immutable snapshot before treating this test as admission evidence.
+A copied lower can provide a narrower merge experiment. Its changed inode
+and filesystem identity do not establish exact-source provenance.
+
+Once the source is stable, use the retained target upper and original target
+as two read-only lowers. Use a small fresh tmpfs upper and work directory.
+Check the complete merged tree against the raw layers. Check representative
+origin-carrier paths before and after copy-up. Check full input digests,
+effective mount options, and clean mount and loop teardown. The eight-gate
+clean-source producer remains the release test.
