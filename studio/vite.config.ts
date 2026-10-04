@@ -2,11 +2,13 @@ import { defineConfig } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import tailwindcss from "@tailwindcss/vite";
 import { fileURLToPath } from "node:url";
+import { runtimeNotices } from "./build/runtime-notices.mjs";
 export default defineConfig(({ mode }) => ({
   base: "/rom-studio/",
   plugins: [
     svelte(),
     tailwindcss(),
+    runtimeNotices(),
     ...(mode === "studio-demo"
       ? [
           {

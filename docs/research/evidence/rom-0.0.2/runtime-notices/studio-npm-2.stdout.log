@@ -1,0 +1,24 @@
+
+> rom-studio@0.0.2 build
+> vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 172 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                            0.37 kB │ gzip:  0.26 kB
+dist/notices/npm/cn/0.3.3/LICENSE                                          1.06 kB
+dist/notices/npm/tailwindcss/4.3.3/LICENSE                                 1.07 kB
+dist/notices/npm/tailwind-variants/3.3.1/LICENSE                           1.07 kB
+dist/notices/npm/clsx/2.1.1/license                                        1.10 kB
+dist/notices/npm/svelte/5.57.1/LICENSE.md                                  1.12 kB
+dist/notices/vendored/shadcn-svelte-vendored/source-checkout/LICENSE.md    1.19 kB
+dist/notices/tool-runtime/rolldown/1.2.12/LICENSE                          1.30 kB
+dist/notices/tool-runtime/rolldown/1.2.12/THIRD-PARTY-LICENSE              2.20 kB
+dist/third-party-notices.json                                             24.09 kB │ gzip:  2.52 kB
+dist/notices/tool-runtime/vite/8.3.2/LICENSE.md                          108.78 kB
+dist/assets/index-D0oHaqBV.css                                            23.56 kB │ gzip:  5.34 kB
+dist/assets/index-DG2_L4y7.js                                            198.46 kB │ gzip: 65.82 kB
+
+✓ built in 435ms

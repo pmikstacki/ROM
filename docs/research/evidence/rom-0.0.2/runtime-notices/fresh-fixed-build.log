@@ -1,0 +1,8 @@
+{
+  "completed_build_and_archive_extraction": true,
+  "actual_host_gate_executed": false,
+  "asset_files": 13,
+  "assets_sha256": "3b43e6974b722026f2b1035d3f70e9d5ce7371abf41d25589b063cbcbc0b6f6e",
+  "source_sha256": "c8496d5ca07ef748ffbdd95a7db8c63ae05eaaf1ecc018273458f5f248d0319f",
+  "lock_sha256": "7830342279addd8dd5dab7ed82d66aa6574b0e70839b9c326b46225394c1f68e"
+}

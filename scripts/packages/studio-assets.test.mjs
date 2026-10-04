@@ -15,11 +15,11 @@ test('complete static asset identity rejects changed, missing, and extra files',
   const root = fixture();
   try {
     const original = studioAssets(root);
-    assert.deepEqual(Object.keys(original.files), ['assets/main.css', 'assets/main.js', 'index.html']);
+    assert.deepEqual(Object.keys(original.files), ['assets/main.css', 'assets/main.js', 'index.html', 'notices/fixture/LICENSE', 'third-party-notices.json']);
     assert.equal(original.base_path, '/rom-studio/');
     requireStudioAssets(root, original);
     writeFileSync(join(root, 'assets/main.js'), 'changed');
-    assert.throws(() => requireStudioAssets(root, original), /Studio asset identity/);
+    assert.throws(() => requireStudioAssets(root, original), /Studio asset identity|runtime notice output/);
     writeFileSync(join(root, 'assets/main.js'), 'console.log("fixture");');
     writeFileSync(join(root, 'extra.txt'), 'extra');
     assert.throws(() => requireStudioAssets(root, original), /Studio asset identity/);

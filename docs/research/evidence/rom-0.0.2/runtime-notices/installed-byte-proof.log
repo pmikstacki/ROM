@@ -1,0 +1,224 @@
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 172 modules transformed.
+rendering chunks...
+✓ built in 438ms
+{
+  "scope": "production",
+  "original_notice_bytes_equal": true,
+  "owners": [
+    {
+      "name": "clsx",
+      "version": "2.1.1",
+      "license_expression": "MIT",
+      "modules": 1,
+      "notices": [
+        {
+          "source": "license",
+          "path": "notices/npm/clsx/2.1.1/license",
+          "sha256": "9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97",
+          "bytes": 1104
+        }
+      ]
+    },
+    {
+      "name": "cn",
+      "version": "0.3.3",
+      "license_expression": "MIT",
+      "modules": 3,
+      "notices": [
+        {
+          "source": "LICENSE",
+          "path": "notices/npm/cn/0.3.3/LICENSE",
+          "sha256": "00ff8408e93e2ecc4d90c0edeabdf434100c3aff50acc5d330e17eccd4a3faa5",
+          "bytes": 1063
+        }
+      ]
+    },
+    {
+      "name": "rolldown",
+      "version": "1.2.12",
+      "license_expression": "MIT",
+      "modules": 1,
+      "notices": [
+        {
+          "source": "LICENSE",
+          "path": "notices/tool-runtime/rolldown/1.2.12/LICENSE",
+          "sha256": "23ecfff35a5a2e80d92142f75228912c3b1abc4b5a8337a821ff4397e2f9f734",
+          "bytes": 1302
+        },
+        {
+          "source": "THIRD-PARTY-LICENSE",
+          "path": "notices/tool-runtime/rolldown/1.2.12/THIRD-PARTY-LICENSE",
+          "sha256": "a877291d800ed43692f3f9ae09d8e01cc6f7293ad39d43896059c188ffbb8b7c",
+          "bytes": 2209
+        }
+      ]
+    },
+    {
+      "name": "shadcn-svelte-vendored",
+      "version": "source-checkout",
+      "license_expression": "MIT",
+      "modules": 9,
+      "notices": [
+        {
+          "source": "LICENSE.md",
+          "path": "notices/vendored/shadcn-svelte-vendored/source-checkout/LICENSE.md",
+          "sha256": "230594c9dedb06fb0759381a520b449c1b47b0f63b95fc88ef9d7e851e2540a9",
+          "bytes": 1192
+        }
+      ]
+    },
+    {
+      "name": "svelte",
+      "version": "5.57.1",
+      "license_expression": "MIT",
+      "modules": 56,
+      "notices": [
+        {
+          "source": "LICENSE.md",
+          "path": "notices/npm/svelte/5.57.1/LICENSE.md",
+          "sha256": "06257f4847b13a49a039efb17b944c141e71b12fd8d231b362d86919067d77a3",
+          "bytes": 1126
+        }
+      ]
+    },
+    {
+      "name": "tailwind-variants",
+      "version": "3.3.1",
+      "license_expression": "MIT",
+      "modules": 3,
+      "notices": [
+        {
+          "source": "LICENSE",
+          "path": "notices/npm/tailwind-variants/3.3.1/LICENSE",
+          "sha256": "f3f8984c684106a9ffb50c44ff5dd6f2082526d78a820235a6592423d376d650",
+          "bytes": 1073
+        }
+      ]
+    },
+    {
+      "name": "tailwindcss",
+      "version": "4.3.3",
+      "license_expression": "MIT",
+      "modules": 1,
+      "notices": [
+        {
+          "source": "LICENSE",
+          "path": "notices/npm/tailwindcss/4.3.3/LICENSE",
+          "sha256": "60e0b68c0f35c078eef3a5d29419d0b03ff84ec1df9c3f9d6e39a519a5ae7985",
+          "bytes": 1071
+        }
+      ]
+    },
+    {
+      "name": "vite",
+      "version": "8.3.2",
+      "license_expression": "MIT",
+      "modules": 1,
+      "notices": [
+        {
+          "source": "LICENSE.md",
+          "path": "notices/tool-runtime/vite/8.3.2/LICENSE.md",
+          "sha256": "a47172e44a86a7e2cd1c16282341f7726ec60caafe3a6166fe3e0602005b6fa6",
+          "bytes": 108786
+        }
+      ]
+    }
+  ]
+}
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 213 modules transformed.
+rendering chunks...
+✓ built in 135ms
+{
+  "scope": "isolated-svelte-toolbelt",
+  "original_notice_bytes_equal": true,
+  "owners": [
+    {
+      "name": "clsx",
+      "version": "2.1.1",
+      "license_expression": "MIT",
+      "modules": 1,
+      "notices": [
+        {
+          "source": "license",
+          "path": "notices/npm/clsx/2.1.1/license",
+          "sha256": "9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97",
+          "bytes": 1104
+        }
+      ]
+    },
+    {
+      "name": "inline-style-parser",
+      "version": "0.2.7",
+      "license_expression": "MIT",
+      "modules": 1,
+      "notices": [
+        {
+          "source": "LICENSE",
+          "path": "notices/npm/inline-style-parser/0.2.7/LICENSE",
+          "sha256": "395c95f20598da653ff1eb1cb9d74947c7fac689697147f1d192fd0242a0e635",
+          "bytes": 1098
+        }
+      ]
+    },
+    {
+      "name": "runed",
+      "version": "0.35.1",
+      "license_expression": "MIT",
+      "modules": 5,
+      "notices": [
+        {
+          "source": "LICENSE",
+          "path": "notices/npm/runed/0.35.1/LICENSE",
+          "sha256": "8914f144af4333312a07b30438dc6b75dd8da7a665c3ae9fa751f229eb615e8b",
+          "bytes": 1166
+        }
+      ]
+    },
+    {
+      "name": "style-to-object",
+      "version": "1.0.14",
+      "license_expression": "MIT",
+      "modules": 1,
+      "notices": [
+        {
+          "source": "LICENSE",
+          "path": "notices/npm/style-to-object/1.0.14/LICENSE",
+          "sha256": "896c9fd6b5fc48ac31800b9d29a6e3ffcb0c2d534ed077ebfa5c2fa388cc38b7",
+          "bytes": 1110
+        }
+      ]
+    },
+    {
+      "name": "svelte",
+      "version": "5.57.1",
+      "license_expression": "MIT",
+      "modules": 37,
+      "notices": [
+        {
+          "source": "LICENSE.md",
+          "path": "notices/npm/svelte/5.57.1/LICENSE.md",
+          "sha256": "06257f4847b13a49a039efb17b944c141e71b12fd8d231b362d86919067d77a3",
+          "bytes": 1126
+        }
+      ]
+    },
+    {
+      "name": "svelte-toolbelt",
+      "version": "0.10.6",
+      "license_expression": null,
+      "modules": 23,
+      "notices": [
+        {
+          "source": "LICENSE",
+          "path": "notices/npm/svelte-toolbelt/0.10.6/LICENSE",
+          "sha256": "8914f144af4333312a07b30438dc6b75dd8da7a665c3ae9fa751f229eb615e8b",
+          "bytes": 1166
+        }
+      ]
+    }
+  ]
+}

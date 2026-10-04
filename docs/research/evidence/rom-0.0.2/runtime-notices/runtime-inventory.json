@@ -1,0 +1,814 @@
+{
+  "schema_version": 1,
+  "coverage": "positive-rendered-javascript-and-generated-css",
+  "owners": [
+    {
+      "id": "npm:clsx@2.1.1",
+      "kind": "npm",
+      "name": "clsx",
+      "version": "2.1.1",
+      "license_expression": "MIT",
+      "modules": [
+        "node_modules/clsx/dist/clsx.mjs"
+      ],
+      "notices": [
+        {
+          "source": "license",
+          "path": "notices/npm/clsx/2.1.1/license",
+          "sha256": "9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97",
+          "bytes": 1104
+        }
+      ]
+    },
+    {
+      "id": "npm:cn@0.3.3",
+      "kind": "npm",
+      "name": "cn",
+      "version": "0.3.3",
+      "license_expression": "MIT",
+      "modules": [
+        "node_modules/cn/dist/engine.js",
+        "node_modules/cn/dist/index.js",
+        "node_modules/cn/dist/tables.js"
+      ],
+      "notices": [
+        {
+          "source": "LICENSE",
+          "path": "notices/npm/cn/0.3.3/LICENSE",
+          "sha256": "00ff8408e93e2ecc4d90c0edeabdf434100c3aff50acc5d330e17eccd4a3faa5",
+          "bytes": 1063
+        }
+      ]
+    },
+    {
+      "id": "tool-runtime:rolldown@1.2.12",
+      "kind": "tool-runtime",
+      "name": "rolldown",
+      "version": "1.2.12",
+      "license_expression": "MIT",
+      "modules": [
+        "virtual:vite/modulepreload-polyfill.js"
+      ],
+      "notices": [
+        {
+          "source": "LICENSE",
+          "path": "notices/tool-runtime/rolldown/1.2.12/LICENSE",
+          "sha256": "23ecfff35a5a2e80d92142f75228912c3b1abc4b5a8337a821ff4397e2f9f734",
+          "bytes": 1302
+        },
+        {
+          "source": "THIRD-PARTY-LICENSE",
+          "path": "notices/tool-runtime/rolldown/1.2.12/THIRD-PARTY-LICENSE",
+          "sha256": "a877291d800ed43692f3f9ae09d8e01cc6f7293ad39d43896059c188ffbb8b7c",
+          "bytes": 2209
+        }
+      ]
+    },
+    {
+      "id": "vendored:shadcn-svelte",
+      "kind": "vendored",
+      "name": "shadcn-svelte-vendored",
+      "version": "source-checkout",
+      "license_expression": "MIT",
+      "modules": [
+        "src/lib/components/ui/button/button.svelte",
+        "src/lib/components/ui/input/input.svelte",
+        "src/lib/components/ui/table/table-body.svelte",
+        "src/lib/components/ui/table/table-caption.svelte",
+        "src/lib/components/ui/table/table-cell.svelte",
+        "src/lib/components/ui/table/table-head.svelte",
+        "src/lib/components/ui/table/table-header.svelte",
+        "src/lib/components/ui/table/table-row.svelte",
+        "src/lib/components/ui/table/table.svelte"
+      ],
+      "notices": [
+        {
+          "source": "LICENSE.md",
+          "path": "notices/vendored/shadcn-svelte-vendored/source-checkout/LICENSE.md",
+          "sha256": "230594c9dedb06fb0759381a520b449c1b47b0f63b95fc88ef9d7e851e2540a9",
+          "bytes": 1192
+        }
+      ]
+    },
+    {
+      "id": "npm:svelte@5.57.1",
+      "kind": "npm",
+      "name": "svelte",
+      "version": "5.57.1",
+      "license_expression": "MIT",
+      "modules": [
+        "node_modules/svelte/src/constants.js",
+        "node_modules/svelte/src/index-client.js",
+        "node_modules/svelte/src/internal/client/constants.js",
+        "node_modules/svelte/src/internal/client/context.js",
+        "node_modules/svelte/src/internal/client/dev/equality.js",
+        "node_modules/svelte/src/internal/client/dev/tracing.js",
+        "node_modules/svelte/src/internal/client/dom/blocks/boundary.js",
+        "node_modules/svelte/src/internal/client/dom/blocks/branches.js",
+        "node_modules/svelte/src/internal/client/dom/blocks/each.js",
+        "node_modules/svelte/src/internal/client/dom/blocks/if.js",
+        "node_modules/svelte/src/internal/client/dom/blocks/key.js",
+        "node_modules/svelte/src/internal/client/dom/blocks/snippet.js",
+        "node_modules/svelte/src/internal/client/dom/blocks/svelte-component.js",
+        "node_modules/svelte/src/internal/client/dom/elements/attachments.js",
+        "node_modules/svelte/src/internal/client/dom/elements/attributes.js",
+        "node_modules/svelte/src/internal/client/dom/elements/bindings/input.js",
+        "node_modules/svelte/src/internal/client/dom/elements/bindings/select.js",
+        "node_modules/svelte/src/internal/client/dom/elements/bindings/shared.js",
+        "node_modules/svelte/src/internal/client/dom/elements/bindings/this.js",
+        "node_modules/svelte/src/internal/client/dom/elements/class.js",
+        "node_modules/svelte/src/internal/client/dom/elements/custom-element.js",
+        "node_modules/svelte/src/internal/client/dom/elements/events.js",
+        "node_modules/svelte/src/internal/client/dom/elements/misc.js",
+        "node_modules/svelte/src/internal/client/dom/elements/style.js",
+        "node_modules/svelte/src/internal/client/dom/hydration.js",
+        "node_modules/svelte/src/internal/client/dom/operations.js",
+        "node_modules/svelte/src/internal/client/dom/reconciler.js",
+        "node_modules/svelte/src/internal/client/dom/task.js",
+        "node_modules/svelte/src/internal/client/dom/template.js",
+        "node_modules/svelte/src/internal/client/error-handling.js",
+        "node_modules/svelte/src/internal/client/errors.js",
+        "node_modules/svelte/src/internal/client/legacy.js",
+        "node_modules/svelte/src/internal/client/proxy.js",
+        "node_modules/svelte/src/internal/client/reactivity/async.js",
+        "node_modules/svelte/src/internal/client/reactivity/batch.js",
+        "node_modules/svelte/src/internal/client/reactivity/deriveds.js",
+        "node_modules/svelte/src/internal/client/reactivity/effects.js",
+        "node_modules/svelte/src/internal/client/reactivity/equality.js",
+        "node_modules/svelte/src/internal/client/reactivity/props.js",
+        "node_modules/svelte/src/internal/client/reactivity/sources.js",
+        "node_modules/svelte/src/internal/client/reactivity/status.js",
+        "node_modules/svelte/src/internal/client/reactivity/store.js",
+        "node_modules/svelte/src/internal/client/reactivity/utils.js",
+        "node_modules/svelte/src/internal/client/render.js",
+        "node_modules/svelte/src/internal/client/runtime.js",
+        "node_modules/svelte/src/internal/client/warnings.js",
+        "node_modules/svelte/src/internal/disclose-version.js",
+        "node_modules/svelte/src/internal/flags/index.js",
+        "node_modules/svelte/src/internal/shared/attributes.js",
+        "node_modules/svelte/src/internal/shared/dev.js",
+        "node_modules/svelte/src/internal/shared/errors.js",
+        "node_modules/svelte/src/internal/shared/utils.js",
+        "node_modules/svelte/src/legacy/legacy-client.js",
+        "node_modules/svelte/src/reactivity/create-subscriber.js",
+        "node_modules/svelte/src/reactivity/map.js",
+        "node_modules/svelte/src/utils.js"
+      ],
+      "notices": [
+        {
+          "source": "LICENSE.md",
+          "path": "notices/npm/svelte/5.57.1/LICENSE.md",
+          "sha256": "06257f4847b13a49a039efb17b944c141e71b12fd8d231b362d86919067d77a3",
+          "bytes": 1126
+        }
+      ]
+    },
+    {
+      "id": "npm:tailwind-variants@3.3.1",
+      "kind": "npm",
+      "name": "tailwind-variants",
+      "version": "3.3.1",
+      "license_expression": "MIT",
+      "modules": [
+        "node_modules/tailwind-variants/dist/chunk-OYFAXDFZ.js",
+        "node_modules/tailwind-variants/dist/chunk-SUL6UUW2.js",
+        "node_modules/tailwind-variants/dist/index.js"
+      ],
+      "notices": [
+        {
+          "source": "LICENSE",
+          "path": "notices/npm/tailwind-variants/3.3.1/LICENSE",
+          "sha256": "f3f8984c684106a9ffb50c44ff5dd6f2082526d78a820235a6592423d376d650",
+          "bytes": 1073
+        }
+      ]
+    },
+    {
+      "id": "npm:tailwindcss@4.3.3",
+      "kind": "npm",
+      "name": "tailwindcss",
+      "version": "4.3.3",
+      "license_expression": "MIT",
+      "modules": [
+        "generated-css:tailwindcss"
+      ],
+      "notices": [
+        {
+          "source": "LICENSE",
+          "path": "notices/npm/tailwindcss/4.3.3/LICENSE",
+          "sha256": "60e0b68c0f35c078eef3a5d29419d0b03ff84ec1df9c3f9d6e39a519a5ae7985",
+          "bytes": 1071
+        }
+      ]
+    },
+    {
+      "id": "tool-runtime:vite@8.3.2",
+      "kind": "tool-runtime",
+      "name": "vite",
+      "version": "8.3.2",
+      "license_expression": "MIT",
+      "modules": [
+        "virtual:vite/modulepreload-polyfill.js"
+      ],
+      "notices": [
+        {
+          "source": "LICENSE.md",
+          "path": "notices/tool-runtime/vite/8.3.2/LICENSE.md",
+          "sha256": "a47172e44a86a7e2cd1c16282341f7726ec60caafe3a6166fe3e0602005b6fa6",
+          "bytes": 108786
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "file": "assets/index-D0oHaqBV.css",
+      "sha256": "a340d6d2011499e644eb6ec06c8b5db05ad3797cbf5c226f652b97802ebaedd7",
+      "modules": [
+        {
+          "id": "generated-css:tailwindcss",
+          "owners": [
+            "npm:tailwindcss@4.3.3"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "assets/index-DG2_L4y7.js",
+      "sha256": "db16dde80008ab29f8fd3f9be2320e9bde85d1dba01f96b85392245916f9abd5",
+      "modules": [
+        {
+          "id": "node_modules/clsx/dist/clsx.mjs",
+          "owners": [
+            "npm:clsx@2.1.1"
+          ]
+        },
+        {
+          "id": "node_modules/cn/dist/engine.js",
+          "owners": [
+            "npm:cn@0.3.3"
+          ]
+        },
+        {
+          "id": "node_modules/cn/dist/index.js",
+          "owners": [
+            "npm:cn@0.3.3"
+          ]
+        },
+        {
+          "id": "node_modules/cn/dist/tables.js",
+          "owners": [
+            "npm:cn@0.3.3"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/constants.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/index-client.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/constants.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/context.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dev/equality.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dev/tracing.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/blocks/boundary.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/blocks/branches.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/blocks/each.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/blocks/if.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/blocks/key.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/blocks/snippet.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/blocks/svelte-component.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/elements/attachments.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/elements/attributes.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/elements/bindings/input.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/elements/bindings/select.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/elements/bindings/shared.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/elements/bindings/this.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/elements/class.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/elements/custom-element.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/elements/events.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/elements/misc.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/elements/style.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/hydration.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/operations.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/reconciler.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/task.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/dom/template.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/error-handling.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/errors.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/legacy.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/proxy.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/reactivity/async.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/reactivity/batch.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/reactivity/deriveds.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/reactivity/effects.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/reactivity/equality.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/reactivity/props.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/reactivity/sources.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/reactivity/status.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/reactivity/store.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/reactivity/utils.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/render.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/runtime.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/client/warnings.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/disclose-version.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/flags/index.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/shared/attributes.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/shared/dev.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/shared/errors.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/internal/shared/utils.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/legacy/legacy-client.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/reactivity/create-subscriber.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/reactivity/map.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/svelte/src/utils.js",
+          "owners": [
+            "npm:svelte@5.57.1"
+          ]
+        },
+        {
+          "id": "node_modules/tailwind-variants/dist/chunk-OYFAXDFZ.js",
+          "owners": [
+            "npm:tailwind-variants@3.3.1"
+          ]
+        },
+        {
+          "id": "node_modules/tailwind-variants/dist/chunk-SUL6UUW2.js",
+          "owners": [
+            "npm:tailwind-variants@3.3.1"
+          ]
+        },
+        {
+          "id": "node_modules/tailwind-variants/dist/index.js",
+          "owners": [
+            "npm:tailwind-variants@3.3.1"
+          ]
+        },
+        {
+          "id": "src/App.svelte",
+          "owners": []
+        },
+        {
+          "id": "src/lib/application/AttachmentPage.svelte",
+          "owners": []
+        },
+        {
+          "id": "src/lib/application/auth.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/application/controller.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/application/ResourceDetails.svelte",
+          "owners": []
+        },
+        {
+          "id": "src/lib/application/ResourcePage.svelte",
+          "owners": []
+        },
+        {
+          "id": "src/lib/application/WorkPage.svelte",
+          "owners": []
+        },
+        {
+          "id": "src/lib/attachments/AttachmentPanel.svelte",
+          "owners": []
+        },
+        {
+          "id": "src/lib/attachments/controller.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/client/blobs.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/client/deadline.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/client/discovery.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/client/journal.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/client/mutation.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/client/normalization.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/client/query.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/client/request.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/client/serialization.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/client/session.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/client/stream.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/client/validation.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/client/work-validation.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/components/ui/button/button.svelte",
+          "owners": [
+            "vendored:shadcn-svelte"
+          ]
+        },
+        {
+          "id": "src/lib/components/ui/input/input.svelte",
+          "owners": [
+            "vendored:shadcn-svelte"
+          ]
+        },
+        {
+          "id": "src/lib/components/ui/table/table-body.svelte",
+          "owners": [
+            "vendored:shadcn-svelte"
+          ]
+        },
+        {
+          "id": "src/lib/components/ui/table/table-caption.svelte",
+          "owners": [
+            "vendored:shadcn-svelte"
+          ]
+        },
+        {
+          "id": "src/lib/components/ui/table/table-cell.svelte",
+          "owners": [
+            "vendored:shadcn-svelte"
+          ]
+        },
+        {
+          "id": "src/lib/components/ui/table/table-head.svelte",
+          "owners": [
+            "vendored:shadcn-svelte"
+          ]
+        },
+        {
+          "id": "src/lib/components/ui/table/table-header.svelte",
+          "owners": [
+            "vendored:shadcn-svelte"
+          ]
+        },
+        {
+          "id": "src/lib/components/ui/table/table-row.svelte",
+          "owners": [
+            "vendored:shadcn-svelte"
+          ]
+        },
+        {
+          "id": "src/lib/components/ui/table/table.svelte",
+          "owners": [
+            "vendored:shadcn-svelte"
+          ]
+        },
+        {
+          "id": "src/lib/renderers/default-value.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/renderers/FieldHost.svelte",
+          "owners": []
+        },
+        {
+          "id": "src/lib/renderers/registry.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/renderers/value-format.ts",
+          "owners": []
+        },
+        {
+          "id": "src/lib/renderers/ValueDisplay.svelte",
+          "owners": []
+        },
+        {
+          "id": "src/lib/renderers/ValueEditor.svelte",
+          "owners": []
+        },
+        {
+          "id": "src/lib/resources/ActionForm.svelte",
+          "owners": []
+        },
+        {
+          "id": "src/lib/resources/QueryEditor.svelte",
+          "owners": []
+        },
+        {
+          "id": "src/lib/resources/ResourceForm.svelte",
+          "owners": []
+        },
+        {
+          "id": "src/lib/resources/ResourceTable.svelte",
+          "owners": []
+        },
+        {
+          "id": "src/main.ts",
+          "owners": []
+        },
+        {
+          "id": "virtual:vite/modulepreload-polyfill.js",
+          "owners": [
+            "tool-runtime:rolldown@1.2.12",
+            "tool-runtime:vite@8.3.2"
+          ]
+        }
+      ]
+    }
+  ]
+}

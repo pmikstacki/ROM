@@ -1,0 +1,11 @@
+{
+  "accepted": true,
+  "owners": [],
+  "outputs": [
+    {
+      "file": "assets/unclassified.js",
+      "sha256": "fe104ac869961f32e2ac541429722794ab5db663516b4ee8a7636f230261a5cd",
+      "modules": []
+    }
+  ]
+}

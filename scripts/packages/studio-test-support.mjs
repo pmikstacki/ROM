@@ -2,6 +2,7 @@
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
+import { sha256, noticeInventoryPath } from '../../studio/build/notices/inventory.mjs';
 
 export function putStudio(root, name, text) {
   const path = join(root, 'studio', name);
@@ -20,6 +21,15 @@ export function assetFixture(root) {
   writeFileSync(join(root, 'index.html'), '<html><script type="module" src="/rom-studio/assets/main.js"></script><link rel="stylesheet" href="/rom-studio/assets/main.css"></html>');
   writeFileSync(join(root, 'assets/main.js'), 'console.log("fixture");');
   writeFileSync(join(root, 'assets/main.css'), 'body{}');
+  const license = 'Fixture license text.\n';
+  mkdirSync(join(root, 'notices/fixture'), { recursive: true });
+  writeFileSync(join(root, 'notices/fixture/LICENSE'), license);
+  writeFileSync(join(root, noticeInventoryPath), JSON.stringify({ schema_version: 1,
+    coverage: 'positive-rendered-javascript-and-generated-css',
+    owners: [{ id: 'npm:fixture@1', kind: 'npm', name: 'fixture', version: '1', license_expression: null,
+      modules: ['node_modules/fixture/index.js'], notices: [{ source: 'LICENSE', path: 'notices/fixture/LICENSE', sha256: sha256(license), bytes: Buffer.byteLength(license) }] }],
+    outputs: [{ file: 'assets/main.js', sha256: sha256('console.log("fixture");'), modules: [{ id: 'node_modules/fixture/index.js', owners: ['npm:fixture@1'] }] },
+      { file: 'assets/main.css', sha256: sha256('body{}'), modules: [] }] }));
   return root;
 }
 export async function fixtureRunner(program, args, options) {

@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: complete static asset identity rejects changed, missing, and extra files
+ok 1 - complete static asset identity rejects changed, missing, and extra files
+  ---
+  duration_ms: 6.370165
+  type: 'test'
+  ...
+# Subtest: asset admission rejects links, caches, invalid UTF8, and external or escaping references
+ok 2 - asset admission rejects links, caches, invalid UTF8, and external or escaping references
+  ---
+  duration_ms: 4.674066
+  type: 'test'
+  ...
+# Subtest: emitted runtime ownership retains exact license and notice bytes without requiring SPDX
+ok 3 - emitted runtime ownership retains exact license and notice bytes without requiring SPDX
+  ---
+  duration_ms: 8.993357
+  type: 'test'
+  ...
+# Subtest: build refuses missing full license text, unknown virtual code, or an untrusted package owner
+ok 4 - build refuses missing full license text, unknown virtual code, or an untrusted package owner
+  ---
+  duration_ms: 7.452374
+  type: 'test'
+  ...
+# Subtest: asset admission fails closed on missing inventory, missing or changed notices, and uncovered JavaScript
+ok 5 - asset admission fails closed on missing inventory, missing or changed notices, and uncovered JavaScript
+  ---
+  duration_ms: 3.766218
+  type: 'test'
+  ...
+# Subtest: inventory rejects missing owner bindings and malformed notice metadata before admission
+ok 6 - inventory rejects missing owner bindings and malformed notice metadata before admission
+  ---
+  duration_ms: 3.985135
+  type: 'test'
+  ...
+# Subtest: distinct transformed module IDs preserve query suffixes in the emitted inventory
+ok 7 - distinct transformed module IDs preserve query suffixes in the emitted inventory
+  ---
+  duration_ms: 2.234293
+  type: 'test'
+  ...
+# Subtest: unclassified JavaScript assets cannot bypass emitted runtime provenance
+ok 8 - unclassified JavaScript assets cannot bypass emitted runtime provenance
+  ---
+  duration_ms: 2.082233
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 69.050925

@@ -5,6 +5,7 @@ import { isDeepStrictEqual } from 'node:util';
 import { contents } from '../release-artifacts/contents.mjs';
 import { digest, hash, relativePath, safePath } from '../skills/files.mjs';
 import { isGeneratedStudioPath } from './studio-source.mjs';
+import { validateRuntimeNotices } from '../../studio/build/notices/inventory.mjs';
 
 export function studioAssets(root) {
   const paths = contents(root);
@@ -18,12 +19,15 @@ export function studioAssets(root) {
     if (!paths.includes(path)) throw Error('missing Studio asset reference');
     safePath(root, path);
   }
+  validateRuntimeNotices(new Map(paths.map(path => [path, readFileSync(safePath(root, path))])));
   const files = Object.fromEntries(paths.map(path => [path, hash(safePath(root, path))]));
   return { base_path: '/rom-studio/', files, sha256: digest(files) };
 }
 
 export function requireStudioAssets(root, expected) {
-  const actual = studioAssets(root);
+  let actual;
+  try { actual = studioAssets(root); }
+  catch (error) { throw Error('Studio asset identity mismatch', { cause: error }); }
   if (!isDeepStrictEqual(actual, expected)) throw Error('Studio asset identity mismatch');
   return actual;
 }
