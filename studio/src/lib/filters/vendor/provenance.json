@@ -1,0 +1,43 @@
+{
+  "repository": "https://github.com/svar-widgets/filter",
+  "commit": "1c581c3312c626c525ee64b8f94446a025fa141c",
+  "license": "MIT",
+  "originals": [
+    {
+      "upstream": "store/src/RulesTree.ts",
+      "retained": "RulesTree.ts.source",
+      "sha256": "e54a625b4ea07765ad76619ac81223842d916540aed16181018a634eeb723ea5"
+    },
+    {
+      "upstream": "svelte/src/components/editor/Rule.svelte",
+      "retained": "Rule.svelte.source",
+      "sha256": "6c061fb9359562db9e02aeb25e66fb135ffaa81cdc91cc2badd3000cc408ae39"
+    }
+  ],
+  "patches": [
+    {
+      "path": "composition.ts",
+      "changes": [
+        "Extract serializeBranch; replace DataTree node data with FilterSet rules",
+        "Keep every rule; remove upstream parseFloat validation and silent invalid-rule dropping",
+        "Add finite group depth bound; infer field types from authorized ROM descriptors"
+      ]
+    },
+    {
+      "path": "Rule.svelte",
+      "changes": [
+        "Retain rule row composition and field/operator presentation",
+        "Replace non-keyboard menu icon with shadcn Button",
+        "Render ROM editors through a controlled snippet instead of upstream formatted values",
+        "Replace wx theme with shared shadcn tokens and wrapping layout"
+      ]
+    }
+  ],
+  "excluded": [
+    "numeric/text parser",
+    "local evaluator",
+    "upstream primitive libraries",
+    "global themes",
+    "AI hooks"
+  ]
+}

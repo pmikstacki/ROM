@@ -6,13 +6,13 @@
     ProjectedView,
     ResourceDescriptor,
   } from "../../src/lib/client/types.ts";
-  const descriptor: ResourceDescriptor = {
+  let descriptor = $state.raw<ResourceDescriptor>({
     kind: "DraftFixture",
     version: 1,
     fields: [{ name: "title", shape: { type: "string" } }],
     actions: [],
     action_inputs: [],
-  };
+  });
   let selected = $state.raw<ProjectedView>({
       key: { kind: "DraftFixture", id: "one" },
       revision: 1n,
@@ -24,11 +24,20 @@
   }
   const runtime = createApplication(createClient({ base: "/rom-studio/api" }));
   const controller = { ...runtime, selectRow: async () => reload() };
-  const snapshot = $derived({ ...runtime.state, selected, rows: [selected] });
+  const snapshot = $derived({
+    ...runtime.state,
+    query: { filters: [{ field: "title", value: "original" }], limit: 50 },
+    selected,
+    rows: [selected],
+  });
 </script>
 
 <main>
   <h1>Draft regression fixture</h1>
+  <button
+    onclick={() => (descriptor = { ...descriptor, version: 2, fields: [] })}
+    >Remove field definition</button
+  >
   <button
     onclick={() =>
       (selected = {

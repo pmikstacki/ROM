@@ -1,7 +1,7 @@
 // Classify emitted modules and retain the installed owner's complete notice files.
 import { existsSync, lstatSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
-import { noticePath, noticeText, sha256 } from './inventory.mjs';
+import { noticePath, noticeText, sha256, svarNoticeProfile } from './inventory.mjs';
 
 const noticeName = /^(?:.*[-_.])?(?:licen[sc]e|notice|copying|copyright)(?:[-_.].*)?$/i;
 const licenseName = /licen[sc]e|copying/i;
@@ -57,6 +57,14 @@ export function moduleOwner(root, originalId) {
   if (inside(join(root, 'node_modules'), path)) return { id: noticeText(noticePath(relative(root, path)) + suffix), owners: [packageOwner(root, dirname(path))] };
   if (!inside(dirname(root), path)) throw Error('unclassified runtime notice external module');
   const id = noticeText((inside(root, path) ? noticePath(relative(root, path)) : `workspace/${noticePath(relative(dirname(root), path))}`) + suffix);
+  if (id.startsWith(svarNoticeProfile.modulePrefix)) {
+    const directory = join(root, svarNoticeProfile.modulePrefix), source = join(directory, 'provenance.json');
+    if (!lstatSync(source).isFile() || lstatSync(source).isSymbolicLink()) throw Error('invalid runtime notice SVAR provenance');
+    const provenance = JSON.parse(readFileSync(source, 'utf8'));
+    if (provenance.repository !== svarNoticeProfile.repository || provenance.commit !== svarNoticeProfile.commit || provenance.license !== 'MIT') throw Error('changed runtime notice SVAR provenance');
+    return { id, owners: [{ directory, files: ['LICENSE'], id: svarNoticeProfile.id,
+      kind: 'vendored', name: svarNoticeProfile.name, version: svarNoticeProfile.commit, license_expression: 'MIT' }] };
+  }
   if (id.startsWith('src/lib/components/ui/') || id.split('?')[0] === 'src/lib/hooks/is-mobile.svelte.ts') {
     return { id, owners: [{ directory: join(root, 'src/lib/components/ui'), files: ['LICENSE.md'], id: 'vendored:shadcn-svelte',
       kind: 'vendored', name: 'shadcn-svelte-vendored', version: 'source-checkout', license_expression: 'MIT' }] };

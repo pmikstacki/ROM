@@ -67,3 +67,30 @@ The NixOS preview SHALL serve the accepted Studio assets and real protected API 
 - **GIVEN** a release archive with a missing asset or inconsistent inventory
 - **WHEN** the artifact verifier checks extracted contents
 - **THEN** verification SHALL fail before publication
+
+### Requirement: Shared filter workspace
+Studio SHALL provide quick filters in a popover and a full Filters / Details sidebar. Both presentations SHALL use one controlled filter draft. Editing SHALL NOT execute a query before Apply. Applied query summaries SHALL remain separate from pending edits, including invalid input.
+
+#### Scenario: Switch between filter presentations
+- **GIVEN** a browser with a pending filter edit
+- **WHEN** the user switches between the popover and sidebar
+- **THEN** the field, operator, exact value and invalid input SHALL remain available
+- **AND** no query SHALL execute until the user selects Apply
+
+#### Scenario: Keep an open Resource draft
+- **GIVEN** a browser with an open Resource draft
+- **WHEN** the user applies filters, changes tabs or changes between desktop and mobile layouts
+- **THEN** the same draft and captured revision SHALL remain mounted
+- **AND** current authorization and stale revision checks SHALL still apply
+
+#### Scenario: Reject an unsupported filter
+- **GIVEN** a filter with an unsupported operator, group, field or invalid value
+- **WHEN** the user attempts to apply the filter
+- **THEN** Studio SHALL reject it before query execution
+- **AND** Studio SHALL NOT silently flatten a group or change an exact value
+
+#### Scenario: Close the mobile inspector
+- **GIVEN** an open mobile Filters / Details inspector
+- **WHEN** the user presses Escape
+- **THEN** the inspector SHALL close and return focus to its toolbar control
+- **AND** the pending filter and Resource drafts SHALL remain available

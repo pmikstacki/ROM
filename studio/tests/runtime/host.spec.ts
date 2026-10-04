@@ -1,6 +1,19 @@
 import { selectValue } from "../components/select-value.ts";
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { startHost } from "./host-fixture.mjs";
+
+async function openFullFilters(page: Page) {
+  await page
+    .getByRole("button", { name: "Open full filters", exact: true })
+    .click();
+  const editor = page.getByRole("region", {
+    name: "Filter editor",
+    exact: true,
+  });
+  await expect(editor).toBeVisible();
+  return editor;
+}
+
 for (const backend of ["sqlite", "redb"])
   test(`real ${backend} human auth and generic resources`, async ({ page }) => {
     const host = await startHost(backend);
@@ -53,9 +66,10 @@ for (const backend of ["sqlite", "redb"])
       ).toBeVisible();
       await expect(page.getByText("Revision 2", { exact: true })).toBeVisible();
       await page.unroute("**/api/invoke");
-      await page.getByLabel("Query limit").fill("1");
-      await page
-        .getByRole("button", { name: "Apply query", exact: true })
+      const filters = await openFullFilters(page);
+      await filters.getByLabel("Query limit", { exact: true }).fill("1");
+      await filters
+        .getByRole("button", { name: "Apply filters", exact: true })
         .click();
       await page
         .getByRole("button", { name: "Next page", exact: true })
@@ -685,26 +699,33 @@ for (const backend of ["sqlite", "redb"])
         const field = kind === "tasks" ? "title" : "quantity";
         const value = kind === "tasks" ? "Browser updated task" : "0";
         await updateResource(page, id, field, value);
+        const filters = await openFullFilters(page);
+        await filters
+          .getByRole("button", { name: "Add condition", exact: true })
+          .click();
         await selectValue(
-          page.getByLabel("Query field", { exact: true }),
+          filters.getByLabel("Filter 1 field", { exact: true }),
           kind === "tasks" ? "done" : "code",
         );
         if (kind === "tasks")
-          await page.getByLabel("Query value value", { exact: true }).uncheck();
+          await filters.getByLabel("Filter 1 value", { exact: true }).uncheck();
         else
-          await page
-            .getByLabel("Query value value", { exact: true })
+          await filters
+            .getByLabel("Filter 1 value", { exact: true })
             .fill("BROWSER-STOCK");
+        await filters
+          .getByRole("button", { name: "Add sort", exact: true })
+          .click();
         await selectValue(
-          page.getByLabel("Query sort field", { exact: true }),
+          filters.getByLabel("Sort 1 field", { exact: true }),
           field,
         );
         await selectValue(
-          page.getByLabel("Query sort", { exact: true }),
+          filters.getByLabel("Sort 1 direction", { exact: true }),
           "asc",
         );
-        await page
-          .getByRole("button", { name: "Apply query", exact: true })
+        await filters
+          .getByRole("button", { name: "Apply filters", exact: true })
           .click();
         await expect(
           page.getByRole("button", { name: `Open ${id}`, exact: true }),
@@ -739,12 +760,12 @@ for (const backend of ["sqlite", "redb"])
             page.getByRole("button", { name: "Open task-a", exact: true }),
           ).toBeVisible();
           expect(observerQueries).toBe(queriesBefore);
-          await selectValue(
-            page.getByLabel("Query field", { exact: true }),
-            "",
-          );
-          await page
-            .getByRole("button", { name: "Apply query", exact: true })
+          const filters = await openFullFilters(page);
+          await filters
+            .getByRole("button", { name: "Clear filters", exact: true })
+            .click();
+          await filters
+            .getByRole("button", { name: "Apply filters", exact: true })
             .click();
         } else {
           const frames = [];
@@ -801,6 +822,10 @@ for (const backend of ["sqlite", "redb"])
             .click();
           await expect(
             page.getByText("4", { exact: true }).first(),
+          ).toBeVisible();
+          await page.getByRole("tab", { name: "Details", exact: true }).click();
+          await expect(
+            page.getByRole("region", { name: "Resource details", exact: true }),
           ).toBeVisible();
           await accessible(page, "connected live inventory details");
         }

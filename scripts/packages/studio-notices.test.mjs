@@ -133,3 +133,69 @@ test('copied responsive hook and imported CSS retain their actual owners', () =>
     assert.throws(() => collectRuntimeNotices(f.root, f.bundle), /runtime notice/);
   } finally { f.cleanup(); }
 });
+
+function svarFixture() {
+  const f = fixture();
+  const vendor = 'src/lib/filters/vendor';
+  const license = readFileSync(new URL('../../studio/src/lib/filters/vendor/LICENSE', import.meta.url));
+  f.put(`${vendor}/LICENSE`, license);
+  f.put(`${vendor}/provenance.json`, readFileSync(new URL('../../studio/src/lib/filters/vendor/provenance.json', import.meta.url)));
+  for (const path of ['Rule.svelte', 'composition.ts']) {
+    f.put(`${vendor}/${path}`, 'fixture runtime');
+    f.bundle['assets/main.js'].modules[join(f.root, `${vendor}/${path}`)] = { renderedLength: 1 };
+  }
+  f.bundle['assets/main.js'].modules[join(f.root, `${vendor}/Rule.svelte`) + '?transformed'] = { renderedLength: 1 };
+  return { ...f, svarLicense: license };
+}
+
+function emittedFiles(f, assets) {
+  return new Map([...assets, ['assets/main.js', Buffer.from(f.bundle['assets/main.js'].code)],
+    ['assets/main.css', Buffer.from(f.bundle['assets/main.css'].source)]]);
+}
+
+test('emitted SVAR modules retain the original MIT notice with their pinned source commit', () => {
+  const f = svarFixture();
+  try {
+    const assets = collectRuntimeNotices(f.root, f.bundle);
+    const inventory = validateRuntimeNotices(emittedFiles(f, assets));
+    const owner = inventory.owners.find(owner => owner.id === 'vendored:svar-filter');
+    assert.ok(owner, 'missing SVAR runtime owner');
+    assert.equal(owner.kind, 'vendored');
+    assert.equal(owner.name, 'svar-filter-vendored');
+    assert.equal(owner.version, '1c581c3312c626c525ee64b8f94446a025fa141c');
+    assert.equal(owner.license_expression, 'MIT');
+    assert.deepEqual(owner.modules, ['src/lib/filters/vendor/Rule.svelte', 'src/lib/filters/vendor/Rule.svelte?transformed', 'src/lib/filters/vendor/composition.ts']);
+    assert.deepEqual(owner.notices.map(notice => notice.source), ['LICENSE']);
+    assert.deepEqual(assets.get(owner.notices[0].path), f.svarLicense);
+    assert.equal(owner.notices[0].sha256, '873d0542c84ec8a7ecaf127c18ae1209ab319bc5f5a2efbb6160da8956c2787f');
+  } finally { f.cleanup(); }
+});
+
+test('inventory rejects emitted SVAR code stripped of its required owner', () => {
+  const f = svarFixture();
+  try {
+    const assets = collectRuntimeNotices(f.root, f.bundle);
+    const inventory = JSON.parse(assets.get('third-party-notices.json'));
+    for (const owner of inventory.owners.filter(owner => owner.id === 'vendored:svar-filter'))
+      for (const notice of owner.notices) assets.delete(notice.path);
+    inventory.owners = inventory.owners.filter(owner => owner.id !== 'vendored:svar-filter');
+    for (const output of inventory.outputs)
+      for (const module of output.modules) if (module.id.startsWith('src/lib/filters/vendor/')) module.owners = [];
+    assets.set('third-party-notices.json', Buffer.from(JSON.stringify(inventory)));
+    assert.throws(() => validateRuntimeNotices(emittedFiles(f, assets)), /missing runtime notice module owner/);
+  } finally { f.cleanup(); }
+});
+
+test('SVAR owner cannot silently change its source commit or retained license profile', () => {
+  for (const mutation of ['provenance', 'license']) {
+    const f = svarFixture();
+    try {
+      if (mutation === 'provenance') {
+        const path = 'src/lib/filters/vendor/provenance.json';
+        const provenance = JSON.parse(readFileSync(join(f.root, path)));
+        provenance.commit = '0'.repeat(40); f.put(path, JSON.stringify(provenance));
+      } else f.put('src/lib/filters/vendor/LICENSE', 'MIT replacement text');
+      assert.throws(() => collectRuntimeNotices(f.root, f.bundle), /runtime notice/);
+    } finally { f.cleanup(); }
+  }
+});

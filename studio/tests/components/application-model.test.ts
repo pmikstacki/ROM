@@ -5,6 +5,7 @@ import type {
   RomClient,
   ProjectedView,
   PendingMutation,
+  QuerySpec,
 } from "../../src/lib/client/types.ts";
 const row: ProjectedView = {
   key: { kind: "task", id: "one" },
@@ -67,6 +68,256 @@ test("connect exposes discovered resources and selected rows", async () => {
   assert.equal(app.state.descriptors[0].kind, "task");
   assert.equal(app.state.rows[0], row);
 });
+
+function deferred<T>() {
+  let resolve!: (value: T) => void;
+  let settled = false;
+  const promise = new Promise<T>(
+    (accept) =>
+      (resolve = (value) => {
+        settled = true;
+        accept(value);
+      }),
+  );
+  return {
+    promise,
+    resolve,
+    get settled() {
+      return settled;
+    },
+  };
+}
+
+test("query Apply retains the selected key continuously and reads its latest authorized revision", async () => {
+  let reads = 0;
+  const fresh: ProjectedView = { ...row, revision: 2n, value: { done: true } };
+  const app = createApplication(
+    fixture({
+      async read() {
+        return ++reads === 1 ? row : fresh;
+      },
+      async query(_kind, query) {
+        return query.filters ? [] : [row];
+      },
+    }),
+  );
+  await app.connect();
+  await app.selectRow("one");
+  const selections: (ProjectedView | null)[] = [];
+  const unsubscribe = app.subscribe((state) => selections.push(state.selected));
+  await app.applyQuery({
+    limit: 50,
+    filters: [{ field: "done", value: false }],
+  });
+  unsubscribe();
+  assert.equal(app.state.rows.length, 0);
+  assert.equal(app.state.selected?.revision, 2n);
+  assert.deepEqual(app.state.selected?.value, { done: true });
+  assert.ok(
+    selections.every(
+      (selected) => selected?.key.kind === "task" && selected.key.id === "one",
+    ),
+  );
+});
+
+test("query Apply clears a currently denied selection even when the query contains its old row", async () => {
+  const { RemoteError } = await import("../../src/lib/client/client.ts");
+  let reads = 0;
+  const app = createApplication(
+    fixture({
+      async read() {
+        if (++reads > 1) throw new RemoteError("denied", 403);
+        return row;
+      },
+    }),
+  );
+  await app.connect();
+  await app.selectRow("one");
+  await app.applyQuery({ limit: 25 });
+  assert.equal(app.state.selected, null);
+});
+
+test("query Apply resets moving anchors and history while preserving live choice", async () => {
+  let streams = 0;
+  const queries: QuerySpec[] = [];
+  const app = createApplication(
+    fixture({
+      async query(_kind, query) {
+        queries.push(query);
+        return [row];
+      },
+      async *observe(_kind, _query, signal) {
+        streams++;
+        yield [row];
+        await new Promise<void>((resolve) => {
+          if (signal.aborted) resolve();
+          else
+            signal.addEventListener("abort", () => resolve(), { once: true });
+        });
+      },
+    }),
+  );
+  await app.connect();
+  await app.selectKind("task", { limit: 1 });
+  await app.nextPage();
+  const observing = app.observe();
+  try {
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.equal(app.state.live, true);
+    await app.applyQuery({
+      limit: 25,
+      after: app.state.query.after,
+      after_id: "old",
+      filters: [{ field: "done", value: false }],
+    });
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.equal(app.state.page, 1);
+    assert.equal(app.state.hasPrevious, false);
+    assert.deepEqual(queries.at(-1), {
+      limit: 25,
+      filters: [{ field: "done", value: false }],
+    });
+    assert.equal(app.state.live, true);
+    assert.equal(streams, 2);
+    await app.previousPage();
+    assert.equal(app.state.page, 1);
+  } finally {
+    app.disconnect();
+    await observing;
+  }
+});
+
+for (const transition of ["disconnect", "navigation", "selection"] as const) {
+  test(
+    `late query selection read cannot undo ${transition}`,
+    { timeout: 2000 },
+    async () => {
+      const entered = deferred<void>(),
+        late = deferred<ProjectedView>();
+      const other: ProjectedView = { ...row, key: { kind: "task", id: "two" } };
+      let reads = 0;
+      const app = createApplication(
+        fixture({
+          async query(kind) {
+            return kind === "other" ? [] : [row];
+          },
+          async read(_kind, id) {
+            if (id === "two") return other;
+            if (++reads === 1) return row;
+            entered.resolve();
+            return late.promise;
+          },
+        }),
+      );
+      await app.connect();
+      await app.selectRow("one");
+      const applying = app.applyQuery({ limit: 25 });
+      await entered.promise;
+      if (transition === "disconnect") app.disconnect();
+      else if (transition === "navigation") await app.selectKind("other");
+      else await app.selectRow("two");
+      late.resolve({ ...row, revision: 9n });
+      await applying;
+      if (transition === "selection")
+        assert.equal(app.state.selected?.key.id, "two");
+      else assert.equal(app.state.selected, null);
+      if (transition === "disconnect")
+        assert.equal(app.state.phase, "disconnected");
+      if (transition === "navigation") assert.equal(app.state.kind, "other");
+    },
+  );
+}
+
+test("live filter exclusion retains a currently readable Resource at its latest revision", async () => {
+  let reads = 0;
+  const fresh: ProjectedView = { ...row, revision: 2n, value: { done: true } };
+  const app = createApplication(
+    fixture({
+      async read() {
+        return ++reads === 1 ? row : fresh;
+      },
+      async *observe() {
+        yield [];
+      },
+    }),
+  );
+  await app.connect();
+  await app.selectRow("one");
+  await app.observe();
+  assert.equal(app.state.rows.length, 0);
+  assert.equal(app.state.selected?.revision, 2n);
+  assert.deepEqual(app.state.selected?.value, { done: true });
+});
+
+test("live exclusion clears a selection when its current read is denied", async () => {
+  const { RemoteError } = await import("../../src/lib/client/client.ts");
+  let reads = 0;
+  const app = createApplication(
+    fixture({
+      async read() {
+        if (++reads > 1) throw new RemoteError("denied", 403);
+        return row;
+      },
+      async *observe() {
+        yield [];
+      },
+    }),
+  );
+  await app.connect();
+  await app.selectRow("one");
+  await app.observe();
+  assert.equal(app.state.selected, null);
+});
+
+for (const transition of [
+  "disconnect",
+  "navigation",
+  "stop",
+  "selection",
+] as const) {
+  test(
+    `late excluded live selection read cannot undo ${transition}`,
+    { timeout: 2000 },
+    async () => {
+      const entered = deferred<void>(),
+        late = deferred<ProjectedView>();
+      const other: ProjectedView = { ...row, key: { kind: "task", id: "two" } };
+      let reads = 0;
+      const app = createApplication(
+        fixture({
+          async read(_kind, id) {
+            if (id === "two") return other;
+            if (++reads === 1) return row;
+            entered.resolve();
+            return late.promise;
+          },
+          async *observe() {
+            yield [];
+          },
+        }),
+      );
+      await app.connect();
+      await app.selectRow("one");
+      const observing = app.observe();
+      await new Promise((resolve) => setImmediate(resolve));
+      assert.ok(
+        entered.settled,
+        "Excluded selection must be re-read under current authority",
+      );
+      if (transition === "disconnect") app.disconnect();
+      else if (transition === "navigation") await app.selectKind("other");
+      else if (transition === "selection") await app.selectRow("two");
+      else app.stopLive();
+      late.resolve({ ...row, revision: 9n });
+      await observing;
+      if (transition === "selection")
+        assert.equal(app.state.selected?.key.id, "two");
+      else if (transition === "stop")
+        assert.equal(app.state.selected?.revision, 1n);
+      else assert.equal(app.state.selected, null);
+    },
+  );
+}
 test("late query cannot replace another navigation", async () => {
   let release!: (v: ProjectedView[]) => void;
   const app = createApplication(
@@ -312,4 +563,38 @@ test("moving page changes cancel the old live stream and open a new one", async 
   app.disconnect();
   await observing;
   assert.equal(aborts, 2);
+});
+
+test("query Apply preserves live table choice when only the selected Resource read is denied", async () => {
+  const { RemoteError } = await import("../../src/lib/client/client.ts");
+  let reads = 0;
+  const app = createApplication(
+    fixture({
+      async read() {
+        if (++reads > 1) throw new RemoteError("denied", 403);
+        return row;
+      },
+      async *observe(_kind, _query, signal) {
+        yield [row];
+        await new Promise<void>((resolve) => {
+          if (signal.aborted) resolve();
+          else
+            signal.addEventListener("abort", () => resolve(), { once: true });
+        });
+      },
+    }),
+  );
+  await app.connect();
+  await app.selectRow("one");
+  const observing = app.observe();
+  try {
+    await new Promise((resolve) => setImmediate(resolve));
+    await app.applyQuery({ limit: 25 });
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.equal(app.state.selected, null);
+    assert.equal(app.state.live, true);
+  } finally {
+    app.disconnect();
+    await observing;
+  }
 });

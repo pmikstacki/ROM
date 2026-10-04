@@ -64,36 +64,106 @@ export function createApplication(
   function message(problem: unknown) {
     return problem instanceof Error ? problem.message : "Operation failed.";
   }
-  async function loadPage(kind: string, query: QuerySpec, page: number) {
+  async function reconcileSelected(
+    selected: ProjectedView | null,
+    rows: ProjectedView[] | undefined,
+    ticket: { epoch: number; navigation: number; selection: number },
+    signal: AbortSignal,
+  ) {
+    const current = () =>
+      ticket.epoch === epoch &&
+      ticket.navigation === navigation &&
+      ticket.selection === rowSelection &&
+      !signal.aborted;
+    if (!selected || !current()) return;
+    const projected = rows?.find(
+      (row) =>
+        row.key.kind === selected.key.kind && row.key.id === selected.key.id,
+    );
+    try {
+      const latest =
+        projected ??
+        (await client.read(selected.key.kind, selected.key.id, signal));
+      if (current()) update({ selected: latest });
+    } catch (problem) {
+      if (current()) update({ selected: null, error: message(problem) });
+    }
+  }
+  async function loadPage(
+    kind: string,
+    query: QuerySpec,
+    page: number,
+    retainSelected = false,
+  ) {
     stopLive();
     const started = epoch,
-      selected = ++navigation;
-    rowSelection++;
+      selected = ++navigation,
+      selection = ++rowSelection,
+      retained = retainSelected ? state.selected : null;
     update({
       kind,
       query,
       page,
       hasPrevious: history.length > 0,
       rows: [],
-      selected: null,
+      selected: retained,
       busy: true,
       error: "",
     });
+    let queryAccepted = false;
     try {
       const rows = await client.query(kind, query, requests.signal);
-      if (started === epoch && selected === navigation)
-        update({ rows, busy: false });
+      if (started === epoch && selected === navigation) {
+        queryAccepted = true;
+        update({ rows });
+        if (retainSelected)
+          await reconcileSelected(
+            retained,
+            undefined,
+            { epoch: started, navigation: selected, selection },
+            requests.signal,
+          );
+        if (started === epoch && selected === navigation)
+          update({ busy: false });
+      }
     } catch (problem) {
       if (started === epoch && selected === navigation)
-        update({ error: message(problem), busy: false });
+        update({
+          error: message(problem),
+          busy: false,
+          ...(selection === rowSelection ? { selected: null } : {}),
+        });
     }
-    return selected;
+    return { ticket: selected, queryAccepted };
   }
-  async function selectKind(kind: string, query: QuerySpec = { limit: 50 }) {
+  function resetQuery(query: QuerySpec) {
     history.length = 0;
     const { after: _after, after_id: _id, ...initialQuery } = query;
     firstQuery = initialQuery;
-    await loadPage(kind, firstQuery, 1);
+    return firstQuery;
+  }
+  async function selectKind(kind: string, query: QuerySpec = { limit: 50 }) {
+    await loadPage(kind, resetQuery(query), 1);
+  }
+  async function applyQuery(query: QuerySpec) {
+    if (!state.kind) throw Error("Choose a Resource before applying a query.");
+    const started = epoch,
+      kind = state.kind,
+      wasLive = state.live;
+    const { ticket, queryAccepted } = await loadPage(
+      kind,
+      resetQuery(query),
+      1,
+      true,
+    );
+    if (
+      started === epoch &&
+      ticket === navigation &&
+      state.kind === kind &&
+      wasLive &&
+      queryAccepted
+    )
+      void observe();
   }
   async function nextPage() {
     if (state.busy || !state.rows.length) return;
@@ -111,7 +181,7 @@ export function createApplication(
       if (started !== epoch || nav !== navigation) return;
       history.push({ query: currentQuery, page });
       if (history.length > 128) history.shift();
-      const ticket = await loadPage(
+      const { ticket } = await loadPage(
         kind,
         { ...currentQuery, after: anchor },
         page + 1,
@@ -142,7 +212,7 @@ export function createApplication(
     const wasLive = state.live,
       started = epoch,
       kind = state.kind;
-    const ticket = await loadPage(kind, previous.query, previous.page);
+    const { ticket } = await loadPage(kind, previous.query, previous.page);
     if (
       started === epoch &&
       ticket === navigation &&
@@ -159,7 +229,7 @@ export function createApplication(
       started = epoch,
       kind = state.kind;
     history.length = 0;
-    const ticket = await loadPage(kind, firstQuery, 1);
+    const { ticket } = await loadPage(kind, firstQuery, 1);
     if (
       started === epoch &&
       ticket === navigation &&
@@ -289,13 +359,15 @@ export function createApplication(
             )
               return;
             consecutiveRecoveries = 0;
-            update({
+            const selected = state.selected,
+              selection = rowSelection;
+            update({ rows });
+            await reconcileSelected(
+              selected,
               rows,
-              selected: state.selected
-                ? (rows.find((row) => row.key.id === state.selected!.key.id) ??
-                  null)
-                : null,
-            });
+              { epoch: started, navigation: nav, selection },
+              controller.signal,
+            );
           }
           return;
         } catch (problem) {
@@ -390,6 +462,7 @@ export function createApplication(
     },
     connect,
     selectKind,
+    applyQuery,
     nextPage,
     previousPage,
     firstPage,

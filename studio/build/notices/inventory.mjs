@@ -2,6 +2,11 @@
 import { createHash } from 'node:crypto';
 
 export const noticeInventoryPath = 'third-party-notices.json';
+export const svarNoticeProfile = Object.freeze({
+  modulePrefix: 'src/lib/filters/vendor/', id: 'vendored:svar-filter', name: 'svar-filter-vendored',
+  repository: 'https://github.com/svar-widgets/filter', commit: '1c581c3312c626c525ee64b8f94446a025fa141c',
+  licenseSha256: '873d0542c84ec8a7ecaf127c18ae1209ab319bc5f5a2efbb6160da8956c2787f',
+});
 export const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
 export function noticePath(path) {
   if (typeof path !== 'string' || path.length > 2048 || !path || path.includes('\\') ||
@@ -44,6 +49,9 @@ export function validateRuntimeNotices(files) {
     if (!modules.size) throw Error('unused runtime notice owner');
     ownerModules.set(owner.id, modules);
     const notices = boundedArray(owner.notices, 128);
+    if (owner.id === svarNoticeProfile.id && (owner.kind !== 'vendored' || owner.name !== svarNoticeProfile.name ||
+        owner.version !== svarNoticeProfile.commit || owner.license_expression !== 'MIT' || notices.length !== 1 ||
+        notices[0]?.source !== 'LICENSE' || notices[0]?.sha256 !== svarNoticeProfile.licenseSha256)) throw Error('changed runtime notice SVAR profile');
     if (!notices.length || !notices.some(notice => typeof notice.source === 'string' && /licen[sc]e|copying/i.test(notice.source.split('/').at(-1)))) throw Error('missing runtime notice license text');
     const sources = new Set();
     for (const notice of notices) {
@@ -69,6 +77,7 @@ export function validateRuntimeNotices(files) {
         if (!owners.has(owner) || !ownerModules.get(owner).has(module.id)) throw Error('missing runtime notice module owner');
         referencedModules.get(owner).add(module.id);
       }
+      if (module.id.startsWith(svarNoticeProfile.modulePrefix) && !selected.has(svarNoticeProfile.id)) throw Error('missing runtime notice module owner');
       if ((module.id.startsWith('node_modules/') || module.id.startsWith('virtual:') || module.id.startsWith('generated-css:') || module.id.startsWith('src/lib/components/ui/') || module.id.split('?')[0] === 'src/lib/hooks/is-mobile.svelte.ts') && !selected.size) throw Error('missing runtime notice module owner');
     }
   }

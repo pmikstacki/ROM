@@ -14,9 +14,12 @@ It copies their bytes without text conversion.
 A missing SPDX field does not prevent collection when the package supplies license text.
 The collector refuses an emitted third-party module when it cannot find full license text.
 
-The profile also records two explicit sources:
+The profile also records these explicit sources:
 
 - Vendored UI modules and the exact copied `src/lib/hooks/is-mobile.svelte.ts` hook retain `src/lib/components/ui/LICENSE.md`.
+- Vendored SVAR filter modules retain the original `src/lib/filters/vendor/LICENSE` bytes.
+  Their owner identifies commit `1c581c3312c626c525ee64b8f94446a025fa141c` of `svar-widgets/filter`.
+  Collection checks the recorded repository, commit, and MIT license. Admission requires this owner and the pinned license hash.
 - The Vite module-preload helper retains Vite and Rolldown notices.
   Vite 8 delegates this helper to Rolldown's native plugin.
 
