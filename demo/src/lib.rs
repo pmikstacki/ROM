@@ -42,3 +42,15 @@ pub mod serving;
 /// Opt-in host authentication from current provider configuration.
 #[cfg(feature = "provider-profile")]
 pub mod provider_profile;
+
+/// Opt-in real Studio host with explicit local fixture configuration.
+#[cfg(feature = "studio")]
+pub mod studio;
+#[cfg(feature = "studio")]
+mod studio_application;
+#[cfg(feature = "studio")]
+mod studio_model;
+#[cfg(feature = "studio")]
+mod studio_startup;
+#[cfg(feature = "studio")]
+mod studio_controls;

@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ $# -ne 2 || $1 != --assets-dir || $2 != /* || ! -f $2/index.html ]]; then
+  echo 'Usage: demo/verify-studio --assets-dir ABSOLUTE_DIRECTORY' >&2
+  exit 2
+fi
+repo_dir=$(cd -- "$(dirname -- "$0")/.." && pwd -P)
+export ROM_STUDIO_ASSETS=$2
+unset ROM_STUDIO_DEMO_RENDERER ROM_STUDIO_DEMO_BINARY
+export ROM_WEBKIT_EXECUTABLE=$("$repo_dir/scripts/studio-browser-runtime")
+[[ -x $ROM_WEBKIT_EXECUTABLE ]] || exit 1
+cd -- "$repo_dir"
+gate_dir=$(mktemp -d /var/tmp/rom-studio-accepted-source-XXXXXX)
+source_inventory() {
+  {
+    printf '%s\n' Cargo.toml Cargo.lock
+    rg --files crates demo -g '*.rs' -g Cargo.toml
+  } | LC_ALL=C sort | while IFS= read -r path; do sha256sum -- "$path"; done
+}
+source_inventory > "$gate_dir/native-source-before.sha256"
+git rev-parse HEAD > "$gate_dir/git-head.txt"
+if [[ -n ${ROM_STUDIO_CONTAINER:-} ]]; then
+  if [[ $ROM_STUDIO_CONTAINER != rom-dev || $repo_dir != /root/ROM && $repo_dir != /root/ROM/* ]]; then
+    echo 'The explicit rom-dev runner requires a checkout under /root/ROM.' >&2
+    exit 2
+  fi
+  container_dir=/workspace/ROM${repo_dir#/root/ROM}
+  target_dir=/var/tmp/rom-release-measured-verification-target
+  printf -v build_command 'cd -- %q && CARGO_TARGET_DIR=%q CARGO_BUILD_JOBS=1 cargo build -p rom-demo --features studio --locked' "$container_dir" "$target_dir"
+  nixos-container run rom-dev -- bash -lc "$build_command" 2>&1 | tee "$gate_dir/native-build.log"
+  export ROM_STUDIO_DEMO_BINARY=/var/lib/nixos-containers/rom-dev${target_dir}/debug/rom-demo
+else
+  command -v cargo >/dev/null || { echo 'Set ROM_STUDIO_CONTAINER=rom-dev or run with Cargo available.' >&2; exit 2; }
+  export CARGO_TARGET_DIR=${CARGO_TARGET_DIR:-/var/tmp/rom-release-measured-verification-target}
+  CARGO_BUILD_JOBS=1 cargo build -p rom-demo --features studio --locked 2>&1 | tee "$gate_dir/native-build.log"
+  export ROM_STUDIO_DEMO_BINARY=$CARGO_TARGET_DIR/debug/rom-demo
+fi
+source_inventory > "$gate_dir/native-source-after.sha256"
+cmp "$gate_dir/native-source-before.sha256" "$gate_dir/native-source-after.sha256"
+sha256sum -- "$ROM_STUDIO_DEMO_BINARY" > "$gate_dir/native-binary.sha256"
+printf 'Retained Studio gate evidence: %s\n' "$gate_dir"
+cd -- "$repo_dir/studio"
+npx --no-install playwright test --config tests/runtime/playwright.host.config.ts 2>&1 | tee "$gate_dir/browser.log"

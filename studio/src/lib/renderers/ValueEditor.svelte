@@ -14,6 +14,7 @@
     readonly = false,
     depth = 0,
     codec,
+    codecWrappers = [],
     onerror = () => {},
   }: {
     shape: Shape;
@@ -23,6 +24,7 @@
     readonly?: boolean;
     depth?: number;
     codec?: FieldDescriptor["codec"];
+    codecWrappers?: NonNullable<FieldDescriptor["codec_wrappers"]>;
     onerror?: (message: string) => void;
   } = $props();
   let invalid = $state("");
@@ -49,7 +51,11 @@
     onerror(Object.values(childErrors).find(Boolean) ?? "");
   }
   let newKey = $state("");
-  let Custom = $derived(findRenderer(codec));
+  let Custom = $derived(
+    codecWrappers.length === 0 ? findRenderer(codec) : undefined,
+  );
+  let wrapped = $derived(codecWrappers.length > 0);
+  let wrapperMismatch = $derived(wrapped && codecWrappers[0] !== shape.type);
   const maxDepth = 6,
     maxItems = 100;
   function scalar(text: string) {
@@ -133,7 +139,10 @@
   }
 </script>
 
-{#if Custom}
+{#if wrapperMismatch}<p role="alert">
+    Codec wrapper does not match the field shape. Editing is unavailable.
+  </p>
+{:else if Custom}
   <Custom
     descriptor={{ name: label, shape, codec }}
     {value}
@@ -141,7 +150,7 @@
     {readonly}
     {onerror}
   />
-{:else if codec}<p role="alert">
+{:else if codec && !wrapped}<p role="alert">
     No renderer is registered for codec {codec.name} version {codec.version}.
     Editing is unavailable.
   </p>
@@ -154,6 +163,8 @@
     {readonly}
     {depth}
     {onerror}
+    {codec}
+    codecWrappers={wrapped ? codecWrappers.slice(1) : []}
   />
 {:else if shape.type === "bool"}
   <label
@@ -190,6 +201,8 @@
       {#each Array.isArray(value) ? value : [] as item, index (itemKeys[index] ?? `initial-${index}`)}
         <ValueEditor
           shape={shape.value}
+          {codec}
+          codecWrappers={wrapped ? codecWrappers.slice(1) : []}
           value={item}
           onchange={(next) => listChange(index, next)}
           label={`${label}[${index}]`}
@@ -224,6 +237,8 @@
       {#each Object.entries(value && typeof value === "object" && !Array.isArray(value) ? value : {}) as [key, item] (key)}
         <ValueEditor
           shape={shape.value}
+          {codec}
+          codecWrappers={wrapped ? codecWrappers.slice(1) : []}
           value={item}
           onchange={(next) => mapChange(key, next)}
           label={`${label}.${key}`}

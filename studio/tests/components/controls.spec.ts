@@ -35,7 +35,7 @@ test("same field hosts support custom codec, nested collections and generic acti
   page,
 }) => {
   await page.getByLabel("code mode", { exact: true }).selectOption("value");
-  await page.getByLabel("code custom value").fill("ABC");
+  await page.getByLabel("code custom value", { exact: true }).fill("ABC");
   await page.getByLabel("tags mode", { exact: true }).selectOption("value");
   await page.getByRole("button", { name: "Add tags item" }).click();
   await page.getByLabel("tags[0] value", { exact: true }).fill("red");
@@ -173,4 +173,61 @@ test("sort picker excludes collection fields but retains scalar fields", async (
   await expect(picker.locator('option[value="tags"]')).toHaveCount(0);
   await expect(picker.locator('option[value="labels"]')).toHaveCount(0);
   await expect(picker.locator('option[value="count"]')).toHaveCount(1);
+});
+test("wrapped custom codecs apply only to leaves; unknown leaves remain read-only", async ({
+  page,
+}) => {
+  await expect(
+    page.locator("table").getByLabel("codes custom value", { exact: true }),
+  ).toHaveValue("LEAF");
+  await expect(
+    page.locator("table").getByLabel("code_map custom value", { exact: true }),
+  ).toHaveValue("ENTRY");
+  await expect(
+    page
+      .locator("table")
+      .getByLabel("maybe_code custom value", { exact: true }),
+  ).toHaveValue("DETAIL");
+  await expect(
+    page.getByLabel("unknown_code mode", { exact: true }),
+  ).toBeDisabled();
+  await page
+    .getByLabel("maybe_code mode", { exact: true })
+    .selectOption("value");
+  await page
+    .locator("form")
+    .first()
+    .getByLabel("maybe_code custom value", { exact: true })
+    .fill("OPTION");
+  await page.getByLabel("codes mode", { exact: true }).selectOption("value");
+  await page
+    .getByRole("button", { name: "Add codes item", exact: true })
+    .click();
+  await page.getByLabel("codes[0] custom value", { exact: true }).fill("LIST");
+  await page.getByLabel("code_map mode", { exact: true }).selectOption("value");
+  await page.getByLabel("code_map new key", { exact: true }).fill("primary");
+  await page
+    .getByRole("button", { name: "Add code_map entry", exact: true })
+    .click();
+  await page
+    .getByLabel("code_map.primary custom value", { exact: true })
+    .fill("MAP");
+  await page.getByRole("button", { name: "Apply patch", exact: true }).click();
+  await expect(page.getByTestId("submitted")).toContainText(
+    '"maybe_code":{"op":"set","value":"OPTION"}',
+  );
+  await expect(page.getByTestId("submitted")).toContainText(
+    '"codes":{"op":"set","value":["LIST"]}',
+  );
+  await expect(page.getByTestId("submitted")).toContainText(
+    '"code_map":{"op":"set","value":{"primary":"MAP"}}',
+  );
+  await expect(page.getByTestId("submitted")).not.toContainText("unknown_code");
+  await page
+    .getByLabel("maybe_code mode", { exact: true })
+    .selectOption("null");
+  await page.getByRole("button", { name: "Apply patch", exact: true }).click();
+  await expect(page.getByTestId("submitted")).toContainText(
+    '"maybe_code":{"op":"set","value":null}',
+  );
 });

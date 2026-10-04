@@ -1,0 +1,13 @@
+    Blocking waiting for file lock on build directory
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+   Compiling rom-backup v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+   Compiling rom-blob v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob)
+   Compiling rom-identity v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+   Compiling rom-http v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+   Compiling rom-redb v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+   Compiling rom-config v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-config)
+   Compiling rom-blob-object-store v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob-object-store)
+   Compiling rom-sqlite v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+   Compiling rom-demo v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 50.64s

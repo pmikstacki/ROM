@@ -1,0 +1,8 @@
+Actual Chromium, real oidc-provider 9.12.2, real Rust demo, SQLite and redb.
+Observed before fixes:
+GET /rom-studio/ -> 404.
+GET /rom-studio/index.html -> 200.
+GET /rom-studio/auth/providers -> 200.
+Post-consent browser console reported blocked redirect under form-action 'self'.
+After owner fixture CSP patch, browser completed callback then final /rom-studio/ returned404.
+No session cookie, state, nonce, code or ID token is stored in this evidence.

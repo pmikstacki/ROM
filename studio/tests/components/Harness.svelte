@@ -34,6 +34,33 @@
         shape: { type: "string" },
         codec: { name: "fixture-code", version: 1 },
       },
+      {
+        name: "maybe_code",
+        shape: {
+          type: "optional",
+          value: { type: "nullable", value: { type: "string" } },
+        },
+        codec: { name: "fixture-code", version: 1 },
+        codec_wrappers: ["optional", "nullable"],
+      },
+      {
+        name: "codes",
+        shape: { type: "list", value: { type: "string" } },
+        codec: { name: "fixture-code", version: 1 },
+        codec_wrappers: ["list"],
+      },
+      {
+        name: "code_map",
+        shape: { type: "map", value: { type: "string" } },
+        codec: { name: "fixture-code", version: 1 },
+        codec_wrappers: ["map"],
+      },
+      {
+        name: "unknown_code",
+        shape: { type: "optional", value: { type: "string" } },
+        codec: { name: "absent-code", version: 1 },
+        codec_wrappers: ["optional"],
+      },
     ],
     actions: ["adjust", "opaque"],
     action_inputs: [
@@ -71,7 +98,13 @@
       {
         key: { kind: "fixture", id: "row-1" },
         revision: 9007199254740993n,
-        value: { count: 18446744073709551615n, done: false },
+        value: {
+          count: 18446744073709551615n,
+          done: false,
+          maybe_code: "DETAIL",
+          codes: ["LEAF"],
+          code_map: { primary: "ENTRY" },
+        },
       },
     ]}
     onselect={(row) => (selected = row.key.id)}

@@ -1,0 +1,13 @@
+
+Running 2 tests using 1 worker
+
+(node:2785501) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓  1 [chromium] › tests/runtime/host.spec.ts:4:3 › real sqlite human auth and generic resources (22.3s)
+(node:2785789) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓  2 [webkit] › tests/runtime/host.spec.ts:4:3 › real sqlite human auth and generic resources (21.6s)
+
+  2 passed (45.2s)

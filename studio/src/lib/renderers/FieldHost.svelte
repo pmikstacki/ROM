@@ -18,6 +18,9 @@
     error?: string;
     onerror?: (message: string) => void;
   } = $props();
+  let unknownCodec = $derived(
+    !!descriptor.codec && !findRenderer(descriptor.codec),
+  );
   let optional = $derived(descriptor.shape.type === "optional");
   let nullable = $derived(
     descriptor.shape.type === "nullable" ||
@@ -44,7 +47,7 @@
     >Operation<select
       aria-label={`${descriptor.name} mode`}
       value={intent.mode}
-      disabled={readonly}
+      disabled={readonly || unknownCodec}
       onchange={(event) => mode(event.currentTarget.value)}
       ><option value="omit">Unchanged / omitted</option><option value="value"
         >Set value</option
@@ -56,6 +59,7 @@
   {#if intent.mode === "value"}<ValueEditor
       shape={descriptor.shape}
       codec={descriptor.codec}
+      codecWrappers={descriptor.codec_wrappers}
       value={intent.value}
       onchange={(value) => onchange({ mode: "value", value })}
       label={descriptor.name}

@@ -1744,6 +1744,7 @@ dependencies = [
  "rom-identity",
  "rom-redb",
  "rom-sqlite",
+ "rom-studio-host",
  "serde_json",
  "tokio",
 ]
@@ -1848,6 +1849,7 @@ dependencies = [
  "reqwest",
  "rom",
  "rom-auth",
+ "rom-blob",
  "rom-http",
  "rom-identity",
  "rom-redb",

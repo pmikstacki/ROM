@@ -9,6 +9,37 @@ async fn main() -> smoke::SmokeResult<()> {
     }
     let redb = backend == "redb";
     match mode.as_str() {
+        #[cfg(feature = "studio")]
+        "studio" => {
+            let path = args.next().ok_or("studio requires a database path")?;
+            let port: u16 = args.next().ok_or("studio requires a port")?.parse()?;
+            let assets = args
+                .next()
+                .ok_or("studio requires a built asset directory")?;
+            let issuer = args
+                .next()
+                .ok_or("studio requires an approved loopback fixture issuer")?;
+            let controls = match args.next().as_deref() {
+                None => None,
+                Some("--fixture-controls") => Some(
+                    args.next()
+                        .ok_or("fixture controls require a private Unix socket path")?,
+                ),
+                _ => return Err("unknown Studio option".into()),
+            };
+            if args.next().is_some() {
+                return Err("too many Studio options".into());
+            }
+            rom_demo::studio::run(
+                redb,
+                &path,
+                port,
+                std::path::Path::new(&assets),
+                &issuer,
+                controls.as_deref().map(std::path::Path::new),
+            )
+            .await?;
+        }
         #[cfg(feature = "provider-profile")]
         "provider-provision" | "provider-maintain" | "provider-serve" => {
             rom_demo::provider_profile::run_command(&mode, redb, args.collect()).await?;
