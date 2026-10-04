@@ -13,6 +13,7 @@ workspace = true
 [dependencies]
 rom = { workspace = true }
 rom-http = { path = "../rom-http" }
+rom-blob = { path = "../rom-blob" }
 rom-identity = { path = "../rom-identity" }
 rom-auth = { path = "../rom-auth", features = ["oidc"] }
 axum = { version = "=0.8.9", default-features = false, features = ["http1", "tokio", "json", "query"] }

@@ -32,6 +32,14 @@ impl BlobServiceBuilder {
     }
 }
 impl BlobService {
+    /// Validated limits shared by the service and its transport adapters.
+    pub fn limits(&self) -> Limits {
+        self.0.limits
+    }
+    /// True only when this service shares the exact runtime lifecycle and identity gate.
+    pub fn uses_runtime(&self, runtime: &rom::Runtime) -> bool {
+        self.0.runtime.same_instance(runtime)
+    }
     pub fn builder(runtime: rom::Runtime) -> BlobServiceBuilder {
         BlobServiceBuilder {
             runtime,

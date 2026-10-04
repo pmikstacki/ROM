@@ -5,7 +5,8 @@ import { once } from 'node:events';
 import { Provider } from 'oidc-provider';
 import { interaction } from './human-interaction.mjs';
 
-export async function startHumanProvider({ clientId, clientSecret, redirectUri, port = 0, accounts = ['alice', 'bob'] }) {
+export async function startHumanProvider({ clientId, clientSecret, redirectUri, port = 0, accounts = ['alice', 'bob'], beforeRequest }) {
+  if (beforeRequest !== undefined && typeof beforeRequest !== 'function') throw Error('invalid trusted fixture request barrier');
   for (const value of [clientId, clientSecret]) {
     if (typeof value !== 'string' || !value.length || Buffer.byteLength(value) > 4096)
       throw Error('invalid human fixture configuration');
@@ -37,7 +38,7 @@ export async function startHumanProvider({ clientId, clientSecret, redirectUri, 
       jwks: { keys: [{ ...privateKey.export({ format: 'jwk' }), kid: 'human-fixture', use: 'sig', alg: 'RS256' }] },
       cookies: { keys: [randomBytes(32).toString('hex'), randomBytes(32).toString('hex')] },
       scopes: ['openid', 'profile'],
-      ttl: { IdToken: 300, AuthorizationCode: 60, Interaction: 120, Session: 300, Grant: 300 },
+      ttl: { AccessToken: 300, IdToken: 300, AuthorizationCode: 60, Interaction: 120, Session: 300, Grant: 300 },
       pkce: { required: () => true },
       features: { devInteractions: { enabled: false } },
       interactions: { url: (_ctx, details) => `${issuer}/interaction/${details.uid}` },
@@ -45,13 +46,19 @@ export async function startHumanProvider({ clientId, clientSecret, redirectUri, 
         accountId, claims: async () => ({ sub: accountId, name: `Fixture ${accountId}` }),
       } : undefined,
     });
-    server.on('request', (req, res) => {
+    const dispatch = (req, res) => {
       if (req.url.startsWith('/interaction/')) {
         interaction(provider, issuer, accounts, req, res, redirect.origin).catch(() => {
           if (!res.headersSent) res.writeHead(400, { 'content-type': 'text/plain', 'cache-control': 'no-store' });
           res.end('Fixture interaction rejected');
         });
       } else provider.callback()(req, res);
+    };
+    server.on('request', (req, res) => {
+      Promise.resolve().then(() => beforeRequest?.(req)).then(() => dispatch(req, res)).catch(() => {
+        if (!res.headersSent) res.writeHead(503, { 'content-type': 'text/plain', 'cache-control': 'no-store' });
+        res.end('Fixture request unavailable');
+      });
     });
     return { issuer, port: actualPort, close };
   } catch {

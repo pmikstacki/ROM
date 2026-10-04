@@ -1,0 +1,11 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+error[E0609]: no field `closed` on type `Result<RuntimeStatus, rom::Error>`
+  --> crates/rom-studio-host/src/shutdown_tests.rs:25:30
+   |
+25 |     assert!(runtime.status().closed);
+   |                              ^^^^^^ unknown field
+   |
+   = note: available fields are: `intake`, `failed`, `owned_work`, `available_action_permits`, `available_io_permits` ... and 4 others
+
+For more information about this error, try `rustc --explain E0609`.
+error: could not compile `rom-studio-host` (lib test) due to 1 previous error

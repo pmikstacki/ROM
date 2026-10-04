@@ -3,6 +3,7 @@
 
 mod assets;
 mod authentication;
+mod blobs;
 mod configuration;
 mod csrf;
 mod lifecycle;
@@ -29,3 +30,5 @@ mod login_tests;
 mod oidc_tests;
 #[cfg(test)]
 mod session_tests;
+#[cfg(test)]
+mod shutdown_tests;

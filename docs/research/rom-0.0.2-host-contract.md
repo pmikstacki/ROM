@@ -1,11 +1,11 @@
 # ROM 0.0.2 Studio host contract
 
-This document records the implemented authentication and asset slice of Task 4. Combined blob, browser, and release-package acceptance remains separate.
+This document records Task 4 authentication, assets, and supervised blob transport. Browser and release-package acceptance remains separate.
 
 ## Public Rust interface
 
 `StudioHost::new(runtime, config)` creates an optional host. `router()` returns its Axum router. `serve(listener, stop)` owns shutdown.
-`shutdown()` closes intake, cancels session observers, drains accepted authentication work, and then closes the generic HTTP binding.
+`shutdown()` closes intake and cancels session observers. It drains accepted authentication and blob work before closing the generic HTTP binding.
 
 `HostConfig::new(public_origin, base_path, asset_directory, host_actor)` requires an explicit trusted configuration reader.
 The host never constructs a trusted Actor from browser data. The application must install its ordinary `IdentityGate` and Resource policies.
@@ -59,7 +59,7 @@ Session lookup removes expired entries before admitting a new session. Logout ca
 
 Assets use normalized relative paths and an explicit inventory. The host refuses traversal, encoded path separators, and symlink escapes.
 The generic HTTP binding owns Resource request semantics. The host supplies authentication and CSRF boundaries without per-kind controllers.
-Blob supervision and upload integration will follow the tested authentication/router slice. Separate component tests cannot prove their combined shutdown behavior.
+Blob transport now uses the supervised service and its validated chunk limits. Separate component tests do not prove combined shutdown behavior.
 
 ## Planned checks
 
@@ -89,6 +89,7 @@ ROM additionally checks current local Resource activation and bounds server-owne
 | `session_observation` | Response-stream cancellation and expiry/category handling |
 | `router` | Protocol composition and generic HTTP mounting |
 | `lifecycle` | Intake closure and accepted-work draining |
+| `blobs` | Current-authorized, bounded binary transport through the supervised BlobService |
 
 The token verifier exposes finite proof expiry, not original token expiry. After successful verification, the host reads original `exp` from that same token.
 This parse does not establish trust. It only bounds retained evidence whose signature and complete claims have already passed verification.
@@ -112,4 +113,37 @@ Raw intermediate logs remain in the evidence directory. No intermediate failure 
 
 The optional host requires the application to install the ordinary `IdentityGate`. The host does not rewrite an existing Runtime registration.
 Session storage is memory-only. Restart requires new login. The loopback provider fixture is not an externally reachable VPN identity provider.
-Blob upload and actual-process shutdown with combined accepted authentication and blob work still require their dedicated integration checks.
+The next slice adds BlobService composition through `HostConfig.blobs(service)`. Registration checks exact Runtime instance identity.
+The service exposes its validated limits. The host does not maintain an independent chunk configuration.
+
+| Route | Input | Response |
+| --- | --- | --- |
+| `POST blobs/reserve` | Bounded JSON: `id`, `store`, `digest`, `bytes`, `idempotency` | `status:reserved` and current projected Resource |
+| `POST blobs/upload?id=...` | Raw body, normalized to service chunk bounds | `status:attached` and current projected Resource |
+| `GET blobs/attachment/{id}` | Current browser session | Bounded verified attachment bytes |
+| `POST blobs/detach` | Bounded JSON: `id` | `status:detached` and current projected Resource |
+
+Mutation routes require Origin and CSRF checks. Download checks current session identity and Resource access.
+Unknown provider publication returns `503 {"error":"outcome_unknown"}`. An unattached object receipt does not establish browser field authority.
+The host therefore omits raw receipt data. Detachment also returns a Resource projection instead of a raw maintenance receipt.
+An application can use trusted native maintenance operations separately. Browser detachment does not physically delete a provider object.
+
+The focused host suite now passes 26 tests. BlobService passes 13 integration tests and one doctest.
+The human-provider fixture passes three Node tests. Clippy and rustdoc pass with warnings denied.
+The final log is `evidence/rom-0.0.2/task4/host-blob-final-4.log`.
+
+The real OIDC journey runs on both SQLite and redb. It covers reservation, upload, download, detachment, and CSRF rejection.
+The transport splits a five-byte HTTP body into two-byte service chunks. The same test injects an unknown provider response after publication.
+A retry attaches the existing immutable object. The unknown response contains no raw object receipt.
+
+The same real TCP server test pauses an accepted token exchange and an accepted provider create.
+It disconnects both callers and stops the server. Shutdown remains pending until both private adapter barriers complete.
+The fixture callback is supplied by trusted test code. It has no browser control route and leaves default fixture behavior unchanged.
+The private token barrier has a four-second deadline. Closing its private input releases pending work.
+
+A separate regression injects an authentication panic with an accepted upload still running.
+The previous shutdown skipped blob draining. The corrected shutdown drains each component before returning the first terminal error.
+Its failing test is retained in `evidence/rom-0.0.2/task4/host-terminal-drain-red-2.log`.
+
+These are real TCP serving tests in a Cargo process. They do not prove SIGTERM handling in a separate demo process.
+The operating-system signal and packaged application checks remain separate acceptance work.

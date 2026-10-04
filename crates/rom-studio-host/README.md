@@ -24,5 +24,13 @@ Logout cancels every stream owned by that session. Sessions are in memory; a hos
 Use `HostConfig.settings(id)` to read its provider selection. An unapproved or disabled selection returns no primary provider.
 Endpoint and secret approval remains in host configuration.
 
-Blob upload composition is separate from this authentication and asset slice. Do not assume that these tests prove combined blob shutdown.
+Use `HostConfig.blobs(service)` to add authenticated binary transport. The service must use the exact same Runtime instance.
+Register `rom_blob::definition()` and explicitly allow its trusted worker through the application identity gate.
+The host uses the service's validated chunk limits. Accepted uploads remain under service supervision when callers disconnect.
+Reservation, upload, and detachment require Origin and CSRF checks. Downloads use current session and Resource authorization.
+Browser responses use Resource projections. They do not expose raw object receipts or backend errors.
+An uncertain provider publication returns `outcome_unknown`. A retry verifies the existing immutable object before attachment.
+Real TCP tests pause accepted authentication and upload work, then disconnect both callers and stop intake.
+Shutdown waits for both private test barriers before closing Runtime. A separate test verifies draining after an authentication panic.
+These tests do not prove operating-system signal handling in the demo process. That acceptance check remains separate.
 The real-provider integration tests require Node and the installed `demo/provider-fixture` dependencies.

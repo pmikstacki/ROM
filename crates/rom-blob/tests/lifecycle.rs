@@ -502,3 +502,18 @@ async fn shutdown_releases_all_adapter_owners_before_return() {
         );
     }
 }
+
+#[test]
+fn service_reports_exact_runtime_and_validated_transport_limits() {
+    let limits = Limits {
+        chunk_bytes: 7,
+        ..Limits::default()
+    };
+    let (runtime, service, _) = controlled(limits);
+    assert!(runtime.same_instance(&runtime.clone()));
+    assert!(service.uses_runtime(&runtime.clone()));
+    assert_eq!(service.limits().chunk_bytes, 7);
+    let (unrelated, _, _) = controlled(Limits::default());
+    assert!(!runtime.same_instance(&unrelated));
+    assert!(!service.uses_runtime(&unrelated));
+}

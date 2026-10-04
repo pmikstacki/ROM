@@ -1,0 +1,33 @@
+   Compiling rom-blob v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob)
+error[E0599]: no method named `same_instance` found for struct `rom::Runtime` in the current scope
+   --> crates/rom-blob/tests/lifecycle.rs:510:21
+    |
+510 |     assert!(runtime.same_instance(&runtime.clone()));
+    |                     ^^^^^^^^^^^^^ method not found in `rom::Runtime`
+
+error[E0599]: no method named `uses_runtime` found for struct `rom_blob::BlobService` in the current scope
+   --> crates/rom-blob/tests/lifecycle.rs:511:21
+    |
+511 |     assert!(service.uses_runtime(&runtime.clone()));
+    |                     ^^^^^^^^^^^^ method not found in `rom_blob::BlobService`
+
+error[E0599]: no method named `limits` found for struct `rom_blob::BlobService` in the current scope
+   --> crates/rom-blob/tests/lifecycle.rs:512:24
+    |
+512 |     assert_eq!(service.limits().chunk_bytes, 7);
+    |                        ^^^^^^ method not found in `rom_blob::BlobService`
+
+error[E0599]: no method named `same_instance` found for struct `rom::Runtime` in the current scope
+   --> crates/rom-blob/tests/lifecycle.rs:514:22
+    |
+514 |     assert!(!runtime.same_instance(&unrelated));
+    |                      ^^^^^^^^^^^^^ method not found in `rom::Runtime`
+
+error[E0599]: no method named `uses_runtime` found for struct `rom_blob::BlobService` in the current scope
+   --> crates/rom-blob/tests/lifecycle.rs:515:22
+    |
+515 |     assert!(!service.uses_runtime(&unrelated));
+    |                      ^^^^^^^^^^^^ method not found in `rom_blob::BlobService`
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `rom-blob` (test "lifecycle") due to 5 previous errors

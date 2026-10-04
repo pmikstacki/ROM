@@ -1,0 +1,99 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+error[E0277]: the trait bound `fn(State<Arc<Shared>>, Request<Body>) -> _ {reserve}: Handler<_, _>` is not satisfied
+   --> crates/rom-studio-host/src/router.rs:86:43
+    |
+ 86 |             .route("/blobs/reserve", post(crate::blobs::reserve))
+    |                                      ---- ^^^^^^^^^^^^^^^^^^^^^ the trait `Handler<_, _>` is not implemented for fn item `fn(State<Arc<Shared>>, Request<Body>) -> _ {reserve}`
+    |                                      |
+    |                                      required by a bound introduced by this call
+    |
+    = note: Consider using `#[axum::debug_handler]` to improve the error message
+note: required by a bound in `post`
+   --> /root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/axum-0.8.9/src/routing/method_routing.rs:167:16
+    |
+167 |             H: Handler<T, S>,
+    |                ^^^^^^^^^^^^^ required by this bound in `post`
+...
+445 | top_level_handler_fn!(post, POST);
+    | ---------------------------------
+    | |                     |
+    | |                     required by a bound in this function
+    | in this macro invocation
+    = note: the full name for the type has been written to '/var/tmp/rom-release-measured-verification-target/debug/deps/rom_studio_host-ca789e5501095d91.long-type-4888865194915384340.txt'
+    = note: consider using `--verbose` to print the full type name to the console
+    = note: this error originates in the macro `top_level_handler_fn` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0277]: the trait bound `fn(State<Arc<Shared>>, Query<Target>, _) -> _ {upload}: Handler<_, _>` is not satisfied
+   --> crates/rom-studio-host/src/router.rs:87:42
+    |
+ 87 |             .route("/blobs/upload", post(crate::blobs::upload))
+    |                                     ---- ^^^^^^^^^^^^^^^^^^^^ the trait `Handler<_, _>` is not implemented for fn item `fn(State<Arc<Shared>>, Query<Target>, Request<Body>) -> _ {upload}`
+    |                                     |
+    |                                     required by a bound introduced by this call
+    |
+    = note: Consider using `#[axum::debug_handler]` to improve the error message
+note: required by a bound in `post`
+   --> /root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/axum-0.8.9/src/routing/method_routing.rs:167:16
+    |
+167 |             H: Handler<T, S>,
+    |                ^^^^^^^^^^^^^ required by this bound in `post`
+...
+445 | top_level_handler_fn!(post, POST);
+    | ---------------------------------
+    | |                     |
+    | |                     required by a bound in this function
+    | in this macro invocation
+    = note: the full name for the type has been written to '/var/tmp/rom-release-measured-verification-target/debug/deps/rom_studio_host-ca789e5501095d91.long-type-4447722367489887792.txt'
+    = note: consider using `--verbose` to print the full type name to the console
+    = note: this error originates in the macro `top_level_handler_fn` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0277]: the trait bound `fn(State<Arc<Shared>>, Request<Body>) -> _ {detach}: Handler<_, _>` is not satisfied
+   --> crates/rom-studio-host/src/router.rs:88:42
+    |
+ 88 |             .route("/blobs/detach", post(crate::blobs::detach))
+    |                                     ---- ^^^^^^^^^^^^^^^^^^^^ the trait `Handler<_, _>` is not implemented for fn item `fn(State<Arc<Shared>>, Request<Body>) -> _ {detach}`
+    |                                     |
+    |                                     required by a bound introduced by this call
+    |
+    = note: Consider using `#[axum::debug_handler]` to improve the error message
+note: required by a bound in `post`
+   --> /root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/axum-0.8.9/src/routing/method_routing.rs:167:16
+    |
+167 |             H: Handler<T, S>,
+    |                ^^^^^^^^^^^^^ required by this bound in `post`
+...
+445 | top_level_handler_fn!(post, POST);
+    | ---------------------------------
+    | |                     |
+    | |                     required by a bound in this function
+    | in this macro invocation
+    = note: the full name for the type has been written to '/var/tmp/rom-release-measured-verification-target/debug/deps/rom_studio_host-ca789e5501095d91.long-type-4015705635138665925.txt'
+    = note: consider using `--verbose` to print the full type name to the console
+    = note: this error originates in the macro `top_level_handler_fn` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0277]: the trait bound `fn(State<Arc<Shared>>, Path<String>, _) -> _ {download}: Handler<_, _>` is not satisfied
+   --> crates/rom-studio-host/src/router.rs:89:50
+    |
+ 89 |             .route("/blobs/attachment/{id}", get(crate::blobs::download))
+    |                                              --- ^^^^^^^^^^^^^^^^^^^^^^ the trait `Handler<_, _>` is not implemented for fn item `fn(State<Arc<Shared>>, Path<String>, Request<Body>) -> _ {download}`
+    |                                              |
+    |                                              required by a bound introduced by this call
+    |
+    = note: Consider using `#[axum::debug_handler]` to improve the error message
+note: required by a bound in `axum::routing::get`
+   --> /root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/axum-0.8.9/src/routing/method_routing.rs:167:16
+    |
+167 |             H: Handler<T, S>,
+    |                ^^^^^^^^^^^^^ required by this bound in `get`
+...
+441 | top_level_handler_fn!(get, GET);
+    | -------------------------------
+    | |                     |
+    | |                     required by a bound in this function
+    | in this macro invocation
+    = note: the full name for the type has been written to '/var/tmp/rom-release-measured-verification-target/debug/deps/rom_studio_host-ca789e5501095d91.long-type-5928838643391962496.txt'
+    = note: consider using `--verbose` to print the full type name to the console
+    = note: this error originates in the macro `top_level_handler_fn` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `rom-studio-host` (lib) due to 4 previous errors

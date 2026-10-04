@@ -28,6 +28,13 @@ async fn host_mounts_assets_and_session_without_accepting_browser_actor_shortcut
         let _ = stopped.await;
     }));
     let client = reqwest::Client::new();
+    let root = client
+        .get(format!("{origin}/rom-studio/"))
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(root.status(), 200);
+    assert!(root.text().await.unwrap().contains("real studio"));
     let page = client
         .get(format!("{origin}/rom-studio/resources/tasks"))
         .send()
@@ -52,6 +59,10 @@ async fn host_mounts_assets_and_session_without_accepting_browser_actor_shortcut
         .await
         .unwrap();
     assert_eq!(denied.status(), 401);
+    assert_eq!(denied.headers()["content-type"], "application/json");
+    assert_eq!(denied.headers()["cache-control"], "no-store");
+    let denied: serde_json::Value = serde_json::from_slice(&denied.bytes().await.unwrap()).unwrap();
+    assert_eq!(denied, serde_json::json!({"error":"denied"}));
     let missing = client
         .get(format!("{origin}/rom-studio/assets/missing.js"))
         .send()

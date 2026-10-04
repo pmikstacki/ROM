@@ -1,0 +1,5 @@
+2a4ec6350f58d29d0eaeeb663718255e23092e676566f896ebb82637f7076ac9  Cargo.lock
+adcffdb463c1d19eb32e8b54406faa5769cc8e3310e21618c40e516d1c333438  crates/rom/src/execution/state.rs
+1a98e1446ca44112a3d5fc5888019ea67c2f0538d7fdf5961ff5ba00371123ad  crates/rom-blob/src/service/configuration.rs
+4b1bdd52db677637891db2d25304426d70dacb63994a704a57d716f6e16b3bb6  crates/rom-studio-host/src/blobs.rs
+98ac65b5310205caaa7751919785c6f1227904eb25043d3b416b275d744f642a  demo/provider-fixture/human-provider.mjs

@@ -56,6 +56,7 @@ pub struct HostConfig {
     pub(crate) approved: Vec<OidcProviderConfig>,
     pub(crate) primary: Option<String>,
     pub(crate) settings_id: Option<String>,
+    pub(crate) blobs: Option<rom_blob::BlobService>,
     pub(crate) loopback_http: bool,
     pub limits: HostLimits,
     pub http_limits: rom_http::Limits,
@@ -76,6 +77,7 @@ impl HostConfig {
             approved: Vec::new(),
             primary: None,
             settings_id: None,
+            blobs: None,
             loopback_http: false,
             limits: HostLimits::default(),
             http_limits: rom_http::Limits::default(),
@@ -96,6 +98,11 @@ impl HostConfig {
     }
     pub fn settings(mut self, id: &str) -> Self {
         self.settings_id = Some(id.into());
+        self
+    }
+    /// Add supervised binary transport for the same Resource runtime.
+    pub fn blobs(mut self, service: rom_blob::BlobService) -> Self {
+        self.blobs = Some(service);
         self
     }
     pub fn primary(mut self, authority: &str) -> Self {

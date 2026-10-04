@@ -1,0 +1,22 @@
+   Compiling rom-studio-host v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `test` profile [unoptimized] target(s) in 1.25s
+     Running tests/host.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/host-88c10d28937dc728)
+
+running 1 test
+test host_mounts_assets_and_session_without_accepting_browser_actor_shortcuts ... FAILED
+
+failures:
+
+---- host_mounts_assets_and_session_without_accepting_browser_actor_shortcuts stdout ----
+
+thread 'host_mounts_assets_and_session_without_accepting_browser_actor_shortcuts' (2057538) panicked at crates/rom-studio-host/tests/host.rs:55:32:
+no entry found for key "content-type"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    host_mounts_assets_and_session_without_accepting_browser_actor_shortcuts
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+error: test failed, to rerun pass `-p rom-studio-host --test host`

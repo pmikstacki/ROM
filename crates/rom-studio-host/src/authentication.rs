@@ -225,5 +225,9 @@ pub(crate) fn failure(error: Error) -> Response {
         Error::Panicked => (StatusCode::INTERNAL_SERVER_ERROR, "internal"),
         _ => (StatusCode::UNAUTHORIZED, "denied"),
     };
-    no_store((status, axum::Json(serde_json::json!({"category":category}))).into_response())
+    no_store((status, axum::Json(serde_json::json!({"error":category}))).into_response())
+}
+
+pub(crate) fn denied(status: StatusCode) -> Response {
+    no_store((status, axum::Json(serde_json::json!({"error":"denied"}))).into_response())
 }

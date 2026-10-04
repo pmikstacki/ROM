@@ -21,6 +21,7 @@ pub(crate) struct Shared {
     pub(crate) attempts: crate::login::Attempts,
     pub(crate) auth: crate::lifecycle::Supervisor,
     shutdown: tokio::sync::Mutex<()>,
+    pub(crate) blob_bodies: Arc<tokio::sync::Semaphore>,
 }
 /// Optional HTTP host. Resource operations use the ordinary generic ROM binding.
 #[derive(Clone)]
@@ -31,6 +32,21 @@ pub struct StudioHost {
 impl StudioHost {
     pub fn new(runtime: Runtime, config: HostConfig) -> Result<Self> {
         config.validate()?;
+        if config.http_limits.bodies == 0
+            || config.http_limits.bodies > tokio::sync::Semaphore::MAX_PERMITS
+        {
+            return Err(Error::TooLarge);
+        }
+        if config
+            .blobs
+            .as_ref()
+            .is_some_and(|service| !service.uses_runtime(&runtime))
+        {
+            return Err(Error::Invalid {
+                kind: "studio-host".into(),
+                field: "blob runtime".into(),
+            });
+        }
         let assets = Assets::load(
             &config.asset_directory,
             config.limits.assets,
@@ -43,6 +59,7 @@ impl StudioHost {
             .build()
             .map_err(|_| Error::Storage)?;
         let shared = Arc::new(Shared {
+            blob_bodies: Arc::new(tokio::sync::Semaphore::new(config.http_limits.bodies)),
             shutdown: tokio::sync::Mutex::new(()),
             client,
             attempts: crate::login::Attempts::new(config.limits.login_attempts),
@@ -69,6 +86,7 @@ impl StudioHost {
             .router()
             .layer(middleware::from_fn_with_state(self.shared.clone(), protect));
         let routes = Router::new()
+            .route("/", get(assets))
             .route("/auth/login/{provider}", get(crate::authentication::login))
             .route(
                 "/auth/callback/{provider}",
@@ -77,13 +95,20 @@ impl StudioHost {
             .route("/auth/session", get(session))
             .route("/auth/providers", get(providers))
             .route("/auth/logout", post(logout))
+            .route("/blobs/reserve", post(crate::blobs::reserve))
+            .route("/blobs/upload", post(crate::blobs::upload))
+            .route("/blobs/detach", post(crate::blobs::detach))
+            .route("/blobs/attachment/{id}", get(crate::blobs::download))
             .fallback(assets)
             .with_state(self.shared.clone())
             .nest("/api", api);
         if self.shared.config.base_path == "/" {
             routes
         } else {
-            Router::new().nest(self.shared.config.base_path.trim_end_matches('/'), routes)
+            Router::new()
+                .route(&self.shared.config.base_path, get(assets))
+                .with_state(self.shared.clone())
+                .nest(self.shared.config.base_path.trim_end_matches('/'), routes)
         }
     }
     pub async fn shutdown(&self) -> Result<()> {
@@ -91,8 +116,14 @@ impl StudioHost {
         self.shared.auth.close();
         self.shared.attempts.close();
         self.shared.sessions.close();
-        self.shared.auth.drain().await?;
-        self.http.shutdown().await
+        let auth = self.shared.auth.drain().await;
+        let blobs = if let Some(blobs) = &self.shared.config.blobs {
+            blobs.shutdown().await.map_err(|_| Error::Storage)
+        } else {
+            Ok(())
+        };
+        let runtime = self.http.shutdown().await;
+        auth.and(blobs).and(runtime)
     }
     pub async fn serve<F>(self, listener: TcpListener, stop: F) -> Result<()>
     where
@@ -172,16 +203,16 @@ async fn providers(State(shared): State<Arc<Shared>>) -> Response {
 }
 async fn protect(State(shared): State<Arc<Shared>>, request: Request, next: Next) -> Response {
     if csrf::check_origin(request.headers(), &shared.config.public_origin).is_err() {
-        return StatusCode::UNAUTHORIZED.into_response();
+        return crate::authentication::denied(StatusCode::UNAUTHORIZED);
     }
     let Ok(cookie) = csrf::session_cookie(request.headers(), "rom_session") else {
-        return StatusCode::UNAUTHORIZED.into_response();
+        return crate::authentication::denied(StatusCode::UNAUTHORIZED);
     };
     let Some(session) = shared.sessions.lookup(&cookie, shared.config.clock.now()) else {
-        return StatusCode::UNAUTHORIZED.into_response();
+        return crate::authentication::denied(StatusCode::UNAUTHORIZED);
     };
     if csrf::check_token(request.headers(), &session).is_err() {
-        return StatusCode::FORBIDDEN.into_response();
+        return crate::authentication::denied(StatusCode::FORBIDDEN);
     }
     let actor = match crate::authentication::resolve(&shared, &cookie).await {
         Ok(actor) => actor,
@@ -202,16 +233,16 @@ async fn protect(State(shared): State<Arc<Shared>>, request: Request, next: Next
 }
 async fn logout(State(shared): State<Arc<Shared>>, request: Request) -> Response {
     if csrf::check_origin(request.headers(), &shared.config.public_origin).is_err() {
-        return StatusCode::UNAUTHORIZED.into_response();
+        return crate::authentication::denied(StatusCode::UNAUTHORIZED);
     }
     let Ok(cookie) = csrf::session_cookie(request.headers(), "rom_session") else {
-        return StatusCode::UNAUTHORIZED.into_response();
+        return crate::authentication::denied(StatusCode::UNAUTHORIZED);
     };
     let Some(session) = shared.sessions.lookup(&cookie, shared.config.clock.now()) else {
-        return StatusCode::UNAUTHORIZED.into_response();
+        return crate::authentication::denied(StatusCode::UNAUTHORIZED);
     };
     if csrf::check_token(request.headers(), &session).is_err() {
-        return StatusCode::FORBIDDEN.into_response();
+        return crate::authentication::denied(StatusCode::FORBIDDEN);
     }
     shared.sessions.remove(&cookie);
     let mut response = StatusCode::NO_CONTENT.into_response();
@@ -234,7 +265,11 @@ async fn assets(State(shared): State<Arc<Shared>>, request: Request) -> Response
     if request.method() != axum::http::Method::GET {
         return StatusCode::NOT_FOUND.into_response();
     }
-    let path = request.uri().path().trim_start_matches('/');
+    let path = request.uri().path();
+    let path = path
+        .strip_prefix(&shared.config.base_path)
+        .unwrap_or(path)
+        .trim_start_matches('/');
     let path = if path.is_empty() { "index.html" } else { path };
     let Some(asset) = shared.assets.get(path) else {
         return StatusCode::NOT_FOUND.into_response();

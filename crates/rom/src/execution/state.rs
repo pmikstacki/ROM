@@ -46,3 +46,10 @@ pub(crate) struct Work {
 }
 #[derive(Clone)]
 pub struct Runtime(pub(crate) Arc<Inner>);
+
+impl Runtime {
+    /// True only for handles to the same live runtime, including its authority and lifecycle.
+    pub fn same_instance(&self, other: &Self) -> bool {
+        Arc::ptr_eq(&self.0, &other.0)
+    }
+}

@@ -2,6 +2,8 @@ use rom::{Actor, Command, PrincipalKind, Resource, Runtime};
 use rom_identity::{IdentityGate, IdentityLink, IdentityProvider, ProviderProfile, User, link_key};
 use rom_studio_host::{HostConfig, OidcProviderConfig, StudioHost, StudioSettings};
 use std::sync::atomic::{AtomicU64, Ordering};
+#[path = "support/blob.rs"]
+mod blob;
 struct Time(AtomicU64);
 impl rom::Clock for Time {
     fn now(&self) -> u64 {
@@ -20,7 +22,52 @@ use std::{
 struct Document {
     done: bool,
 }
-struct Provider(Child);
+struct Provider(
+    Child,
+    Arc<std::sync::Mutex<BufReader<std::process::ChildStdout>>>,
+);
+impl Provider {
+    fn command(&mut self, command: &str) {
+        use std::io::Write;
+        writeln!(
+            self.0.stdin.as_mut().unwrap(),
+            "{}",
+            serde_json::to_string(command).unwrap()
+        )
+        .unwrap();
+    }
+    async fn event(&mut self, expected: &str) {
+        let reader = self.1.clone();
+        let line = tokio::time::timeout(
+            std::time::Duration::from_secs(2),
+            tokio::task::spawn_blocking(move || {
+                let mut reader = reader.lock().unwrap();
+                loop {
+                    let mut line = String::new();
+                    assert_ne!(
+                        reader.read_line(&mut line).unwrap(),
+                        0,
+                        "private provider event pipe closed"
+                    );
+                    if !line.trim().is_empty() {
+                        break line;
+                    }
+                }
+            }),
+        )
+        .await
+        .unwrap()
+        .unwrap();
+        assert!(
+            !line.is_empty(),
+            "provider EOF while awaiting {expected}, status {:?}",
+            self.0.try_wait().unwrap()
+        );
+        let value: serde_json::Value = serde_json::from_str(&line)
+            .unwrap_or_else(|error| panic!("private event {line:?}: {error}"));
+        assert_eq!(value["event"], expected);
+    }
+}
 impl Drop for Provider {
     fn drop(&mut self) {
         let _ = self.0.kill();
@@ -38,11 +85,13 @@ fn provider(callback: &str) -> (Provider, String) {
         .spawn()
         .unwrap();
     let mut line = String::new();
-    BufReader::new(child.stdout.take().unwrap())
-        .read_line(&mut line)
-        .unwrap();
+    let mut reader = BufReader::new(child.stdout.take().unwrap());
+    reader.read_line(&mut line).unwrap();
     let value: serde_json::Value = serde_json::from_str(&line).unwrap();
-    (Provider(child), value["issuer"].as_str().unwrap().into())
+    (
+        Provider(child, Arc::new(std::sync::Mutex::new(reader))),
+        value["issuer"].as_str().unwrap().into(),
+    )
 }
 struct Browser {
     client: reqwest::Client,
@@ -114,8 +163,11 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
     let admin = Actor::trusted("host", "configuration");
     let gate = IdentityGate::default()
         .allow_host("host", PrincipalKind::Embedded, "configuration")
+        .unwrap()
+        .allow_host("rom-blob-host", PrincipalKind::Service, "attachments")
         .unwrap();
     let runtime = Runtime::builder()
+        .resource(rom_blob::definition())
         .clock(clock.clone())
         .actor_gate(Arc::new(gate))
         .resource(
@@ -148,7 +200,8 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
         .unwrap();
     let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
     let origin = format!("http://{}", listener.local_addr().unwrap());
-    let (_provider, issuer) = provider(&format!("{origin}/rom-studio/auth/callback/local"));
+    let (mut provider_process, issuer) =
+        provider(&format!("{origin}/rom-studio/auth/callback/local"));
     runtime
         .execute(
             &admin,
@@ -211,6 +264,15 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
         )
         .await
         .unwrap();
+    let blob_store = Arc::new(blob::Memory::default());
+    let blobs = rom_blob::BlobService::builder(runtime.clone())
+        .store("attachments", blob_store.clone())
+        .limits(rom_blob::Limits {
+            chunk_bytes: 2,
+            ..Default::default()
+        })
+        .build()
+        .unwrap();
     let config = HostConfig::new(
         &origin,
         "/rom-studio/",
@@ -220,6 +282,7 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
     .allow_loopback_http(true)
     .clock(clock.clone())
     .settings("main")
+    .blobs(blobs)
     .provider(OidcProviderConfig {
         authority: "local".into(),
         label: "Local".into(),
@@ -280,6 +343,27 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
         serde_json::from_slice(&session.bytes().await.unwrap()).unwrap();
     assert_eq!(session["authenticated"], true);
     assert_eq!(session["user_id"], "alice-user");
+    blob_journey(
+        &browser,
+        &origin,
+        session["csrf_token"].as_str().unwrap(),
+        &blob_store,
+    )
+    .await;
+    let rejected = browser
+        .client
+        .post(format!("{origin}/rom-studio/api/invoke"))
+        .header("cookie", browser.cookie(&origin))
+        .header("origin", &origin)
+        .body("{}")
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(rejected.status(), 403);
+    assert_eq!(rejected.headers()["content-type"], "application/json");
+    let rejected: serde_json::Value =
+        serde_json::from_slice(&rejected.bytes().await.unwrap()).unwrap();
+    assert_eq!(rejected, serde_json::json!({"error":"denied"}));
     let first_generation = session["generation"].clone();
     clock.0.fetch_add(31, Ordering::SeqCst);
     let renewed = browser
@@ -393,11 +477,97 @@ async fn journey(storage: Arc<dyn rom::Storage>) {
     let session: serde_json::Value =
         serde_json::from_slice(&session.bytes().await.unwrap()).unwrap();
     assert_eq!(session["authenticated"], false);
+    runtime
+        .execute(
+            &admin,
+            Command::replace(
+                "alice-user",
+                User {
+                    enabled: true,
+                    display_name: "Alice".into(),
+                },
+            )
+            .at_revision(2)
+            .idempotency("reenable-user"),
+        )
+        .await
+        .unwrap();
+    authorize(&mut browser, &origin, &issuer).await;
+    let session = browser
+        .send(
+            reqwest::Method::GET,
+            &format!("{origin}/rom-studio/auth/session"),
+            None,
+        )
+        .await;
+    let session: serde_json::Value =
+        serde_json::from_slice(&session.bytes().await.unwrap()).unwrap();
+    let csrf = session["csrf_token"].as_str().unwrap();
+    let reserved = browser.client.post(format!("{origin}/rom-studio/blobs/reserve"))
+        .header("cookie",browser.cookie(&origin)).header("origin",&origin).header("x-rom-csrf",csrf)
+        .body(serde_json::json!({"id":"shutdown-avatar","store":"attachments","digest":rom_blob::Digest::of(b"bye").as_str(),"bytes":3,"idempotency":"shutdown-reserve"}).to_string()).send().await.unwrap();
+    assert_eq!(reserved.status(), 200);
+    let mut signing = Browser::new();
+    let callback = authorization(&mut signing, &origin, &issuer, false).await;
+    provider_process.command("pause-token");
+    provider_process.event("armed").await;
+    let request = signing
+        .client
+        .get(callback)
+        .header("cookie", signing.cookie(&origin));
+    let auth_caller = tokio::spawn(async move { request.send().await });
+    provider_process.event("token-started").await;
+    auth_caller.abort();
+    let _ = auth_caller.await;
+    blob_store.pause_create.store(true, Ordering::SeqCst);
+    let request = browser
+        .client
+        .post(format!(
+            "{origin}/rom-studio/blobs/upload?id=shutdown-avatar"
+        ))
+        .header("cookie", browser.cookie(&origin))
+        .header("origin", &origin)
+        .header("x-rom-csrf", csrf)
+        .body("bye");
+    let caller = tokio::spawn(async move { request.send().await });
+    tokio::time::timeout(
+        std::time::Duration::from_secs(2),
+        blob_store.started.notified(),
+    )
+    .await
+    .unwrap();
+    caller.abort();
+    let _ = caller.await;
     stop.send(()).unwrap();
-    task.await.unwrap().unwrap();
+    let mut task = task;
+    assert!(
+        tokio::time::timeout(std::time::Duration::from_millis(30), &mut task)
+            .await
+            .is_err()
+    );
+    blob_store.release.notify_one();
+    assert!(
+        tokio::time::timeout(std::time::Duration::from_millis(30), &mut task)
+            .await
+            .is_err()
+    );
+    provider_process.command("release");
+    tokio::time::timeout(std::time::Duration::from_secs(2), task)
+        .await
+        .unwrap()
+        .unwrap()
+        .unwrap();
 }
 
 async fn authorize(browser: &mut Browser, origin: &str, issuer: &str) -> String {
+    authorization(browser, origin, issuer, true).await
+}
+async fn authorization(
+    browser: &mut Browser,
+    origin: &str,
+    issuer: &str,
+    complete: bool,
+) -> String {
     let mut current = format!("{origin}/rom-studio/auth/login/local");
     let mut callback = None;
     for _ in 0..16 {
@@ -416,6 +586,9 @@ async fn authorize(browser: &mut Browser, origin: &str, issuer: &str) -> String 
                 .unwrap()
                 .to_string();
             if target.starts_with(&format!("{origin}/rom-studio/auth/callback/local")) {
+                if !complete {
+                    return target;
+                }
                 callback = Some(target.clone());
             }
             current = target;
@@ -454,4 +627,83 @@ async fn authorize(browser: &mut Browser, origin: &str, issuer: &str) -> String 
         }
     }
     callback.expect("provider must return a callback")
+}
+
+async fn blob_journey(browser: &Browser, origin: &str, csrf: &str, store: &blob::Memory) {
+    let request = |path: &str| {
+        browser
+            .client
+            .post(format!("{origin}/rom-studio/blobs/{path}"))
+            .header("cookie", browser.cookie(origin))
+            .header("origin", origin)
+            .header("x-rom-csrf", csrf)
+    };
+    let reserved = request("reserve").body(serde_json::json!({"id":"avatar","store":"attachments","digest":rom_blob::Digest::of(b"hello").as_str(),"bytes":5,"idempotency":"avatar-reserve"}).to_string()).send().await.unwrap();
+    assert_eq!(reserved.status(), 200);
+    let uploaded = request("upload?id=avatar")
+        .body("hello")
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(uploaded.status(), 200);
+    let uploaded: serde_json::Value =
+        serde_json::from_slice(&uploaded.bytes().await.unwrap()).unwrap();
+    assert_eq!(uploaded["status"], "attached");
+    let read = browser
+        .client
+        .get(format!("{origin}/rom-studio/blobs/attachment/avatar"))
+        .header("cookie", browser.cookie(origin))
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(read.status(), 200);
+    assert_eq!(read.bytes().await.unwrap().as_ref(), b"hello");
+    let rejected = browser
+        .client
+        .post(format!("{origin}/rom-studio/blobs/detach"))
+        .header("cookie", browser.cookie(origin))
+        .header("origin", origin)
+        .body(r#"{"id":"avatar"}"#)
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(rejected.status(), 403);
+    let detached = request("detach")
+        .body(r#"{"id":"avatar"}"#)
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(detached.status(), 200);
+    let read = browser
+        .client
+        .get(format!("{origin}/rom-studio/blobs/attachment/avatar"))
+        .header("cookie", browser.cookie(origin))
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(read.status(), 404);
+    let reserved = request("reserve").body(serde_json::json!({"id":"uncertain","store":"attachments","digest":rom_blob::Digest::of(b"retry").as_str(),"bytes":5,"idempotency":"uncertain-reserve"}).to_string()).send().await.unwrap();
+    assert_eq!(reserved.status(), 200);
+    store.unknown_create.store(true, Ordering::SeqCst);
+    let unknown = request("upload?id=uncertain")
+        .body("retry")
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(unknown.status(), 503);
+    let unknown: serde_json::Value =
+        serde_json::from_slice(&unknown.bytes().await.unwrap()).unwrap();
+    assert_eq!(unknown, serde_json::json!({"error":"outcome_unknown"}));
+    let retry = request("upload?id=uncertain")
+        .body("retry")
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(retry.status(), 200);
+    let invalid = request("reserve")
+        .body(r#"{"id":"first","id":"second"}"#)
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(invalid.status(), 400);
 }
