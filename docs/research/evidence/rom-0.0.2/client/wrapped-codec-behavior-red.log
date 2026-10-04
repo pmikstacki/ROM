@@ -1,0 +1,20 @@
+
+running 1 test
+test resource::input_descriptor_tests::builtin_wrappers_preserve_leaf_codec_and_explicit_presentation_path ... FAILED
+
+failures:
+
+---- resource::input_descriptor_tests::builtin_wrappers_preserve_leaf_codec_and_explicit_presentation_path stdout ----
+
+thread 'resource::input_descriptor_tests::builtin_wrappers_preserve_leaf_codec_and_explicit_presentation_path' (2082441) panicked at crates/rom/src/resource/input_descriptor_tests.rs:225:5:
+assertion `left == right` failed
+  left: None
+ right: Some(CodecIdentity { name: "wrapped-label", version: 1 })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    resource::input_descriptor_tests::builtin_wrappers_preserve_leaf_codec_and_explicit_presentation_path
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 88 filtered out; finished in 0.00s
+

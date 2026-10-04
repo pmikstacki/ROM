@@ -256,3 +256,40 @@ test("observation admission is finite and cancellation releases its slot", async
   b.abort();
   await assert.rejects(replacement.next());
 });
+
+test("discovery retains bounded wrapper paths and rejects shape mismatches", async () => {
+  let field: unknown = {
+    name: "labels",
+    shape: {
+      type: "list",
+      value: { type: "nullable", value: { type: "string" } },
+    },
+    codec: { name: "custom-label", version: 1 },
+    codec_wrappers: ["list", "nullable"],
+  };
+  const c = createClient({
+    base: "/api",
+    fetch: async () =>
+      Response.json({
+        ...descriptor,
+        resources: [{ ...descriptor.resources[0], fields: [field] }],
+      }),
+  });
+  assert.deepEqual((await c.discover()).resources[0].fields[0].codec_wrappers, [
+    "list",
+    "nullable",
+  ]);
+  field = {
+    name: "labels",
+    shape: { type: "string" },
+    codec: { name: "custom-label", version: 1 },
+    codec_wrappers: ["list"],
+  };
+  await assert.rejects(c.discover(), /wrapper/);
+  field = {
+    name: "labels",
+    shape: { type: "list", value: { type: "string" } },
+    codec_wrappers: ["list"],
+  };
+  await assert.rejects(c.discover(), /wrapper/);
+});

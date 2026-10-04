@@ -1,0 +1,24 @@
+   Compiling rom v0.1.0-alpha.1 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.23s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom-9ac92c4e9c04e160)
+
+running 1 test
+test resource::input_descriptor_tests::builtin_wrappers_preserve_leaf_codec_and_explicit_presentation_path ... FAILED
+
+failures:
+
+---- resource::input_descriptor_tests::builtin_wrappers_preserve_leaf_codec_and_explicit_presentation_path stdout ----
+
+thread 'resource::input_descriptor_tests::builtin_wrappers_preserve_leaf_codec_and_explicit_presentation_path' (2087211) panicked at crates/rom/src/resource/input_descriptor_tests.rs:236:5:
+assertion `left == right` failed
+  left: Null
+ right: "wrapped-label"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    resource::input_descriptor_tests::builtin_wrappers_preserve_leaf_codec_and_explicit_presentation_path
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 88 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p rom --lib`

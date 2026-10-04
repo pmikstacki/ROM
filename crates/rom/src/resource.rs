@@ -8,9 +8,12 @@ mod schema;
 
 pub use command::{Command, Snapshot};
 pub use definition::{Action, Definition, Intent};
+pub(crate) use fields::wrapper_path;
 pub use fields::{Field, FiniteF64, Input, ResourceRef};
 pub(crate) use input_descriptor::visible_shape;
-pub use input_descriptor::{CodecIdentity, FieldCodec, InputDescriptor, InputFieldDescriptor};
+pub use input_descriptor::{
+    CodecIdentity, CodecWrapper, FieldCodec, InputDescriptor, InputFieldDescriptor,
+};
 pub use query::{FieldRef, Query};
 pub use schema::{Descriptor, FieldDescriptor, Resource, Shape};
 

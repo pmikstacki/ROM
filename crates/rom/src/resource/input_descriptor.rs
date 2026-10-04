@@ -20,11 +20,22 @@ impl CodecIdentity {
     }
 }
 
+/// Built-in wrappers from an outer field to its custom codec leaf.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CodecWrapper {
+    Optional,
+    Nullable,
+    List,
+    Map,
+}
+
 /// One Resource-owned custom codec binding. This is not persisted catalog identity.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct FieldCodec {
     pub name: String,
     pub codec: CodecIdentity,
+    pub codec_wrappers: Vec<CodecWrapper>,
 }
 
 /// A named input member described by the same typed codec as its wire value.
@@ -35,6 +46,8 @@ pub struct InputFieldDescriptor {
     pub shape: Shape,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub codec: Option<CodecIdentity>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub codec_wrappers: Vec<CodecWrapper>,
 }
 
 /// An action input's supported wire representation. `None` describes an opaque input.
@@ -46,6 +59,8 @@ pub enum InputDescriptor {
         shape: Shape,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         codec: Option<CodecIdentity>,
+        #[serde(default, skip_serializing_if = "Vec::is_empty")]
+        codec_wrappers: Vec<CodecWrapper>,
     },
     Object(Vec<InputFieldDescriptor>),
 }
@@ -53,12 +68,17 @@ impl InputDescriptor {
     pub(crate) fn validate(&self, kinds: Option<&BTreeSet<String>>) -> Result<()> {
         match self {
             Self::Unit => Ok(()),
-            Self::Scalar { shape, codec } => {
+            Self::Scalar {
+                shape,
+                codec,
+                codec_wrappers,
+            } => {
                 // Scalar action input has a value; absence only describes object members.
                 if matches!(shape, Shape::Optional(_)) {
                     return Err(Error::invalid("input", "scalar presence"));
                 }
                 validate_shape(shape, 0, kinds)?;
+                validate_wrappers(shape, codec.as_ref(), codec_wrappers)?;
                 if let Some(codec) = codec {
                     codec.validate()?;
                 }
@@ -71,6 +91,7 @@ impl InputDescriptor {
                         return Err(Error::invalid("input", "duplicate or empty field"));
                     }
                     validate_shape(&field.shape, 0, kinds)?;
+                    validate_wrappers(&field.shape, field.codec.as_ref(), &field.codec_wrappers)?;
                     if let Some(codec) = &field.codec {
                         codec.validate()?;
                     }
@@ -103,18 +124,40 @@ pub(crate) fn visible_shape(shape: &Shape, kinds: &BTreeSet<&str>) -> bool {
 pub(crate) fn field_bindings(
     descriptor: &crate::Descriptor,
     bindings: Vec<FieldCodec>,
-) -> Result<std::collections::BTreeMap<String, CodecIdentity>> {
+) -> Result<std::collections::BTreeMap<String, FieldCodec>> {
     let mut result = std::collections::BTreeMap::new();
     for binding in bindings {
         binding.codec.validate()?;
-        if !descriptor
+        let field = descriptor
             .fields
             .iter()
-            .any(|field| field.name == binding.name)
-            || result.insert(binding.name, binding.codec).is_some()
-        {
+            .find(|field| field.name == binding.name)
+            .ok_or_else(|| Error::invalid(&descriptor.kind, "codec binding"))?;
+        validate_wrappers(&field.shape, Some(&binding.codec), &binding.codec_wrappers)?;
+        if result.insert(binding.name.clone(), binding).is_some() {
             return Err(Error::invalid(&descriptor.kind, "codec binding"));
         }
     }
     Ok(result)
+}
+
+fn validate_wrappers(
+    shape: &Shape,
+    codec: Option<&CodecIdentity>,
+    wrappers: &[CodecWrapper],
+) -> Result<()> {
+    if wrappers.len() > 16 || codec.is_none() && !wrappers.is_empty() {
+        return Err(Error::invalid("input", "codec wrapper path"));
+    }
+    let mut shape = shape;
+    for wrapper in wrappers {
+        shape = match (wrapper, shape) {
+            (CodecWrapper::Optional, Shape::Optional(inner))
+            | (CodecWrapper::Nullable, Shape::Nullable(inner))
+            | (CodecWrapper::List, Shape::List(inner))
+            | (CodecWrapper::Map, Shape::Map(inner)) => inner,
+            _ => return Err(Error::invalid("input", "codec wrapper path")),
+        };
+    }
+    Ok(())
 }

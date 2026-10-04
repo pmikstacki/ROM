@@ -8,11 +8,16 @@ pub trait Field: Clone + Send + Sync + 'static {
     fn codec_identity() -> Option<crate::CodecIdentity> {
         None
     }
+    /// Built-in wrapper path to the leaf presentation codec. Custom codecs own their shape by default.
+    fn codec_wrappers() -> Vec<crate::CodecWrapper> {
+        Vec::new()
+    }
     /// Describe standalone input encoding; override when it differs from field encoding.
     fn input_descriptor() -> Option<crate::InputDescriptor> {
         Some(crate::InputDescriptor::Scalar {
             shape: Self::shape(),
             codec: Self::codec_identity(),
+            codec_wrappers: Self::codec_wrappers(),
         })
     }
     fn encode(&self) -> Value;
@@ -88,6 +93,12 @@ impl Field for FiniteF64 {
     }
 }
 impl<T: Field> Field for Vec<T> {
+    fn codec_identity() -> Option<crate::CodecIdentity> {
+        T::codec_identity()
+    }
+    fn codec_wrappers() -> Vec<crate::CodecWrapper> {
+        wrapper_path::<T>(crate::CodecWrapper::List)
+    }
     fn shape() -> Shape {
         Shape::List(Box::new(T::shape()))
     }
@@ -102,6 +113,12 @@ impl<T: Field> Field for Vec<T> {
     }
 }
 impl<T: Field> Field for BTreeMap<String, T> {
+    fn codec_identity() -> Option<crate::CodecIdentity> {
+        T::codec_identity()
+    }
+    fn codec_wrappers() -> Vec<crate::CodecWrapper> {
+        wrapper_path::<T>(crate::CodecWrapper::Map)
+    }
     fn shape() -> Shape {
         Shape::Map(Box::new(T::shape()))
     }
@@ -170,6 +187,12 @@ impl<R: Resource> Field for ResourceRef<R> {
     }
 }
 impl<T: Field> Field for Option<T> {
+    fn codec_identity() -> Option<crate::CodecIdentity> {
+        T::codec_identity()
+    }
+    fn codec_wrappers() -> Vec<crate::CodecWrapper> {
+        wrapper_path::<T>(crate::CodecWrapper::Nullable)
+    }
     fn shape() -> Shape {
         Shape::Nullable(Box::new(T::shape()))
     }
@@ -223,4 +246,13 @@ impl Input for () {
             Err(Error::invalid("input", "$"))
         }
     }
+}
+
+pub(crate) fn wrapper_path<T: Field>(outer: crate::CodecWrapper) -> Vec<crate::CodecWrapper> {
+    if T::codec_identity().is_none() {
+        return Vec::new();
+    }
+    let mut path = vec![outer];
+    path.extend(T::codec_wrappers());
+    path
 }

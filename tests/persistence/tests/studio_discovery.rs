@@ -285,6 +285,7 @@ struct InvalidInput;
 impl Input for InvalidInput {
     fn descriptor() -> Option<InputDescriptor> {
         Some(InputDescriptor::Object(vec![InputFieldDescriptor {
+            codec_wrappers: vec![],
             name: "".into(),
             shape: Shape::String,
             codec: None,

@@ -14,14 +14,23 @@ export interface CodecIdentity {
   name: string;
   version: number;
 }
+export type CodecWrapper = "optional" | "nullable" | "list" | "map";
 export interface FieldDescriptor {
   name: string;
   shape: Shape;
   codec?: CodecIdentity;
+  codec_wrappers?: CodecWrapper[];
 }
 export type InputDescriptor =
   | { type: "unit" }
-  | { type: "scalar"; value: { shape: Shape; codec?: CodecIdentity } }
+  | {
+      type: "scalar";
+      value: {
+        shape: Shape;
+        codec?: CodecIdentity;
+        codec_wrappers?: CodecWrapper[];
+      };
+    }
   | { type: "object"; value: FieldDescriptor[] };
 export interface ActionInput {
   name: string;

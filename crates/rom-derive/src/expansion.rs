@@ -157,8 +157,8 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
         }
         wire_names.push(wire.clone());
         descriptors.push(quote_spanned!(ty.span()=> #facade::FieldDescriptor { name:#wire.into(), shape:<#ty as #facade::Field>::shape() }));
-        input_descriptors.push(quote_spanned!(ty.span()=> #facade::InputFieldDescriptor { name:#wire.into(), shape:<#ty as #facade::Field>::shape(), codec:<#ty as #facade::Field>::codec_identity() }));
-        codec_bindings.push(quote_spanned!(ty.span()=> if let Some(codec)=<#ty as #facade::Field>::codec_identity() { bindings.push(#facade::FieldCodec {name:#wire.into(),codec}); }));
+        input_descriptors.push(quote_spanned!(ty.span()=> #facade::InputFieldDescriptor { name:#wire.into(), shape:<#ty as #facade::Field>::shape(), codec:<#ty as #facade::Field>::codec_identity(), codec_wrappers:<#ty as #facade::Field>::codec_wrappers() }));
+        codec_bindings.push(quote_spanned!(ty.span()=> if let Some(codec)=<#ty as #facade::Field>::codec_identity() { bindings.push(#facade::FieldCodec {name:#wire.into(),codec,codec_wrappers:<#ty as #facade::Field>::codec_wrappers()}); }));
         encodes.push(quote_spanned!(ty.span()=> if <#ty as #facade::Field>::is_present(&self.#id) { map.insert(#wire.into(),<#ty as #facade::Field>::encode(&self.#id)); }));
         let decode = if model == Model::Input {
             quote_spanned!(ty.span()=> #facade::__private::decode_input_member::<#ty>(map.remove(#wire)))

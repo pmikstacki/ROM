@@ -7,6 +7,12 @@ pub enum Presence<T> {
     Value(T),
 }
 impl<T: Field> Field for Presence<T> {
+    fn codec_identity() -> Option<CodecIdentity> {
+        T::codec_identity()
+    }
+    fn codec_wrappers() -> Vec<CodecWrapper> {
+        resource::wrapper_path::<T>(CodecWrapper::Optional)
+    }
     // Standalone input uses a conditional tagged envelope, not field-value syntax.
     fn input_descriptor() -> Option<InputDescriptor> {
         None

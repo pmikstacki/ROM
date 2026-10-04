@@ -1,7 +1,7 @@
 //! Typed Resource definitions and their erased runtime registration contract.
 use crate::{
-    Access, Actor, CodecIdentity, Descriptor, DiscoveryTarget, Error, Input, InputDescriptor,
-    Resource, Result, Value, canonical_fields, discovery, replay,
+    Access, Actor, Descriptor, DiscoveryTarget, Error, Input, InputDescriptor, Resource, Result,
+    Value, canonical_fields, discovery, replay,
 };
 use serde::{Deserialize, Serialize};
 use std::{collections::BTreeMap, sync::Arc};
@@ -51,7 +51,7 @@ pub struct Definition<R: Resource> {
     descriptor: Descriptor,
     actions: BTreeMap<String, ErasedAction>,
     action_inputs: BTreeMap<String, Option<InputDescriptor>>,
-    field_codecs: BTreeMap<String, CodecIdentity>,
+    field_codecs: BTreeMap<String, crate::FieldCodec>,
     pub(crate) metadata_error: Option<Error>,
     policy: Option<Policy<R>>,
     read_policy: Option<fn(&Actor) -> bool>,
@@ -224,7 +224,7 @@ pub(crate) trait Registered: Send + Sync {
     fn allows_discovery(&self, actor: &Actor, target: DiscoveryTarget<'_>) -> bool;
     fn actions(&self) -> &BTreeMap<String, ErasedAction>;
     fn action_inputs(&self) -> &BTreeMap<String, Option<InputDescriptor>>;
-    fn field_codecs(&self) -> &BTreeMap<String, CodecIdentity>;
+    fn field_codecs(&self) -> &BTreeMap<String, crate::FieldCodec>;
     fn normalize(&self, v: Value) -> Result<Value>;
     fn normalize_field(&self, name: &str, value: Value) -> Result<Value>;
     fn allows(&self, actor: &Actor, access: Access, v: &Value) -> bool;
@@ -271,7 +271,7 @@ impl<R: Resource> Registered for Definition<R> {
     fn action_inputs(&self) -> &BTreeMap<String, Option<InputDescriptor>> {
         &self.action_inputs
     }
-    fn field_codecs(&self) -> &BTreeMap<String, CodecIdentity> {
+    fn field_codecs(&self) -> &BTreeMap<String, crate::FieldCodec> {
         &self.field_codecs
     }
     fn actions(&self) -> &BTreeMap<String, ErasedAction> {

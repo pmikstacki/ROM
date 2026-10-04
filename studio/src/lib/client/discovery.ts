@@ -1,12 +1,13 @@
 import type {
   ActionInput,
+  CodecWrapper,
+  WireObject,
   CodecIdentity,
   Discovery,
   FieldDescriptor,
   InputDescriptor,
   Shape,
   WireValue,
-  WireObject,
 } from "./types.ts";
 import { record, text, unsigned } from "./validation.ts";
 function list(value: WireValue | undefined): WireValue[] {
@@ -53,13 +54,36 @@ function shape(value: WireValue, depth = 0): Shape {
       throw new Error("unsupported shape");
   }
 }
+function wrappers(o: WireObject, shape: Shape): CodecWrapper[] {
+  const path = o.codec_wrappers === undefined ? [] : o.codec_wrappers;
+  if (
+    !Array.isArray(path) ||
+    path.length > 16 ||
+    (o.codec === undefined && path.length)
+  )
+    throw Error("invalid codec wrapper path");
+  let current = shape;
+  for (const wrapper of path) {
+    if (
+      !["optional", "nullable", "list", "map"].includes(String(wrapper)) ||
+      current.type !== wrapper ||
+      !("value" in current)
+    )
+      throw Error("invalid codec wrapper path");
+    current = current.value as Shape;
+  }
+  return path as CodecWrapper[];
+}
 function fields(value: WireValue): FieldDescriptor[] {
   return unique(
     list(value).map((v) => {
-      const o = record(v);
+      const o = record(v),
+        fieldShape = shape(o.shape),
+        path = wrappers(o, fieldShape);
       return {
         name: text(o.name),
-        shape: shape(o.shape),
+        shape: fieldShape,
+        ...(path.length ? { codec_wrappers: path } : {}),
         ...(o.codec === undefined ? {} : { codec: codec(o.codec) }),
       };
     }),
@@ -73,11 +97,14 @@ function input(value: WireValue): InputDescriptor | null {
   if (type === "unit") return { type };
   if (type === "object") return { type, value: fields(o.value) };
   if (type === "scalar") {
-    const v = record(o.value);
+    const v = record(o.value),
+      fieldShape = shape(v.shape),
+      path = wrappers(v, fieldShape);
     return {
       type,
       value: {
-        shape: shape(v.shape),
+        shape: fieldShape,
+        ...(path.length ? { codec_wrappers: path } : {}),
         ...(v.codec === undefined ? {} : { codec: codec(v.codec) }),
       },
     };

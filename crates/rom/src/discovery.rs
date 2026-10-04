@@ -38,6 +38,8 @@ pub struct DiscoveredField {
     pub shape: Shape,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub codec: Option<CodecIdentity>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub codec_wrappers: Vec<CodecWrapper>,
 }
 
 // Borrow accepted descriptors until their complete wire representation fits.
@@ -56,6 +58,8 @@ struct FieldMetadata<'a> {
     shape: &'a Shape,
     #[serde(skip_serializing_if = "Option::is_none")]
     codec: Option<&'a CodecIdentity>,
+    #[serde(skip_serializing_if = "no_wrappers")]
+    codec_wrappers: &'a [CodecWrapper],
 }
 #[derive(Serialize)]
 struct ActionMetadata<'a> {
@@ -138,12 +142,26 @@ impl Runtime {
                     budget.charge(&FieldMetadata {
                         name: &field.name,
                         shape: &field.shape,
-                        codec: definition.field_codecs().get(&field.name),
+                        codec: definition
+                            .field_codecs()
+                            .get(&field.name)
+                            .map(|binding| &binding.codec),
+                        codec_wrappers: definition
+                            .field_codecs()
+                            .get(&field.name)
+                            .map_or(&[], |binding| binding.codec_wrappers.as_slice()),
                     })?;
                     resource.fields.push(DiscoveredField {
                         name: field.name.clone(),
                         shape: field.shape.clone(),
-                        codec: definition.field_codecs().get(&field.name).cloned(),
+                        codec: definition
+                            .field_codecs()
+                            .get(&field.name)
+                            .map(|binding| binding.codec.clone()),
+                        codec_wrappers: definition
+                            .field_codecs()
+                            .get(&field.name)
+                            .map_or_else(Vec::new, |binding| binding.codec_wrappers.clone()),
                     });
                 }
                 resource.fields.sort_by(|a, b| a.name.cmp(&b.name));
@@ -175,4 +193,8 @@ impl Runtime {
         })
         .await
     }
+}
+
+fn no_wrappers(value: &[CodecWrapper]) -> bool {
+    value.is_empty()
 }
