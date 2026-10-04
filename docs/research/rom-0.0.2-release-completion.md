@@ -27,6 +27,13 @@ Chromium and 12 WebKit real-host scenarios across SQLite and redb. These runs
 used the maintained native binary. They do not replace gate 8's fresh native
 build, extracted frontend, and external author test.
 
+Commit `1700156` added compact generic fields and responsive action controls.
+Its [frontend browser gate](evidence/rom-0.0.2/field-ux/studio-browser-runtime-1700156.log)
+passed 108 component cases across Chromium and WebKit, 83 unit tests, and 35
+Node component tests. Svelte reported zero errors and warnings. This gate used
+fixtures and local frontend assets. It did not run the current native host or
+the final extracted-asset acceptance.
+
 The shared disk has a 92 GiB safety floor. The most recent approved producer
 plan requires a finite reservation and advance launch notice. A source change
 requires a fresh admission and source identity check. Do not start an

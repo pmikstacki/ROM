@@ -1,0 +1,644 @@
+TAP version 13
+# Subtest: application copy keeps required test support but excludes private files and build caches
+ok 1 - application copy keeps required test support but excludes private files and build caches
+  ---
+  duration_ms: 17.151931
+  type: 'test'
+  ...
+# Subtest: dependency path audit rejects a ROM dependency resolved from the checkout or a sibling prefix
+ok 2 - dependency path audit rejects a ROM dependency resolved from the checkout or a sibling prefix
+  ---
+  duration_ms: 0.24719
+  type: 'test'
+  ...
+# Subtest: copied application inventory includes hidden configuration and shared support bytes
+ok 3 - copied application inventory includes hidden configuration and shared support bytes
+  ---
+  duration_ms: 9.787005
+  type: 'test'
+  ...
+# Subtest: external application manifest retains exact identity, optional features and dependency scopes
+ok 4 - external application manifest retains exact identity, optional features and dependency scopes
+  ---
+  duration_ms: 0.818614
+  type: 'test'
+  ...
+# Subtest: unsupported dependency kinds and alternate registries fail explicitly
+ok 5 - unsupported dependency kinds and alternate registries fail explicitly
+  ---
+  duration_ms: 0.374121
+  type: 'test'
+  ...
+# Subtest: complete static asset identity rejects changed, missing, and extra files
+ok 6 - complete static asset identity rejects changed, missing, and extra files
+  ---
+  duration_ms: 8.547983
+  type: 'test'
+  ...
+# Subtest: asset admission rejects links, caches, invalid UTF8, and external or escaping references
+ok 7 - asset admission rejects links, caches, invalid UTF8, and external or escaping references
+  ---
+  duration_ms: 8.865175
+  type: 'test'
+  ...
+# Subtest: fresh offline build produces an exclusively created immutable asset extraction
+ok 8 - fresh offline build produces an exclusively created immutable asset extraction
+  ---
+  duration_ms: 52.179799
+  type: 'test'
+  ...
+# Subtest: npm failures and changed copied lock prevent acceptance and retain command evidence
+ok 9 - npm failures and changed copied lock prevent acceptance and retain command evidence
+  ---
+  duration_ms: 12.555813
+  type: 'test'
+  ...
+# Subtest: packaged consumer must build locked inputs and run the actual-host command on the extraction
+ok 10 - packaged consumer must build locked inputs and run the actual-host command on the extraction
+  ---
+  duration_ms: 64.011517
+  type: 'test'
+  ...
+# Subtest: packaged consumer retains incomplete evidence if host fails or changes accepted assets
+ok 11 - packaged consumer retains incomplete evidence if host fails or changes accepted assets
+  ---
+  duration_ms: 64.90306
+  type: 'test'
+  ...
+# Subtest: emitted runtime ownership retains exact license and notice bytes without requiring SPDX
+ok 12 - emitted runtime ownership retains exact license and notice bytes without requiring SPDX
+  ---
+  duration_ms: 16.251933
+  type: 'test'
+  ...
+# Subtest: build refuses missing full license text, unknown virtual code, or an untrusted package owner
+ok 13 - build refuses missing full license text, unknown virtual code, or an untrusted package owner
+  ---
+  duration_ms: 9.8474
+  type: 'test'
+  ...
+# Subtest: asset admission fails closed on missing inventory, missing or changed notices, and uncovered JavaScript
+ok 14 - asset admission fails closed on missing inventory, missing or changed notices, and uncovered JavaScript
+  ---
+  duration_ms: 5.005696
+  type: 'test'
+  ...
+# Subtest: inventory rejects missing owner bindings and malformed notice metadata before admission
+ok 15 - inventory rejects missing owner bindings and malformed notice metadata before admission
+  ---
+  duration_ms: 11.787855
+  type: 'test'
+  ...
+# Subtest: distinct transformed module IDs preserve query suffixes in the emitted inventory
+ok 16 - distinct transformed module IDs preserve query suffixes in the emitted inventory
+  ---
+  duration_ms: 2.924033
+  type: 'test'
+  ...
+# Subtest: unclassified JavaScript assets cannot bypass emitted runtime provenance
+ok 17 - unclassified JavaScript assets cannot bypass emitted runtime provenance
+  ---
+  duration_ms: 2.7646
+  type: 'test'
+  ...
+# Subtest: copied responsive hook and imported CSS retain their actual owners
+ok 18 - copied responsive hook and imported CSS retain their actual owners
+  ---
+  duration_ms: 5.985336
+  type: 'test'
+  ...
+# Subtest: emitted SVAR modules retain the original MIT notice with their pinned source commit
+ok 19 - emitted SVAR modules retain the original MIT notice with their pinned source commit
+  ---
+  duration_ms: 3.945432
+  type: 'test'
+  ...
+# Subtest: inventory rejects emitted SVAR code stripped of its required owner
+ok 20 - inventory rejects emitted SVAR code stripped of its required owner
+  ---
+  duration_ms: 4.311357
+  type: 'test'
+  ...
+# Subtest: SVAR owner cannot silently change its source commit or retained license profile
+ok 21 - SVAR owner cannot silently change its source commit or retained license profile
+  ---
+  duration_ms: 7.891636
+  type: 'test'
+  ...
+# Subtest: Studio copied inputs retain complete regular sources and exact npm identities
+ok 22 - Studio copied inputs retain complete regular sources and exact npm identities
+  ---
+  duration_ms: 18.755225
+  type: 'test'
+  ...
+# Subtest: Studio source refuses incomplete inputs, incompatible npm lock, and source links
+ok 23 - Studio source refuses incomplete inputs, incompatible npm lock, and source links
+  ---
+  duration_ms: 4.384627
+  type: 'test'
+  ...
+# Subtest: private frontend environment and key inputs are never admitted to a fresh copy
+ok 24 - private frontend environment and key inputs are never admitted to a fresh copy
+  ---
+  duration_ms: 5.558135
+  type: 'test'
+  ...
+# gzip: /var/tmp/rom-artifact-test-6A57QM/truncated-source.tar.gz: unexpected end of file
+# Subtest: commit extraction consumes only the Git header from a large source archive
+ok 25 - commit extraction consumes only the Git header from a large source archive
+  ---
+  duration_ms: 234.478821
+  type: 'test'
+  ...
+# Subtest: commit extraction rejects a tree archive with no commit marker
+ok 26 - commit extraction rejects a tree archive with no commit marker
+  ---
+  duration_ms: 51.36945
+  type: 'test'
+  ...
+# Subtest: commit extraction still rejects incomplete gzip content
+ok 27 - commit extraction still rejects incomplete gzip content
+  ---
+  duration_ms: 47.512094
+  type: 'test'
+  ...
+# Subtest: archive traversal or links are rejected before extraction
+ok 28 - archive traversal or links are rejected before extraction
+  ---
+  duration_ms: 34.875588
+  type: 'test'
+  ...
+# Subtest: changed declared archive identity fails even with refreshed manifest checksum
+not ok 29 - changed declared archive identity fails even with refreshed manifest checksum
+  ---
+  duration_ms: 75.788591
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/archives.test.mjs:26:1'
+  failureType: 'testCodeFailure'
+  error: 'spawnSync rustc ENOENT'
+  code: 'ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/archives.test.mjs:27:30)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# Subtest: artifact verification rejects extra unchecksummed files
+not ok 30 - artifact verification rejects extra unchecksummed files
+  ---
+  duration_ms: 51.556465
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/archives.test.mjs:32:1'
+  failureType: 'testCodeFailure'
+  error: 'spawnSync rustc ENOENT'
+  code: 'ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/archives.test.mjs:33:30)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# Subtest: verification checks archive commit and complete gate metadata
+not ok 31 - verification checks archive commit and complete gate metadata
+  ---
+  duration_ms: 47.769343
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/archives.test.mjs:38:1'
+  failureType: 'testCodeFailure'
+  error: 'spawnSync rustc ENOENT'
+  code: 'ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/archives.test.mjs:40:32)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# Subtest: verification notices unchecksummed cache directories
+not ok 32 - verification notices unchecksummed cache directories
+  ---
+  duration_ms: 44.905375
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/archives.test.mjs:50:1'
+  failureType: 'testCodeFailure'
+  error: 'spawnSync rustc ENOENT'
+  code: 'ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/archives.test.mjs:51:30)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# Subtest: verification binds complete declared profile and package version to the extracted profile
+not ok 33 - verification binds complete declared profile and package version to the extracted profile
+  ---
+  duration_ms: 43.698272
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/archives.test.mjs:56:1'
+  failureType: 'testCodeFailure'
+  error: 'spawnSync rustc ENOENT'
+  code: 'ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/archives.test.mjs:58:32)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# Subtest: verification binds the complete declared selected file inventory
+not ok 34 - verification binds the complete declared selected file inventory
+  ---
+  duration_ms: 45.12957
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/archives.test.mjs:68:1'
+  failureType: 'testCodeFailure'
+  error: 'spawnSync rustc ENOENT'
+  code: 'ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/archives.test.mjs:69:30)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# Subtest: Studio gate profile requires both source frontend and exact extracted host acceptance
+ok 35 - Studio gate profile requires both source frontend and exact extracted host acceptance
+  ---
+  duration_ms: 1.899206
+  type: 'test'
+  ...
+# Subtest: historical v1 profile retains exactly the original six command identities
+ok 36 - historical v1 profile retains exactly the original six command identities
+  ---
+  duration_ms: 0.213375
+  type: 'test'
+  ...
+# Subtest: failed evidence write retains command outcome and bounded terminal diagnostics
+ok 37 - failed evidence write retains command outcome and bounded terminal diagnostics
+  ---
+  duration_ms: 46.542403
+  type: 'test'
+  ...
+# Subtest: summary storage failure retains a normally recorded failed gate
+not ok 38 - summary storage failure retains a normally recorded failed gate
+  ---
+  duration_ms: 66.569745
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/evidence-failure.test.mjs:42:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /release gate failed/. Input:
+    
+    'Error: spawnSync rustc ENOENT'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'spawnSync rustc ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/evidence-failure.test.mjs:47:26)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/evidence-failure.test.mjs:47:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: failure summary write cannot replace the original gate failure
+not ok 39 - failure summary write cannot replace the original gate failure
+  ---
+  duration_ms: 60.531618
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/evidence-failure.test.mjs:56:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading 'exit_code')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    Object.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/evidence-failure.test.mjs:62:40)
+    expectedException (node:assert:499:17)
+    expectsError (node:assert:622:3)
+    Function.rejects (node:assert:687:3)
+    async TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/evidence-failure.test.mjs:61:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: dirty tracked or untracked source refuses gates and artifacts
+ok 40 - dirty tracked or untracked source refuses gates and artifacts
+  ---
+  duration_ms: 107.86322
+  type: 'test'
+  ...
+# Subtest: existing output retains its bytes and refuses gates
+ok 41 - existing output retains its bytes and refuses gates
+  ---
+  duration_ms: 57.97309
+  type: 'test'
+  ...
+# Subtest: missing Git metadata or obsolete profile refuses gates
+ok 42 - missing Git metadata or obsolete profile refuses gates
+  ---
+  duration_ms: 89.791072
+  type: 'test'
+  ...
+# Subtest: late destination collision retains complete losing stage and existing output
+not ok 43 - late destination collision retains complete losing stage and existing output
+  ---
+  duration_ms: 44.760039
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/producer.test.mjs:47:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/var/tmp/rom-artifact-test-iXoj8t/completed/keep'"
+  code: 'ENOENT'
+  stack: |-
+    readFileSync (node:fs:442:20)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/producer.test.mjs:53:16)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: failed gate retains incomplete evidence and exposes no final output
+not ok 44 - failed gate retains incomplete evidence and exposes no final output
+  ---
+  duration_ms: 42.40726
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/producer.test.mjs:60:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /gate failed/. Input:
+    
+    'Error: spawnSync rustc ENOENT'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'spawnSync rustc ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/producer.test.mjs:62:24)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/producer.test.mjs:62:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: post-gate lock change or new committed revision prevents publication
+not ok 45 - post-gate lock change or new committed revision prevents publication
+  ---
+  duration_ms: 39.303627
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/producer.test.mjs:71:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /source (changed|must remain clean)/. Input:
+    
+    'Error: spawnSync rustc ENOENT'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'spawnSync rustc ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/producer.test.mjs:75:26)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/producer.test.mjs:75:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: successful fixture creates complete checksummed artifacts with matching extraction admission
+not ok 46 - successful fixture creates complete checksummed artifacts with matching extraction admission
+  ---
+  duration_ms: 39.196764
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/producer.test.mjs:86:1'
+  failureType: 'testCodeFailure'
+  error: 'spawnSync rustc ENOENT'
+  code: 'ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/producer.test.mjs:89:24)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# Subtest: unsupported no-replace utility rejects before any acceptance gate
+ok 47 - unsupported no-replace utility rejects before any acceptance gate
+  ---
+  duration_ms: 72.28077
+  type: 'test'
+  ...
+# Subtest: dangling existing output rejects before gates
+ok 48 - dangling existing output rejects before gates
+  ---
+  duration_ms: 54.448537
+  type: 'test'
+  ...
+# Subtest: unsupported output filesystem rejects before gates
+not ok 49 - unsupported output filesystem rejects before gates
+  ---
+  duration_ms: 49.192867
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/publication.test.mjs:30:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /ext4/. Input:
+    
+    'Error: spawnSync rustc ENOENT'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'spawnSync rustc ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/publication.test.mjs:37:26)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/publication.test.mjs:37:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: publication refuses an existing empty directory
+ok 50 - publication refuses an existing empty directory
+  ---
+  duration_ms: 12.576533
+  type: 'test'
+  ...
+# Subtest: concurrent no-replace contenders expose exactly one complete directory
+ok 51 - concurrent no-replace contenders expose exactly one complete directory
+  ---
+  duration_ms: 7.97767
+  type: 'test'
+  ...
+# Subtest: legacy version-one source-only manifest retains its six-gate contract
+not ok 52 - legacy version-one source-only manifest retains its six-gate contract
+  ---
+  duration_ms: 74.663846
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:11:1'
+  failureType: 'testCodeFailure'
+  error: 'spawnSync rustc ENOENT'
+  code: 'ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:12:39)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# Subtest: frontend source, npm commands, asset inventory and profile are bound to their records
+not ok 53 - frontend source, npm commands, asset inventory and profile are bound to their records
+  ---
+  duration_ms: 51.567626
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:29:1'
+  failureType: 'testCodeFailure'
+  error: 'spawnSync rustc ENOENT'
+  code: 'ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:30:30)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  ...
+# Subtest: committed frontend generated caches are rejected before the first gate
+ok 54 - committed frontend generated caches are rejected before the first gate
+  ---
+  duration_ms: 247.408815
+  type: 'test'
+  ...
+# Subtest: incompatible frontend release version is rejected before gates or npm execution
+ok 55 - incompatible frontend release version is rejected before gates or npm execution
+  ---
+  duration_ms: 46.633226
+  type: 'test'
+  ...
+# Subtest: host gate must consume unchanged extracted assets and succeed before publication
+not ok 56 - host gate must consume unchanged extracted assets and succeed before publication
+  ---
+  duration_ms: 40.743892
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:78:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Studio asset identity|release gate failed/. Input:
+    
+    'Error: spawnSync rustc ENOENT'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'spawnSync rustc ENOENT'
+  stack: |-
+    Object.spawnSync (node:internal/child_process:1120:20)
+    spawnSync (node:child_process:868:24)
+    execFileSync (node:child_process:911:15)
+    capture (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:9:48)
+    file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:40
+    Array.map (<anonymous>)
+    toolchain (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/source.mjs:53:5)
+    produce (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/produce.mjs:22:17)
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:81:26)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/scripts/release-artifacts/studio.test.mjs:81:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..56
+# tests 56
+# suites 0
+# pass 40
+# fail 16
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 574.311938

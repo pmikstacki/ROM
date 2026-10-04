@@ -220,3 +220,30 @@ current evidence to every remaining release obligation. The last bounded
 producer failed gate 8; no accepted 0.0.2 artifact exists. The temporary VPN
 preview serves the current frontend with an older native executable. A fresh
 bounded producer and release-bound preview still require capacity admission.
+
+## Compact field and action controls: commit `1700156`
+
+The generic Resource editor now uses one row for each field. It keeps the
+label, direct control, and mutation option together. Complex values open a
+larger editor. Unknown codecs remain read-only. The mobile toolbar uses icons
+for its Resource, query, row, and page actions. Full-width desktop controls
+keep text next to each icon. The details button stays beside quick filters.
+
+The committed source passed `./scripts/studio-browser-runtime-check` on
+2026-10-04. The run recorded zero Svelte errors and warnings, 83 unit tests,
+35 additional Node component tests, and 108 browser component cases across
+Chromium and WebKit. The [raw gate log](evidence/rom-0.0.2/field-ux/studio-browser-runtime-1700156.log)
+has SHA-256 `62b7900294e7e072461e3cd3575e9d549fb8a7a2d36a715c29ba6ef0440a4d85`.
+The Cargo lock SHA-256 was `f288709d12f8c7adc39a5d72cb7253a9d86afa990dd94226724e39262500d992`.
+The frontend lock SHA-256 was `44a7ef3624f657b82b69731c13c48d69a3054f9c9a18d87a97406d6d9742c7e8`.
+
+The current package and artifact fixtures passed all 56 cases in `rom-dev`
+with Rust 1.99.0. The [container log](evidence/rom-0.0.2/release-readiness/package-node-1700156.log)
+has SHA-256 `2aeacf378bb5f52329d409df3644c98bd084bddb393701d86039a973431bbfee`.
+An [initial host-shell run](evidence/rom-0.0.2/release-readiness/package-node-host-path-red-1700156.log)
+failed because `rustc` was absent from its `PATH`. That run did not establish
+a package defect or a passing fixture result.
+
+This gate uses browser fixtures and local frontend assets. It does not build
+the current native host or test extracted production assets. The release
+producer, release-bound preview, and main integration remain pending.
