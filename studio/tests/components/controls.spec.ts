@@ -79,6 +79,15 @@ test("same field hosts support custom codec, nested collections and generic acti
     "-9223372036854775808",
   );
 });
+test("expanded action input describes submission rather than Resource saving", async ({
+  page,
+}) => {
+  await selectValue(page.getByLabel("notes mode", { exact: true }), "value");
+  await page.getByRole("button", { name: "Edit notes" }).click();
+  const editor = page.getByRole("dialog", { name: "notes" });
+  await expect(editor).toContainText("submit the form");
+  await expect(editor).not.toContainText("save the Resource");
+});
 test("unsupported action stays visible, generic table selects, query emits values", async ({
   page,
 }) => {
@@ -138,10 +147,12 @@ test("descriptor change retains an open draft and requires explicit reopen", asy
   await reopen.focus();
   await page.keyboard.press("Enter");
   await expect(page.getByLabel("count mode", { exact: true })).toHaveAttribute(
-    "title", "Unchanged / omitted",
+    "title",
+    "Unchanged / omitted",
   );
   await expect(page.getByLabel("note mode", { exact: true })).toHaveAttribute(
-    "title", "Unchanged / omitted",
+    "title",
+    "Unchanged / omitted",
   );
   await expect(form.getByRole("alert")).toHaveCount(0);
   await selectValue(page.getByLabel("count mode", { exact: true }), "value");

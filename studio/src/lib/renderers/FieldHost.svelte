@@ -55,10 +55,10 @@
   let expandedControl = $derived(collection || !!descriptor.codec);
   let expandedLabel = $derived(
     Array.isArray(shown)
-      ? `${shown.length} ${shown.length === 1 ? "item" : "items"} · Edit`
+      ? `${shown.length} ${shown.length === 1 ? "item" : "items"} · ${readonly ? "View" : "Edit"}`
       : shown !== null && typeof shown === "object"
-        ? `${Object.keys(shown).length} ${Object.keys(shown).length === 1 ? "entry" : "entries"} · Edit`
-        : "Edit value",
+        ? `${Object.keys(shown).length} ${Object.keys(shown).length === 1 ? "entry" : "entries"} · ${readonly ? "View" : "Edit"}`
+        : `${readonly ? "View" : "Edit"} value`,
   );
   let expandedOpen = $state(false);
   let editorGeneration = $state(0);
@@ -84,29 +84,33 @@
   {#if expandedControl}
     <Dialog.Root bind:open={expandedOpen}>
       <Dialog.Trigger
-        disabled={readonly}
-        class="inline-flex h-9 max-w-full items-center truncate rounded-md px-2 text-sm text-primary hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
-        aria-label={`Edit ${descriptor.name}`}>{expandedLabel}</Dialog.Trigger
+        class="inline-flex h-9 max-w-full items-center truncate rounded-md px-2 text-sm text-primary hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
+        aria-label={`${readonly ? "View" : "Edit"} ${descriptor.name}`}
+        >{expandedLabel}</Dialog.Trigger
       >
       <Dialog.Content class="max-h-[80dvh] overflow-y-auto sm:max-w-xl">
         <Dialog.Header>
           <Dialog.Title>{descriptor.name.replaceAll("_", " ")}</Dialog.Title>
           <Dialog.Description>
-            Changes stay in the draft until you save the Resource.
+            {readonly
+              ? "This value is read-only while editing is unavailable."
+              : "Changes stay in the draft until you submit the form."}
           </Dialog.Description>
         </Dialog.Header>
-        {#key editorGeneration}<ValueEditor
-            shape={descriptor.shape}
-            codec={descriptor.codec}
-            codecWrappers={descriptor.codec_wrappers}
-            value={shown}
-            onchange={(value) => onchange({ mode: "value", value })}
-            label={descriptor.name}
-            {readonly}
-            {onerror}
-            {direct}
-            showLabel={false}
-          />{/key}
+        {#if readonly}<div class="break-all text-sm">
+            <ValueDisplay {descriptor} value={shown} />
+          </div>{:else}{#key editorGeneration}<ValueEditor
+              shape={descriptor.shape}
+              codec={descriptor.codec}
+              codecWrappers={descriptor.codec_wrappers}
+              value={shown}
+              onchange={(value) => onchange({ mode: "value", value })}
+              label={descriptor.name}
+              {readonly}
+              {onerror}
+              {direct}
+              showLabel={false}
+            />{/key}{/if}
       </Dialog.Content>
     </Dialog.Root>
   {:else}
@@ -137,11 +141,12 @@
     {#if unknownCodec}<div
         class="truncate text-sm text-muted-foreground"
         title={`No safe editor for ${descriptor.codec?.name} v${descriptor.codec?.version}. Its value stays unchanged.`}
-      ><ValueDisplay {descriptor} value={current} /></div
-      >{:else if intent.mode === "null"}<span class="text-sm text-muted-foreground"
-        >Set to null</span
-      >{:else if intent.mode === "remove"}<span class="text-sm text-muted-foreground"
-        >Remove this field</span
+      >
+        <ValueDisplay {descriptor} value={current} />
+      </div>{:else if intent.mode === "null"}<span
+        class="text-sm text-muted-foreground">Set to null</span
+      >{:else if intent.mode === "remove"}<span
+        class="text-sm text-muted-foreground">Remove this field</span
       >{:else if direct && intent.mode === "omit" && nullable && current === null}<span
         class="text-sm text-muted-foreground">Current value: null</span
       >{:else if direct && intent.mode === "omit" && optional && current === undefined}<span
@@ -175,7 +180,9 @@
           aria-label={`${descriptor.name} options`}
           title={intent.mode === "omit" ? "Unchanged" : "Edited"}
           class="relative inline-flex size-9 items-center justify-center rounded-md text-muted-foreground hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
-          ><MoreHorizontalIcon class="size-4" />{#if intent.mode !== "omit"}<span
+          ><MoreHorizontalIcon
+            class="size-4"
+          />{#if intent.mode !== "omit"}<span
               aria-hidden="true"
               class="absolute right-0 top-0 size-1.5 rounded-full bg-primary"
             ></span>{/if}</DropdownMenu.Trigger

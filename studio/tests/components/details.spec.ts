@@ -113,3 +113,28 @@ test("an open field popup cannot mutate a draft after a newer revision", async (
     "preserved",
   );
 });
+
+test("stale Resource keeps collection details readable without reopening mutation", async ({
+  page,
+}) => {
+  await page.goto("tests/components/details.html");
+  await page.getByRole("checkbox", { name: "Confirm deletion of one" }).click();
+  await expect(
+    page.getByRole("button", { name: "Delete Resource" }),
+  ).toBeEnabled();
+  await page.getByRole("button", { name: "Advance live revision" }).click();
+  await expect(
+    page.getByRole("button", { name: "Delete Resource" }),
+  ).toBeDisabled();
+  const view = page.getByRole("button", { name: "View labels" });
+  await expect(view).toBeEnabled();
+  await view.click();
+  const details = page.getByRole("dialog", { name: "labels" });
+  await expect(details).toContainText("first");
+  await expect(details).toContainText("second");
+  await expect(
+    details.getByText("This value is read-only while editing is unavailable."),
+  ).toBeVisible();
+  await expect(details.getByRole("textbox")).toHaveCount(0);
+  await expect(page.getByLabel("labels options")).toBeDisabled();
+});

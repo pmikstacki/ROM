@@ -5,7 +5,7 @@
     ResourceDescriptor,
     WireObject,
   } from "../../src/lib/client/types.ts";
-  const descriptor: ResourceDescriptor = {
+  let descriptor = $state.raw<ResourceDescriptor>({
     kind: "field-fixture",
     version: 1,
     fields: [
@@ -44,7 +44,7 @@
     ],
     actions: [],
     action_inputs: [],
-  };
+  });
   const current: WireObject = {
     title: "original",
     enabled: false,
@@ -60,6 +60,11 @@
 </script>
 
 <main class="max-w-md p-4">
+  <button
+    onclick={() =>
+      (descriptor = { ...descriptor, version: descriptor.version + 1 })}
+    >Change descriptor version</button
+  >
   <ResourceForm
     {descriptor}
     value={current}

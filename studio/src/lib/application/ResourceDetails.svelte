@@ -42,7 +42,7 @@
       >Discard draft and reload</Button
     >{/if}
   {#if selected.value === null}<p>This Resource is deleted.</p>{:else}
-    <fieldset class="space-y-4" disabled={blocked || stale}>
+    <fieldset class="space-y-4">
       <ResourceForm
         {descriptor}
         direct
@@ -71,7 +71,7 @@
         disabled={blocked || stale}
       /><Button
         variant="destructive"
-        disabled={!deleteConfirm}
+        disabled={blocked || stale || !deleteConfirm}
         onclick={() =>
           void onmutate(draftRevision, { type: "delete" }).catch(() => {})}
         >Delete Resource</Button

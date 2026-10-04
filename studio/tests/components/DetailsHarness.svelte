@@ -12,6 +12,7 @@
     fields: [
       { name: "title", shape: { type: "string" } },
       { name: "enabled", shape: { type: "bool" } },
+      { name: "labels", shape: { type: "list", value: { type: "string" } } },
     ],
     actions: [],
     action_inputs: [],
@@ -19,7 +20,7 @@
   let selected = $state.raw<ProjectedView>({
       key: { kind: "DraftFixture", id: "one" },
       revision: 1n,
-      value: { title: "original", enabled: false },
+      value: { title: "original", enabled: false, labels: ["first", "second"] },
     }),
     generation = $state(0);
   function reload() {
@@ -46,7 +47,11 @@
       (selected = {
         ...selected,
         revision: 2n,
-        value: { title: "other change", enabled: false },
+        value: {
+          title: "other change",
+          enabled: false,
+          labels: ["first", "second"],
+        },
       })}>Advance live revision</button
   >{#key generation}<ResourcePage {descriptor} {controller} {snapshot} />{/key}
 </main>

@@ -72,7 +72,16 @@
         version: 1,
         input: {
           type: "object",
-          value: [{ name: "amount", shape: { type: "i64" } }],
+          value: [
+            { name: "amount", shape: { type: "i64" } },
+            {
+              name: "notes",
+              shape: {
+                type: "optional",
+                value: { type: "list", value: { type: "string" } },
+              },
+            },
+          ],
         },
       },
       { name: "opaque", version: 1, input: null },
