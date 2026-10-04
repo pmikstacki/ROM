@@ -1,0 +1,450 @@
+{
+  "recorded_at": "2026-10-04T01:53:47.256Z",
+  "head": "ed7755791d10fcff4cc81afb1a2c0d9be7733dce",
+  "node": "v22.16.0",
+  "platform": "linux",
+  "owned_files": [
+    "studio/tests/components/Harness.svelte",
+    "studio/tests/components/controls.spec.ts"
+  ],
+  "frontend_lock_sha256": "7830342279addd8dd5dab7ed82d66aa6574b0e70839b9c326b46225394c1f68e",
+  "webkit_wrapper": "/var/tmp/rom-studio-webkit-2359/pw_run.sh",
+  "source_scope": "Studio source and component fixtures, locked configuration, and existing browser runtime preparer; no claim of full checkout identity",
+  "files": [
+    {
+      "path": "scripts/studio-browser-runtime",
+      "sha256": "b00ac7a280ff73208bb7b5a54696ac49c68384c1ef1c320883635296a13156e0",
+      "bytes": 168
+    },
+    {
+      "path": "studio/package-lock.json",
+      "sha256": "7830342279addd8dd5dab7ed82d66aa6574b0e70839b9c326b46225394c1f68e",
+      "bytes": 71398
+    },
+    {
+      "path": "studio/package.json",
+      "sha256": "568cae8125b8272637666c01f3fc2c61559c190fe1421892b9748bb5b067cd1c",
+      "bytes": 1369
+    },
+    {
+      "path": "studio/src/App.svelte",
+      "sha256": "448db797c295eb303debe30de943be79c19681e6afb7712300538572625ac3a5",
+      "bytes": 6324
+    },
+    {
+      "path": "studio/src/app.css",
+      "sha256": "d57a95f95f5a4d2aa13cfe3e46ded450c20dca92c980d037315a4e7ae49d04ae",
+      "bytes": 2516
+    },
+    {
+      "path": "studio/src/index.ts",
+      "sha256": "51c4dfa9dffe317bd967d87b52149015b158a4cf3b7851d80b35a866de4e6cbf",
+      "bytes": 430
+    },
+    {
+      "path": "studio/src/lib/application/AttachmentPage.svelte",
+      "sha256": "8a13d460f99acb368ae917209fc2b68771252d5070faef748df3137d71b504cd",
+      "bytes": 1735
+    },
+    {
+      "path": "studio/src/lib/application/ResourceDetails.svelte",
+      "sha256": "fbe6ee2231e1e56d4e8768a2a19b8e7ba70135d524da703167b5874689af9784",
+      "bytes": 2470
+    },
+    {
+      "path": "studio/src/lib/application/ResourcePage.svelte",
+      "sha256": "c247d953ccfd230e1cef1b74c28f85e622c8ca0ed0ae784c0633c9b796d76e85",
+      "bytes": 2923
+    },
+    {
+      "path": "studio/src/lib/application/WorkPage.svelte",
+      "sha256": "2078a74016d08467e6d377f1dc7d806622c733beab9ad687bdfc7ac15cff47f8",
+      "bytes": 4415
+    },
+    {
+      "path": "studio/src/lib/application/auth.ts",
+      "sha256": "5ce6244a3b3e6609a63a95923c93a9e849328a9ca47c4dc6f4c133a164e81259",
+      "bytes": 4084
+    },
+    {
+      "path": "studio/src/lib/application/controller.ts",
+      "sha256": "7c4371fca795299a95872d75bc42b97dfc9531a4c5243ae55e785deb4576fb3a",
+      "bytes": 11109
+    },
+    {
+      "path": "studio/src/lib/attachments/AttachmentPanel.svelte",
+      "sha256": "28770671b65a5c3516ba20be3e5b048d3a358fcbcc626f5f5b321aadd349e2ec",
+      "bytes": 4772
+    },
+    {
+      "path": "studio/src/lib/attachments/controller.ts",
+      "sha256": "0fd96cdde03402c9303f0908456ce24cc16c9f1747db3bc0110247c294127194",
+      "bytes": 5814
+    },
+    {
+      "path": "studio/src/lib/client/blobs.ts",
+      "sha256": "6e9b5918030a75cde76d153b4102ae8f1b607ad7c1da2230666cb3f53432da29",
+      "bytes": 7061
+    },
+    {
+      "path": "studio/src/lib/client/client.ts",
+      "sha256": "937a2f546ece8f475528574661a74cc71d3368e86a1b42fca88996163397a2bb",
+      "bytes": 122
+    },
+    {
+      "path": "studio/src/lib/client/codec.ts",
+      "sha256": "f1e86ea3ed91db60ac099ea61ae2d51cf9a30de6c2ca073079ce1152ae86cf94",
+      "bytes": 141
+    },
+    {
+      "path": "studio/src/lib/client/deadline.ts",
+      "sha256": "c501a991e2dc9c13868b1cd37fd5a0d8c118283c1b8ba3a1ddc1a4d1a66acdc8",
+      "bytes": 882
+    },
+    {
+      "path": "studio/src/lib/client/discovery.ts",
+      "sha256": "ad7c14cf623743df2393554b9c5206b2547efdd2aca56c91cba5ac4a695ac8b4",
+      "bytes": 5122
+    },
+    {
+      "path": "studio/src/lib/client/journal.ts",
+      "sha256": "09aa9c567bb3f6edf3d0ed3f4c4cc3bfe99785a57d7fce4c38e6b03846a82a94",
+      "bytes": 1355
+    },
+    {
+      "path": "studio/src/lib/client/mutation.ts",
+      "sha256": "0b42b8afa87d0bdbbfb7fd4e8af7762b180b5a99ca0c2c4fd6ba6f4c8ca5e83b",
+      "bytes": 777
+    },
+    {
+      "path": "studio/src/lib/client/normalization.ts",
+      "sha256": "f5e228f2c36642daf86317eec9e083e7e61e25e52772fd23b71e351474da9a12",
+      "bytes": 4944
+    },
+    {
+      "path": "studio/src/lib/client/query.ts",
+      "sha256": "f576f8c9dee5aab757a0d21928692a8a8dd58c319b38a231286710945ec9a240",
+      "bytes": 6135
+    },
+    {
+      "path": "studio/src/lib/client/request.ts",
+      "sha256": "f33424d510035e496677675ade33fad47ffa4109f629b7315d8df4d844bc976b",
+      "bytes": 3286
+    },
+    {
+      "path": "studio/src/lib/client/serialization.ts",
+      "sha256": "acbfa47fa28e9edef94220a297da5a2c1755f3ce5aa00a5c8b13aa8ee2e03d6c",
+      "bytes": 7747
+    },
+    {
+      "path": "studio/src/lib/client/session.ts",
+      "sha256": "af0cd748c216bf53a86bc95bcdf15890622ad720e72e03100e4b07688e9c8ef5",
+      "bytes": 7430
+    },
+    {
+      "path": "studio/src/lib/client/stream.ts",
+      "sha256": "6ab634e10315c015aab03044b236a00549ae171c8c671990015dac0d1d3ffbec",
+      "bytes": 5212
+    },
+    {
+      "path": "studio/src/lib/client/types.ts",
+      "sha256": "12c898e0998243ee7032d5d106a224e47954110d181e04f9231667870ca2eec7",
+      "bytes": 4973
+    },
+    {
+      "path": "studio/src/lib/client/validation.ts",
+      "sha256": "2734159ced53821ca39f25309f6331be3e7f6438b3dd8d83f623718f99564cef",
+      "bytes": 2044
+    },
+    {
+      "path": "studio/src/lib/client/work-validation.ts",
+      "sha256": "f9b53b6d3c3e6ffdec335d086e05fc9b065097f97ba2457042cf788ede961f3c",
+      "bytes": 5865
+    },
+    {
+      "path": "studio/src/lib/components/ui/LICENSE.md",
+      "sha256": "230594c9dedb06fb0759381a520b449c1b47b0f63b95fc88ef9d7e851e2540a9",
+      "bytes": 1192
+    },
+    {
+      "path": "studio/src/lib/components/ui/button/button.svelte",
+      "sha256": "740acc731f06f87b2e8b9e8eccf4de1472b72f6c30f900b71b74a075f612dd24",
+      "bytes": 4130
+    },
+    {
+      "path": "studio/src/lib/components/ui/button/index.ts",
+      "sha256": "0fc7bfae8aa2158de2b13b8ba8728f247892f13d12654e39906e154647f105c6",
+      "bytes": 272
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-close.svelte",
+      "sha256": "acaaffb431ecf312272181cbd794a41d6d5ce367e7d51b1b567bdd7350bae104",
+      "bytes": 293
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-content.svelte",
+      "sha256": "7c0bfaf6f56cf6a7b8cd76805c65cee0f77443314b18857af515edf3ae922ee1",
+      "bytes": 1843
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-description.svelte",
+      "sha256": "d783be67f29214d494fb4dae9c6f368706400ec5d8b91a9c6add4d10364b6aab",
+      "bytes": 494
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-footer.svelte",
+      "sha256": "48f5508cb7cbd24ac40f097d59a47a8c7febf5edbdec4bf42ee710eb00583add",
+      "bytes": 902
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-header.svelte",
+      "sha256": "a9a8175574a7841a750a1a6b73ee0ea7858fa4173d60c3c2346c161f0760d2ca",
+      "bytes": 462
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-overlay.svelte",
+      "sha256": "eeab9142a9a7deec56bf05a10ba9dcf21aaf8970039f74f110fe6e8291991275",
+      "bytes": 565
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-portal.svelte",
+      "sha256": "1f874853c42f400c2c18c5376ce660dbdc75680bf95adbee74f5cbd40f1f5db4",
+      "bytes": 192
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-title.svelte",
+      "sha256": "eee97401c77116a5cb366e3996711ddf57adbec58a2913df5b0bf52f34d5ee30",
+      "bytes": 405
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog-trigger.svelte",
+      "sha256": "d752807d951bc6a554ce47c5077e492587b37d15bb5e09426cf855860836dd05",
+      "bytes": 299
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/dialog.svelte",
+      "sha256": "35ca34b1cfb6101ddca13d57e7403a995a527400b3fec1aebd86a7af179b3140",
+      "bytes": 227
+    },
+    {
+      "path": "studio/src/lib/components/ui/dialog/index.ts",
+      "sha256": "2f8bdf6907b03548ed597c829ecfa912bd5bd217ab77c99721f62983a0550189",
+      "bytes": 839
+    },
+    {
+      "path": "studio/src/lib/components/ui/input/index.ts",
+      "sha256": "5276711c7cf44f94fe4e2295639ce156ddd4d2bfef6dfd9e239cd963c880ef56",
+      "bytes": 78
+    },
+    {
+      "path": "studio/src/lib/components/ui/input/input.svelte",
+      "sha256": "0610b167ab2c447631eb83c00d68a248a9046c2d780bdaf4e6892e0fb44eb7ca",
+      "bytes": 2258
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/index.ts",
+      "sha256": "a6fe5055598f0deef44ac5be3472a77088651caf7e819f7818211345d70cab01",
+      "bytes": 591
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-body.svelte",
+      "sha256": "7f7dc103a8514575cdfa2cd7f4cd6ccff3140d05cb859ee8d8f9965f0d07661e",
+      "bytes": 479
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-caption.svelte",
+      "sha256": "b7b67a76c2669706f36f82805ee5d1e13fdc3faaedff4cea4b019f6e5a3aa4b0",
+      "bytes": 482
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-cell.svelte",
+      "sha256": "d62015a65e8add8b0709454d7d496f4e88131e75227067f0ef7bad2e2a5441be",
+      "bytes": 503
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-footer.svelte",
+      "sha256": "aa5cc4ef2fa96d1a53a781849a118a232ed1e1b4fa867888400ec69ee4bec457",
+      "bytes": 523
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-head.svelte",
+      "sha256": "a50d868b4dc1910e210bea1e46008146e99c71d4c11d05d20337d763ed0cdba3",
+      "bytes": 547
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-header.svelte",
+      "sha256": "eba2337d0aebf399f8e53c9976f9f344f868a0f20459450063bea5484f4129dd",
+      "bytes": 470
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table-row.svelte",
+      "sha256": "97970ad735c7f82ae4caf941fefcd16477482360114e78a0b904342b1b539196",
+      "bytes": 560
+    },
+    {
+      "path": "studio/src/lib/components/ui/table/table.svelte",
+      "sha256": "e1e56888a80d5f5a73d4f2455b332de6750b35a3f609060141de82e46e74261e",
+      "bytes": 559
+    },
+    {
+      "path": "studio/src/lib/components/ui/utils.ts",
+      "sha256": "dd7655a5da820337bc13825305885e2aedc6649dfd1149087550de6a9b334472",
+      "bytes": 495
+    },
+    {
+      "path": "studio/src/lib/renderers/FieldHost.svelte",
+      "sha256": "48d4371867bdeb11b5f93e919679cf230ac1cf7906973ab049cd3e8003e0659a",
+      "bytes": 2275
+    },
+    {
+      "path": "studio/src/lib/renderers/ValueDisplay.svelte",
+      "sha256": "a025a7d5e5b6d81b9dd0c2c0d1622c09adfa49665b84a48d3796b6f2fd2b84ba",
+      "bytes": 2495
+    },
+    {
+      "path": "studio/src/lib/renderers/ValueEditor.svelte",
+      "sha256": "91753041ed6cde6dd36a796a487d3c036ce43e89f10c838898ebc21c32649cdd",
+      "bytes": 8641
+    },
+    {
+      "path": "studio/src/lib/renderers/default-value.ts",
+      "sha256": "96abca2ba0c79674f80cf56ead253cce2d02f155996c0e17dfd5babc7f9e7945",
+      "bytes": 652
+    },
+    {
+      "path": "studio/src/lib/renderers/registry.ts",
+      "sha256": "c926e77a997cd2e451019349d6634bf322d08cebe58d4e158c2bcc0ea6acb378",
+      "bytes": 906
+    },
+    {
+      "path": "studio/src/lib/renderers/types.ts",
+      "sha256": "46d9539e61a998a880760066a1a8abae40972369b7c47a4e10e8b4a5d949639d",
+      "bytes": 391
+    },
+    {
+      "path": "studio/src/lib/renderers/value-format.ts",
+      "sha256": "582cce561204a92c043f94cb365c7d959c652b44a85d67a8bc949c2448ed31bf",
+      "bytes": 335
+    },
+    {
+      "path": "studio/src/lib/resources/ActionForm.svelte",
+      "sha256": "ac570fbd6135a0b83be0a9e1411bde1cd75619edd94fcbf477c21b2bcd8fe564",
+      "bytes": 2914
+    },
+    {
+      "path": "studio/src/lib/resources/QueryEditor.svelte",
+      "sha256": "9bfe8ea7b8698e523f9cd1dbfaf0c71962e4427ddd82943668cf3eb70c28a8ee",
+      "bytes": 3558
+    },
+    {
+      "path": "studio/src/lib/resources/ResourceForm.svelte",
+      "sha256": "72d659ce3fa5542bd4813e4abba4a1ad64f98d26f5df164c1f139c03fa02b38a",
+      "bytes": 3075
+    },
+    {
+      "path": "studio/src/lib/resources/ResourceTable.svelte",
+      "sha256": "d29adaf265cdb3d8b1114d05a10ef0bf38b42b4f2562437820d5546a241eff73",
+      "bytes": 1443
+    },
+    {
+      "path": "studio/src/lib/resources/form-types.ts",
+      "sha256": "e58e231af42c2df32c3efc693528f130f8b921949384821619b6619e357e3c6f",
+      "bytes": 217
+    },
+    {
+      "path": "studio/src/main.ts",
+      "sha256": "ec315a1d373f5470b11a7dcaa0d972ab81e3f513113325bd18aea471c1ce2d62",
+      "bytes": 141
+    },
+    {
+      "path": "studio/src/vite-env.d.ts",
+      "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+      "bytes": 38
+    },
+    {
+      "path": "studio/tests/components/CustomCode.svelte",
+      "sha256": "55b5cdfe220c8c1bd6b1cad8096eeed7f353fe1a721b4be0cee895cdc79231c7",
+      "bytes": 428
+    },
+    {
+      "path": "studio/tests/components/DetailsHarness.svelte",
+      "sha256": "2aed279a1e0468044be817b1b586a01af15d5b97925cd7d5a6c1e1fd3c1182cb",
+      "bytes": 1021
+    },
+    {
+      "path": "studio/tests/components/Harness.svelte",
+      "sha256": "852f980f9e3e1732383dc75c104533bb35fd4a44e3ed01de7c098d4913f4ba1d",
+      "bytes": 4984
+    },
+    {
+      "path": "studio/tests/components/application-model.test.ts",
+      "sha256": "36f9b4d8f34cd7fafe86b8da356ae215acda180906f9230ba71bf3ed3f4de641",
+      "bytes": 8762
+    },
+    {
+      "path": "studio/tests/components/application.spec.ts",
+      "sha256": "9e3ad03d737488f406764fa7028f75d424e5e4a145432ffa614478269af714a9",
+      "bytes": 5124
+    },
+    {
+      "path": "studio/tests/components/attachment-model.test.ts",
+      "sha256": "fba12c5048e7a3f5c48340df661de14c9705613915bc0946e684ed68fded56b5",
+      "bytes": 6099
+    },
+    {
+      "path": "studio/tests/components/auth.test.ts",
+      "sha256": "7c366eccb01b2643e20e9d424f2a0e59fe6e7ea6a91a4c318887bee518c938b6",
+      "bytes": 2785
+    },
+    {
+      "path": "studio/tests/components/controls.spec.ts",
+      "sha256": "8ede10eadf9163631eb38fcf53dcd2561cc84a9b2493b7c9cee52093405ee503",
+      "bytes": 16355
+    },
+    {
+      "path": "studio/tests/components/details.html",
+      "sha256": "592e8fa02bd35034e994c6c2b7e32906d7c632960c75408b5fe61c8bf0b61848",
+      "bytes": 199
+    },
+    {
+      "path": "studio/tests/components/details.spec.ts",
+      "sha256": "ad3018f8fa5043fd9b36854ce0e440a64ada1349000e060ecf5b967015db41c3",
+      "bytes": 1051
+    },
+    {
+      "path": "studio/tests/components/details.ts",
+      "sha256": "50c0eebf7bd0cf267853c84341ae3a3863970a11f54b539e2dbd076d89d08f25",
+      "bytes": 182
+    },
+    {
+      "path": "studio/tests/components/harness.html",
+      "sha256": "5e74405fcceb197902a134d696bb4bd58bb44632ed9a615e371486760c81b599",
+      "bytes": 324
+    },
+    {
+      "path": "studio/tests/components/harness.ts",
+      "sha256": "2fb719089c7059fad863000150d975bc34b1bad5618fcfedac9c3718181a5ed7",
+      "bytes": 161
+    },
+    {
+      "path": "studio/tests/components/playwright.config.ts",
+      "sha256": "f76b48bd7fc65835bb019209a3a838dd341ce4e0ac82f3f47bf0a448b1c47b16",
+      "bytes": 955
+    },
+    {
+      "path": "studio/tests/runtime/prepare-webkit.mjs",
+      "sha256": "6b00a55c55a324a61aeae0a25cd291222fa1570173e8826c5aa9568b0a3a54d1",
+      "bytes": 3874
+    },
+    {
+      "path": "studio/tsconfig.json",
+      "sha256": "91256826885a64037785a3c352a0c771245032ad3255a5c1165b3a81c7696281",
+      "bytes": 468
+    },
+    {
+      "path": "studio/vite.config.ts",
+      "sha256": "05171a89b2aca2de9dc255ca92c8c328f8abbf6e6572599c7a59d8c661a80289",
+      "bytes": 1114
+    }
+  ]
+}

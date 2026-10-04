@@ -78,6 +78,97 @@ test("keyboard controls and assembled accessibility", async ({ page }) => {
   expect(scan.violations).toEqual([]);
 });
 
+test("descriptor change retains an open draft and requires explicit reopen", async ({
+  page,
+}) => {
+  await page.getByLabel("count mode", { exact: true }).selectOption("value");
+  await page.getByLabel("count value", { exact: true }).fill("7");
+  await page.getByLabel("note mode", { exact: true }).selectOption("value");
+  await page.getByLabel("note value", { exact: true }).fill("retained draft");
+  await page
+    .getByRole("button", { name: "Advance fixture descriptor" })
+    .click();
+  const form = page.locator("form").first();
+  await expect(form.getByRole("alert")).toHaveText(
+    "Resource definition changed. The draft is preserved. Reopen the form before submitting.",
+  );
+  await expect(page.getByLabel("count value", { exact: true })).toHaveValue(
+    "7",
+  );
+  await expect(page.getByLabel("note value", { exact: true })).toHaveValue(
+    "retained draft",
+  );
+  await expect(page.getByLabel("count value", { exact: true })).toBeDisabled();
+  await expect(page.getByLabel("note value", { exact: true })).toBeDisabled();
+  await expect(
+    form.getByRole("button", { name: "Apply patch" }),
+  ).toBeDisabled();
+  await expect(page.getByTestId("submitted")).toHaveText("");
+  const reopen = page.getByRole("button", {
+    name: "Discard draft and reopen fixture",
+  });
+  await reopen.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByLabel("count mode", { exact: true })).toHaveValue(
+    "omit",
+  );
+  await expect(page.getByLabel("note mode", { exact: true })).toHaveValue(
+    "omit",
+  );
+  await expect(form.getByRole("alert")).toHaveCount(0);
+  await page.getByLabel("count mode", { exact: true }).selectOption("value");
+  await page.getByLabel("count value", { exact: true }).fill("8");
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("submitted")).toHaveText(
+    '{"type":"patch","input":{"count":{"op":"set","value":8}}}',
+  );
+});
+
+test("invalid field keeps keyboard focus and cannot submit until corrected", async ({
+  page,
+}) => {
+  await page.getByLabel("count mode", { exact: true }).selectOption("value");
+  const input = page.getByLabel("count value", { exact: true });
+  await input.focus();
+  await page.keyboard.press("ControlOrMeta+A");
+  await page.keyboard.type("18446744073709551616");
+  await expect(input).toBeFocused();
+  await expect(input).toHaveAttribute("aria-invalid", "true");
+  await expect(page.getByText("count: integer out of range")).toBeVisible();
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("submitted")).toHaveText("");
+  await expect(input).toBeFocused();
+  await expect(input).toHaveValue("18446744073709551616");
+  await page.keyboard.press("ControlOrMeta+A");
+  await page.keyboard.type("7");
+  await expect(input).toBeFocused();
+  await expect(input).toHaveAttribute("aria-invalid", "false");
+  await expect(page.getByText("count: integer out of range")).toHaveCount(0);
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("submitted")).toHaveText(
+    '{"type":"patch","input":{"count":{"op":"set","value":7}}}',
+  );
+});
+
+test("native select checkbox and submit keyboard semantics preserve a boolean", async ({
+  page,
+}) => {
+  const mode = page.getByLabel("done mode", { exact: true });
+  await mode.focus();
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Tab");
+  const checkbox = page.getByLabel("done value", { exact: true });
+  await expect(mode).toHaveValue("value");
+  await expect(checkbox).toBeFocused();
+  await page.keyboard.press("Space");
+  await expect(checkbox).toBeChecked();
+  await page.getByRole("button", { name: "Apply patch" }).focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("submitted")).toHaveText(
+    '{"type":"patch","input":{"done":{"op":"set","value":true}}}',
+  );
+});
+
 test("optional remove and empty string remain distinct from omitted fields", async ({
   page,
 }) => {

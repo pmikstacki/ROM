@@ -1,0 +1,59 @@
+[WebServer] (node:2939280) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 42 tests using 2 workers
+
+(node:2939349) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2939348) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [webkit] › tests/components/controls.spec.ts:6:1 › Resource controls preserve integer, presence, boolean and nested edits (369ms)
+  ✓   1 [webkit] › tests/components/application.spec.ts:9:1 › real SDK composes two metadata-driven pages; logout clears details (434ms)
+  ✓   4 [webkit] › tests/components/application.spec.ts:84:1 › real app reports unavailable session without simulated data (269ms)
+  ✓   3 [webkit] › tests/components/controls.spec.ts:34:1 › same field hosts support custom codec, nested collections and generic action input (421ms)
+  ✓   5 [webkit] › tests/components/application.spec.ts:97:1 › moving pages use native query anchors and previous refetches (376ms)
+  ✓   6 [webkit] › tests/components/controls.spec.ts:54:1 › unsupported action stays visible, generic table selects, query emits values (336ms)
+  ✓   7 [webkit] › tests/components/details.spec.ts:2:1 › live revision retains draft and disables stale submission until explicit reload (348ms)
+(node:2939817) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [webkit] › tests/components/controls.spec.ts:71:1 › keyboard controls and assembled accessibility (727ms)
+  ✓  10 [webkit] › tests/components/controls.spec.ts:81:1 › descriptor change retains an open draft and requires explicit reopen (371ms)
+  ✓   9 [chromium] › tests/components/application.spec.ts:9:1 › real SDK composes two metadata-driven pages; logout clears details (448ms)
+  ✓  12 [chromium] › tests/components/application.spec.ts:84:1 › real app reports unavailable session without simulated data (111ms)
+  ✓  11 [webkit] › tests/components/controls.spec.ts:127:1 › invalid field keeps keyboard focus and cannot submit until corrected (297ms)
+  ✓  14 [webkit] › tests/components/controls.spec.ts:153:1 › native select checkbox and submit keyboard semantics preserve a boolean (267ms)
+  ✓  13 [chromium] › tests/components/application.spec.ts:97:1 › moving pages use native query anchors and previous refetches (327ms)
+  ✓  16 [chromium] › tests/components/controls.spec.ts:6:1 › Resource controls preserve integer, presence, boolean and nested edits (191ms)
+  ✓  15 [webkit] › tests/components/controls.spec.ts:172:1 › optional remove and empty string remain distinct from omitted fields (349ms)
+  ✓  17 [chromium] › tests/components/controls.spec.ts:34:1 › same field hosts support custom codec, nested collections and generic action input (241ms)
+  ✓  19 [chromium] › tests/components/controls.spec.ts:54:1 › unsupported action stays visible, generic table selects, query emits values (226ms)
+  ✓  18 [webkit] › tests/components/controls.spec.ts:193:1 › nested invalid input survives sibling edits and removal releases only its error (424ms)
+  ✓  21 [webkit] › tests/components/controls.spec.ts:212:1 › enum reference and prototype-shaped map keys use generic controls (339ms)
+  ✓  20 [chromium] › tests/components/controls.spec.ts:71:1 › keyboard controls and assembled accessibility (543ms)
+  ✓  22 [webkit] › tests/components/controls.spec.ts:230:1 › opaque input uses the shared strict lossless codec (315ms)
+  ✓  23 [chromium] › tests/components/controls.spec.ts:81:1 › descriptor change retains an open draft and requires explicit reopen (213ms)
+  ✓  25 [chromium] › tests/components/controls.spec.ts:127:1 › invalid field keeps keyboard focus and cannot submit until corrected (176ms)
+  ✓  24 [webkit] › tests/components/controls.spec.ts:246:1 › sort field is independent from filter field (327ms)
+  ✓  26 [chromium] › tests/components/controls.spec.ts:153:1 › native select checkbox and submit keyboard semantics preserve a boolean (143ms)
+  ✓  27 [webkit] › tests/components/controls.spec.ts:260:1 › sort picker excludes collection fields but retains scalar fields (264ms)
+  ✓  28 [chromium] › tests/components/controls.spec.ts:172:1 › optional remove and empty string remain distinct from omitted fields (241ms)
+  ✓  30 [chromium] › tests/components/controls.spec.ts:193:1 › nested invalid input survives sibling edits and removal releases only its error (279ms)
+  ✓  29 [webkit] › tests/components/controls.spec.ts:268:1 › wrapped custom codecs apply only to leaves; unknown leaves remain read-only (415ms)
+  ✓  31 [chromium] › tests/components/controls.spec.ts:212:1 › enum reference and prototype-shaped map keys use generic controls (210ms)
+  ✓  33 [chromium] › tests/components/controls.spec.ts:230:1 › opaque input uses the shared strict lossless codec (189ms)
+  ✓  32 [webkit] › tests/components/controls.spec.ts:325:1 › query filters preserve wrapper provenance and edit only registered leaves (304ms)
+  ✓  34 [chromium] › tests/components/controls.spec.ts:246:1 › sort field is independent from filter field (195ms)
+  ✓  36 [chromium] › tests/components/controls.spec.ts:260:1 › sort picker excludes collection fields but retains scalar fields (125ms)
+ROM_TABLE_FRAME {"engine":"webkit","rows":100,"columns":16,"cells_before":1600,"cells_after_clear":0,"navigation_to_visible_frame_ms":214,"clear_to_frame_ms":71,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  35 [webkit] › tests/components/controls.spec.ts:341:3 › finite generic table 100 row frame and DOM retention sample (537ms)
+  ✓  37 [chromium] › tests/components/controls.spec.ts:268:1 › wrapped custom codecs apply only to leaves; unknown leaves remain read-only (294ms)
+  ✓  39 [chromium] › tests/components/controls.spec.ts:325:1 › query filters preserve wrapper provenance and edit only registered leaves (179ms)
+ROM_TABLE_FRAME {"engine":"chromium","rows":100,"columns":16,"cells_before":1600,"cells_after_clear":0,"navigation_to_visible_frame_ms":193.80000001192093,"clear_to_frame_ms":68.19999998807907,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  40 [chromium] › tests/components/controls.spec.ts:341:3 › finite generic table 100 row frame and DOM retention sample (403ms)
+ROM_TABLE_FRAME {"engine":"chromium","rows":500,"columns":16,"cells_before":8000,"cells_after_clear":0,"navigation_to_visible_frame_ms":879.1000000238419,"clear_to_frame_ms":118.69999998807907,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  41 [chromium] › tests/components/controls.spec.ts:341:3 › finite generic table 500 row frame and DOM retention sample (1.2s)
+ROM_TABLE_FRAME {"engine":"webkit","rows":500,"columns":16,"cells_before":8000,"cells_after_clear":0,"navigation_to_visible_frame_ms":1151,"clear_to_frame_ms":530,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  38 [webkit] › tests/components/controls.spec.ts:341:3 › finite generic table 500 row frame and DOM retention sample (2.0s)
+  ✓  42 [chromium] › tests/components/details.spec.ts:2:1 › live revision retains draft and disables stale submission until explicit reload (188ms)
+
+  42 passed (9.3s)

@@ -11,7 +11,7 @@
   } from "../../src/lib/client/types.ts";
   import CustomCode from "./CustomCode.svelte";
   registerRenderer({ name: "fixture-code", version: 1 }, CustomCode);
-  const descriptor: ResourceDescriptor = {
+  let descriptor = $state.raw<ResourceDescriptor>({
     kind: "fixture",
     version: 1,
     fields: [
@@ -77,7 +77,7 @@
       },
       { name: "opaque", version: 1, input: null },
     ],
-  };
+  });
   const requestedRows = new URL(location.href).searchParams.get(
     "benchmark_rows",
   );
@@ -102,17 +102,26 @@
   let opaqueSubmitted = $state("");
   let selected = $state("");
   let query = $state("");
+  let formGeneration = $state(0);
 </script>
 
 <main>
   <h1>ROM reusable control tests</h1>
   <p>Test fixtures, not simulated application data.</p>
-  <ResourceForm
-    {descriptor}
-    submit={async (value) => {
-      submitted = stringifyWire(value);
-    }}
-  />
+  <button
+    onclick={() =>
+      (descriptor = { ...descriptor, version: descriptor.version + 1 })}
+    >Advance fixture descriptor</button
+  >
+  <button onclick={() => formGeneration++}
+    >Discard draft and reopen fixture</button
+  >
+  {#key formGeneration}<ResourceForm
+      {descriptor}
+      submit={async (value) => {
+        submitted = stringifyWire(value);
+      }}
+    />{/key}
   <output data-testid="submitted">{submitted}</output>
   <ResourceTable
     {descriptor}
