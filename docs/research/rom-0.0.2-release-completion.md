@@ -41,6 +41,22 @@ passed 114 Chromium/WebKit component cases. The reviewer confirmed the source
 fix and inspected the new tests. This does not change the pending release
 artifact or preview boundary.
 
+Commit `948bd70` made the mobile Create action the same square size as the
+other icon controls. The full Studio check passed with zero Svelte errors or
+warnings and 114 Chromium/WebKit component cases. The VPN preview served the
+built `index.html` with SHA-256
+`80b809e279e0c3948b078542142a60e05de6cd5b4e3573f826ae6cd5b49a16f3`.
+The preview still uses an older native executable and is not the accepted
+release deployment.
+
+Commit `1e6c8dd` corrected UTF-8 decoding across process-output chunks in
+the skills runner. A regression reproduced the replacement-character failure
+before the change. The [skills-tooling test log](evidence/rom-0.0.2/release-readiness/skills-process-1e6c8dd.log)
+records nine passing tests after the change. Its SHA-256 is
+`52e0b1fed83d9a1d83a7fe0a0e629945ea676909d51edc46d2a6bbd13d77a1bf`.
+This check does not execute all four bundled skill examples or the full
+release producer.
+
 The shared disk has a 92 GiB safety floor. The most recent approved producer
 plan requires a finite reservation and advance launch notice. A source change
 requires a fresh admission and source identity check. Do not start an

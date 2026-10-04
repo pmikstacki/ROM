@@ -24,6 +24,7 @@ Do not use their six-gate result as evidence for the current eight-gate profile.
 | Actual wire responses support parser comparison | [Parser measurements](rom-0.0.2-wire-parser-results.md) | Small seeded responses; adoption-order deviation recorded; no universal speed claim. |
 | Production assets include source-bound notices | [Runtime notices](rom-0.0.2-runtime-notices-results.md) | Scoped fresh build and notice admission; final producer binding remains pending. |
 | Local supervision rejects invalid process limits | [Process admission](rom-0.0.2-process-admission-results.md) | Pre-spawn rejection and 57 focused tests; no aggregate disk bound. |
+| Skill process logs preserve split UTF-8 output | [Skills-tooling test log](evidence/rom-0.0.2/release-readiness/skills-process-1e6c8dd.log) | Nine process and bundle tests passed after a regression reproduced the prior decoding error; bundled examples and the full producer remain pending. |
 | Independent review examines shared acceptance invariants | [Final slices review](rom-0.0.2-final-slices-review.md) | Source/evidence inspection and named mechanism probes; no independent full producer run. |
 | Current frontend runs full native browser workflows | [Filter workspace follow-up](rom-0.0.2-filter-workspace-verification.md) | 24 of 24 host scenarios passed across Chromium/WebKit and SQLite/redb with current assets and the maintained existing native binary; not extracted-source gate 8. |
 
