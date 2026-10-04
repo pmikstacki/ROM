@@ -1,0 +1,76 @@
+{
+  "type": "read-only API and source inspection, no release invocation",
+  "revision": "077fabceeca832ec7f94139c9da802d2724c2495",
+  "verifier": {
+    "name": "verifyArtifacts",
+    "parameters": 1
+  },
+  "profile": {
+    "profile_version": 1,
+    "package_version": "0.0.2",
+    "rust_version": "1.99",
+    "features": [
+      "field",
+      "storage",
+      "blob"
+    ],
+    "optional_cargo_features": [
+      "blob"
+    ],
+    "native_storage_format": 8,
+    "archive_format": 6,
+    "query_versions": {
+      "semantics": 1,
+      "profile": 1,
+      "encoding": 1
+    },
+    "operator_protocol_version": 1,
+    "custom_codec_version_owner": "Resource descriptor and retained historical request codec",
+    "independent_field_registry": false,
+    "stable_binary_abi": false,
+    "dynamic_loader": false,
+    "publication_enabled": false
+  },
+  "gates": [
+    [
+      "./scripts/check",
+      []
+    ],
+    [
+      "./scripts/build",
+      [
+        "--release"
+      ]
+    ],
+    [
+      "./demo/verify",
+      []
+    ],
+    [
+      "./demo/verify-provider",
+      []
+    ],
+    [
+      "./scripts/check-skills",
+      []
+    ],
+    [
+      "node",
+      [
+        "scripts/check-packages.mjs",
+        "/root/ROM/.worktrees/release-query-index"
+      ]
+    ],
+    [
+      "./scripts/studio-browser-runtime-check",
+      []
+    ],
+    [
+      "./demo/verify-studio",
+      [
+        "--assets-dir",
+        "/private/extracted/assets"
+      ]
+    ]
+  ]
+}

@@ -124,3 +124,22 @@ This command runs the same fresh locked build and actual-host acceptance on extr
 It rejects an existing output directory. It retains package and command evidence.
 It has no argument to skip browsers or substitute an existing build.
 Its success is a Studio package check. It does not replace the producer's complete eight-gate acceptance.
+
+## Verify completed artifacts independently
+
+From the supplied source checkout, run the verifier against the completed artifact directory:
+
+```sh
+node --input-type=module - "$ARTIFACT_DIRECTORY" <<'JS'
+import { verifyArtifacts } from './scripts/release-artifacts/verification.mjs';
+const manifest = await verifyArtifacts(process.argv[2]);
+console.log(JSON.stringify({
+  complete: manifest.complete,
+  source_revision: manifest.source.revision,
+  manifest_version: manifest.manifest_version,
+}));
+JS
+```
+
+The verifier reconstructs source and asset identities and validates the recorded gate contract.
+It does not rerun browsers or claim that checksums alone establish application behavior.
