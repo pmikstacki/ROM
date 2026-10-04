@@ -106,9 +106,11 @@ first showed that the field menu's “Set a value” action inserted a default
 instead of the current value; after the correction it passed. Current checks:
 83 unit tests, 49 browser component tests, Svelte typecheck with no errors or
 warnings, and the Studio production build. Twelve real-host Chromium scenarios
-passed across SQLite and redb with the current generic assets and an existing
-native binary. Two more real-host scenarios passed with the explicit
-`demo-ticket-code` renderer registered. Those scenarios edited the scalar,
+passed across SQLite and redb after the collection controls changed. They used
+an existing native binary. One complete SQLite workflow was rerun after the
+final null-versus-absent display change. Two real-host scenarios also passed
+with the explicit `demo-ticket-code` renderer registered. Those scenarios
+edited the scalar,
 optional, and list-wrapped custom values while the opaque codec stayed
 read-only. The full native release gate is still pending.
 

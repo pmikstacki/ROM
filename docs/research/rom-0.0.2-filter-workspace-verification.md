@@ -116,3 +116,12 @@ Evidence: `/root/ipi/research/disk-coordination-2026-10-04/webkit-lifecycle-capt
 
 These results permit continued candidate verification. They do not prove full clean-source release acceptance or preview deployment.
 The approved quick-filter popover and Filters / Details sidebar remain unchanged.
+
+### Current preview host diagnostic
+
+The final frontend source at `0c40007995ada63f8e3304593ccbacc9deaca4c8` was built into the temporary Studio preview assets.
+An actual host browser run passed 24 of 24 scenarios across Chromium, WebKit, SQLite, and redb.
+It covered human login, generic Resource workflows, attachments, shutdown, bounded frames, and two-tab authority changes.
+The run used the maintained existing native binary with SHA-256 `c93a20cfc1d92cc6e3e6f613105bbbcc61468179008fc118fafabb994d1c88f3`.
+The external evidence is `ROM-current-preview-host-runtime-audit.json` and `ROM-current-preview-host-runtime.log` under `/root/ipi/research/disk-coordination-2026-10-04/`.
+This diagnostic does not satisfy gate 8, which requires a fresh source build and extracted release assets.
