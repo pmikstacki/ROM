@@ -416,6 +416,32 @@ for (const backend of ["sqlite", "redb"])
       await expect(
         row.getByRole("cell", { name: "2", exact: true }),
       ).toBeVisible();
+      await page
+        .getByRole("button", { name: "Open shutdown-file", exact: true })
+        .click();
+      // Explicit negative probe changes real post-restart bytes after the host response.
+      if (process.env.ROM_STUDIO_RECOVERY_CORRUPT_DOWNLOAD === "1") {
+        await page.route(
+          "**/blobs/attachment?id=shutdown-file",
+          async (route) => {
+            const actual = await route.fetch();
+            const bytes = await actual.body();
+            bytes[0] ^= 1;
+            await route.fulfill({ response: actual, body: bytes });
+          },
+        );
+      }
+      const downloadEvent = page.waitForEvent("download");
+      await page
+        .getByRole("button", { name: "Download attachment", exact: true })
+        .click();
+      const recoveredDownload = await downloadEvent;
+      const recoveredStream = await recoveredDownload.createReadStream();
+      const recoveredChunks = [];
+      for await (const chunk of recoveredStream) recoveredChunks.push(chunk);
+      expect(Buffer.concat(recoveredChunks).toString()).toBe(
+        "survives SIGTERM",
+      );
     } finally {
       release();
       await other.close();

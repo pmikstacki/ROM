@@ -1,0 +1,98 @@
+
+Running 4 tests using 1 worker
+
+(node:2866092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  1 [chromium] › tests/runtime/host.spec.ts:311:3 › real sqlite OS SIGTERM drains accepted publication and OIDC work (1.6s)
+(node:2866441) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  2 [chromium] › tests/runtime/host.spec.ts:311:3 › real redb OS SIGTERM drains accepted publication and OIDC work (1.5s)
+(node:2866710) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  3 [webkit] › tests/runtime/host.spec.ts:311:3 › real sqlite OS SIGTERM drains accepted publication and OIDC work (1.6s)
+(node:2867007) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  4 [webkit] › tests/runtime/host.spec.ts:311:3 › real redb OS SIGTERM drains accepted publication and OIDC work (1.6s)
+
+
+  1) [chromium] › tests/runtime/host.spec.ts:311:3 › real sqlite OS SIGTERM drains accepted publication and OIDC work 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "survives SIGTERM"
+    Received: "rurvives SIGTERM"
+
+      440 |       const recoveredChunks = [];
+      441 |       for await (const chunk of recoveredStream) recoveredChunks.push(chunk);
+    > 442 |       expect(Buffer.concat(recoveredChunks).toString()).toBe(
+          |                                                         ^
+      443 |         "survives SIGTERM",
+      444 |       );
+      445 |     } finally {
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:442:57
+
+    Error Context: test-results/host-real-sqlite-OS-SIGTER-6f441-d-publication-and-OIDC-work-chromium/error-context.md
+
+  2) [chromium] › tests/runtime/host.spec.ts:311:3 › real redb OS SIGTERM drains accepted publication and OIDC work 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "survives SIGTERM"
+    Received: "rurvives SIGTERM"
+
+      440 |       const recoveredChunks = [];
+      441 |       for await (const chunk of recoveredStream) recoveredChunks.push(chunk);
+    > 442 |       expect(Buffer.concat(recoveredChunks).toString()).toBe(
+          |                                                         ^
+      443 |         "survives SIGTERM",
+      444 |       );
+      445 |     } finally {
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:442:57
+
+    Error Context: test-results/host-real-redb-OS-SIGTERM--9c663-d-publication-and-OIDC-work-chromium/error-context.md
+
+  3) [webkit] › tests/runtime/host.spec.ts:311:3 › real sqlite OS SIGTERM drains accepted publication and OIDC work 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "survives SIGTERM"
+    Received: "rurvives SIGTERM"
+
+      440 |       const recoveredChunks = [];
+      441 |       for await (const chunk of recoveredStream) recoveredChunks.push(chunk);
+    > 442 |       expect(Buffer.concat(recoveredChunks).toString()).toBe(
+          |                                                         ^
+      443 |         "survives SIGTERM",
+      444 |       );
+      445 |     } finally {
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:442:57
+
+    Error Context: test-results/host-real-sqlite-OS-SIGTER-6f441-d-publication-and-OIDC-work-webkit/error-context.md
+
+  4) [webkit] › tests/runtime/host.spec.ts:311:3 › real redb OS SIGTERM drains accepted publication and OIDC work 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "survives SIGTERM"
+    Received: "rurvives SIGTERM"
+
+      440 |       const recoveredChunks = [];
+      441 |       for await (const chunk of recoveredStream) recoveredChunks.push(chunk);
+    > 442 |       expect(Buffer.concat(recoveredChunks).toString()).toBe(
+          |                                                         ^
+      443 |         "survives SIGTERM",
+      444 |       );
+      445 |     } finally {
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:442:57
+
+    Error Context: test-results/host-real-redb-OS-SIGTERM--9c663-d-publication-and-OIDC-work-webkit/error-context.md
+
+  4 failed
+    [chromium] › tests/runtime/host.spec.ts:311:3 › real sqlite OS SIGTERM drains accepted publication and OIDC work 
+    [chromium] › tests/runtime/host.spec.ts:311:3 › real redb OS SIGTERM drains accepted publication and OIDC work 
+    [webkit] › tests/runtime/host.spec.ts:311:3 › real sqlite OS SIGTERM drains accepted publication and OIDC work 
+    [webkit] › tests/runtime/host.spec.ts:311:3 › real redb OS SIGTERM drains accepted publication and OIDC work 

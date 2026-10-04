@@ -46,3 +46,11 @@ The reviewer found that HTTP 500 was treated as a confirmed failure. That discar
 After these corrections, all four actual attachment browser cases passed again. See [the review regression](evidence/rom-0.0.2/attachments/http500-red.log), [the controller results](evidence/rom-0.0.2/attachments/controller-results.log), and [the browser rerun](evidence/rom-0.0.2/attachments/review-fix-browser-results.log).
 
 The reviewer also found that the query editor omitted `codec_wrappers`. This could pass a whole list to a registered leaf renderer. The query editor now forwards the wrapper path. A browser regression builds a list filter through its registered leaf renderer. It failed on both engines before the fix and passed on both engines afterward. See [the failure](evidence/rom-0.0.2/attachments/query-wrapper-red.log) and [the passing result](evidence/rom-0.0.2/attachments/query-wrapper-green.log).
+
+## Exact-byte recovery check
+
+The SIGTERM scenario now downloads the attachment after the native process restarts. It compares the recovered bytes with `survives SIGTERM`. The check passed on both stores and both browser engines.
+
+A controlled negative probe changes the first byte of the real post-restart download response. All four cases failed at the byte comparison: expected `survives SIGTERM`, received `rurvives SIGTERM`. The probe does not replace the host, database, upload or restart. It changes only the response bytes after the real host returns them. Without that corruption, all four cases passed. See [the failure](evidence/rom-0.0.2/recovery-bytes/corrupted-download-red.log) and [the passing result](evidence/rom-0.0.2/recovery-bytes/download-green.log).
+
+A separate rerun could not start Studio because a concurrent workspace gate had replaced the shared demo executable with a build without the `studio` feature. That setup failure is retained separately. The passing focused probe used an immutable copy of the freshly built feature-enabled executable. [Both executable hashes](evidence/rom-0.0.2/recovery-bytes/native-binary.sha256) are equal. The production release gate still builds its own current-source executable; it does not use this focused-test override.
