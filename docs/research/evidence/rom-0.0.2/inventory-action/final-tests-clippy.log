@@ -1,0 +1,23 @@
+   Compiling rom-demo v0.0.2 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.71s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-613e289cb7e48620)
+
+running 1 test
+test studio_model_tests::inventory_restock_is_discovered_and_rejects_overflow_without_commit ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.00s
+
+   Compiling rom-derive v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-derive)
+    Checking rom v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+    Checking rom-auth v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+    Checking rom-backup v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+    Checking rom-blob v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob)
+    Checking rom-identity v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+    Checking rom-http v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+    Checking rom-redb v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+    Checking rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Checking rom-config v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-config)
+    Checking rom-blob-object-store v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob-object-store)
+    Checking rom-sqlite v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+    Checking rom-demo v0.0.2 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.60s

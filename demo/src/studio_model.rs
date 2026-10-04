@@ -1,4 +1,5 @@
 //! Held-out declaration and codec identities for the explicit Studio demo extension.
+use crate::InventoryItem;
 use rom::{Action, CodecIdentity, Field, Resource, Result, Shape, Value};
 
 #[derive(Clone)]
@@ -73,5 +74,14 @@ pub struct MaintenanceTicket {
 }
 pub const CLOSE: Action<MaintenanceTicket, ()> = Action::new("close", |ticket, ()| {
     ticket.open = false;
+    Ok(vec![])
+});
+
+/// Scalar input uses the same discovered action form as object and unit inputs.
+pub const RESTOCK: Action<InventoryItem, u64> = Action::new("restock", |item, quantity| {
+    item.quantity = item
+        .quantity
+        .checked_add(quantity)
+        .ok_or_else(|| rom::Error::invalid("quantity", "stock quantity overflow"))?;
     Ok(vec![])
 });

@@ -67,3 +67,6 @@ mod studio_profile_tests;
 mod host_files;
 #[cfg(all(test, any(feature = "studio", feature = "provider-profile")))]
 mod host_files_tests;
+
+#[cfg(all(feature = "studio", test))]
+mod studio_model_tests;

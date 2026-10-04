@@ -1,0 +1,20 @@
+   Compiling rom-demo v0.0.2 (/workspace/ROM/.worktrees/release-query-index/demo)
+warning: unused import: `Field`
+ --> demo/src/studio_model_tests.rs:2:20
+  |
+2 | use rom::{Command, Field, Invocation, Operation, Resource, Value};
+  |                    ^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `rom-demo` (lib test) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.64s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-613e289cb7e48620)
+
+running 1 test
+test studio_model_tests::inventory_restock_is_discovered_and_rejects_overflow_without_commit ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.00s
+
+   Compiling rom-demo v0.0.2 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.66s

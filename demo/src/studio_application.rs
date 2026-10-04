@@ -2,7 +2,7 @@
 use crate::{
     COMPLETE, DISPLAY, Dashboard, InventoryItem, NOTICE, Task,
     model::completed,
-    studio_model::{CLOSE, MaintenanceTicket},
+    studio_model::{CLOSE, MaintenanceTicket, RESTOCK},
 };
 use rom::operator::{OperatorAccess, OperatorAuthorizer, WorkScope};
 use rom::{Actor, DeliveryOutcome, PrincipalKind, Reaction, Resource, Result, Runtime, Storage};
@@ -83,7 +83,8 @@ pub fn build(storage: Arc<dyn Storage>, clock: Arc<dyn rom::Clock>) -> Result<Ru
             InventoryItem::definition()
                 .policy(|a, _, _| domain(a))
                 .allow_all_fields()
-                .discovery_policy(|a, _| domain(a)),
+                .discovery_policy(|a, _| domain(a))
+                .action(RESTOCK),
         )
         .resource(
             Dashboard::definition()
