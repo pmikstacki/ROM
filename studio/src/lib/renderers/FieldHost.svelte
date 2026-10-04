@@ -8,9 +8,11 @@
   import ValueDisplay from "./ValueDisplay.svelte";
   import ValueEditor from "./ValueEditor.svelte";
   import { findRenderer } from "./registry.ts";
-  import { defaultValue } from "./default-value.ts";
+  import { baseShape, defaultValue } from "./default-value.ts";
   import * as DropdownMenu from "../components/ui/dropdown-menu/index.js";
-  import { Button } from "../components/ui/button/index.js";
+  import * as Dialog from "../components/ui/dialog/index.js";
+  import MoreHorizontalIcon from "@lucide/svelte/icons/more-horizontal";
+  import InfoIcon from "@lucide/svelte/icons/info";
   let {
     descriptor,
     intent,
@@ -46,8 +48,23 @@
         ? current
         : defaultValue(descriptor.shape),
   );
+  let collection = $derived(
+    baseShape(descriptor.shape).type === "list" ||
+      baseShape(descriptor.shape).type === "map",
+  );
+  let expandedControl = $derived(collection || !!descriptor.codec);
+  let expandedLabel = $derived(
+    Array.isArray(shown)
+      ? `${shown.length} ${shown.length === 1 ? "item" : "items"} · Edit`
+      : shown !== null && typeof shown === "object"
+        ? `${Object.keys(shown).length} ${Object.keys(shown).length === 1 ? "entry" : "entries"} · Edit`
+        : "Edit value",
+  );
+  let expandedOpen = $state(false);
+  let editorGeneration = $state(0);
   function mode(next: string) {
     if (readonly || unknownCodec) return;
+    if (direct) editorGeneration += 1;
     onerror("");
     onchange(
       next === "value"
@@ -63,115 +80,137 @@
   }
 </script>
 
-<fieldset
-  class="resource-field space-y-2 rounded-lg border p-3"
-  class:border-primary={direct && intent.mode !== "omit"}
->
-  {#if direct}
-    <legend class="px-1 text-sm font-medium"
-      >{descriptor.name.replaceAll("_", " ")}</legend
-    >
-    {#if unknownCodec}<p class="text-sm text-muted-foreground">
-        No safe editor for {descriptor.codec?.name} v{descriptor.codec
-          ?.version}. Its value stays unchanged.
-      </p>
-      <div class="break-all text-sm">
-        <ValueDisplay {descriptor} value={current} />
-      </div>{:else}
-      <div class="flex items-center justify-between gap-2">
-        <span class="text-xs text-muted-foreground">
-          {intent.mode === "omit" ? "Unchanged" : "Edited"}
-        </span>
-        <DropdownMenu.Root>
-          <DropdownMenu.Trigger
-            disabled={readonly}
-            aria-label={`${descriptor.name} options`}
-            class="rounded-md px-2 py-1 text-sm text-muted-foreground hover:bg-muted"
-            >···</DropdownMenu.Trigger
-          >
-          <DropdownMenu.Content align="end">
-            <DropdownMenu.Item disabled={readonly} onclick={() => mode("omit")}
-              >Leave unchanged</DropdownMenu.Item
-            >
-            <DropdownMenu.Item disabled={readonly} onclick={() => mode("value")}
-              >Set a value</DropdownMenu.Item
-            >
-            {#if nullable}<DropdownMenu.Item
-                disabled={readonly}
-                onclick={() => mode("null")}>Set null</DropdownMenu.Item
-              >{/if}
-            {#if optional}<DropdownMenu.Item
-                disabled={readonly}
-                onclick={() => mode("remove")}>Remove field</DropdownMenu.Item
-              >{/if}
-          </DropdownMenu.Content>
-        </DropdownMenu.Root>
-      </div>
-      {#if intent.mode === "omit" && nullable && current === null}<p
-          class="text-xs text-muted-foreground"
-        >
-          Current value: null
-        </p>{:else if intent.mode === "omit" && optional && current === undefined}<p
-          class="text-xs text-muted-foreground"
-        >
-          Current value: not set
-        </p>{/if}
-      {#if intent.mode === "null" || intent.mode === "remove"}<p
-          class="text-sm text-muted-foreground"
-        >
-          {intent.mode === "null" ? "Set to null" : "Remove this field"}
-        </p>
-        <Button
-          type="button"
-          size="sm"
-          variant="outline"
-          disabled={readonly}
-          onclick={() => mode("value")}>Enter a value</Button
-        >{:else}<ValueEditor
-          shape={descriptor.shape}
-          codec={descriptor.codec}
-          codecWrappers={descriptor.codec_wrappers}
-          value={shown}
-          onchange={(value) => onchange({ mode: "value", value })}
-          label={descriptor.name}
-          {readonly}
-          {onerror}
-          {direct}
-          showLabel={false}
-        />{/if}
-    {/if}
-    {#if error}<p role="alert">{error}</p>{/if}
+{#snippet valueControl()}
+  {#if expandedControl}
+    <Dialog.Root bind:open={expandedOpen}>
+      <Dialog.Trigger
+        disabled={readonly}
+        class="inline-flex h-9 max-w-full items-center truncate rounded-md px-2 text-sm text-primary hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
+        aria-label={`Edit ${descriptor.name}`}>{expandedLabel}</Dialog.Trigger
+      >
+      <Dialog.Content class="max-h-[80dvh] overflow-y-auto sm:max-w-xl">
+        <Dialog.Header>
+          <Dialog.Title>{descriptor.name.replaceAll("_", " ")}</Dialog.Title>
+          <Dialog.Description>
+            Changes stay in the draft until you save the Resource.
+          </Dialog.Description>
+        </Dialog.Header>
+        {#key editorGeneration}<ValueEditor
+            shape={descriptor.shape}
+            codec={descriptor.codec}
+            codecWrappers={descriptor.codec_wrappers}
+            value={shown}
+            onchange={(value) => onchange({ mode: "value", value })}
+            label={descriptor.name}
+            {readonly}
+            {onerror}
+            {direct}
+            showLabel={false}
+          />{/key}
+      </Dialog.Content>
+    </Dialog.Root>
   {:else}
-    {#if descriptor.codec && !findRenderer(descriptor.codec)}<p>
-        Custom editor unavailable for {descriptor.codec.name} version {descriptor
-          .codec.version}. Existing values are preserved.
-      </p>{/if}
-    <legend class="px-1 text-sm font-medium">{descriptor.name}</legend>
-    <div class="space-y-1.5">
-      <span class="text-xs text-muted-foreground">Operation</span>
-      <SelectAdapter
+    {#key editorGeneration}<ValueEditor
+        shape={descriptor.shape}
+        codec={descriptor.codec}
+        codecWrappers={descriptor.codec_wrappers}
+        value={shown}
+        onchange={(value) => onchange({ mode: "value", value })}
+        label={descriptor.name}
+        {readonly}
+        {onerror}
+        {direct}
+        showLabel={false}
+      />{/key}
+  {/if}
+{/snippet}
+
+<div
+  role="group"
+  aria-label={descriptor.name.replaceAll("_", " ")}
+  class="resource-field grid grid-cols-[minmax(6.5rem,0.34fr)_minmax(0,1fr)_2.25rem] items-center gap-x-2 gap-y-1 border-b border-border/60 py-2.5 last:border-b-0"
+>
+  <span class="min-w-0 break-words text-sm font-medium"
+    >{descriptor.name.replaceAll("_", " ")}</span
+  >
+  <div class="col-start-2 row-start-1 min-w-0">
+    {#if unknownCodec}<div
+        class="truncate text-sm text-muted-foreground"
+        title={`No safe editor for ${descriptor.codec?.name} v${descriptor.codec?.version}. Its value stays unchanged.`}
+      ><ValueDisplay {descriptor} value={current} /></div
+      >{:else if intent.mode === "null"}<span class="text-sm text-muted-foreground"
+        >Set to null</span
+      >{:else if intent.mode === "remove"}<span class="text-sm text-muted-foreground"
+        >Remove this field</span
+      >{:else if direct && intent.mode === "omit" && nullable && current === null}<span
+        class="text-sm text-muted-foreground">Current value: null</span
+      >{:else if direct && intent.mode === "omit" && optional && current === undefined}<span
+        class="text-sm text-muted-foreground">Current value: not set</span
+      >{:else if !direct && intent.mode === "omit"}<span
+        class="text-sm text-muted-foreground">Unchanged / omitted</span
+      >{:else}{@render valueControl()}{/if}
+  </div>
+  <div class="col-start-3 row-start-1 justify-self-end">
+    {#if unknownCodec}<Dialog.Root>
+        <Dialog.Trigger
+          aria-label={`${descriptor.name} read-only details`}
+          class="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
+          ><InfoIcon class="size-4" /></Dialog.Trigger
+        >
+        <Dialog.Content class="max-h-[80dvh] overflow-y-auto sm:max-w-xl">
+          <Dialog.Header>
+            <Dialog.Title>{descriptor.name.replaceAll("_", " ")}</Dialog.Title>
+            <Dialog.Description>
+              No safe editor for {descriptor.codec?.name} v{descriptor.codec
+                ?.version}. Its value stays unchanged.
+            </Dialog.Description>
+          </Dialog.Header>
+          <div class="break-all text-sm">
+            <ValueDisplay {descriptor} value={current} />
+          </div>
+        </Dialog.Content>
+      </Dialog.Root>{:else if direct}<DropdownMenu.Root>
+        <DropdownMenu.Trigger
+          disabled={readonly}
+          aria-label={`${descriptor.name} options`}
+          title={intent.mode === "omit" ? "Unchanged" : "Edited"}
+          class="relative inline-flex size-9 items-center justify-center rounded-md text-muted-foreground hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
+          ><MoreHorizontalIcon class="size-4" />{#if intent.mode !== "omit"}<span
+              aria-hidden="true"
+              class="absolute right-0 top-0 size-1.5 rounded-full bg-primary"
+            ></span>{/if}</DropdownMenu.Trigger
+        >
+        <DropdownMenu.Content align="end">
+          <DropdownMenu.Item disabled={readonly} onclick={() => mode("omit")}
+            >Leave unchanged</DropdownMenu.Item
+          >
+          <DropdownMenu.Item disabled={readonly} onclick={() => mode("value")}
+            >Set a value</DropdownMenu.Item
+          >
+          {#if nullable}<DropdownMenu.Item
+              disabled={readonly}
+              onclick={() => mode("null")}>Set null</DropdownMenu.Item
+            >{/if}
+          {#if optional}<DropdownMenu.Item
+              disabled={readonly}
+              onclick={() => mode("remove")}>Remove field</DropdownMenu.Item
+            >{/if}
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>{:else}<SelectAdapter
         label={`${descriptor.name} mode`}
         value={intent.mode}
-        disabled={readonly || unknownCodec}
+        disabled={readonly}
         onchange={mode}
+        compact
         options={[
           { value: "omit", label: "Unchanged / omitted" },
           { value: "value", label: "Set value" },
           ...(nullable ? [{ value: "null", label: "Set null" }] : []),
           ...(optional ? [{ value: "remove", label: "Remove value" }] : []),
         ]}
-      />
-    </div>
-    {#if intent.mode === "value"}<ValueEditor
-        shape={descriptor.shape}
-        codec={descriptor.codec}
-        codecWrappers={descriptor.codec_wrappers}
-        value={intent.value}
-        onchange={(value) => onchange({ mode: "value", value })}
-        label={descriptor.name}
-        {readonly}
-        {onerror}
       />{/if}
-    {#if error}<p role="alert">{error}</p>{/if}
-  {/if}
-</fieldset>
+  </div>
+  {#if error}<p role="alert" class="col-span-3 text-sm text-destructive">
+      {error}
+    </p>{/if}
+</div>

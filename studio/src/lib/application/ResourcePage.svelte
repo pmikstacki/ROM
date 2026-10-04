@@ -23,6 +23,13 @@
   import { Input } from "../components/ui/input/index.js";
   import FilterIcon from "@lucide/svelte/icons/list-filter";
   import PanelIcon from "@lucide/svelte/icons/panel-right";
+  import PlusIcon from "@lucide/svelte/icons/plus";
+  import RefreshIcon from "@lucide/svelte/icons/rotate-cw";
+  import ObserveIcon from "@lucide/svelte/icons/radio";
+  import StopIcon from "@lucide/svelte/icons/radio-tower";
+  import FirstPageIcon from "@lucide/svelte/icons/chevrons-left";
+  import PreviousPageIcon from "@lucide/svelte/icons/chevron-left";
+  import NextPageIcon from "@lucide/svelte/icons/chevron-right";
   let {
     controller,
     snapshot,
@@ -139,6 +146,10 @@
     inspectorOpen = true;
     tab = "filters";
   }
+  function openInspector() {
+    inspectorOpen = true;
+    tab = snapshot.selected ? "details" : "filters";
+  }
 </script>
 
 <div class="flex flex-wrap items-center justify-between gap-3">
@@ -148,44 +159,69 @@
       Manage Resources and observe committed changes.
     </p>
   </div>
-  <Button disabled={blocked} onclick={() => (create = !create)}
-    >Create Resource</Button
+  <Button
+    disabled={blocked}
+    aria-label="Create Resource"
+    title="Create Resource"
+    onclick={() => (create = !create)}
+    ><PlusIcon /><span class="hidden lg:inline">Create Resource</span></Button
   >
 </div>
 <div class="flex flex-wrap items-center gap-2 rounded-lg border bg-card p-2">
-  <Popover.Root bind:open={quickOpen}>
-    <Popover.Trigger>
-      {#snippet child({ props })}<Button
-          {...props}
-          variant="outline"
-          size="sm"
-          aria-label="Quick filters"
-          ><FilterIcon />Filters{#if applied.length}<Badge variant="secondary"
-              >{applied.length}</Badge
-            >{/if}</Button
-        >{/snippet}
-    </Popover.Trigger>
-    <Popover.Content
-      role="dialog"
-      forceMount
-      hidden={!quickOpen}
-      aria-label="Quick filters"
-      align="start"
-      class="max-h-[min(80vh,42rem)] w-[min(24rem,calc(100vw-2rem))] overflow-y-auto"
+  <div
+    class="flex shrink-0 items-center gap-1"
+    role="group"
+    aria-label="Filter and details controls"
+  >
+    <Popover.Root bind:open={quickOpen}>
+      <Popover.Trigger>
+        {#snippet child({ props })}<Button
+            {...props}
+            variant="outline"
+            size="sm"
+            class="relative max-lg:size-9"
+            aria-label="Quick filters"
+            title="Quick filters"
+            ><FilterIcon /><span class="hidden lg:inline">Filters</span
+            >{#if applied.length}<Badge
+                variant="secondary"
+                class="max-lg:absolute max-lg:-right-1 max-lg:-top-1 max-lg:min-w-4 max-lg:px-1 max-lg:text-[10px]"
+                >{applied.length}</Badge
+              >{/if}</Button
+          >{/snippet}
+      </Popover.Trigger>
+      <Popover.Content
+        role="dialog"
+        forceMount
+        hidden={!quickOpen}
+        aria-label="Quick filters"
+        align="start"
+        class="max-h-[min(80vh,42rem)] w-[min(24rem,calc(100vw-2rem))] overflow-y-auto"
+      >
+        <div class="flex items-center justify-between gap-2">
+          <h2 class="font-semibold">Quick filters</h2>
+          <Button variant="ghost" size="sm" onclick={fullFilters}
+            >Open full filters</Button
+          >
+        </div>
+        <div bind:this={quickTarget}></div>
+      </Popover.Content>
+    </Popover.Root>
+    <Button
+      variant="ghost"
+      size="sm"
+      class="max-lg:size-9"
+      bind:ref={inspectorTrigger}
+      aria-label="Open details panel"
+      title="Open details panel"
+      onclick={openInspector}
+      ><PanelIcon /><span class="hidden lg:inline">Details panel</span></Button
     >
-      <div class="flex items-center justify-between gap-2">
-        <h2 class="font-semibold">Quick filters</h2>
-        <Button variant="ghost" size="sm" onclick={fullFilters}
-          >Open full filters</Button
-        >
-      </div>
-      <div bind:this={quickTarget}></div>
-    </Popover.Content>
-  </Popover.Root>
+  </div>
   <div
     role="group"
     aria-label="Applied query"
-    class="flex min-w-0 flex-1 flex-wrap gap-1.5"
+    class="order-last flex min-w-0 basis-full flex-wrap gap-1.5 lg:order-none lg:basis-auto lg:flex-1"
   >
     {#each applied as label}<Badge
         variant="secondary"
@@ -198,23 +234,26 @@
   <Button
     variant="ghost"
     size="sm"
+    class="max-lg:size-9"
+    aria-label="Refresh"
+    title="Refresh"
     disabled={snapshot.busy}
-    onclick={() => void controller.refresh()}>Refresh</Button
+    onclick={() => void controller.refresh()}
+    ><RefreshIcon /><span class="hidden lg:inline">Refresh</span></Button
   >
   <Button
     variant="outline"
     size="sm"
+    class="max-lg:size-9"
+    aria-label={snapshot.live ? "Stop live query" : "Observe live query"}
+    title={snapshot.live ? "Stop live query" : "Observe live query"}
     disabled={snapshot.busy}
     onclick={() =>
       snapshot.live ? controller.stopLive() : void controller.observe()}
-    >{snapshot.live ? "Stop live query" : "Observe live query"}</Button
-  >
-  <Button
-    variant="ghost"
-    size="icon-sm"
-    bind:ref={inspectorTrigger}
-    aria-label="Open full filters"
-    onclick={fullFilters}><PanelIcon /></Button
+    >{#if snapshot.live}<StopIcon />{:else}<ObserveIcon />{/if}<span
+      class="hidden lg:inline"
+      >{snapshot.live ? "Stop live query" : "Observe live query"}</span
+    ></Button
   >
 </div>
 {#if snapshot.busy}<p role="status">Loading…</p>{/if}
@@ -258,21 +297,35 @@
       <Button
         variant="outline"
         size="sm"
+        class="max-lg:size-9"
+        aria-label="First page"
+        title="First page"
         disabled={snapshot.busy || snapshot.page === 1}
-        onclick={() => void controller.firstPage()}>First page</Button
+        onclick={() => void controller.firstPage()}
+        ><FirstPageIcon /><span class="hidden lg:inline">First page</span
+        ></Button
       >
       <Button
         variant="outline"
         size="sm"
+        class="max-lg:size-9"
+        aria-label="Previous page"
+        title="Previous page"
         disabled={snapshot.busy || !snapshot.hasPrevious}
-        onclick={() => void controller.previousPage()}>Previous page</Button
+        onclick={() => void controller.previousPage()}
+        ><PreviousPageIcon /><span class="hidden lg:inline">Previous page</span
+        ></Button
       >
       <Button
         variant="outline"
         size="sm"
+        class="max-lg:size-9"
+        aria-label="Next page"
+        title="Next page"
         disabled={snapshot.busy ||
           snapshot.rows.length < (snapshot.query.limit ?? 50)}
-        onclick={() => void controller.nextPage()}>Next page</Button
+        onclick={() => void controller.nextPage()}
+        ><NextPageIcon /><span class="hidden lg:inline">Next page</span></Button
       >
     </nav>
   </div>

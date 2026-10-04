@@ -16,7 +16,10 @@ test("selected Resource shows its current title as a direct editable field", asy
       .getByText("title", { exact: true }),
   ).toHaveCount(1);
   await page.getByLabel("title value", { exact: true }).fill("new title");
-  await expect(page.getByText("Edited", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("title options")).toHaveAttribute(
+    "title",
+    "Edited",
+  );
   await expect(
     page.getByRole("button", { name: "Save 1 change" }),
   ).toBeEnabled();
@@ -41,8 +44,7 @@ test("mobile Resource editor uses the full viewport and a concise heading", asyn
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("tests/components/details.html");
-  await page.getByRole("button", { name: "Open full filters" }).click();
-  await page.getByRole("tab", { name: "Details", exact: true }).click();
+  await page.getByRole("button", { name: "Open details panel" }).click();
   const sheet = page.getByRole("dialog", { name: "Edit Resource" });
   await expect(sheet).toBeVisible();
   const box = await sheet.boundingBox();

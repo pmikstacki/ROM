@@ -96,7 +96,7 @@
   }
 </script>
 
-<form class="space-y-4" onsubmit={apply}>
+<form onsubmit={apply}>
   {#if changed}<p role="alert">
       Resource definition changed. The draft is preserved. Reopen the form
       before submitting.
@@ -111,7 +111,7 @@
       readonly={readonly || busy || changed}
     />{/each}
   {#if advancedFields.length}<details
-      class="rounded-lg border border-dashed p-3"
+      class="border-b border-border/60 py-3"
     >
       <summary class="cursor-pointer text-sm font-medium">
         Advanced fields · {advancedFields.length} read-only
@@ -130,6 +130,7 @@
   {#if summary}<p role="alert">{summary}</p>{/if}
   <Button
     type="submit"
+    class="mt-4"
     disabled={readonly ||
       busy ||
       changed ||

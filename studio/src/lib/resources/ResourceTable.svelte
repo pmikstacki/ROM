@@ -2,6 +2,7 @@
   import type { ResourceDescriptor, ProjectedView } from "../client/types.ts";
   import * as Table from "../components/ui/table/index.js";
   import { Button } from "../components/ui/button/index.js";
+  import OpenIcon from "@lucide/svelte/icons/arrow-up-right";
   import ValueDisplay from "../renderers/ValueDisplay.svelte";
   let {
     descriptor,
@@ -35,8 +36,15 @@
               mode="cell"
             /></Table.Cell
           >{/each}<Table.Cell
-          ><Button variant="outline" size="sm" onclick={() => onselect(row)}
-            >Open {row.key.id}</Button
+          ><Button
+            variant="outline"
+            size="sm"
+            class="max-lg:size-9"
+            aria-label={`Open ${row.key.id}`}
+            title={`Open ${row.key.id}`}
+            onclick={() => onselect(row)}
+            ><OpenIcon /><span class="hidden lg:inline">Open {row.key.id}</span
+            ></Button
           ></Table.Cell
         ></Table.Row
       >{/each}</Table.Body

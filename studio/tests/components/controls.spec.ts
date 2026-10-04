@@ -22,7 +22,7 @@ test("Resource references identify the target kind while accepting an exact ID",
   await selectValue(page.getByLabel("linked mode", { exact: true }), "value");
   const linked = page.getByLabel("linked value", { exact: true });
   await expect(linked).toHaveAttribute("type", "search");
-  await expect(page.getByText("Resource ID in fixture")).toBeVisible();
+  await expect(linked).toHaveAttribute("placeholder", "Resource ID in fixture");
   await linked.fill("row-2");
   await page.getByRole("button", { name: "Apply patch" }).click();
   await expect(page.getByTestId("submitted")).toContainText('"value":"row-2"');
@@ -59,10 +59,14 @@ test("same field hosts support custom codec, nested collections and generic acti
   page,
 }) => {
   await selectValue(page.getByLabel("code mode", { exact: true }), "value");
+  await page.getByRole("button", { name: "Edit code" }).click();
   await page.getByLabel("code custom value", { exact: true }).fill("ABC");
+  await page.keyboard.press("Escape");
   await selectValue(page.getByLabel("tags mode", { exact: true }), "value");
+  await page.getByRole("button", { name: "Edit tags" }).click();
   await page.getByRole("button", { name: "Add tags item" }).click();
   await page.getByLabel("tags[0] value", { exact: true }).fill("red");
+  await page.keyboard.press("Escape");
   await page.getByRole("button", { name: "Apply patch" }).click();
   await expect(page.getByTestId("submitted")).toContainText("ABC");
   await expect(page.getByTestId("submitted")).toContainText("red");
@@ -133,11 +137,11 @@ test("descriptor change retains an open draft and requires explicit reopen", asy
   });
   await reopen.focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByLabel("count mode", { exact: true })).toContainText(
-    "Unchanged / omitted",
+  await expect(page.getByLabel("count mode", { exact: true })).toHaveAttribute(
+    "title", "Unchanged / omitted",
   );
-  await expect(page.getByLabel("note mode", { exact: true })).toContainText(
-    "Unchanged / omitted",
+  await expect(page.getByLabel("note mode", { exact: true })).toHaveAttribute(
+    "title", "Unchanged / omitted",
   );
   await expect(form.getByRole("alert")).toHaveCount(0);
   await selectValue(page.getByLabel("count mode", { exact: true }), "value");
@@ -182,10 +186,9 @@ test("shared Select Checkbox and submit keyboard semantics preserve a boolean", 
   await page.keyboard.press("Enter");
   await page.keyboard.press("ArrowDown");
   await page.keyboard.press("Enter");
-  await page.keyboard.press("Tab");
   const checkbox = page.getByLabel("done value", { exact: true });
-  await expect(mode).toContainText("Set value");
-  await expect(checkbox).toBeFocused();
+  await expect(mode).toHaveAttribute("title", "Set value");
+  await checkbox.focus();
   await page.keyboard.press("Space");
   await expect(checkbox).toBeChecked();
   await page.getByRole("button", { name: "Apply patch" }).focus();
@@ -220,6 +223,7 @@ test("nested invalid input survives sibling edits and removal releases only its 
   page,
 }) => {
   await selectValue(page.getByLabel("scores mode", { exact: true }), "value");
+  await page.getByRole("button", { name: "Edit scores" }).click();
   await page.getByRole("button", { name: "Add scores item" }).click();
   await page.getByRole("button", { name: "Add scores item" }).click();
   await page
@@ -231,6 +235,7 @@ test("nested invalid input survives sibling edits and removal releases only its 
   ).toBeDisabled();
   await page.getByRole("button", { name: "Remove scores[0]" }).click();
   await expect(page.getByRole("button", { name: "Apply patch" })).toBeEnabled();
+  await page.keyboard.press("Escape");
   await page.getByRole("button", { name: "Apply patch" }).click();
   await expect(page.getByTestId("submitted")).toContainText('"value":[1]');
 });
@@ -243,9 +248,11 @@ test("enum reference and prototype-shaped map keys use generic controls", async 
   await selectValue(page.getByLabel("linked mode", { exact: true }), "value");
   await page.getByLabel("linked value", { exact: true }).fill("row-2");
   await selectValue(page.getByLabel("labels mode", { exact: true }), "value");
+  await page.getByRole("button", { name: "Edit labels" }).click();
   await page.getByLabel("labels new key", { exact: true }).fill("__proto__");
   await page.getByRole("button", { name: "Add labels entry" }).click();
   await page.getByLabel("labels.__proto__ value", { exact: true }).fill("kept");
+  await page.keyboard.press("Escape");
   await page.getByRole("button", { name: "Apply patch" }).click();
   await expect(page.getByTestId("submitted")).toContainText(
     '"__proto__":"kept"',
@@ -313,23 +320,27 @@ test("wrapped custom codecs apply only to leaves; unknown leaves remain read-onl
       .getByLabel("maybe_code custom value", { exact: true }),
   ).toHaveValue("DETAIL");
   await expect(
-    page.getByLabel("unknown_code mode", { exact: true }),
-  ).toBeDisabled();
+    page.getByLabel("unknown_code read-only details", { exact: true }),
+  ).toBeVisible();
   await selectValue(
     page.getByLabel("maybe_code mode", { exact: true }),
     "value",
   );
+  await page.getByRole("button", { name: "Edit maybe_code" }).click();
   await page
-    .locator("form")
-    .first()
+    .getByRole("dialog", { name: "maybe code" })
     .getByLabel("maybe_code custom value", { exact: true })
     .fill("OPTION");
+  await page.keyboard.press("Escape");
   await selectValue(page.getByLabel("codes mode", { exact: true }), "value");
+  await page.getByRole("button", { name: "Edit codes" }).click();
   await page
     .getByRole("button", { name: "Add codes item", exact: true })
     .click();
   await page.getByLabel("codes[0] custom value", { exact: true }).fill("LIST");
+  await page.keyboard.press("Escape");
   await selectValue(page.getByLabel("code_map mode", { exact: true }), "value");
+  await page.getByRole("button", { name: "Edit code_map" }).click();
   await page.getByLabel("code_map new key", { exact: true }).fill("primary");
   await page
     .getByRole("button", { name: "Add code_map entry", exact: true })
@@ -337,6 +348,7 @@ test("wrapped custom codecs apply only to leaves; unknown leaves remain read-onl
   await page
     .getByLabel("code_map.primary custom value", { exact: true })
     .fill("MAP");
+  await page.keyboard.press("Escape");
   await page.getByRole("button", { name: "Apply patch", exact: true }).click();
   await expect(page.getByTestId("submitted")).toContainText(
     '"maybe_code":{"op":"set","value":"OPTION"}',

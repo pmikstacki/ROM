@@ -9,6 +9,8 @@
   import ValueEditor from "./ValueEditor.svelte";
   import { defaultValue } from "./default-value.ts";
   import { findRenderer } from "./registry.ts";
+  import { previewValue } from "./value-format.ts";
+  import XIcon from "@lucide/svelte/icons/x";
   let {
     shape,
     value,
@@ -161,6 +163,46 @@
     No renderer is registered for codec {codec.name} version {codec.version}.
     Editing is unavailable.
   </p>
+{:else if shape.type === "nullable" && depth > 0}
+  {#if value === null}<div class="flex min-h-9 items-center justify-between gap-2">
+      <span class="text-sm text-muted-foreground">Null</span>
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        disabled={readonly}
+        aria-label={`Set ${label} value`}
+        onclick={() => {
+          onerror("");
+          onchange(defaultValue(shape.value));
+        }}>Enter value</Button
+      >
+    </div>{:else}<div class="flex items-center gap-2">
+      <div class="min-w-0 flex-1"><ValueEditor
+          shape={shape.value}
+          {value}
+          {onchange}
+          {label}
+          {readonly}
+          {depth}
+          {onerror}
+          {direct}
+          showLabel={false}
+          {codec}
+          codecWrappers={wrapped ? codecWrappers.slice(1) : []}
+        /></div>
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        disabled={readonly}
+        aria-label={`Set ${label} null`}
+        onclick={() => {
+          onerror("");
+          onchange(null);
+        }}>Null</Button
+      >
+    </div>{/if}
 {:else if shape.type === "optional" || shape.type === "nullable"}
   <ValueEditor
     shape={shape.value}
@@ -184,7 +226,7 @@
       {onchange}
     />{:else}<CheckboxAdapter
       label={`${label} value`}
-      text={label}
+      text={showLabel ? label : ""}
       checked={value === true}
       disabled={readonly}
       {onchange}
@@ -207,17 +249,23 @@
     </legend>
     {#if depth >= maxDepth}<p role="alert">
         Collection nesting limit reached.
-      </p>{:else if Array.isArray(value) && value.length > maxItems}<p
-        role="alert"
-      >
-        Collection item limit reached. Editing is unavailable.
-      </p>{:else}
+      </p><p class="break-words text-sm text-muted-foreground"
+        >{previewValue(value)}</p
+      >{:else if Array.isArray(value) && value.length > maxItems}<div class="space-y-2">
+        <p role="alert">Collection item limit reached. Editing is unavailable.</p>
+        <ol class="space-y-1 text-sm">
+          {#each value.slice(0, 10) as item, index}<li class="break-words"
+              >{index + 1}. {previewValue(item)}</li
+            >{/each}
+        </ol>
+        <p class="text-sm text-muted-foreground"
+          >{value.length - 10} more items</p
+        >
+      </div>{:else}
       {#each Array.isArray(value) ? value : [] as item, index (itemKeys[index] ?? `initial-${index}`)}
-        <div class:rounded-md={direct} class:border={direct} class:p-2={direct}>
-          {#if direct}<p class="mb-2 text-xs text-muted-foreground">
-              Item {index + 1}
-            </p>{/if}
-          <ValueEditor
+        <div class="grid grid-cols-[minmax(5.5rem,0.3fr)_minmax(0,1fr)_2.25rem] items-center gap-2 border-b border-border/50 py-2 last:border-b-0">
+          <span class="text-xs text-muted-foreground">Item {index + 1}</span>
+          <div class="min-w-0"><ValueEditor
             shape={shape.value}
             {codec}
             codecWrappers={wrapped ? codecWrappers.slice(1) : []}
@@ -226,18 +274,17 @@
             label={`${label}[${index}]`}
             {readonly}
             {direct}
-            showLabel={!direct}
+            showLabel={false}
             depth={depth + 1}
             onerror={(error) => childError(String(index), error)}
-          />
+          /></div>
           <Button
             type="button"
-            variant="outline"
-            size="sm"
-            class="mt-2"
+            variant="ghost"
+            size="icon-sm"
             aria-label={`Remove ${label}[${index}]`}
             disabled={readonly}
-            onclick={() => removeList(index)}>Remove item</Button
+            onclick={() => removeList(index)}><XIcon class="size-4" /></Button
           >
         </div>
       {/each}
@@ -259,17 +306,24 @@
     </legend>
     {#if depth >= maxDepth}<p role="alert">
         Collection nesting limit reached.
-      </p>{:else if value && typeof value === "object" && !Array.isArray(value) && Object.keys(value).length > maxItems}<p
-        role="alert"
-      >
-        Collection item limit reached. Editing is unavailable.
-      </p>{:else}
+      </p><p class="break-words text-sm text-muted-foreground"
+        >{previewValue(value)}</p
+      >{:else if value && typeof value === "object" && !Array.isArray(value) && Object.keys(value).length > maxItems}<div class="space-y-2">
+        <p role="alert">Collection item limit reached. Editing is unavailable.</p>
+        <dl class="space-y-1 text-sm">
+          {#each Object.entries(value).slice(0, 10) as [key, item]}<div
+              class="break-words"><dt class="inline font-medium">{key}:</dt>
+              <dd class="inline"> {previewValue(item)}</dd></div
+            >{/each}
+        </dl>
+        <p class="text-sm text-muted-foreground"
+          >{Object.keys(value).length - 10} more entries</p
+        >
+      </div>{:else}
       {#each Object.entries(value && typeof value === "object" && !Array.isArray(value) ? value : {}) as [key, item] (key)}
-        <div class:rounded-md={direct} class:border={direct} class:p-2={direct}>
-          {#if direct}<p class="mb-2 break-all text-xs text-muted-foreground">
-              {key}
-            </p>{/if}
-          <ValueEditor
+        <div class="grid grid-cols-[minmax(5.5rem,0.3fr)_minmax(0,1fr)_2.25rem] items-center gap-2 border-b border-border/50 py-2 last:border-b-0">
+          <span class="break-all text-xs text-muted-foreground">{key}</span>
+          <div class="min-w-0"><ValueEditor
             shape={shape.value}
             {codec}
             codecWrappers={wrapped ? codecWrappers.slice(1) : []}
@@ -278,18 +332,17 @@
             label={`${label}.${key}`}
             {readonly}
             {direct}
-            showLabel={!direct}
+            showLabel={false}
             depth={depth + 1}
             onerror={(error) => childError(key, error)}
-          />
+          /></div>
           <Button
             type="button"
-            variant="outline"
-            size="sm"
-            class="mt-2"
+            variant="ghost"
+            size="icon-sm"
             aria-label={`Remove ${label}.${key}`}
             disabled={readonly}
-            onclick={() => removeKey(key)}>Remove entry</Button
+            onclick={() => removeKey(key)}><XIcon class="size-4" /></Button
           >
         </div>
       {/each}
@@ -325,12 +378,15 @@
           ? "decimal"
           : undefined}
       value={value === null ? "" : String(value)}
+      placeholder={shape.type === "reference"
+        ? `Resource ID in ${shape.value.kind}`
+        : undefined}
       disabled={readonly}
       aria-invalid={!!invalid}
       oninput={(event) => scalar(event.currentTarget.value)}
     /></label
   >
-  {#if shape.type === "reference"}<p class="text-xs text-muted-foreground">
+  {#if shape.type === "reference" && showLabel}<p class="text-xs text-muted-foreground">
       Resource ID in {shape.value.kind}
     </p>{/if}
 {/if}

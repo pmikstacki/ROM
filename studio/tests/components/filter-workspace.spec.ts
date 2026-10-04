@@ -51,6 +51,55 @@ async function connect(page: Page) {
   return queries;
 }
 
+test("compact actions keep their names and details stays beside quick filters", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await connect(page);
+  const filters = page.getByRole("button", {
+    name: "Quick filters",
+    exact: true,
+  });
+  const details = page.getByRole("button", {
+    name: "Open details panel",
+    exact: true,
+  });
+  const actions = [
+    "Create Resource",
+    "Refresh",
+    "Observe live query",
+    "Open one",
+    "First page",
+    "Previous page",
+    "Next page",
+  ];
+  for (const name of actions) {
+    const button = page.getByRole("button", { name, exact: true });
+    await expect(button).toBeVisible();
+    await expect(button.locator("svg")).toHaveCount(1);
+    await expect(button.locator("span")).toBeHidden();
+  }
+  const filterBox = await filters.boundingBox();
+  const detailBox = await details.boundingBox();
+  expect(filterBox).not.toBeNull();
+  expect(detailBox).not.toBeNull();
+  expect(Math.abs(filterBox!.y - detailBox!.y)).toBeLessThan(2);
+  expect(detailBox!.x).toBeGreaterThan(filterBox!.x);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  for (const name of actions) {
+    await expect(
+      page.getByRole("button", { name, exact: true }).locator("span"),
+    ).toBeVisible();
+  }
+  await expect(details.locator("span")).toBeVisible();
+});
+
 test("quick and full filters share draft without querying until Apply", async ({
   page,
 }) => {
@@ -149,10 +198,10 @@ test("Resource draft survives filter tab, Apply and mobile inspector lifecycle",
   await page.keyboard.press("Escape");
   await expect(sheet).not.toBeVisible();
   await expect(
-    page.getByRole("button", { name: "Open full filters", exact: true }),
+    page.getByRole("button", { name: "Open details panel", exact: true }),
   ).toBeFocused();
   await page
-    .getByRole("button", { name: "Open full filters", exact: true })
+    .getByRole("button", { name: "Open details panel", exact: true })
     .click();
   await page.getByRole("tab", { name: "Details", exact: true }).click();
   await expect(

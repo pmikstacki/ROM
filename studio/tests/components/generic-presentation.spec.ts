@@ -12,7 +12,7 @@ test("shared mode picker uses keyboard and keeps nullable operation controlled",
   await page.keyboard.press("Enter");
   await expect(mode).toHaveAttribute("aria-expanded", "true");
   await page.getByRole("option", { name: "Set null", exact: true }).click();
-  await expect(mode).toContainText("Set null");
+  await expect(mode).toHaveAttribute("title", "Set null");
   await expect(page.getByLabel("note value", { exact: true })).toHaveCount(0);
   await mode.focus();
   await page.keyboard.press("Enter");

@@ -63,8 +63,8 @@
   }
 </script>
 
-<form class="space-y-4 rounded-lg border bg-card p-4" onsubmit={invoke}>
-  <h2>{action.name}</h2>
+<form class="rounded-lg border bg-card p-4" onsubmit={invoke}>
+  <h2 class="mb-2">{action.name}</h2>
   {#if changed}<p role="alert">
       Resource definition changed. Reopen the action form.
     </p>{/if}
@@ -87,6 +87,7 @@
     />{/each}
   {#if error}<p role="alert">{error}</p>{/if}<Button
     type="submit"
+    class="mt-4"
     disabled={readonly ||
       busy ||
       changed ||

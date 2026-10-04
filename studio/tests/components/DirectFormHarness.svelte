@@ -26,6 +26,17 @@
         shape: { type: "optional", value: { type: "string" } },
       },
       {
+        name: "nullable_values",
+        shape: {
+          type: "list",
+          value: { type: "nullable", value: { type: "string" } },
+        },
+      },
+      {
+        name: "large_values",
+        shape: { type: "list", value: { type: "string" } },
+      },
+      {
         name: "opaque",
         shape: { type: "string" },
         codec: { name: "unknown-opaque", version: 1 },
@@ -41,6 +52,8 @@
     note: "present",
     marker: "present",
     nullable_null: null,
+    nullable_values: [null, ""],
+    large_values: Array.from({ length: 101 }, (_, index) => `item-${index}`),
     opaque: "secret",
   };
   let submitted = $state("");

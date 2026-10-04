@@ -25,5 +25,5 @@
     {disabled}
     aria-label={label}
   />
-  <Label for={id} class="text-sm font-normal">{text}</Label>
+  {#if text}<Label for={id} class="text-sm font-normal">{text}</Label>{/if}
 </div>
