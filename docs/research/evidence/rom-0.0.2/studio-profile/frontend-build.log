@@ -1,0 +1,14 @@
+
+> rom-studio@0.0.2 build
+> vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 172 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.37 kB │ gzip:  0.26 kB
+dist/assets/index-D0oHaqBV.css   23.56 kB │ gzip:  5.34 kB
+dist/assets/index-DG2_L4y7.js   198.46 kB │ gzip: 65.82 kB
+
+✓ built in 279ms

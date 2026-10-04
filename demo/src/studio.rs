@@ -38,6 +38,28 @@ pub async fn run(
     issuer: &str,
     controls: Option<&Path>,
 ) -> SmokeResult<()> {
+    run_config(redb, path, port, assets, issuer, controls, None).await
+}
+pub async fn run_profile(
+    redb: bool,
+    path: &str,
+    port: u16,
+    assets: &Path,
+    profile: &Path,
+) -> SmokeResult<()> {
+    let profile = crate::studio_profile::TrustedProfile::read(profile)?;
+    let issuer = profile.provider.issuer.clone();
+    run_config(redb, path, port, assets, &issuer, None, Some(profile)).await
+}
+async fn run_config(
+    redb: bool,
+    path: &str,
+    port: u16,
+    assets: &Path,
+    issuer: &str,
+    controls: Option<&Path>,
+    profile: Option<crate::studio_profile::TrustedProfile>,
+) -> SmokeResult<()> {
     let storage: Arc<dyn Storage> = if redb {
         Arc::new(rom_redb::Redb::open(path)?)
     } else {
@@ -52,16 +74,21 @@ pub async fn run(
     let result = async {
         studio_startup::seed_all(&runtime,issuer).await?;
         let listener=tokio::net::TcpListener::bind((std::net::Ipv4Addr::LOCALHOST,port)).await?;
-        let origin=format!("http://{}",listener.local_addr()?);
-        let config=HostConfig::new(&origin,"/rom-studio/",assets,studio_application::host_actor())
-            .allow_loopback_http(true).clock(clock.clone()).settings("default")
+        let origin=profile.as_ref().map(|value|value.origin.clone()).unwrap_or(format!("http://{}",listener.local_addr()?));
+        let mut config=HostConfig::new(&origin,"/rom-studio/",assets,studio_application::host_actor())
+            .allow_loopback_http(profile.is_none()).clock(clock.clone()).settings("default")
             .blobs(blobs)
             .blob_store_discovery(|actor,name| actor.authority=="local" && actor.principal_kind()==rom::PrincipalKind::Human && name=="local")
-            .provider(OidcProviderConfig {
+            ;
+        if profile.is_none() { config=config.provider(OidcProviderConfig {
                 authority:"local".into(), label:"Local fixture".into(), issuer:issuer.into(), client_id:"studio".into(),
                 authorization_endpoint:format!("{issuer}/auth"), token_endpoint:format!("{issuer}/token"), jwks_endpoint:format!("{issuer}/jwks"),
                 client_secret:Some("controlled-host-test-secret".into()),
-            });
+            }); }
+        if let Some(profile)=profile {
+            config=config.provider(profile.provider);
+            if let Some(backchannel)=profile.backchannel { config=config.provider_backchannel("local",backchannel); }
+        }
         let control_listener=controls.map(crate::studio_controls::listener).transpose()?;
         let host=StudioHost::new(runtime.clone(),config)?;
         let _worker=runtime.start_work()?;

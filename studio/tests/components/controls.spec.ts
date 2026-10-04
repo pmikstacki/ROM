@@ -231,3 +231,10 @@ test("wrapped custom codecs apply only to leaves; unknown leaves remain read-onl
     '"maybe_code":{"op":"set","value":null}',
   );
 });
+test("query filters preserve wrapper provenance and edit only registered leaves", async ({ page }) => {
+  await page.getByLabel("Query field").selectOption("codes");
+  await page.getByRole("button", { name: "Add Query value item", exact: true }).click();
+  await page.getByLabel("Query value[0] custom value", { exact: true }).fill("FILTER");
+  await page.getByRole("button", { name: "Apply query", exact: true }).click();
+  await expect(page.getByTestId("query-submitted")).toContainText('"value":["FILTER"]');
+});

@@ -57,3 +57,8 @@ mod studio_startup;
 
 #[cfg(feature = "studio")]
 mod studio_blobs;
+
+#[cfg(feature = "studio")]
+mod studio_profile;
+#[cfg(all(feature = "studio", test))]
+mod studio_profile_tests;

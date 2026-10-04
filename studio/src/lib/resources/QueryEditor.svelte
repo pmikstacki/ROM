@@ -79,6 +79,7 @@
   {#if field && value.mode === "value"}<ValueEditor
       shape={field.shape}
       codec={field.codec}
+      codecWrappers={field.codec_wrappers ?? []}
       value={value.value}
       onchange={(next) => (value = { mode: "value", value: next })}
       label="Query value"

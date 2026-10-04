@@ -40,6 +40,31 @@ async fn main() -> smoke::SmokeResult<()> {
             )
             .await?;
         }
+        #[cfg(feature = "studio")]
+        "studio-profile" => {
+            let path = args
+                .next()
+                .ok_or("studio-profile requires a database path")?;
+            let port: u16 = args
+                .next()
+                .ok_or("studio-profile requires a port")?
+                .parse()?;
+            let assets = args.next().ok_or("studio-profile requires built assets")?;
+            let profile = args
+                .next()
+                .ok_or("studio-profile requires an external trusted profile")?;
+            if args.next().is_some() {
+                return Err("too many Studio profile options".into());
+            }
+            rom_demo::studio::run_profile(
+                redb,
+                &path,
+                port,
+                std::path::Path::new(&assets),
+                std::path::Path::new(&profile),
+            )
+            .await?;
+        }
         #[cfg(feature = "provider-profile")]
         "provider-provision" | "provider-maintain" | "provider-serve" => {
             rom_demo::provider_profile::run_command(&mode, redb, args.collect()).await?;
