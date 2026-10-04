@@ -36,3 +36,7 @@ The native build and Clippy passed. Three admission tests passed. They cover val
 An actual subprocess probe started this command on SQLite and redb. It used the shared HTTPS-issuer OIDC fixture with exact internal loopback token and signing-key URLs. Readiness reported the configured public HTTPS origin and no fixture controls. The real host returned the configured provider listing. SIGTERM exited with code 0. See [the launcher results](evidence/rom-0.0.2/studio-profile/launcher-results.log).
 
 The launcher probe does not test a TLS proxy or human browser login through a deployed HTTPS origin. Those checks belong to deployment acceptance. Synthetic profile files, databases and logs remain in `/var/tmp/rom-studio-https-profile-*`.
+
+## Shared file-reader correction
+
+A later review replaced the pathname precheck and blocking open with shared opened-handle admission. The current reader uses `O_NOFOLLOW | O_NONBLOCK` and validates the opened descriptor. It preserves the Studio ownership, absolute-path and size requirements. It shares the provider profile's Linux-only boundary. See [the correction and executed checks](rom-0.0.2-secure-host-files-results.md).

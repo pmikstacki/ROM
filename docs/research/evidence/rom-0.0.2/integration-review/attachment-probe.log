@@ -1,0 +1,7 @@
+(node:2910741) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"status":500,"category":"internal","uncertain_retained":true,"submissions_before_explicit_retry":1,"corrected_invariant":true}
+{"status":0,"category":"invalid_response","uncertain_retained":true,"submissions_before_explicit_retry":1,"corrected_invariant":true}
+{"status":429,"category":"overloaded","uncertain_retained":true,"submissions_before_explicit_retry":1,"corrected_invariant":true}
+{"status":400,"category":"not_committed","uncertain_retained":false,"submissions_before_explicit_retry":1,"corrected_invariant":true}
+{"status":401,"category":"denied","uncertain_retained":false,"submissions_before_explicit_retry":1,"corrected_invariant":true}

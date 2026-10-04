@@ -1,0 +1,41 @@
+   Compiling futures-util v0.3.34
+   Compiling futures-channel v0.3.34
+   Compiling hyper v1.11.1
+   Compiling hyper-util v0.1.21
+   Compiling tower v0.5.3
+   Compiling hyper-rustls v0.27.10
+   Compiling tower-http v0.6.11
+   Compiling reqwest v0.13.5
+   Compiling axum v0.8.9
+   Compiling rom-auth v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+   Compiling rom-blob v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob)
+   Compiling object_store v0.14.2
+   Compiling rom-identity v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+   Compiling rom-http v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+   Compiling rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+   Compiling rom-blob-object-store v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob-object-store)
+   Compiling rom-demo v0.0.2 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 38.32s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_demo-1bf462636a028979)
+
+running 2 tests
+test host_files_tests::linux::private_reader_rejects_link_public_permissions_bounds_and_invalid_utf8 ... FAILED
+test host_files_tests::linux::opened_fifo_is_rejected_without_waiting_for_a_writer ... ok
+
+failures:
+
+---- host_files_tests::linux::private_reader_rejects_link_public_permissions_bounds_and_invalid_utf8 stdout ----
+
+thread 'host_files_tests::linux::private_reader_rejects_link_public_permissions_bounds_and_invalid_utf8' (2189698) panicked at demo/src/host_files_tests.rs:48:9:
+assertion `left == right` failed
+  left: "Denied"
+ right: "denied"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    host_files_tests::linux::private_reader_rejects_link_public_permissions_bounds_and_invalid_utf8
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p rom-demo --lib`

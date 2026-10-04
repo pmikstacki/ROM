@@ -75,7 +75,7 @@ fn trusted_profile_limits_credential_reads_and_redacts_invalid_utf8() {
     let error = TrustedProfile::read(&profile)
         .err()
         .expect("invalid credential rejected");
-    assert_eq!(error.to_string(), "profile file must use UTF-8");
+    assert_eq!(error.to_string(), "profile file admission rejected");
     assert!(!format!("{error:?}").contains("255"));
     std::fs::write(&secret, vec![b'x'; 4097]).expect("synthetic oversized credential");
     assert!(TrustedProfile::read(&profile).is_err());

@@ -1,0 +1,10 @@
+(node:2847735) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"probe":"hidden-input-subset-correction","accepted":true}
+{"probe":"native-impossible-metadata","name":"empty-enum","accepted":true}
+{"probe":"native-impossible-metadata","name":"enum-over256","accepted":true}
+{"probe":"native-impossible-metadata","name":"nested-optional","accepted":true}
+{"probe":"native-impossible-metadata","name":"nested-nullable","accepted":true}
+{"probe":"native-impossible-metadata","name":"scalar-optional","accepted":true}
+{"probe":"native-impossible-metadata","name":"codec-name-over256bytes","accepted":true}
+{"probe":"float-authoring-category","raw_replay":"{\"rate\":0.0}","normalized_form":"{\"rate\":0}","value_equal":true}

@@ -11,7 +11,7 @@ description = "Runnable ROM Resource author walkthrough with local synthetic dat
 workspace = true
 [features]
 default = []
-studio = ["dep:rom-studio-host"]
+studio = ["dep:rom-studio-host", "dep:libc"]
 provider-profile = ["dep:rom-auth", "dep:libc"]
 [dependencies]
 rom.workspace = true

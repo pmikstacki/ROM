@@ -1,7 +1,7 @@
 //! Trusted HTTPS demo profile. Credentials stay in a private external file.
 use crate::smoke::SmokeResult;
 use rom_studio_host::{OidcProviderConfig, TrustedLoopbackBackchannel};
-use std::{io::Read, os::unix::fs::MetadataExt, path::Path};
+use std::path::Path;
 
 pub struct TrustedProfile {
     pub origin: String,
@@ -17,31 +17,13 @@ fn text(value: &serde_json::Value, key: &str) -> SmokeResult<String> {
     }
     Ok(text.into())
 }
-fn bounded_file(path: &Path, max: u64, private: bool) -> SmokeResult<String> {
-    let metadata = std::fs::symlink_metadata(path)?;
-    if !path.is_absolute() || !metadata.is_file() || metadata.len() > max {
-        return Err("profile requires an absolute bounded regular file".into());
-    }
-    if private
-        && (metadata.mode() & 0o077 != 0
-            || metadata.uid() != std::fs::metadata("/proc/self")?.uid())
-    {
-        return Err("credential file must be private and owned by the process owner".into());
-    }
-    let opened = std::fs::File::open(path)?;
-    let actual = opened.metadata()?;
-    if !actual.is_file()
-        || actual.len() > max
-        || (private && (actual.mode() & 0o077 != 0 || actual.uid() != metadata.uid()))
-    {
-        return Err("profile file changed during admission".into());
-    }
-    let mut bytes = Vec::new();
-    opened.take(max + 1).read_to_end(&mut bytes)?;
-    if bytes.len() as u64 > max {
-        return Err("profile file exceeds limit".into());
-    }
-    String::from_utf8(bytes).map_err(|_| "profile file must use UTF-8".into())
+fn bounded_file(path: &Path, max: usize, private: bool) -> SmokeResult<String> {
+    let result = if private {
+        crate::host_files::read_owned_private(path, max)
+    } else {
+        crate::host_files::read_regular(path, max)
+    };
+    result.map_err(|_| "profile file admission rejected".into())
 }
 impl TrustedProfile {
     pub fn read(path: &Path) -> SmokeResult<Self> {

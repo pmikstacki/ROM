@@ -1,0 +1,4 @@
+    Checking rom-demo v0.0.2 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.64s
+   Compiling rom-demo v0.0.2 (/workspace/ROM/.worktrees/release-query-index/demo)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 5.64s

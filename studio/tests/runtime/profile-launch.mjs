@@ -14,7 +14,7 @@ for (const backend of ['sqlite','redb']) {
   const secret=`${directory}/secret`,profile=`${directory}/profile.json`;
   await writeFile(secret,'controlled-preview-profile-secret',{mode:0o600});
   await writeFile(profile,JSON.stringify({public_origin:'https://studio.example',issuer,authorization_endpoint:`${issuer}/auth`,token_endpoint:`${issuer}/token`,jwks_endpoint:`${issuer}/jwks`,client_secret_file:secret,backchannel_token_endpoint:`http://127.0.0.1:${provider.port}/identity/token`,backchannel_jwks_endpoint:`http://127.0.0.1:${provider.port}/identity/jwks`}),{mode:0o600});
-  const child=spawn('/var/lib/nixos-containers/rom-dev/var/tmp/rom-release-measured-verification-target/debug/rom-demo',['studio-profile',backend,`${directory}/database`,String(port),resolve('dist'),profile],{stdio:['ignore','pipe','pipe']});
+  const child=spawn(process.env.ROM_STUDIO_DEMO_BINARY ?? '/var/lib/nixos-containers/rom-dev/var/tmp/rom-release-measured-verification-target/debug/rom-demo',['studio-profile',backend,`${directory}/database`,String(port),resolve('dist'),profile],{stdio:['ignore','pipe','pipe']});
   let output='',errors='';child.stderr.on('data',bytes=>errors+=bytes);
   try {
     await new Promise((done,reject)=>{const timer=setTimeout(()=>reject(Error('profile readiness deadline')),10000);child.once('exit',()=>{clearTimeout(timer);reject(Error('profile exited before ready'));});child.stdout.on('data',bytes=>{output+=bytes;if(output.includes('\n')){clearTimeout(timer);done();}});});
