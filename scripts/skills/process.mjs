@@ -1,5 +1,6 @@
 // Trusted Unix examples own one process group, including compiler/test descendants.
 import { spawn } from 'node:child_process';
+import { StringDecoder } from 'node:string_decoder';
 
 export function runChild(program, args, options = {}) {
   if (process.platform !== 'linux') throw Error('skill examples require Linux process-group ownership');
@@ -15,6 +16,8 @@ export function runChild(program, args, options = {}) {
   return new Promise((resolve, reject) => {
     const child = spawn(program, args, { cwd: options.cwd, env: options.env ?? process.env, detached: true, stdio: ['ignore', 'pipe', 'pipe'] });
     let stdout = '', stderr = '', receivedBytes = 0, timedOut = false, settled = false;
+    const stdoutDecoder = new StringDecoder('utf8');
+    const stderrDecoder = new StringDecoder('utf8');
     const timers = [];
     const signal = value => {
       if (!child.pid) return;
@@ -25,6 +28,8 @@ export function runChild(program, args, options = {}) {
       if (settled) return;
       settled = true;
       for (const timer of timers) clearTimeout(timer);
+      stdout += stdoutDecoder.end();
+      stderr += stderrDecoder.end();
       try { signal('SIGKILL'); } catch (failure) { error ??= failure; }
       child.stdout.destroy();
       child.stderr.destroy();
@@ -44,7 +49,7 @@ export function runChild(program, args, options = {}) {
     const collect = (kind, bytes) => {
       receivedBytes += bytes.length;
       if (receivedBytes > (options.maxBytes ?? 1_048_576)) { stop(); return; }
-      if (kind === 'stdout') stdout += bytes.toString(); else stderr += bytes.toString();
+      if (kind === 'stdout') stdout += stdoutDecoder.write(bytes); else stderr += stderrDecoder.write(bytes);
     };
     child.stdout.on('data', bytes => collect('stdout', bytes));
     child.stderr.on('data', bytes => collect('stderr', bytes));

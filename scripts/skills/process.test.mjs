@@ -52,3 +52,11 @@ test('output byte budget terminates the owned process group', async () => {
   assert.equal(result.timedOut, true);
   assert.ok(Buffer.byteLength(result.stdout + result.stderr) <= 16);
 });
+
+test('process output preserves UTF-8 split across pipe reads', async () => {
+  const program = `const out=process.stdout,err=process.stderr;out.write(Buffer.from([0xe2]));err.write(Buffer.from([0xe2]));setTimeout(()=>{out.write(Buffer.from([0x82]));err.write(Buffer.from([0x82]));},20);setTimeout(()=>{out.end(Buffer.from([0xac]));err.end(Buffer.from([0xac]));},40);`;
+  const result = await runChild(process.execPath, ['-e', program], { timeout: 2000 });
+  assert.equal(result.code, 0);
+  assert.equal(result.stdout, '€');
+  assert.equal(result.stderr, '€');
+});
