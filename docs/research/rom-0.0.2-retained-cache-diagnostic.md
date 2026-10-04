@@ -113,3 +113,41 @@ Check the complete merged tree against the raw layers. Check representative
 origin-carrier paths before and after copy-up. Check full input digests,
 effective mount options, and clean mount and loop teardown. The eight-gate
 clean-source producer remains the release test.
+
+## Single-lower cache alternative
+
+The retained target upper can also serve as the only read-only lower. This
+would remove the live original target from the build mount. It would be a
+fallible Cargo cache, not a reconstruction of the former combined target.
+Missing files may cause rebuilds or a bounded build failure. Cargo marks a
+unit dirty when an expected output is missing, but its
+[fingerprint documentation](https://doc.rust-lang.org/stable/nightly-rustc/cargo/compiler/fingerprint/index.html)
+does not make every partial-cache case a correctness guarantee.
+
+Two private-namespace synthetic tests passed on Linux 6.6.94. The first made
+natural OverlayFS origin and opaque attributes and character whiteouts. It
+remounted the former upper as the only read-only lower. Names and contents
+matched the expected view. A later write and delete went to a fresh upper.
+The former upper's contents and attributes remained unchanged. The new upper
+received a different origin handle on copy-up. The result is
+`/root/ipi/research/disk-coordination-2026-10-04/ROM-overlay-single-lower-result-v7.json`
+with SHA-256
+`b68a67198006e22c0c49ec9c4397aa46815161404d8337ca740dd108cc47e278`.
+
+The second test built a small offline Cargo workspace with a proc macro and a
+build script. It retained fingerprints but removed the proc-macro output and
+application binary. Cargo rebuilt both outputs through the single-lower
+mount. The application and tests matched a clean build. The result is
+`/root/ipi/research/disk-coordination-2026-10-04/ROM-cargo-single-lower-result.json`
+with SHA-256
+`c90bb2df49bde68b38d87e40a14361d4a6b8268c4ec838de08133a0e18aef6e8`.
+Both controllers reported code 0, no timeout, no host mount, and no remaining
+entries at their temporary mountpoints.
+
+These tests are synthetic. They do not admit the 34 GiB retained image or
+predict how much of a full ROM build it will reuse. The next test must mount
+that exact image as a sole read-only lower with a bounded fresh upper. It
+must verify the complete visible tree, selected copy-ups, unchanged image
+hash, exact source anchors, and clean teardown. Then the producer policy and
+mount must change from two lowers to one. Only a complete eight-gate producer
+and independent artifact verification can accept the release.
