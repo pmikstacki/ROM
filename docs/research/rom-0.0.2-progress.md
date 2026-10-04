@@ -178,3 +178,25 @@ This source slice is committed as `8915f1d`. See `rom-0.0.2-attachment-lifecycle
 
 The native provider-to-maintenance test retains both-store closed-owner, fresh-identity and current-replay evidence in `task6/native-final.log`.
 The optional real-host login and session boundary is implemented and tested. These obligations do not prove deployment or MacBook reachability.
+
+## Later acceptance closure: 2026-10-04
+
+The full generic Task and Inventory browser flow passed on SQLite and redb in Chromium and WebKit.
+Each Resource has declared actions, CRUD, queries and live observations through shared controls.
+The observer receives changes from a second real page without extra query requests.
+Task completion removes only that Task from the open list. The connected keyboard and accessibility scans passed under recorded settled-frame conditions.
+
+Two-tab logout terminates live delivery within 34–38 milliseconds. Both views clear within the recorded periodic session interval.
+The component suite now has 42 passing cases, including descriptor-version changes with retained drafts and explicit reopening.
+The actual-provider maintenance journey passed backup, restore, schema migration, disk reopen, fresh identity and durable replay on both stores.
+
+The native parser experiment captures twelve actual seeded responses. Its Node timings and small response sizes do not establish a universal performance bound.
+This experiment ran after adoption. Independent review accepted a recorded plan-order deviation; the original wording and unmet chronology remain in the plan. Future replacements require comparative measurements before adoption.
+
+An independent extracted-source Studio author example builds through the public source entry and registers a custom renderer without generic view changes.
+Its four actual-provider browser cases passed. Independent review found verifier process ownership and copied-author fence gaps. The corrections passed another four-case run; an actual extracted-source mutation was then rejected after browser success. No findings remain in the scoped review.
+
+These proofs are separate from the final producer. The complete high-growth release phase remains voluntarily deferred at the shared capacity checkpoint.
+No clean final 0.0.2 artifact, persistent protected preview acceptance or main integration is claimed here.
+
+The final package/artifact Node suite passed all 49 cases after the recorded host toolchain PATH was restored. The first run lacked rustc and failed environment admission; no product change resolved those failures. OpenSpec passed all ten strict items using the existing pinned official tool. An earlier incorrect npx invocation is retained separately. These are prerequisite checks, not a completed producer.

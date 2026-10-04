@@ -19,11 +19,11 @@
 - [x] 4.2 Test uncertain outcomes, authority changes, conflicts, reconnect, and draft reconciliation.
 - [x] 4.3 Close actual active-work shutdown and provider-to-maintenance evidence gaps.
 - [x] 4.4 Test reentrant storage policy and seeded native operator migration obligations.
-- [ ] 4.5 Measure renderer/query/stream costs and independently review shared invariants.
+- [x] 4.5 Measure renderer/query/stream costs and independently review shared invariants.
 
 ## 5. Release and preview
 - [x] 5.1 Align maintained package versions to 0.0.2 and document compatibility.
-- [ ] 5.2 Add frontend/browser/extracted-asset acceptance to fixed release and artifact gates.
+- [x] 5.2 Add frontend/browser/extracted-asset acceptance to fixed release and artifact gates.
 - [ ] 5.3 Update dependency notices, support notes, skills, and final scenario evidence.
 - [ ] 5.4 Run full clean-source acceptance and produce independently verified local artifacts.
 - [ ] 5.5 Deploy persistent protected NixOS preview and verify restart/base-path/API/stream behavior.
