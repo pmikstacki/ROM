@@ -200,3 +200,23 @@ These proofs are separate from the final producer. The complete high-growth rele
 No clean final 0.0.2 artifact, persistent protected preview acceptance or main integration is claimed here.
 
 The final package/artifact Node suite passed all 49 cases after the recorded host toolchain PATH was restored. The first run lacked rustc and failed environment admission; no product change resolved those failures. OpenSpec passed all ten strict items using the existing pinned official tool. An earlier incorrect npx invocation is retained separately. These are prerequisite checks, not a completed producer.
+
+## Field editor and cross-browser follow-up: 2026-10-04
+
+The selected Resource editor now shows descriptor-driven controls before a
+mutation. Its field menu retains null, removal, and unchanged as separate
+intents. Unsupported versioned codecs remain read-only. The mobile Sheet uses
+the full viewport. The [field report](rom-studio-field-ux-proposal.md) contains
+the mock, current screenshots, and exact patch checks.
+
+The current frontend passed 49 component tests and 83 unit tests. A real-host
+diagnostic passed 12 WebKit scenarios on SQLite and redb. Earlier Chromium
+diagnostics passed 12 scenarios after the collection-control change. These
+tests used the maintained native binary. The [new browser evidence](evidence/rom-0.0.2/field-ux/README.md)
+records that limit. It does not replace the fresh native build in gate 8.
+
+The [release completion record](rom-0.0.2-release-completion.md) now maps
+current evidence to every remaining release obligation. The last bounded
+producer failed gate 8; no accepted 0.0.2 artifact exists. The temporary VPN
+preview serves the current frontend with an older native executable. A fresh
+bounded producer and release-bound preview still require capacity admission.

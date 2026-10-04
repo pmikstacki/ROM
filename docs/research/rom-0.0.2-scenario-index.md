@@ -42,5 +42,6 @@ Earlier counts remain historical results. This index does not change them.
 
 Use the [fixed producer procedure](../../scripts/release-artifacts/README.md) for complete local acceptance.
 Use the [scoped preview procedure](rom-0.0.2-scoped-preview-activation.md) for the selected existing-container installation.
+The [release completion record](rom-0.0.2-release-completion.md) maps the current evidence to each remaining obligation.
 The [progress record](rom-0.0.2-progress.md) preserves earlier failures and later corrections.
 The [support boundary](../release-support.md) distinguishes prepared Studio from the historical accepted alpha.
