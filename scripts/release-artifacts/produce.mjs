@@ -10,6 +10,7 @@ import { finalize } from './manifest.mjs';
 import { prepareStudioAssets } from '../packages/studio-build.mjs';
 import { requireStudioAssets } from '../packages/studio-assets.mjs';
 import { studioSource } from '../packages/studio-source.mjs';
+import { persistenceError, reportEvidenceFailure } from './failure-diagnostics.mjs';
 
 export async function produce({ root, output, runner }) {
   root = resolve(root);
@@ -43,7 +44,16 @@ export async function produce({ root, output, runner }) {
     console.log(`Completed local source artifacts: ${output}`);
     return manifest;
   } catch (error) {
-    writeFileSync(join(stage, 'failure.json'), JSON.stringify({ completed: false, source_revision: source.revision, error: error.message, command_results: results }, null, 2) + '\n');
+    const failure = { completed: false, source_revision: source.revision, error: error.message, command_results: results,
+      ...(error.commandResult ? { failed_command: error.commandResult } : {}) };
+    try { writeFileSync(join(stage, 'failure.json'), JSON.stringify(failure, null, 2) + '\n'); }
+    catch (storageError) {
+      reportEvidenceFailure('release-failure-evidence-failure', {
+        source_revision: source.revision, stage, original_error: persistenceError(error),
+        persistence_error: persistenceError(storageError), failed_command: error.commandResult ?? null,
+        last_command: results.at(-1) ?? null,
+      });
+    }
     console.error(`Incomplete release evidence retained: ${stage}`);
     throw error;
   }
