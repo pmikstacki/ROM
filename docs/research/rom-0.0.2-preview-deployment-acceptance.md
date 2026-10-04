@@ -3,6 +3,11 @@
 These commands are prepared. They were not run against a deployed 0.0.2 service.
 Activation requires the final accepted source, binary, asset inventory, and provider dependency identity.
 
+The [scoped activation procedure](rom-0.0.2-scoped-preview-activation.md) is the operative procedure for the existing preview.
+It supersedes the whole-host build and gateway activation sequence retained below.
+Use its existing read-only bind, retained container directories, exact closure selector, and application-only rollback.
+Do not combine the alternative layouts or perform a whole-host switch for this application cutover.
+
 ## Review findings
 
 The prepared service keeps data outside the immutable release directory.
@@ -25,7 +30,9 @@ The prepared example uses `bdziam.home.arpa`. Set `publicHost` and both external
 An old URL on another gateway host is not evidence that the canonical preview failed.
 
 No source-review blocker remains in these boundaries.
-Final deployment is blocked on artifact acceptance and independent access/rollback checks, rather than a new owner approval.
+Final deployment depends on artifact acceptance, scoped rollback preparation, and actual application checks, rather than a new owner approval.
+Independent client checks remain necessary before any claim of MacBook access.
+Host networking changes remain subject to the host's separate access and rollback instructions.
 
 ## Record the accepted inputs
 
@@ -55,7 +62,11 @@ ss -ltn '( sport = :44173 or sport = :44174 )'
 
 These commands inspect service state. Their success does not authorize changing SSH or WireGuard.
 
-## Build before activation
+## Historical whole-host proposal — superseded
+
+This section retains the earlier proposal for comparison. Do not execute it for the selected application-only cutover.
+Use the container-only build and scoped activation commands in the operative procedure instead.
+Its fresh Ethernet, Wi-Fi, and VPN SSH prerequisites concern networking changes, not the selected application-only scope.
 
 Install the accepted files into the versioned release directory.
 Create external data, configuration, and private directories with the ownership described above.

@@ -3,6 +3,23 @@
 These files prepare the real ROM 0.0.2 preview. They do not activate it.
 The existing static mock remains in service until the new artifact passes acceptance.
 
+## Selected installation for the existing preview
+
+Use the [scoped activation procedure](../../docs/research/rom-0.0.2-scoped-preview-activation.md) for the existing `rom-studio` container.
+It uses `existing-container.nix` and preserves the current read-only bind at `/srv/studio`.
+Install the accepted artifact under `/var/lib/rom-studio-preview/site/releases/ACCEPTED_RELEASE_NAME` on the host.
+The container links that exact directory from `/srv/studio/releases/ACCEPTED_RELEASE_NAME` to `/opt/rom-studio`.
+
+Keep data at `/var/lib/rom-studio` inside the retained container root.
+Keep external configuration at `/var/lib/rom-studio-config` and credentials at `/var/lib/rom-studio-private` inside that root.
+Use `https://10.66.0.2` consistently in the two profiles and gateway for this preview.
+The shipped JSON files are templates, not the selected live configuration.
+
+The procedure selects an exact container closure and updates only the application routes through Caddy reload.
+It does not switch the host system or change network settings.
+Prepare its application rollback before activation.
+Follow the host instructions if a later change modifies networking.
+
 ## Artifact layout
 
 The immutable release directory must contain these files:
@@ -20,15 +37,22 @@ provider/package-lock.json
 provider/node_modules/...
 ```
 
-Bind the accepted directory read-only at `/opt/rom-studio`.
+Make the accepted directory read-only to the service at `/opt/rom-studio`.
 Record hashes for the binary, assets, fixture sources, lockfile, and installed dependency tree.
 Do not serve files from the worktree or Cargo target directory.
+
+## Alternative declarative host layout
+
+The following host directories and `host-module.nix` example describe an alternative installation with new binds.
+They are not additional steps for the selected existing-container procedure.
+Do not combine these layouts or import the new module alongside the old preview module.
+Use `host-existing-bind.nix` for later declarative reconciliation of the selected layout.
 
 The prepared container uses UID and GID `44173` for the services.
 Create `/var/lib/rom-studio-preview/data` with that ownership and mode `0700`.
 Keep Resource data and attachments in this directory.
 
-## External configuration
+## External configuration for the alternative layout
 
 Copy the example JSON files into `/var/lib/rom-studio-preview/config` as `studio.json` and `provider.json`.
 These files contain trusted URLs and credential paths. They contain no secret values.
