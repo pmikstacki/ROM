@@ -68,6 +68,11 @@ plan requires a finite reservation and advance launch notice. A source change
 requires a fresh admission and source identity check. Do not start an
 unbounded producer because a read-only snapshot shows enough free bytes.
 
+A [read-only retained-cache diagnostic](rom-0.0.2-retained-cache-diagnostic.md)
+identified all four attribute names in the selected failed image and preserved
+its before/after hash. It did not accept that image as a build-cache lower.
+The previous complete-producer reservation still does not fit above the floor.
+
 On inspected baseline `77cc178`, the ROM NixOS container ran
 `node --test scripts/packages/*.test.mjs scripts/release-artifacts/*.test.mjs`.
 All 56 fixture tests passed. The retained [compressed log](evidence/rom-0.0.2/release-readiness/package-node.log.gz)
