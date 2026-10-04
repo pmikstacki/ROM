@@ -1,0 +1,10 @@
+
+Running 1 test using 1 worker
+
+(node:3554525) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_FINITE_SNAPSHOTS {"backend":"sqlite","engine":"chromium","snapshots":3,"observer_query_requests_during_snapshots":0,"cells":5,"mutation_to_frame_ms":[155.79999995231628,3110.300000011921,4093.199999988079],"scope":"Real host sequential changes, browser-driver/network/frame-inclusive samples; DOM count, not heap GC."}
+  ✓  1 [chromium] › tests/runtime/host.spec.ts:641:3 › real sqlite complete generic Task and Inventory browser workflows (30.5s)
+
+  1 passed (31.2s)

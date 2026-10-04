@@ -108,11 +108,15 @@ instead of the current value; after the correction it passed. Current checks:
 warnings, and the Studio production build. Twelve real-host Chromium scenarios
 passed across SQLite and redb after the collection controls changed. They used
 an existing native binary. One complete SQLite workflow was rerun after the
-final null-versus-absent display change. Two real-host scenarios also passed
-with the explicit `demo-ticket-code` renderer registered. Those scenarios
+final null-versus-absent display change. Twelve WebKit real-host scenarios
+passed with the final frontend bundle across SQLite and redb. Two real-host
+scenarios also passed with the explicit `demo-ticket-code` renderer registered.
+Those scenarios
 edited the scalar,
 optional, and list-wrapped custom values while the opaque codec stayed
 read-only. The full native release gate is still pending.
+The [browser evidence](evidence/rom-0.0.2/field-ux/README.md) records the
+source, frontend, and existing native-binary limits.
 
 A separate browser regression distinguishes a current null value from a
 missing optional field and an empty string. Both remain unmodified until the

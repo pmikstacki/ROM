@@ -1,0 +1,37 @@
+
+Running 12 tests using 1 worker
+
+(node:3556367) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   1 [webkit] › tests/runtime/host.spec.ts:18:3 › real sqlite human auth and generic resources (22.1s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   2 [webkit] › tests/runtime/host.spec.ts:18:3 › real redb human auth and generic resources (22.0s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   3 [webkit] › tests/runtime/host.spec.ts:223:3 › real sqlite attachment publication, lost response, download and detach (976ms)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   4 [webkit] › tests/runtime/host.spec.ts:223:3 › real redb attachment publication, lost response, download and detach (986ms)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   5 [webkit] › tests/runtime/host.spec.ts:312:3 › real sqlite OS SIGTERM drains accepted publication and OIDC work (1.7s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   6 [webkit] › tests/runtime/host.spec.ts:312:3 › real redb OS SIGTERM drains accepted publication and OIDC work (1.7s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_FINITE_COST {"backend":"sqlite","engine":"webkit","dataset":{"tasks":3,"inventory":1,"held_out_custom_resource":1},"cells":15,"measurements_ms":{"query_to_visible_frame":138,"stream_open_to_frame":39,"mutation_to_visible_frame":91},"http_requests":{"/rom-studio/api/discover":1,"/rom-studio/api/query":3,"/rom-studio/api/live":1,"/rom-studio/api/read":1,"/rom-studio/api/invoke":1},"scope":"One local sample, real host and browser. Includes browser-driver scheduling, network, codecs and frame scheduling; not an isolated renderer or universal performance benchmark."}
+  ✓   7 [webkit] › tests/runtime/host.spec.ts:454:3 › real sqlite finite renderer query and stream measurement (881ms)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_FINITE_COST {"backend":"redb","engine":"webkit","dataset":{"tasks":3,"inventory":1,"held_out_custom_resource":1},"cells":15,"measurements_ms":{"query_to_visible_frame":134,"stream_open_to_frame":45,"mutation_to_visible_frame":85},"http_requests":{"/rom-studio/api/discover":1,"/rom-studio/api/query":3,"/rom-studio/api/live":1,"/rom-studio/api/read":1,"/rom-studio/api/invoke":1},"scope":"One local sample, real host and browser. Includes browser-driver scheduling, network, codecs and frame scheduling; not an isolated renderer or universal performance benchmark."}
+  ✓   8 [webkit] › tests/runtime/host.spec.ts:454:3 › real redb finite renderer query and stream measurement (897ms)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_SHARED_SESSION {"backend":"sqlite","engine":"webkit","delivery_terminal":"finished","delivery_terminal_after_logout_ms":20,"both_tabs_cleared_after_logout_ms":14939,"scope":"Two pages share one real host session; browser request termination and current DOM clearing, not offline revocation."}
+  ✓   9 [webkit] › tests/runtime/host.spec.ts:545:3 › real sqlite shared session logout clears two tabs and closes delivery (16.1s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_SHARED_SESSION {"backend":"redb","engine":"webkit","delivery_terminal":"finished","delivery_terminal_after_logout_ms":38,"both_tabs_cleared_after_logout_ms":14958,"scope":"Two pages share one real host session; browser request termination and current DOM clearing, not offline revocation."}
+  ✓  10 [webkit] › tests/runtime/host.spec.ts:545:3 › real redb shared session logout clears two tabs and closes delivery (16.1s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_FINITE_SNAPSHOTS {"backend":"sqlite","engine":"webkit","snapshots":3,"observer_query_requests_during_snapshots":0,"cells":5,"mutation_to_frame_ms":[153,174,158],"scope":"Real host sequential changes, browser-driver/network/frame-inclusive samples; DOM count, not heap GC."}
+  ✓  11 [webkit] › tests/runtime/host.spec.ts:641:3 › real sqlite complete generic Task and Inventory browser workflows (9.3s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_FINITE_SNAPSHOTS {"backend":"redb","engine":"webkit","snapshots":3,"observer_query_requests_during_snapshots":0,"cells":5,"mutation_to_frame_ms":[137,157,159],"scope":"Real host sequential changes, browser-driver/network/frame-inclusive samples; DOM count, not heap GC."}
+  ✓  12 [webkit] › tests/runtime/host.spec.ts:641:3 › real redb complete generic Task and Inventory browser workflows (8.8s)
+
+  12 passed (1.7m)
