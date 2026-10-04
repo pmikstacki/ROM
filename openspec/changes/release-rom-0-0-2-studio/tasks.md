@@ -11,18 +11,18 @@
 ## 3. Studio and human identity
 - [x] 3.1 Verify and lock the selected frontend stack with actual shadcn components.
 - [x] 3.2 Implement shared field renderers, forms, tables, queries, and action controls.
-- [ ] 3.3 Implement optional Rust hosting and tested human login/session boundaries.
+- [x] 3.3 Implement optional Rust hosting and tested human login/session boundaries.
 - [x] 3.4 Add Users, Providers, Settings, and Work views using shared Resource components.
 
 ## 4. Integrated resilience and ergonomics
 - [x] 4.1 Test real browser workflows on both stores, including held-out Resources and keyboard operation.
 - [x] 4.2 Test uncertain outcomes, authority changes, conflicts, reconnect, and draft reconciliation.
-- [ ] 4.3 Close actual active-work shutdown and provider-to-maintenance evidence gaps.
+- [x] 4.3 Close actual active-work shutdown and provider-to-maintenance evidence gaps.
 - [x] 4.4 Test reentrant storage policy and seeded native operator migration obligations.
 - [ ] 4.5 Measure renderer/query/stream costs and independently review shared invariants.
 
 ## 5. Release and preview
-- [ ] 5.1 Align maintained package versions to 0.0.2 and document compatibility.
+- [x] 5.1 Align maintained package versions to 0.0.2 and document compatibility.
 - [ ] 5.2 Add frontend/browser/extracted-asset acceptance to fixed release and artifact gates.
 - [ ] 5.3 Update dependency notices, support notes, skills, and final scenario evidence.
 - [ ] 5.4 Run full clean-source acceptance and produce independently verified local artifacts.

@@ -146,3 +146,35 @@ Evidence and explanations:
 
 The package worker is adding extracted-asset acceptance and backward verification of the accepted historical manifest.
 The root coordinator still owns version alignment, full-source acceptance, artifact production, deployment, and final source integration.
+
+## Integrated preview profile and final client admission
+
+The trusted HTTPS backchannel and provider deployment profile are committed as `882e7a8`.
+The host admits explicit internal endpoints bound to the public issuer. It does not disable TLS verification.
+The private demo launcher and query wrapper correction are committed as `5889905`.
+The launcher keeps credentials outside source and shares the same Resource runtime on both stores.
+
+The final loopback browser regression passed 16 actual-host cases on SQLite and redb across Chromium and WebKit.
+This gate includes attachments, accepted-work SIGTERM drain, restart, and finite cost samples.
+It does not prove the deployed HTTPS proxy or remote Mac access.
+The final deployment gate remains pending.
+
+The current SDK admission run passed 70 tests. Its type check reported zero errors and zero warnings.
+The client accepts authorized input-descriptor subsets and rejects six native-impossible metadata forms.
+Independent review of this final admission slice remains required.
+
+Maintained package versions are 0.0.2. Known-advisory checks are recorded in `rom-0.0.2-dependency-check-results.md`.
+The fixed eight-gate release producer is implemented, but the complete clean-source run remains pending.
+The frontend notice collector and final integration review are active.
+All native work reuses the shared measured-verification target. No new target is planned.
+
+The integrated native run passed workspace tests, strict Clippy, rustdoc and the consumer example, then stopped at stale independent compile-fixture locks.
+Both local lockfiles are now aligned. The focused compile verifier passed without changing external dependency versions.
+See `rom-0.0.2-compile-lock-results.md`. The earlier complete command remains a failed run, not accepted evidence.
+
+The actual SIGTERM restart test now verifies exact recovered attachment bytes on both stores and browser engines.
+A controlled byte-corruption probe failed all four cases. Normal responses passed all four.
+This source slice is committed as `8915f1d`. See `rom-0.0.2-attachment-lifecycle-results.md`.
+
+The native provider-to-maintenance test retains both-store closed-owner, fresh-identity and current-replay evidence in `task6/native-final.log`.
+The optional real-host login and session boundary is implemented and tested. These obligations do not prove deployment or MacBook reachability.
