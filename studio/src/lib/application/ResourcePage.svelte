@@ -160,6 +160,8 @@
     </p>
   </div>
   <Button
+    size="sm"
+    class="max-lg:size-9"
     disabled={blocked}
     aria-label="Create Resource"
     title="Create Resource"
