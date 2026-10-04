@@ -60,3 +60,28 @@ This test proves the selected behavior for a small synthetic filesystem. It
 does not prove that the retained image has compatible carrier types, whiteout
 inventory, or origin handles. Inspect those properties before cache admission.
 The complete producer and its eight gates remain required.
+
+## Retained-image carrier inventory
+
+An independently reviewed read-only diagnostic inspected the selected image
+after a fresh no-writer and free-space check. It completed without a timeout.
+The outer result is
+`/root/ipi/research/disk-coordination-2026-10-04/ROM-carrier-diagnostic-run.json`.
+Its SHA-256 is
+`c8bdad3e60bcae7688c163bbadf1de012577b4fe8a83661218d98432b1b14bfc`.
+
+The physical traversal visited 6,775 entries. It found 19 opaque markers.
+Every marker was on a directory and had the value `y`. It found zero
+character-device whiteouts. The 19 carriers matched the count from the
+separate xattr-name scan. The traversal metadata and xattr digest was
+`a415c835c25a301813ea5a95c02a5d2c2261f25e2a1a91c2ccdd399bf0845a05`.
+This digest does not include file contents.
+
+The full image SHA-256 before and after was
+`3c848435186404e8cd7f7d0d403ed7ea64609b105c149dd76fb805ba0b7968db`.
+The guardian reported no remaining owned child, loop association, or cleanup
+error. The result retains `diagnosticOnly=true` and `compatible=false`.
+
+This resolves the carrier and whiteout inventory for this image. It does not
+verify the 547 origin handles in a merged lower view. Test that exact overlay
+composition before admitting the image as a build cache.
