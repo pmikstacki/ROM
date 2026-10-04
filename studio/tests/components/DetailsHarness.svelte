@@ -9,14 +9,17 @@
   let descriptor = $state.raw<ResourceDescriptor>({
     kind: "DraftFixture",
     version: 1,
-    fields: [{ name: "title", shape: { type: "string" } }],
+    fields: [
+      { name: "title", shape: { type: "string" } },
+      { name: "enabled", shape: { type: "bool" } },
+    ],
     actions: [],
     action_inputs: [],
   });
   let selected = $state.raw<ProjectedView>({
       key: { kind: "DraftFixture", id: "one" },
       revision: 1n,
-      value: { title: "original" },
+      value: { title: "original", enabled: false },
     }),
     generation = $state(0);
   function reload() {
@@ -43,7 +46,7 @@
       (selected = {
         ...selected,
         revision: 2n,
-        value: { title: "other change" },
+        value: { title: "other change", enabled: false },
       })}>Advance live revision</button
   >{#key generation}<ResourcePage {descriptor} {controller} {snapshot} />{/key}
 </main>

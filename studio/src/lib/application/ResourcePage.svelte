@@ -278,6 +278,7 @@
   </div>
   <ResponsiveInspector
     bind:open={inspectorOpen}
+    title={tab === "details" ? "Edit Resource" : "Filters"}
     onCloseFocus={() => inspectorTrigger?.focus()}
   >
     <Tabs.Root bind:value={tab} class="gap-4">

@@ -5,6 +5,7 @@
   import { Button } from "../components/ui/button/index.js";
   import SelectAdapter from "./SelectAdapter.svelte";
   import CheckboxAdapter from "./CheckboxAdapter.svelte";
+  import SwitchAdapter from "./SwitchAdapter.svelte";
   import ValueEditor from "./ValueEditor.svelte";
   import { defaultValue } from "./default-value.ts";
   import { findRenderer } from "./registry.ts";
@@ -18,6 +19,8 @@
     codec,
     codecWrappers = [],
     onerror = () => {},
+    direct = false,
+    showLabel = true,
   }: {
     shape: Shape;
     value: WireValue;
@@ -28,6 +31,8 @@
     codec?: FieldDescriptor["codec"];
     codecWrappers?: NonNullable<FieldDescriptor["codec_wrappers"]>;
     onerror?: (message: string) => void;
+    direct?: boolean;
+    showLabel?: boolean;
   } = $props();
   let invalid = $state("");
   let childErrors = $state<Record<string, string>>({});
@@ -165,20 +170,28 @@
     {readonly}
     {depth}
     {onerror}
+    {direct}
+    {showLabel}
     {codec}
     codecWrappers={wrapped ? codecWrappers.slice(1) : []}
   />
 {:else if shape.type === "bool"}
-  <CheckboxAdapter
-    label={`${label} value`}
-    text={label}
-    checked={value === true}
-    disabled={readonly}
-    {onchange}
-  />
+  {#if direct}<SwitchAdapter
+      {label}
+      {showLabel}
+      checked={value === true}
+      disabled={readonly}
+      {onchange}
+    />{:else}<CheckboxAdapter
+      label={`${label} value`}
+      text={label}
+      checked={value === true}
+      disabled={readonly}
+      {onchange}
+    />{/if}
 {:else if shape.type === "enum"}
   <div class="space-y-1.5">
-    <span class="text-sm">{label}</span>
+    {#if showLabel}<span class="text-sm">{label}</span>{/if}
     <SelectAdapter
       label={`${label} value`}
       value={String(value ?? "")}
@@ -188,8 +201,10 @@
     />
   </div>
 {:else if shape.type === "list"}
-  <fieldset>
-    <legend>{label} items</legend>
+  <fieldset class="space-y-2">
+    <legend class="text-xs text-muted-foreground">
+      {direct ? "Items" : `${label} items`}
+    </legend>
     {#if depth >= maxDepth}<p role="alert">
         Collection nesting limit reached.
       </p>{:else if Array.isArray(value) && value.length > maxItems}<p
@@ -198,34 +213,50 @@
         Collection item limit reached. Editing is unavailable.
       </p>{:else}
       {#each Array.isArray(value) ? value : [] as item, index (itemKeys[index] ?? `initial-${index}`)}
-        <ValueEditor
-          shape={shape.value}
-          {codec}
-          codecWrappers={wrapped ? codecWrappers.slice(1) : []}
-          value={item}
-          onchange={(next) => listChange(index, next)}
-          label={`${label}[${index}]`}
-          {readonly}
-          depth={depth + 1}
-          onerror={(error) => childError(String(index), error)}
-        />
-        <Button
-          type="button"
-          disabled={readonly}
-          onclick={() => removeList(index)}>Remove {label}[{index}]</Button
-        >
+        <div class:rounded-md={direct} class:border={direct} class:p-2={direct}>
+          {#if direct}<p class="mb-2 text-xs text-muted-foreground">
+              Item {index + 1}
+            </p>{/if}
+          <ValueEditor
+            shape={shape.value}
+            {codec}
+            codecWrappers={wrapped ? codecWrappers.slice(1) : []}
+            value={item}
+            onchange={(next) => listChange(index, next)}
+            label={`${label}[${index}]`}
+            {readonly}
+            {direct}
+            showLabel={!direct}
+            depth={depth + 1}
+            onerror={(error) => childError(String(index), error)}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            class="mt-2"
+            aria-label={`Remove ${label}[${index}]`}
+            disabled={readonly}
+            onclick={() => removeList(index)}>Remove item</Button
+          >
+        </div>
       {/each}
       <Button
         type="button"
+        variant="outline"
+        size="sm"
+        aria-label={`Add ${label} item`}
         disabled={readonly ||
           (Array.isArray(value) && value.length >= maxItems)}
-        onclick={addList}>Add {label} item</Button
+        onclick={addList}>Add item</Button
       >
     {/if}
   </fieldset>
 {:else if shape.type === "map"}
-  <fieldset>
-    <legend>{label} entries</legend>
+  <fieldset class="space-y-2">
+    <legend class="text-xs text-muted-foreground">
+      {direct ? "Entries" : `${label} entries`}
+    </legend>
     {#if depth >= maxDepth}<p role="alert">
         Collection nesting limit reached.
       </p>{:else if value && typeof value === "object" && !Array.isArray(value) && Object.keys(value).length > maxItems}<p
@@ -234,20 +265,33 @@
         Collection item limit reached. Editing is unavailable.
       </p>{:else}
       {#each Object.entries(value && typeof value === "object" && !Array.isArray(value) ? value : {}) as [key, item] (key)}
-        <ValueEditor
-          shape={shape.value}
-          {codec}
-          codecWrappers={wrapped ? codecWrappers.slice(1) : []}
-          value={item}
-          onchange={(next) => mapChange(key, next)}
-          label={`${label}.${key}`}
-          {readonly}
-          depth={depth + 1}
-          onerror={(error) => childError(key, error)}
-        />
-        <Button type="button" disabled={readonly} onclick={() => removeKey(key)}
-          >Remove {label}.{key}</Button
-        >
+        <div class:rounded-md={direct} class:border={direct} class:p-2={direct}>
+          {#if direct}<p class="mb-2 break-all text-xs text-muted-foreground">
+              {key}
+            </p>{/if}
+          <ValueEditor
+            shape={shape.value}
+            {codec}
+            codecWrappers={wrapped ? codecWrappers.slice(1) : []}
+            value={item}
+            onchange={(next) => mapChange(key, next)}
+            label={`${label}.${key}`}
+            {readonly}
+            {direct}
+            showLabel={!direct}
+            depth={depth + 1}
+            onerror={(error) => childError(key, error)}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            class="mt-2"
+            aria-label={`Remove ${label}.${key}`}
+            disabled={readonly}
+            onclick={() => removeKey(key)}>Remove entry</Button
+          >
+        </div>
       {/each}
       <label
         >{label} new key<Input
@@ -258,24 +302,36 @@
       >
       <Button
         type="button"
+        variant="outline"
+        size="sm"
+        aria-label={`Add ${label} entry`}
         disabled={readonly ||
           !newKey ||
           (value !== null &&
             typeof value === "object" &&
             Object.keys(value).length >= maxItems)}
-        onclick={addKey}>Add {label} entry</Button
+        onclick={addKey}>Add entry</Button
       >
     {/if}
   </fieldset>
 {:else}
   <label
-    >{label}<Input
+    >{#if showLabel}<span>{label}</span>{/if}<Input
       aria-label={`${label} value`}
+      type={shape.type === "reference" ? "search" : "text"}
+      inputmode={shape.type === "u64" || shape.type === "i64"
+        ? "numeric"
+        : shape.type === "f64"
+          ? "decimal"
+          : undefined}
       value={value === null ? "" : String(value)}
       disabled={readonly}
       aria-invalid={!!invalid}
       oninput={(event) => scalar(event.currentTarget.value)}
     /></label
   >
+  {#if shape.type === "reference"}<p class="text-xs text-muted-foreground">
+      Resource ID in {shape.value.kind}
+    </p>{/if}
 {/if}
 {#if invalid}<p role="alert">{invalid}</p>{/if}

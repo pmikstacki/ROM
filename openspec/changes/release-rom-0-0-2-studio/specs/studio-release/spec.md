@@ -21,6 +21,20 @@ Metadata disclosure MUST NOT imply invocation permission or reveal disallowed re
 ### Requirement: Browser values retain mutation intent
 Studio SHALL preserve omitted, null, false, zero, empty, removal, and exact integer values according to the operation contract.
 
+The selected Resource editor SHALL show controls for current authorized values without requiring an operation selection for each ordinary edit. Changing a control SHALL create an explicit field intent. Nullable and optional field actions SHALL appear only when the descriptor permits them. Unknown custom codec versions SHALL remain read-only until an editor is registered.
+
+#### Scenario: Edit a field directly on mobile
+- **GIVEN** a selected Resource with a current value and an open mobile inspector
+- **WHEN** the user changes one field control
+- **THEN** Studio SHALL submit only that field's update
+- **AND** it SHALL keep other fields unchanged
+
+#### Scenario: Distinguish explicit field states
+- **GIVEN** string, boolean, integer, nullable, and optional fields
+- **WHEN** the user sets empty, false, zero, null, or remove
+- **THEN** Studio SHALL encode each as its distinct mutation operation
+- **AND** an unsupported custom codec SHALL not create an editable input
+
 #### Scenario: Boundary integers round trip
 - **GIVEN** fields with i64 and u64 boundary values
 - **WHEN** Studio reads and submits these values

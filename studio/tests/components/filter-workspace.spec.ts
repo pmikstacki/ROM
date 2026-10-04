@@ -116,10 +116,9 @@ test("Resource draft survives filter tab, Apply and mobile inspector lifecycle",
     exact: true,
   });
   await expect(details).toBeVisible();
-  await selectValue(
-    details.getByRole("button", { name: "title mode", exact: true }),
-    "value",
-  );
+  await expect(
+    details.getByRole("textbox", { name: "title value", exact: true }),
+  ).toHaveValue("original");
   await details
     .getByRole("textbox", { name: "title value", exact: true })
     .fill("keep my draft");
@@ -134,7 +133,7 @@ test("Resource draft survives filter tab, Apply and mobile inspector lifecycle",
   ).toHaveValue("keep my draft");
   await page.setViewportSize({ width: 390, height: 844 });
   const sheet = page.getByRole("dialog", {
-    name: "Resource tools",
+    name: "Edit Resource",
     exact: true,
   });
   await expect(sheet).toBeVisible();

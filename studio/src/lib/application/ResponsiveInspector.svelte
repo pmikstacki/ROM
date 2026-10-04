@@ -8,10 +8,12 @@
     open = $bindable(true),
     children,
     onCloseFocus = () => {},
+    title = "Resource tools",
   }: {
     open?: boolean;
     children: Snippet;
     onCloseFocus?: () => void;
+    title?: string;
   } = $props();
   const mobile = new MediaQuery(INSPECTOR_MEDIA_QUERY);
   let desktopTarget = $state<HTMLDivElement | null>(null);
@@ -51,12 +53,12 @@
       if (mobile.current) onCloseFocus();
     }}
     hidden={!sheetOpen}
-    class="w-[min(100%,24rem)] overflow-y-auto p-4"
+    class="data-[side=right]:w-full data-[side=right]:sm:max-w-xl overflow-y-auto p-4"
     showCloseButton={true}
   >
     <Sheet.Header class="pr-8">
-      <Sheet.Title>Resource tools</Sheet.Title>
-      <Sheet.Description
+      <Sheet.Title>{title}</Sheet.Title>
+      <Sheet.Description class="sr-only"
         >Filters and selected Resource details.</Sheet.Description
       >
     </Sheet.Header>

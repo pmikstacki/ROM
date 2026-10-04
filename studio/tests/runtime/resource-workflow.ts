@@ -75,17 +75,13 @@ export async function updateResource(
     name: "Resource details",
     exact: true,
   });
-  await selectValue(
-    details.getByLabel(`${field} mode`, { exact: true }),
-    "value",
-  );
   const input = details.getByLabel(`${field} value`, { exact: true });
   await input.focus();
   await expect(input).toBeFocused();
   await page.keyboard.press("ControlOrMeta+A");
   await page.keyboard.type(value);
   await details
-    .getByRole("button", { name: "Apply patch", exact: true })
+    .getByRole("button", { name: "Save 1 change", exact: true })
     .click();
   await expect(page.getByText(value, { exact: true }).first()).toBeVisible();
 }

@@ -4,6 +4,29 @@ import AxeBuilder from "@axe-core/playwright";
 test.beforeEach(async ({ page }) => {
   await page.goto("./tests/components/harness.html");
 });
+test("integer fields request a numeric mobile keyboard without losing exact input", async ({
+  page,
+}) => {
+  await selectValue(page.getByLabel("count mode", { exact: true }), "value");
+  const count = page.getByLabel("count value", { exact: true });
+  await expect(count).toHaveAttribute("inputmode", "numeric");
+  await count.fill("18446744073709551615");
+  await page.getByRole("button", { name: "Apply patch" }).click();
+  await expect(page.getByTestId("submitted")).toContainText(
+    "18446744073709551615",
+  );
+});
+test("Resource references identify the target kind while accepting an exact ID", async ({
+  page,
+}) => {
+  await selectValue(page.getByLabel("linked mode", { exact: true }), "value");
+  const linked = page.getByLabel("linked value", { exact: true });
+  await expect(linked).toHaveAttribute("type", "search");
+  await expect(page.getByText("Resource ID in fixture")).toBeVisible();
+  await linked.fill("row-2");
+  await page.getByRole("button", { name: "Apply patch" }).click();
+  await expect(page.getByTestId("submitted")).toContainText('"value":"row-2"');
+});
 test("Resource controls preserve integer, presence, boolean and nested edits", async ({
   page,
 }) => {

@@ -7,7 +7,6 @@
   } from "../client/types.ts";
   import ResourceForm from "../resources/ResourceForm.svelte";
   import ActionForm from "../resources/ActionForm.svelte";
-  import ValueDisplay from "../renderers/ValueDisplay.svelte";
   import CheckboxAdapter from "../renderers/CheckboxAdapter.svelte";
   import { Button } from "../components/ui/button/index.js";
   let {
@@ -43,17 +42,10 @@
       >Discard draft and reload</Button
     >{/if}
   {#if selected.value === null}<p>This Resource is deleted.</p>{:else}
-    <dl
-      class="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-x-4 gap-y-2 rounded-lg bg-muted/40 p-3 text-sm"
-    >
-      {#each descriptor.fields as field}<dt>{field.name}</dt>
-        <dd>
-          <ValueDisplay descriptor={field} value={selected.value[field.name]} />
-        </dd>{/each}
-    </dl>
     <fieldset class="space-y-4" disabled={blocked || stale}>
       <ResourceForm
         {descriptor}
+        direct
         readonly={blocked || stale}
         value={selected.value}
         mode="patch"

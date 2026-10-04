@@ -39,10 +39,6 @@ for (const backend of ["sqlite", "redb"])
       await page
         .getByRole("button", { name: "Open task-a", exact: true })
         .click();
-      await selectValue(
-        page.getByLabel("title mode", { exact: true }),
-        "value",
-      );
       await page
         .getByLabel("title value", { exact: true })
         .fill("Confirmed once");
@@ -55,7 +51,7 @@ for (const backend of ["sqlite", "redb"])
         } else await route.continue();
       });
       await page
-        .getByRole("button", { name: "Apply patch", exact: true })
+        .getByRole("button", { name: "Save 1 change", exact: true })
         .click();
       await expect(
         page.getByRole("button", { name: "Retry same mutation" }),
@@ -123,34 +119,26 @@ for (const backend of ["sqlite", "redb"])
       await page
         .getByRole("button", { name: "Open ticket-a", exact: true })
         .click();
+      await page
+        .getByRole("region", { name: "Resource details" })
+        .getByText(/Advanced fields · [0-9]+ read-only/)
+        .click();
       await expect(
-        page.getByLabel("opaque mode", { exact: true }),
-      ).toBeDisabled();
+        page.getByLabel("opaque options", { exact: true }),
+      ).toHaveCount(0);
       await expect(
-        page.getByLabel("required_handle mode", { exact: true }),
-      ).toBeDisabled();
+        page.getByLabel("required_handle options", { exact: true }),
+      ).toHaveCount(0);
       if (process.env.ROM_STUDIO_DEMO_RENDERER === "1") {
-        await selectValue(
-          page.getByLabel("optional_code mode", { exact: true }),
-          "value",
-        );
         await page
           .getByLabel("optional_code value", { exact: true })
           .fill("ticket-o2");
-        await selectValue(
-          page.getByLabel("code_list mode", { exact: true }),
-          "value",
-        );
         await page
           .getByLabel("code_list[0] value", { exact: true })
           .fill("ticket-l2");
-        await selectValue(
-          page.getByLabel("code mode", { exact: true }),
-          "value",
-        );
         await page.getByLabel("code value", { exact: true }).fill("ticket-b2");
         await page
-          .getByRole("button", { name: "Apply patch", exact: true })
+          .getByRole("button", { name: "Save 3 changes", exact: true })
           .click();
         await expect(
           page.getByText("TICKET-B2", { exact: true }).first(),
@@ -163,16 +151,10 @@ for (const backend of ["sqlite", "redb"])
         ).toBeVisible();
       } else
         await expect(
-          page
-            .getByText(
-              "Custom editor unavailable for demo-ticket-code version 1. Existing values are preserved.",
-            )
-            .first(),
+          page.getByText(/No safe editor for demo-ticket-code v1/).first(),
         ).toBeVisible();
       await expect(
-        page
-          .getByText(/Custom editor unavailable for demo-opaque-handle/)
-          .first(),
+        page.getByText(/No safe editor for demo-opaque-handle v1/).first(),
       ).toBeVisible();
       await host.restart();
       await page.reload();
@@ -518,16 +500,12 @@ for (const backend of ["sqlite", "redb"])
       await page
         .getByRole("button", { name: "Open task-a", exact: true })
         .click();
-      await selectValue(
-        page.getByLabel("title mode", { exact: true }),
-        "value",
-      );
       await page
         .getByLabel("title value", { exact: true })
         .fill("Measured live update");
       const mutationStarted = await page.evaluate(() => performance.now());
       await page
-        .getByRole("button", { name: "Apply patch", exact: true })
+        .getByRole("button", { name: "Save 1 change", exact: true })
         .click();
       await expect(
         page.getByText("Measured live update", { exact: true }).first(),

@@ -16,6 +16,7 @@
 - [x] 3.5 Install the complete official shadcn-svelte component set. Apply its responsive Sidebar and controlled inputs to all generic views. Verify keyboard, mobile, draft and recovery behavior.
 
 - [x] 3.6 Implement shared quick filters and Filters / Details sidebar with a pinned SVAR composition fork. Verify exact values, pending drafts, metadata changes, keyboard/mobile lifecycle and emitted original license notices.
+- [ ] 3.7 Replace per-field operation menus in the selected Resource editor with direct descriptor-driven controls. Keep exact field intent, accessible mobile layout, unknown-codec protection, and integrated browser evidence. Add new semantic field codecs only with versioned descriptor and codec conformance.
 
 ## 4. Integrated resilience and ergonomics
 - [x] 4.1 Test real browser workflows on both stores, including held-out Resources and keyboard operation.
