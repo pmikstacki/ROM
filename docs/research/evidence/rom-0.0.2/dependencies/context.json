@@ -1,0 +1,25 @@
+{
+  "time": "2026-10-04T00:53:25.791Z",
+  "cargo_lock_sha256": "f7888a62236f6ec5514f496a73cc84d27796b69328dc65cf00333a4cf3e45d96",
+  "npm_lock_sha256": "7830342279addd8dd5dab7ed82d66aa6574b0e70839b9c326b46225394c1f68e",
+  "cargo_auditor": "cargo-audit 0.22.2",
+  "cargo_database": {
+    "advisory-count": 1290,
+    "last-commit": "ef6173cbc5c50ec8166f9a5b28f07834144373ee",
+    "last-updated": "2026-10-03T10:14:03+02:00"
+  },
+  "cargo_advisories": {
+    "found": false,
+    "count": 0,
+    "list": []
+  },
+  "npm_vulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "external_cargo_package_count": 282
+}

@@ -1,7 +1,7 @@
 # Maintained dependency inventory
 
 Generated from the all-features Cargo graph (including target-specific and dev dependencies).
-Lockfile SHA-256: `fd8c304a3bde42c05c9503f0c6de201bd23b2d788dafba678c508ebae91b9a83`. This records declarations, not a blanket license or vulnerability certification. Native vendored code may carry additional notices.
+Lockfile SHA-256: `f7888a62236f6ec5514f496a73cc84d27796b69328dc65cf00333a4cf3e45d96`. This records declarations, not a blanket license or vulnerability certification. Native vendored code may carry additional notices.
 
 | Crate | Version | Declared license | Declared Rust floor |
 |---|---|---|---|
