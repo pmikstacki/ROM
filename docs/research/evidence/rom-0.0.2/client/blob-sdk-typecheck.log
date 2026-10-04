@@ -1,0 +1,22 @@
+
+> rom-studio@0.0.2 check
+> svelte-check --tsconfig ./tsconfig.json
+
+Loading svelte-check in workspace: /root/ROM/.worktrees/release-query-index/studio
+Getting Svelte diagnostics...
+
+/root/ROM/.worktrees/release-query-index/studio/src/lib/client/blobs.ts:16:32
+Error: 'object.operations' is possibly 'null'. 
+  if (!Array.isArray(object.operations) || object.operations.length !== operations.length ||
+      operations.some((op) => !object.operations.includes(op))) throw Error("blob operations");
+  const positive = (name: string) => {
+
+/root/ROM/.worktrees/release-query-index/studio/src/lib/client/blobs.ts:16:50
+Error: Property 'includes' does not exist on type 'string | number | bigint | boolean | WireValue[] | WireObject'.
+  Property 'includes' does not exist on type 'number'. 
+  if (!Array.isArray(object.operations) || object.operations.length !== operations.length ||
+      operations.some((op) => !object.operations.includes(op))) throw Error("blob operations");
+  const positive = (name: string) => {
+
+====================================
+svelte-check found 2 errors and 0 warnings in 1 file

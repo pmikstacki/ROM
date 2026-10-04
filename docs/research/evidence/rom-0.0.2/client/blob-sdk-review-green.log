@@ -1,0 +1,402 @@
+
+> rom-studio@0.0.2 test:unit
+> node --experimental-strip-types --test tests/unit/*.test.ts
+
+TAP version 13
+# (node:2820206) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: canonical query boundary survives cloning and float integer replay
+ok 1 - canonical query boundary survives cloning and float integer replay
+  ---
+  duration_ms: 26.537796
+  type: 'test'
+  ...
+# Subtest: anchors reject journal cursors and response identity changes
+ok 2 - anchors reject journal cursors and response identity changes
+  ---
+  duration_ms: 1.538934
+  type: 'test'
+  ...
+# Subtest: anchor admission rejects malformed native envelope members
+ok 3 - anchor admission rejects malformed native envelope members
+  ---
+  duration_ms: 1.135938
+  type: 'test'
+  ...
+# Subtest: anchor replies bind the requested literal order and predicate structure
+ok 4 - anchor replies bind the requested literal order and predicate structure
+  ---
+  duration_ms: 1.265314
+  type: 'test'
+  ...
+# Subtest: anchor correspondence leaves canonical codec operands opaque
+ok 5 - anchor correspondence leaves canonical codec operands opaque
+  ---
+  duration_ms: 1.634125
+  type: 'test'
+  ...
+# Subtest: anchor value states keep missing distinct from present null
+ok 6 - anchor value states keep missing distinct from present null
+  ---
+  duration_ms: 0.290903
+  type: 'test'
+  ...
+# Subtest: native comparison operators cannot be coerced from arrays
+ok 7 - native comparison operators cannot be coerced from arrays
+  ---
+  duration_ms: 0.235668
+  type: 'test'
+  ...
+# Subtest: native absence predicates retain their null and equality constraints
+ok 8 - native absence predicates retain their null and equality constraints
+  ---
+  duration_ms: 0.227623
+  type: 'test'
+  ...
+# Subtest: public anchor response is bound to the submitted snapshot despite caller edits
+ok 9 - public anchor response is bound to the submitted snapshot despite caller edits
+  ---
+  duration_ms: 1.718846
+  type: 'test'
+  ...
+# (node:2820207) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: blob capabilities and reserve bind the admitted kind, ID and exact integer body
+ok 10 - blob capabilities and reserve bind the admitted kind, ID and exact integer body
+  ---
+  duration_ms: 21.277921
+  type: 'test'
+  ...
+# Subtest: blob uploads use immutable bytes, same-origin CSRF and bound projected responses
+ok 11 - blob uploads use immutable bytes, same-origin CSRF and bound projected responses
+  ---
+  duration_ms: 2.21596
+  type: 'test'
+  ...
+# Subtest: blob capability limits, operation and response status admission fail closed
+ok 12 - blob capability limits, operation and response status admission fail closed
+  ---
+  duration_ms: 1.382337
+  type: 'test'
+  ...
+# Subtest: blob generation and finite deadline protect binary requests and explicit recovery
+ok 13 - blob generation and finite deadline protect binary requests and explicit recovery
+  ---
+  duration_ms: 11.213718
+  type: 'test'
+  ...
+# Subtest: download enforces admitted size and binary type without JSON decoding
+ok 14 - download enforces admitted size and binary type without JSON decoding
+  ---
+  duration_ms: 1.564402
+  type: 'test'
+  ...
+# Subtest: download IDs cannot normalize into another route and rejected headers cancel unused bytes
+ok 15 - download IDs cannot normalize into another route and rejected headers cancel unused bytes
+  ---
+  duration_ms: 1.044946
+  type: 'test'
+  ...
+# Subtest: returned capabilities cannot widen private admission and reserve input is frozen before waiting
+ok 16 - returned capabilities cannot widen private admission and reserve input is frozen before waiting
+  ---
+  duration_ms: 0.855847
+  type: 'test'
+  ...
+# Subtest: binary request pre-abort reaches no transport and failed capability refresh closes admission
+ok 17 - binary request pre-abort reaches no transport and failed capability refresh closes admission
+  ---
+  duration_ms: 0.712073
+  type: 'test'
+  ...
+# Subtest: capability completion cannot stamp an old response with a new session generation
+ok 18 - capability completion cannot stamp an old response with a new session generation
+  ---
+  duration_ms: 10.162169
+  type: 'test'
+  ...
+# (node:2820208) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: binds result identity and preserves revision, never accepts wrong resource
+ok 19 - binds result identity and preserves revision, never accepts wrong resource
+  ---
+  duration_ms: 21.667611
+  type: 'test'
+  ...
+# Subtest: lost response retains exact frozen request and key for explicit retry
+ok 20 - lost response retains exact frozen request and key for explicit retry
+  ---
+  duration_ms: 1.581976
+  type: 'test'
+  ...
+# Subtest: session generation rejects stale replies and old mutation retries
+ok 21 - session generation rejects stale replies and old mutation retries
+  ---
+  duration_ms: 0.965194
+  type: 'test'
+  ...
+# Subtest: denial is rejected, conflict is distinct and unknown outcome is recoverable
+ok 22 - denial is rejected, conflict is distinct and unknown outcome is recoverable
+  ---
+  duration_ms: 1.710681
+  type: 'test'
+  ...
+# Subtest: response bounds, content type and rows are enforced
+ok 23 - response bounds, content type and rows are enforced
+  ---
+  duration_ms: 3.727663
+  type: 'test'
+  ...
+# Subtest: public mutation status cannot bypass private ownership or reuse a failed attempt
+ok 24 - public mutation status cannot bypass private ownership or reuse a failed attempt
+  ---
+  duration_ms: 0.282728
+  type: 'test'
+  ...
+# Subtest: an unclassified server failure remains unknown and must not imply rollback
+ok 25 - an unclassified server failure remains unknown and must not imply rollback
+  ---
+  duration_ms: 0.679942
+  type: 'test'
+  ...
+# Subtest: receipt replay rechecks current server authority rather than returning a cached result
+ok 26 - receipt replay rechecks current server authority rather than returning a cached result
+  ---
+  duration_ms: 0.879521
+  type: 'test'
+  ...
+# (node:2820209) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: wire codec preserves boundary integers and ordinary false/zero/null/empty values
+ok 27 - wire codec preserves boundary integers and ordinary false/zero/null/empty values
+  ---
+  duration_ms: 1.862679
+  type: 'test'
+  ...
+# Subtest: wire parser rejects duplicate keys, oversized text, excessive nesting, and infinite numbers
+ok 28 - wire parser rejects duplicate keys, oversized text, excessive nesting, and infinite numbers
+  ---
+  duration_ms: 0.609248
+  type: 'test'
+  ...
+# Subtest: wire maps preserve reserved names without prototype mutation
+ok 29 - wire maps preserve reserved names without prototype mutation
+  ---
+  duration_ms: 0.196884
+  type: 'test'
+  ...
+# Subtest: wire encoder refuses nonfinite and recursive values before sending them
+ok 30 - wire encoder refuses nonfinite and recursive values before sending them
+  ---
+  duration_ms: 0.25232
+  type: 'test'
+  ...
+# Subtest: scalar normalization applies exact integer ranges and finite float semantics
+ok 31 - scalar normalization applies exact integer ranges and finite float semantics
+  ---
+  duration_ms: 8.38346
+  type: 'test'
+  ...
+# Subtest: object and patch encoders distinguish omission, null, value and removal
+ok 32 - object and patch encoders distinguish omission, null, value and removal
+  ---
+  duration_ms: 0.887717
+  type: 'test'
+  ...
+# Subtest: structural normalization bounds nesting and validates enums, references and maps
+ok 33 - structural normalization bounds nesting and validates enums, references and maps
+  ---
+  duration_ms: 0.326971
+  type: 'test'
+  ...
+# Subtest: malformed runtime modes and shapes are refused, not coerced
+ok 34 - malformed runtime modes and shapes are refused, not coerced
+  ---
+  duration_ms: 0.146739
+  type: 'test'
+  ...
+# Subtest: wire strings agree with Rust Unicode and preserve signed zero
+ok 35 - wire strings agree with Rust Unicode and preserve signed zero
+  ---
+  duration_ms: 1.470825
+  type: 'test'
+  ...
+# Subtest: array and map accessors are rejected without executing user code
+ok 36 - array and map accessors are rejected without executing user code
+  ---
+  duration_ms: 0.386194
+  type: 'test'
+  ...
+# Subtest: parsed floating integer tokens retain their Rust number category on replay
+ok 37 - parsed floating integer tokens retain their Rust number category on replay
+  ---
+  duration_ms: 1.400922
+  type: 'test'
+  ...
+# (node:2820210) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: accepts authorized descriptor and rejects duplicate or inconsistent metadata
+ok 38 - accepts authorized descriptor and rejects duplicate or inconsistent metadata
+  ---
+  duration_ms: 21.452854
+  type: 'test'
+  ...
+# Subtest: bounded POST stream handles split CRLF frames and surfaces terminal errors
+ok 39 - bounded POST stream handles split CRLF frames and surfaces terminal errors
+  ---
+  duration_ms: 1.654364
+  type: 'test'
+  ...
+# Subtest: stream rejects oversized frames and a wrong kind before disclosure
+ok 40 - stream rejects oversized frames and a wrong kind before disclosure
+  ---
+  duration_ms: 1.237692
+  type: 'test'
+  ...
+# Subtest: idle stream closes its reader on timeout and cancellation
+ok 41 - idle stream closes its reader on timeout and cancellation
+  ---
+  duration_ms: 12.861539
+  type: 'test'
+  ...
+# Subtest: stream flushes UTF8 decoder and treats silent EOF as stale
+ok 42 - stream flushes UTF8 decoder and treats silent EOF as stale
+  ---
+  duration_ms: 0.947931
+  type: 'test'
+  ...
+# Subtest: invalid stream media cancels its body, and opening errors retain server category
+ok 43 - invalid stream media cancels its body, and opening errors retain server category
+  ---
+  duration_ms: 0.639014
+  type: 'test'
+  ...
+# Subtest: live snapshots obey the requested page limit
+ok 44 - live snapshots obey the requested page limit
+  ---
+  duration_ms: 0.418946
+  type: 'test'
+  ...
+# Subtest: observation admission is finite and cancellation releases its slot
+ok 45 - observation admission is finite and cancellation releases its slot
+  ---
+  duration_ms: 0.769482
+  type: 'test'
+  ...
+# Subtest: discovery retains bounded wrapper paths and rejects shape mismatches
+ok 46 - discovery retains bounded wrapper paths and rejects shape mismatches
+  ---
+  duration_ms: 1.332422
+  type: 'test'
+  ...
+# (node:2820211) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: journal validates cursor generation, kind and strictly advancing positions
+ok 47 - journal validates cursor generation, kind and strictly advancing positions
+  ---
+  duration_ms: 17.9773
+  type: 'test'
+  ...
+# (node:2820220) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: POST deadline rejects even when transport ignores abort
+ok 48 - POST deadline rejects even when transport ignores abort
+  ---
+  duration_ms: 21.257422
+  type: 'test'
+  ...
+# Subtest: already aborted request does not invoke transport
+ok 49 - already aborted request does not invoke transport
+  ---
+  duration_ms: 0.25264
+  type: 'test'
+  ...
+# Subtest: oversized body rejection does not await transport cancellation
+ok 50 - oversized body rejection does not await transport cancellation
+  ---
+  duration_ms: 0.766447
+  type: 'test'
+  ...
+# Subtest: query reply obeys explicit page limit
+ok 51 - query reply obeys explicit page limit
+  ---
+  duration_ms: 1.101623
+  type: 'test'
+  ...
+# Subtest: mutation reply must match revision and deletion semantics
+ok 52 - mutation reply must match revision and deletion semantics
+  ---
+  duration_ms: 1.2416
+  type: 'test'
+  ...
+# Subtest: legal no-op revision and deletion are accepted
+ok 53 - legal no-op revision and deletion are accepted
+  ---
+  duration_ms: 0.503246
+  type: 'test'
+  ...
+# Subtest: response reader and parser use the same byte policy
+ok 54 - response reader and parser use the same byte policy
+  ---
+  duration_ms: 8.017604
+  type: 'test'
+  ...
+# Subtest: timer values outside execution range are rejected before transport
+ok 55 - timer values outside execution range are rejected before transport
+  ---
+  duration_ms: 0.17917
+  type: 'test'
+  ...
+# Subtest: floating wire tokens cannot become integer metadata
+ok 56 - floating wire tokens cannot become integer metadata
+  ---
+  duration_ms: 1.088668
+  type: 'test'
+  ...
+# Subtest: request timeout cancels an opened idle response body
+ok 57 - request timeout cancels an opened idle response body
+  ---
+  duration_ms: 6.520962
+  type: 'test'
+  ...
+# Subtest: a mutation without a prior row binds the initial revision
+ok 58 - a mutation without a prior row binds the initial revision
+  ---
+  duration_ms: 0.559813
+  type: 'test'
+  ...
+# (node:2820244) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: work reads bind handles and validate protocol, state and counters
+ok 59 - work reads bind handles and validate protocol, state and counters
+  ---
+  duration_ms: 25.347313
+  type: 'test'
+  ...
+# Subtest: operator control binds key, operation, history and coherent revision
+ok 60 - operator control binds key, operation, history and coherent revision
+  ---
+  duration_ms: 1.992727
+  type: 'test'
+  ...
+# Subtest: work capabilities and lists reject invalid booleans, handles, duplicate rows and limits
+ok 61 - work capabilities and lists reject invalid booleans, handles, duplicate rows and limits
+  ---
+  duration_ms: 1.667478
+  type: 'test'
+  ...
+# Subtest: response is bound to the original submitted control despite caller edits
+ok 62 - response is bound to the original submitted control despite caller edits
+  ---
+  duration_ms: 0.312204
+  type: 'test'
+  ...
+1..62
+# tests 62
+# suites 0
+# pass 62
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 315.831287

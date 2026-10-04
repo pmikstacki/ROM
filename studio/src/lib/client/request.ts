@@ -11,18 +11,23 @@ export class RemoteError extends Error {
     this.status = status;
   }
 }
-export async function boundedBody(
+export function discardBody(response: Response): void {
+  void response.body?.cancel().catch(() => {});
+}
+export async function boundedBytes(
   response: Response,
   maxBytes: number,
   signal?: AbortSignal,
-): Promise<string> {
+): Promise<Uint8Array> {
   const declared = response.headers.get("content-length");
   if (
     declared !== null &&
     (!/^\d+$/.test(declared) || BigInt(declared) > BigInt(maxBytes))
-  )
+  ) {
+    discardBody(response);
     throw new Error("response bytes limit");
-  if (!response.body) return "";
+  }
+  if (!response.body) return new Uint8Array();
   const reader = response.body.getReader();
   const cancel = () => {
     void reader.cancel().catch(() => {});
@@ -46,12 +51,41 @@ export async function boundedBody(
       bytes.set(chunk, offset);
       offset += chunk.byteLength;
     }
-    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+    return bytes;
   } finally {
     signal?.removeEventListener("abort", cancel);
     cancel();
     reader.releaseLock();
   }
+}
+export async function boundedBody(
+  response: Response,
+  maxBytes: number,
+  signal?: AbortSignal,
+): Promise<string> {
+  return new TextDecoder("utf-8", { fatal: true }).decode(
+    await boundedBytes(response, maxBytes, signal),
+  );
+}
+export async function jsonResponse(
+  response: Response,
+  options: ClientOptions,
+  signal: AbortSignal,
+): Promise<WireValue> {
+  if (
+    response.headers.get("content-type")?.split(";")[0].trim() !==
+    "application/json"
+  ) {
+    discardBody(response);
+    throw new Error("invalid response content type");
+  }
+  const value = parseWire(
+    await boundedBody(response, options.maxBytes ?? 1048576, signal),
+    options.maxBytes ?? 1048576,
+  );
+  if (!response.ok)
+    throw new RemoteError(text(record(value).error), response.status);
+  return value;
 }
 export async function post(
   options: ClientOptions,
@@ -75,16 +109,5 @@ export async function post(
       body: stringifyWire(body),
     },
   );
-  if (
-    response.headers.get("content-type")?.split(";")[0].trim() !==
-    "application/json"
-  )
-    throw new Error("invalid response content type");
-  const value = parseWire(
-    await boundedBody(response, options.maxBytes ?? 1048576, signal),
-    options.maxBytes ?? 1048576,
-  );
-  if (!response.ok)
-    throw new RemoteError(text(record(value).error), response.status);
-  return value;
+  return jsonResponse(response, options, signal);
 }

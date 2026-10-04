@@ -1,0 +1,83 @@
+TAP version 13
+# (node:2824384) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: blob capabilities and reserve bind the admitted kind, ID and exact integer body
+ok 1 - blob capabilities and reserve bind the admitted kind, ID and exact integer body
+  ---
+  duration_ms: 14.889241
+  type: 'test'
+  ...
+# Subtest: blob uploads use immutable bytes, same-origin CSRF and bound projected responses
+ok 2 - blob uploads use immutable bytes, same-origin CSRF and bound projected responses
+  ---
+  duration_ms: 1.598938
+  type: 'test'
+  ...
+# Subtest: blob capability limits, operation and response status admission fail closed
+ok 3 - blob capability limits, operation and response status admission fail closed
+  ---
+  duration_ms: 1.061668
+  type: 'test'
+  ...
+# Subtest: blob generation and finite deadline protect binary requests and explicit recovery
+ok 4 - blob generation and finite deadline protect binary requests and explicit recovery
+  ---
+  duration_ms: 11.551249
+  type: 'test'
+  ...
+# Subtest: download enforces admitted size and binary type without JSON decoding
+ok 5 - download enforces admitted size and binary type without JSON decoding
+  ---
+  duration_ms: 0.992105
+  type: 'test'
+  ...
+# Subtest: download IDs cannot normalize into another route and rejected headers cancel unused bytes
+ok 6 - download IDs cannot normalize into another route and rejected headers cancel unused bytes
+  ---
+  duration_ms: 0.966687
+  type: 'test'
+  ...
+# Subtest: returned capabilities cannot widen private admission and reserve input is frozen before waiting
+ok 7 - returned capabilities cannot widen private admission and reserve input is frozen before waiting
+  ---
+  duration_ms: 0.646188
+  type: 'test'
+  ...
+# Subtest: binary request pre-abort reaches no transport and failed capability refresh closes admission
+ok 8 - binary request pre-abort reaches no transport and failed capability refresh closes admission
+  ---
+  duration_ms: 0.709919
+  type: 'test'
+  ...
+# Subtest: capability completion cannot stamp an old response with a new session generation
+ok 9 - capability completion cannot stamp an old response with a new session generation
+  ---
+  duration_ms: 7.518876
+  type: 'test'
+  ...
+# Subtest: a superseded capability request cannot reopen admission after a newer denial
+not ok 10 - a superseded capability request cannot reopen admission after a newer denial
+  ---
+  duration_ms: 0.781946
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/studio/tests/unit/blobs.test.ts:286:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/studio/tests/unit/blobs.test.ts:296:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 9
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 127.905894

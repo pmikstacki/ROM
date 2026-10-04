@@ -111,9 +111,35 @@ export interface PendingMutation {
   result?: ProjectedView;
   error?: string;
 }
+export interface BlobCapabilities {
+  version: 1;
+  resource_kind: string;
+  stores: string[];
+  limits: { blob_bytes: number; chunk_bytes: number; chunks: number };
+  operations: ("reserve" | "upload" | "download" | "detach")[];
+}
+export interface BlobReservation {
+  id: string;
+  store: string;
+  digest: string;
+  bytes: bigint;
+  idempotency: string;
+}
 export interface RomClient {
   readonly generation: number;
   invalidateSession(): void;
+  blobCapabilities(signal?: AbortSignal): Promise<BlobCapabilities>;
+  reserveBlob(
+    request: BlobReservation,
+    signal?: AbortSignal,
+  ): Promise<ProjectedView>;
+  uploadBlob(
+    id: string,
+    file: Blob,
+    signal?: AbortSignal,
+  ): Promise<ProjectedView>;
+  downloadBlob(id: string, signal?: AbortSignal): Promise<Uint8Array>;
+  detachBlob(id: string, signal?: AbortSignal): Promise<ProjectedView>;
   discover(signal?: AbortSignal): Promise<Discovery>;
   read(kind: string, id: string, signal?: AbortSignal): Promise<ProjectedView>;
   query(

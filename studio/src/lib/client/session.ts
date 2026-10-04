@@ -1,5 +1,6 @@
 import { parseWire, stringifyWire } from "./codec.ts";
 import { deadline } from "./deadline.ts";
+import { blobClient } from "./blobs.ts";
 import { mutationResult } from "./mutation.ts";
 import { pageLimit } from "./query.ts";
 import { post, RemoteError } from "./request.ts";
@@ -46,11 +47,10 @@ export function createClient(options: ClientOptions): RomClient {
       terminal: boolean;
     }
   >();
-  async function call(
-    route: string,
-    body: WireValue,
+  async function run<T>(
+    execute: (signal: AbortSignal) => Promise<T>,
     external?: AbortSignal,
-  ): Promise<WireValue> {
+  ): Promise<T> {
     const started = generation,
       controller = new AbortController();
     active.add(controller);
@@ -60,7 +60,7 @@ export function createClient(options: ClientOptions): RomClient {
     try {
       if (controller.signal.aborted) throw controller.signal.reason;
       const result = await deadline(
-        post(options, route, body, controller.signal),
+        execute(controller.signal),
         controller.signal,
         options.timeoutMs ?? 15000,
         () => controller.abort(new Error("request timeout")),
@@ -72,7 +72,15 @@ export function createClient(options: ClientOptions): RomClient {
       active.delete(controller);
     }
   }
+  function call(
+    route: string,
+    body: WireValue,
+    external?: AbortSignal,
+  ): Promise<WireValue> {
+    return run((signal) => post(options, route, body, signal), external);
+  }
   const client: RomClient = {
+    ...blobClient(options, run, () => generation),
     get generation() {
       return generation;
     },
