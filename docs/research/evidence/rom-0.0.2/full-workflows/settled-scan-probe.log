@@ -1,0 +1,70 @@
+
+Running 2 tests using 1 worker
+
+(node:2943330) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  1 [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows (8.2s)
+(node:2943572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  2 [chromium] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows (8.1s)
+
+
+  1) [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('button', { name: /^Run / })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('button', { name: /^Run / }) with timeout 5000ms
+      - waiting for getByRole('button', { name: /^Run / })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      663 |             page.getByText("18446744073709551615", { exact: true }).first(),
+      664 |           ).toBeVisible();
+    > 665 |           await expect(page.getByRole("button", { name: /^Run / })).toHaveCount(
+          |                                                                     ^
+      666 |             0,
+      667 |           );
+      668 |         }
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:665:69
+
+    Error Context: test-results/host-real-sqlite-complete--d8449-Inventory-browser-workflows-chromium/error-context.md
+
+  2) [chromium] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('button', { name: /^Run / })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('button', { name: /^Run / }) with timeout 5000ms
+      - waiting for getByRole('button', { name: /^Run / })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      663 |             page.getByText("18446744073709551615", { exact: true }).first(),
+      664 |           ).toBeVisible();
+    > 665 |           await expect(page.getByRole("button", { name: "Run restock", exact: true })).toBeVisible();
+          |                                                                     ^
+      666 |         }
+      667 |         const field = kind === "tasks" ? "title" : "quantity";
+      668 |         const value = kind === "tasks" ? "Browser updated task" : "0";
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:665:69
+
+    Error Context: test-results/host-real-redb-complete-ge-d6a0f-Inventory-browser-workflows-chromium/error-context.md
+
+  2 failed
+    [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows 
+    [chromium] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows 

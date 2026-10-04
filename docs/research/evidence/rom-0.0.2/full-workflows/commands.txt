@@ -1,0 +1,4 @@
+Working directory: /root/ROM/.worktrees/release-query-index/studio
+npm run check
+ROM_STUDIO_DEMO_BINARY=/var/tmp/rom-studio-inventory-action-acceptance/rom-demo ROM_STUDIO_ASSETS=$PWD/dist ROM_WEBKIT_EXECUTABLE=$(../scripts/studio-browser-runtime) npx playwright test --config tests/runtime/playwright.host.config.ts --grep 'complete generic Task'
+The binary is an immutable source-bound acceptance copy. No native build ran in this test task.

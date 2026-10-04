@@ -1,0 +1,21 @@
+
+Running 4 tests using 1 worker
+
+(node:2949211) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_FINITE_SNAPSHOTS {"backend":"sqlite","engine":"chromium","snapshots":3,"observer_query_requests_during_snapshots":0,"cells":5,"mutation_to_frame_ms":[159.4000000357628,2122.899999976158,4151.400000035763],"scope":"Real host sequential changes, browser-driver/network/frame-inclusive samples; DOM count, not heap GC."}
+  ✓  1 [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows (33.5s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_FINITE_SNAPSHOTS {"backend":"redb","engine":"chromium","snapshots":3,"observer_query_requests_during_snapshots":0,"cells":5,"mutation_to_frame_ms":[159.5999999642372,2130.199999988079,4097.900000035763],"scope":"Real host sequential changes, browser-driver/network/frame-inclusive samples; DOM count, not heap GC."}
+  ✓  2 [chromium] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows (28.6s)
+(node:2949888) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_FINITE_SNAPSHOTS {"backend":"sqlite","engine":"webkit","snapshots":3,"observer_query_requests_during_snapshots":0,"cells":5,"mutation_to_frame_ms":[136,142,142],"scope":"Real host sequential changes, browser-driver/network/frame-inclusive samples; DOM count, not heap GC."}
+  ✓  3 [webkit] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows (5.4s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+ROM_FINITE_SNAPSHOTS {"backend":"redb","engine":"webkit","snapshots":3,"observer_query_requests_during_snapshots":0,"cells":5,"mutation_to_frame_ms":[136,142,142],"scope":"Real host sequential changes, browser-driver/network/frame-inclusive samples; DOM count, not heap GC."}
+  ✓  4 [webkit] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows (5.0s)
+
+  4 passed (1.2m)

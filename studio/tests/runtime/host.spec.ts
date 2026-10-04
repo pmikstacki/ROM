@@ -638,3 +638,183 @@ for (const backend of ["sqlite", "redb"])
       await host.close();
     }
   });
+
+for (const backend of ["sqlite", "redb"])
+  test(`real ${backend} complete generic Task and Inventory browser workflows`, async ({
+    page,
+    context,
+  }) => {
+    const { humanLogin, accessible, createResource, updateResource } =
+      await import("./resource-workflow.ts");
+    page.setDefaultTimeout(10000);
+    const host = await startHost(backend);
+    const writer = await context.newPage();
+    let observerQueries = 0;
+    page.on("request", (r) => {
+      if (new URL(r.url()).pathname.endsWith("/api/query")) observerQueries++;
+    });
+    try {
+      await humanLogin(page, host.url);
+      await writer.goto(host.url);
+      await expect(
+        writer.getByRole("button", { name: "Sign out", exact: true }),
+      ).toBeVisible();
+      for (const kind of ["tasks", "inventory"]) {
+        const id = `browser-${kind}`;
+        await createResource(page, kind, id);
+        await page
+          .getByRole("button", { name: `Open ${id}`, exact: true })
+          .click();
+        await expect(
+          page.getByRole("region", { name: "Resource details" }),
+        ).toContainText("Revision 1");
+        if (kind === "inventory") {
+          await expect(
+            page.getByText("18446744073709551615", { exact: true }).first(),
+          ).toBeVisible();
+          await expect(
+            page.getByRole("button", { name: "Run restock", exact: true }),
+          ).toBeVisible();
+        }
+        const field = kind === "tasks" ? "title" : "quantity";
+        const value = kind === "tasks" ? "Browser updated task" : "0";
+        await updateResource(page, id, field, value);
+        await page
+          .getByLabel("Query field", { exact: true })
+          .selectOption(kind === "tasks" ? "done" : "code");
+        if (kind === "tasks")
+          await page.getByLabel("Query value value", { exact: true }).uncheck();
+        else
+          await page
+            .getByLabel("Query value value", { exact: true })
+            .fill("BROWSER-STOCK");
+        await page
+          .getByLabel("Query sort field", { exact: true })
+          .selectOption(field);
+        await page
+          .getByLabel("Query sort", { exact: true })
+          .selectOption("asc");
+        await page
+          .getByRole("button", { name: "Apply query", exact: true })
+          .click();
+        await expect(
+          page.getByRole("button", { name: `Open ${id}`, exact: true }),
+        ).toBeVisible();
+        const opened = page.waitForResponse(
+          (r) => r.url().endsWith("/api/live") && r.status() === 200,
+        );
+        await page
+          .getByRole("button", { name: "Observe live query", exact: true })
+          .click();
+        const response = await opened;
+        let terminated = false;
+        page.on("requestfailed", (r) => {
+          if (r === response.request()) terminated = true;
+        });
+        page.on("requestfinished", (r) => {
+          if (r === response.request()) terminated = true;
+        });
+        await writer.getByRole("button", { name: kind, exact: true }).click();
+        const queriesBefore = observerQueries;
+        if (kind === "tasks") {
+          await writer
+            .getByRole("button", { name: `Open ${id}`, exact: true })
+            .click();
+          await writer
+            .getByRole("button", { name: "Run complete", exact: true })
+            .click();
+          await expect(
+            page.getByRole("button", { name: `Open ${id}`, exact: true }),
+          ).toHaveCount(0);
+          await expect(
+            page.getByRole("button", { name: "Open task-a", exact: true }),
+          ).toBeVisible();
+          expect(observerQueries).toBe(queriesBefore);
+          await page
+            .getByLabel("Query field", { exact: true })
+            .selectOption("");
+          await page
+            .getByRole("button", { name: "Apply query", exact: true })
+            .click();
+        } else {
+          const frames = [];
+          for (let revision = 1; revision <= 3; revision++) {
+            const started = await page.evaluate(() => performance.now());
+            await updateResource(writer, id, "quantity", String(revision));
+            await expect(
+              page
+                .getByRole("row")
+                .filter({
+                  has: page.getByRole("button", {
+                    name: `Open ${id}`,
+                    exact: true,
+                  }),
+                })
+                .getByRole("cell")
+                .nth(3),
+            ).toHaveText(String(revision));
+            await page.bringToFront();
+            const visible = await page.evaluate(
+              () =>
+                new Promise<number>((resolve) =>
+                  requestAnimationFrame(() => resolve(performance.now())),
+                ),
+            );
+            await expect(page.getByRole("cell")).toHaveCount(5);
+            frames.push(visible - started);
+          }
+          console.log(
+            "ROM_FINITE_SNAPSHOTS " +
+              JSON.stringify({
+                backend,
+                engine: test.info().project.name,
+                snapshots: 3,
+                observer_query_requests_during_snapshots:
+                  observerQueries - queriesBefore,
+                cells: 5,
+                mutation_to_frame_ms: frames,
+                scope:
+                  "Real host sequential changes, browser-driver/network/frame-inclusive samples; DOM count, not heap GC.",
+              }),
+          );
+          expect(observerQueries).toBe(queriesBefore);
+          await writer
+            .getByRole("button", { name: `Open ${id}`, exact: true })
+            .click();
+          await writer
+            .getByLabel("input mode", { exact: true })
+            .selectOption("value");
+          await writer.getByLabel("input value", { exact: true }).fill("1");
+          await writer
+            .getByRole("button", { name: "Run restock", exact: true })
+            .click();
+          await expect(
+            page.getByText("4", { exact: true }).first(),
+          ).toBeVisible();
+          await accessible(page, "connected live inventory details");
+        }
+        const stop = page.getByRole("button", {
+          name: "Stop live query",
+          exact: true,
+        });
+        if (await stop.count()) await stop.click();
+        await expect.poll(() => terminated).toBe(true);
+        await page
+          .getByRole("button", { name: `Open ${id}`, exact: true })
+          .click();
+        await page
+          .getByLabel(`Confirm deletion of ${id}`, { exact: true })
+          .check();
+        await page
+          .getByRole("button", { name: "Delete Resource", exact: true })
+          .click();
+        await expect(
+          page.getByRole("button", { name: `Open ${id}`, exact: true }),
+        ).toHaveCount(0);
+        await accessible(page, `${kind} after delete`);
+      }
+    } finally {
+      await writer.close();
+      await host.close();
+    }
+  });

@@ -1,0 +1,80 @@
+
+Running 2 tests using 1 worker
+
+(node:2937124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  1 [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows (5.7s)
+(node:2937325) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  2 [chromium] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows (5.7s)
+
+
+  1) [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('button', { name: 'Create Resource', exact: true })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" getByRole('button', { name: 'Create Resource', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Create Resource', exact: true })
+        - locator resolved to <button disabled type="button" data-slot="button" class="focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding text-sm font-medium focus-visible:ring-3 aria-invalid:ring-3 active:not-aria-[haspopup]:translate-y-px [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-cente…>…</button>
+        13 × unexpected value "inactive"
+           - locator resolved to <button type="button" data-slot="button" class="focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding text-sm font-medium focus-visible:ring-3 aria-invalid:ring-3 active:not-aria-[haspopup]:translate-y-px [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-center whitesp…>…</button>
+        - unexpected value "inactive"
+
+
+       at resource-workflow.ts:37
+
+      35 |     .getByLabel(`${field} value`, { exact: true })
+      36 |     .fill(kind === "tasks" ? "Browser task" : "BROWSER-STOCK");
+    > 37 |   const numeric = kind === "tasks" ? "done" : "quantity";
+         |                         ^
+      38 |   await form
+      39 |     .getByLabel(`${numeric} mode`, { exact: true })
+      40 |     .selectOption("value");
+        at createResource (/root/ROM/.worktrees/release-query-index/studio/tests/runtime/resource-workflow.ts:37:25)
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:653:9
+
+    Error Context: test-results/host-real-sqlite-complete--d8449-Inventory-browser-workflows-chromium/error-context.md
+
+  2) [chromium] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('button', { name: 'Create Resource', exact: true })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" getByRole('button', { name: 'Create Resource', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Create Resource', exact: true })
+        - locator resolved to <button disabled type="button" data-slot="button" class="focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding text-sm font-medium focus-visible:ring-3 aria-invalid:ring-3 active:not-aria-[haspopup]:translate-y-px [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-cente…>…</button>
+        13 × unexpected value "inactive"
+           - locator resolved to <button type="button" data-slot="button" class="focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding text-sm font-medium focus-visible:ring-3 aria-invalid:ring-3 active:not-aria-[haspopup]:translate-y-px [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-center whitesp…>…</button>
+        - unexpected value "inactive"
+
+
+       at resource-workflow.ts:37
+
+      35 |     .getByLabel(`${field} value`, { exact: true })
+      36 |     .fill(kind === "tasks" ? "Browser task" : "BROWSER-STOCK");
+    > 37 |   const numeric = kind === "tasks" ? "done" : "quantity";
+         |                         ^
+      38 |   await form
+      39 |     .getByLabel(`${numeric} mode`, { exact: true })
+      40 |     .selectOption("value");
+        at createResource (/root/ROM/.worktrees/release-query-index/studio/tests/runtime/resource-workflow.ts:37:25)
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:653:9
+
+    Error Context: test-results/host-real-redb-complete-ge-d6a0f-Inventory-browser-workflows-chromium/error-context.md
+
+  2 failed
+    [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows 
+    [chromium] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows 

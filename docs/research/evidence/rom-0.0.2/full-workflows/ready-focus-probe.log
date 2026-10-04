@@ -1,0 +1,32 @@
+
+Running 2 tests using 1 worker
+
+(node:2938002) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  1 [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows (1.6m)
+
+
+  1) [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows 
+
+    Test was interrupted.
+
+    Error: locator.uncheck: Test ended.
+    Call log:
+      - waiting for getByLabel('Query value', { exact: true })
+
+
+      673 |           .getByLabel("Query field", { exact: true })
+      674 |           .selectOption(kind === "tasks" ? "done" : "code");
+    > 675 |         if (kind === "tasks")
+          |                              ^
+      676 |           await page.getByLabel("Query value", { exact: true }).uncheck();
+      677 |         else
+      678 |           await page
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:675:65
+
+    Error Context: test-results/host-real-sqlite-complete--d8449-Inventory-browser-workflows-chromium/error-context.md
+
+  1 interrupted
+    [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows 
+  1 did not run

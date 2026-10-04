@@ -1,0 +1,86 @@
+
+Running 4 tests using 1 worker
+
+(node:2946834) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  1 [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows (373ms)
+(node:2947007) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  2 [chromium] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows (362ms)
+(node:2947183) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  3 [webkit] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows (486ms)
+(node:2947279) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  4 [webkit] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows (508ms)
+
+
+  1) [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows 
+
+    ReferenceError: context is not defined
+
+      648 |     page.setDefaultTimeout(10000);
+      649 |     const host = await startHost(backend);
+    > 650 |     const writer = await context.newPage();
+          |                    ^
+      651 |     let observerQueries = 0;
+      652 |     page.on("request", (r) => {
+      653 |       if (new URL(r.url()).pathname.endsWith("/api/query")) observerQueries++;
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:650:20
+
+    Error Context: test-results/host-real-sqlite-complete--d8449-Inventory-browser-workflows-chromium/error-context.md
+
+  2) [chromium] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows 
+
+    ReferenceError: context is not defined
+
+      648 |     page.setDefaultTimeout(10000);
+      649 |     const host = await startHost(backend);
+    > 650 |     const writer = await context.newPage();
+          |                    ^
+      651 |     let observerQueries = 0;
+      652 |     page.on("request", (r) => {
+      653 |       if (new URL(r.url()).pathname.endsWith("/api/query")) observerQueries++;
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:650:20
+
+    Error Context: test-results/host-real-redb-complete-ge-d6a0f-Inventory-browser-workflows-chromium/error-context.md
+
+  3) [webkit] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows 
+
+    ReferenceError: context is not defined
+
+      648 |     page.setDefaultTimeout(10000);
+      649 |     const host = await startHost(backend);
+    > 650 |     const writer = await context.newPage();
+          |                    ^
+      651 |     let observerQueries = 0;
+      652 |     page.on("request", (r) => {
+      653 |       if (new URL(r.url()).pathname.endsWith("/api/query")) observerQueries++;
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:650:20
+
+    Error Context: test-results/host-real-sqlite-complete--d8449-Inventory-browser-workflows-webkit/error-context.md
+
+  4) [webkit] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows 
+
+    ReferenceError: context is not defined
+
+      648 |     page.setDefaultTimeout(10000);
+      649 |     const host = await startHost(backend);
+    > 650 |     const writer = await context.newPage();
+          |                    ^
+      651 |     let observerQueries = 0;
+      652 |     page.on("request", (r) => {
+      653 |       if (new URL(r.url()).pathname.endsWith("/api/query")) observerQueries++;
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:650:20
+
+    Error Context: test-results/host-real-redb-complete-ge-d6a0f-Inventory-browser-workflows-webkit/error-context.md
+
+  4 failed
+    [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows 
+    [chromium] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows 
+    [webkit] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows 
+    [webkit] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows 

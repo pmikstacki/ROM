@@ -1,0 +1,266 @@
+
+Running 2 tests using 1 worker
+
+(node:2942334) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  1 [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows (2.7s)
+(node:2942544) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  2 [chromium] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows (2.6s)
+
+
+  1) [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows 
+
+    Error: inventory create form
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 99
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+    +     "help": "Elements must meet minimum color contrast ratio thresholds",
+    +     "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+    +     "id": "color-contrast",
+    +     "impact": "serious",
+    +     "nodes": Array [
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#989da7",
+    +               "contrastRatio": 1.37,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#b6b8be",
+    +               "fontSize": "10.5pt (14px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.37 (foreground color: #b6b8be, background color: #989da7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button data-slot=\"button\" class=\"focus-visible:border...\" type=\"button\">",
+    +                 "target": Array [
+    +                   "aside > .border-transparent.bg-primary.text-primary-foreground",
+    +                 ],
+    +               },
+    +               Object {
+    +                 "html": "<html lang=\"en\">",
+    +                 "target": Array [
+    +                   "html",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.37 (foreground color: #b6b8be, background color: #989da7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<button data-slot=\"button\" class=\"focus-visible:border...\" type=\"button\">",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "aside > .border-transparent.bg-primary.text-primary-foreground",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#81858f",
+    +               "contrastRatio": 1.76,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#585e6b",
+    +               "fontSize": "10.5pt (14px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.76 (foreground color: #585e6b, background color: #81858f, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button data-slot=\"button\" class=\"focus-visible:border...\" type=\"button\">",
+    +                 "target": Array [
+    +                   ".border-border.bg-background.hover\\:bg-muted:nth-child(9)",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.76 (foreground color: #585e6b, background color: #81858f, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<button data-slot=\"button\" class=\"focus-visible:border...\" type=\"button\">",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           ".border-border.bg-background.hover\\:bg-muted:nth-child(9)",
+    +         ],
+    +       },
+    +     ],
+    +     "tags": Array [
+    +       "cat.color",
+    +       "wcag2aa",
+    +       "wcag143",
+    +       "TTv5",
+    +       "TT13.c",
+    +       "EN-301-549",
+    +       "EN-9.1.4.3",
+    +       "ACT",
+    +       "RGAAv4",
+    +       "RGAA-3.2.1",
+    +     ],
+    +   },
+    + ]
+
+       at resource-workflow.ts:25
+
+      23 |   });
+      24 |   await expect(trigger).toBeEnabled();
+    > 25 |   await trigger.focus();
+         |                         ^
+      26 |   await expect(trigger).toBeFocused();
+      27 |   await page.keyboard.press("Enter");
+      28 |   const form = page.getByRole("region", {
+        at accessible (/root/ROM/.worktrees/release-query-index/studio/tests/runtime/resource-workflow.ts:25:36)
+        at createResource (/root/ROM/.worktrees/release-query-index/studio/tests/runtime/resource-workflow.ts:63:3)
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:654:9
+
+    Error Context: test-results/host-real-sqlite-complete--d8449-Inventory-browser-workflows-chromium/error-context.md
+
+  2) [chromium] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows 
+
+    Error: inventory create form
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 99
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+    +     "help": "Elements must meet minimum color contrast ratio thresholds",
+    +     "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+    +     "id": "color-contrast",
+    +     "impact": "serious",
+    +     "nodes": Array [
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#828793",
+    +               "contrastRatio": 2.54,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#d8d9dc",
+    +               "fontSize": "10.5pt (14px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 2.54 (foreground color: #d8d9dc, background color: #828793, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button data-slot=\"button\" class=\"focus-visible:border...\" type=\"button\">",
+    +                 "target": Array [
+    +                   "aside > .border-transparent.bg-primary.text-primary-foreground",
+    +                 ],
+    +               },
+    +               Object {
+    +                 "html": "<html lang=\"en\">",
+    +                 "target": Array [
+    +                   "html",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 2.54 (foreground color: #d8d9dc, background color: #828793, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<button data-slot=\"button\" class=\"focus-visible:border...\" type=\"button\">",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "aside > .border-transparent.bg-primary.text-primary-foreground",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#91959f",
+    +               "contrastRatio": 3.62,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#363d4d",
+    +               "fontSize": "10.5pt (14px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 3.62 (foreground color: #363d4d, background color: #91959f, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button data-slot=\"button\" class=\"focus-visible:border...\" type=\"button\">",
+    +                 "target": Array [
+    +                   ".border-border.bg-background.hover\\:bg-muted:nth-child(9)",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 3.62 (foreground color: #363d4d, background color: #91959f, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<button data-slot=\"button\" class=\"focus-visible:border...\" type=\"button\">",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           ".border-border.bg-background.hover\\:bg-muted:nth-child(9)",
+    +         ],
+    +       },
+    +     ],
+    +     "tags": Array [
+    +       "cat.color",
+    +       "wcag2aa",
+    +       "wcag143",
+    +       "TTv5",
+    +       "TT13.c",
+    +       "EN-301-549",
+    +       "EN-9.1.4.3",
+    +       "ACT",
+    +       "RGAAv4",
+    +       "RGAA-3.2.1",
+    +     ],
+    +   },
+    + ]
+
+       at resource-workflow.ts:25
+
+      23 |   });
+      24 |   await expect(trigger).toBeEnabled();
+    > 25 |   await trigger.focus();
+         |                         ^
+      26 |   await expect(trigger).toBeFocused();
+      27 |   await page.keyboard.press("Enter");
+      28 |   const form = page.getByRole("region", {
+        at accessible (/root/ROM/.worktrees/release-query-index/studio/tests/runtime/resource-workflow.ts:25:36)
+        at createResource (/root/ROM/.worktrees/release-query-index/studio/tests/runtime/resource-workflow.ts:63:3)
+        at /root/ROM/.worktrees/release-query-index/studio/tests/runtime/host.spec.ts:654:9
+
+    Error Context: test-results/host-real-redb-complete-ge-d6a0f-Inventory-browser-workflows-chromium/error-context.md
+
+  2 failed
+    [chromium] › tests/runtime/host.spec.ts:643:3 › real sqlite complete generic Task and Inventory browser workflows 
+    [chromium] › tests/runtime/host.spec.ts:643:3 › real redb complete generic Task and Inventory browser workflows 
