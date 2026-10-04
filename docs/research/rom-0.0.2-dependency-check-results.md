@@ -13,3 +13,7 @@ Neither audit replaces the dependency license inventory or bundled frontend noti
 The frontend asset collector must preserve the original notices for packages included in emitted chunks.
 
 Evidence: [audit context](evidence/rom-0.0.2/dependencies/context.json), [Cargo results](evidence/rom-0.0.2/dependencies/cargo-audit.json), and [frontend results](evidence/rom-0.0.2/dependencies/npm-audit.json).
+
+## Local maintenance dependency edge
+
+The real-provider maintenance test adds only a local rom-backup dev dependency. No external package version changed. The native lock is now `f288709d12f8c7adc39a5d72cb7253a9d86afa990dd94226724e39262500d992`. The all-features inventory still contains 282 external packages. A fresh Cargo advisory run passed with no matching advisories, using the database recorded in [the new context](evidence/rom-0.0.2/provider-maintenance/dependency-context.json). The [raw result](evidence/rom-0.0.2/provider-maintenance/cargo-audit.json) and regenerated inventory remain separate from the earlier lock record. The frontend lock did not change.

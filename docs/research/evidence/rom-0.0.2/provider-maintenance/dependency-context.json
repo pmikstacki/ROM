@@ -1,0 +1,16 @@
+{
+  "time": "2026-10-04T02:04:13.442Z",
+  "cargo_lock_sha256": "f288709d12f8c7adc39a5d72cb7253a9d86afa990dd94226724e39262500d992",
+  "database": {
+    "advisory-count": 1290,
+    "last-commit": "ef6173cbc5c50ec8166f9a5b28f07834144373ee",
+    "last-updated": "2026-10-03T10:14:03+02:00"
+  },
+  "advisories": {
+    "found": false,
+    "count": 0,
+    "list": []
+  },
+  "warnings": {},
+  "scope": "Fresh cargo-audit run after adding local rom-backup dev edge; external package identities unchanged; native inventory regenerated"
+}
