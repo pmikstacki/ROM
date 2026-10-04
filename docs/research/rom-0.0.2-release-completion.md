@@ -56,6 +56,12 @@ records nine passing tests after the change. Its SHA-256 is
 `52e0b1fed83d9a1d83a7fe0a0e629945ea676909d51edc46d2a6bbd13d77a1bf`.
 This check does not execute all four bundled skill examples or the full
 release producer.
+The [package and artifact fixture log](evidence/rom-0.0.2/release-readiness/package-node-1e6c8dd.log)
+records 56 passing cases in the Rust-equipped ROM container after that change.
+Its SHA-256 is
+`f5c51ad3627801c8b1e39139354a787f91ea26705232ba698f5b107e66e7b26a`.
+These fixtures inject a finite gate runner. They do not replace the complete
+eight-gate release run.
 
 The shared disk has a 92 GiB safety floor. The most recent approved producer
 plan requires a finite reservation and advance launch notice. A source change
