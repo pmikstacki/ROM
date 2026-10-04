@@ -1,0 +1,17 @@
+
+Running 4 tests using 1 worker
+
+(node:2845291) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓  1 [chromium] › tests/runtime/host.spec.ts:222:3 › real sqlite attachment publication, lost response, download and detach (1.1s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓  2 [chromium] › tests/runtime/host.spec.ts:222:3 › real redb attachment publication, lost response, download and detach (893ms)
+(node:2845510) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓  3 [webkit] › tests/runtime/host.spec.ts:222:3 › real sqlite attachment publication, lost response, download and detach (945ms)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓  4 [webkit] › tests/runtime/host.spec.ts:222:3 › real redb attachment publication, lost response, download and detach (889ms)
+
+  4 passed (5.2s)

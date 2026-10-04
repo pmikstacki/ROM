@@ -4,6 +4,7 @@
   import type { RomClient } from "./lib/client/types.ts";
   import { createApplication } from "./lib/application/controller.ts";
   import ResourcePage from "./lib/application/ResourcePage.svelte";
+  import AttachmentPage from "./lib/application/AttachmentPage.svelte";
   import WorkPage from "./lib/application/WorkPage.svelte";
   import { Button } from "./lib/components/ui/button/index.js";
   import { createBrowserAuth } from "./lib/application/auth.ts";
@@ -90,7 +91,7 @@
     },
   );
   let snapshot = $state.raw(controller.state),
-    page = $state<"resources" | "work">("resources");
+    page = $state<"resources" | "work" | "attachments">("resources");
   const unsubscribe = controller.subscribe((next) => (snapshot = next));
   onDestroy(() => {
     destroyed = true;
@@ -124,6 +125,8 @@
       <Button variant="outline" onclick={() => (page = "resources")}
         >Resources</Button
       ><Button variant="outline" onclick={() => (page = "work")}>Work</Button
+      ><Button variant="outline" onclick={() => (page = "attachments")}
+        >Attachments</Button
       ><Button variant="outline" onclick={() => void signOut()}>Sign out</Button
       >
     </nav>
@@ -139,7 +142,10 @@
           >{/each}
       </aside>
       <section class="studio-content">
-        {#if page === "work"}<WorkPage
+        {#if page === "attachments"}<AttachmentPage
+            {client}
+            descriptors={snapshot.descriptors}
+          />{:else if page === "work"}<WorkPage
             {snapshot}
             {controller}
           />{:else if descriptor}{#key descriptor.kind}<ResourcePage

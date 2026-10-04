@@ -47,20 +47,33 @@ pub async fn run(
         offset: AtomicU64::new(0),
     });
     let runtime = studio_application::build(storage, clock.clone())?;
-    let result=async {
-  studio_startup::seed_all(&runtime,issuer).await?;
-  let listener=tokio::net::TcpListener::bind((std::net::Ipv4Addr::LOCALHOST,port)).await?;
-  let origin=format!("http://{}",listener.local_addr()?);
-  let config=HostConfig::new(&origin,"/rom-studio/",assets,studio_application::host_actor()).allow_loopback_http(true).clock(clock.clone()).settings("default").provider(OidcProviderConfig{authority:"local".into(),label:"Local fixture".into(),issuer:issuer.into(),client_id:"studio".into(),authorization_endpoint:format!("{issuer}/auth"),token_endpoint:format!("{issuer}/token"),jwks_endpoint:format!("{issuer}/jwks"),client_secret:Some("controlled-host-test-secret".into())});
-  let control_listener=controls.map(crate::studio_controls::listener).transpose()?;
-  let host=StudioHost::new(runtime.clone(),config)?;
-  let _worker=runtime.start_work()?;
-  let signals=SignalReceiver::install()?;
-  println!("{}",serde_json::json!({"ready":true,"origin":origin,"studio":format!("{origin}/rom-studio/"),"backend":if redb{"redb"}else{"sqlite"},"fixture_controls":controls.is_some()}));
-  let controlled_runtime=runtime.clone();
-  host.serve(listener,async move{if let Some(listener)=control_listener{tokio::select!{_ = signals.wait()=>{},_ = crate::studio_controls::run(controlled_runtime,clock,listener)=>{}}}else{signals.wait().await;}}).await?;
-  Ok(())
- }.await;
+    let gate = crate::studio_blobs::PublicationGate::new();
+    let blobs = crate::studio_blobs::build(runtime.clone(), Path::new(path), gate.clone())?;
+    let result = async {
+        studio_startup::seed_all(&runtime,issuer).await?;
+        let listener=tokio::net::TcpListener::bind((std::net::Ipv4Addr::LOCALHOST,port)).await?;
+        let origin=format!("http://{}",listener.local_addr()?);
+        let config=HostConfig::new(&origin,"/rom-studio/",assets,studio_application::host_actor())
+            .allow_loopback_http(true).clock(clock.clone()).settings("default")
+            .blobs(blobs)
+            .blob_store_discovery(|actor,name| actor.authority=="local" && actor.principal_kind()==rom::PrincipalKind::Human && name=="local")
+            .provider(OidcProviderConfig {
+                authority:"local".into(), label:"Local fixture".into(), issuer:issuer.into(), client_id:"studio".into(),
+                authorization_endpoint:format!("{issuer}/auth"), token_endpoint:format!("{issuer}/token"), jwks_endpoint:format!("{issuer}/jwks"),
+                client_secret:Some("controlled-host-test-secret".into()),
+            });
+        let control_listener=controls.map(crate::studio_controls::listener).transpose()?;
+        let host=StudioHost::new(runtime.clone(),config)?;
+        let _worker=runtime.start_work()?;
+        let signals=SignalReceiver::install()?;
+        let control_task=control_listener.map(|listener|tokio::spawn(crate::studio_controls::run(runtime.clone(),clock,gate,listener)));
+        println!("{}",serde_json::json!({"ready":true,"origin":origin,"studio":format!("{origin}/rom-studio/"),"backend":if redb{"redb"}else{"sqlite"},"fixture_controls":controls.is_some()}));
+        // Private publication release remains reachable while host shutdown drains accepted work.
+        let served=host.serve(listener,async move {signals.wait().await}).await;
+        if let Some(task)=control_task {task.abort();let _=task.await;}
+        served?;
+        Ok(())
+    }.await;
     let stopped = runtime.shutdown().await.map_err(Into::into);
     result.and(stopped)
 }

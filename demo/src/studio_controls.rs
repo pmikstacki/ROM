@@ -20,7 +20,12 @@ pub fn listener(path: &Path) -> rom::Result<UnixListener> {
         .map_err(|_| rom::Error::Storage)?;
     Ok(listener)
 }
-pub async fn run(runtime: Runtime, clock: Arc<DemoClock>, listener: UnixListener) {
+pub async fn run(
+    runtime: Runtime,
+    clock: Arc<DemoClock>,
+    gate: Arc<crate::studio_blobs::PublicationGate>,
+    listener: UnixListener,
+) {
     while let Ok((socket, _)) = listener.accept().await {
         let (read, mut write) = socket.into_split();
         let mut reader = BufReader::new(read).take(4097);
@@ -34,7 +39,7 @@ pub async fn run(runtime: Runtime, clock: Arc<DemoClock>, listener: UnixListener
             Err(rom::Error::TooLarge)
         } else {
             match serde_json::from_slice(&bytes) {
-                Ok(command) => handle(&runtime, &clock, &command).await,
+                Ok(command) => handle(&runtime, &clock, &gate, &command).await,
                 Err(_) => Err(rom::Error::invalid("control", "invalid command")),
             }
         };
@@ -55,9 +60,19 @@ pub async fn run(runtime: Runtime, clock: Arc<DemoClock>, listener: UnixListener
 async fn handle(
     runtime: &Runtime,
     clock: &DemoClock,
+    gate: &crate::studio_blobs::PublicationGate,
     request: &serde_json::Value,
 ) -> rom::Result<serde_json::Value> {
     match request["op"].as_str() {
+        Some("blob-pause") => {
+            gate.pause();
+            Ok(serde_json::json!({"paused":true}))
+        }
+        Some("blob-status") => Ok(serde_json::json!({"entered":gate.entered()})),
+        Some("blob-release") => {
+            gate.release();
+            Ok(serde_json::json!({"released":true}))
+        }
         Some("stop") => Err(rom::Error::invalid("control", "send a process signal")),
         Some("advance") => {
             let seconds = request["seconds"]

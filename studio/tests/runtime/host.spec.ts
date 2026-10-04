@@ -218,3 +218,301 @@ for (const backend of ["sqlite", "redb"])
       await host.close();
     }
   });
+for (const backend of ["sqlite", "redb"])
+  test(`real ${backend} attachment publication, lost response, download and detach`, async ({
+    page,
+  }) => {
+    const host = await startHost(backend);
+    test.info().annotations.push({
+      type: "retained-fixture",
+      description: host.directory,
+    });
+    try {
+      await page.goto(host.url);
+      await page
+        .getByRole("link", { name: "Sign in with Local fixture" })
+        .click();
+      await page.getByRole("button", { name: "Sign in", exact: true }).click();
+      await page.getByRole("button", { name: "Allow", exact: true }).click();
+      await page
+        .getByRole("button", { name: "Attachments", exact: true })
+        .click();
+      await page
+        .getByLabel("Attachment Resource ID", { exact: true })
+        .fill("folder/name");
+      await page.getByLabel("Attachment file", { exact: true }).setInputFiles({
+        name: "hello.txt",
+        mimeType: "text/plain",
+        buffer: Buffer.from("real attachment bytes"),
+      });
+      let dropped = false;
+      await page.route("**/blobs/upload?id=*", async (route) => {
+        if (!dropped) {
+          dropped = true;
+          await route.fetch();
+          await route.abort("failed");
+        } else await route.continue();
+      });
+      await page
+        .getByRole("button", { name: "Upload attachment", exact: true })
+        .click();
+      await expect(
+        page.getByRole("button", {
+          name: "Retry same attachment",
+          exact: true,
+        }),
+      ).toBeVisible();
+      await page
+        .getByRole("button", { name: "Retry same attachment", exact: true })
+        .click();
+      await expect(
+        page.getByRole("heading", {
+          name: "Committed Resource folder/name",
+          exact: true,
+        }),
+      ).toBeVisible();
+      const row = page.getByRole("row").filter({
+        has: page.getByRole("button", {
+          name: "Open folder/name",
+          exact: true,
+        }),
+      });
+      await expect(
+        row.getByRole("cell", { name: "2", exact: true }),
+      ).toBeVisible();
+      await page
+        .getByRole("button", { name: "Open folder/name", exact: true })
+        .click();
+      const downloading = page.waitForEvent("download");
+      await page
+        .getByRole("button", { name: "Download attachment", exact: true })
+        .click();
+      const download = await downloading;
+      const stream = await download.createReadStream();
+      const chunks = [];
+      for await (const chunk of stream) chunks.push(chunk);
+      expect(Buffer.concat(chunks).toString()).toBe("real attachment bytes");
+      await page
+        .getByLabel("Confirm detachment of folder/name", { exact: true })
+        .check();
+      await page
+        .getByRole("button", { name: "Detach attachment", exact: true })
+        .click();
+      await expect(
+        row.getByRole("cell", { name: "detached", exact: true }),
+      ).toBeVisible();
+      await page.unroute("**/blobs/upload?id=*");
+    } finally {
+      await host.close();
+    }
+  });
+
+for (const backend of ["sqlite", "redb"])
+  test(`real ${backend} OS SIGTERM drains accepted publication and OIDC work`, async ({
+    page,
+    browser,
+  }) => {
+    let arm = false,
+      entered = false,
+      release = () => {};
+    const barrier = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    const host = await startHost(backend, {
+      beforeRequest: async (request: { url?: string }) => {
+        if (arm && request.url?.split("?")[0] === "/token") {
+          entered = true;
+          await barrier;
+        }
+      },
+    });
+    test.info().annotations.push({
+      type: "retained-fixture",
+      description: host.directory,
+    });
+    const other = await browser.newContext();
+    try {
+      await page.goto(host.url);
+      await page
+        .getByRole("link", { name: "Sign in with Local fixture" })
+        .click();
+      await page.getByRole("button", { name: "Sign in", exact: true }).click();
+      await page.getByRole("button", { name: "Allow", exact: true }).click();
+      await page
+        .getByRole("button", { name: "Attachments", exact: true })
+        .click();
+      await page
+        .getByLabel("Attachment Resource ID", { exact: true })
+        .fill("shutdown-file");
+      await page.getByLabel("Attachment file", { exact: true }).setInputFiles({
+        name: "held.txt",
+        mimeType: "text/plain",
+        buffer: Buffer.from("survives SIGTERM"),
+      });
+      await host.control({ op: "blob-pause" });
+      await page
+        .getByRole("button", { name: "Upload attachment", exact: true })
+        .click();
+      await expect
+        .poll(
+          async () =>
+            (await host.control({ op: "blob-status" })).control_result.entered,
+        )
+        .toBe(true);
+      await page.goto("about:blank");
+      arm = true;
+      const second = await other.newPage();
+      await second.goto(host.url);
+      await second
+        .getByRole("link", { name: "Sign in with Local fixture" })
+        .click();
+      await second
+        .getByRole("button", { name: "Sign in", exact: true })
+        .click();
+      const consent = second
+        .getByRole("button", { name: "Allow", exact: true })
+        .click({ noWaitAfter: true })
+        .catch(() => {});
+      await expect.poll(() => entered).toBe(true);
+      await second.goto("about:blank");
+      await consent;
+      const exiting = host.terminate();
+      expect(host.alive()).toBe(true);
+      await host.control({ op: "blob-release" });
+      expect(host.alive()).toBe(true);
+      release();
+      expect(await exiting).toEqual({ code: 0, signal: null });
+      await host.restart();
+      await page.goto(host.url);
+      await page
+        .getByRole("link", { name: "Sign in with Local fixture" })
+        .click();
+      if (
+        await page
+          .getByRole("button", { name: "Sign in", exact: true })
+          .isVisible()
+      )
+        await page
+          .getByRole("button", { name: "Sign in", exact: true })
+          .click();
+      if (
+        await page
+          .getByRole("button", { name: "Allow", exact: true })
+          .isVisible()
+      )
+        await page.getByRole("button", { name: "Allow", exact: true }).click();
+      await page
+        .getByRole("button", { name: "Attachments", exact: true })
+        .click();
+      const row = page.getByRole("row").filter({
+        has: page.getByRole("button", {
+          name: "Open shutdown-file",
+          exact: true,
+        }),
+      });
+      await expect(
+        row.getByRole("cell", { name: "ready", exact: true }),
+      ).toBeVisible();
+      await expect(
+        row.getByRole("cell", { name: "2", exact: true }),
+      ).toBeVisible();
+    } finally {
+      release();
+      await other.close();
+      await host.close();
+    }
+  });
+
+for (const backend of ["sqlite", "redb"])
+  test(`real ${backend} finite renderer query and stream measurement`, async ({
+    page,
+  }, testInfo) => {
+    const host = await startHost(backend);
+    const work: Record<string, number> = {};
+    page.on("request", (request) => {
+      const path = new URL(request.url()).pathname;
+      if (path.includes("/rom-studio/api/")) work[path] = (work[path] ?? 0) + 1;
+    });
+    try {
+      await page.goto(host.url);
+      await page
+        .getByRole("link", { name: "Sign in with Local fixture" })
+        .click();
+      await page.getByRole("button", { name: "Sign in", exact: true }).click();
+      await page.getByRole("button", { name: "Allow", exact: true }).click();
+      const started = await page.evaluate(() => performance.now());
+      await page.getByRole("button", { name: "tasks", exact: true }).click();
+      await expect(
+        page.getByRole("button", { name: "Open task-c", exact: true }),
+      ).toBeVisible();
+      const rendered = await page.evaluate(
+        () =>
+          new Promise<number>((resolve) =>
+            requestAnimationFrame(() => resolve(performance.now())),
+          ),
+      );
+      const cells = await page.getByRole("cell").count();
+      const live = page.waitForResponse(
+        (response) =>
+          response.url().endsWith("/api/live") && response.status() === 200,
+      );
+      const liveStarted = await page.evaluate(() => performance.now());
+      await page
+        .getByRole("button", { name: "Observe live query", exact: true })
+        .click();
+      await live;
+      await expect(
+        page.getByRole("button", { name: "Stop live query", exact: true }),
+      ).toBeVisible();
+      const liveOpened = await page.evaluate(
+        () =>
+          new Promise<number>((resolve) =>
+            requestAnimationFrame(() => resolve(performance.now())),
+          ),
+      );
+      await page
+        .getByRole("button", { name: "Open task-a", exact: true })
+        .click();
+      await page
+        .getByLabel("title mode", { exact: true })
+        .selectOption("value");
+      await page
+        .getByLabel("title value", { exact: true })
+        .fill("Measured live update");
+      const mutationStarted = await page.evaluate(() => performance.now());
+      await page
+        .getByRole("button", { name: "Apply patch", exact: true })
+        .click();
+      await expect(
+        page.getByText("Measured live update", { exact: true }).first(),
+      ).toBeVisible();
+      const mutated = await page.evaluate(
+        () =>
+          new Promise<number>((resolve) =>
+            requestAnimationFrame(() => resolve(performance.now())),
+          ),
+      );
+      const { writeFile } = await import("node:fs/promises");
+      const report = {
+        backend,
+        engine: testInfo.project.name,
+        dataset: { tasks: 3, inventory: 1, held_out_custom_resource: 1 },
+        cells,
+        measurements_ms: {
+          query_to_visible_frame: rendered - started,
+          stream_open_to_frame: liveOpened - liveStarted,
+          mutation_to_visible_frame: mutated - mutationStarted,
+        },
+        http_requests: work,
+        scope:
+          "One local sample, real host and browser. Includes browser-driver scheduling, network, codecs and frame scheduling; not an isolated renderer or universal performance benchmark.",
+      };
+      await writeFile(
+        `${host.directory}/cost-measurement.json`,
+        JSON.stringify(report, null, 2),
+      );
+      console.log("ROM_FINITE_COST " + JSON.stringify(report));
+    } finally {
+      await host.close();
+    }
+  });

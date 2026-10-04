@@ -41,11 +41,13 @@ pub fn build(storage: Arc<dyn Storage>, clock: Arc<dyn rom::Clock>) -> Result<Ru
     let worker = Actor::trusted("studio-demo-host", "worker").with_kind(PrincipalKind::Service);
     let gate = IdentityGate::default()
         .allow_host(&host.authority, PrincipalKind::Embedded, &host.subject)?
-        .allow_host(&worker.authority, PrincipalKind::Service, &worker.subject)?;
+        .allow_host(&worker.authority, PrincipalKind::Service, &worker.subject)?
+        .allow_host("rom-blob-host", PrincipalKind::Service, "attachments")?;
     Runtime::builder()
         .clock(clock)
         .actor_gate(Arc::new(gate))
         .operator_authorizer(Arc::new(Operator))
+        .resource(rom_blob::definition().discovery_policy(|actor, _| domain(actor)))
         .resource(
             User::definition()
                 .policy(|a, _, _| admin(a))

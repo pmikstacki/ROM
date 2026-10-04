@@ -1,0 +1,64 @@
+TAP version 13
+# (node:2844710) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: unknown reserve repeats the frozen key/file then upload without Resource kind switches
+ok 1 - unknown reserve repeats the frozen key/file then upload without Resource kind switches
+  ---
+  duration_ms: 1.289338
+  type: 'test'
+  ...
+# Subtest: unknown upload retries publication only and disposal clears retained content
+ok 2 - unknown upload retries publication only and disposal clears retained content
+  ---
+  duration_ms: 0.259503
+  type: 'test'
+  ...
+# Subtest: byte limit rejects before mutation
+ok 3 - byte limit rejects before mutation
+  ---
+  duration_ms: 0.120869
+  type: 'test'
+  ...
+# Subtest: a result from the old session generation never populates the new view
+ok 4 - a result from the old session generation never populates the new view
+  ---
+  duration_ms: 0.226951
+  type: 'test'
+  ...
+# Subtest: disposal denies a late completed download
+ok 5 - disposal denies a late completed download
+  ---
+  duration_ms: 0.33183
+  type: 'test'
+  ...
+# Subtest: HTTP 500 retains the exact pending reservation until explicit retry
+not ok 6 - HTTP 500 retains the exact pending reservation until explicit retry
+  ---
+  duration_ms: 0.771074
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/studio/tests/components/attachment-model.test.ts:196:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    'error' !== 'unknown'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'unknown'
+  actual: 'error'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/studio/tests/components/attachment-model.test.ts:207:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 5
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 93.004553

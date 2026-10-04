@@ -5,7 +5,7 @@ import { mkdtemp, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { once } from "node:events";
 import { startHumanProvider } from "../../../demo/provider-fixture/human-provider.mjs";
-export async function startHost(backend) {
+export async function startHost(backend, options = {}) {
   const directory = await mkdtemp("/var/tmp/rom-studio-host-browser-");
   const reserved = createServer();
   reserved.listen(0, "127.0.0.1");
@@ -17,12 +17,13 @@ export async function startHost(backend) {
     clientId: "studio",
     clientSecret: "controlled-host-test-secret",
     redirectUri: `${origin}/rom-studio/auth/callback/local`,
+    beforeRequest: options.beforeRequest,
   });
   let child,
     generation = 0,
     socket;
   async function stop() {
-    if (!child || child.exitCode !== null) return;
+    if (!child || child.exitCode !== null || child.signalCode !== null) return;
     const exited = once(child, "exit");
     child.kill("SIGTERM");
     const timer = setTimeout(() => child.kill("SIGKILL"), 8000);
@@ -91,6 +92,17 @@ export async function startHost(backend) {
     origin,
     url: `${origin}/rom-studio/`,
     directory,
+    alive() {
+      return child.exitCode === null && child.signalCode === null;
+    },
+    terminate() {
+      const exited = once(child, "exit").then(([code, signal]) => ({
+        code,
+        signal,
+      }));
+      child.kill("SIGTERM");
+      return exited;
+    },
     async control(request) {
       const client = connect(socket);
       let text = "";
