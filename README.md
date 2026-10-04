@@ -6,13 +6,17 @@ Declare a resource once. The framework supplies standard storage, operations, en
 
 Actions request changes. The core validates and commits transitions. Events describe committed facts. Reactions can submit further actions through the same core.
 
-**Status: native source alpha, 0.1.0-alpha.1.** The maintained library, CLI, adapters, and reference application passed the complete local release procedure. This remains experimental software. See the [completion audit and support limits](docs/research/framework-release-completion.md), [completed release checklist](openspec/changes/prepare-framework-release/tasks.md), and [earlier MVP evidence](docs/research/mvp-release-results.md).
+**Status: 0.0.2 preparation; experimental software.** The current package set includes Studio. Its [execution record](docs/research/rom-0.0.2-progress.md) separates tested components from pending release and preview gates.
+
+The historical native source alpha, `0.1.0-alpha.1`, passed the complete local release procedure for its library, CLI, adapters, and reference application. See its [completion audit and support limits](docs/research/framework-release-completion.md), [completed release checklist](openspec/changes/prepare-framework-release/tasks.md), and [earlier MVP evidence](docs/research/mvp-release-results.md).
 
 ## Try the MVP
 
 With Rust 1.99, run `./demo/run smoke` from this repository. This command tests the complete local flow with SQLite. `./demo/run smoke redb` uses the other adapter. Follow the [author workshop](demo/README.md) for resource declarations, live queries and a persistent local server.
 
-The generic [command-line client](docs/cli.md) now supports discovery, queries, mutations, live snapshots and journal streams. Run `cargo run --locked -p rom-cli -- --help` to start. See the [core/CLI verification results](docs/research/core-cli-results.md). Studio implementation remains deferred.
+The generic [command-line client](docs/cli.md) now supports discovery, queries, mutations, live snapshots and journal streams. Run `cargo run --locked -p rom-cli -- --help` to start. See the [core/CLI verification results](docs/research/core-cli-results.md).
+
+Studio uses Svelte and shadcn-svelte components with shared Resource descriptors, field renderers, forms, tables, and action controls. The optional Rust host supplies human OIDC login and server-side sessions. [Browser acceptance](docs/research/rom-0.0.2-full-browser-workflows-results.md) covers Task and Inventory workflows on SQLite and redb in Chromium and WebKit. The [external author example](docs/research/rom-0.0.2-studio-author-workflow.md) uses a public entry point and a custom renderer from extracted Studio source. Final artifact acceptance and persistent VPN preview remain pending. These tests do not establish production readiness or human usability.
 
 The opt-in [provider deployment profile](docs/provider-deployment.md) adds explicit service provisioning, private secret references, and authentication through a real provider. Its [verification record](docs/research/provider-deployment-results.md) separates integration trials from the final release gates.
 
@@ -129,7 +133,7 @@ The [maintained verification record](docs/research/maintained-foundation-results
 and [storage contract](docs/storage-adapters.md) supersede the corresponding
 limitations of the original disposable probe.
 
-Package verification builds all twelve extracted package archives. It runs the CLI
+Package verification builds all maintained library package archives. It runs the CLI
 and a library consumer outside this workspace. Inside `rom-dev`, run `node scripts/check-packages.mjs`.
 This does not publish packages to crates.io.
 
