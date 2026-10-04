@@ -14,7 +14,7 @@ unchanged.
 | One Resource contract and generic operations | [Full browser workflows](rom-0.0.2-full-browser-workflows-results.md), [field-editor checks](evidence/rom-0.0.2/field-ux/README.md), and [source review](rom-0.0.2-integration-review.md) | Current frontend workflows pass. The final extracted package must run from one accepted source revision. |
 | Exact mutation, current authority, and recovery | [Resilience results](rom-0.0.2-resilience-results.md), [SDK results](rom-0.0.2-sdk-resilience-results.md), and [provider maintenance](rom-0.0.2-provider-maintenance-journey.md) | Focused checks pass. The final native and browser gates remain required. |
 | Generic Studio, human login, and reusable controls | [Field design and verification](rom-studio-field-ux-proposal.md), [shared filter workspace](rom-0.0.2-filter-workspace-verification.md), and [external author workflow](rom-0.0.2-studio-author-workflow.md) | The current frontend passed Chromium and WebKit host diagnostics with an existing native binary. The accepted extracted build remains pending. |
-| Dependency and source notices | [Dependency checks](rom-0.0.2-dependency-check-results.md), [runtime notice source](rom-0.0.2-runtime-notices-results.md), and [maintained inventory](maintained-dependencies.md) | Current lock identities are recorded. Final emitted notices need artifact-bound verification. |
+| Dependency and source notices | [Dependency checks](rom-0.0.2-dependency-check-results.md), [runtime notice source](rom-0.0.2-runtime-notices-results.md), [maintained inventory](maintained-dependencies.md), and [current package fixtures](evidence/rom-0.0.2/release-readiness/package-node.log.gz) | Current lock identities are recorded. All 56 package and artifact fixture tests passed on the inspected revision. Final emitted notices need artifact-bound verification. |
 | Skills and external consumers | [Studio author workflow](rom-0.0.2-studio-author-workflow.md), [packaging results](rom-0.0.2-studio-packaging-results.md), and [release skill](../../skills/rom/rom-release/SKILL.md) | The fixed producer must execute skill examples and the independent extracted consumer. |
 | Complete local artifact | [Release procedure](../../scripts/release-artifacts/README.md) | No current completed eight-gate artifact, manifest, checksums, or independent extraction verdict exists. |
 | Protected durable preview | [Preview plan](rom-0.0.2-preview-deployment-plan.md) and [scoped activation](rom-0.0.2-scoped-preview-activation.md) | The temporary VPN preview uses current frontend assets and an older native executable. A release-bound persistent service and restart acceptance remain pending. |
@@ -31,6 +31,14 @@ The shared disk has a 92 GiB safety floor. The most recent approved producer
 plan requires a finite reservation and advance launch notice. A source change
 requires a fresh admission and source identity check. Do not start an
 unbounded producer because a read-only snapshot shows enough free bytes.
+
+On inspected baseline `77cc178`, the ROM NixOS container ran
+`node --test scripts/packages/*.test.mjs scripts/release-artifacts/*.test.mjs`.
+All 56 fixture tests passed. The retained [compressed log](evidence/rom-0.0.2/release-readiness/package-node.log.gz)
+has SHA-256 `c80b2289f7813e9ee611db1abe7a57b9de919b0cab1a7f4d1969227e1b36de9d`.
+The uncompressed log has SHA-256
+`e12171d034bb75bfa08c93eae8373a1cccdeba0b445599c947c6a13956c406ec`.
+This is source-level package behavior, not a produced archive.
 
 ## Actions before release acceptance
 
