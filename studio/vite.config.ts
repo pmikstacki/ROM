@@ -34,6 +34,7 @@ export default defineConfig(({ mode }) => ({
               main: "index.html",
               components: "tests/components/harness.html",
               details: "tests/components/details.html",
+              rendererRegressions: "tests/components/renderer-regressions.html",
             },
           },
         }

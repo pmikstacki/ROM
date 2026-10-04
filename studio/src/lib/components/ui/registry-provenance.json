@@ -2984,6 +2984,24 @@
       "redEvidence": "Coordinator reported 48/50 browser cases passed; both mobile Sidebar focus-return cases failed before adaptation",
       "verification": "Coordinator session44467 exited0: all50 component cases passed across Chromium and WebKit, including mobile Escape dialog closure and focus return. Host also limits tooltip admission to collapsed desktop navigation; the callback alone did not resolve the initial failures.",
       "verificationEvidence": "/root/ipi/research/disk-coordination-2026-10-04/ROM-shadcn-tooltip-focus-verification.json"
+    },
+    {
+      "path": "src/lib/components/ui/alert/alert.svelte",
+      "originalRegistrySha256": "dac05325ff2ff6ce0e632fa82b401a104fc7982ad22e634e69083502168620d4",
+      "currentSha256": "e86760b0156a4d8f560f277ad7e7bdd381e56ffaa4ed38ca0e0f75babc6b2bf4",
+      "reason": "Keep destructive alert descriptions at the full destructive token opacity to preserve required text contrast.",
+      "redEvidence": "Native gate8 of95bca07 failed; separate original component picker assertions exposed departing popup options. All failed diagnostics are retained.",
+      "verification": "Fresh native24cases passed before the inert wrapper. Final source82componentcases passed with unchanged default2workers in the uninstrumented control and separately with lifecycle observers. Prior intermittent WebKit target closure remains unexplained; all failed evidence is retained. Full clean-source release acceptance remains pending.",
+      "verificationEvidence": "/root/ipi/research/disk-coordination-2026-10-04/webkit-parallel-control-followup/result.json"
+    },
+    {
+      "path": "src/lib/components/ui/select/select-content.svelte",
+      "originalRegistrySha256": "3bea7ff19d4d456de1482e1c52793782de2b5844e4fadb5bebb05ca0341f1a7d",
+      "currentSha256": "149c9a0b55331e33cf02f39ac746c612acc2e303e339f992a718a2fe6f289af6",
+      "reason": "Use the Bits UI nonlocking Select default. Preserve the child wrapper and ref attachments; make departing content inert and hidden from accessibility queries without removing its exit animation.",
+      "redEvidence": "Native gate8 of95bca07 failed; separate original component picker assertions exposed departing popup options. All failed diagnostics are retained.",
+      "verification": "Fresh native24cases passed before the inert wrapper. Final source82componentcases passed with unchanged default2workers in the uninstrumented control and separately with lifecycle observers. Prior intermittent WebKit target closure remains unexplained; all failed evidence is retained. Full clean-source release acceptance remains pending.",
+      "verificationEvidence": "/root/ipi/research/disk-coordination-2026-10-04/webkit-parallel-control-followup/result.json"
     }
   ]
 }

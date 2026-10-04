@@ -76,3 +76,43 @@ An explicit `inline-block` class gives the label a 16-pixel box. The original vi
 A fresh component build and all 62 original browser cases passed with this change before formatter-only wrapping. The verification used a private 512 MiB temporary filesystem. The formatted source then passed Svelte check with zero errors and warnings. The next complete producer must verify the formatted committed source through all eight gates.
 
 Evidence is under `/root/ipi/research/disk-coordination-2026-10-04/`: `pagination-webkit-diagnostic/`, `pagination-fresh-source-verification/`, `ROM-pagination-box-type-check.json` and `ROM-filter-producer-terminal.json`. The retained failed images remain available. Verified-zero compaction reclaimed 25,290,866,688 allocated bytes; their complete logical hashes remained equal.
+
+## Native browser and collection follow-up
+
+The `95bca07` producer passed gates 1 through 7. Gate 8 stopped with 16 native browser cases passed and eight failed. The external author did not run. The release remains unaccepted.
+
+WebKit returned a zero-height box for a generic scalar span. An explicit inline box made the original visibility assertion pass in the diagnostic. Generic scalar and fallback displays now have explicit boxes. Empty codec-wrapped lists and maps have the same treatment. Nonempty collection layout remains unchanged.
+
+A destructive alert description failed the original contrast assertion at 4.49:1. Its variant now uses the full destructive token, without reduced opacity.
+
+A separate capture showed a closed Select with an active exit animation and a retained body pointer lock. Select now uses Bits UI's nonlocking default. Its departing floating wrapper becomes inert and hidden from accessibility queries. Both primitive prop spreads and their ref attachments remain intact. The exit animation remains present.
+
+The popup helper selects the exact domain value from exactly one open listbox on the foreground page. This excludes an older closing popup. It does not force clicks, increase deadlines, or remove assertions. The original direct keyboard picker test remains unchanged.
+
+Ten new component cases per engine cover scalar values, missing/null distinctions, empty collections, and nested mobile Select interactions. Both empty collection cases first failed the WebKit visibility assertion. Mobile tests use normal scrolling, clicks, Escape, Tab, and focus assertions.
+
+Fresh assets passed all 24 native browser cases before the final inert-wrapper change. The complete Task and Inventory workflows took 12 to 14 seconds. This result uses the retained native binary and is diagnostic evidence, not acceptance of a new native release.
+
+The final frontend passed Svelte check with no errors or warnings. All 82 component cases passed in a single-worker diagnostic. Default two-worker runs still failed at different WebKit Select interactions because their pages closed during actionability waits. Browser diagnostics showed graceful process exits, not an established browser crash. Five isolated picker repeats passed. These results do not establish the cause of the parallel failures.
+
+The default suite, all eight release gates, external author, artifact verification, durable preview, and publication remain pending. No successful diagnostic substitutes for those requirements.
+
+Evidence is in `/root/ipi/research/disk-coordination-2026-10-04/`: `native-pointer-diagnostic/`, `native-browser-fixes-final/`, `renderer-regressions-red/`, `renderer-regressions-final/`, `renderer-regressions-confirmation/`, `webkit-parallel-browser-diagnostic/`, and `webkit-worker-isolation-comparison/`. Registry provenance records preserve the original source hashes and identify the local Alert and Select adaptations.
+
+Zero-only compaction of the failed producer images reclaimed 15,140,401,152 allocated bytes. Complete logical hashes, file sizes, inode identities, ownership, and modes remained unchanged. Fresh process, open-file, mapping, hardlink, and loop audits found no references or errors before compaction. The audit is `ROM-native-gate-owned-unwritten-image-compaction.json`. No source, evidence, or other project was deleted.
+
+### Parallel lifecycle follow-up
+
+The final component source passed all 82 cases with the unchanged two-worker profile on 2026-10-04.
+This uninstrumented control completed in 40.9 seconds. Both browser projects and all original assertions remained enabled.
+The source snapshot did not change during execution.
+Evidence: `/root/ipi/research/disk-coordination-2026-10-04/webkit-parallel-control-followup/`.
+
+A separate instrumented run also passed all 82 cases. It recorded monotonic timestamps for close calls and lifecycle events.
+Independent review attributed observed closures to Playwright fixture teardown or Axe auxiliary-page cleanup.
+No observed unsolicited closure, crash, capture cap or observer error occurred in that run.
+Instrumentation adds scheduling overhead. This passing run does not establish the cause of earlier intermittent failures.
+Evidence: `/root/ipi/research/disk-coordination-2026-10-04/webkit-lifecycle-capture/` and `webkit-lifecycle-instrumentation-review/capture-52215-analysis.md` in the same coordination directory.
+
+These results permit continued candidate verification. They do not prove full clean-source release acceptance or preview deployment.
+The approved quick-filter popover and Filters / Details sidebar remain unchanged.

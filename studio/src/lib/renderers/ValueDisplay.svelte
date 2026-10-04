@@ -32,7 +32,7 @@
   );
 </script>
 
-{#if mismatch || depth >= 6}<span
+{#if mismatch || depth >= 6}<span class="inline-block"
     >{displayValue(value)} (bounded generic display)</span
   >
 {:else if wrappers.length > 0 && value !== null && value !== undefined}
@@ -43,6 +43,7 @@
       depth={depth + 1}
     />
   {:else if descriptor.shape.type === "list" && Array.isArray(value)}<span
+      class:inline-block={value.length === 0}
       >[{#each value.slice(0, 100) as item, index}{#if index},
         {/if}<ValueDisplay
           descriptor={inner}
@@ -52,6 +53,7 @@
         />{/each}{#if value.length > 100}…{/if}]</span
     >
   {:else if descriptor.shape.type === "map" && typeof value === "object" && !Array.isArray(value)}<span
+      class:inline-block={Object.keys(value).length === 0}
       >{"{"}{#each Object.entries(value).slice(0, 100) as [key, item], index}{#if index},
         {/if}{key}: <ValueDisplay
           descriptor={inner}
@@ -60,7 +62,7 @@
           depth={depth + 1}
         />{/each}{#if Object.keys(value).length > 100}…{/if}{"}"}</span
     >
-  {:else}<span>{displayValue(value)}</span>{/if}
+  {:else}<span class="inline-block">{displayValue(value)}</span>{/if}
 {:else if Custom && value !== undefined}<Custom
     {descriptor}
     {value}
@@ -68,7 +70,7 @@
     readonly
     onchange={() => {}}
   />
-{:else}<span>{displayValue(value)}</span
+{:else}<span class="inline-block">{displayValue(value)}</span
   >{#if descriptor.codec && value !== null && value !== undefined}<span
       class="codec-note"
     >

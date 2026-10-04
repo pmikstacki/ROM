@@ -13,7 +13,7 @@
 		sideOffset = 4,
 		portalProps,
 		children,
-		preventScroll = true,
+		preventScroll = false,
 		...restProps
 	}: WithoutChild<SelectPrimitive.ContentProps> & {
 		portalProps?: WithoutChildrenOrChild<ComponentProps<typeof SelectPortal>>;
@@ -32,14 +32,20 @@
 		)}
 		{...restProps}
 	>
-		<SelectScrollUpButton />
-		<SelectPrimitive.Viewport
-			class={cn(
-				"h-(--bits-select-anchor-height) w-full min-w-(--bits-select-anchor-width) scroll-my-1"
-			)}
-		>
-			{@render children?.()}
-		</SelectPrimitive.Viewport>
-		<SelectScrollDownButton />
+		{#snippet child({ props, wrapperProps, open })}
+			<div {...wrapperProps} inert={!open} aria-hidden={!open}>
+				<div {...props}>
+				<SelectScrollUpButton />
+				<SelectPrimitive.Viewport
+					class={cn(
+						"h-(--bits-select-anchor-height) w-full min-w-(--bits-select-anchor-width) scroll-my-1"
+					)}
+				>
+					{@render children?.()}
+				</SelectPrimitive.Viewport>
+				<SelectScrollDownButton />
+				</div>
+			</div>
+		{/snippet}
 	</SelectPrimitive.Content>
 </SelectPortal>
