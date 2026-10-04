@@ -1,0 +1,4 @@
+5f4c1beb7874194dc2239e5a82af1f72d5e0ca2deac0900f053f6ff7b7ccbf7b  crates/rom-studio-host/Cargo.toml
+d98c5007b93357dec22cc90d3a12d0a129e0d6948e7a7864fa9824ee3d3038ed  crates/rom-studio-host/tests/human.rs
+96cdb876c53c06fcb688f8a069ad6e81fc8d0b132e98dd3b94142ffad1f11969  crates/rom-studio-host/tests/support/maintenance.rs
+f288709d12f8c7adc39a5d72cb7253a9d86afa990dd94226724e39262500d992  Cargo.lock

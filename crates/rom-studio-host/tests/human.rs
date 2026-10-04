@@ -6,6 +6,8 @@ use std::sync::atomic::{AtomicU64, Ordering};
 mod blob;
 #[path = "support/current_bind.rs"]
 mod current_bind;
+#[path = "support/maintenance.rs"]
+mod maintenance;
 struct Time(AtomicU64);
 impl rom::Clock for Time {
     fn now(&self) -> u64 {

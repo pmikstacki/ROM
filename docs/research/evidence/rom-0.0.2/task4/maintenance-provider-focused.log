@@ -1,0 +1,47 @@
+   Compiling tokio v1.53.1
+   Compiling rom-derive v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-derive)
+   Compiling rom v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom)
+   Compiling hyper v1.11.1
+   Compiling hyper-util v0.1.21
+   Compiling tower v0.5.3
+   Compiling serde_urlencoded v0.7.1
+   Compiling url v2.5.8
+   Compiling jsonwebtoken v11.1.0
+   Compiling tokio-rustls v0.26.6
+   Compiling getrandom v0.4.3
+   Compiling tokio-util v0.7.19
+   Compiling axum v0.8.9
+   Compiling hyper-rustls v0.27.10
+   Compiling rom-auth v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-auth)
+   Compiling tower-http v0.6.11
+   Compiling rom-backup v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-backup)
+   Compiling rusqlite v0.40.2
+   Compiling reqwest v0.13.5
+   Compiling rom-identity v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-identity)
+   Compiling rom-http v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-http)
+   Compiling rom-blob v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-blob)
+   Compiling rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+   Compiling rom-redb v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-redb)
+   Compiling rom-sqlite v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-sqlite)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 22.65s
+     Running tests/human.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/human-105a1540e0d75dee)
+
+running 1 test
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+
+thread 'maintenance::real_provider_backup_migration_reopen_requires_fresh_session_and_current_authority' (2192830) panicked at crates/rom-studio-host/tests/support/maintenance.rs:430:5:
+assertion `left == right` failed
+  left: 401
+ right: 403
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+maintenance scratch retained: /tmp/rom-host-maintenance-2192829-false-1791078298105888281
+test maintenance::real_provider_backup_migration_reopen_requires_fresh_session_and_current_authority ... FAILED
+
+failures:
+
+failures:
+    maintenance::real_provider_backup_migration_reopen_requires_fresh_session_and_current_authority
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.34s
+
+error: test failed, to rerun pass `-p rom-studio-host --test human`

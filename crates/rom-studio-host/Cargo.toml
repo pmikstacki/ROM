@@ -29,5 +29,6 @@ base64 = "=0.22.1"
 subtle = "=2.6.1"
 getrandom = "=0.4.3"
 [dev-dependencies]
+rom-backup = { path = "../rom-backup", version = "=0.0.2" }
 rom-sqlite = { workspace = true }
 rom-redb = { workspace = true }

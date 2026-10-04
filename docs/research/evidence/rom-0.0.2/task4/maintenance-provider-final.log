@@ -1,0 +1,13 @@
+   Compiling rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.92s
+     Running tests/human.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/human-105a1540e0d75dee)
+
+running 1 test
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+maintenance scratch retained: /tmp/rom-host-maintenance-2192919-false-1791078370857677189
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+maintenance scratch retained: /tmp/rom-host-maintenance-2192919-true-1791078371173415709
+test maintenance::real_provider_backup_migration_reopen_requires_fresh_session_and_current_authority ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.62s
+

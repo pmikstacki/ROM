@@ -1849,6 +1849,7 @@ dependencies = [
  "reqwest",
  "rom",
  "rom-auth",
+ "rom-backup",
  "rom-blob",
  "rom-http",
  "rom-identity",
