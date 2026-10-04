@@ -1,0 +1,4 @@
+7b2590ec80c6114c2a5d5ed92afdef4ced26f2e3beb790c3501fee5a4cd4cd1b  scripts/research/capture-studio-wire.mjs
+a04b036928daaa6220a36b8e161042cb77212889d71ca5d777616f1c88e9875c  scripts/research/benchmark-studio-wire.mjs
+acbfa47fa28e9edef94220a297da5a2c1755f3ce5aa00a5c8b13aa8ee2e03d6c  studio/src/lib/client/serialization.ts
+c4dc22f7bfaf43f95427fa0868af9003e7b063db72b00532bba02085ad9e1458  studio/tests/unit/codec.test.ts

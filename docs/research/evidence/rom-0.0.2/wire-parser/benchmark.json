@@ -1,0 +1,356 @@
+{
+  "recordedAt": "2026-10-04T01:42:17.733Z",
+  "node": "v22.16.0",
+  "platform": "linux",
+  "arch": "x64",
+  "sourceSha256": "acbfa47fa28e9edef94220a297da5a2c1755f3ce5aa00a5c8b13aa8ee2e03d6c",
+  "binarySha256": "60576302fec8f9d2439b3da34cd23ea8411c9277ce575c2bad9c2386986b9d7c",
+  "batches": 31,
+  "iterations": 100,
+  "jsonStringifyIncludesParse": false,
+  "scope": "retained native seeded fixtures; Node wall-clock; no network, database, DOM or heap claim",
+  "results": [
+    {
+      "backend": "redb",
+      "route": "discover",
+      "file": "redb-1-discover.json",
+      "bytes": 2981,
+      "sha256": "59ef7b25ab48e06c0e1756408c5a4bdd8de0aea30104c1f56378c19bf5c29042",
+      "request": {},
+      "builtinEquivalent": true,
+      "parseWire": {
+        "medianMicroseconds": 56.54775000000001,
+        "p95Microseconds": 71.36642999999992
+      },
+      "stringifyWire": {
+        "medianMicroseconds": 314.16289000000006,
+        "p95Microseconds": 323.4508200000005
+      },
+      "jsonParse": {
+        "medianMicroseconds": 14.412909999998647,
+        "p95Microseconds": 17.29174999999941
+      },
+      "jsonStringify": {
+        "medianMicroseconds": 4.959759999999278,
+        "p95Microseconds": 5.516720000000532
+      }
+    },
+    {
+      "backend": "redb",
+      "route": "query",
+      "file": "redb-2-query.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "request": {
+        "kind": "blobs",
+        "query": {
+          "limit": 50
+        }
+      },
+      "builtinEquivalent": true,
+      "parseWire": {
+        "medianMicroseconds": 0.2409499999998843,
+        "p95Microseconds": 0.43642999999974563
+      },
+      "stringifyWire": {
+        "medianMicroseconds": 0.5072599999994054,
+        "p95Microseconds": 1.1081899999999223
+      },
+      "jsonParse": {
+        "medianMicroseconds": 0.06122000000004846,
+        "p95Microseconds": 0.06532999999990352
+      },
+      "jsonStringify": {
+        "medianMicroseconds": 0.05370999999968262,
+        "p95Microseconds": 0.08827000000110274
+      }
+    },
+    {
+      "backend": "redb",
+      "route": "query",
+      "file": "redb-3-query.json",
+      "bytes": 297,
+      "sha256": "cb122c37984c1a7190a823c6aaacfe81374be845840bd0ecb6955dd41f997c2c",
+      "request": {
+        "kind": "tasks",
+        "query": {
+          "limit": 50
+        }
+      },
+      "builtinEquivalent": true,
+      "parseWire": {
+        "medianMicroseconds": 6.713469999999688,
+        "p95Microseconds": 10.50813000000062
+      },
+      "stringifyWire": {
+        "medianMicroseconds": 31.456790000002,
+        "p95Microseconds": 33.692510000000766
+      },
+      "jsonParse": {
+        "medianMicroseconds": 1.312479999999141,
+        "p95Microseconds": 1.3435400000003028
+      },
+      "jsonStringify": {
+        "medianMicroseconds": 0.5409200000008241,
+        "p95Microseconds": 0.569470000000365
+      }
+    },
+    {
+      "backend": "redb",
+      "route": "read",
+      "file": "redb-4-read.json",
+      "bytes": 97,
+      "sha256": "9dc0ae49b2ab4e5c5a37e463e9507cb3584eeb04cf41e910b532d560557ecf0e",
+      "request": {
+        "kind": "tasks",
+        "id": "task-a"
+      },
+      "builtinEquivalent": true,
+      "parseWire": {
+        "medianMicroseconds": 2.185220000001209,
+        "p95Microseconds": 3.538389999998799
+      },
+      "stringifyWire": {
+        "medianMicroseconds": 8.534310000000005,
+        "p95Microseconds": 12.995240000000194
+      },
+      "jsonParse": {
+        "medianMicroseconds": 0.46467000000120606,
+        "p95Microseconds": 0.605040000000372
+      },
+      "jsonStringify": {
+        "medianMicroseconds": 0.21439999999984138,
+        "p95Microseconds": 0.22000999999818305
+      }
+    },
+    {
+      "backend": "redb",
+      "route": "query",
+      "file": "redb-5-query.json",
+      "bytes": 102,
+      "sha256": "9c12b9bbd2d81603c8f6092ce62e910709c7231d864772738d1a7a03ab487f63",
+      "request": {
+        "kind": "inventory",
+        "query": {
+          "limit": 50
+        }
+      },
+      "builtinEquivalent": true,
+      "parseWire": {
+        "medianMicroseconds": 2.464950000000954,
+        "p95Microseconds": 3.086630000000241
+      },
+      "stringifyWire": {
+        "medianMicroseconds": 8.841580000000704,
+        "p95Microseconds": 13.0050499999993
+      },
+      "jsonParse": {
+        "medianMicroseconds": 0.4995499999995445,
+        "p95Microseconds": 0.5337100000019745
+      },
+      "jsonStringify": {
+        "medianMicroseconds": 0.2337400000010348,
+        "p95Microseconds": 0.2677999999991698
+      }
+    },
+    {
+      "backend": "redb",
+      "route": "read",
+      "file": "redb-6-read.json",
+      "bytes": 100,
+      "sha256": "6fae79d5134ffaac4dae0feb5c70a3096bf3f4192f40c68813b75ec8943e3b92",
+      "request": {
+        "kind": "inventory",
+        "id": "inventory-a"
+      },
+      "builtinEquivalent": true,
+      "parseWire": {
+        "medianMicroseconds": 2.3467299999992974,
+        "p95Microseconds": 2.990350000000035
+      },
+      "stringifyWire": {
+        "medianMicroseconds": 8.35888999999952,
+        "p95Microseconds": 12.74735999999848
+      },
+      "jsonParse": {
+        "medianMicroseconds": 0.46188000000029206,
+        "p95Microseconds": 0.46988000000055763
+      },
+      "jsonStringify": {
+        "medianMicroseconds": 0.2232200000003104,
+        "p95Microseconds": 0.2251299999988987
+      }
+    },
+    {
+      "backend": "sqlite",
+      "route": "discover",
+      "file": "sqlite-1-discover.json",
+      "bytes": 2981,
+      "sha256": "59ef7b25ab48e06c0e1756408c5a4bdd8de0aea30104c1f56378c19bf5c29042",
+      "request": {},
+      "builtinEquivalent": true,
+      "parseWire": {
+        "medianMicroseconds": 54.961560000001555,
+        "p95Microseconds": 58.9884700000016
+      },
+      "stringifyWire": {
+        "medianMicroseconds": 314.1035800000009,
+        "p95Microseconds": 323.604620000001
+      },
+      "jsonParse": {
+        "medianMicroseconds": 14.119250000003376,
+        "p95Microseconds": 16.878560000000107
+      },
+      "jsonStringify": {
+        "medianMicroseconds": 4.825510000000577,
+        "p95Microseconds": 4.904660000001968
+      }
+    },
+    {
+      "backend": "sqlite",
+      "route": "query",
+      "file": "sqlite-2-query.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "request": {
+        "kind": "blobs",
+        "query": {
+          "limit": 50
+        }
+      },
+      "builtinEquivalent": true,
+      "parseWire": {
+        "medianMicroseconds": 0.4584599999998318,
+        "p95Microseconds": 1.0264299999971627
+      },
+      "stringifyWire": {
+        "medianMicroseconds": 0.890479999998206,
+        "p95Microseconds": 1.1053899999978967
+      },
+      "jsonParse": {
+        "medianMicroseconds": 0.04888999999820953,
+        "p95Microseconds": 0.07945000000290747
+      },
+      "jsonStringify": {
+        "medianMicroseconds": 0.041579999997338746,
+        "p95Microseconds": 0.04419000000325468
+      }
+    },
+    {
+      "backend": "sqlite",
+      "route": "query",
+      "file": "sqlite-3-query.json",
+      "bytes": 297,
+      "sha256": "cb122c37984c1a7190a823c6aaacfe81374be845840bd0ecb6955dd41f997c2c",
+      "request": {
+        "kind": "tasks",
+        "query": {
+          "limit": 50
+        }
+      },
+      "builtinEquivalent": true,
+      "parseWire": {
+        "medianMicroseconds": 6.016559999998208,
+        "p95Microseconds": 7.168429999996988
+      },
+      "stringifyWire": {
+        "medianMicroseconds": 27.256659999998192,
+        "p95Microseconds": 37.182990000001155
+      },
+      "jsonParse": {
+        "medianMicroseconds": 1.3058699999965029,
+        "p95Microseconds": 1.4567499999975553
+      },
+      "jsonStringify": {
+        "medianMicroseconds": 0.5425199999990582,
+        "p95Microseconds": 0.5821999999989202
+      }
+    },
+    {
+      "backend": "sqlite",
+      "route": "read",
+      "file": "sqlite-4-read.json",
+      "bytes": 97,
+      "sha256": "9dc0ae49b2ab4e5c5a37e463e9507cb3584eeb04cf41e910b532d560557ecf0e",
+      "request": {
+        "kind": "tasks",
+        "id": "task-a"
+      },
+      "builtinEquivalent": true,
+      "parseWire": {
+        "medianMicroseconds": 2.2163799999998446,
+        "p95Microseconds": 7.819859999999608
+      },
+      "stringifyWire": {
+        "medianMicroseconds": 8.426410000001852,
+        "p95Microseconds": 13.818689999998242
+      },
+      "jsonParse": {
+        "medianMicroseconds": 0.4618700000037279,
+        "p95Microseconds": 0.46679000000040105
+      },
+      "jsonStringify": {
+        "medianMicroseconds": 0.21299999999882857,
+        "p95Microseconds": 0.2195099999971717
+      }
+    },
+    {
+      "backend": "sqlite",
+      "route": "query",
+      "file": "sqlite-5-query.json",
+      "bytes": 102,
+      "sha256": "9c12b9bbd2d81603c8f6092ce62e910709c7231d864772738d1a7a03ab487f63",
+      "request": {
+        "kind": "inventory",
+        "query": {
+          "limit": 50
+        }
+      },
+      "builtinEquivalent": true,
+      "parseWire": {
+        "medianMicroseconds": 2.531380000000354,
+        "p95Microseconds": 4.335479999999734
+      },
+      "stringifyWire": {
+        "medianMicroseconds": 8.808129999997618,
+        "p95Microseconds": 15.019049999996241
+      },
+      "jsonParse": {
+        "medianMicroseconds": 0.4971400000022186,
+        "p95Microseconds": 0.530799999996816
+      },
+      "jsonStringify": {
+        "medianMicroseconds": 0.2306399999997666,
+        "p95Microseconds": 0.23575000000164437
+      }
+    },
+    {
+      "backend": "sqlite",
+      "route": "read",
+      "file": "sqlite-6-read.json",
+      "bytes": 100,
+      "sha256": "6fae79d5134ffaac4dae0feb5c70a3096bf3f4192f40c68813b75ec8943e3b92",
+      "request": {
+        "kind": "inventory",
+        "id": "inventory-a"
+      },
+      "builtinEquivalent": true,
+      "parseWire": {
+        "medianMicroseconds": 2.4154600000019855,
+        "p95Microseconds": 4.888630000000376
+      },
+      "stringifyWire": {
+        "medianMicroseconds": 8.317299999998795,
+        "p95Microseconds": 13.005459999999402
+      },
+      "jsonParse": {
+        "medianMicroseconds": 0.4590600000028644,
+        "p95Microseconds": 0.46357000000170956
+      },
+      "jsonStringify": {
+        "medianMicroseconds": 0.22272000000157277,
+        "p95Microseconds": 0.2920499999981985
+      }
+    }
+  ]
+}

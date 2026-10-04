@@ -1,0 +1,144 @@
+{
+  "recordedAt": "2026-10-04T01:41:10.957Z",
+  "binarySha256": "60576302fec8f9d2439b3da34cd23ea8411c9277ce575c2bad9c2386986b9d7c",
+  "fixtures": [
+    {
+      "backend": "redb",
+      "route": "discover",
+      "file": "redb-1-discover.json",
+      "bytes": 2981,
+      "sha256": "59ef7b25ab48e06c0e1756408c5a4bdd8de0aea30104c1f56378c19bf5c29042",
+      "request": {}
+    },
+    {
+      "backend": "redb",
+      "route": "query",
+      "file": "redb-2-query.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "request": {
+        "kind": "blobs",
+        "query": {
+          "limit": 50
+        }
+      }
+    },
+    {
+      "backend": "redb",
+      "route": "query",
+      "file": "redb-3-query.json",
+      "bytes": 297,
+      "sha256": "cb122c37984c1a7190a823c6aaacfe81374be845840bd0ecb6955dd41f997c2c",
+      "request": {
+        "kind": "tasks",
+        "query": {
+          "limit": 50
+        }
+      }
+    },
+    {
+      "backend": "redb",
+      "route": "read",
+      "file": "redb-4-read.json",
+      "bytes": 97,
+      "sha256": "9dc0ae49b2ab4e5c5a37e463e9507cb3584eeb04cf41e910b532d560557ecf0e",
+      "request": {
+        "kind": "tasks",
+        "id": "task-a"
+      }
+    },
+    {
+      "backend": "redb",
+      "route": "query",
+      "file": "redb-5-query.json",
+      "bytes": 102,
+      "sha256": "9c12b9bbd2d81603c8f6092ce62e910709c7231d864772738d1a7a03ab487f63",
+      "request": {
+        "kind": "inventory",
+        "query": {
+          "limit": 50
+        }
+      }
+    },
+    {
+      "backend": "redb",
+      "route": "read",
+      "file": "redb-6-read.json",
+      "bytes": 100,
+      "sha256": "6fae79d5134ffaac4dae0feb5c70a3096bf3f4192f40c68813b75ec8943e3b92",
+      "request": {
+        "kind": "inventory",
+        "id": "inventory-a"
+      }
+    },
+    {
+      "backend": "sqlite",
+      "route": "discover",
+      "file": "sqlite-1-discover.json",
+      "bytes": 2981,
+      "sha256": "59ef7b25ab48e06c0e1756408c5a4bdd8de0aea30104c1f56378c19bf5c29042",
+      "request": {}
+    },
+    {
+      "backend": "sqlite",
+      "route": "query",
+      "file": "sqlite-2-query.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "request": {
+        "kind": "blobs",
+        "query": {
+          "limit": 50
+        }
+      }
+    },
+    {
+      "backend": "sqlite",
+      "route": "query",
+      "file": "sqlite-3-query.json",
+      "bytes": 297,
+      "sha256": "cb122c37984c1a7190a823c6aaacfe81374be845840bd0ecb6955dd41f997c2c",
+      "request": {
+        "kind": "tasks",
+        "query": {
+          "limit": 50
+        }
+      }
+    },
+    {
+      "backend": "sqlite",
+      "route": "read",
+      "file": "sqlite-4-read.json",
+      "bytes": 97,
+      "sha256": "9dc0ae49b2ab4e5c5a37e463e9507cb3584eeb04cf41e910b532d560557ecf0e",
+      "request": {
+        "kind": "tasks",
+        "id": "task-a"
+      }
+    },
+    {
+      "backend": "sqlite",
+      "route": "query",
+      "file": "sqlite-5-query.json",
+      "bytes": 102,
+      "sha256": "9c12b9bbd2d81603c8f6092ce62e910709c7231d864772738d1a7a03ab487f63",
+      "request": {
+        "kind": "inventory",
+        "query": {
+          "limit": 50
+        }
+      }
+    },
+    {
+      "backend": "sqlite",
+      "route": "read",
+      "file": "sqlite-6-read.json",
+      "bytes": 100,
+      "sha256": "6fae79d5134ffaac4dae0feb5c70a3096bf3f4192f40c68813b75ec8943e3b92",
+      "request": {
+        "kind": "inventory",
+        "id": "inventory-a"
+      }
+    }
+  ]
+}

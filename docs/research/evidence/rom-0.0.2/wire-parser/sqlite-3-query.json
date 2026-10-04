@@ -1,0 +1,1 @@
+[{"key":{"kind":"tasks","id":"task-a"},"revision":1,"value":{"done":false,"title":"Inspect pump"}},{"key":{"kind":"tasks","id":"task-b"},"revision":1,"value":{"done":false,"title":"Review report"}},{"key":{"kind":"tasks","id":"task-c"},"revision":1,"value":{"done":true,"title":"Archived check"}}]
