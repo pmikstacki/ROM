@@ -5,8 +5,8 @@
 
 ## 2. Public metadata and client contract
 - [x] 2.1 Introduce codec-conformant action-input descriptions with bounded authorized discovery.
-- [ ] 2.2 Build lossless generic browser SDK, request binding, and authenticated bounded stream lifecycle.
-- [ ] 2.3 Verify derive/manual metadata and external author/custom Field workflows.
+- [x] 2.2 Build lossless generic browser SDK, request binding, and authenticated bounded stream lifecycle.
+- [x] 2.3 Verify derive/manual metadata and external author/custom Field workflows.
 
 ## 3. Studio and human identity
 - [x] 3.1 Verify and lock the selected frontend stack with actual shadcn components.
@@ -15,8 +15,8 @@
 - [x] 3.4 Add Users, Providers, Settings, and Work views using shared Resource components.
 
 ## 4. Integrated resilience and ergonomics
-- [ ] 4.1 Test real browser workflows on both stores, including held-out Resources and keyboard operation.
-- [ ] 4.2 Test uncertain outcomes, authority changes, conflicts, reconnect, and draft reconciliation.
+- [x] 4.1 Test real browser workflows on both stores, including held-out Resources and keyboard operation.
+- [x] 4.2 Test uncertain outcomes, authority changes, conflicts, reconnect, and draft reconciliation.
 - [ ] 4.3 Close actual active-work shutdown and provider-to-maintenance evidence gaps.
 - [x] 4.4 Test reentrant storage policy and seeded native operator migration obligations.
 - [ ] 4.5 Measure renderer/query/stream costs and independently review shared invariants.

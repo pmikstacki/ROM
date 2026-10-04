@@ -1618,7 +1618,7 @@ dependencies = [
 
 [[package]]
 name = "rom"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "rayon",
  "rom-derive",
@@ -1630,7 +1630,7 @@ dependencies = [
 
 [[package]]
 name = "rom-auth"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "base64 0.22.1",
  "form_urlencoded",
@@ -1644,7 +1644,7 @@ dependencies = [
 
 [[package]]
 name = "rom-backup"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "rom",
  "serde",
@@ -1654,7 +1654,7 @@ dependencies = [
 
 [[package]]
 name = "rom-blob"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "futures-util",
  "rom",
@@ -1665,7 +1665,7 @@ dependencies = [
 
 [[package]]
 name = "rom-blob-object-store"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "futures-util",
  "object_store",
@@ -1679,7 +1679,7 @@ dependencies = [
 
 [[package]]
 name = "rom-cli"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "clap",
  "reqwest",
@@ -1695,7 +1695,7 @@ dependencies = [
 
 [[package]]
 name = "rom-config"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "config",
  "rom",
@@ -1710,7 +1710,7 @@ dependencies = [
 
 [[package]]
 name = "rom-conformance"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "rom",
  "rom-blob",
@@ -1719,7 +1719,7 @@ dependencies = [
 
 [[package]]
 name = "rom-consumer"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "rom",
  "rom-conformance",
@@ -1730,7 +1730,7 @@ dependencies = [
 
 [[package]]
 name = "rom-demo"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "futures-util",
  "libc",
@@ -1751,7 +1751,7 @@ dependencies = [
 
 [[package]]
 name = "rom-derive"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1760,7 +1760,7 @@ dependencies = [
 
 [[package]]
 name = "rom-http"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "axum",
  "futures-util",
@@ -1774,7 +1774,7 @@ dependencies = [
 
 [[package]]
 name = "rom-identity"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "jsonwebtoken",
  "rom",
@@ -1787,7 +1787,7 @@ dependencies = [
 
 [[package]]
 name = "rom-query-measure"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "dhat",
  "rom",
@@ -1800,7 +1800,7 @@ dependencies = [
 
 [[package]]
 name = "rom-redb"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "redb",
  "rom",
@@ -1810,7 +1810,7 @@ dependencies = [
 
 [[package]]
 name = "rom-sqlite"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "rom",
  "rom-backup",
@@ -1821,7 +1821,7 @@ dependencies = [
 
 [[package]]
 name = "rom-storage-conformance"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "jsonwebtoken",
  "redb",
@@ -1839,7 +1839,7 @@ dependencies = [
 
 [[package]]
 name = "rom-studio-host"
-version = "0.1.0-alpha.1"
+version = "0.0.2"
 dependencies = [
  "axum",
  "base64 0.22.1",

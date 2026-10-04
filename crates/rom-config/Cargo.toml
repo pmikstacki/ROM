@@ -18,8 +18,8 @@ config = { version = "=0.15.27", default-features = false, features = ["json", "
 serde.workspace = true
 serde_json.workspace = true
 [dev-dependencies]
-rom-backup = { version = "=0.1.0-alpha.1", path = "../rom-backup" }
-rom-identity = { version = "=0.1.0-alpha.1", path = "../rom-identity" }
+rom-backup = { version = "=0.0.2", path = "../rom-backup" }
+rom-identity = { version = "=0.0.2", path = "../rom-identity" }
 rom-sqlite = { workspace = true, features = ["test-support"] }
 rom-redb = { workspace = true, features = ["test-support"] }
 tokio.workspace = true

@@ -1,6 +1,7 @@
 # ROM 0.0.2 execution record
 
-Date: 2026-10-03. Status: active release goal. No 0.0.2 implementation or artifact acceptance is claimed.
+Started: 2026-10-03. Updated: 2026-10-04. Status: active release goal.
+Implemented slices have executed tests. Complete 0.0.2 artifact acceptance remains pending.
 
 The owner authorized the full release without further approvals. Studio is now in scope.
 The accepted native alpha and its evidence remain unchanged.
@@ -113,3 +114,35 @@ It will register existing Resources plus a held-out custom-codec Resource withou
 
 No 0.0.2 release artifact, actual durable preview, or complete release acceptance exists yet.
 The remaining gates include actual host/browser integration, accepted-work shutdown, package alignment, extracted artifacts, and persistent protected preview.
+
+## Actual native Studio acceptance
+
+The actual application slice is committed as `0034f07`.
+Its four production-asset cases passed on SQLite and redb in Chromium and WebKit.
+The gate built the current native source and preserved source inventories, the binary hash, and the exact supplied asset inventory.
+It tested real upstream human OIDC, generic Resources, durable retry, moving pagination, authority changes, proof expiry, restart, and logout.
+The held-out Resource uses the shared pipeline. It has no separate controller or repository.
+
+The custom codec wrapper correction is committed as `6dcf27c`.
+Native tests, discovery integration tests, and strict Clippy passed.
+The latest coordinator SDK run passed 53 tests.
+The worker's shared component/application suite passed 30 browser cases.
+Registered optional and list custom renderers also passed actual-host browser cases.
+Unknown custom codecs remain read-only, including optional values.
+
+The supervised authenticated blob host slice is committed as `4817d14`.
+It passed 26 host tests, 13 blob integration tests, one blob doctest, three provider tests, strict Clippy, and rustdoc.
+A regression demonstrated that an authentication panic could skip the blob drain. The correction drains each accepted-work service before returning the terminal error.
+Its real TCP shutdown test is not an operating-system SIGTERM test.
+That process-level gate and generic attachment controls remain active work.
+
+Evidence and explanations:
+
+- [Actual native Studio](rom-0.0.2-actual-studio-host-results.md)
+- [Custom codec wrappers](rom-0.0.2-wrapped-codec-results.md)
+- [SDK acceptance](evidence/rom-0.0.2/client/wrapped-codec-sdk-green.log)
+- [Host and blob acceptance](evidence/rom-0.0.2/task4/host-blob-final-4.log)
+- [Protected preview plan](rom-0.0.2-preview-deployment-plan.md)
+
+The package worker is adding extracted-asset acceptance and backward verification of the accepted historical manifest.
+The root coordinator still owns version alignment, full-source acceptance, artifact production, deployment, and final source integration.

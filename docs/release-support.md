@@ -2,6 +2,8 @@
 
 Status: native source alpha accepted on 2026-10-03.
 The [completion report](research/framework-release-completion.md) identifies the accepted source revision, artifacts, and executed evidence.
+The current branch prepares 0.0.2 with Studio. It is not yet an accepted release.
+The [execution record](research/rom-0.0.2-progress.md) identifies its tested slices and remaining gates.
 
 ## Supported profile
 
@@ -49,7 +51,7 @@ Moving pagination does not promise a stable snapshot across requests.
 Local query measurements apply to their recorded workloads, not every database or deployment.
 
 Independent Field identities and a Field registry remain open proposals.
-WASM, dynamic loading, RabbitMQ, Studio, shared tenancy, multiwriter deployment, and heavy analytics are outside this source release.
+WASM, dynamic loading, RabbitMQ, Studio, shared tenancy, multiwriter deployment, and heavy analytics are outside the accepted native alpha.
 The real-provider fixture does not establish universal OAuth compatibility, human login, or production TLS deployment.
 Process-exit tests do not certify machine power-loss durability.
 Automated author tests do not establish human usability or measured productivity improvement.
@@ -68,3 +70,25 @@ This requirement applies to artifact preparation, not to the generic persistence
 Report a defect with the source revision, lock hash, safe error category, and a minimal synthetic reproduction.
 Exclude credentials, private Resource values, and customer databases from reports.
 GitHub hosts source; local scripts perform verification and artifact preparation.
+
+## Prepared 0.0.2 package set
+
+The maintained workspace manifests now use version `0.0.2`. All local ROM dependency constraints use the same exact version.
+The frontend manifest and lock identify `0.0.2` separately from the Cargo lock.
+Use the complete matching source package set. Do not mix native alpha packages with 0.0.2 packages.
+
+The owner's requested identifier sorts before `0.1.0-alpha.1` under semantic version ordering.
+It does not describe a rollback of the accepted native alpha's code or data formats.
+Native storage format 8 and archive format 6 remain unchanged.
+The historical native alpha artifact and its source revision remain available with their original identities.
+
+The new Studio metadata changes experimental Rust source APIs.
+Manual `FieldCodec` and input descriptor literals need the `codec_wrappers` member.
+An empty path means that the codec owns the complete declared shape.
+Recompile extensions against the complete 0.0.2 source set.
+
+The prepared Studio uses static Svelte and shadcn-svelte assets with an optional Rust host.
+The host verifies human OIDC, maintains server-side sessions, and enforces current Resource authority.
+The executed provider profile does not establish compatibility with every identity provider.
+Actual native/browser tests do not establish production TLS deployment or client VPN reachability.
+Final artifact acceptance and protected preview acceptance remain release gates.

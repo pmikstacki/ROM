@@ -10,7 +10,7 @@ repository.workspace = true
 [lints]
 workspace = true
 [dependencies]
-rom-backup = {version="=0.1.0-alpha.1",path="../rom-backup"}
+rom-backup = {version="=0.0.2",path="../rom-backup"}
 rom.workspace = true
 rusqlite.workspace = true
 serde_json.workspace = true
