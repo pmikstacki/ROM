@@ -1,0 +1,6 @@
+error: undefined variable 'm'
+       at «string»:3:72:
+            2|  f=builtins.getFlake "/etc/nixos/ai-server";
+            3|  mk=m:f.inputs.nixpkgs.lib.nixosSystem {system="x86_64-linux";modules=[m];};
+             |                                                                        ^
+            4|  old=mk /etc/nixos/ai-server/modules/studio-container.nix;

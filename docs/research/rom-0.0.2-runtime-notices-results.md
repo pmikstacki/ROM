@@ -74,7 +74,8 @@ An independent peer reproduced one additional admission gap: JavaScript emitted 
 The [regression RED log](evidence/rom-0.0.2/runtime-notices/unclassified-js-red.log) records that bypass.
 The collector now refuses JavaScript and MJS assets unless they are emitted chunks with module metadata.
 The corrected production and installed-package probes passed.
-The peer owns the independent correction review; this author report does not claim that review is complete.
+The independent peer reported that the corrected negative probe passed. The coordinator confirmed that result.
+The complete producer remains a separate coordinator gate.
 
 ## Limits and handoff
 
