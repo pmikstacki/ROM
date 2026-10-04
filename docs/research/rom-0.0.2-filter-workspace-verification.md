@@ -64,3 +64,15 @@ Actual layout captures are in `/root/ROM-design-screenshots/filter-workspace/`:
 These images use a real SQLite ROM host and a local human identity fixture. The native binary is from historical source `4ad726d4b1d34a834cdf90042b82bad67ccf9ce4`. The capture is design evidence, not acceptance of the new release binary.
 
 The complete release producer, extracted consumer checks, current native browser workflows and durable preview remain pending. All eight release gates remain required. This report does not claim a published release or production readiness.
+
+## Full-producer pagination follow-up
+
+The producer for `9380941fbe5899aea133d6c4cd2c1fc9d81fe642` passed gates 1 through 6. Gate 7 stopped with 61 browser cases passed and one WebKit pagination case failed. Gate 8 did not run.
+
+The requested page and its rows were correct. WebKit painted the page label, but its nested inline span had zero height. Five private-namespace attempts reproduced the failure. Font lookup succeeded; measured glyph height and font bounding height differed.
+
+An explicit `inline-block` class gives the label a 16-pixel box. The original visibility assertion then passes. Expanded navigation captures are byte-identical before and after this CSS change. No query, anchor, test assertion or browser project changed.
+
+A fresh component build and all 62 original browser cases passed with this change before formatter-only wrapping. The verification used a private 512 MiB temporary filesystem. The formatted source then passed Svelte check with zero errors and warnings. The next complete producer must verify the formatted committed source through all eight gates.
+
+Evidence is under `/root/ipi/research/disk-coordination-2026-10-04/`: `pagination-webkit-diagnostic/`, `pagination-fresh-source-verification/`, `ROM-pagination-box-type-check.json` and `ROM-filter-producer-terminal.json`. The retained failed images remain available. Verified-zero compaction reclaimed 25,290,866,688 allocated bytes; their complete logical hashes remained equal.

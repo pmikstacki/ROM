@@ -252,8 +252,8 @@
       aria-label="Query pages"
     >
       <span class="mr-auto"
-        ><span>Moving page {snapshot.page}</span> · {snapshot.query.limit ?? 50} per
-        page</span
+        ><span class="inline-block">Moving page {snapshot.page}</span> · {snapshot
+          .query.limit ?? 50} per page</span
       >
       <Button
         variant="outline"
