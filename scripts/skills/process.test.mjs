@@ -1,9 +1,30 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { runChild } from './process.mjs';
+
+test('invalid supervision options reject before the process can start', async () => {
+  const scratch = mkdtempSync(join(tmpdir(), 'rom-skill-options-'));
+  const marker = join(scratch, 'started');
+  const program = `require('node:fs').writeFileSync(${JSON.stringify(marker)},'started');`;
+  try {
+    assert.throws(() => runChild(process.execPath, ['-e', program], { timeoutMs: 1000 }), /unsupported process option: timeoutMs/);
+    for (const option of ['timeout', 'maxBytes']) {
+      for (const value of [0, -1, 1.5, NaN, Infinity, '1000']) {
+        assert.throws(() => runChild(process.execPath, ['-e', program], { [option]: value }), /positive safe integer/);
+      }
+    }
+    assert.throws(() => runChild(process.execPath, ['-e', program], { timeout: 2 ** 31 }), /supported timer range/);
+    const accepted = await runChild(process.execPath, ['-e', "process.stdout.write('accepted')"], { timeout: undefined, maxBytes: undefined });
+    assert.equal(accepted.code, 0);
+    assert.equal(accepted.stdout, 'accepted');
+    assert.equal(existsSync(marker), false);
+  } finally {
+    rmSync(scratch, { recursive: true, force: true });
+  }
+});
 
 test('deadline kills a descendant holding inherited stdio and returns within its bound', async () => {
   const scratch = mkdtempSync(join(tmpdir(), 'rom-skill-process-'));

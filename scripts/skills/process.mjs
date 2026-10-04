@@ -3,6 +3,15 @@ import { spawn } from 'node:child_process';
 
 export function runChild(program, args, options = {}) {
   if (process.platform !== 'linux') throw Error('skill examples require Linux process-group ownership');
+  for (const key of Object.keys(options)) {
+    if (!['cwd', 'env', 'timeout', 'maxBytes'].includes(key)) throw Error(`unsupported process option: ${key}`);
+  }
+  for (const key of ['timeout', 'maxBytes']) {
+    if (options[key] !== undefined && (!Number.isSafeInteger(options[key]) || options[key] <= 0)) {
+      throw Error(`${key} must be a positive safe integer`);
+    }
+  }
+  if (options.timeout > 2 ** 31 - 1) throw Error('timeout exceeds the supported timer range');
   return new Promise((resolve, reject) => {
     const child = spawn(program, args, { cwd: options.cwd, env: options.env ?? process.env, detached: true, stdio: ['ignore', 'pipe', 'pipe'] });
     let stdout = '', stderr = '', receivedBytes = 0, timedOut = false, settled = false;
