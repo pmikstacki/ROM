@@ -92,3 +92,17 @@ The host verifies human OIDC, maintains server-side sessions, and enforces curre
 The executed provider profile does not establish compatibility with every identity provider.
 Actual native/browser tests do not establish production TLS deployment or client VPN reachability.
 Final artifact acceptance and protected preview acceptance remain release gates.
+
+## Studio source authoring for prepared 0.0.2
+
+The [public Studio facade](../studio/src/index.ts) exports the application, client, renderer registration, shared types, and input control.
+The [external author example](../examples/studio-consumer/README.md) uses these exports from an independently extracted Studio source tree.
+Its custom renderer uses codec identity, not Resource-specific view branches.
+This is a source-consumer contract. It is not a registry-published npm package.
+
+The [executed author workflow](research/rom-0.0.2-studio-author-workflow.md) uses Linux, Node.js 22, pinned dependencies, and an explicitly selected immutable native binary.
+Chromium and WebKit test the actual provider against SQLite and redb.
+These automated tests do not establish human usability or support for every provider or operating system.
+
+The [current scenario index](research/rom-0.0.2-scenario-index.md) separates scoped evidence from pending complete release acceptance.
+The historical native-alpha scenario report retains its original six-gate scope.

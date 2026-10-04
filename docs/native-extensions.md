@@ -1,7 +1,8 @@
 # Native alpha extension profile
 
 Profile revision 1 covers trusted Rust extensions compiled with an application.
-The package set is `0.1.0-alpha.1`, with Rust 1.99.
+The current prepared package set is `0.0.2`, with Rust 1.99.
+The historical accepted package set was `0.1.0-alpha.1`. Profile revision 1 remains unchanged.
 Record the executed source and lockfile hashes with verification results.
 The machine-readable contract is `extensions/native-alpha-v1.json` in the supplied ROM source tree.
 
