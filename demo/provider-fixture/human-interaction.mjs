@@ -24,15 +24,15 @@ function render(res, action, prompt, accounts, callbackOrigin) {
   res.end(`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>ROM fixture login</title></head><body><h1>ROM human identity fixture</h1><p>Local test accounts only. This is not production authentication.</p><form method="post" action="${action}">${control}</form></body></html>`);
 }
 
-export async function interaction(provider, issuer, accounts, req, res, callbackOrigin) {
+export async function interaction(provider, issuer, accounts, req, res, callbackOrigin, prefix = '') {
   const path = new URL(req.url, issuer).pathname;
   const details = await provider.interactionDetails(req, res);
   if (!/^[a-zA-Z0-9_-]+$/.test(details.uid)) throw Error('invalid interaction');
   const { prompt: { name, details: missing }, session, params, grantId } = details;
   if (!['login', 'consent'].includes(name)) throw Error('unsupported prompt');
   const expected = `/interaction/${details.uid}`;
-  if (req.method === 'GET' && path === expected) return render(res, `${expected}/${name}`, name, accounts, callbackOrigin);
-  if (req.method !== 'POST' || path !== `${expected}/${name}` || (req.headers.origin && req.headers.origin !== issuer)) throw Error('invalid interaction route');
+  if (req.method === 'GET' && path === expected) return render(res, `${prefix}${expected}/${name}`, name, accounts, callbackOrigin);
+  if (req.method !== 'POST' || path !== `${expected}/${name}` || (req.headers.origin && req.headers.origin !== new URL(issuer).origin)) throw Error('invalid interaction route');
   const body = await fields(req);
   if (name === 'login') {
     if ([...body.keys()].some(key => key !== 'account') || !accounts.includes(body.get('account'))) {

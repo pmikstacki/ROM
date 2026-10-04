@@ -1,0 +1,15 @@
+e7ae62f9344859fe5b9baf83e2d400e569c71b41ec7a2a9fa8f4dba8e026a5d6  /root/ROM/.worktrees/release-query-index/crates/rom-studio-host/src/backchannel.rs
+8a249475f6c1a9997cfefde55d8e27b66903f8cd260ca1ffc808470d31461b92  /root/ROM/.worktrees/release-query-index/crates/rom-studio-host/src/backchannel_tests.rs
+83d23b2392dd859c5d184e35a1547fe6b54ad30097d44b13fccb50a1074eddbd  /root/ROM/.worktrees/release-query-index/crates/rom-studio-host/src/configuration.rs
+2c910d47dccb9244bb5518541101d5b214f662dbbf20d97059aea1ccf8887b4b  /root/ROM/.worktrees/release-query-index/crates/rom-studio-host/src/lib.rs
+af4ad66f6395af725bc86ffd1b2e5673fdf6bb2b54e642138937f43540761d0b  /root/ROM/.worktrees/release-query-index/crates/rom-studio-host/src/oidc.rs
+e66f39035877e167b9f023c6d043a24448147e5030460bb93ab6e502e5e506ef  /root/ROM/.worktrees/release-query-index/crates/rom-studio-host/src/oidc_tests.rs
+f870e21db28be38ef766cb8575fbd1e286ffd10fb778af91d7c3f1bb51ff8228  /root/ROM/.worktrees/release-query-index/crates/rom-studio-host/tests/backchannel.rs
+6fba3760897366a8f130f6eb3d4886437b75d6bd5d8907b037a4c4c5fdc29121  /root/ROM/.worktrees/release-query-index/demo/provider-fixture/human-provider.mjs
+86a3c28406f18d15ab87b88dc7c474514584549cdd4e3d0527f50062db9dabd1  /root/ROM/.worktrees/release-query-index/demo/provider-fixture/human-interaction.mjs
+b87bdaf60c3d35d5afd31344f744c42653a674f9974c9e8c912d2f5bebcf316c  /root/ROM/.worktrees/release-query-index/demo/provider-fixture/human-provider.test.mjs
+04ee91663652cc0f41af0652b166bef3f5253f5a41e61b942f9548354fcd7032  /root/ROM/.worktrees/release-query-index/demo/provider-fixture/human-server.mjs
+6ea610e163cc5f25117fb5f3a03b38935a33d8135abe0499abcd0ddbc57739f1  /root/ROM/.worktrees/release-query-index/demo/provider-fixture/https-provider.mjs
+72b2c39e84136da2cf64c9c121440fbf9762268f4261d2d708c3f7c932ffe151  /root/ROM/.worktrees/release-query-index/demo/provider-fixture/https-provider.test.mjs
+87c222f5272dfab3b7e3cd81263a8aa7ab99741e56bf74bc137bb9f3e750384f  /root/ROM/.worktrees/release-query-index/demo/provider-fixture/preview-provider.mjs
+912ae3c5685606bf4813726a0395be638764dcfdc715e98084915c9013bd1977  /root/ROM/.worktrees/release-query-index/demo/provider-fixture/preview-provider.test.mjs

@@ -1,0 +1,42 @@
+TAP version 13
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# Subtest: trusted preview rejects ambiguous issuer and callback mounts
+ok 1 - trusted preview rejects ambiguous issuer and callback mounts
+  ---
+  duration_ms: 0.758209
+  type: 'test'
+  ...
+# Subtest: HTTPS issuer profile preserves proxy paths, PKCE and signed public claims
+not ok 2 - HTTPS issuer profile preserves proxy paths, PKCE and signed public claims
+  ---
+  duration_ms: 46.845533
+  type: 'test'
+  location: '/root/ROM/.worktrees/release-query-index/demo/provider-fixture/https-provider.test.mjs:17:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'https://127.0.0.1:40217/rom-studio-provider/auth'
+    - 'https://preview.example/rom-studio-provider/auth'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'https://preview.example/rom-studio-provider/auth'
+  actual: 'https://127.0.0.1:40217/rom-studio-provider/auth'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///root/ROM/.worktrees/release-query-index/demo/provider-fixture/https-provider.test.mjs:34:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 199.674909

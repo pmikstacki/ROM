@@ -1,0 +1,43 @@
+TAP version 13
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# Subtest: trusted preview rejects ambiguous issuer and callback mounts
+ok 1 - trusted preview rejects ambiguous issuer and callback mounts
+  ---
+  duration_ms: 0.747149
+  type: 'test'
+  ...
+# Subtest: HTTPS issuer profile preserves proxy paths, PKCE and signed public claims
+ok 2 - HTTPS issuer profile preserves proxy paths, PKCE and signed public claims
+  ---
+  duration_ms: 74.156711
+  type: 'test'
+  ...
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# Subtest: actual human provider performs code/PKCE login and one-time exchange
+ok 3 - actual human provider performs code/PKCE login and one-time exchange
+  ---
+  duration_ms: 105.022637
+  type: 'test'
+  ...
+# Subtest: actual human provider rejects missing PKCE, wrong verifier and undeclared account
+ok 4 - actual human provider rejects missing PKCE, wrong verifier and undeclared account
+  ---
+  duration_ms: 45.322814
+  type: 'test'
+  ...
+# Subtest: human fixture refuses non-loopback callbacks and empty credentials
+ok 5 - human fixture refuses non-loopback callbacks and empty credentials
+  ---
+  duration_ms: 0.337461
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 302.786681

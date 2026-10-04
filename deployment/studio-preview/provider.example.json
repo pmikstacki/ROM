@@ -1,0 +1,7 @@
+{
+  "issuer": "https://bdziam.home.arpa/rom-studio-provider",
+  "redirect_uri": "https://bdziam.home.arpa/rom-studio/auth/callback/local",
+  "client_id": "studio",
+  "client_secret_file": "/run/credentials/rom-studio-provider.service/client-secret",
+  "port": 44174
+}

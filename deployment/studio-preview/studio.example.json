@@ -1,0 +1,10 @@
+{
+  "public_origin": "https://bdziam.home.arpa",
+  "issuer": "https://bdziam.home.arpa/rom-studio-provider",
+  "authorization_endpoint": "https://bdziam.home.arpa/rom-studio-provider/auth",
+  "token_endpoint": "https://bdziam.home.arpa/rom-studio-provider/token",
+  "jwks_endpoint": "https://bdziam.home.arpa/rom-studio-provider/jwks",
+  "client_secret_file": "/run/credentials/rom-studio.service/client-secret",
+  "backchannel_token_endpoint": "http://127.0.0.1:44174/rom-studio-provider/token",
+  "backchannel_jwks_endpoint": "http://127.0.0.1:44174/rom-studio-provider/jwks"
+}

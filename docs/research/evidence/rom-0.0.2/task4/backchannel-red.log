@@ -1,0 +1,28 @@
+   Compiling rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+error[E0432]: unresolved import `rom_studio_host::TrustedLoopbackBackchannel`
+ --> crates/rom-studio-host/tests/backchannel.rs:1:55
+  |
+1 | use rom_studio_host::{HostConfig, OidcProviderConfig, TrustedLoopbackBackchannel};
+  |                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ no `TrustedLoopbackBackchannel` in the root
+
+error[E0599]: no method named `provider_backchannel` found for struct `HostConfig` in the current scope
+  --> crates/rom-studio-host/tests/backchannel.rs:15:22
+   |
+15 |     assert!(config().provider_backchannel("demo", profile("https://studio.example/identity", "http://127.0.0.1:44174/identity/token"...
+   |                      ^^^^^^^^^^^^^^^^^^^^ method not found in `HostConfig`
+
+error[E0599]: no method named `provider_backchannel` found for struct `HostConfig` in the current scope
+  --> crates/rom-studio-host/tests/backchannel.rs:28:26
+   |
+28 | ...   assert!(config().provider_backchannel(authority, profile(issuer, token, jwks)).validate().is_err(), "{authority} {issuer} {tok...
+   |                        ^^^^^^^^^^^^^^^^^^^^ method not found in `HostConfig`
+
+error[E0599]: no method named `provider_backchannel` found for struct `HostConfig` in the current scope
+  --> crates/rom-studio-host/tests/backchannel.rs:31:22
+   |
+31 |     assert!(config().provider_backchannel("demo", p.clone()).provider_backchannel("demo", p).validate().is_err());
+   |                      ^^^^^^^^^^^^^^^^^^^^ method not found in `HostConfig`
+
+Some errors have detailed explanations: E0432, E0599.
+For more information about an error, try `rustc --explain E0432`.
+error: could not compile `rom-studio-host` (test "backchannel") due to 4 previous errors

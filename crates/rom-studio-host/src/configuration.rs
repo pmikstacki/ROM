@@ -55,6 +55,7 @@ pub struct HostConfig {
     pub(crate) asset_directory: PathBuf,
     pub(crate) host_actor: Actor,
     pub(crate) approved: Vec<OidcProviderConfig>,
+    backchannels: Vec<(String, crate::TrustedLoopbackBackchannel)>,
     pub(crate) primary: Option<String>,
     pub(crate) settings_id: Option<String>,
     pub(crate) blobs: Option<rom_blob::BlobService>,
@@ -77,6 +78,7 @@ impl HostConfig {
             asset_directory: assets.into(),
             host_actor,
             approved: Vec::new(),
+            backchannels: Vec::new(),
             primary: None,
             settings_id: None,
             blobs: None,
@@ -98,6 +100,27 @@ impl HostConfig {
     pub fn providers(mut self, providers: Vec<OidcProviderConfig>) -> Self {
         self.approved = providers;
         self
+    }
+    /// Approve an exact internal transport while retaining the public HTTPS issuer.
+    pub fn provider_backchannel(
+        mut self,
+        authority: &str,
+        profile: crate::TrustedLoopbackBackchannel,
+    ) -> Self {
+        self.backchannels.push((authority.into(), profile));
+        self
+    }
+    pub(crate) fn token_endpoint<'a>(&'a self, provider: &'a OidcProviderConfig) -> &'a str {
+        self.backchannels
+            .iter()
+            .find(|(id, _)| id == &provider.authority)
+            .map_or(&provider.token_endpoint, |(_, profile)| &profile.token)
+    }
+    pub(crate) fn jwks_endpoint<'a>(&'a self, provider: &'a OidcProviderConfig) -> &'a str {
+        self.backchannels
+            .iter()
+            .find(|(id, _)| id == &provider.authority)
+            .map_or(&provider.jwks_endpoint, |(_, profile)| &profile.jwks)
     }
     pub fn settings(mut self, id: &str) -> Self {
         self.settings_id = Some(id.into());
@@ -205,6 +228,21 @@ impl HostConfig {
             .is_some_and(|id| !authorities.contains(id))
         {
             return Err(invalid("Primary provider must be approved"));
+        }
+        if self.backchannels.len() > 32 {
+            return Err(Error::TooLarge);
+        }
+        let mut bound = BTreeSet::new();
+        for (authority, profile) in &self.backchannels {
+            let provider = self
+                .approved
+                .iter()
+                .find(|p| &p.authority == authority)
+                .ok_or_else(|| invalid("Backchannel provider must be approved"))?;
+            if !bound.insert(authority) {
+                return Err(invalid("Duplicate backchannel approval"));
+            }
+            profile.validate(&provider.issuer, &self.public_origin)?;
         }
         Ok(())
     }

@@ -65,7 +65,7 @@ async function exchange(provider, secret, code, verifier) {
   const response = await fetch(`${provider.issuer}/token`, {
     method: 'POST', redirect: 'error', signal: AbortSignal.timeout(3000),
     headers: {
-      authorization: `Basic ${Buffer.from(`${clientId}:${secret}`).toString('base64')}`,
+      authorization: `Basic ${Buffer.from(`${new URLSearchParams([['',clientId]]).toString().slice(1)}:${new URLSearchParams([['',secret]]).toString().slice(1)}`).toString('base64')}`,
       'content-type': 'application/x-www-form-urlencoded',
     },
     body: new URLSearchParams({ grant_type: 'authorization_code', code, code_verifier: verifier, redirect_uri: callback }),
@@ -116,4 +116,15 @@ test('actual human provider rejects missing PKCE, wrong verifier and undeclared 
 test('human fixture refuses non-loopback callbacks and empty credentials', async () => {
   await assert.rejects(startHumanProvider({ clientId, clientSecret: 'secret', redirectUri: 'https://attacker.example/callback' }));
   await assert.rejects(startHumanProvider({ clientId, clientSecret: '', redirectUri: callback }));
+});
+
+test('actual provider accepts form-encoded special-character client secret', { timeout: 15000 }, async () => {
+  const secret = 'public-test: secret% +!';
+  const provider = await startHumanProvider({ clientId, clientSecret: secret, redirectUri: callback });
+  try {
+    const result = await authorize(provider);
+    const issued = await exchange(provider, secret, result.result.searchParams.get('code'), result.verifier);
+    assert.equal(issued.status, 200);
+    assert.equal(typeof issued.value.id_token, 'string');
+  } finally { await provider.close(); }
 });

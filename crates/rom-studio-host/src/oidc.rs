@@ -103,17 +103,20 @@ impl Credentials {
         code: String,
     ) -> Result<(Self, Actor)> {
         let activation = attempt.activation.ok_or(Error::Denied)?;
-        let mut request = shared.client.post(&config.token_endpoint).form(&[
-            ("grant_type", "authorization_code"),
-            ("code", code.as_str()),
-            ("code_verifier", attempt.verifier.as_str()),
-            (
-                "redirect_uri",
-                shared.config.callback(&config.authority).as_str(),
-            ),
-        ]);
+        let mut request = shared
+            .client
+            .post(shared.config.token_endpoint(config))
+            .form(&[
+                ("grant_type", "authorization_code"),
+                ("code", code.as_str()),
+                ("code_verifier", attempt.verifier.as_str()),
+                (
+                    "redirect_uri",
+                    shared.config.callback(&config.authority).as_str(),
+                ),
+            ]);
         if let Some(secret) = &config.client_secret {
-            request = request.basic_auth(&config.client_id, Some(secret));
+            request = client_secret_basic(request, &config.client_id, secret);
         } else {
             request = request.form(&[
                 ("grant_type", "authorization_code"),
@@ -194,6 +197,21 @@ impl Credentials {
         cached.proof.bind(&shared.runtime).await
     }
 }
+
+// RFC 6749 section 2.3.1 requires form encoding before HTTP Basic encoding.
+pub(crate) fn client_secret_basic(
+    request: reqwest::RequestBuilder,
+    client: &str,
+    secret: &str,
+) -> reqwest::RequestBuilder {
+    fn component(value: &str) -> String {
+        url::form_urlencoded::Serializer::new(String::new())
+            .append_pair("", value)
+            .finish()[1..]
+            .to_owned()
+    }
+    request.basic_auth(component(client), Some(component(secret)))
+}
 async fn verify(
     shared: &Arc<Shared>,
     activation: &ProviderActivation,
@@ -210,7 +228,7 @@ async fn verify(
         .ok_or(Error::Denied)?;
     let keys = parse_jwks(
         &bounded(
-            shared.client.get(&config.jwks_endpoint),
+            shared.client.get(shared.config.jwks_endpoint(config)),
             shared.config.limits.acquisition_bytes,
         )
         .await?,

@@ -1,0 +1,14 @@
+    Finished `test` profile [unoptimized] target(s) in 0.06s
+     Running tests/human.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/human-6f67740276f9d0b6)
+
+running 3 tests
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+test logout_closes_stalled_current_identity_bind ... ok
+test expiry_rechecks_original_lease_after_current_bind_fails ... ok
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+test actual_provider_login_binds_current_resources_and_protects_generic_api ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.37s
+

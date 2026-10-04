@@ -1,0 +1,8 @@
+error: no test target named `human_oidc` in `rom-studio-host` package
+help: available test targets:
+    backchannel
+    coherence
+    configuration
+    configuration_root
+    host
+    human

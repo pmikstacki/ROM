@@ -1,0 +1,84 @@
+   Compiling rom-studio-host v0.0.2 (/workspace/ROM/.worktrees/release-query-index/crates/rom-studio-host)
+    Finished `test` profile [unoptimized] target(s) in 5.57s
+     Running unittests src/lib.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/rom_studio_host-03c5c2b369f71c72)
+
+running 18 tests
+test csrf_tests::unsafe_requests_require_one_exact_origin_without_normalizing_attacker_input ... ok
+test csrf_tests::duplicate_cookie_names_cannot_select_a_different_session ... ok
+test assets_tests::inventory_refuses_symbolic_links_instead_of_following_them ... ok
+test login_tests::finite_attempt_admission_recovers_capacity_after_expiry ... ok
+test assets_tests::asset_inventory_bounds_are_enforced_before_serving ... ok
+test login_tests::consumed_state_is_one_use_and_browser_and_provider_bound ... ok
+test assets_tests::navigation_fallback_does_not_serve_unknown_assets_or_traversal ... ok
+test lifecycle_tests::cancelled_caller_keeps_admission_until_owned_work_finishes ... ok
+test oidc_tests::original_expiry_parser_is_a_bound_not_an_authenticator ... ok
+test oidc_tests::key_sets_reject_duplicate_ids_and_token_selected_trust_fields ... ok
+test session_tests::cookie_and_csrf_secrets_are_independent_and_opaque ... ok
+test session_tests::expired_sessions_release_capacity_and_never_extend_identity_expiry ... ok
+test session_tests::shutdown_closes_existing_sessions_and_prevents_new_admission ... ok
+test session_tests::transient_admission_failure_does_not_log_out_a_valid_session ... ok
+test session_tests::logout_cancels_all_session_observers_without_revoking_other_sessions ... ok
+test assets_tests::empty_directory_trees_cannot_bypass_inventory_work_limits ... ok
+test lifecycle_tests::cancelled_drain_waiter_cannot_abandon_owned_authentication_work ... ok
+test shutdown_tests::authentication_failure_does_not_skip_accepted_blob_drain ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/backchannel.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/backchannel-4baf354af019ca53)
+
+running 2 tests
+test trusted_backchannel_keeps_public_https_identity ... ok
+test rejects_unbound_or_ambiguous_backchannels ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/coherence.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/coherence-f34e4baa6c7065fc)
+
+running 2 tests
+test impossible_body_admission_is_rejected_without_a_semaphore_panic ... ok
+test blob_transport_requires_exact_shared_runtime_not_a_similar_configuration ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/configuration.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/configuration-e75d18a3640af00e)
+
+running 3 tests
+test loopback_exception_cannot_enable_plaintext_network_deployment ... ok
+test rejects_ambiguous_paths_duplicate_authorities_and_zero_limits ... ok
+test pins_exact_public_origin_and_confines_all_provider_endpoints ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/configuration_root.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/configuration_root-c24b4a033dd1f6d6)
+
+running 1 test
+test root_mount_is_valid_without_an_empty_slice_panic ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/host.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/host-9179e80b098d8aed)
+
+running 1 test
+test host_mounts_assets_and_session_without_accepting_browser_actor_shortcuts ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/human.rs (/var/tmp/rom-release-measured-verification-target/debug/deps/human-6f67740276f9d0b6)
+
+running 3 tests
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+test logout_closes_stalled_current_identity_bind ... ok
+test expiry_rechecks_original_lease_after_current_bind_fails ... ok
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+test actual_provider_login_binds_current_resources_and_protects_generic_api ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.42s
+
+   Doc-tests rom_studio_host
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

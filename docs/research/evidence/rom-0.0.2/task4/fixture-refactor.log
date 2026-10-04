@@ -1,0 +1,30 @@
+TAP version 13
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# Subtest: actual human provider performs code/PKCE login and one-time exchange
+ok 1 - actual human provider performs code/PKCE login and one-time exchange
+  ---
+  duration_ms: 63.769829
+  type: 'test'
+  ...
+# Subtest: actual human provider rejects missing PKCE, wrong verifier and undeclared account
+ok 2 - actual human provider rejects missing PKCE, wrong verifier and undeclared account
+  ---
+  duration_ms: 53.112656
+  type: 'test'
+  ...
+# Subtest: human fixture refuses non-loopback callbacks and empty credentials
+ok 3 - human fixture refuses non-loopback callbacks and empty credentials
+  ---
+  duration_ms: 0.346377
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 271.351831

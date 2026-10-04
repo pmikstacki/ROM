@@ -3,6 +3,7 @@
 
 mod assets;
 mod authentication;
+mod backchannel;
 mod blob_capabilities;
 mod blobs;
 mod configuration;
@@ -16,12 +17,15 @@ mod session;
 mod session_observation;
 mod settings;
 
+pub use backchannel::TrustedLoopbackBackchannel;
 pub use configuration::{HostConfig, HostLimits, OidcProviderConfig};
 pub use router::StudioHost;
 pub use settings::StudioSettings;
 
 #[cfg(test)]
 mod assets_tests;
+#[cfg(test)]
+mod backchannel_tests;
 #[cfg(test)]
 mod csrf_tests;
 #[cfg(test)]

@@ -1,0 +1,56 @@
+TAP version 13
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# Subtest: trusted preview rejects ambiguous issuer and callback mounts
+ok 1 - trusted preview rejects ambiguous issuer and callback mounts
+  ---
+  duration_ms: 0.777546
+  type: 'test'
+  ...
+# Subtest: HTTPS issuer profile preserves proxy paths, PKCE and signed public claims
+ok 2 - HTTPS issuer profile preserves proxy paths, PKCE and signed public claims
+  ---
+  duration_ms: 111.136503
+  type: 'test'
+  ...
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# Subtest: actual human provider performs code/PKCE login and one-time exchange
+ok 3 - actual human provider performs code/PKCE login and one-time exchange
+  ---
+  duration_ms: 100.596526
+  type: 'test'
+  ...
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# Subtest: actual human provider rejects missing PKCE, wrong verifier and undeclared account
+ok 4 - actual human provider rejects missing PKCE, wrong verifier and undeclared account
+  ---
+  duration_ms: 66.162371
+  type: 'test'
+  ...
+# Subtest: human fixture refuses non-loopback callbacks and empty credentials
+ok 5 - human fixture refuses non-loopback callbacks and empty credentials
+  ---
+  duration_ms: 0.278619
+  type: 'test'
+  ...
+# Subtest: actual provider accepts form-encoded special-character client secret
+ok 6 - actual provider accepts form-encoded special-character client secret
+  ---
+  duration_ms: 67.504611
+  type: 'test'
+  ...
+# Subtest: service loads external bounded credentials and closes on SIGTERM
+ok 7 - service loads external bounded credentials and closes on SIGTERM
+  ---
+  duration_ms: 180.626722
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 388.02062
