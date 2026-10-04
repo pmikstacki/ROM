@@ -171,5 +171,7 @@
     "Place actual controls under src/lib/components/ui",
     "Update import aliases to product paths",
     "Format copied source with pinned Prettier without behavioral edits"
-  ]
+  ],
+  "status": "Historical initial four-family acquisition. Preserve original hashes; these are not the current installed component inventory.",
+  "currentInventory": "src/lib/components/ui/registry-provenance.json"
 }

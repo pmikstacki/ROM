@@ -8,6 +8,7 @@
   import ResourceForm from "../resources/ResourceForm.svelte";
   import ActionForm from "../resources/ActionForm.svelte";
   import ValueDisplay from "../renderers/ValueDisplay.svelte";
+  import CheckboxAdapter from "../renderers/CheckboxAdapter.svelte";
   import { Button } from "../components/ui/button/index.js";
   let {
     descriptor,
@@ -27,9 +28,13 @@
   let deleteConfirm = $state(false);
 </script>
 
-<section aria-label="Resource details">
-  <h2>Resource {selected.key.id}</h2>
-  <p>Revision {String(selected.revision)}</p>
+<section class="space-y-5" aria-label="Resource details">
+  <h2 class="text-lg font-semibold tracking-tight">
+    Resource {selected.key.id}
+  </h2>
+  <p class="text-xs text-muted-foreground">
+    Revision {String(selected.revision)}
+  </p>
   {#if stale}<p role="status">
       This Resource changed after the draft was opened.
     </p>
@@ -38,15 +43,18 @@
       >Discard draft and reload</Button
     >{/if}
   {#if selected.value === null}<p>This Resource is deleted.</p>{:else}
-    <dl>
+    <dl
+      class="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-x-4 gap-y-2 rounded-lg bg-muted/40 p-3 text-sm"
+    >
       {#each descriptor.fields as field}<dt>{field.name}</dt>
         <dd>
           <ValueDisplay descriptor={field} value={selected.value[field.name]} />
         </dd>{/each}
     </dl>
-    <fieldset disabled={blocked || stale}>
+    <fieldset class="space-y-4" disabled={blocked || stale}>
       <ResourceForm
         {descriptor}
+        readonly={blocked || stale}
         value={selected.value}
         mode="patch"
         submit={async (input) => {
@@ -55,6 +63,7 @@
       />
       {#each descriptor.action_inputs as action (action.name)}<ActionForm
           {descriptor}
+          readonly={blocked || stale}
           {action}
           oninvoke={async (input) => {
             await onmutate(draftRevision, {
@@ -63,10 +72,12 @@
             });
           }}
         />{/each}
-      <label
-        ><input type="checkbox" bind:checked={deleteConfirm} />Confirm deletion
-        of {selected.key.id}</label
-      ><Button
+      <CheckboxAdapter
+        label={`Confirm deletion of ${selected.key.id}`}
+        checked={deleteConfirm}
+        onchange={(next) => (deleteConfirm = next)}
+        disabled={blocked || stale}
+      /><Button
         variant="destructive"
         disabled={!deleteConfirm}
         onclick={() =>

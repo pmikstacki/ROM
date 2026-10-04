@@ -1,3 +1,4 @@
+import { selectValue } from "../components/select-value.ts";
 import { expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 export async function humanLogin(page: Page, url: string) {
@@ -40,14 +41,15 @@ export async function createResource(page: Page, kind: string, id: string) {
   });
   await form.getByLabel("Resource ID", { exact: true }).fill(id);
   const field = kind === "tasks" ? "title" : "code";
-  await form.getByLabel(`${field} mode`, { exact: true }).selectOption("value");
+  await selectValue(form.getByLabel(`${field} mode`, { exact: true }), "value");
   await form
     .getByLabel(`${field} value`, { exact: true })
     .fill(kind === "tasks" ? "Browser task" : "BROWSER-STOCK");
   const numeric = kind === "tasks" ? "done" : "quantity";
-  await form
-    .getByLabel(`${numeric} mode`, { exact: true })
-    .selectOption("value");
+  await selectValue(
+    form.getByLabel(`${numeric} mode`, { exact: true }),
+    "value",
+  );
   if (kind === "tasks")
     await form.getByLabel("done value", { exact: true }).uncheck();
   else
@@ -73,9 +75,10 @@ export async function updateResource(
     name: "Resource details",
     exact: true,
   });
-  await details
-    .getByLabel(`${field} mode`, { exact: true })
-    .selectOption("value");
+  await selectValue(
+    details.getByLabel(`${field} mode`, { exact: true }),
+    "value",
+  );
   const input = details.getByLabel(`${field} value`, { exact: true });
   await input.focus();
   await expect(input).toBeFocused();

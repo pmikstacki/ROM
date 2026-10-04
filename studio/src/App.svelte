@@ -6,6 +6,10 @@
   import ResourcePage from "./lib/application/ResourcePage.svelte";
   import AttachmentPage from "./lib/application/AttachmentPage.svelte";
   import WorkPage from "./lib/application/WorkPage.svelte";
+  import StudioShell from "./lib/presentation/StudioShell.svelte";
+  import * as Card from "./lib/components/ui/card/index.js";
+  import * as Alert from "./lib/components/ui/alert/index.js";
+  import { Boxes } from "@lucide/svelte";
   import { Button } from "./lib/components/ui/button/index.js";
   import { createBrowserAuth } from "./lib/application/auth.ts";
   import type { ProviderChoice } from "./lib/application/auth.ts";
@@ -103,77 +107,109 @@
   );
 </script>
 
-<main class="studio-shell">
-  <header>
-    <h1>ROM Studio</h1>
-    <p>One Resource definition. One mutation path.</p>
-  </header>
-  {#if snapshot.phase === "disconnected" || snapshot.phase === "error"}<section>
-      <h2>Connect to ROM</h2>
-      <p>Sign in through the configured identity provider before connecting.</p>
-      {#each providers as provider}<a
-          class="provider-link"
-          href={auth.loginUrl(provider.id)}>Sign in with {provider.label}</a
-        >{/each}
-      <Button disabled={checking} onclick={() => void sessionCheck(true)}
-        >Connect</Button
-      >
-    </section>{:else if snapshot.phase === "connecting"}<p role="status">
-      Connecting to ROM…
-    </p>{:else}
-    <nav aria-label="Studio">
-      <Button variant="outline" onclick={() => (page = "resources")}
-        >Resources</Button
-      ><Button variant="outline" onclick={() => (page = "work")}>Work</Button
-      ><Button variant="outline" onclick={() => (page = "attachments")}
-        >Attachments</Button
-      ><Button variant="outline" onclick={() => void signOut()}>Sign out</Button
-      >
-    </nav>
-    <div class="studio-layout">
-      <aside>
-        <h2>Resources</h2>
-        {#each snapshot.descriptors as item}<Button
-            variant={snapshot.kind === item.kind ? "default" : "outline"}
-            onclick={() => {
-              page = "resources";
-              void controller.selectKind(item.kind);
-            }}>{item.kind}</Button
-          >{/each}
-      </aside>
-      <section class="studio-content">
-        {#if page === "attachments"}<AttachmentPage
-            {client}
-            descriptors={snapshot.descriptors}
-          />{:else if page === "work"}<WorkPage
-            {snapshot}
-            {controller}
-          />{:else if descriptor}{#key descriptor.kind}<ResourcePage
-              {snapshot}
-              {controller}
-              {descriptor}
-            />{/key}{:else}<p>
-            No Resources are available to this session.
-          </p>{/if}
-      </section>
-    </div>
-  {/if}
-  {#if authError}<p role="alert">{authError}</p>{/if}
-  {#if snapshot.error}<p role="alert">{snapshot.error}</p>{/if}
-  {#if snapshot.pending}<section aria-label="Mutation outcome">
-      <h2>Mutation outcome</h2>
-      <p>
-        {snapshot.pending.state} · {snapshot.pending.request.kind}/{snapshot
-          .pending.request.id}
-      </p>
-      {#if snapshot.pending.state === "unknown"}<p>
-          The result is unknown. Retry uses the same operation and idempotency
-          key.
+{#snippet notices()}
+  {#if authError}<Alert.Root variant="destructive"
+      ><Alert.Description>{authError}</Alert.Description></Alert.Root
+    >{/if}
+  {#if snapshot.error}<Alert.Root variant="destructive"
+      ><Alert.Description>{snapshot.error}</Alert.Description></Alert.Root
+    >{/if}
+  {#if snapshot.pending}
+    <Alert.Root aria-label="Mutation outcome">
+      <Alert.Title>Mutation outcome</Alert.Title>
+      <Alert.Description>
+        <p>
+          {snapshot.pending.state} · {snapshot.pending.request.kind}/{snapshot
+            .pending.request.id}
         </p>
-        <Button
-          disabled={snapshot.busy}
-          onclick={() => void controller.retry().catch(() => {})}
-          >Retry same mutation</Button
-        >{/if}
-    </section>{/if}
-</main>
+        {#if snapshot.pending.state === "unknown"}
+          <p class="mt-2">
+            The result is unknown. Retry uses the same operation and idempotency
+            key.
+          </p>
+          <Button
+            class="mt-3"
+            size="sm"
+            variant="outline"
+            disabled={snapshot.busy}
+            onclick={() => void controller.retry().catch(() => {})}
+            >Retry same mutation</Button
+          >
+        {/if}
+      </Alert.Description>
+    </Alert.Root>
+  {/if}
+{/snippet}
+
+{#if snapshot.phase === "disconnected" || snapshot.phase === "error"}
+  <main class="flex min-h-svh items-center justify-center bg-muted/40 p-6">
+    <div class="w-full max-w-sm space-y-6">
+      <div class="flex items-center justify-center gap-2.5">
+        <span
+          class="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground"
+          ><Boxes class="size-5" /></span
+        >
+        <h1 class="text-lg font-semibold tracking-tight">ROM Studio</h1>
+      </div>
+      <Card.Root>
+        <Card.Header
+          ><Card.Title><h2>Connect to ROM</h2></Card.Title><Card.Description
+            >Sign in through your configured identity provider.</Card.Description
+          ></Card.Header
+        >
+        <Card.Content class="space-y-3">
+          {#each providers as provider}<Button
+              class="w-full"
+              href={auth.loginUrl(provider.id)}
+              >Sign in with {provider.label}</Button
+            >{/each}
+          <Button
+            class="w-full"
+            variant="outline"
+            disabled={checking}
+            onclick={() => void sessionCheck(true)}
+            >{checking ? "Connecting…" : "Connect"}</Button
+          >
+        </Card.Content>
+      </Card.Root>
+      {@render notices()}
+      <p class="text-center text-xs text-muted-foreground">
+        One Resource definition. One mutation path.
+      </p>
+    </div>
+  </main>
+{:else if snapshot.phase === "connecting"}
+  <main class="flex min-h-svh items-center justify-center">
+    <p role="status" class="text-sm text-muted-foreground">
+      Connecting to ROM…
+    </p>
+  </main>
+{:else}
+  <StudioShell
+    descriptors={snapshot.descriptors}
+    kind={snapshot.kind}
+    {page}
+    onpage={(next) => (page = next)}
+    onkind={(kind) => void controller.selectKind(kind)}
+    onsignout={() => void signOut()}
+  >
+    {@render notices()}
+    {#if page === "attachments"}<AttachmentPage
+        {client}
+        descriptors={snapshot.descriptors}
+      />
+    {:else if page === "work"}<WorkPage {snapshot} {controller} />
+    {:else if descriptor}{#key descriptor.kind}<ResourcePage
+          {snapshot}
+          {controller}
+          {descriptor}
+        />{/key}
+    {:else}<Card.Root
+        ><Card.Header
+          ><Card.Title>No Resources available</Card.Title><Card.Description
+            >This session has no authorized Resource descriptors.</Card.Description
+          ></Card.Header
+        ></Card.Root
+      >{/if}
+  </StudioShell>
+{/if}

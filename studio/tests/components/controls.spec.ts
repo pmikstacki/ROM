@@ -1,3 +1,4 @@
+import { selectValue } from "./select-value.ts";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 test.beforeEach(async ({ page }) => {
@@ -6,13 +7,13 @@ test.beforeEach(async ({ page }) => {
 test("Resource controls preserve integer, presence, boolean and nested edits", async ({
   page,
 }) => {
-  await page.getByLabel("count mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("count mode", { exact: true }), "value");
   await page
     .getByLabel("count value", { exact: true })
     .fill("18446744073709551615");
-  await page.getByLabel("done mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("done mode", { exact: true }), "value");
   await page.getByLabel("done value", { exact: true }).uncheck();
-  await page.getByLabel("note mode", { exact: true }).selectOption("null");
+  await selectValue(page.getByLabel("note mode", { exact: true }), "null");
   await page.getByRole("button", { name: "Apply patch" }).click();
   await expect(page.getByTestId("submitted")).toContainText(
     "18446744073709551615",
@@ -34,15 +35,15 @@ test("Resource controls preserve integer, presence, boolean and nested edits", a
 test("same field hosts support custom codec, nested collections and generic action input", async ({
   page,
 }) => {
-  await page.getByLabel("code mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("code mode", { exact: true }), "value");
   await page.getByLabel("code custom value", { exact: true }).fill("ABC");
-  await page.getByLabel("tags mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("tags mode", { exact: true }), "value");
   await page.getByRole("button", { name: "Add tags item" }).click();
   await page.getByLabel("tags[0] value", { exact: true }).fill("red");
   await page.getByRole("button", { name: "Apply patch" }).click();
   await expect(page.getByTestId("submitted")).toContainText("ABC");
   await expect(page.getByTestId("submitted")).toContainText("red");
-  await page.getByLabel("amount mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("amount mode", { exact: true }), "value");
   await page
     .getByLabel("amount value", { exact: true })
     .fill("-9223372036854775808");
@@ -61,7 +62,7 @@ test("unsupported action stays visible, generic table selects, query emits value
   ).toBeVisible();
   await page.getByRole("button", { name: "Open row-1" }).click();
   await expect(page.getByTestId("selected")).toHaveText("row-1");
-  await page.getByLabel("Query field").selectOption("done");
+  await selectValue(page.getByLabel("Query field"), "done");
   await page.getByLabel("Query value value").check();
   await page.getByRole("button", { name: "Apply query" }).click();
   await expect(page.getByTestId("query-submitted")).toContainText(
@@ -81,9 +82,9 @@ test("keyboard controls and assembled accessibility", async ({ page }) => {
 test("descriptor change retains an open draft and requires explicit reopen", async ({
   page,
 }) => {
-  await page.getByLabel("count mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("count mode", { exact: true }), "value");
   await page.getByLabel("count value", { exact: true }).fill("7");
-  await page.getByLabel("note mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("note mode", { exact: true }), "value");
   await page.getByLabel("note value", { exact: true }).fill("retained draft");
   await page
     .getByRole("button", { name: "Advance fixture descriptor" })
@@ -109,14 +110,14 @@ test("descriptor change retains an open draft and requires explicit reopen", asy
   });
   await reopen.focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByLabel("count mode", { exact: true })).toHaveValue(
-    "omit",
+  await expect(page.getByLabel("count mode", { exact: true })).toContainText(
+    "Unchanged / omitted",
   );
-  await expect(page.getByLabel("note mode", { exact: true })).toHaveValue(
-    "omit",
+  await expect(page.getByLabel("note mode", { exact: true })).toContainText(
+    "Unchanged / omitted",
   );
   await expect(form.getByRole("alert")).toHaveCount(0);
-  await page.getByLabel("count mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("count mode", { exact: true }), "value");
   await page.getByLabel("count value", { exact: true }).fill("8");
   await page.keyboard.press("Enter");
   await expect(page.getByTestId("submitted")).toHaveText(
@@ -127,7 +128,7 @@ test("descriptor change retains an open draft and requires explicit reopen", asy
 test("invalid field keeps keyboard focus and cannot submit until corrected", async ({
   page,
 }) => {
-  await page.getByLabel("count mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("count mode", { exact: true }), "value");
   const input = page.getByLabel("count value", { exact: true });
   await input.focus();
   await page.keyboard.press("ControlOrMeta+A");
@@ -150,15 +151,17 @@ test("invalid field keeps keyboard focus and cannot submit until corrected", asy
   );
 });
 
-test("native select checkbox and submit keyboard semantics preserve a boolean", async ({
+test("shared Select Checkbox and submit keyboard semantics preserve a boolean", async ({
   page,
 }) => {
   const mode = page.getByLabel("done mode", { exact: true });
   await mode.focus();
+  await page.keyboard.press("Enter");
   await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Enter");
   await page.keyboard.press("Tab");
   const checkbox = page.getByLabel("done value", { exact: true });
-  await expect(mode).toHaveValue("value");
+  await expect(mode).toContainText("Set value");
   await expect(checkbox).toBeFocused();
   await page.keyboard.press("Space");
   await expect(checkbox).toBeChecked();
@@ -172,18 +175,18 @@ test("native select checkbox and submit keyboard semantics preserve a boolean", 
 test("optional remove and empty string remain distinct from omitted fields", async ({
   page,
 }) => {
-  await page.getByLabel("note mode", { exact: true }).selectOption("remove");
+  await selectValue(page.getByLabel("note mode", { exact: true }), "remove");
   await page.getByRole("button", { name: "Apply patch" }).click();
   await expect(page.getByTestId("submitted")).toHaveText(
     '{"type":"patch","input":{"note":{"op":"remove"}}}',
   );
-  await page.getByLabel("note mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("note mode", { exact: true }), "value");
   await page.getByLabel("note value", { exact: true }).fill("");
   await page.getByRole("button", { name: "Apply patch" }).click();
   await expect(page.getByTestId("submitted")).toHaveText(
     '{"type":"patch","input":{"note":{"op":"set","value":""}}}',
   );
-  await page.getByLabel("note mode", { exact: true }).selectOption("omit");
+  await selectValue(page.getByLabel("note mode", { exact: true }), "omit");
   await page.getByRole("button", { name: "Apply patch" }).click();
   await expect(page.getByTestId("submitted")).toHaveText(
     '{"type":"patch","input":{}}',
@@ -193,7 +196,7 @@ test("optional remove and empty string remain distinct from omitted fields", asy
 test("nested invalid input survives sibling edits and removal releases only its error", async ({
   page,
 }) => {
-  await page.getByLabel("scores mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("scores mode", { exact: true }), "value");
   await page.getByRole("button", { name: "Add scores item" }).click();
   await page.getByRole("button", { name: "Add scores item" }).click();
   await page
@@ -212,11 +215,11 @@ test("nested invalid input survives sibling edits and removal releases only its 
 test("enum reference and prototype-shaped map keys use generic controls", async ({
   page,
 }) => {
-  await page.getByLabel("phase mode", { exact: true }).selectOption("value");
-  await page.getByLabel("phase value", { exact: true }).selectOption("closed");
-  await page.getByLabel("linked mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("phase mode", { exact: true }), "value");
+  await selectValue(page.getByLabel("phase value", { exact: true }), "closed");
+  await selectValue(page.getByLabel("linked mode", { exact: true }), "value");
   await page.getByLabel("linked value", { exact: true }).fill("row-2");
-  await page.getByLabel("labels mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("labels mode", { exact: true }), "value");
   await page.getByLabel("labels new key", { exact: true }).fill("__proto__");
   await page.getByRole("button", { name: "Add labels entry" }).click();
   await page.getByLabel("labels.__proto__ value", { exact: true }).fill("kept");
@@ -244,10 +247,10 @@ test("opaque input uses the shared strict lossless codec", async ({ page }) => {
 });
 
 test("sort field is independent from filter field", async ({ page }) => {
-  await page.getByLabel("Query field").selectOption("done");
+  await selectValue(page.getByLabel("Query field"), "done");
   await page.getByLabel("Query value value").check();
-  await page.getByLabel("Query sort field").selectOption("count");
-  await page.getByLabel("Query sort", { exact: true }).selectOption("desc");
+  await selectValue(page.getByLabel("Query sort field"), "count");
+  await selectValue(page.getByLabel("Query sort", { exact: true }), "desc");
   await page.getByRole("button", { name: "Apply query" }).click();
   await expect(page.getByTestId("query-submitted")).toContainText(
     '"field":"count","direction":"desc"',
@@ -261,9 +264,16 @@ test("sort picker excludes collection fields but retains scalar fields", async (
   page,
 }) => {
   const picker = page.getByLabel("Query sort field");
-  await expect(picker.locator('option[value="tags"]')).toHaveCount(0);
-  await expect(picker.locator('option[value="labels"]')).toHaveCount(0);
-  await expect(picker.locator('option[value="count"]')).toHaveCount(1);
+  await picker.click();
+  await expect(
+    page.getByRole("option", { name: "tags", exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("option", { name: "labels", exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("option", { name: "count", exact: true }),
+  ).toHaveCount(1);
 });
 test("wrapped custom codecs apply only to leaves; unknown leaves remain read-only", async ({
   page,
@@ -282,20 +292,21 @@ test("wrapped custom codecs apply only to leaves; unknown leaves remain read-onl
   await expect(
     page.getByLabel("unknown_code mode", { exact: true }),
   ).toBeDisabled();
-  await page
-    .getByLabel("maybe_code mode", { exact: true })
-    .selectOption("value");
+  await selectValue(
+    page.getByLabel("maybe_code mode", { exact: true }),
+    "value",
+  );
   await page
     .locator("form")
     .first()
     .getByLabel("maybe_code custom value", { exact: true })
     .fill("OPTION");
-  await page.getByLabel("codes mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("codes mode", { exact: true }), "value");
   await page
     .getByRole("button", { name: "Add codes item", exact: true })
     .click();
   await page.getByLabel("codes[0] custom value", { exact: true }).fill("LIST");
-  await page.getByLabel("code_map mode", { exact: true }).selectOption("value");
+  await selectValue(page.getByLabel("code_map mode", { exact: true }), "value");
   await page.getByLabel("code_map new key", { exact: true }).fill("primary");
   await page
     .getByRole("button", { name: "Add code_map entry", exact: true })
@@ -314,9 +325,10 @@ test("wrapped custom codecs apply only to leaves; unknown leaves remain read-onl
     '"code_map":{"op":"set","value":{"primary":"MAP"}}',
   );
   await expect(page.getByTestId("submitted")).not.toContainText("unknown_code");
-  await page
-    .getByLabel("maybe_code mode", { exact: true })
-    .selectOption("null");
+  await selectValue(
+    page.getByLabel("maybe_code mode", { exact: true }),
+    "null",
+  );
   await page.getByRole("button", { name: "Apply patch", exact: true }).click();
   await expect(page.getByTestId("submitted")).toContainText(
     '"maybe_code":{"op":"set","value":null}',
@@ -325,7 +337,7 @@ test("wrapped custom codecs apply only to leaves; unknown leaves remain read-onl
 test("query filters preserve wrapper provenance and edit only registered leaves", async ({
   page,
 }) => {
-  await page.getByLabel("Query field").selectOption("codes");
+  await selectValue(page.getByLabel("Query field"), "codes");
   await page
     .getByRole("button", { name: "Add Query value item", exact: true })
     .click();

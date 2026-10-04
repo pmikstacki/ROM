@@ -1,3 +1,4 @@
+import { selectValue } from "../components/select-value.ts";
 import { test, expect } from "@playwright/test";
 import { startHost } from "./host-fixture.mjs";
 for (const backend of ["sqlite", "redb"])
@@ -25,9 +26,10 @@ for (const backend of ["sqlite", "redb"])
       await page
         .getByRole("button", { name: "Open task-a", exact: true })
         .click();
-      await page
-        .getByLabel("title mode", { exact: true })
-        .selectOption("value");
+      await selectValue(
+        page.getByLabel("title mode", { exact: true }),
+        "value",
+      );
       await page
         .getByLabel("title value", { exact: true })
         .fill("Confirmed once");
@@ -114,21 +116,24 @@ for (const backend of ["sqlite", "redb"])
         page.getByLabel("required_handle mode", { exact: true }),
       ).toBeDisabled();
       if (process.env.ROM_STUDIO_DEMO_RENDERER === "1") {
-        await page
-          .getByLabel("optional_code mode", { exact: true })
-          .selectOption("value");
+        await selectValue(
+          page.getByLabel("optional_code mode", { exact: true }),
+          "value",
+        );
         await page
           .getByLabel("optional_code value", { exact: true })
           .fill("ticket-o2");
-        await page
-          .getByLabel("code_list mode", { exact: true })
-          .selectOption("value");
+        await selectValue(
+          page.getByLabel("code_list mode", { exact: true }),
+          "value",
+        );
         await page
           .getByLabel("code_list[0] value", { exact: true })
           .fill("ticket-l2");
-        await page
-          .getByLabel("code mode", { exact: true })
-          .selectOption("value");
+        await selectValue(
+          page.getByLabel("code mode", { exact: true }),
+          "value",
+        );
         await page.getByLabel("code value", { exact: true }).fill("ticket-b2");
         await page
           .getByRole("button", { name: "Apply patch", exact: true })
@@ -499,9 +504,10 @@ for (const backend of ["sqlite", "redb"])
       await page
         .getByRole("button", { name: "Open task-a", exact: true })
         .click();
-      await page
-        .getByLabel("title mode", { exact: true })
-        .selectOption("value");
+      await selectValue(
+        page.getByLabel("title mode", { exact: true }),
+        "value",
+      );
       await page
         .getByLabel("title value", { exact: true })
         .fill("Measured live update");
@@ -679,21 +685,24 @@ for (const backend of ["sqlite", "redb"])
         const field = kind === "tasks" ? "title" : "quantity";
         const value = kind === "tasks" ? "Browser updated task" : "0";
         await updateResource(page, id, field, value);
-        await page
-          .getByLabel("Query field", { exact: true })
-          .selectOption(kind === "tasks" ? "done" : "code");
+        await selectValue(
+          page.getByLabel("Query field", { exact: true }),
+          kind === "tasks" ? "done" : "code",
+        );
         if (kind === "tasks")
           await page.getByLabel("Query value value", { exact: true }).uncheck();
         else
           await page
             .getByLabel("Query value value", { exact: true })
             .fill("BROWSER-STOCK");
-        await page
-          .getByLabel("Query sort field", { exact: true })
-          .selectOption(field);
-        await page
-          .getByLabel("Query sort", { exact: true })
-          .selectOption("asc");
+        await selectValue(
+          page.getByLabel("Query sort field", { exact: true }),
+          field,
+        );
+        await selectValue(
+          page.getByLabel("Query sort", { exact: true }),
+          "asc",
+        );
         await page
           .getByRole("button", { name: "Apply query", exact: true })
           .click();
@@ -730,9 +739,10 @@ for (const backend of ["sqlite", "redb"])
             page.getByRole("button", { name: "Open task-a", exact: true }),
           ).toBeVisible();
           expect(observerQueries).toBe(queriesBefore);
-          await page
-            .getByLabel("Query field", { exact: true })
-            .selectOption("");
+          await selectValue(
+            page.getByLabel("Query field", { exact: true }),
+            "",
+          );
           await page
             .getByRole("button", { name: "Apply query", exact: true })
             .click();
@@ -781,9 +791,10 @@ for (const backend of ["sqlite", "redb"])
           await writer
             .getByRole("button", { name: `Open ${id}`, exact: true })
             .click();
-          await writer
-            .getByLabel("input mode", { exact: true })
-            .selectOption("value");
+          await selectValue(
+            writer.getByLabel("input mode", { exact: true }),
+            "value",
+          );
           await writer.getByLabel("input value", { exact: true }).fill("1");
           await writer
             .getByRole("button", { name: "Run restock", exact: true })

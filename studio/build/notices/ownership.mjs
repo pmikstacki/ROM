@@ -5,6 +5,7 @@ import { noticePath, noticeText, sha256 } from './inventory.mjs';
 
 const noticeName = /^(?:.*[-_.])?(?:licen[sc]e|notice|copying|copyright)(?:[-_.].*)?$/i;
 const licenseName = /licen[sc]e|copying/i;
+const sourceExtension = /\.(?:[cm]?js|[cm]?ts|jsx|tsx|svelte|css|svg)$/i;
 const inside = (root, path) => { const rel = relative(root, path); return rel !== '..' && !rel.startsWith('../') && !rel.startsWith('/'); };
 const packageName = /^(?:@[a-z0-9._-]+\/)?[a-z0-9._-]+$/i;
 const packageVersion = /^[a-z0-9][a-z0-9.+_-]{0,127}$/i;
@@ -18,7 +19,7 @@ function noticeFiles(directory) {
       if (++inspected > 50000) throw Error('runtime notice package inventory exceeds bound');
       const path = prefix ? `${prefix}/${entry.name}` : entry.name;
       if (entry.isDirectory() && !['node_modules', '.git'].includes(entry.name)) pending.push(path);
-      else if (noticeName.test(entry.name)) {
+      else if (noticeName.test(entry.name) && !sourceExtension.test(entry.name)) {
         if (!entry.isFile() || entry.isSymbolicLink()) throw Error('invalid runtime notice source file');
         found.push(path);
       }
@@ -56,7 +57,7 @@ export function moduleOwner(root, originalId) {
   if (inside(join(root, 'node_modules'), path)) return { id: noticeText(noticePath(relative(root, path)) + suffix), owners: [packageOwner(root, dirname(path))] };
   if (!inside(dirname(root), path)) throw Error('unclassified runtime notice external module');
   const id = noticeText((inside(root, path) ? noticePath(relative(root, path)) : `workspace/${noticePath(relative(dirname(root), path))}`) + suffix);
-  if (id.startsWith('src/lib/components/ui/')) {
+  if (id.startsWith('src/lib/components/ui/') || id.split('?')[0] === 'src/lib/hooks/is-mobile.svelte.ts') {
     return { id, owners: [{ directory: join(root, 'src/lib/components/ui'), files: ['LICENSE.md'], id: 'vendored:shadcn-svelte',
       kind: 'vendored', name: 'shadcn-svelte-vendored', version: 'source-checkout', license_expression: 'MIT' }] };
   }

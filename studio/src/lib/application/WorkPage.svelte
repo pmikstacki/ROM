@@ -8,6 +8,8 @@
   import type { WireObject, WireValue } from "../client/types.ts";
   import { stringifyWire } from "../client/codec.ts";
   import { record } from "../client/validation.ts";
+  import CheckboxAdapter from "../renderers/CheckboxAdapter.svelte";
+  import { Input } from "../components/ui/input/index.js";
   import { Button } from "../components/ui/button/index.js";
   let {
     snapshot,
@@ -79,7 +81,7 @@
   }
 </script>
 
-<h2>Work</h2>
+<h1 class="text-xl font-semibold tracking-tight">Work</h1>
 <p>
   Inspect and recover durable work through ROM's authorized operator contract.
 </p>
@@ -95,8 +97,10 @@
       disabled={busy}
       onclick={() => void run("list", { limit: 50 })}>List work</Button
     >{/if}{/if}
-{#each records as item}<section>
-    <p>
+{#each records as item}<section
+    class="flex min-w-0 flex-col items-start justify-between gap-3 rounded-lg border p-3 sm:flex-row sm:items-center"
+  >
+    <p class="min-w-0 break-all text-sm">
       {String(item.handle)} · {String(item.category)} · {stringifyWire(
         item.state,
       )}
@@ -104,20 +108,25 @@
     <Button
       disabled={busy}
       onclick={() => void run("read", { handle: item.handle })}
-      >Inspect {String(item.handle)}</Button
+      aria-label={`Inspect ${String(item.handle)}`}>Inspect</Button
     >
   </section>{/each}
-{#if selected}<pre>{stringifyWire(selected)}</pre>
-  <label
-    ><input type="checkbox" bind:checked={confirmation} />I confirm this
-    recovery action</label
-  >
+{#if selected}<pre
+    class="overflow-x-auto rounded-lg bg-muted p-3 text-xs">{stringifyWire(
+      selected,
+    )}</pre>
+  <CheckboxAdapter
+    label="I confirm this recovery action"
+    checked={confirmation}
+    onchange={(next) => (confirmation = next)}
+    disabled={busy}
+  />
   {#if capabilities?.retry === true}<Button
       disabled={!confirmation || busy || pending !== null}
       onclick={() => void control("Retry")}>Retry work</Button
     >{/if}
   {#if capabilities?.reconcile === true}<label
-      >Evidence reference<input bind:value={evidence} /></label
+      >Evidence reference<Input bind:value={evidence} /></label
     ><Button
       disabled={!confirmation || busy || pending !== null}
       onclick={() => void control("Reconcile")}>Reconcile work</Button

@@ -51,7 +51,7 @@
     {client}
     capabilities={capability}
     {descriptor}
-  />{:else}<h2>Attachments</h2>
+  />{:else}<h1 class="text-xl font-semibold tracking-tight">Attachments</h1>
   <p>
     No authorized attachment capability and Resource descriptor are available.
   </p>

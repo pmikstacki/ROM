@@ -3,6 +3,8 @@
   import { normalizeValue } from "../client/codec.ts";
   import { Input } from "../components/ui/input/index.js";
   import { Button } from "../components/ui/button/index.js";
+  import SelectAdapter from "./SelectAdapter.svelte";
+  import CheckboxAdapter from "./CheckboxAdapter.svelte";
   import ValueEditor from "./ValueEditor.svelte";
   import { defaultValue } from "./default-value.ts";
   import { findRenderer } from "./registry.ts";
@@ -167,27 +169,24 @@
     codecWrappers={wrapped ? codecWrappers.slice(1) : []}
   />
 {:else if shape.type === "bool"}
-  <label
-    ><input
-      type="checkbox"
-      aria-label={`${label} value`}
-      checked={value === true}
-      disabled={readonly}
-      onchange={(event) => onchange(event.currentTarget.checked)}
-    />
-    {label}</label
-  >
+  <CheckboxAdapter
+    label={`${label} value`}
+    text={label}
+    checked={value === true}
+    disabled={readonly}
+    {onchange}
+  />
 {:else if shape.type === "enum"}
-  <label
-    >{label}<select
-      aria-label={`${label} value`}
+  <div class="space-y-1.5">
+    <span class="text-sm">{label}</span>
+    <SelectAdapter
+      label={`${label} value`}
       value={String(value ?? "")}
       disabled={readonly}
-      onchange={(event) => onchange(event.currentTarget.value)}
-      >{#each shape.value as option}<option value={option}>{option}</option
-        >{/each}</select
-    ></label
-  >
+      {onchange}
+      options={shape.value.map((option) => ({ value: option, label: option }))}
+    />
+  </div>
 {:else if shape.type === "list"}
   <fieldset>
     <legend>{label} items</legend>

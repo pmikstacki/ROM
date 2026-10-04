@@ -2,6 +2,7 @@
 import { join, resolve } from 'node:path';
 import { moduleOwner, packageOwner, retainOwner } from './ownership.mjs';
 import { noticeInventoryPath, noticePath, sha256, validateRuntimeNotices } from './inventory.mjs';
+import { importedCssOwners } from './css-sources.mjs';
 
 export function collectRuntimeNotices(directory, bundle) {
   const root = resolve(directory), assets = new Map(), owners = new Map(), outputs = [], outputBytes = new Map();
@@ -31,6 +32,7 @@ export function collectRuntimeNotices(directory, bundle) {
         if (banner[1] !== owner.version) throw Error('runtime notice stylesheet version mismatch');
         attach({ id: 'generated-css:tailwindcss', owners: [owner] }, output);
       }
+      for (const source of importedCssOwners(root)) attach(source, output);
     }
     output.modules.sort((a, b) => a.id.localeCompare(b.id, 'en'));
     outputs.push(output);

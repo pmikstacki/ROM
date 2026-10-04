@@ -10,11 +10,13 @@
   import FieldHost from "../renderers/FieldHost.svelte";
   import { Button } from "../components/ui/button/index.js";
   let {
+    readonly = false,
     descriptor,
     value = {},
     mode = "patch",
     submit,
   }: {
+    readonly?: boolean;
     descriptor: ResourceDescriptor;
     value?: WireObject;
     mode?: "create" | "replace" | "patch";
@@ -73,7 +75,7 @@
   }
 </script>
 
-<form onsubmit={apply}>
+<form class="space-y-4" onsubmit={apply}>
   {#if changed}<p role="alert">
       Resource definition changed. The draft is preserved. Reopen the form
       before submitting.
@@ -83,12 +85,15 @@
       intent={intents[field.name] ?? { mode: "omit" }}
       onchange={(intent) => update(field.name, intent)}
       onerror={(error) => (invalid = { ...invalid, [field.name]: error })}
-      readonly={busy || changed}
+      readonly={readonly || busy || changed}
     />{/each}
   {#if summary}<p role="alert">{summary}</p>{/if}
   <Button
     type="submit"
-    disabled={busy || changed || Object.values(invalid).some(Boolean)}
+    disabled={readonly ||
+      busy ||
+      changed ||
+      Object.values(invalid).some(Boolean)}
     >{busy
       ? "Submitting…"
       : mode === "patch"

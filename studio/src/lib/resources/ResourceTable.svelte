@@ -14,7 +14,7 @@
   } = $props();
 </script>
 
-<Table.Root
+<Table.Root class="text-sm"
   ><Table.Caption>{descriptor.kind} resources</Table.Caption><Table.Header
     ><Table.Row
       ><Table.Head scope="col">ID</Table.Head><Table.Head scope="col"
@@ -25,8 +25,9 @@
     ></Table.Header
   ><Table.Body
     >{#each rows as row (row.key.id)}<Table.Row
-        ><Table.Cell>{row.key.id}</Table.Cell><Table.Cell
-          >{row.revision.toString()}</Table.Cell
+        ><Table.Cell class="max-w-48 truncate font-medium"
+          >{row.key.id}</Table.Cell
+        ><Table.Cell>{row.revision.toString()}</Table.Cell
         >{#each descriptor.fields as field}<Table.Cell
             ><ValueDisplay
               descriptor={field}
@@ -34,7 +35,8 @@
               mode="cell"
             /></Table.Cell
           >{/each}<Table.Cell
-          ><Button onclick={() => onselect(row)}>Open {row.key.id}</Button
+          ><Button variant="outline" size="sm" onclick={() => onselect(row)}
+            >Open {row.key.id}</Button
           ></Table.Cell
         ></Table.Row
       >{/each}</Table.Body

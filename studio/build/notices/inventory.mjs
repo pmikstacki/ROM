@@ -69,7 +69,7 @@ export function validateRuntimeNotices(files) {
         if (!owners.has(owner) || !ownerModules.get(owner).has(module.id)) throw Error('missing runtime notice module owner');
         referencedModules.get(owner).add(module.id);
       }
-      if ((module.id.startsWith('node_modules/') || module.id.startsWith('virtual:') || module.id.startsWith('generated-css:') || module.id.startsWith('src/lib/components/ui/')) && !selected.size) throw Error('missing runtime notice module owner');
+      if ((module.id.startsWith('node_modules/') || module.id.startsWith('virtual:') || module.id.startsWith('generated-css:') || module.id.startsWith('src/lib/components/ui/') || module.id.split('?')[0] === 'src/lib/hooks/is-mobile.svelte.ts') && !selected.size) throw Error('missing runtime notice module owner');
     }
   }
   for (const [owner, modules] of ownerModules) {

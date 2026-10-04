@@ -8,12 +8,15 @@
   } from "../client/types.ts";
   import { objectInput, normalizeValue, parseWire } from "../client/codec.ts";
   import FieldHost from "../renderers/FieldHost.svelte";
+  import { Textarea } from "../components/ui/textarea/index.js";
   import { Button } from "../components/ui/button/index.js";
   let {
+    readonly = false,
     descriptor,
     action,
     oninvoke,
   }: {
+    readonly?: boolean;
     descriptor: ResourceDescriptor;
     action: ActionInput;
     oninvoke: (input: WireValue) => Promise<void>;
@@ -60,7 +63,7 @@
   }
 </script>
 
-<form onsubmit={invoke}>
+<form class="space-y-4 rounded-lg border bg-card p-4" onsubmit={invoke}>
   <h2>{action.name}</h2>
   {#if changed}<p role="alert">
       Resource definition changed. Reopen the action form.
@@ -69,21 +72,24 @@
       This action has opaque inputs. A typed form is unavailable.
     </p>
     <label
-      >Explicit JSON input<textarea
+      >Explicit JSON input<Textarea
         aria-label={`${action.name} raw JSON input`}
         bind:value={raw}
-        disabled={busy || changed}></textarea></label
+        disabled={readonly || busy || changed}
+      /></label
     >{/if}
   {#each fields as field (field.name)}<FieldHost
       descriptor={field}
       intent={intents[field.name] ?? { mode: "omit" }}
       onchange={(intent) => (intents = { ...intents, [field.name]: intent })}
       onerror={(message) => (invalid = { ...invalid, [field.name]: message })}
-      readonly={busy || changed}
+      readonly={readonly || busy || changed}
     />{/each}
   {#if error}<p role="alert">{error}</p>{/if}<Button
     type="submit"
-    disabled={busy || changed || Object.values(invalid).some(Boolean)}
-    >Run {action.name}</Button
+    disabled={readonly ||
+      busy ||
+      changed ||
+      Object.values(invalid).some(Boolean)}>Run {action.name}</Button
   >
 </form>

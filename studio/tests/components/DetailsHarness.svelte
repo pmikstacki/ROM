@@ -1,5 +1,7 @@
 <script lang="ts">
-  import ResourceDetails from "../../src/lib/application/ResourceDetails.svelte";
+  import ResourcePage from "../../src/lib/application/ResourcePage.svelte";
+  import { createApplication } from "../../src/lib/application/controller.ts";
+  import { createClient } from "../../src/lib/client/client.ts";
   import type {
     ProjectedView,
     ResourceDescriptor,
@@ -20,6 +22,9 @@
   function reload() {
     generation++;
   }
+  const runtime = createApplication(createClient({ base: "/rom-studio/api" }));
+  const controller = { ...runtime, selectRow: async () => reload() };
+  const snapshot = $derived({ ...runtime.state, selected, rows: [selected] });
 </script>
 
 <main>
@@ -31,11 +36,5 @@
         revision: 2n,
         value: { title: "other change" },
       })}>Advance live revision</button
-  >{#key generation}<ResourceDetails
-      {descriptor}
-      {selected}
-      blocked={false}
-      onmutate={async () => {}}
-      onreload={reload}
-    />{/key}
+  >{#key generation}<ResourcePage {descriptor} {controller} {snapshot} />{/key}
 </main>

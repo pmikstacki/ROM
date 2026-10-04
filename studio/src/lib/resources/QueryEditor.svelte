@@ -4,6 +4,8 @@
     QuerySpec,
     FieldIntent,
   } from "../client/types.ts";
+  import SelectAdapter from "../renderers/SelectAdapter.svelte";
+  import { Input } from "../components/ui/input/index.js";
   import ValueEditor from "../renderers/ValueEditor.svelte";
   import { defaultValue, baseShape } from "../renderers/default-value.ts";
   import { normalizeValue } from "../client/codec.ts";
@@ -63,45 +65,65 @@
   }
 </script>
 
-<form onsubmit={apply}>
-  <h2>Query</h2>
-  <label
-    >Filter field<select
-      aria-label="Query field"
+<form
+  class="query-toolbar flex flex-wrap items-end gap-3 rounded-lg border bg-card p-4"
+  onsubmit={apply}
+>
+  <h2 class="sr-only">Query</h2>
+  <div class="min-w-36 space-y-1.5">
+    <span class="text-xs font-medium text-muted-foreground">Filter field</span>
+    <SelectAdapter
+      label="Query field"
       value={fieldName}
-      onchange={(event) => choose(event.currentTarget.value)}
-      ><option value="">No filter</option
-      >{#each descriptor.fields as item}<option value={item.name}
-          >{item.name}</option
-        >{/each}</select
-    ></label
-  >
-  {#if field && value.mode === "value"}<ValueEditor
-      shape={field.shape}
-      codec={field.codec}
-      codecWrappers={field.codec_wrappers ?? []}
-      value={value.value}
-      onchange={(next) => (value = { mode: "value", value: next })}
-      label="Query value"
-      onerror={(message) => (invalid = message)}
-    />{/if}
-  <label
-    >Sort field<select aria-label="Query sort field" bind:value={sortFieldName}
-      ><option value="">ID order</option>{#each sortFields as item}<option
-          value={item.name}>{item.name}</option
-        >{/each}</select
-    ></label
-  >
-  <label
-    >Sort<select
-      aria-label="Query sort"
-      bind:value={sort}
+      onchange={choose}
+      options={[
+        { value: "", label: "No filter" },
+        ...descriptor.fields.map((item) => ({
+          value: item.name,
+          label: item.name,
+        })),
+      ]}
+    />
+  </div>
+  {#if field && value.mode === "value"}<div class="min-w-36">
+      <ValueEditor
+        shape={field.shape}
+        codec={field.codec}
+        codecWrappers={field.codec_wrappers ?? []}
+        value={value.value}
+        onchange={(next) => (value = { mode: "value", value: next })}
+        label="Query value"
+        onerror={(message) => (invalid = message)}
+      />
+    </div>{/if}
+  <div class="min-w-36 space-y-1.5">
+    <span class="text-xs font-medium text-muted-foreground">Sort field</span>
+    <SelectAdapter
+      label="Query sort field"
+      value={sortFieldName}
+      onchange={(next) => (sortFieldName = next)}
+      options={[
+        { value: "", label: "ID order" },
+        ...sortFields.map((item) => ({ value: item.name, label: item.name })),
+      ]}
+    />
+  </div>
+  <div class="min-w-36 space-y-1.5">
+    <span class="text-xs font-medium text-muted-foreground">Direction</span>
+    <SelectAdapter
+      label="Query sort"
+      value={sort}
+      onchange={(next) => (sort = next)}
       disabled={!sortFieldName}
-      ><option value="">No sort</option><option value="asc">Ascending</option
-      ><option value="desc">Descending</option></select
-    ></label
-  ><label
-    >Limit<input
+      options={[
+        { value: "", label: "No sort" },
+        { value: "asc", label: "Ascending" },
+        { value: "desc", label: "Descending" },
+      ]}
+    />
+  </div>
+  <label class="w-24 space-y-1.5 text-xs font-medium text-muted-foreground"
+    >Limit<Input
       aria-label="Query limit"
       type="number"
       min="1"
@@ -109,8 +131,8 @@
       bind:value={limit}
     /></label
   >
-  {#if error}<p role="alert">{error}</p>{/if}<Button
-    type="submit"
-    disabled={!!invalid}>Apply query</Button
-  >
+  <Button type="submit" disabled={!!invalid}>Apply query</Button>
+  {#if error}<p class="w-full text-sm text-destructive" role="alert">
+      {error}
+    </p>{/if}
 </form>

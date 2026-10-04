@@ -16,13 +16,16 @@ The collector refuses an emitted third-party module when it cannot find full lic
 
 The profile also records two explicit sources:
 
-- Vendored UI modules retain `src/lib/components/ui/LICENSE.md`.
+- Vendored UI modules and the exact copied `src/lib/hooks/is-mobile.svelte.ts` hook retain `src/lib/components/ui/LICENSE.md`.
 - The Vite module-preload helper retains Vite and Rolldown notices.
   Vite 8 delegates this helper to Rolldown's native plugin.
 
 Generated Tailwind CSS retains the installed `tailwindcss` license.
 Its emitted version banner must match the installed package version.
 Other generated CSS is recorded in the output inventory without an invented package owner.
+Explicit imports of `shadcn-svelte/tailwind.css` and `tw-animate-css` retain their installed package licenses.
+Their generated CSS entries record the resolved source path and source SHA-256.
+These entries identify imported source. They do not reconstruct a CSS transformation map.
 The collector refuses unknown virtual JavaScript modules and files outside the source workspace.
 It also refuses JavaScript emitted as an asset without a chunk module map.
 Add reviewed provenance before you enable a new plugin that injects runtime code.

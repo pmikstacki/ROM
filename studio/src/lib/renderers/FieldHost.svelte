@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { FieldDescriptor, FieldIntent } from "../client/types.ts";
+  import SelectAdapter from "./SelectAdapter.svelte";
   import ValueEditor from "./ValueEditor.svelte";
   import { findRenderer } from "./registry.ts";
   import { defaultValue } from "./default-value.ts";
@@ -28,6 +29,7 @@
         descriptor.shape.value.type === "nullable"),
   );
   function mode(next: string) {
+    if (readonly || unknownCodec) return;
     onerror("");
     onchange(
       next === "value"
@@ -37,25 +39,27 @@
   }
 </script>
 
-<fieldset class="resource-field">
+<fieldset class="resource-field space-y-2 rounded-lg border p-3">
   {#if descriptor.codec && !findRenderer(descriptor.codec)}<p>
       Custom editor unavailable for {descriptor.codec.name} version {descriptor
         .codec.version}. Existing values are preserved.
     </p>{/if}
-  <legend>{descriptor.name}</legend>
-  <label
-    >Operation<select
-      aria-label={`${descriptor.name} mode`}
+  <legend class="px-1 text-sm font-medium">{descriptor.name}</legend>
+  <div class="space-y-1.5">
+    <span class="text-xs text-muted-foreground">Operation</span>
+    <SelectAdapter
+      label={`${descriptor.name} mode`}
       value={intent.mode}
       disabled={readonly || unknownCodec}
-      onchange={(event) => mode(event.currentTarget.value)}
-      ><option value="omit">Unchanged / omitted</option><option value="value"
-        >Set value</option
-      >{#if nullable}<option value="null">Set null</option
-        >{/if}{#if optional}<option value="remove">Remove value</option
-        >{/if}</select
-    ></label
-  >
+      onchange={mode}
+      options={[
+        { value: "omit", label: "Unchanged / omitted" },
+        { value: "value", label: "Set value" },
+        ...(nullable ? [{ value: "null", label: "Set null" }] : []),
+        ...(optional ? [{ value: "remove", label: "Remove value" }] : []),
+      ]}
+    />
+  </div>
   {#if intent.mode === "value"}<ValueEditor
       shape={descriptor.shape}
       codec={descriptor.codec}

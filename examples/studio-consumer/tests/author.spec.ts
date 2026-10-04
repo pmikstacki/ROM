@@ -16,14 +16,16 @@ for (const backend of ["sqlite", "redb"])
       await page.getByRole("button", { name: "maintenance-tickets", exact: true }).click();
       await expect(page.getByText("Author code: TICKET-A1", { exact: true }).first()).toBeVisible();
       await page.getByRole("button", { name: "Open ticket-a", exact: true }).click();
-      await page.getByLabel("code mode", { exact: true }).selectOption("value");
+      await page.getByRole("button", { name: "code mode", exact: true }).click();
+      await page.getByRole("option", { name: "Set value", exact: true }).click();
       await page.getByLabel("Author code editor", { exact: true }).fill("ticket-author2");
       await page.getByRole("button", { name: "Apply patch", exact: true }).click();
       await expect(page.getByText("Author code: TICKET-AUTHOR2", { exact: true }).first()).toBeVisible();
       await expect(page.getByText("Revision 2", { exact: true })).toBeVisible();
       await page.getByRole("button", { name: "tasks", exact: true }).click();
       await page.getByRole("button", { name: "Open task-a", exact: true }).click();
-      await page.getByLabel("title mode", { exact: true }).selectOption("value");
+      await page.getByRole("button", { name: "title mode", exact: true }).click();
+      await page.getByRole("option", { name: "Set value", exact: true }).click();
       await page.getByLabel("title value", { exact: true }).fill("External author ordinary resource");
       await page.getByRole("button", { name: "Apply patch", exact: true }).click();
       await expect(page.getByText("External author ordinary resource", { exact: true }).first()).toBeVisible();

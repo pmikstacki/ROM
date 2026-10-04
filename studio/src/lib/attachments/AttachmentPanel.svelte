@@ -7,6 +7,8 @@
   import { createAttachments, type AttachmentClient } from "./controller.ts";
   import ResourceTable from "../resources/ResourceTable.svelte";
   import ValueDisplay from "../renderers/ValueDisplay.svelte";
+  import SelectAdapter from "../renderers/SelectAdapter.svelte";
+  import CheckboxAdapter from "../renderers/CheckboxAdapter.svelte";
   import { Button } from "../components/ui/button/index.js";
   import { Input } from "../components/ui/input/index.js";
   let {
@@ -66,13 +68,14 @@
   }
 </script>
 
-<section aria-label="Attachment operations">
-  <h2>Attachments</h2>
+<section class="space-y-4" aria-label="Attachment operations">
+  <h1 class="text-xl font-semibold tracking-tight">Attachments</h1>
   <p>
     Maximum {capabilities.limits.blob_bytes} bytes per file. A successful upload commits
     an authorized Resource.
   </p>
   <form
+    class="grid gap-4 rounded-lg border bg-card p-4 sm:grid-cols-2"
     onsubmit={(event) => {
       event.preventDefault();
       if (file) void controller.upload(id, store, file);
@@ -81,14 +84,20 @@
     <label
       >Attachment Resource ID<Input bind:value={id} disabled={busy} /></label
     >
+    <div class="space-y-1.5">
+      <span class="text-sm">Attachment store</span><SelectAdapter
+        label="Attachment store"
+        value={store}
+        disabled={busy}
+        onchange={(next) => (store = next)}
+        options={capabilities.stores.map((name) => ({
+          value: name,
+          label: name,
+        }))}
+      />
+    </div>
     <label
-      >Attachment store<select bind:value={store} disabled={busy}
-        >{#each capabilities.stores as name}<option value={name}>{name}</option
-          >{/each}</select
-      ></label
-    >
-    <label
-      >Attachment file<input
+      >Attachment file<Input
         type="file"
         disabled={busy}
         onchange={(event) => (file = event.currentTarget.files?.[0] ?? null)}
@@ -118,15 +127,20 @@
       confirm = false;
     }}
   />
-  {#if selected}<section aria-label="Selected attachment">
+  {#if selected}<section
+      class="space-y-3 rounded-lg border p-4"
+      aria-label="Selected attachment"
+    >
       <h3>Attachment {selected}</h3>
       <Button disabled={busy} onclick={() => void download()}
         >Download attachment</Button
       >
-      <label
-        ><input type="checkbox" bind:checked={confirm} disabled={busy} />Confirm
-        detachment of {selected}</label
-      >
+      <CheckboxAdapter
+        label={`Confirm detachment of ${selected}`}
+        checked={confirm}
+        onchange={(next) => (confirm = next)}
+        disabled={busy}
+      />
       <Button
         variant="destructive"
         disabled={busy || !confirm}
@@ -135,7 +149,10 @@
       >
       {#if downloadError}<p role="alert">{downloadError}</p>{/if}
     </section>{/if}
-  {#if snapshot.result?.value}<section aria-label="Attachment result">
+  {#if snapshot.result?.value}<section
+      class="space-y-3 rounded-lg border p-4"
+      aria-label="Attachment result"
+    >
       <h3>Committed Resource {snapshot.result.key.id}</h3>
       <dl>
         {#each descriptor.fields as field}<dt>{field.name}</dt>

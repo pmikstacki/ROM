@@ -32,6 +32,7 @@ test('emitted runtime ownership retains exact license and notice bytes without r
   const f = fixture();
   try {
     f.put('node_modules/svelte-toolbelt/NOTICE.txt', 'Unmodified upstream notice.\n');
+    f.put('node_modules/svelte-toolbelt/dist/icons/copyright.js', 'export const copyrightIcon = "icon";');
     const result = collectRuntimeNotices(f.root, f.bundle);
     const inventory = JSON.parse(result.get('third-party-notices.json'));
     assert.deepEqual(inventory.owners.map(x => x.name), ['rolldown', 'shadcn-svelte-vendored', 'svelte-toolbelt', 'tailwindcss', 'vite']);
@@ -110,5 +111,25 @@ test('unclassified JavaScript assets cannot bypass emitted runtime provenance', 
   try {
     f.bundle['assets/unclassified.js'] = { type: 'asset', fileName: 'assets/unclassified.js', source: 'thirdParty=true;' };
     assert.throws(() => collectRuntimeNotices(f.root, f.bundle), /runtime notice JavaScript provenance/);
+  } finally { f.cleanup(); }
+});
+
+test('copied responsive hook and imported CSS retain their actual owners', () => {
+  const f = fixture();
+  try {
+    f.put('src/lib/hooks/is-mobile.svelte.ts', 'export const mobile = true;');
+    f.bundle['assets/main.js'].modules[join(f.root, 'src/lib/hooks/is-mobile.svelte.ts')] = { renderedLength: 1 };
+    for (const name of ['shadcn-svelte', 'tw-animate-css']) {
+      f.put(`node_modules/${name}/package.json`, JSON.stringify({ name, version: '1.2.3', license: 'MIT', exports: name === 'shadcn-svelte' ? { './tailwind.css': { style: './dist/style.css' } } : './dist/style.css' }));
+      f.put(`node_modules/${name}/LICENSE`, f.license);
+      f.put(`node_modules/${name}/dist/style.css`, '/* original CSS */ .fixture { display: block; }');
+    }
+    f.put('src/app.css', '@import "shadcn-svelte/tailwind.css";\n@import "tw-animate-css";');
+    const inventory = JSON.parse(collectRuntimeNotices(f.root, f.bundle).get('third-party-notices.json'));
+    assert.ok(inventory.owners.find(owner => owner.name === 'shadcn-svelte-vendored').modules.includes('src/lib/hooks/is-mobile.svelte.ts'));
+    for (const name of ['shadcn-svelte', 'tw-animate-css'])
+      assert.ok(inventory.owners.some(owner => owner.name === name && owner.modules.some(id => id.startsWith('generated-css:') && id.includes('sha256='))));
+    f.put('node_modules/tw-animate-css/LICENSE', '');
+    assert.throws(() => collectRuntimeNotices(f.root, f.bundle), /runtime notice/);
   } finally { f.cleanup(); }
 });

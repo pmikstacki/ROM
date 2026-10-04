@@ -1,0 +1,2989 @@
+{
+  "schema": 1,
+  "acquiredAt": "2026-10-04T08:25:20.525Z",
+  "project": "https://github.com/huntabyte/shadcn-svelte",
+  "registry": "https://shadcn-svelte.com/registry",
+  "style": "vega",
+  "cli": {
+    "version": "1.7.0",
+    "sha256": "73d8724e1b8fdcddbb4498841a9242408eff4058b3b00bdd3878c3f716d268fd"
+  },
+  "command": "add --all --yes --overwrite --no-deps-install",
+  "componentFamilies": 59,
+  "sourceVersionPolicy": "Remote registry was live; these committed file hashes freeze the retrieved source. CLI version alone does not pin registry contents.",
+  "license": "./LICENSE.md",
+  "files": [
+    {
+      "path": "src/lib/components/ui/LICENSE.md",
+      "size": 1192,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "230594c9dedb06fb0759381a520b449c1b47b0f63b95fc88ef9d7e851e2540a9"
+    },
+    {
+      "path": "src/lib/components/ui/accordion/accordion-content.svelte",
+      "size": 704,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "2cd3bd899fa8fe44cca2fabe53abe34f1b6f9f06152cc278d130080fa6573602"
+    },
+    {
+      "path": "src/lib/components/ui/accordion/accordion-item.svelte",
+      "size": 380,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "26820a2c824011b3d695af21fe56fc13189a95b8677dd82ab0a2808935bf7b2f"
+    },
+    {
+      "path": "src/lib/components/ui/accordion/accordion-trigger.svelte",
+      "size": 1542,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ac72e9adfdc24eb09a085c713e22cd003186078e4331d9cd6939f818c90b31a5"
+    },
+    {
+      "path": "src/lib/components/ui/accordion/accordion.svelte",
+      "size": 430,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d273960db2f7cac5dc9754040d91035d600c731cc84fb2b8e599a708a4c2e57a"
+    },
+    {
+      "path": "src/lib/components/ui/accordion/index.ts",
+      "size": 338,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "09287793984e259485e7f93911fc65a43e958dc92353b66bcb5cab55435daa58"
+    },
+    {
+      "path": "src/lib/components/ui/alert/alert-action.svelte",
+      "size": 449,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0b4af143627b55483163cc35fc5f221681479de95a4af3d3b81536cabdb4e313"
+    },
+    {
+      "path": "src/lib/components/ui/alert/alert-description.svelte",
+      "size": 591,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "52f3962b46cbaaaf3074938f283c2a9079cc1b7f0a9b8fbf8414ab6752454104"
+    },
+    {
+      "path": "src/lib/components/ui/alert/alert-title.svelte",
+      "size": 546,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "df6eb22f7ab0b02a7b5299b88d42fb2d2eabc4039b512adaeb8eda948bb43283"
+    },
+    {
+      "path": "src/lib/components/ui/alert/alert.svelte",
+      "size": 1302,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "dac05325ff2ff6ce0e632fa82b401a104fc7982ad22e634e69083502168620d4"
+    },
+    {
+      "path": "src/lib/components/ui/alert/index.ts",
+      "size": 393,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "28eb51f1c28bc903091a8282b754448a7529ba4bd2894a520a85ec13e3895dc5"
+    },
+    {
+      "path": "src/lib/components/ui/alert-dialog/alert-dialog-action.svelte",
+      "size": 628,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "bc5b10e982d9557203dff999b5b3c70a9b165bc0897247df01b23b0e391b586d"
+    },
+    {
+      "path": "src/lib/components/ui/alert-dialog/alert-dialog-cancel.svelte",
+      "size": 628,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "8650bb74d96c18f3b3dc58292ec49ffa2cc3726363f841c88b5a19f64683d3c5"
+    },
+    {
+      "path": "src/lib/components/ui/alert-dialog/alert-dialog-content.svelte",
+      "size": 1314,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "fd3376bca1e7635580ab08c621e784c146cec54e8eee5545b1e7bf753ef4136f"
+    },
+    {
+      "path": "src/lib/components/ui/alert-dialog/alert-dialog-description.svelte",
+      "size": 521,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "16d1b5544a3d8b204853e04aff4ac18b1815d112479da839e5371def38643d7a"
+    },
+    {
+      "path": "src/lib/components/ui/alert-dialog/alert-dialog-footer.svelte",
+      "size": 594,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "c7a09012191acd489dfc9b463b6342117f3406519fc156a0ec3bdc264d9317d9"
+    },
+    {
+      "path": "src/lib/components/ui/alert-dialog/alert-dialog-header.svelte",
+      "size": 834,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "c4078f6704bce7ee8c478c74450306dfeb1af8cfe79e8322a6b98f4552204c34"
+    },
+    {
+      "path": "src/lib/components/ui/alert-dialog/alert-dialog-media.svelte",
+      "size": 601,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3f90b39c883cf5318006d3b1980ae23b51c683181ba8133c831249ca2f07aba8"
+    },
+    {
+      "path": "src/lib/components/ui/alert-dialog/alert-dialog-overlay.svelte",
+      "size": 556,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "a885993ec32006e65b8148ca700764d07ce0e76dd95858d11782a3220c33e177"
+    },
+    {
+      "path": "src/lib/components/ui/alert-dialog/alert-dialog-portal.svelte",
+      "size": 210,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0979d2c7fb096434b1339c047f2d0c6bb8b5894e23cb82f3d304644c3c855f46"
+    },
+    {
+      "path": "src/lib/components/ui/alert-dialog/alert-dialog-title.svelte",
+      "size": 520,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9f3f00018438fb6cca0c0de4d3cc43cf4c53b62950dd4db018ae2b26e69e56cb"
+    },
+    {
+      "path": "src/lib/components/ui/alert-dialog/alert-dialog-trigger.svelte",
+      "size": 277,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e752721879d70621d40095eff1758f843fc35444554c85d91d55c1f6413e115d"
+    },
+    {
+      "path": "src/lib/components/ui/alert-dialog/alert-dialog.svelte",
+      "size": 241,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3c1fcf5e5ce4fe37c365f2bda61a9dd42c1f3aa5c97074908f661a5760f7191b"
+    },
+    {
+      "path": "src/lib/components/ui/alert-dialog/index.ts",
+      "size": 1108,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "94dc7681aa010d35916faa44b27eecba06cafe9a896e0904f129f2597dd61fe5"
+    },
+    {
+      "path": "src/lib/components/ui/aspect-ratio/aspect-ratio.svelte",
+      "size": 263,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "6374ef8dd91c600d77001f00daf0c2a6dae78edbbce3d5746bad62b7ecc0391a"
+    },
+    {
+      "path": "src/lib/components/ui/aspect-ratio/index.ts",
+      "size": 81,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9aa4e9c86da3e3f6d0edaf9d7a2f63f9080f7066f48dad841ae094b8cd962003"
+    },
+    {
+      "path": "src/lib/components/ui/attachment/attachment-action.svelte",
+      "size": 408,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7ad42c94518d1c181af8f635d83fa339f341392c8479fcb6a745446fa5c7302c"
+    },
+    {
+      "path": "src/lib/components/ui/attachment/attachment-actions.svelte",
+      "size": 680,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "6bc3cdc5ce1d07d5b86e7a5346e56b4216a4361c4547f5a14546dcbcc6cd2afa"
+    },
+    {
+      "path": "src/lib/components/ui/attachment/attachment-content.svelte",
+      "size": 520,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3de369cbd4148b4497c42b19408da71e8798b2400d7cce544502073c9c3699b9"
+    },
+    {
+      "path": "src/lib/components/ui/attachment/attachment-description.svelte",
+      "size": 576,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f37ebd5246e54175a63dc9a1e0264fd9db7468431b62f404c2ce1101eaf043f1"
+    },
+    {
+      "path": "src/lib/components/ui/attachment/attachment-group.svelte",
+      "size": 630,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "392a2931d0696a44450916e6e5734eef60617a531dcf66284ea541cd185a72b1"
+    },
+    {
+      "path": "src/lib/components/ui/attachment/attachment-media.svelte",
+      "size": 1775,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "10ab1e0e37d56205d9379ea5aea6572be69a975e0d441931c878bc5b2324d45d"
+    },
+    {
+      "path": "src/lib/components/ui/attachment/attachment-title.svelte",
+      "size": 581,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "429bbd39540978b875fca59e69b56c29c35fddcdedd8d1b7c67f59d6706ecb2e"
+    },
+    {
+      "path": "src/lib/components/ui/attachment/attachment-trigger.svelte",
+      "size": 735,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "be5af97906eaa505a3abbddba14a3abb7251ec39df7e88398ee794d6469b6565"
+    },
+    {
+      "path": "src/lib/components/ui/attachment/attachment.svelte",
+      "size": 2032,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "601e699950bc33e91270425539c6c238d869a73d242dcebdd97d28e225235914"
+    },
+    {
+      "path": "src/lib/components/ui/attachment/index.ts",
+      "size": 1001,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b6aa1a9339c9a6b2f3b30b219783907a01e3776aea138d74e4512a6faa6e8036"
+    },
+    {
+      "path": "src/lib/components/ui/avatar/avatar-badge.svelte",
+      "size": 864,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "81ea10caaebea28beba82aa14f7a08485d5213ca42fd0372f61404aefb0e6348"
+    },
+    {
+      "path": "src/lib/components/ui/avatar/avatar-fallback.svelte",
+      "size": 497,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "79f5f0aa4cbaf7e6b67383bbd803a2f6c3feaab0101319b3da2e2a55e5ffff67"
+    },
+    {
+      "path": "src/lib/components/ui/avatar/avatar-group-count.svelte",
+      "size": 782,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "231a48c0f9136f462fb2229fb6ab5edb532737dee4c94908d9d3e02e36ac163e"
+    },
+    {
+      "path": "src/lib/components/ui/avatar/avatar-group.svelte",
+      "size": 531,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "349f83e747826e8ba742181a0218bd0e4505fe2da7ba49e4b86efc613dadae03"
+    },
+    {
+      "path": "src/lib/components/ui/avatar/avatar-image.svelte",
+      "size": 400,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "93263fb85adbcaed110324bc61cd3a9bec9a206ae81da20c6c3552ca60e0fdca"
+    },
+    {
+      "path": "src/lib/components/ui/avatar/avatar.svelte",
+      "size": 734,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3ccaff6bcf4772edc12244c0a93c8caeb590a9472d49bae7ab88e6568a983107"
+    },
+    {
+      "path": "src/lib/components/ui/avatar/index.ts",
+      "size": 488,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "cddb7340b5f1bc0904d2142e13aeb9b7197b327bcc08aab37cfd519c61165f2d"
+    },
+    {
+      "path": "src/lib/components/ui/badge/badge.svelte",
+      "size": 1939,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e946695307b29b0da8467e545e03220c5a4d6c63c44ec905cc5c35ea10e23db4"
+    },
+    {
+      "path": "src/lib/components/ui/badge/index.ts",
+      "size": 118,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "1dc9eba432869188db370b8e984ca8ff97430c609746a8274a0edecc0d55b765"
+    },
+    {
+      "path": "src/lib/components/ui/breadcrumb/breadcrumb-ellipsis.svelte",
+      "size": 665,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "477294a993dd2576b8cf3dd1dfee61fdc48582c6c18deeba9f3165de9ed7e9c9"
+    },
+    {
+      "path": "src/lib/components/ui/breadcrumb/breadcrumb-item.svelte",
+      "size": 446,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f6d0e239dac1b08e594e1928c09e00fc27dfb045b89149eaadec68bfda2cb907"
+    },
+    {
+      "path": "src/lib/components/ui/breadcrumb/breadcrumb-link.svelte",
+      "size": 708,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "68e99603f0b4a667e5d2c01fd1e4fee75e9f544f615572f2b8676d1e62d6ee2d"
+    },
+    {
+      "path": "src/lib/components/ui/breadcrumb/breadcrumb-list.svelte",
+      "size": 506,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9a6995eacb0c83f85f853b75e7ff1d41b8af7a45e7404d45c98a7dabe8df756b"
+    },
+    {
+      "path": "src/lib/components/ui/breadcrumb/breadcrumb-page.svelte",
+      "size": 514,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "daf22b1214f36864cb249d49d090bcea01bbd419baf94b926f9c7e2a772f66ec"
+    },
+    {
+      "path": "src/lib/components/ui/breadcrumb/breadcrumb-separator.svelte",
+      "size": 620,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "2373b60f042c355c199ca9388ac5511bbc42fa9e29712079cbfc84ee9ee2293a"
+    },
+    {
+      "path": "src/lib/components/ui/breadcrumb/breadcrumb.svelte",
+      "size": 488,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0054e9271e1212d7fa17f9d6beb4313fdff3f04cab2520e09e09fc9102002907"
+    },
+    {
+      "path": "src/lib/components/ui/breadcrumb/index.ts",
+      "size": 592,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ebd2367a93398b84fa8371d5b2655f784c4dfe76f08eff561fcd218c5b7229a5"
+    },
+    {
+      "path": "src/lib/components/ui/bubble/bubble-content.svelte",
+      "size": 1024,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "054e8a9af585bd33dfab29f90a40213b792b114da9d6331f7ffbaedcd7c0384c"
+    },
+    {
+      "path": "src/lib/components/ui/bubble/bubble-group.svelte",
+      "size": 452,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "c10429ef4cb97663154d43f020a33a06deb54a99ead8aacd6b8dc90da303b484"
+    },
+    {
+      "path": "src/lib/components/ui/bubble/bubble-reactions.svelte",
+      "size": 1328,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f51df28663a5acb52e212a6bfc979c88ad0d6bcfaa364117e51de80f82801557"
+    },
+    {
+      "path": "src/lib/components/ui/bubble/bubble.svelte",
+      "size": 3003,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3b1d570139acc38fecb530d2d2cf027a04147d250b0fcb9c60683d45739a4ac8"
+    },
+    {
+      "path": "src/lib/components/ui/bubble/index.ts",
+      "size": 574,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "2fb8af8da6dd467a9a49d6d60a1fe0c34547930703f2c80b5c4d236abb88bab0"
+    },
+    {
+      "path": "src/lib/components/ui/button/button.svelte",
+      "size": 3889,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e09568b40a945fe9b9e43b02ee5fdb178487d86e27b6d84b99cf1ee8abbbe982"
+    },
+    {
+      "path": "src/lib/components/ui/button/index.ts",
+      "size": 260,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0f6b6f040d92b4153821d3f9b4d6b9cbc567247e4fda913e64c1d0fcc4a2f386"
+    },
+    {
+      "path": "src/lib/components/ui/button-group/button-group-separator.svelte",
+      "size": 582,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3beefd4b8106531226bd01711319da9dcfadc0b0b29f621ec0d6256f9532384c"
+    },
+    {
+      "path": "src/lib/components/ui/button-group/button-group-text.svelte",
+      "size": 824,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b3c3660acc64acd380c4d936fb305f8253613fb508600971bd375fd6dcf72567"
+    },
+    {
+      "path": "src/lib/components/ui/button-group/button-group.svelte",
+      "size": 1619,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "17ae273ca314a88fde8fc6c25f311896ebbf6bab4fd58bae6797b9a1fc1c3b8b"
+    },
+    {
+      "path": "src/lib/components/ui/button-group/index.ts",
+      "size": 379,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ec151d515cb7cd6a3322e838425565beaa12b83330ebe7f27c085cb57770070e"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-caption.svelte",
+      "size": 2286,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "44dfd5af94cd58532f35717d630fa1a39c43906816393f4fed025a9c0c074b1c"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-cell.svelte",
+      "size": 552,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "68af5601f83e981b3fde04a023e4d4ed97643c00c712a8747419dc8e06048aaa"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-day.svelte",
+      "size": 1430,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "cee28b7a0045194a6cffefa5d60f9f1705def41bc0f6de44e60d7cc07e5c31da"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-grid-body.svelte",
+      "size": 332,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "2dead3d31529a31691360efb9718f721e1dd0b18e11c3f09e82a8078aa95a25d"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-grid-head.svelte",
+      "size": 332,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "565bf98c51691a0c830f549033091aaf6dfa3a173c3bb0603552a0a4bc57e89b"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-grid-row.svelte",
+      "size": 338,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b3cbc92230075710039ba7d72afce8753072e153d0363f1e3a95ed12b356fbd7"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-grid.svelte",
+      "size": 367,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "8686c81cb72a2ba1285c74061ca61b3d7908e8e652d4b6fd197fc49395297c16"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-head-cell.svelte",
+      "size": 420,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "cc87924dae66de4399d9bdf9156f8fa06e0e9aa881d833581730af43b95ee80e"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-header.svelte",
+      "size": 425,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3fed6424c035e017167bc758daa43048f87207f123780bddf938570449319fdc"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-heading.svelte",
+      "size": 373,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "83cd02827de784a5e729b365e6696fdf683c06e4bfd7141a91c17cf99ba06cd1"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-month-select.svelte",
+      "size": 1514,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ac533e90b4fccb4f8135994d45331ddeb1a3eb040e617300961ea15843aa6d09"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-month.svelte",
+      "size": 418,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "6db44e668234aebf9b5800ec6dacffecfc750783e788334b4cacec935019d5bc"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-months.svelte",
+      "size": 439,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9140e8cd6086f49df6ee6202e2c54fc5eb52b18aecb5c838cca1b81892448f7d"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-nav.svelte",
+      "size": 467,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "05e2ed1c2b9911829c8fb98ad4076261b0f3796ecc50ffdf0ecd75c094e17421"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-next-button.svelte",
+      "size": 906,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "488107d86c97cbe15e4850220ef4f7932badbdae433bbe8fe37d2a4660b29ea1"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-prev-button.svelte",
+      "size": 903,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "77f3ac4a5ed9a60c06d679c086a4d3fafacac300f03e6994d3c10305a5305f46"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar-year-select.svelte",
+      "size": 1462,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "63923433897b53f1866d035fd3fa4b6443abcac9c8ece613521c0e29d2d1003c"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/calendar.svelte",
+      "size": 3442,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "786307720d60ab27988ac204821ebc5cab31aa5a8352bc77a8d60f875174de7b"
+    },
+    {
+      "path": "src/lib/components/ui/calendar/index.ts",
+      "size": 1079,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f81c71d408c50b879ae00a24335734e3ff7922293dce1656ea31c28a8173cdc2"
+    },
+    {
+      "path": "src/lib/components/ui/card/card-action.svelte",
+      "size": 493,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "fcfea9d1a9ebf74b901e211f199f35a827d1ac911b3235e219ffab97b8b166d1"
+    },
+    {
+      "path": "src/lib/components/ui/card/card-content.svelte",
+      "size": 464,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "bd7b717106636dc304e979e80fc69ef4c4ef33e49077a1c27ec41e8aa46bdd97"
+    },
+    {
+      "path": "src/lib/components/ui/card/card-description.svelte",
+      "size": 460,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "10cb2fbe6a2a347092ac29bb77061e9742d067d25a8e63e8fa5c0b128a0d440e"
+    },
+    {
+      "path": "src/lib/components/ui/card/card-footer.svelte",
+      "size": 506,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "c8af986ebb0b81b767b98798829c23bbda9606482b506fe2eab72fc0a24ce556"
+    },
+    {
+      "path": "src/lib/components/ui/card/card-header.svelte",
+      "size": 677,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7e8749ea30b29a3ff93a81b8b0a18d549a753b97f0ff05d1afc3a91621436a79"
+    },
+    {
+      "path": "src/lib/components/ui/card/card-title.svelte",
+      "size": 493,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "54294bbc886dcb5ac7ddac96b373dc359a1c5f7ac573860d78c14f91823d231d"
+    },
+    {
+      "path": "src/lib/components/ui/card/card.svelte",
+      "size": 818,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d9e9e37d927586419c7db7a5b0af755efb88d2ceff75ce26952fc0ccfbcdc201"
+    },
+    {
+      "path": "src/lib/components/ui/card/index.ts",
+      "size": 548,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "41b4e0bf782f5e2bbed1863de169ad9f623b47a73f9fc57ba6776779e4be9edb"
+    },
+    {
+      "path": "src/lib/components/ui/carousel/carousel-content.svelte",
+      "size": 1019,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f938651b3f00420675ce387273aa5320068c8037605bfcc1dc0c693a938bbe0a"
+    },
+    {
+      "path": "src/lib/components/ui/carousel/carousel-item.svelte",
+      "size": 696,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "15a4003ee50ee6b0e3a3f52bd374eba8aa1d32689bf994bc6e23cef8ff5da81b"
+    },
+    {
+      "path": "src/lib/components/ui/carousel/carousel-next.svelte",
+      "size": 1049,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7812f6449c773b1277f1021f9e09fcba8c81fb209bb6bd52abe266ec3d7b5ab9"
+    },
+    {
+      "path": "src/lib/components/ui/carousel/carousel-previous.svelte",
+      "size": 1057,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "56ba665e517507073b3e96c03643b8d9c328acddfc883f4a2c196cc7652feba2"
+    },
+    {
+      "path": "src/lib/components/ui/carousel/carousel.svelte",
+      "size": 1977,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3bd6a8b260b76d38999991a7da9cba9f75f57f0b9be1e0a921658bfda91d23c8"
+    },
+    {
+      "path": "src/lib/components/ui/carousel/context.ts",
+      "size": 1846,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9e421f710f803cd27daca902a3e7197cbc513a40eb9972c3fd19c18cce1b6552"
+    },
+    {
+      "path": "src/lib/components/ui/carousel/index.ts",
+      "size": 408,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "a8093d44f5decface2d922144d6ea7f54438ea003bb2afa11814d39e1aaa94f4"
+    },
+    {
+      "path": "src/lib/components/ui/chart/chart-container.svelte",
+      "size": 2838,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9f1ad7a5544703c5d8e4473598a0cb1cc53b4f3d6a79e099823571f2463dc4f5"
+    },
+    {
+      "path": "src/lib/components/ui/chart/chart-style.svelte",
+      "size": 1010,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f550b1030828476e1a49c4cf5f719e5b99064f65fab5a5ac51d77e94f88d3dfd"
+    },
+    {
+      "path": "src/lib/components/ui/chart/chart-tooltip.svelte",
+      "size": 5203,
+      "allocated": 8192,
+      "type": "file",
+      "sha256": "2bd968f72f47c7a5605df1c890c637aff9be9ae5bf09576af473cbe5fe4ca861"
+    },
+    {
+      "path": "src/lib/components/ui/chart/chart-utils.ts",
+      "size": 2068,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0930719005de73d984c58402dd87761587a2f2c5ce49b27a7f6950db2006b7fa"
+    },
+    {
+      "path": "src/lib/components/ui/chart/index.ts",
+      "size": 285,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4321738bd45fe5b53f46297709bc1ff3228da9c74a944548027700251ddad301"
+    },
+    {
+      "path": "src/lib/components/ui/checkbox/checkbox.svelte",
+      "size": 1799,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f594a12bcabc823166590b144cc8bfef609a95936cde51f8c50f1be50016cabb"
+    },
+    {
+      "path": "src/lib/components/ui/checkbox/index.ts",
+      "size": 80,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "39b322ab4a26c63f60c64588ff4b18552c8b596e8472b9261fb68429b8cff1d6"
+    },
+    {
+      "path": "src/lib/components/ui/collapsible/collapsible-content.svelte",
+      "size": 276,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "8af85ac6ed50471ad32a4e90fb0c54b0fbe0b0700cd3fc5a91b85de70bf22554"
+    },
+    {
+      "path": "src/lib/components/ui/collapsible/collapsible-trigger.svelte",
+      "size": 276,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e74d7c62176b48d8f5a7282fd0491fbab4dcfb0f23690b6cfae3f3d08b630e3a"
+    },
+    {
+      "path": "src/lib/components/ui/collapsible/collapsible.svelte",
+      "size": 304,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "1d48e117ac1b8fef1af070c56237a04e5ad1d4bafd4372852a0e9d10e9f4afc2"
+    },
+    {
+      "path": "src/lib/components/ui/collapsible/index.ts",
+      "size": 275,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "abeb5bef64eabc6e378338dddcecee0df56ab18ece8b1d08bd1ed6e740aff05e"
+    },
+    {
+      "path": "src/lib/components/ui/command/command-dialog.svelte",
+      "size": 1302,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9d24c9094bbef82caad8a8994bad4c7ca5db864dcaad847a0e9de6ed8ccfc586"
+    },
+    {
+      "path": "src/lib/components/ui/command/command-empty.svelte",
+      "size": 380,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "c5d5914fa1f399663be27d8a06cbbfa5142fc5de73620a2b39e5cd50d98a11df"
+    },
+    {
+      "path": "src/lib/components/ui/command/command-group.svelte",
+      "size": 922,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3aeb05a654d354804df3eddc7c556c014a1d0efe1f961575eb89debec57113ee"
+    },
+    {
+      "path": "src/lib/components/ui/command/command-input.svelte",
+      "size": 1040,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "cf38cc237c6b240db958a525ae75850e0718b1bed9f9e9f6ac14a6c3205e8ff6"
+    },
+    {
+      "path": "src/lib/components/ui/command/command-item.svelte",
+      "size": 1029,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0d960c2b403fa119b7dee0a5b1cd19943db5687e921bc88653988ffee68c6c01"
+    },
+    {
+      "path": "src/lib/components/ui/command/command-link-item.svelte",
+      "size": 773,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "305e24a340eb36e2351fdb936723b238ff58e8aaa1391a226ddf78705dcd92a0"
+    },
+    {
+      "path": "src/lib/components/ui/command/command-list.svelte",
+      "size": 433,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0a4dd9c0ab21bb85d550303a35d0207a81dcd3d39b3db939365c6c692f131929"
+    },
+    {
+      "path": "src/lib/components/ui/command/command-loading.svelte",
+      "size": 228,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f3512497277a540ed8e365cd2d85084394172896131f555b631a1d57f7487fbf"
+    },
+    {
+      "path": "src/lib/components/ui/command/command-separator.svelte",
+      "size": 395,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f0a201c5d68f4ee61870297e8f374e100fe916b8abeb0c62acdeb1911f2248b7"
+    },
+    {
+      "path": "src/lib/components/ui/command/command-shortcut.svelte",
+      "size": 534,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "fe6bd2a8aba95adb6554633974c8ea95f6062ec31554cbf4e8e9c78c7313f63d"
+    },
+    {
+      "path": "src/lib/components/ui/command/command.svelte",
+      "size": 609,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "96357f2022a7d4b5f075aaff5844f988f2f53e89f8c649dffbfe88f500272b92"
+    },
+    {
+      "path": "src/lib/components/ui/command/index.ts",
+      "size": 895,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0e427102f2ca74f024f104aba811fc9c8852deac397bf09ed2a1d65dad36b1d7"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-checkbox-item.svelte",
+      "size": 1329,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "fe3c643f1eb909f25ffd82bf02498be524ac17ea969bfa3ef9196cbcd094fb6a"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-content.svelte",
+      "size": 1289,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "197fe8177692b1f5eed86d8c354033f88fc18e8a6e241b07f8cad2a084c57797"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-group-heading.svelte",
+      "size": 523,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "8b34ab8dab63ffe77f8110b020d94b44d545106876bbad5009cc923a513d6b5d"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-group.svelte",
+      "size": 271,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0b45789d7c5122e189a3439b26058689e80903b082c42e36c4f4c20df78e5077"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-item.svelte",
+      "size": 1143,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ac3f313548b7eb92bc0a31fc38d7c74bcfc3db3c9e4b4977c42fec20ce1df53c"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-label.svelte",
+      "size": 555,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0439cb3ec8808d01396e620d6586c4b0927924265d42905f9ecae0c3df960ef8"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-portal.svelte",
+      "size": 210,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e9adbaa372be1c37bb66e1cd71234964297f29773f6e9d73e2c7bf4528c289ef"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-radio-group.svelte",
+      "size": 332,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e7c64034148c15ec226fdd0f28b445c041b1defca18e5ac608a899db65bf5c0f"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-radio-item.svelte",
+      "size": 1146,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "c8ef1a01176f8bc0869edd59d772251dba1d42b987b1f7201772eea289e4add0"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-separator.svelte",
+      "size": 414,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5b5b025109ea7930f78ec9a2e0a8a58f530b248dd54ddf9c900b3cda1af0273a"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-shortcut.svelte",
+      "size": 543,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d7c2d2b72ec1f17d96e0c172f1b5fc97d6fc4417f60cc2a87f74e8b79e49c6d5"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-sub-content.svelte",
+      "size": 1227,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0e8682865ad4696ea125a917b2b798b8d6985a642c16fdbaee7112b37a30da19"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-sub-trigger.svelte",
+      "size": 962,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3c2e51aeb33eeb98c178e2d14f477c97c16e89b671f99395d0a8050e05106e4f"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-sub.svelte",
+      "size": 239,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3efb4787da299f9a01097e779ba794c9cc18d62cd1ab71718a5def0568c1a0e8"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu-trigger.svelte",
+      "size": 394,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e304eb6e7d461fbf112b0297b2e93c21983599e5a0014d3b2d6d6d8daab20813"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/context-menu.svelte",
+      "size": 241,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "00d205bc97aac4ddd81ca701b1b40c0cbcbf59b4a28b616eb117e92e1cd7f48e"
+    },
+    {
+      "path": "src/lib/components/ui/context-menu/index.ts",
+      "size": 1579,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "8b27e1f341d527394302b20931b929d46a17976888f60c3550fbdb76c2a0e235"
+    },
+    {
+      "path": "src/lib/components/ui/dialog/dialog-close.svelte",
+      "size": 276,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4a9a1a6327d4e68fd87e8292dcb176eab244ba8da455f15997d2308b1fa03d46"
+    },
+    {
+      "path": "src/lib/components/ui/dialog/dialog-content.svelte",
+      "size": 1697,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "953a96972dbb4905f445b00dee6ead5815c8d510dde3d79ecb9ec9ac5286d9de"
+    },
+    {
+      "path": "src/lib/components/ui/dialog/dialog-description.svelte",
+      "size": 467,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "6a2a5a8b4c5b0d5fae20050f0986c259a619098f333d315ceda367f37b7a46c8"
+    },
+    {
+      "path": "src/lib/components/ui/dialog/dialog-footer.svelte",
+      "size": 849,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7ad0161a4f6e56c89e8571799ef5fd8db8b489cb47a3a510f34a16ee4bc4ce09"
+    },
+    {
+      "path": "src/lib/components/ui/dialog/dialog-header.svelte",
+      "size": 445,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4d21efb24ca9d7b6ba04259b49b2806cb1cff4ac375029f3ec130cef145f8b7b"
+    },
+    {
+      "path": "src/lib/components/ui/dialog/dialog-overlay.svelte",
+      "size": 538,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "8bad01d50c2b0f90ef9d46cbf179a312db74a050e9f1f4858eaa1bed842803f4"
+    },
+    {
+      "path": "src/lib/components/ui/dialog/dialog-portal.svelte",
+      "size": 190,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "718c0b6672a2911d7f9398e4ef14813cceabcf0be02b7920f10028d213a674b6"
+    },
+    {
+      "path": "src/lib/components/ui/dialog/dialog-title.svelte",
+      "size": 375,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "cca0007fea4c03b9a851c8b6b08760428409132ca646b9f7661b64e8ac450c77"
+    },
+    {
+      "path": "src/lib/components/ui/dialog/dialog-trigger.svelte",
+      "size": 282,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7b72b3d7fc35bf00f331716f723ee711125263ab09329952728483bb3237dd09"
+    },
+    {
+      "path": "src/lib/components/ui/dialog/dialog.svelte",
+      "size": 221,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "cc60100e895410b9b5f17b6071c933dfc950e5dbf4d00b261edec1e443008a27"
+    },
+    {
+      "path": "src/lib/components/ui/dialog/index.ts",
+      "size": 818,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "8357364bc114cc306188b2ed974986fa47d1c2018ae9b730b66e75ea7ae77753"
+    },
+    {
+      "path": "src/lib/components/ui/drawer/drawer-close.svelte",
+      "size": 249,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "2c791c60b4655e75868177d84ec3041ab9cea7d27d6b643008fd791f09f36db3"
+    },
+    {
+      "path": "src/lib/components/ui/drawer/drawer-content.svelte",
+      "size": 2172,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "8dfb009402802080b2a8d3a76c1184632d8cc6e72022a3fa9765f8a1352f5510"
+    },
+    {
+      "path": "src/lib/components/ui/drawer/drawer-description.svelte",
+      "size": 402,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "22d3dbd486193ad2b957235ea92f06defb2d23b3ff6c7fb3a4603fb936182459"
+    },
+    {
+      "path": "src/lib/components/ui/drawer/drawer-footer.svelte",
+      "size": 457,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f7178a5606727201286987d8394de09476c719540e89c1b500a2972657184e0d"
+    },
+    {
+      "path": "src/lib/components/ui/drawer/drawer-header.svelte",
+      "size": 617,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "8ec335ce76536097a542368ff36cc296ccff63394443b49373698ae17d4be94e"
+    },
+    {
+      "path": "src/lib/components/ui/drawer/drawer-nested.svelte",
+      "size": 350,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "cdda5309195d2a31f9cc475fb0afd56e0284166d2ca2deeac049194a427387a8"
+    },
+    {
+      "path": "src/lib/components/ui/drawer/drawer-overlay.svelte",
+      "size": 528,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e0567af32480d72c9dd9b3fcc07a2a9d3632cd3bf3644ccde3454ed282bfc722"
+    },
+    {
+      "path": "src/lib/components/ui/drawer/drawer-portal.svelte",
+      "size": 194,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3d4d91d0253ae11043145b8d32e6c4cb523ebb024f40016225a1f3da12b61610"
+    },
+    {
+      "path": "src/lib/components/ui/drawer/drawer-title.svelte",
+      "size": 382,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "00e61fe22f7d3f579d5ed570f5126241fdc30edcea1d47179eb6e8803ef41b3a"
+    },
+    {
+      "path": "src/lib/components/ui/drawer/drawer-trigger.svelte",
+      "size": 255,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "09077b24733d00adaed1f56c2769b5723f06058f83ba8b1159df12bbbffafcb7"
+    },
+    {
+      "path": "src/lib/components/ui/drawer/drawer.svelte",
+      "size": 344,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "caa374b5e5dc45a0a9f6e7b7b1023610a211f8f62296a044c408c9d54927c8ef"
+    },
+    {
+      "path": "src/lib/components/ui/drawer/index.ts",
+      "size": 914,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ea52ceda738a11c1f3b047bdcf2d4e1b96cc52fdbdfdff9eac71956611c07c35"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-checkbox-group.svelte",
+      "size": 346,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "96f8cf7d2ce72fd2fd4ff5e579067b1a32101abbbe5a20612aa00a69e5df205d"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-checkbox-item.svelte",
+      "size": 1526,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9657cfe5bcd25d9b9d997be15442c217c66b2fe67d2e879ec8c6b1b734f500f1"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-content.svelte",
+      "size": 1382,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "53108c9ba1325dfb312750ea8bfca2c2f0930a00596d476adf6bd3682fc0199c"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-group-heading.svelte",
+      "size": 593,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b8fd5351c2c75411d0412f6c971fdd620e554df3f5da43dfcb62e1a929c8de3a"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-group.svelte",
+      "size": 276,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "75f1eaeff2b3cf25f957d7f9137d3addb409815ec480e1a3bb4036bb82e8d60c"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-item.svelte",
+      "size": 1175,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ba91b833d7e6b8e29eaca9486621c0f84dde1d7e2400d39ae64746c432cf2aa2"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-label.svelte",
+      "size": 556,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0d236795e48551d57a81926c0db9e17faf23c0bd72334e89ae54de8905a9fc3f"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-portal.svelte",
+      "size": 214,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "38f6abf9c1d47d2ab4912556d05845ec9ba1ee6825405adb5f8831d6a30ac08b"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-radio-group.svelte",
+      "size": 335,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ac025c63e0ade7c26cef7db98de2fe217208fe9387eb8bfaf97730ab3f013da2"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-radio-item.svelte",
+      "size": 1218,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ca175c139baf4104f57c6054e69e83d394ce289c700e72be36c367af78ce989a"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-separator.svelte",
+      "size": 419,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0e9cef20006258a3c8ec7d90efbe9c856a5e24d60bb3894a0e72068f09341426"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-shortcut.svelte",
+      "size": 545,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4d5c94f55d706dd0b8b050ea6e89f94cf7a3142279eebbe602980f7169fc1632"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-sub-content.svelte",
+      "size": 1261,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7210269cc37f2f438ef1e8c556fafa5869b58ce22c079d0a96512a4ec4dd96b6"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-sub-trigger.svelte",
+      "size": 1004,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3ddb5231d9c3b3d0e574ca4001f54a809d5a09a8faf8adfb9c129b5ea257ca2f"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-sub.svelte",
+      "size": 243,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "1208155828183ef72dc8c96ff58c90fcd5584cce28d938a23545253013cfb9c5"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu-trigger.svelte",
+      "size": 282,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "bdad1ff46fd23466dec6d1212186e9ac4e34edf862987308821956c6b24f709c"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/dropdown-menu.svelte",
+      "size": 245,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d49b60f3d9832a870e5eed726d39f9c0e09abb2bc061deb1ef0dfec97aa319e5"
+    },
+    {
+      "path": "src/lib/components/ui/dropdown-menu/index.ts",
+      "size": 1735,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "843e6f031021c365665e0de10bb9862fa8dba12066336fbd3348fa0078028bcc"
+    },
+    {
+      "path": "src/lib/components/ui/empty/empty-content.svelte",
+      "size": 510,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "013361473e490f5c7c26fbcf651453234e4c4621d1edfa0c91bbc27e4766bf28"
+    },
+    {
+      "path": "src/lib/components/ui/empty/empty-description.svelte",
+      "size": 540,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "33f1cb83746181ab5c4a0a31628e3fae75f14ee773bfd9257f325e2918ad624a"
+    },
+    {
+      "path": "src/lib/components/ui/empty/empty-header.svelte",
+      "size": 466,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "531d01891a947969f91aa96f04eef7c339f51ee20a964a470bb2e38aaace3ef5"
+    },
+    {
+      "path": "src/lib/components/ui/empty/empty-media.svelte",
+      "size": 1120,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e4b3113ba5f9cff1745e86b24bc2a42822932ca7e445f77ad9fd0e4da33425fb"
+    },
+    {
+      "path": "src/lib/components/ui/empty/empty-title.svelte",
+      "size": 458,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "db80f060e2d867005f67d0c767becb9ee322fd53c52a4f8c544b10c992dd4cb9"
+    },
+    {
+      "path": "src/lib/components/ui/empty/empty.svelte",
+      "size": 549,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "64773736cb3a2f7c33278f31c5a16399387dd71ec4534adcf004ae2a666d2c16"
+    },
+    {
+      "path": "src/lib/components/ui/empty/index.ts",
+      "size": 480,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "2969750549e68f2cf14e8a6f46bdaf93bdd4a6fe252b000e802805c94f4a0f26"
+    },
+    {
+      "path": "src/lib/components/ui/field/field-content.svelte",
+      "size": 485,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "6207980740d3c7cea395513c3f951b46a1e237ab9c025435a870f86541d0e09d"
+    },
+    {
+      "path": "src/lib/components/ui/field/field-description.svelte",
+      "size": 687,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4f434327b4144091f3be88b618b7f2316154c117f15a6212af95c7177cec8593"
+    },
+    {
+      "path": "src/lib/components/ui/field/field-error.svelte",
+      "size": 1365,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "05c3a9b21aee62e70bcc20c8fc550b9ad0d1502ba0b69693484d0a82fe08eace"
+    },
+    {
+      "path": "src/lib/components/ui/field/field-group.svelte",
+      "size": 563,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "00106534e6f67378845afeb0707c5a0647150a28fb351c5f273006b7697ff53c"
+    },
+    {
+      "path": "src/lib/components/ui/field/field-label.svelte",
+      "size": 1101,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "8fadfb6fb21ef636acc120b15efb60d7e4105b5043fa474ba85a3cd0701cd925"
+    },
+    {
+      "path": "src/lib/components/ui/field/field-legend.svelte",
+      "size": 596,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "1d7fd7b7ea4338812b9478e6effaf203188c1c7f487f31b4df60c19bf7388588"
+    },
+    {
+      "path": "src/lib/components/ui/field/field-separator.svelte",
+      "size": 921,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5fa852267b7f520dcb5c13167a13f005f3e09b85e3ff59bd5fa7898815d86fab"
+    },
+    {
+      "path": "src/lib/components/ui/field/field-set.svelte",
+      "size": 528,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "464dc5d1795cb8c89e4c0404ad821c096edd780e153674c3c8a516fbd5520885"
+    },
+    {
+      "path": "src/lib/components/ui/field/field-title.svelte",
+      "size": 530,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0b51c19f76b4f8fcda1eac6422aeea1669d22df65cdadb9c2fea2ba1cffec80e"
+    },
+    {
+      "path": "src/lib/components/ui/field/field.svelte",
+      "size": 1554,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "34f584aa56ce792fd4f22ff7cf901d6e550b8f37e49ceb01d6239c4062834e3b"
+    },
+    {
+      "path": "src/lib/components/ui/field/index.ts",
+      "size": 764,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f23a9216b464c2d979b5994b8088e915e4ae8b69d1ee8eaa611ea336a8971e05"
+    },
+    {
+      "path": "src/lib/components/ui/form/form-button.svelte",
+      "size": 230,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "1ad397185372697d52f306f3d23ebc0347da54328f8b5039b79f70510bc02894"
+    },
+    {
+      "path": "src/lib/components/ui/form/form-description.svelte",
+      "size": 415,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "a124a35c3b351940996adfbc7fdc73a6da844ca12871a9f760b6e1dcf4c048f9"
+    },
+    {
+      "path": "src/lib/components/ui/form/form-element-field.svelte",
+      "size": 905,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0502cab4bccfce3630dbad4d3733d3083ccba4ac16e498b906d35920f33f79d2"
+    },
+    {
+      "path": "src/lib/components/ui/form/form-field-errors.svelte",
+      "size": 769,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d27ff0cab7d7e49925b1693ead16528be2a3e00ad97a9673d63dfcb0cf31d99e"
+    },
+    {
+      "path": "src/lib/components/ui/form/form-field.svelte",
+      "size": 894,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "2ddc2ebfb664565feb32e648b08b6f17562f6847a776db59dbaf41a79b0cac53"
+    },
+    {
+      "path": "src/lib/components/ui/form/form-fieldset.svelte",
+      "size": 515,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "2cccdf921dd4f62fe34b7fd0413aa87c1ebd90834abd9d128b75eac63497ad7b"
+    },
+    {
+      "path": "src/lib/components/ui/form/form-label.svelte",
+      "size": 600,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b94f027ecdd76fddea9f8a8ef804476ea88bec0c819d245e9c0f1b09bdccb917"
+    },
+    {
+      "path": "src/lib/components/ui/form/form-legend.svelte",
+      "size": 411,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "044dfa1303b506219c20efd36d9149143039994504a9da20d8d19145e8a48e85"
+    },
+    {
+      "path": "src/lib/components/ui/form/index.ts",
+      "size": 817,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f9273a73a493587790ac986e9aaa7005d68952ac58cf6da171ebfa9f9e348f4a"
+    },
+    {
+      "path": "src/lib/components/ui/hover-card/hover-card-content.svelte",
+      "size": 1247,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "60f5672c16dcaa7318988cc36afd0e7c05273c06b713be95ac8eb01cde6eeff6"
+    },
+    {
+      "path": "src/lib/components/ui/hover-card/hover-card-portal.svelte",
+      "size": 204,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4bc8e49f3936fff222eab5f65724130dba5be7cd69ae5dd8e1a62cc86e1f8dca"
+    },
+    {
+      "path": "src/lib/components/ui/hover-card/hover-card-trigger.svelte",
+      "size": 269,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "83e114e2a0edefb11599fe749283713e0fb0c76ce81f23579ae16be349332fdd"
+    },
+    {
+      "path": "src/lib/components/ui/hover-card/hover-card.svelte",
+      "size": 235,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "39946ce6ee8ed12a62f3e9cd2ae86408ae2843afb0546ee1313af7998a53a046"
+    },
+    {
+      "path": "src/lib/components/ui/hover-card/index.ts",
+      "size": 348,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "bc5681b0719b54549f8ebe6624b468f7487752132f69f365d1a394d1176cb7c9"
+    },
+    {
+      "path": "src/lib/components/ui/input/index.ts",
+      "size": 75,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4e0ad69d49a27194c7f3dfd0cdd5933ee13fc40cc13a77138b547d300701d390"
+    },
+    {
+      "path": "src/lib/components/ui/input/input.svelte",
+      "size": 2147,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "be19adf6a2de5dc94ef0ce1a7dcfb8727882117a79df40bc63e013ba5502d50e"
+    },
+    {
+      "path": "src/lib/components/ui/input-group/index.ts",
+      "size": 516,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "1dd120de081b76517fb92d58822cf8966457dd283ab34454e14225cfd66d8907"
+    },
+    {
+      "path": "src/lib/components/ui/input-group/input-group-addon.svelte",
+      "size": 1711,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "c1e0e05e77f9fed2f242dcbec2fedc4ad80355e68e394a6e4788dbafe5c03652"
+    },
+    {
+      "path": "src/lib/components/ui/input-group/input-group-button.svelte",
+      "size": 1203,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "dc477479759c4b7091afb3b126db3edfed4b819241098a46e4be7c885f394864"
+    },
+    {
+      "path": "src/lib/components/ui/input-group/input-group-input.svelte",
+      "size": 547,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "609fb66148d30a57863ea37ae542f373b9426c3619308ab3c3119b5b25452889"
+    },
+    {
+      "path": "src/lib/components/ui/input-group/input-group-text.svelte",
+      "size": 520,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f752b08ad701c1e7f6a394394471407611775d5b6daa6d1926a001bb6f400cf5"
+    },
+    {
+      "path": "src/lib/components/ui/input-group/input-group-textarea.svelte",
+      "size": 576,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5d76e6dbff77107b3a62f7fd8cd9824cd1b3269625c95c28ab8e449c850e36dc"
+    },
+    {
+      "path": "src/lib/components/ui/input-group/input-group.svelte",
+      "size": 1489,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5ec356d3fe710e2b81ce4f57c8c241c32debe46a225043fce52cf3b5b45f50d2"
+    },
+    {
+      "path": "src/lib/components/ui/input-otp/index.ts",
+      "size": 330,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "eb74abe29492c4b0a1481b91f3a01deffcd2e4c7f9903533d49426e1c4d6941e"
+    },
+    {
+      "path": "src/lib/components/ui/input-otp/input-otp-group.svelte",
+      "size": 595,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "62d8e0d64006370aab02df966a8ab9892a2d5e5e28190ce47f480f0a1bf48334"
+    },
+    {
+      "path": "src/lib/components/ui/input-otp/input-otp-separator.svelte",
+      "size": 654,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "16540d89b9dfef6ce1cc3ed40a72874ea74503c8bb0c398972830066aae70f86"
+    },
+    {
+      "path": "src/lib/components/ui/input-otp/input-otp-slot.svelte",
+      "size": 1132,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "687be467c9e6e2d099331f65f7e2b7d8e308d852d7f4c3dd9e11ba393ac46c5e"
+    },
+    {
+      "path": "src/lib/components/ui/input-otp/input-otp.svelte",
+      "size": 505,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ca8a70a374e0d77d5398134e40225592ed5debac4aad9fa003603f0fce052868"
+    },
+    {
+      "path": "src/lib/components/ui/item/index.ts",
+      "size": 783,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "dc3f805dca04b1ad0a8e3f502a744988e4cb534313a9a0ca4499d0a1aef1e123"
+    },
+    {
+      "path": "src/lib/components/ui/item/item-actions.svelte",
+      "size": 448,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "cabcea9f861c01f5043bedfbf198d0f2a97dab700f2384500b639e8e430bca30"
+    },
+    {
+      "path": "src/lib/components/ui/item/item-content.svelte",
+      "size": 529,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "caa4b353771bcd8fce8803213f470602c217403415cb8668c59f1f4b1e9bfb33"
+    },
+    {
+      "path": "src/lib/components/ui/item/item-description.svelte",
+      "size": 617,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "8b9f899c917561fa764db1906be34bbb590e073ca66643c08f86f36b750c0e1f"
+    },
+    {
+      "path": "src/lib/components/ui/item/item-footer.svelte",
+      "size": 474,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "45bfdc1569ef8abcadeeb03855ecca3d7e38a3191e2058eea26c54fff1e2713b"
+    },
+    {
+      "path": "src/lib/components/ui/item/item-group.svelte",
+      "size": 531,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "bf294aa46fa661bdaf20aae3a3c1a47036544cb2ecbe55d92a09561c52843cf8"
+    },
+    {
+      "path": "src/lib/components/ui/item/item-header.svelte",
+      "size": 474,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d1f52dafd63eb1e498a42ce867b96fcb54c0a2c2033a4a3ce8802a256efb6100"
+    },
+    {
+      "path": "src/lib/components/ui/item/item-media.svelte",
+      "size": 1282,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "622e1cfad759d4dcb269402f94906e4d35264aca7e0eb475df0bfa0f1944aac4"
+    },
+    {
+      "path": "src/lib/components/ui/item/item-separator.svelte",
+      "size": 438,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9e1e9489093857c4971a729ad60518a6896039e6cd54be7f99d2c109af65e5c4"
+    },
+    {
+      "path": "src/lib/components/ui/item/item-title.svelte",
+      "size": 517,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0b819fd50d56e6c2a02ccdd072506d91b58684ad5440703cc37026694d453548"
+    },
+    {
+      "path": "src/lib/components/ui/item/item.svelte",
+      "size": 1695,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4fe324658bd83bdbfe50dafb3c7ee0a47db2c19e8689bf2026728497c9be163c"
+    },
+    {
+      "path": "src/lib/components/ui/kbd/index.ts",
+      "size": 139,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "66a7bb22914cddccd4f5cfc49ddf135e960f96fd4de0ce95c62641427b478be3"
+    },
+    {
+      "path": "src/lib/components/ui/kbd/kbd-group.svelte",
+      "size": 449,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d166bc53effa453390b373aeaf7787e74371b14f85853c0d81a5e141d95b9f19"
+    },
+    {
+      "path": "src/lib/components/ui/kbd/kbd.svelte",
+      "size": 777,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b6b07e9fed5829475b1b45fbf69b7168302d7dc335fc9e6cfb95c5631ca0f6dd"
+    },
+    {
+      "path": "src/lib/components/ui/label/index.ts",
+      "size": 75,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ea17621b03066fc6c0ab811ec97aac0cb2de4b504c0a1fc3f480c8fc4bef12f1"
+    },
+    {
+      "path": "src/lib/components/ui/label/label.svelte",
+      "size": 556,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "18ea3cee488eaff20192c331b8ba0bbd1f87cd9ca21fa312f3ffc29c86c5a0c3"
+    },
+    {
+      "path": "src/lib/components/ui/marker/index.ts",
+      "size": 308,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3994e004651b8fe3b36e194e5b9720de636c2ff5c51f946b940313616971f325"
+    },
+    {
+      "path": "src/lib/components/ui/marker/marker-content.svelte",
+      "size": 620,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "bef5edbecd6d81da262e81b9ab501f3fad6a092016185697b9c0f84bfcdb20da"
+    },
+    {
+      "path": "src/lib/components/ui/marker/marker-icon.svelte",
+      "size": 499,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4134fb60e11a7378cc7beeb9a386a2942756688f5040b98a5365ff0f8a883303"
+    },
+    {
+      "path": "src/lib/components/ui/marker/marker.svelte",
+      "size": 1493,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "217a6e86824a90e24515c437a85b7d9ecece4fb12f8bce4e6d8cb364d0c20fee"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/index.ts",
+      "size": 1506,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "c143941584e3e021f443e14696c60d933a08fb23617e87d3053e7d57b08cd3b4"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-checkbox-item.svelte",
+      "size": 1495,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5a5e9d6fec6053c34c85962dc3617ac2ffa3e470c3fb332796fb67d3db9a0211"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-content.svelte",
+      "size": 1179,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5d541c5e19ccce3adbb43525594d6a18bc2d8256ce0217e2cc01f12e8b0da976"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-group-heading.svelte",
+      "size": 545,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "76ca9979b588d3ccd7bdbc5b1a12767e6be62b1c64261f6863bd28fb6690fdb5"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-group.svelte",
+      "size": 281,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7d5cce3b6701cbbebfbd31165cd54dbe467f11cb6f8a9203e7b742a54b2c5538"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-item.svelte",
+      "size": 1156,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "eacc6af72410f78be25aef29b04008e521fc71f00ecffc0f78f19dcdcae7efca"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-label.svelte",
+      "size": 552,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "54d5924346db6b55cceb92ab247aa63642ce1827a3ef5dfe8b9ce25d3c427fa8"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-menu.svelte",
+      "size": 190,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "66be33ad897320ab874e94c266c4935a0138189844a9ff99ca18870bcc834501"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-portal.svelte",
+      "size": 194,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0cf6e74112f4b30b4126b38ac054a6995d5193a972091391a113dea93a5fa4fe"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-radio-group.svelte",
+      "size": 307,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "2c46ad49481ea5aade0289e89c4e40fb29a8111f2dc7acf5f0273aba62667c77"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-radio-item.svelte",
+      "size": 1235,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7d3daeaea4de28d73fc7e46616697cca169579791b456808a26691168bef1eb2"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-separator.svelte",
+      "size": 393,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "600b91243f0ace0bdad01f6eb0694ac9d9fd819b6a2cf3eb0469e12295051244"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-shortcut.svelte",
+      "size": 533,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3246b85c4bb3b4dd0a46cecce24472c37f099627cfe8435f85c317bdb8c16432"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-sub-content.svelte",
+      "size": 1199,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "8aec9b8f24f477bcf40c2cfa4ee9657401eded962de6248a48a96b2ba065810c"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-sub-trigger.svelte",
+      "size": 915,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3c8f28306a307a87ea311c26fb8e1c040877a92d238da3ba352fc3543f437fb3"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-sub.svelte",
+      "size": 223,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d6740b0060d04bcaff496fbf24ccc0bdcf6e09834088e1ce7595126e7539a226"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar-trigger.svelte",
+      "size": 485,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7014cc8ba181fdc28a60f3ece951777a1fd76931b2d008ad5875d111a9b1408e"
+    },
+    {
+      "path": "src/lib/components/ui/menubar/menubar.svelte",
+      "size": 407,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "56943265c86e106414085597025cfc1a98d99e3aee26a833f073c760e1955263"
+    },
+    {
+      "path": "src/lib/components/ui/message/index.ts",
+      "size": 484,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "205f411cf3616d705f621bcf5361b26ed01232ef6c9135aa708f2245601cde7e"
+    },
+    {
+      "path": "src/lib/components/ui/message/message-avatar.svelte",
+      "size": 596,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4ac16742a73b8afa79a09142cdc11080d6cbe23870e9bbd31c917819c603d596"
+    },
+    {
+      "path": "src/lib/components/ui/message/message-content.svelte",
+      "size": 532,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0e5edb122eee06ab938cd80144752a980b800b1c209bf1c04d413e807ffa0607"
+    },
+    {
+      "path": "src/lib/components/ui/message/message-footer.svelte",
+      "size": 604,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "86acf447c6e01b207a5afdf37cae671092b02df738ca26f0a34a718d6544d3f3"
+    },
+    {
+      "path": "src/lib/components/ui/message/message-group.svelte",
+      "size": 453,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "345052d615dcab0ef4599175a338e9a7a8c133e2c99a8090fa1f4ed17d57caad"
+    },
+    {
+      "path": "src/lib/components/ui/message/message-header.svelte",
+      "size": 554,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "47322eebbca0322ff204f82ef3a51ee03ff0bb9b2fe21a905cae6bc73b2c5ffe"
+    },
+    {
+      "path": "src/lib/components/ui/message/message.svelte",
+      "size": 590,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "2d1f365d7d70a5e08c59c595c32006541a4e3382c0e2a74a9e249ee0188f6284"
+    },
+    {
+      "path": "src/lib/components/ui/native-select/index.ts",
+      "size": 281,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5b4a2b59e247be89e9586dd8e82e3e6578698be5ca03e5332d70383646ff201a"
+    },
+    {
+      "path": "src/lib/components/ui/native-select/native-select-opt-group.svelte",
+      "size": 474,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "135996bd68676cb520c88b647a87795145a6da748aaed04e5af6a50f1161ed70"
+    },
+    {
+      "path": "src/lib/components/ui/native-select/native-select-option.svelte",
+      "size": 464,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ea37761cf5f84d25af6463edd5034810b7800c5c50a0fa4ef9bcfb53fb262cde"
+    },
+    {
+      "path": "src/lib/components/ui/native-select/native-select.svelte",
+      "size": 1611,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0bed979de3baa4499755e94037371a130f50f0d5e5eb337a23fd32a4d5d0ea3a"
+    },
+    {
+      "path": "src/lib/components/ui/navigation-menu/index.ts",
+      "size": 775,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7d65024d7a19618d9dc20559306452c4b151ecb987ec0bbb16d95d096381a3ac"
+    },
+    {
+      "path": "src/lib/components/ui/navigation-menu/navigation-menu-content.svelte",
+      "size": 1857,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "a919010e1f96536d3b538c00d6317447c2e6a66866e964181749c17dc05369aa"
+    },
+    {
+      "path": "src/lib/components/ui/navigation-menu/navigation-menu-indicator.svelte",
+      "size": 725,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "934628372d4d6981b581ac08859e552c6839aae1c28da08f180e6df5d0aaec81"
+    },
+    {
+      "path": "src/lib/components/ui/navigation-menu/navigation-menu-item.svelte",
+      "size": 397,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "58da727bee406f68987a39847835bc45dafd7459de708f33cfb3e26a7e917874"
+    },
+    {
+      "path": "src/lib/components/ui/navigation-menu/navigation-menu-link.svelte",
+      "size": 753,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5f424b18293c0d6c556a92df004f1cb0a86adcc65af70642081d96b14c89949d"
+    },
+    {
+      "path": "src/lib/components/ui/navigation-menu/navigation-menu-list.svelte",
+      "size": 457,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "23d29ef4d9a477816eca95e5ad8f14fabe7b049519b8181adb7d3f1e6a72ce22"
+    },
+    {
+      "path": "src/lib/components/ui/navigation-menu/navigation-menu-trigger.svelte",
+      "size": 1350,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5d16c33cc989e64d146b6456a92ddac6e1312a7933853ad3f96f88ad46ed4602"
+    },
+    {
+      "path": "src/lib/components/ui/navigation-menu/navigation-menu-viewport.svelte",
+      "size": 878,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "2a88177cd836b4e59694d13df70f6a8dab026755eacaddfa9bc06f3321a97153"
+    },
+    {
+      "path": "src/lib/components/ui/navigation-menu/navigation-menu.svelte",
+      "size": 747,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d06d3a98db703b516d1ff217170124deb19bdbd2c3fac829551a3de9b504ce68"
+    },
+    {
+      "path": "src/lib/components/ui/pagination/index.ts",
+      "size": 846,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f44e6beed47819f055bb611fef35e554b9ac4cd0678d5234e1cf7a88adc7fe4e"
+    },
+    {
+      "path": "src/lib/components/ui/pagination/pagination-content.svelte",
+      "size": 454,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f73f3d6c72d322c4db1acf7578dbb68056088890f7559910a8d406248bd333b1"
+    },
+    {
+      "path": "src/lib/components/ui/pagination/pagination-ellipsis.svelte",
+      "size": 700,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5ed064f5622d17b88bfb8be9c1ff189d57543a5afb9588ae56d2b9d675636051"
+    },
+    {
+      "path": "src/lib/components/ui/pagination/pagination-item.svelte",
+      "size": 359,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4a242d20f3841c5bdc2927790110aed472a55c9471471b1ee817af6cd7a85a54"
+    },
+    {
+      "path": "src/lib/components/ui/pagination/pagination-link.svelte",
+      "size": 879,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b8678795dd9d03af5defd1989f771151f08c59da4954b8df97c35d0bb561e5b9"
+    },
+    {
+      "path": "src/lib/components/ui/pagination/pagination-next-button.svelte",
+      "size": 790,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "1cf62c53f6ba145c652faba5c0cbbab12ffbaa8e59bc3d2aba2f2055161a223e"
+    },
+    {
+      "path": "src/lib/components/ui/pagination/pagination-next.svelte",
+      "size": 720,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f27e2d17437dc6ca5ec4c87171ef546739f6f6df49a622b791dcfc6c53e25df8"
+    },
+    {
+      "path": "src/lib/components/ui/pagination/pagination-prev-button.svelte",
+      "size": 795,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "46b7ed91da2e10d96b40d9e7875d93477590a2bf0669cd285bca9ad3cadc0ccd"
+    },
+    {
+      "path": "src/lib/components/ui/pagination/pagination-previous.svelte",
+      "size": 736,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7bd058e71cc9ee1171764c1dc87c88fc70e4c4b7c8e5674746a357418802e17a"
+    },
+    {
+      "path": "src/lib/components/ui/pagination/pagination.svelte",
+      "size": 560,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b2039b2d3f304975da395b45a01903da68f822d8bbcae75cb5ec565a89b0d7dd"
+    },
+    {
+      "path": "src/lib/components/ui/popover/index.ts",
+      "size": 671,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "6d1d43ce7deeebfa752727224c91962335fbc9fedd1ff007cffcdc4efc4e264f"
+    },
+    {
+      "path": "src/lib/components/ui/popover/popover-close.svelte",
+      "size": 250,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "bec13457158cb16ba4a0d45789ef2a6b6f3b2c84e14c819ebfa8eca76baced77"
+    },
+    {
+      "path": "src/lib/components/ui/popover/popover-content.svelte",
+      "size": 1210,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "11c69b94de4d18f77fb6dbc3724741e2af93e1e042e2d82b4f7057a5ad2b7fbc"
+    },
+    {
+      "path": "src/lib/components/ui/popover/popover-description.svelte",
+      "size": 453,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b09954f4f0432e942e8d36622d9c3da4037b9742b97616afcd89656a1962637f"
+    },
+    {
+      "path": "src/lib/components/ui/popover/popover-header.svelte",
+      "size": 454,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b894558f9f899f02012405299855bed1c4c8f8a92e95e8df1a392b253444c2a7"
+    },
+    {
+      "path": "src/lib/components/ui/popover/popover-portal.svelte",
+      "size": 194,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4db64c036aace1359a29d703a842998a6c74b17e84900eb6289cedc5f37ff43a"
+    },
+    {
+      "path": "src/lib/components/ui/popover/popover-title.svelte",
+      "size": 437,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "379e2ec16fab212b1a572702e8eccab7142fc12c8c6bfb7c0397c4cb598dfe1a"
+    },
+    {
+      "path": "src/lib/components/ui/popover/popover-trigger.svelte",
+      "size": 358,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "c352f6218a133950b6656553f3671757b9c733dbf2faf32bd40e2dd949557065"
+    },
+    {
+      "path": "src/lib/components/ui/popover/popover.svelte",
+      "size": 225,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9697cf96a4ab4970b93e0aafd3962aaa21a97d88d2976886f2a7dd22db87b1ca"
+    },
+    {
+      "path": "src/lib/components/ui/progress/index.ts",
+      "size": 81,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "047b1de9082bd67dde821e907845484557cfbac5525dd672434250420d61e6d6"
+    },
+    {
+      "path": "src/lib/components/ui/progress/progress.svelte",
+      "size": 726,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "a37c348c2753b314efcd3723ff528894222325fa308294482dce27d63ef8f8aa"
+    },
+    {
+      "path": "src/lib/components/ui/radio-group/index.ts",
+      "size": 164,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "362d6e9a225a65e43e6f223a3a4b9aea4a3c3e6fe7f5d66464ee4df3e8df18f5"
+    },
+    {
+      "path": "src/lib/components/ui/radio-group/radio-group-item.svelte",
+      "size": 1620,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "77853d3fb9ec2a5b1ebd262e5306030b7ba429a4aa8b18e4358799b0c1b72471"
+    },
+    {
+      "path": "src/lib/components/ui/radio-group/radio-group.svelte",
+      "size": 418,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0ddbbbac68c8f11f504224a386116fb808cc8f3a2bd99985462277653b0dba36"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/index.ts",
+      "size": 1192,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "6aa3eac823a0e3baa6d5d03c2cc0d56ed52299049902e2094e4cab20385ace16"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-caption.svelte",
+      "size": 2354,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "76ad6a933f1aade630a77fe33f12c397335f91e12a3fceb2bbf0488d09224803"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-cell.svelte",
+      "size": 1110,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "12c7d9e6cda838bb6f743dded1d2e7e93c44abf5a375339620e06fa935b321ac"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-day.svelte",
+      "size": 1571,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b05d8125df2b9d16ed0adc6d348cfe0b55484ca40e88702240402946a37231f9"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-grid-body.svelte",
+      "size": 254,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9f5056f09fe21e8d419ce2a23e47dc15a10050085cb3f8a11efac18a8f0bf341"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-grid-head.svelte",
+      "size": 254,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "581c6173b249f24a01c1759432578a8b6cb16acabb1acb7fbff073d7acddd58b"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-grid-row.svelte",
+      "size": 358,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f1e001584d4c176bf022c8f237f8d3cfd8d6b735042e0383fef8ab8c80b49528"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-grid.svelte",
+      "size": 398,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "6b0bc56c2718bc1cbfbd2da19d9a6ef4068aabca5ceb44b8d0c2244ab0f1df40"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-head-cell.svelte",
+      "size": 440,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "c78a30f169e31c224f57138ef4d3f5fb5f2414c9fa77af8d14fdc13763c3091a"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-header.svelte",
+      "size": 445,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7561b9e58e04d60273cea6a0a088ecca788fc4ee3f041570e2799b6e91456ba1"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-heading.svelte",
+      "size": 393,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "14a60629e5c70af33cd845d5d90e1013d4f31a06c691d5e938ce836c5c64d131"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-month-select.svelte",
+      "size": 1472,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b5a7de5f708cac87080e962c3f4480f8a2f57fe5828894ea206f6f23ec4ba54d"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-month.svelte",
+      "size": 405,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "bbfef0a76d430bbb7e9bf4053f8bbb821639b0c52a47cb193631316eb93a8e26"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-months.svelte",
+      "size": 439,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9140e8cd6086f49df6ee6202e2c54fc5eb52b18aecb5c838cca1b81892448f7d"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-nav.svelte",
+      "size": 467,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "05e2ed1c2b9911829c8fb98ad4076261b0f3796ecc50ffdf0ecd75c094e17421"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-next-button.svelte",
+      "size": 931,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "10cd3936e3ba4182e8bce4e5625c089b9d64ce6b1bf04cbbba6e9ce0bb8da0e4"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-prev-button.svelte",
+      "size": 928,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "61e91bd0ca416d9137c5eca72263a6ecfef7d0486b28ce0045e4e87a306e53dc"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar-year-select.svelte",
+      "size": 1434,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4969b7f41eb421c75cda09605f285f66c89a133d57abf0c770cb6c5853d926ca"
+    },
+    {
+      "path": "src/lib/components/ui/range-calendar/range-calendar.svelte",
+      "size": 3481,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "2dfeb36f9c4f6ef1af3dab6c28e925271630724773fc79ca452ddee4e953edbf"
+    },
+    {
+      "path": "src/lib/components/ui/resizable/index.ts",
+      "size": 268,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "43adf3c048151a6417d06f58ca3e8e42ea4286d38d4b0d3ccc79c7fa5808485f"
+    },
+    {
+      "path": "src/lib/components/ui/resizable/resizable-handle.svelte",
+      "size": 1163,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "14b85cb2f4d19f37b27baa37e4825ecac01ad1851051471e6ebed457b3b1323a"
+    },
+    {
+      "path": "src/lib/components/ui/resizable/resizable-pane-group.svelte",
+      "size": 531,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "efc47c50857e8aa2551077d43341822b28ed880f0d816de7b5f9f34162a07f1b"
+    },
+    {
+      "path": "src/lib/components/ui/scroll-area/index.ts",
+      "size": 190,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9b88919b9751aa6bcc575ce5f848c4f1098336867d2a4c982a7d9071712dc26e"
+    },
+    {
+      "path": "src/lib/components/ui/scroll-area/scroll-area-scrollbar.svelte",
+      "size": 938,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "477dfa92f4909f6a3fd805db78c57ce888dd05441ceab6943c02f740eac7e19c"
+    },
+    {
+      "path": "src/lib/components/ui/scroll-area/scroll-area.svelte",
+      "size": 1398,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4188790d8961e26848e12ebcb4ece4dfa633b2973faf5a274272e784f78ebf2a"
+    },
+    {
+      "path": "src/lib/components/ui/select/index.ts",
+      "size": 1071,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "bc04c69cc47b7caed758af0ace370ccc0eb8adc969797108fce8eb80e89c73ac"
+    },
+    {
+      "path": "src/lib/components/ui/select/select-content.svelte",
+      "size": 1777,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3bea7ff19d4d456de1482e1c52793782de2b5844e4fadb5bebb05ca0341f1a7d"
+    },
+    {
+      "path": "src/lib/components/ui/select/select-group-heading.svelte",
+      "size": 546,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "dcabe893b95cbcf24fa4c92328a9f3d600e03e295630b663a6811609e59f9526"
+    },
+    {
+      "path": "src/lib/components/ui/select/select-group.svelte",
+      "size": 366,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9165eb6dfee3515194f92d5fc681e218c013c4df327d40dd1f086290e03df1da"
+    },
+    {
+      "path": "src/lib/components/ui/select/select-item.svelte",
+      "size": 1456,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9ac7ca2973b331d1fb2f8d195a1a4c07e87daa8d94457b47626ea8c81b5f34a5"
+    },
+    {
+      "path": "src/lib/components/ui/select/select-label.svelte",
+      "size": 471,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ff9501f9cd87a3ff8f3b5ff78583834edfdf93384dc0fb91f6fca2c8aecdae39"
+    },
+    {
+      "path": "src/lib/components/ui/select/select-portal.svelte",
+      "size": 190,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3ad1139eaca3b9c989495982493c99f42893d1aafbbf2f4aaab6fd117fbab742"
+    },
+    {
+      "path": "src/lib/components/ui/select/select-scroll-down-button.svelte",
+      "size": 667,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "194c2293264d4794a58bc2f4b772fd60a8b537f2823eb8330ff5a3dcf051efcc"
+    },
+    {
+      "path": "src/lib/components/ui/select/select-scroll-up-button.svelte",
+      "size": 653,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e73977cf6222ad6e1f816847f5c7728bd9208ba62777766a15da2195428ec391"
+    },
+    {
+      "path": "src/lib/components/ui/select/select-separator.svelte",
+      "size": 469,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "1491e29e9d2cfbeb4fb7cf0b7e4b2fa6aa272e012fb52d90ab211b5a5f97cb53"
+    },
+    {
+      "path": "src/lib/components/ui/select/select-trigger.svelte",
+      "size": 1532,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0320d81edb185356198cc0a425b956f36976f158fa4ad4f1b5e7b141efea2155"
+    },
+    {
+      "path": "src/lib/components/ui/select/select-value.svelte",
+      "size": 245,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d74206c96be85eb35c08d88bfefc082db217a164f1e13ff83536363edf28a455"
+    },
+    {
+      "path": "src/lib/components/ui/select/select.svelte",
+      "size": 277,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4a7062d01d4cd23edfb5667f3da7a829626c169dff46846d713af524ebf30704"
+    },
+    {
+      "path": "src/lib/components/ui/separator/index.ts",
+      "size": 83,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "beeaaaab286f1aeff1e43a8ef1c02a60de5e6349780d12af73e9646c6db98bf6"
+    },
+    {
+      "path": "src/lib/components/ui/separator/separator.svelte",
+      "size": 511,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "52c779a92fadd265ec6e683f75f69368fe4518d3126669c90e66c4f2a93cfe3e"
+    },
+    {
+      "path": "src/lib/components/ui/sheet/index.ts",
+      "size": 798,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "76e46597c822fc9a41b6b63b517ba313792cc4419c6e9ec2d6697e485dda9d06"
+    },
+    {
+      "path": "src/lib/components/ui/sheet/sheet-close.svelte",
+      "size": 241,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5513573158c75ade2db6b5a07b59cf40f60f26e456cd811cd1f492057608216d"
+    },
+    {
+      "path": "src/lib/components/ui/sheet/sheet-content.svelte",
+      "size": 2628,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d20542c5d5533fe475c73c6435b233fa3c845a1f34f885769da94ee4bfdded66"
+    },
+    {
+      "path": "src/lib/components/ui/sheet/sheet-description.svelte",
+      "size": 394,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d97073bebaf3222438cd6ab146851017e276d9dfcff3c1e2851ca6b3e402cb1f"
+    },
+    {
+      "path": "src/lib/components/ui/sheet/sheet-footer.svelte",
+      "size": 456,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "051dbbafc9f086dcda93d0831c610ef4c8c4eb3531ddf75bb89bd62025d5cd38"
+    },
+    {
+      "path": "src/lib/components/ui/sheet/sheet-header.svelte",
+      "size": 450,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b5e0274f071baa4d4fd7da5b7a973db60019ddd49380e9510f3b50be4732066a"
+    },
+    {
+      "path": "src/lib/components/ui/sheet/sheet-overlay.svelte",
+      "size": 533,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "42c40c70801a5a0fbbca767bb6dfcdf79a61e7eb32f308aa6e8dfb9158f45fd0"
+    },
+    {
+      "path": "src/lib/components/ui/sheet/sheet-portal.svelte",
+      "size": 187,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "9391a12d66727280eadc465b8edfa04134f92a28468218683140624feebe5c94"
+    },
+    {
+      "path": "src/lib/components/ui/sheet/sheet-title.svelte",
+      "size": 374,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "56f039f5f11117b0fb9ddf3d9705613e17c8583259ad14ecec776554cc3246dd"
+    },
+    {
+      "path": "src/lib/components/ui/sheet/sheet-trigger.svelte",
+      "size": 247,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5e22ce7c04bbe478db7c37a43128902563c90d53febe6aa5684a706c959ca05b"
+    },
+    {
+      "path": "src/lib/components/ui/sheet/sheet.svelte",
+      "size": 218,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "eed2a698206fc1fb24ca85f7ff351c8520a8fcc3f8fd489c04b974738088f00e"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/constants.ts",
+      "size": 279,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ea5f64cfad10009a71dc8148ca91b0db9f7bd386468300ff82e68093dffe2fa4"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/context.svelte.ts",
+      "size": 2352,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f037ee1261350f755dcde698e0bceb544ae2dcd6b1b0b2d4a1c5f7a27c40132d"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/index.ts",
+      "size": 2172,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d74498b2de3d3fbaa2e5944136d8f3e673de6a1d3f88a1440f9a88814640ba1f"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-content.svelte",
+      "size": 563,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "6240bc43fca95103b92b505a2a5955b82b5d4df5b8f43747eb1a593d016a3921"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-footer.svelte",
+      "size": 470,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e06ed66f472d139ef788a314996cfa7951f5b192c1e31f1b4817b78074638d5d"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-group-action.svelte",
+      "size": 1086,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7960a57bb51fd8702a94cd790b8d664f1dbf1d32f1ed23d1c5d2b3858f62194d"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-group-content.svelte",
+      "size": 478,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e4e3e8f66fd3fe3d908e60065015ac424c61cb45c2d44f79fd3a04d6fd7ed53e"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-group-label.svelte",
+      "size": 1022,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5e9c4442f578966eaa2c8ad99a50106f856fbf0a044667d4e58b5d65afb71afd"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-group.svelte",
+      "size": 486,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "49afd09a44c21c778366943525523a59065a70bedc52ef7271f1f35c58f39366"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-header.svelte",
+      "size": 470,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "1defc8492eb76e8758fcabf27943ad2217705d3b10ec30265653190dbf22243e"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-input.svelte",
+      "size": 486,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4b5033a5883a35f39158ec109a66319beeff9d34e60881bd71bce994ae5dce3c"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-inset.svelte",
+      "size": 683,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3a0faf05f8ac2d6610dd7d7a7bdf3d42d4faac8d0b3582c2ef0683104ba362c9"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-menu-action.svelte",
+      "size": 1508,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e3cdfff8104b550cd3409dab390ce17bcd92a7839604aebaba8df8341bf70ff3"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-menu-badge.svelte",
+      "size": 907,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "8509775a2ce3f966b611dd020ddac07ef738d3d7d872bdcea6311fe2fd521c6e"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-menu-button.svelte",
+      "size": 3673,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "97608ca348a737de9b49cce8c38771c4e420ca21627752e1476483051193f8e9"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-menu-item.svelte",
+      "size": 492,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5782aa92200e7592e0f7ca227348dc169fd7377c96173a51083eb88a7e93bcf4"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-menu-skeleton.svelte",
+      "size": 947,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3dabe770ef0cd570aa7c928c25fbcff863c4955223487fa9cf966575696c8bd8"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-menu-sub-button.svelte",
+      "size": 1493,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "aa9d2bb22261d8a539316e136a5c66e5243809e80abd11291c861912e60db198"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-menu-sub-item.svelte",
+      "size": 489,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3934abf786acfa9ca00f3642a50a77b36bf57d09057f827cb42df2b9c061388e"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-menu-sub.svelte",
+      "size": 634,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "aba6099a13134676b3a2c28ae39f2fed275aa306ad92b38ffcb3b44580d5f5ba"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-menu.svelte",
+      "size": 498,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "b9341f61698785731fe5b11673b0416b4ce44042969c4f4fe7251fa02ebf1887"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-provider.svelte",
+      "size": 1396,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "dd3ecbd701e02d76f26e7ccf6309e72807031b763b6bb2d793a82c071ee638d1"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-rail.svelte",
+      "size": 1408,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "62c4039d554df147a1b1958f46a7150ae160140165401a295de6a34affbec2e6"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-separator.svelte",
+      "size": 466,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "629d76b9ad4699cb0d9ce2be6653b356750f3e392beea5cbb66a420301a06616"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar-trigger.svelte",
+      "size": 817,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "c1b74e0e452aa57f6cff7757da227555f640c281ae507e3638cb8ebe5d7d4caa"
+    },
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar.svelte",
+      "size": 3538,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "c3243a7c46f59558766ea1600eb3bd422c0d54c2ec4f5ea065fd9b43703f3a88"
+    },
+    {
+      "path": "src/lib/components/ui/skeleton/index.ts",
+      "size": 81,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "25f4d78e3dbd09eaf8eaa356a6a907f2e9b8f701190bcc402ee698a39974ca65"
+    },
+    {
+      "path": "src/lib/components/ui/skeleton/skeleton.svelte",
+      "size": 456,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "be3b4b033a023e2ee37d21aa14f4187ee26d304f17e3b62a07b49d2516af83df"
+    },
+    {
+      "path": "src/lib/components/ui/slider/index.ts",
+      "size": 77,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "0e2bda41f2c93303b7c87ddf67ff6e1d05ecfdfb3e834fbf5707ba6961eeb4d5"
+    },
+    {
+      "path": "src/lib/components/ui/slider/slider.svelte",
+      "size": 1735,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4091984c5b2f519f753d5265d19595d75dbdac42bddc88e69728ab70b25257cd"
+    },
+    {
+      "path": "src/lib/components/ui/sonner/index.ts",
+      "size": 54,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "a72067e92f2db255eb6133c065bf75ef5650abcd9487ddbd9db118ca99b9dcca"
+    },
+    {
+      "path": "src/lib/components/ui/sonner/sonner.svelte",
+      "size": 1150,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "a3b657be6792a8195a9dd66a3687c75ac8cbb7da3e97d00ffa57f8c6437c0975"
+    },
+    {
+      "path": "src/lib/components/ui/spinner/index.ts",
+      "size": 55,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "ce8a9f311c7abdc8773e2ce6439c89f0c8a9edbc273f5ff44e3f31cd380420c6"
+    },
+    {
+      "path": "src/lib/components/ui/spinner/spinner.svelte",
+      "size": 868,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "92df7113f1c3337dcdcd0a2e222dcb9d1098c70f6d14884a644daf8705a44549"
+    },
+    {
+      "path": "src/lib/components/ui/switch/index.ts",
+      "size": 77,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "29fe3052a55b69e37d9995a3a74ad196bda339c438596bda0dac0bde426a420b"
+    },
+    {
+      "path": "src/lib/components/ui/switch/switch.svelte",
+      "size": 1948,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e3e3ae75681c83c8e587e93d3323d7a31ab8c3f81683503c31bc03eb4566dfa1"
+    },
+    {
+      "path": "src/lib/components/ui/table/index.ts",
+      "size": 574,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "25acd0f0d67391720a63212a88a31b27490041addf0000284e3200a18e808eea"
+    },
+    {
+      "path": "src/lib/components/ui/table/table-body.svelte",
+      "size": 457,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "5eecc51539fb8aec1195597fef4c13ca96a8784e09cf821f8b6fa4491f8542dd"
+    },
+    {
+      "path": "src/lib/components/ui/table/table-caption.svelte",
+      "size": 465,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "262d484c8998d4c9c244668276445ed3d8e47de12e4878b3d3af20fadac535da"
+    },
+    {
+      "path": "src/lib/components/ui/table/table-cell.svelte",
+      "size": 468,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "65f539503e1c1e88d0d06ec5ea6016b44696b31547d3332054280b7625777afa"
+    },
+    {
+      "path": "src/lib/components/ui/table/table-footer.svelte",
+      "size": 493,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "434b15731da035bb87f75687955ba5b149283ebcfe63a76c8ec7bbdb56fd2749"
+    },
+    {
+      "path": "src/lib/components/ui/table/table-head.svelte",
+      "size": 512,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "dbdfabcac22c3f654d549cfc333a291cc15d42316566c594731529a46ab03acb"
+    },
+    {
+      "path": "src/lib/components/ui/table/table-header.svelte",
+      "size": 453,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "4a136f3bc9714745df4d2428a1b737c63bb00e7b9933a540543e30ddef57a104"
+    },
+    {
+      "path": "src/lib/components/ui/table/table-row.svelte",
+      "size": 530,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "28b8f4d64bbd2f78f65a4dc6a79a03867ad49e5db2057347f3d00ff64251a9d6"
+    },
+    {
+      "path": "src/lib/components/ui/table/table.svelte",
+      "size": 524,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "05ea8de379b0255477725f90e632fb099fd8bf87f5767817c1b00328fba15f0f"
+    },
+    {
+      "path": "src/lib/components/ui/tabs/index.ts",
+      "size": 384,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "e8c5e55fb540595b2a250f2ffd292cac31b2b272820df0f36df348351c7a84b5"
+    },
+    {
+      "path": "src/lib/components/ui/tabs/tabs-content.svelte",
+      "size": 374,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "7fa5230ff943129c83c9d4a41ce9ebb4698803a8dbc82d5fe2416fe88b0b002e"
+    },
+    {
+      "path": "src/lib/components/ui/tabs/tabs-list.svelte",
+      "size": 1061,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "11880cf61104dbc7c4b410c43d0ee18d7792315b20433b7224abfcb206afbd37"
+    },
+    {
+      "path": "src/lib/components/ui/tabs/tabs-trigger.svelte",
+      "size": 1959,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "f13353bf448fc935b0e1815e6cf2928ca7aff29b1476db036b2e0a1d716b0948"
+    },
+    {
+      "path": "src/lib/components/ui/tabs/tabs.svelte",
+      "size": 416,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "46e64314da2bfef489c54f02b607c862624effeae38be65eec355f4a19177700"
+    },
+    {
+      "path": "src/lib/components/ui/textarea/index.ts",
+      "size": 81,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3b5f25dfd5d1d9b5305f613f7544a7e39362cd4b0a9c3250414cd5ff02e45398"
+    },
+    {
+      "path": "src/lib/components/ui/textarea/textarea.svelte",
+      "size": 1021,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "88e332c43aac2b02cc05884ead65f8dff535785e0fa41c796b8ab0954c146ed2"
+    },
+    {
+      "path": "src/lib/components/ui/toggle/index.ts",
+      "size": 190,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "96772363857f0c48a0b412dd27a84857a5940273e02b583ae03ebcf2aeda50ef"
+    },
+    {
+      "path": "src/lib/components/ui/toggle/toggle.svelte",
+      "size": 1935,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d24283cb7b81ece407e6ad1bde01dfc4f48ee048b00fd6918836a3cfd4f6d956"
+    },
+    {
+      "path": "src/lib/components/ui/toggle-group/index.ts",
+      "size": 168,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "bf1fbf2a05265a8520afd79845049548688b1c040441892fec5d8fc8d4971585"
+    },
+    {
+      "path": "src/lib/components/ui/toggle-group/toggle-group-item.svelte",
+      "size": 1789,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "86653e348504408ec313abbcd440da389131da92961ab66688743250ded86ef4"
+    },
+    {
+      "path": "src/lib/components/ui/toggle-group/toggle-group.svelte",
+      "size": 1857,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "27ee92170d962f4b98d7fdb5a8822875d7993d556a23111f621aee484d6355fa"
+    },
+    {
+      "path": "src/lib/components/ui/tooltip/index.ts",
+      "size": 423,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "a5924dc1196bf9f431af3ef3d9675ded3f30d38f9f3148118cb6f4cad433e0c4"
+    },
+    {
+      "path": "src/lib/components/ui/tooltip/tooltip-content.svelte",
+      "size": 2150,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "c77b996d39f84c6766eee18b80c9d87bf1314b9f8da1f51f2f247baafcf16a83"
+    },
+    {
+      "path": "src/lib/components/ui/tooltip/tooltip-portal.svelte",
+      "size": 194,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "d38e62fa30732ba5ea79df440badb59331d22c13a19fdc1ad777857f6039b648"
+    },
+    {
+      "path": "src/lib/components/ui/tooltip/tooltip-provider.svelte",
+      "size": 233,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "3599daffb73460dc3377582b99fb04503cc1f3facd660f99db5e9c785c48367e"
+    },
+    {
+      "path": "src/lib/components/ui/tooltip/tooltip-trigger.svelte",
+      "size": 280,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "139ecd079c457f1318a8cfee9495143859a84fda92b0b811e893a738b46dddbd"
+    },
+    {
+      "path": "src/lib/components/ui/tooltip/tooltip.svelte",
+      "size": 249,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "a33d843a5e4e6e5fe426654f6742a453f44f4ff928e94a21d188d9035e4d02f8"
+    },
+    {
+      "path": "src/lib/components/ui/utils.ts",
+      "size": 495,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "dd7655a5da820337bc13825305885e2aedc6649dfd1149087550de6a9b334472"
+    },
+    {
+      "path": "src/lib/hooks/is-mobile.svelte.ts",
+      "size": 243,
+      "allocated": 4096,
+      "type": "file",
+      "sha256": "a40889d62426f7b4b588bf4b6a099a46141245b22e1f80ee6a4c8194851431ba"
+    }
+  ],
+  "adaptations": [
+    {
+      "path": "src/lib/components/ui/sidebar/sidebar.svelte",
+      "originalRegistrySha256": "c3243a7c46f59558766ea1600eb3bd422c0d54c2ec4f5ea065fd9b43703f3a88",
+      "currentSha256": "63a4da872cb19e41507c36ff92cb193d57c75a027876ddf26b28e091bff63b2d",
+      "reason": "Sidebar.Trigger is independent of Sheet.Trigger. Expose typed optional onMobileCloseAutoFocus and forward it only to mobile Sheet.Content so the host can restore focus to its actual trigger.",
+      "redEvidence": "Coordinator reported 48/50 browser cases passed; both mobile Sidebar focus-return cases failed before adaptation",
+      "verification": "Coordinator session44467 exited0: all50 component cases passed across Chromium and WebKit, including mobile Escape dialog closure and focus return. Host also limits tooltip admission to collapsed desktop navigation; the callback alone did not resolve the initial failures.",
+      "verificationEvidence": "/root/ipi/research/disk-coordination-2026-10-04/ROM-shadcn-tooltip-focus-verification.json"
+    }
+  ]
+}

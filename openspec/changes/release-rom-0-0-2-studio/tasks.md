@@ -13,6 +13,7 @@
 - [x] 3.2 Implement shared field renderers, forms, tables, queries, and action controls.
 - [x] 3.3 Implement optional Rust hosting and tested human login/session boundaries.
 - [x] 3.4 Add Users, Providers, Settings, and Work views using shared Resource components.
+- [x] 3.5 Install the complete official shadcn-svelte component set. Apply its responsive Sidebar and controlled inputs to all generic views. Verify keyboard, mobile, draft and recovery behavior.
 
 ## 4. Integrated resilience and ergonomics
 - [x] 4.1 Test real browser workflows on both stores, including held-out Resources and keyboard operation.

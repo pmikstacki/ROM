@@ -29,12 +29,12 @@
   );
 </script>
 
-<h2>{descriptor.kind}</h2>
+<h1 class="text-xl font-semibold tracking-tight">{descriptor.kind}</h1>
 <QueryEditor
   {descriptor}
   onchange={(query) => void controller.selectKind(descriptor.kind, query)}
 />
-<div class="toolbar">
+<div class="toolbar flex flex-wrap gap-2">
   <Button disabled={snapshot.busy} onclick={() => void controller.refresh()}
     >Refresh</Button
   ><Button
@@ -47,7 +47,10 @@
   >
 </div>
 {#if snapshot.busy}<p role="status">Loading…</p>{/if}
-{#if create}<section aria-label="Create Resource">
+{#if create}<section
+    class="space-y-4 rounded-lg border bg-card p-4"
+    aria-label="Create Resource"
+  >
     <label>Resource ID<Input bind:value={id} /></label><ResourceForm
       {descriptor}
       mode="create"
@@ -57,7 +60,10 @@
       }}
     />
   </section>{/if}
-<nav aria-label="Query pages">
+<nav
+  class="flex flex-wrap items-center gap-2 text-xs text-muted-foreground"
+  aria-label="Query pages"
+>
   <Button
     disabled={snapshot.busy || snapshot.page === 1}
     onclick={() => void controller.firstPage()}>First page</Button
@@ -70,17 +76,40 @@
     onclick={() => void controller.nextPage()}>Next page</Button
   >
 </nav>
-<ResourceTable
-  {descriptor}
-  rows={snapshot.rows}
-  onselect={(row) => void controller.selectRow(row.key.id)}
-/>
-{#if snapshot.selected && snapshot.selected.key.kind === descriptor.kind}{#key snapshot.selected.key.id}<ResourceDetails
+<div
+  class={snapshot.selected?.key.kind === descriptor.kind
+    ? "grid items-start gap-4 xl:grid-cols-[minmax(0,1fr)_24rem]"
+    : "grid gap-4"}
+>
+  <div class="min-w-0">
+    <ResourceTable
       {descriptor}
-      selected={snapshot.selected}
-      {blocked}
-      onmutate={async (expected, operation) => {
-        await controller.mutate(snapshot.selected!.key.id, expected, operation);
+      rows={snapshot.rows}
+      onselect={(row) => {
+        void controller.selectRow(row.key.id);
       }}
-      onreload={() => void controller.selectRow(snapshot.selected!.key.id)}
-    />{/key}{/if}
+    />
+  </div>
+  {#snippet details()}
+    {#if snapshot.selected && snapshot.selected.key.kind === descriptor.kind}
+      {#key snapshot.selected.key.id}<ResourceDetails
+          {descriptor}
+          selected={snapshot.selected}
+          {blocked}
+          onmutate={async (expected, operation) => {
+            await controller.mutate(
+              snapshot.selected!.key.id,
+              expected,
+              operation,
+            );
+          }}
+          onreload={() => void controller.selectRow(snapshot.selected!.key.id)}
+        />{/key}
+    {/if}
+  {/snippet}
+  {#if snapshot.selected && snapshot.selected.key.kind === descriptor.kind}
+    <aside class="rounded-lg border bg-card p-5 xl:sticky xl:top-4">
+      {@render details()}
+    </aside>
+  {/if}
+</div>

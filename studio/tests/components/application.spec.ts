@@ -64,6 +64,7 @@ test("real SDK composes two metadata-driven pages; logout clears details", async
   await expect(
     page.getByRole("heading", { name: "Task", exact: true }),
   ).toBeVisible();
+  await expect(page.getByRole("button", { name: "Task", exact: true })).toHaveAttribute("aria-current", "page");
   await page.getByRole("button", { name: "Open one" }).click();
   await expect(
     page.getByRole("heading", { name: "Resource one" }),
@@ -72,6 +73,8 @@ test("real SDK composes two metadata-driven pages; logout clears details", async
   await expect(
     page.getByRole("cell", { name: "Note value", exact: true }),
   ).toBeVisible();
+  await expect(page.getByRole("button", { name: "Note", exact: true })).toHaveAttribute("aria-current", "page");
+  await expect(page.getByRole("button", { name: "Task", exact: true })).not.toHaveAttribute("aria-current", "page");
   await expect(
     page.getByRole("heading", { name: "Resource one" }),
   ).not.toBeVisible();
