@@ -247,3 +247,17 @@ a package defect or a passing fixture result.
 This gate uses browser fixtures and local frontend assets. It does not build
 the current native host or test extracted production assets. The release
 producer, release-bound preview, and main integration remain pending.
+
+The temporary VPN preview now serves the local production frontend from
+commit `1700156`. Its `index.html` SHA-256 is
+`4d41741246a56670650aed1e2080a14e2c6d08b874335a67d208510d3b5a238c`.
+The earlier frontend directory remains at
+`/run/rom-studio-interactive-0c400079/assets.before-icons-1700156`.
+The temporary native executable remains the older binary with SHA-256
+`c93a20cfc1d92cc6e3e6f613105bbbcc61468179008fc118fafabb994d1c88f3`.
+Its transient service was restarted because it held the old asset bundle in
+memory. After restart, HTTPS returned 200 for the root and new JavaScript.
+A Chromium mobile browser completed the demonstration login, opened Inventory,
+found the named icon controls, and measured the details button beside Filters.
+The page had no horizontal overflow at a 390-pixel viewport. This temporary
+service does not prove reboot persistence or release input binding.
