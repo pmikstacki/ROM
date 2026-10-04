@@ -261,3 +261,29 @@ A Chromium mobile browser completed the demonstration login, opened Inventory,
 found the named icon controls, and measured the details button beside Filters.
 The page had no horizontal overflow at a 390-pixel viewport. This temporary
 service does not prove reboot persistence or release input binding.
+
+## Read-only inspection follow-up: commit `5cee8fb`
+
+An independent review found that stale or changed Resource forms blocked the
+collection dialog. Users could see an item count but could not inspect the
+value before recovery. The same review found incorrect Save wording in action
+input dialogs. The correction keeps read-only values viewable and prevents
+edits, submission, and deletion. Action dialogs now describe form submission.
+
+The corrected source passed `./scripts/studio-browser-runtime-check` on
+2026-10-04. The [raw log](evidence/rom-0.0.2/field-ux/studio-browser-runtime-readonly-5cee8fb.log)
+has SHA-256 `772335776a0a08e7fde33a62057b7c8abd33fbc49d2be6fde52d0b357b8a1235`.
+It records zero Svelte errors and warnings, 83 unit tests, 35 Node component
+tests, and 114 Chromium/WebKit browser component cases. The reviewer inspected
+the fix and the new stale/descriptor-change tests. The reviewer found no new
+interaction bypass in those paths. The reviewer did not rerun the gate.
+
+The temporary VPN preview now serves this frontend after a transient host
+restart. Its `index.html` SHA-256 is
+`7b6121b59d30a98573d7db718be0db6927d9214b9d82c5f04adec71ad61d11ba`.
+The older frontend remains at
+`/run/rom-studio-interactive-0c400079/assets.before-readonly-5cee8fb`.
+The native executable remains the older binary. The release producer and
+release-bound preview acceptance remain pending.
+An HTTPS Chromium mobile check completed the demonstration login, opened
+Inventory, and opened the Filters sheet through the details-panel button.

@@ -34,6 +34,13 @@ Node component tests. Svelte reported zero errors and warnings. This gate used
 fixtures and local frontend assets. It did not run the current native host or
 the final extracted-asset acceptance.
 
+An independent review then found a read-only inspection regression and
+incorrect action-input wording. Commit `5cee8fb` corrected both. Its
+[browser gate](evidence/rom-0.0.2/field-ux/studio-browser-runtime-readonly-5cee8fb.log)
+passed 114 Chromium/WebKit component cases. The reviewer confirmed the source
+fix and inspected the new tests. This does not change the pending release
+artifact or preview boundary.
+
 The shared disk has a 92 GiB safety floor. The most recent approved producer
 plan requires a finite reservation and advance launch notice. A source change
 requires a fresh admission and source identity check. Do not start an
