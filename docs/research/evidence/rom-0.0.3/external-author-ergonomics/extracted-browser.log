@@ -1,0 +1,22 @@
+{"program":"npm","args":["exec","--offline","--","playwright","test","--config","tests/playwright.config.ts"],"cwd":"/var/tmp/rom-003-external-author-ergonomics-fix/full-verifier/extracted/consumer","code":0,"timedOut":false,"spawn_failed":false}
+
+Running 4 tests using 1 worker
+
+{"backend":"sqlite","fixture_directory":"/var/tmp/rom-studio-host-browser-4VzZb2"}
+  ✓  1 [chromium] › tests/author.spec.ts:5:3 › external author renderer and generic sqlite flow (1.5s)
+{"backend":"redb","fixture_directory":"/var/tmp/rom-studio-host-browser-9e2Qve"}
+  ✓  2 [chromium] › tests/author.spec.ts:5:3 › external author renderer and generic redb flow (1.3s)
+{"backend":"sqlite","fixture_directory":"/var/tmp/rom-studio-host-browser-NzSm2a"}
+  ✓  3 [webkit] › tests/author.spec.ts:5:3 › external author renderer and generic sqlite flow (1.4s)
+{"backend":"redb","fixture_directory":"/var/tmp/rom-studio-host-browser-sPIFga"}
+  ✓  4 [webkit] › tests/author.spec.ts:5:3 › external author renderer and generic redb flow (1.2s)
+
+  4 passed (7.4s)
+(node:1209021) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+(node:1209929) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes

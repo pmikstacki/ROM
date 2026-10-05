@@ -1,0 +1,310 @@
+{
+  "config": {
+    "argv": [
+      "/nix/store/b3x7xvp565xqlj0whi2giwgbrplfwfpb-nodejs-22.16.0/bin/node",
+      "/var/tmp/rom-studio-accepted-source-RvZN1p/external-author/extracted/consumer/node_modules/.bin/playwright",
+      "test",
+      "--config",
+      "tests/playwright.config.ts",
+      "--output",
+      "/var/tmp/rom-003-external-author-ergonomics-fix/results-green",
+      "--reporter=list,json"
+    ],
+    "configFile": "/var/tmp/rom-studio-accepted-source-RvZN1p/external-author/extracted/consumer/tests/playwright.config.ts",
+    "rootDir": "/var/tmp/rom-studio-accepted-source-RvZN1p/external-author/extracted/consumer/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/var/tmp/rom-003-external-author-ergonomics-fix/results-green",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/var/tmp/rom-studio-accepted-source-RvZN1p/external-author/extracted/consumer/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "author.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/var/tmp/rom-003-external-author-ergonomics-fix/results-green",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/var/tmp/rom-studio-accepted-source-RvZN1p/external-author/extracted/consumer/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "author.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "author.spec.ts",
+      "file": "author.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "external author renderer and generic sqlite flow",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-KzyBUh"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1241,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "{\"backend\":\"sqlite\",\"fixture_directory\":\"/var/tmp/rom-studio-host-browser-KzyBUh\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T14:18:17.212Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-KzyBUh"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27a0d846e5fe7596e61c-6dc4dde8d84a0886e8b2",
+          "file": "author.spec.ts",
+          "line": 5,
+          "column": 3
+        },
+        {
+          "title": "external author renderer and generic redb flow",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-8JRB94"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1080,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "{\"backend\":\"redb\",\"fixture_directory\":\"/var/tmp/rom-studio-host-browser-8JRB94\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T14:18:18.596Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-8JRB94"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27a0d846e5fe7596e61c-0690bbe556a0a7e1acd3",
+          "file": "author.spec.ts",
+          "line": 5,
+          "column": 3
+        },
+        {
+          "title": "external author renderer and generic sqlite flow",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-9KXZdK"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1254,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "{\"backend\":\"sqlite\",\"fixture_directory\":\"/var/tmp/rom-studio-host-browser-9KXZdK\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T14:18:20.229Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-9KXZdK"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27a0d846e5fe7596e61c-48238924fc06af856460",
+          "file": "author.spec.ts",
+          "line": 5,
+          "column": 3
+        },
+        {
+          "title": "external author renderer and generic redb flow",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-6YXY3Z"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1325,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "{\"backend\":\"redb\",\"fixture_directory\":\"/var/tmp/rom-studio-host-browser-6YXY3Z\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T14:18:21.583Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-6YXY3Z"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27a0d846e5fe7596e61c-5efbe7b43738d2bfe973",
+          "file": "author.spec.ts",
+          "line": 5,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-05T14:18:16.677Z",
+    "duration": 6327.097000000001,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

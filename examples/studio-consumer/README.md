@@ -6,6 +6,10 @@ This example adds a renderer through the public Studio source entry. It uses the
 
 The renderer is selected by codec name and version. It does not inspect a Resource kind. The example's title makes its independently built assets visible in browser inspection.
 
+This example registers the scalar editor with `layout: "inline"`.
+The custom input appears directly in the shared Resource form. It does not require a separate edit dialog.
+Saving uses the ordinary Resource mutation path and updates the displayed canonical value and revision.
+
 ## Verify the author workflow
 
 From the ROM source root, run:

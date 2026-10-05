@@ -1,0 +1,37 @@
+
+Running 1 test using 1 worker
+
+(node:1198903) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+{"backend":"sqlite","fixture_directory":"/var/tmp/rom-studio-host-browser-yRWE78"}
+  ✘  1 [chromium] › tests/author.spec.ts:5:3 › external author renderer and generic sqlite flow (6.0s)
+
+
+  1) [chromium] › tests/author.spec.ts:5:3 › external author renderer and generic sqlite flow ──────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Revision 2', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('Revision 2', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Revision 2', { exact: true })
+
+
+      21 |       await page.getByRole("button", { name: "Save 1 change", exact: true }).click();
+      22 |       await expect(page.getByText("Author code: TICKET-AUTHOR2", { exact: true }).first()).toBeVisible();
+    > 23 |       await expect(page.getByText("Revision 2", { exact: true })).toBeVisible();
+         |                                                                   ^
+      24 |       await page.getByRole("button", { name: "tasks", exact: true }).click();
+      25 |       await page.getByRole("button", { name: "Open task-a", exact: true }).click();
+      26 |       await page.getByLabel("title value", { exact: true }).fill("External author ordinary resource");
+        at /var/tmp/rom-studio-accepted-source-RvZN1p/external-author/extracted/consumer/tests/author.spec.ts:23:67
+
+    Error Context: ../../../../rom-003-external-author-ergonomics-fix/results-inline/author-external-author-renderer-and-generic-sqlite-flow-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/author.spec.ts:5:3 › external author renderer and generic sqlite flow ───────

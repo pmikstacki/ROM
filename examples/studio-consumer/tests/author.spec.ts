@@ -16,12 +16,12 @@ for (const backend of ["sqlite", "redb"])
       await page.getByRole("button", { name: "maintenance-tickets", exact: true }).click();
       await expect(page.getByText("Author code: TICKET-A1", { exact: true }).first()).toBeVisible();
       await page.getByRole("button", { name: "Open ticket-a", exact: true }).click();
-      await page.getByRole("button", { name: "Edit code", exact: true }).click();
+      await expect(page.getByLabel("Author code editor", { exact: true })).toBeVisible();
       await page.getByLabel("Author code editor", { exact: true }).fill("ticket-author2");
-      await page.getByLabel("Author code editor", { exact: true }).press("Escape");
       await page.getByRole("button", { name: "Save 1 change", exact: true }).click();
       await expect(page.getByText("Author code: TICKET-AUTHOR2", { exact: true }).first()).toBeVisible();
-      await expect(page.getByText("Revision 2", { exact: true })).toBeVisible();
+      await expect(page.getByRole("region", { name: "Resource details", exact: true })
+        .getByText("maintenance-tickets · Revision 2", { exact: true })).toBeVisible();
       await page.getByRole("button", { name: "tasks", exact: true }).click();
       await page.getByRole("button", { name: "Open task-a", exact: true }).click();
       await page.getByLabel("title value", { exact: true }).fill("External author ordinary resource");

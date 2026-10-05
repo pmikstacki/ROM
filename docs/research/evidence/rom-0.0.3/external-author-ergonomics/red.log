@@ -1,0 +1,32 @@
+
+Running 1 test using 1 worker
+
+(node:1198440) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+{"backend":"sqlite","fixture_directory":"/var/tmp/rom-studio-host-browser-1AtcsE"}
+  ✘  1 [chromium] › tests/author.spec.ts:5:3 › external author renderer and generic sqlite flow (20.0s)
+
+
+  1) [chromium] › tests/author.spec.ts:5:3 › external author renderer and generic sqlite flow ──────
+
+    Test timeout of 20000ms exceeded.
+
+    Error: locator.click: Test timeout of 20000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Edit code', exact: true })
+
+
+      17 |       await expect(page.getByText("Author code: TICKET-A1", { exact: true }).first()).toBeVisible();
+      18 |       await page.getByRole("button", { name: "Open ticket-a", exact: true }).click();
+    > 19 |       await page.getByRole("button", { name: "Edit code", exact: true }).click();
+         |                                                                          ^
+      20 |       await page.getByLabel("Author code editor", { exact: true }).fill("ticket-author2");
+      21 |       await page.getByLabel("Author code editor", { exact: true }).press("Escape");
+      22 |       await page.getByRole("button", { name: "Save 1 change", exact: true }).click();
+        at /var/tmp/rom-studio-accepted-source-RvZN1p/external-author/extracted/consumer/tests/author.spec.ts:19:74
+
+    Error Context: ../../../../rom-003-external-author-ergonomics-fix/results-red/author-external-author-renderer-and-generic-sqlite-flow-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/author.spec.ts:5:3 › external author renderer and generic sqlite flow ───────

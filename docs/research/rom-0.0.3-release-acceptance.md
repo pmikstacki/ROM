@@ -1,7 +1,7 @@
 # ROM 0.0.3 release acceptance
 
 Status: implementation acceptance passed; clean-source distribution and persistent preview remain pending.
-Date: 2026-10-05. Initial source baseline: `6d3b6b2`. Latest committed candidate: `5538323`.
+Date: 2026-10-05. Initial source baseline: `6d3b6b2`. Earlier committed candidate: `5538323`.
 Do not use this record as a completed release declaration.
 
 ## Owner's completion contract
@@ -66,3 +66,13 @@ The [deadline investigation](rom-0.0.3-auth-deadline.md) separates response time
 The corrected regression retains the short deadline and proves re-admission through a second provider contact and bounded drain.
 Do not treat the focused repetitions as complete producer acceptance.
 Both failed stages and their logs remain preserved outside the accepted evidence set.
+
+The `a7b48ff` producer passed gates one through seven and all 28 standard actual-host browser cases.
+Its external-author browser workflow then failed on obsolete dialog and revision-summary selectors.
+The example already registered an inline scalar editor. Its test still tried to open the former dialog.
+This is a delivery defect in the maintained example, not permission to omit independent author acceptance.
+The corrected example must pass its source-extraction workflow before the complete producer runs again.
+
+The [external-author correction](rom-0.0.3-external-author-ergonomics.md) passed the fresh extracted SDK workflow and full local verifier.
+Four browser cases passed across both engines and databases without skips or longer deadlines.
+The corrected clean-source producer and permanent preview remain mandatory.

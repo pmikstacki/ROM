@@ -1,0 +1,161 @@
+{
+  "completed_at": "2026-10-05T14:19:06.579Z",
+  "source_commit": "a7b48ff1f6288609b1069d37fbe3b2e96cd2b25b",
+  "source_status": "M examples/studio-consumer/README.md\n M examples/studio-consumer/tests/author.spec.ts",
+  "executed_source_copy": "/var/tmp/rom-studio-accepted-source-RvZN1p/external-author/extracted",
+  "test": {
+    "root_path": "/root/ROM/examples/studio-consumer/tests/author.spec.ts",
+    "extracted_path": "/var/tmp/rom-studio-accepted-source-RvZN1p/external-author/extracted/consumer/tests/author.spec.ts",
+    "original_sha256": "7f43efabb01f8f7dfaf0c67ad4939467ef1bd7746be5b4199c2b078df5a166fb",
+    "updated_sha256": "2c4a5ff7b0107494bdae6551cf40f4193f866a555fcf69abf262a6e1ba9ea55c"
+  },
+  "diagnosis": [
+    {
+      "log": "/var/tmp/rom-003-external-author-ergonomics-fix/red.log",
+      "result": "original RED waits obsolete Edit code button; inline Author code editor visible",
+      "timeout": 20000
+    },
+    {
+      "log": "/var/tmp/rom-003-external-author-ergonomics-fix/inline.log",
+      "result": "inline mutation succeeds; old exact Revision 2 text assertion fails against kind plus Revision paragraph"
+    },
+    {
+      "log": "/var/tmp/rom-003-external-author-ergonomics-fix/summary.log",
+      "result": "corrected focused SQLite Chromium workflow passes including ordinary Task title edit"
+    }
+  ],
+  "result": "passed",
+  "stats": {
+    "startTime": "2026-10-05T14:18:16.677Z",
+    "duration": 6327.097000000001,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "coverage": [
+    "SQLite",
+    "redb",
+    "Chromium",
+    "WebKit"
+  ],
+  "binary": {
+    "path": "/var/tmp/rom-studio-accepted-source-RvZN1p/rom-demo",
+    "sha256": "e41d9e4fe523be1004b4c12afa4e357198e9e50e28ba44e43a0e959a71af5b09"
+  },
+  "assets": {
+    "path": "/var/tmp/rom-studio-accepted-source-RvZN1p/external-author/extracted/consumer/dist",
+    "inventory": [
+      {
+        "path": "assets/index-2u22Vuhm.js",
+        "bytes": 620169,
+        "sha256": "0f442a0e5d65f6c06c5d9e9822707861405b3fe1fdbf3cb1b0d18138434beec6"
+      },
+      {
+        "path": "assets/index-BBf8R0qD.css",
+        "bytes": 178294,
+        "sha256": "ea672ef1df94ff1b618f69ad1e056ad59e88efa7d61a3734fe5803c62e9dcd64"
+      },
+      {
+        "path": "index.html",
+        "bytes": 394,
+        "sha256": "ba322df20e2aecd4105fb9cf29c64857cdc6c8aeac8d360b1820a25d2d006068"
+      }
+    ],
+    "inventory_sha256": "3c27968286e1d97f6ed1c2eebf288752affea6ae53541de2b9ac94c19c08d6fe"
+  },
+  "public_composition": {
+    "main_sha256": "87ebfd3dccdd9c73ee98754db62626be50e8eaeb4b00c8e39d1562d68d0b3761",
+    "renderer_sha256": "f70dd6ec28ef91c4dbd873382c26a6e5670eca09d7d0ab3f85af549cb519c288",
+    "sdk_import": "rom-studio",
+    "production_source_edited": false
+  },
+  "harness": {
+    "config_sha256": "30336bc23a703b2f8f9e221a8ff258cd13f87ead8bb9806e56ccb28477fe6fa0",
+    "host_fixture_sha256": "9730366b5b49ae7dc8af4eb14b95cfb8266f5b452fb36406ce05c227aad84394"
+  },
+  "command": "ROM_STUDIO_DEMO_BINARY=/var/tmp/rom-studio-accepted-source-RvZN1p/rom-demo ROM_STUDIO_ASSETS=/var/tmp/rom-studio-accepted-source-RvZN1p/external-author/extracted/consumer/dist ROM_WEBKIT_EXECUTABLE=/var/tmp/rom-studio-webkit-2359/pw_run.sh PLAYWRIGHT_JSON_OUTPUT_NAME=/var/tmp/rom-003-external-author-ergonomics-fix/report-green.json npx --no-install playwright test --config tests/playwright.config.ts --output /var/tmp/rom-003-external-author-ergonomics-fix/results-green --reporter=list,json",
+  "logs": [
+    "/var/tmp/rom-003-external-author-ergonomics-fix/green.log",
+    "/var/tmp/rom-003-external-author-ergonomics-fix/report-green.json"
+  ],
+  "scope": "Test-only selectors aligned with current inline public renderer and Resource details summary. No timeout reduction in corrected full suite; no skip, SDK modification, private import, production rollback or release/deployment claim.",
+  "independent_verifier": {
+    "completed": true,
+    "result_path": "/var/tmp/rom-003-external-author-ergonomics-fix/full-verifier/result.json",
+    "source_sha256": "6242c467d1367993a02e7e70ad2837d80ba705536bb2affdb3b6511ca17be558",
+    "binary_sha256": "e41d9e4fe523be1004b4c12afa4e357198e9e50e28ba44e43a0e959a71af5b09",
+    "archive_sha256": "af07d0aff554ebb23894ab2c0db3dd20a991aa871cb39fafe833f0603827d2e1",
+    "commands": [
+      {
+        "program": "npm",
+        "args": [
+          "ci",
+          "--offline",
+          "--no-audit",
+          "--no-fund"
+        ],
+        "cwd": "/var/tmp/rom-003-external-author-ergonomics-fix/full-verifier/extracted/consumer",
+        "exit_code": 0,
+        "timed_out": false,
+        "spawn_failed": false,
+        "log": "/var/tmp/rom-003-external-author-ergonomics-fix/full-verifier/npm-ci.log"
+      },
+      {
+        "program": "npm",
+        "args": [
+          "run",
+          "check"
+        ],
+        "cwd": "/var/tmp/rom-003-external-author-ergonomics-fix/full-verifier/extracted/consumer",
+        "exit_code": 0,
+        "timed_out": false,
+        "spawn_failed": false,
+        "log": "/var/tmp/rom-003-external-author-ergonomics-fix/full-verifier/type-check.log"
+      },
+      {
+        "program": "npm",
+        "args": [
+          "run",
+          "build"
+        ],
+        "cwd": "/var/tmp/rom-003-external-author-ergonomics-fix/full-verifier/extracted/consumer",
+        "exit_code": 0,
+        "timed_out": false,
+        "spawn_failed": false,
+        "log": "/var/tmp/rom-003-external-author-ergonomics-fix/full-verifier/build.log"
+      },
+      {
+        "program": "npm",
+        "args": [
+          "ci",
+          "--offline",
+          "--no-audit",
+          "--no-fund"
+        ],
+        "cwd": "/var/tmp/rom-003-external-author-ergonomics-fix/full-verifier/extracted/demo/provider-fixture",
+        "exit_code": 0,
+        "timed_out": false,
+        "spawn_failed": false,
+        "log": "/var/tmp/rom-003-external-author-ergonomics-fix/full-verifier/provider-npm-ci.log"
+      },
+      {
+        "program": "npm",
+        "args": [
+          "exec",
+          "--offline",
+          "--",
+          "playwright",
+          "test",
+          "--config",
+          "tests/playwright.config.ts"
+        ],
+        "cwd": "/var/tmp/rom-003-external-author-ergonomics-fix/full-verifier/extracted/consumer",
+        "exit_code": 0,
+        "timed_out": false,
+        "spawn_failed": false,
+        "log": "/var/tmp/rom-003-external-author-ergonomics-fix/full-verifier/browser.log"
+      }
+    ]
+  }
+}
