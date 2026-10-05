@@ -3,7 +3,9 @@ import { test, expect, type Page } from "@playwright/test";
 import { startHost } from "./host-fixture.mjs";
 
 async function openFullFilters(page: Page) {
+  await page.getByRole("button", { name: "Quick filters", exact: true }).click();
   await page
+    .getByRole("dialog", { name: "Quick filters", exact: true })
     .getByRole("button", { name: "Open full filters", exact: true })
     .click();
   const editor = page.getByRole("region", {
@@ -151,10 +153,10 @@ for (const backend of ["sqlite", "redb"])
         ).toBeVisible();
       } else
         await expect(
-          page.getByText(/No safe editor for demo-ticket-code v1/).first(),
+          page.getByText(/demo-ticket-code renderer unavailable/).first(),
         ).toBeVisible();
       await expect(
-        page.getByText(/No safe editor for demo-opaque-handle v1/).first(),
+        page.getByText(/demo-opaque-handle renderer unavailable/).first(),
       ).toBeVisible();
       await host.restart();
       await page.reload();
@@ -801,6 +803,9 @@ for (const backend of ["sqlite", "redb"])
           await expect(
             page.getByText("4", { exact: true }).first(),
           ).toBeVisible();
+          await page
+            .getByRole("button", { name: `Open ${id}`, exact: true })
+            .click();
           await page.getByRole("tab", { name: "Details", exact: true }).click();
           await expect(
             page.getByRole("region", { name: "Resource details", exact: true }),
