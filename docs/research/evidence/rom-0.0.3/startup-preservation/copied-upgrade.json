@@ -1,0 +1,46 @@
+{
+  "completed_at": "2026-10-05T15:06:43.199Z",
+  "source_base": "c66c470eb894b8449f9ab707d94179c88af09113",
+  "dirty_owned_source": {
+    "demo/src/studio_startup.rs": "9772fcaed8212e85e15f717f3caf306f0c02fa179af1381dd1634e102b6c9878",
+    "demo/src/studio_startup_tests.rs": "c2f567ffbd358f1a2c5bfc47df62dee3f12c905416ac997e66442032236b4860",
+    "demo/src/studio.rs": "e722aafb574668b2752585db07607fa41dcaff25e672532d05ed3f827c336aaa",
+    "demo/src/lib.rs": "c5ad89be63c3728fa1c6f4424070ae0c1b7885fe7460b16cf6065292e6ed6ae9"
+  },
+  "actual_copied_upgrade": {
+    "existing_rows_preserved": true,
+    "original_counts": {
+      "resources": 13,
+      "receipts": 24,
+      "events": 22,
+      "effects": 4
+    },
+    "upgraded_counts": {
+      "resources": 14,
+      "receipts": 25,
+      "events": 23,
+      "effects": 4
+    },
+    "new_kind": "field-showcase",
+    "deleted_original_task_preserved": true,
+    "loopback_http_status": 200,
+    "binary_sha256": "ddeda5f8674333da679703674d679173553fad6294b0a559b7c22b8525109c2b",
+    "scope": "Copied data only; one new synthetic showcase provisioned using existing live Task. Existing rows including deletion untouched."
+  },
+  "actual_copied_restart": {
+    "http_status": 200,
+    "exit_code": 0,
+    "counts_unchanged": true,
+    "counts": {
+      "resources": 14,
+      "receipts": 25,
+      "events": 23,
+      "effects": 4
+    }
+  },
+  "retention_limit": "RetentionPolicy::purge_tombstone blocks active replay receipts/event/effect references and removes associated receipts; this patch does not promise once-ever provisioning for physically purged rows. Ordinary Runtime/create and retry-epoch errors remain authoritative.",
+  "original_state_changed": false,
+  "scope": "Development source fix and private copied-data startup proof; no original service/data/profile changes, source commit, complete producer, release acceptance or deployment claim.",
+  "binary_sha256": "ddeda5f8674333da679703674d679173553fad6294b0a559b7c22b8525109c2b",
+  "focused_tests_passed": 8
+}

@@ -18,7 +18,7 @@ No missing editor, authorization failure, or unknown commit result is converted 
 
 The [RED regression](evidence/rom-0.0.3/startup-preservation/red.log) fails on both actual database adapters.
 It covers initial seed, ordinary edit, ordinary delete, shutdown, reopen, and repeated bootstrap.
-The corrected run and final release acceptance remain pending.
+The corrected run passed. Final release acceptance remains pending.
 
 The first fixture attempt hit reference-restrict before deletion. Its separate log remains preserved.
 The corrected fixture moves the dependent reference before deletion and reproduces the intended Denied replay.
@@ -37,3 +37,9 @@ The [full demo and Clippy checks](evidence/rom-0.0.3/startup-preservation/demo-f
 The [full local verifier](evidence/rom-0.0.3/startup-preservation/full-check.log) passed after the production correction.
 The [independent review](evidence/rom-0.0.3/startup-preservation/review.md) found no material issue in the correction.
 The earlier application identity bridge cannot accept this changed native binary. Fresh application acceptance remains required.
+
+The [optimized copied-data probe](evidence/rom-0.0.3/startup-preservation/copied-upgrade.json) also passed.
+All 13 existing Rows remained unchanged, including the deleted Task.
+Provisioning added only the absent showcase, one event, and one receipt.
+A second process restart returned HTTP 200 with unchanged counts.
+This private development binary is not the final clean-source release binary.
