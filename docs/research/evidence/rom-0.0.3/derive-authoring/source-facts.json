@@ -1,0 +1,119 @@
+{
+  "timestamp": "2026-10-05T11:21:03.193Z",
+  "baseline": "6d3b6b2",
+  "head": "6d3b6b24b1447a78abb96c13e5957b3654745f07",
+  "dirty": " M Cargo.lock\n M Cargo.toml\n M crates/rom-derive/src/expansion.rs\n M crates/rom-derive/src/lib.rs\n M tests/compile/check.mjs\n M tests/persistence/Cargo.toml\n?? crates/rom-derive/src/presentation.rs\n?? crates/rom-fields/\n?? docs/research/evidence/rom-0.0.3/derive-authoring/\n?? docs/research/rom-0.0.3-semantic-fields.md\n?? docs/superpowers/plans/2026-10-05-rom-0.0.3-release.md\n?? prototypes/\n?? studio/src/lib/renderers/semantic-fields.ts\n?? studio/tests/unit/semantic-fields.test.ts\n?? tests/compile/src/bin/presentation_duplicate.rs\n?? tests/compile/src/bin/presentation_duplicate_group.rs\n?? tests/compile/src/bin/presentation_empty_label.rs\n?? tests/compile/src/bin/presentation_field_duplicate.rs\n?? tests/compile/src/bin/presentation_field_malformed.rs\n?? tests/compile/src/bin/presentation_help_oversized.rs\n?? tests/compile/src/bin/presentation_input.rs\n?? tests/compile/src/bin/presentation_input_field.rs\n?? tests/compile/src/bin/presentation_label_oversized.rs\n?? tests/compile/src/bin/presentation_malformed.rs\n?? tests/compile/src/bin/presentation_settings_duplicate.rs\n?? tests/compile/src/bin/presentation_settings_key_duplicate.rs\n?? tests/compile/src/bin/presentation_settings_missing.rs\n?? tests/compile/src/bin/presentation_shadowed_builtin.rs\n?? tests/compile/src/bin/presentation_title_bool.rs\n?? tests/compile/src/bin/presentation_title_renamed.rs\n?? tests/compile/src/bin/presentation_unknown_group.rs\n?? tests/compile/src/bin/presentation_unknown_option.rs\n?? tests/compile/src/bin/presentation_valid.rs\n?? tests/compile/src/bin/presentation_wrong_field.rs\n?? tests/compile/src/bin/presentation_wrong_type.rs\n?? tests/persistence/tests/derive_presentation.rs\n",
+  "sha256": {
+    "crates/rom-derive/src/lib.rs": "879c09ea8fc3cfda6ecc0daec440eb41e824d6668346e0f2b17f2d1a3f25de55",
+    "crates/rom-derive/src/expansion.rs": "e2fe90b857e2d3a7d3114242e69d3800a80a6b08643688971e5f2253a3602578",
+    "crates/rom-derive/src/presentation.rs": "1b9ac591eddfde98eca837d3b69dccd46e857c9345568e79961292dfb3a13ab1",
+    "tests/persistence/tests/derive_presentation.rs": "fb2762a0655da9314013dc94b912bf0aa832c16a216cbddafbf6a226f3d3f5bf",
+    "tests/compile/check.mjs": "35e4059e0c98ab334215fdec9c41a26f31ca8cd38338c20f9501211372b9f19b",
+    "tests/compile/src/bin/presentation_duplicate.rs": "d821b2533d8406f37e6d449187c97c972c2b46a12f80c10f89e528fa04426fb9",
+    "tests/compile/src/bin/presentation_duplicate_group.rs": "3ac6d4c3bace3bad7b3c4cce39f42ef87dd5abc4e0e1bb252c225f71463d133b",
+    "tests/compile/src/bin/presentation_empty_label.rs": "aaea6f8e8715283ac0640ac2a4da991c8c4cc3b7044367f7f34feb89290e6c77",
+    "tests/compile/src/bin/presentation_field_duplicate.rs": "ab00eec51732952dbba1e3d1720b20cf12f8bd26a67ee682657c3e3595a07f8c",
+    "tests/compile/src/bin/presentation_field_malformed.rs": "d883a5cae1f23ae240dc433a164320ad69f4b190cafedb1450ed514971823213",
+    "tests/compile/src/bin/presentation_help_oversized.rs": "4bd162b20bb2556f4e140c76525c4cc58f2ab8e26d564a85142c8e253cd2c3d5",
+    "tests/compile/src/bin/presentation_input.rs": "70cf02483b520ea26220218e85bdb649d8ff3a0fdbc9b73d2f4a011027a7390a",
+    "tests/compile/src/bin/presentation_input_field.rs": "cccb1e1d45a1c4543395e5746e28366d3817591edc5ce6f3502b29a44cd1a3ac",
+    "tests/compile/src/bin/presentation_label_oversized.rs": "89e463379fb686ccc97a7b004e0815af4acd2971e3a2653d856806d798876aa5",
+    "tests/compile/src/bin/presentation_malformed.rs": "709e3ffba30e44f12e2c20972c791b6fba1e1aead7900aa057c4b2870dc04036",
+    "tests/compile/src/bin/presentation_settings_duplicate.rs": "8eb8b6571f35a18ed0f755134b0530e9f3b5c485db448112eaceb124860a093a",
+    "tests/compile/src/bin/presentation_settings_key_duplicate.rs": "1ab8e50d937a62a31da8a1d73b5f3518de726e41e3601cf820ca6bc2909f6ff1",
+    "tests/compile/src/bin/presentation_settings_missing.rs": "05aa9406d0eb259e6f0a7619e3dd31ff5da52a14bf89203fbdd8b2043a2804d9",
+    "tests/compile/src/bin/presentation_shadowed_builtin.rs": "85795616cc23b707628eda0fb7e7459cd74f8b97ec67818184708c614376b33c",
+    "tests/compile/src/bin/presentation_title_bool.rs": "5d11bb2327b6acd16e757c7c79890275b9306972c86b97d9a9563a033ebbb7a3",
+    "tests/compile/src/bin/presentation_title_renamed.rs": "42e5b1cbf8f740e7b4015594ef9c17c10a4a74e8d3bd56939e6e875d22753be3",
+    "tests/compile/src/bin/presentation_unknown_group.rs": "a052372833c0df7d1623f8319bd48c81355fd29d2bb6ee20a6e1d1c759975486",
+    "tests/compile/src/bin/presentation_unknown_option.rs": "27da30030ddc27bf28a340622956670b649e92e2ab3e0bfcd0c566d25fb3b46d",
+    "tests/compile/src/bin/presentation_valid.rs": "39794e3767c881bfb26972ac2feff394a7f6f858b0556eb37b5b244b1bbc80a1",
+    "tests/compile/src/bin/presentation_wrong_field.rs": "782c4679a55a6966bda043119d837455469be238374974af77107ad4a15ba054",
+    "tests/compile/src/bin/presentation_wrong_type.rs": "4647f3a293510ed0040d9b23916dba7bd10a8db12b727f33902799bdfeb3f2c3",
+    "Cargo.lock": "00ff7691b2b549d3fcd80dea2d671b821559be5c20a1fdeb88598ffe36af1c66",
+    "tests/compile/Cargo.lock": "10efb8bdda76dc4df13fb64190e1e6fa8ce89efc0fff28e1b0ac6ead28fa6642"
+  },
+  "commands": [
+    {
+      "environment": "rom-dev, CARGO_BUILD_JOBS=2",
+      "command": "node tests/compile/check.mjs",
+      "result": 0,
+      "log": "compile-check.log"
+    },
+    {
+      "environment": "rom-dev, CARGO_BUILD_JOBS=2, CARGO_PROFILE_DEV_DEBUG=0, CARGO_PROFILE_TEST_DEBUG=0",
+      "command": "cargo test --locked -p rom -p rom-derive",
+      "result": 101,
+      "reason": "workspace lock update required after concurrent manifest edit",
+      "log": "core-tests.log"
+    },
+    {
+      "environment": "rom-dev, CARGO_BUILD_JOBS=2, CARGO_PROFILE_DEV_DEBUG=0, CARGO_PROFILE_TEST_DEBUG=0",
+      "command": "cargo test --locked -p rom-storage-conformance --test derive_presentation",
+      "result": 0,
+      "testsPassed": 4,
+      "log": "Tool output; rerun log planned after shared lock refresh"
+    },
+    {
+      "environment": "rom-dev, CARGO_BUILD_JOBS=2, CARGO_PROFILE_DEV_DEBUG=0, CARGO_PROFILE_TEST_DEBUG=0",
+      "command": "cargo test --locked -p rom -p rom-derive",
+      "result": 101,
+      "reason": "workspace lock update still required while integration manifests are being edited",
+      "log": "core-tests-retry.log"
+    },
+    {
+      "environment": "rom-dev, CARGO_BUILD_JOBS=2, CARGO_PROFILE_DEV_DEBUG=0, CARGO_PROFILE_TEST_DEBUG=0",
+      "command": "cargo test --locked -p rom-storage-conformance --test derive_presentation --test presentation_discovery",
+      "result": 101,
+      "reason": "workspace lock update still required while integration manifests are being edited",
+      "log": "presentation-tests.log"
+    },
+    {
+      "environment": "rom-dev, CARGO_BUILD_JOBS=2",
+      "command": "node tests/compile/check.mjs",
+      "result": 0,
+      "log": "compile-check-final.log",
+      "scope": "Full compile checker after final runner formatting: 19 presentation failures, both presentation positives, all pre-existing fixtures and renamed facade consumer."
+    },
+    {
+      "environment": "rom-dev, CARGO_BUILD_JOBS=2, CARGO_PROFILE_DEV_DEBUG=0, CARGO_PROFILE_TEST_DEBUG=0",
+      "command": "cargo test --locked -p rom -p rom-derive",
+      "result": 0,
+      "log": "core-tests-final.log"
+    },
+    {
+      "environment": "rom-dev, CARGO_BUILD_JOBS=2, CARGO_PROFILE_DEV_DEBUG=0, CARGO_PROFILE_TEST_DEBUG=0",
+      "command": "cargo test --locked -p rom-storage-conformance --test derive_presentation --test presentation_discovery",
+      "result": 0,
+      "testsPassed": 6,
+      "log": "presentation-tests-final.log"
+    },
+    {
+      "environment": "rom-dev, CARGO_BUILD_JOBS=2, CARGO_PROFILE_DEV_DEBUG=0, CARGO_PROFILE_TEST_DEBUG=0",
+      "command": "cargo clippy --locked -p rom-derive --all-targets -- -D warnings",
+      "result": 0,
+      "log": "derive-clippy.log"
+    },
+    {
+      "environment": "rom-dev",
+      "command": "rustfmt --check --edition 2024 crates/rom-derive/src/presentation.rs crates/rom-derive/src/expansion.rs crates/rom-derive/src/lib.rs tests/persistence/tests/derive_presentation.rs tests/compile/src/bin/presentation_*.rs",
+      "result": 0,
+      "log": "format-check.log"
+    }
+  ],
+  "limits": [
+    "Manual and derived presentation use Definition::new validation. Unknown Field types and aliases are checked only at registration; macro cannot prove semantic shape or codec identity.",
+    "Compile fixture positive facade uses #[resource(crate = \"::rom\")]; full checker also checks renamed-facade consumer.",
+    "Full local verifier and full workspace suite remain root integration checks."
+  ],
+  "toolchain": {
+    "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "cargo": "cargo 1.99.0 (5f94df478 2026-08-27)"
+  },
+  "finalWorkspaceSnapshot": {
+    "timestamp": "2026-10-05T11:25:44.074Z",
+    "head": "6d3b6b24b1447a78abb96c13e5957b3654745f07",
+    "lockSha256": "f2e74a40bcdf6fad44e78abd32b7b689697248102ae6ac8355fe025e0c933095",
+    "dirty": " M Cargo.lock\n M Cargo.toml\n M crates/rom-derive/src/expansion.rs\n M crates/rom-derive/src/lib.rs\n M studio/src/lib/renderers/registry.ts\n M tests/compile/check.mjs\n M tests/persistence/Cargo.toml\n?? crates/rom-derive/src/presentation.rs\n?? crates/rom-fields/\n?? docs/research/evidence/rom-0.0.3/derive-authoring/\n?? docs/research/rom-0.0.3-control-adoption-experiments.md\n?? docs/research/rom-0.0.3-semantic-fields.md\n?? docs/superpowers/plans/2026-10-05-rom-0.0.3-release.md\n?? prototypes/\n?? studio/src/lib/renderers/SemanticField.svelte\n?? studio/src/lib/renderers/semantic-fields.ts\n?? studio/tests/unit/semantic-fields.test.ts\n?? tests/compile/src/bin/presentation_duplicate.rs\n?? tests/compile/src/bin/presentation_duplicate_group.rs\n?? tests/compile/src/bin/presentation_empty_label.rs\n?? tests/compile/src/bin/presentation_field_duplicate.rs\n?? tests/compile/src/bin/presentation_field_malformed.rs\n?? tests/compile/src/bin/presentation_help_oversized.rs\n?? tests/compile/src/bin/presentation_input.rs\n?? tests/compile/src/bin/presentation_input_field.rs\n?? tests/compile/src/bin/presentation_label_oversized.rs\n?? tests/compile/src/bin/presentation_malformed.rs\n?? tests/compile/src/bin/presentation_settings_duplicate.rs\n?? tests/compile/src/bin/presentation_settings_key_duplicate.rs\n?? tests/compile/src/bin/presentation_settings_missing.rs\n?? tests/compile/src/bin/presentation_shadowed_builtin.rs\n?? tests/compile/src/bin/presentation_title_bool.rs\n?? tests/compile/src/bin/presentation_title_renamed.rs\n?? tests/compile/src/bin/presentation_unknown_group.rs\n?? tests/compile/src/bin/presentation_unknown_option.rs\n?? tests/compile/src/bin/presentation_valid.rs\n?? tests/compile/src/bin/presentation_wrong_field.rs\n?? tests/compile/src/bin/presentation_wrong_type.rs\n?? tests/persistence/tests/derive_presentation.rs\n?? tests/persistence/tests/semantic_resources.rs\n"
+  }
+}

@@ -1,0 +1,32 @@
+[WebServer] (node:703551) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:703612) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/components/semantic-fields.spec.ts:101:1 › read-only semantic details expose the complete exact value (30.0s)
+
+
+  1) [chromium] › tests/components/semantic-fields.spec.ts:101:1 › read-only semantic details expose the complete exact value 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'View full Archived document', exact: true })
+
+
+      101 | test("read-only semantic details expose the complete exact value", async ({ page }) => {
+      102 |   await page.goto("tests/components/semantic-fields.html");
+    > 103 |   await page.getByRole("button", {name:"View full Archived document", exact:true}).click();
+          |                                                                                    ^
+      104 |   const complete = page.getByRole("textbox", {name:"Archived document full value", exact:true});
+      105 |   await expect(complete).toHaveValue('{"exact":9007199254740993,"notes":"'+"complete ".repeat(30)+'END"}');
+      106 |   await expect(complete).toHaveAttribute("readonly", "");
+        at /root/ROM/studio/tests/components/semantic-fields.spec.ts:103:84
+
+    Error Context: test-results/semantic-fields-read-only--a39ec-se-the-complete-exact-value-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/components/semantic-fields.spec.ts:101:1 › read-only semantic details expose the complete exact value 

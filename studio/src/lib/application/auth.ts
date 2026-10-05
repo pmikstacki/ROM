@@ -1,5 +1,11 @@
 import { parseWire } from "../client/codec.ts";
 import { boundedBody } from "../client/request.ts";
+export class SessionExpiredError extends Error {
+  constructor() {
+    super("Session expired.");
+    this.name = "SessionExpiredError";
+  }
+}
 export interface BrowserSession {
   authenticated: boolean;
   generation: string;
@@ -50,7 +56,9 @@ export function createBrowserAuth(
   }
   async function refresh() {
     const started = epoch;
-    const value = record(await get("session"));
+    const response = await get("session");
+    if (started !== epoch) throw Error("Session changed.");
+    const value = record(response);
     if (typeof value.authenticated !== "boolean")
       throw Error("Invalid session response.");
     const next: BrowserSession = {
@@ -69,8 +77,10 @@ export function createBrowserAuth(
       if (
         !Number.isSafeInteger(next.expires_at) ||
         next.expires_at <= Date.now() / 1000
-      )
-        throw Error("Session expired.");
+      ) {
+        session = undefined;
+        throw new SessionExpiredError();
+      }
     } else if (value.csrf_token !== undefined || value.user_id !== undefined)
       throw Error("Unauthenticated session exposed authority.");
     if (started !== epoch) throw Error("Session changed.");

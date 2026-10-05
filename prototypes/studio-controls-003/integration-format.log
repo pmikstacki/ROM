@@ -1,0 +1,17 @@
+src/lib/renderers/ValueEditor.svelte 143ms
+src/lib/renderers/ListEditor.svelte 52ms
+src/lib/renderers/editor-draft.ts 3ms (unchanged)
+src/lib/renderers/collection-limits.ts 1ms (unchanged)
+src/lib/filters/FilterBuilder.svelte 37ms (unchanged)
+tests/components/SortableFieldsHarness.svelte 17ms
+[error] tests/components/sortable-fields.spec.ts: SyntaxError: Declaration or statement expected. (199:1)
+[error]   197 |   expect(query.filters).toEqual([{ field: "entries", value: [7, 9, 11] }]);
+[error]   198 |   });
+[error] > 199 | });
+[error]       | ^
+[error]   200 |
+[error]   201 | test("touch handle reorders a duplicate row without serializing drag metadata", async ({
+[error]   202 |   page,
+tests/components/sortable-fields.ts 1ms (unchanged)
+tests/components/sortable-fields.html 12ms (unchanged)
+tests/components/sortable-playwright.config.ts 2ms (unchanged)

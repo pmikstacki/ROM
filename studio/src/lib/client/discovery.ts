@@ -11,6 +11,7 @@ import type {
   Shape,
   WireValue,
 } from "./types.ts";
+import { enumLeaf } from "./enum-labels.ts";
 import { record, text, unsigned } from "./validation.ts";
 function list(value: WireValue | undefined): WireValue[] {
   if (!Array.isArray(value) || value.length > 1024)
@@ -89,6 +90,28 @@ function wrappers(o: WireObject, shape: Shape): CodecWrapper[] {
   }
   return path as CodecWrapper[];
 }
+function enumLabels(
+  value: WireValue | undefined,
+  fieldShape: Shape,
+): Record<string, string> | undefined {
+  if (value === undefined) return undefined;
+  const leaf = enumLeaf(fieldShape);
+  const labels = record(value);
+  if (!leaf || Object.keys(labels).length > 1024)
+    throw Error("invalid enum labels");
+  const members = leaf.value;
+  const entries = Object.entries(labels).map(([key, label]) => {
+    if (
+      !members.includes(key) ||
+      typeof label !== "string" ||
+      !label.length ||
+      new TextEncoder().encode(label).byteLength > 256
+    )
+      throw Error("invalid enum label");
+    return [key, label];
+  });
+  return Object.fromEntries(entries);
+}
 function fields(value: WireValue): FieldDescriptor[] {
   return unique(
     list(value).map((v) => {
@@ -98,6 +121,9 @@ function fields(value: WireValue): FieldDescriptor[] {
       return {
         name: text(o.name),
         shape: fieldShape,
+        ...(o.enum_labels === undefined
+          ? {}
+          : { enum_labels: enumLabels(o.enum_labels, fieldShape) }),
         ...(path.length ? { codec_wrappers: path } : {}),
         ...(o.codec === undefined ? {} : { codec: codec(o.codec) }),
       };
@@ -120,6 +146,9 @@ function input(value: WireValue): InputDescriptor | null {
       type,
       value: {
         shape: fieldShape,
+        ...(v.enum_labels === undefined
+          ? {}
+          : { enum_labels: enumLabels(v.enum_labels, fieldShape) }),
         ...(path.length ? { codec_wrappers: path } : {}),
         ...(v.codec === undefined ? {} : { codec: codec(v.codec) }),
       },

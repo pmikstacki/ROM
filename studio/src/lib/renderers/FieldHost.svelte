@@ -4,10 +4,12 @@
     FieldIntent,
     WireValue,
   } from "../client/types.ts";
+  import type { EditorDraft } from "./editor-draft.ts";
   import SelectAdapter from "./SelectAdapter.svelte";
   import ValueDisplay from "./ValueDisplay.svelte";
   import ValueEditor from "./ValueEditor.svelte";
-  import { findRenderer } from "./registry.ts";
+  import { semanticKind } from "./semantic-fields.ts";
+  import { findRenderer, rendererLayout } from "./registry.ts";
   import { baseShape, defaultValue } from "./default-value.ts";
   import * as DropdownMenu from "../components/ui/dropdown-menu/index.js";
   import * as Dialog from "../components/ui/dialog/index.js";
@@ -58,7 +60,17 @@
     baseShape(descriptor.shape).type === "list" ||
       baseShape(descriptor.shape).type === "map",
   );
-  let expandedControl = $derived(collection || !!descriptor.codec);
+  const standardControl = $derived(
+    !!semanticKind(descriptor.codec) &&
+      (baseShape(descriptor.shape).type === "string" ||
+        (semanticKind(descriptor.codec) === "unit-value" &&
+          baseShape(descriptor.shape).type === "map")),
+  );
+  let expandedControl = $derived(
+    !standardControl &&
+      !(rendererLayout(descriptor.codec) === "inline" && !collection) &&
+      (collection || !!descriptor.codec),
+  );
   let expandedLabel = $derived(
     Array.isArray(shown)
       ? `${shown.length} ${shown.length === 1 ? "item" : "items"} · ${readonly ? "View" : "Edit"}`
@@ -68,8 +80,10 @@
   );
   let expandedOpen = $state(false);
   let editorGeneration = $state(0);
+  let editorDraft = $state<EditorDraft>({});
   function mode(next: string) {
     if (readonly || unknownCodec) return;
+    editorDraft = {};
     if (direct) editorGeneration += 1;
     onerror("");
     onchange(
@@ -106,8 +120,10 @@
         {#if readonly}<div class="break-all text-sm">
             <ValueDisplay {descriptor} value={shown} />
           </div>{:else}{#key editorGeneration}<ValueEditor
+              bind:draft={editorDraft}
               shape={descriptor.shape}
               codec={descriptor.codec}
+              enumLabels={descriptor.enum_labels}
               codecWrappers={descriptor.codec_wrappers}
               value={shown}
               onchange={(value) => onchange({ mode: "value", value })}
@@ -122,8 +138,10 @@
     </Dialog.Root>
   {:else}
     {#key editorGeneration}<ValueEditor
+        bind:draft={editorDraft}
         shape={descriptor.shape}
         codec={descriptor.codec}
+        enumLabels={descriptor.enum_labels}
         codecWrappers={descriptor.codec_wrappers}
         value={shown}
         onchange={(value) => onchange({ mode: "value", value })}

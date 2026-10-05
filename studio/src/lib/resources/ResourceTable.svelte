@@ -19,7 +19,7 @@
 <Table.Root class="text-sm"
   ><Table.Caption>{descriptor.kind} resources</Table.Caption><Table.Header
     ><Table.Row
-      ><Table.Head scope="col">ID</Table.Head><Table.Head scope="col"
+      ><Table.Head scope="col">{descriptor.presentation?.title_field ? "Resource" : "ID"}</Table.Head><Table.Head scope="col"
         >Revision</Table.Head
       >{#each descriptor.fields as field}<Table.Head scope="col"
           >{descriptor.presentation?.fields?.[field.name]?.label ||

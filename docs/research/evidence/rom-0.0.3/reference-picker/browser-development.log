@@ -1,0 +1,21 @@
+[WebServer] (node:574759) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:574774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+(node:574866) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/components/reference-picker.spec.ts:7:1 › reference lookup is lazy and chooses an authorized title without changing exact identity or main navigation (540ms)
+  ✓   2 [chromium] › tests/components/reference-picker.spec.ts:30:1 › debounced search filters bounded candidates and Escape restores focus (652ms)
+  ✓   3 [chromium] › tests/components/reference-picker.spec.ts:68:1 › denied lookup preserves the exact ID fallback and never reports an empty successful search (320ms)
+  ✓   4 [chromium] › tests/components/reference-picker.spec.ts:88:1 › withheld titles use the shared safe fallback and undisclosed kinds do not query (292ms)
+  ✓   5 [chromium] › tests/components/reference-picker.spec.ts:109:1 › session invalidation removes delayed and selected descriptions without erasing an exact ID (1.1s)
+  ✓   6 [chromium] › tests/components/reference-picker.spec.ts:130:1 › without lookup context the supported reference stays an exact ID editor (227ms)
+  ✓   7 [chromium] › tests/components/reference-picker.spec.ts:143:1 › the picker remains inside a narrow mobile viewport (297ms)
+  ✓   8 [chromium] › tests/components/reference-picker.spec.ts:164:1 › search requests are capped per open picker while exact ID editing remains available (2.6s)
+  ✓   9 [chromium] › tests/components/reference-picker.spec.ts:197:1 › selected authorized descriptions disappear with the session while the exact ID stays intact (423ms)
+  ✓  10 [chromium] › tests/components/reference-picker.spec.ts:215:1 › empty reference input reports the canonical field path without replacing the last value (232ms)
+
+  10 passed (8.0s)

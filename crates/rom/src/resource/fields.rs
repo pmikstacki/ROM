@@ -4,6 +4,11 @@ use std::{collections::BTreeMap, marker::PhantomData};
 
 pub trait Field: Clone + Send + Sync + 'static {
     fn shape() -> Shape;
+    /// Advisory labels keyed by exact enum wire values. Containers forward leaf labels.
+    /// These labels are separate from codecs and persisted schema identity.
+    fn enum_labels() -> BTreeMap<String, String> {
+        BTreeMap::new()
+    }
     /// Optional codec identity for descriptor-driven presentation.
     fn codec_identity() -> Option<crate::CodecIdentity> {
         None
@@ -18,6 +23,7 @@ pub trait Field: Clone + Send + Sync + 'static {
             shape: Self::shape(),
             codec: Self::codec_identity(),
             codec_wrappers: Self::codec_wrappers(),
+            enum_labels: Self::enum_labels(),
         })
     }
     fn encode(&self) -> Value;
@@ -93,6 +99,9 @@ impl Field for FiniteF64 {
     }
 }
 impl<T: Field> Field for Vec<T> {
+    fn enum_labels() -> BTreeMap<String, String> {
+        T::enum_labels()
+    }
     fn codec_identity() -> Option<crate::CodecIdentity> {
         T::codec_identity()
     }
@@ -113,6 +122,9 @@ impl<T: Field> Field for Vec<T> {
     }
 }
 impl<T: Field> Field for BTreeMap<String, T> {
+    fn enum_labels() -> BTreeMap<String, String> {
+        T::enum_labels()
+    }
     fn codec_identity() -> Option<crate::CodecIdentity> {
         T::codec_identity()
     }
@@ -187,6 +199,9 @@ impl<R: Resource> Field for ResourceRef<R> {
     }
 }
 impl<T: Field> Field for Option<T> {
+    fn enum_labels() -> BTreeMap<String, String> {
+        T::enum_labels()
+    }
     fn codec_identity() -> Option<crate::CodecIdentity> {
         T::codec_identity()
     }

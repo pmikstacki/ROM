@@ -1,0 +1,55 @@
+[WebServer] (node:677989) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:678009) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 14 tests using 1 worker
+
+(node:678333) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/components/sortable-fields.spec.ts:10:1 › manual reorder keeps invalid duplicate row draft and blocks resource submission (1.2s)
+  ✓   2 [chromium] › tests/components/sortable-fields.spec.ts:40:1 › keyboard drag submits only canonical values and retains duplicate identity (591ms)
+  ✓   3 [chromium] › tests/components/sortable-fields.spec.ts:63:1 › pointer reorder keeps invalid drafts attached and removal clears row error (1.3s)
+  ✓   4 [chromium] › tests/components/sortable-fields.spec.ts:98:1 › readonly and bounded lists expose no drag or mutation controls (315ms)
+  ✓   5 [chromium] › tests/components/sortable-fields.spec.ts:114:1 › codec row draft survives pointer replacement without losing exact decimal source (1.4s)
+  ✓   6 [chromium] › tests/components/sortable-fields.spec.ts:152:1 › action inputs use the same canonical list reorder (1.1s)
+  ✓   7 [chromium] › tests/components/sortable-fields.spec.ts:177:1 › filter candidates retain invalid row state after reorder (410ms)
+  ✓   8 [chromium] › tests/components/sortable-fields.spec.ts:200:1 › touch handle reorders a duplicate row without serializing drag metadata (1.9s)
+  ✓   9 [chromium] › tests/components/sortable-fields.spec.ts:252:1 › closing a keyboard drag releases the action and preserves the form candidate (978ms)
+  ✓  10 [chromium] › tests/components/sortable-fields.spec.ts:279:1 › prototype-shaped map keys keep invalid drafts local to their editor (610ms)
+  ✓  11 [chromium] › tests/components/sortable-fields.spec.ts:314:1 › labelled enum bulk append preserves duplicates and canonical ordered values (976ms)
+  ✓  12 [chromium] › tests/components/sortable-fields.spec.ts:357:1 › bulk chooser cancellation emits nothing and unknown stored enum remains visible (697ms)
+  ✓  13 [chromium] › tests/components/sortable-fields.spec.ts:398:1 › action and filter reuse labelled enum bulk append with exact members (1.8s)
+  ✘  14 [chromium] › tests/components/sortable-fields.spec.ts:456:1 › enum labels display across wrapped collections and unknown members stay exact (5.3s)
+
+
+  1) [chromium] › tests/components/sortable-fields.spec.ts:456:1 › enum labels display across wrapped collections and unknown members stay exact 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  getByRole('region', { name: 'Nested enum display' })
+    Expected: "[{first: Waiting, second: Active, unknown: retired}]"
+    Received: "[{first: Waiting,second: Active,unknown: retired}]"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" getByRole('region', { name: 'Nested enum display' }) with timeout 5000ms
+      - waiting for getByRole('region', { name: 'Nested enum display' })
+        14 × locator resolved to <section aria-label="Nested enum display">…</section>
+           - unexpected value "[{first: Waiting,second: Active,unknown: retired}]"
+
+
+      460 |   await expect(
+      461 |     page.getByRole("region", { name: "Nested enum display" }),
+    > 462 |   ).toHaveText("[{first: Waiting, second: Active, unknown: retired}]");
+          |     ^
+      463 |   const resource = page.getByRole("region", { name: "Resource editor" });
+      464 |   await expect(
+      465 |     resource.getByLabel("phase value", { exact: true }),
+        at /root/ROM/studio/tests/components/sortable-fields.spec.ts:462:5
+
+    Error Context: test-results/sortable-fields-enum-label-ee418--unknown-members-stay-exact-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/components/sortable-fields.spec.ts:456:1 › enum labels display across wrapped collections and unknown members stay exact 
+  13 passed (20.2s)

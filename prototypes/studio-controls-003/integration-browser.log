@@ -1,0 +1,444 @@
+[WebServer] (node:579722) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 102 tests using 2 workers
+
+(node:579777) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:579778) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [webkit] › tests/components/direct-form.spec.ts:3:1 › current null and absent fields are distinct from an empty value (322ms)
+  ✓    2 [webkit] › tests/components/controls.spec.ts:7:1 › integer fields request a numeric mobile keyboard without losing exact input (564ms)
+  ✓    3 [webkit] › tests/components/direct-form.spec.ts:14:1 › generic scalar fields fit label, control and actions in one mobile row (306ms)
+  ✓    5 [webkit] › tests/components/direct-form.spec.ts:35:1 › choosing Set a value starts from the current value (722ms)
+  ✓    6 [webkit] › tests/components/direct-form.spec.ts:53:1 › switching an invalid omitted field to a value resets its draft (809ms)
+  ✘    4 [webkit] › tests/components/controls.spec.ts:19:1 › Resource references identify the target kind while accepting an exact ID (5.6s)
+(node:580219) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘    7 [webkit] › tests/components/direct-form.spec.ts:72:1 › nested null differs from an empty value in an expanded list editor (5.3s)
+(node:580337) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    8 [webkit] › tests/components/controls.spec.ts:30:1 › Resource controls preserve integer, presence, boolean and nested edits (1.1s)
+  ✓    9 [webkit] › tests/components/direct-form.spec.ts:105:1 › large collections remain readable when editing is bounded (342ms)
+  ✓   11 [webkit] › tests/components/direct-form.spec.ts:118:1 › descriptor change keeps existing collection available for read-only inspection (410ms)
+  ✓   10 [webkit] › tests/components/controls.spec.ts:58:1 › same field hosts support custom codec, nested collections and generic action input (2.0s)
+  ✓   13 [webkit] › tests/components/controls.spec.ts:82:1 › expanded action input describes submission rather than Resource saving (598ms)
+  ✓   12 [webkit] › tests/components/direct-form.spec.ts:133:1 › direct fields distinguish unchanged, false, zero, empty, null and removal (1.9s)
+  ✓   14 [webkit] › tests/components/controls.spec.ts:91:1 › unsupported action stays visible, generic table selects, query emits values (649ms)
+  ✓   15 [webkit] › tests/components/reference-picker.spec.ts:7:1 › reference lookup is lazy and chooses an authorized title without changing exact identity or main navigation (464ms)
+  ✓   17 [webkit] › tests/components/reference-picker.spec.ts:30:1 › debounced search filters bounded candidates and Escape restores focus (729ms)
+  ✓   16 [webkit] › tests/components/controls.spec.ts:108:1 › keyboard controls and assembled accessibility (886ms)
+  ✓   18 [webkit] › tests/components/reference-picker.spec.ts:68:1 › denied lookup preserves the exact ID fallback and never reports an empty successful search (404ms)
+  ✓   20 [webkit] › tests/components/reference-picker.spec.ts:88:1 › withheld titles use the shared safe fallback and undisclosed kinds do not query (344ms)
+  ✓   19 [webkit] › tests/components/controls.spec.ts:118:1 › descriptor change retains an open draft and requires explicit reopen (1.2s)
+  ✓   21 [webkit] › tests/components/reference-picker.spec.ts:109:1 › session invalidation removes delayed and selected descriptions without erasing an exact ID (1.1s)
+  ✓   22 [webkit] › tests/components/controls.spec.ts:166:1 › invalid field keeps keyboard focus and cannot submit until corrected (623ms)
+  ✓   23 [webkit] › tests/components/reference-picker.spec.ts:130:1 › without lookup context the supported reference stays an exact ID editor (285ms)
+  ✓   24 [webkit] › tests/components/controls.spec.ts:192:1 › shared Select Checkbox and submit keyboard semantics preserve a boolean (378ms)
+  ✓   25 [webkit] › tests/components/reference-picker.spec.ts:143:1 › the picker remains inside a narrow mobile viewport (351ms)
+  ✓   26 [webkit] › tests/components/controls.spec.ts:212:1 › optional remove and empty string remain distinct from omitted fields (1.2s)
+  ✓   28 [webkit] › tests/components/controls.spec.ts:233:1 › nested invalid input survives sibling edits and removal releases only its error (1.3s)
+  ✓   27 [webkit] › tests/components/reference-picker.spec.ts:164:1 › search requests are capped per open picker while exact ID editing remains available (2.6s)
+  ✓   30 [webkit] › tests/components/reference-picker.spec.ts:197:1 › selected authorized descriptions disappear with the session while the exact ID stays intact (462ms)
+  ✓   31 [webkit] › tests/components/reference-picker.spec.ts:215:1 › empty reference input reports the canonical field path without replacing the last value (262ms)
+  ✓   29 [webkit] › tests/components/controls.spec.ts:254:1 › enum reference and prototype-shaped map keys use generic controls (2.1s)
+  ✓   33 [webkit] › tests/components/controls.spec.ts:274:1 › opaque input uses the shared strict lossless codec (367ms)
+  ✓   34 [webkit] › tests/components/controls.spec.ts:290:1 › sort field is independent from filter field (1.1s)
+  ✓   35 [webkit] › tests/components/controls.spec.ts:304:1 › sort picker excludes collection fields but retains scalar fields (349ms)
+  ✘   32 [webkit] › tests/components/reference-picker.spec.ts:224:1 › a denied relookup retires the previously selected title and preserves the ID (5.5s)
+  ✓   36 [webkit] › tests/components/controls.spec.ts:319:1 › wrapped custom codecs apply only to leaves; unknown leaves remain read-only (2.9s)
+(node:588485) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   37 [webkit] › tests/components/controls.spec.ts:383:1 › query filters preserve wrapper provenance and edit only registered leaves (591ms)
+ROM_TABLE_FRAME {"engine":"webkit","rows":100,"columns":16,"cells_before":1600,"cells_after_clear":0,"navigation_to_visible_frame_ms":501,"clear_to_frame_ms":101,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓   39 [webkit] › tests/components/controls.spec.ts:399:3 › finite generic table 100 row frame and DOM retention sample (923ms)
+ROM_TABLE_FRAME {"engine":"webkit","rows":500,"columns":16,"cells_before":8000,"cells_after_clear":0,"navigation_to_visible_frame_ms":2001,"clear_to_frame_ms":1588,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓   40 [webkit] › tests/components/controls.spec.ts:399:3 › finite generic table 500 row frame and DOM retention sample (4.0s)
+  ✘   38 [webkit] › tests/components/semantic-fields.spec.ts:3:1 › standard fields provide shared compact controls without application renderers (5.3s)
+(node:591642) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   41 [webkit] › tests/components/sortable-fields.spec.ts:10:1 › manual reorder keeps invalid duplicate row draft and blocks resource submission (901ms)
+  ✓   43 [webkit] › tests/components/sortable-fields.spec.ts:40:1 › keyboard drag submits only canonical values and retains duplicate identity (619ms)
+  ✓   44 [webkit] › tests/components/sortable-fields.spec.ts:63:1 › pointer reorder keeps invalid drafts attached and removal clears row error (1.1s)
+  ✓   45 [webkit] › tests/components/sortable-fields.spec.ts:98:1 › readonly and bounded lists expose no drag or mutation controls (320ms)
+  ✓   46 [webkit] › tests/components/sortable-fields.spec.ts:114:1 › codec row draft survives pointer replacement without losing exact decimal source (1.1s)
+  ✓   47 [webkit] › tests/components/sortable-fields.spec.ts:152:1 › action inputs use the same canonical list reorder (1.2s)
+  ✓   48 [webkit] › tests/components/sortable-fields.spec.ts:177:1 › filter candidates retain invalid row state after reorder (413ms)
+  -   49 [webkit] › tests/components/sortable-fields.spec.ts:200:1 › touch handle reorders a duplicate row without serializing drag metadata
+  ✓   50 [webkit] › tests/components/sortable-fields.spec.ts:252:1 › closing a keyboard drag releases the action and preserves the form candidate (1.0s)
+(node:596763) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   51 [chromium] › tests/components/controls.spec.ts:7:1 › integer fields request a numeric mobile keyboard without losing exact input (507ms)
+  ✘   52 [chromium] › tests/components/controls.spec.ts:19:1 › Resource references identify the target kind while accepting an exact ID (5.3s)
+(node:600694) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   53 [chromium] › tests/components/controls.spec.ts:30:1 › Resource controls preserve integer, presence, boolean and nested edits (984ms)
+  ✓   54 [chromium] › tests/components/controls.spec.ts:58:1 › same field hosts support custom codec, nested collections and generic action input (1.3s)
+  ✓   55 [chromium] › tests/components/controls.spec.ts:82:1 › expanded action input describes submission rather than Resource saving (462ms)
+  ✓   56 [chromium] › tests/components/controls.spec.ts:91:1 › unsupported action stays visible, generic table selects, query emits values (483ms)
+  ✓   57 [chromium] › tests/components/controls.spec.ts:108:1 › keyboard controls and assembled accessibility (867ms)
+  ✓   58 [chromium] › tests/components/controls.spec.ts:118:1 › descriptor change retains an open draft and requires explicit reopen (1.0s)
+  ✓   59 [chromium] › tests/components/controls.spec.ts:166:1 › invalid field keeps keyboard focus and cannot submit until corrected (430ms)
+  ✓   60 [chromium] › tests/components/controls.spec.ts:192:1 › shared Select Checkbox and submit keyboard semantics preserve a boolean (222ms)
+  ✓   61 [chromium] › tests/components/controls.spec.ts:212:1 › optional remove and empty string remain distinct from omitted fields (969ms)
+  ✓   62 [chromium] › tests/components/controls.spec.ts:233:1 › nested invalid input survives sibling edits and removal releases only its error (844ms)
+  ✓   63 [chromium] › tests/components/controls.spec.ts:254:1 › enum reference and prototype-shaped map keys use generic controls (1.5s)
+  ✓   64 [chromium] › tests/components/controls.spec.ts:274:1 › opaque input uses the shared strict lossless codec (384ms)
+  ✓   65 [chromium] › tests/components/controls.spec.ts:290:1 › sort field is independent from filter field (1.2s)
+  ✓   66 [chromium] › tests/components/controls.spec.ts:304:1 › sort picker excludes collection fields but retains scalar fields (199ms)
+  ✓   67 [chromium] › tests/components/controls.spec.ts:319:1 › wrapped custom codecs apply only to leaves; unknown leaves remain read-only (2.4s)
+  ✓   68 [chromium] › tests/components/controls.spec.ts:383:1 › query filters preserve wrapper provenance and edit only registered leaves (409ms)
+ROM_TABLE_FRAME {"engine":"chromium","rows":100,"columns":16,"cells_before":1600,"cells_after_clear":0,"navigation_to_visible_frame_ms":207.19999998807907,"clear_to_frame_ms":51.80000001192093,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓   69 [chromium] › tests/components/controls.spec.ts:399:3 › finite generic table 100 row frame and DOM retention sample (419ms)
+ROM_TABLE_FRAME {"engine":"chromium","rows":500,"columns":16,"cells_before":8000,"cells_after_clear":0,"navigation_to_visible_frame_ms":853.2000000476837,"clear_to_frame_ms":111.80000001192093,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓   70 [chromium] › tests/components/controls.spec.ts:399:3 › finite generic table 500 row frame and DOM retention sample (1.2s)
+  ✓   71 [chromium] › tests/components/direct-form.spec.ts:3:1 › current null and absent fields are distinct from an empty value (130ms)
+  ✓   72 [chromium] › tests/components/direct-form.spec.ts:14:1 › generic scalar fields fit label, control and actions in one mobile row (151ms)
+  ✓   73 [chromium] › tests/components/direct-form.spec.ts:35:1 › choosing Set a value starts from the current value (563ms)
+  ✘   42 [webkit] › tests/components/semantic-fields.spec.ts:42:1 › invalid semantic drafts block submission and retain the user's exact input (30.0s)
+  ✓   74 [chromium] › tests/components/direct-form.spec.ts:53:1 › switching an invalid omitted field to a value resets its draft (543ms)
+(node:611068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   75 [chromium] › tests/components/direct-form.spec.ts:72:1 › nested null differs from an empty value in an expanded list editor (5.2s)
+(node:612838) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   77 [chromium] › tests/components/direct-form.spec.ts:105:1 › large collections remain readable when editing is bounded (318ms)
+  ✓   78 [chromium] › tests/components/direct-form.spec.ts:118:1 › descriptor change keeps existing collection available for read-only inspection (223ms)
+  ✓   79 [chromium] › tests/components/direct-form.spec.ts:133:1 › direct fields distinguish unchanged, false, zero, empty, null and removal (1.4s)
+  ✓   80 [chromium] › tests/components/reference-picker.spec.ts:7:1 › reference lookup is lazy and chooses an authorized title without changing exact identity or main navigation (309ms)
+  ✓   81 [chromium] › tests/components/reference-picker.spec.ts:30:1 › debounced search filters bounded candidates and Escape restores focus (527ms)
+  ✓   82 [chromium] › tests/components/reference-picker.spec.ts:68:1 › denied lookup preserves the exact ID fallback and never reports an empty successful search (219ms)
+  ✓   83 [chromium] › tests/components/reference-picker.spec.ts:88:1 › withheld titles use the shared safe fallback and undisclosed kinds do not query (194ms)
+  ✓   84 [chromium] › tests/components/reference-picker.spec.ts:109:1 › session invalidation removes delayed and selected descriptions without erasing an exact ID (937ms)
+  ✓   85 [chromium] › tests/components/reference-picker.spec.ts:130:1 › without lookup context the supported reference stays an exact ID editor (119ms)
+  ✓   86 [chromium] › tests/components/reference-picker.spec.ts:143:1 › the picker remains inside a narrow mobile viewport (203ms)
+  ✓   87 [chromium] › tests/components/reference-picker.spec.ts:164:1 › search requests are capped per open picker while exact ID editing remains available (2.5s)
+  ✓   88 [chromium] › tests/components/reference-picker.spec.ts:197:1 › selected authorized descriptions disappear with the session while the exact ID stays intact (320ms)
+  ✓   89 [chromium] › tests/components/reference-picker.spec.ts:215:1 › empty reference input reports the canonical field path without replacing the last value (123ms)
+  ✘   90 [chromium] › tests/components/reference-picker.spec.ts:224:1 › a denied relookup retires the previously selected title and preserves the ID (5.4s)
+(node:615640) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   91 [chromium] › tests/components/semantic-fields.spec.ts:3:1 › standard fields provide shared compact controls without application renderers (5.2s)
+(node:616512) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   76 [webkit] › tests/components/semantic-fields.spec.ts:67:1 › expanded document preserves numeric tokens and multiline source (30.0s)
+(node:616861) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   93 [chromium] › tests/components/sortable-fields.spec.ts:10:1 › manual reorder keeps invalid duplicate row draft and blocks resource submission (1.0s)
+  ✓   94 [chromium] › tests/components/sortable-fields.spec.ts:40:1 › keyboard drag submits only canonical values and retains duplicate identity (456ms)
+  ✓   95 [chromium] › tests/components/sortable-fields.spec.ts:63:1 › pointer reorder keeps invalid drafts attached and removal clears row error (1.3s)
+  ✓   96 [chromium] › tests/components/sortable-fields.spec.ts:98:1 › readonly and bounded lists expose no drag or mutation controls (213ms)
+  ✓   97 [chromium] › tests/components/sortable-fields.spec.ts:114:1 › codec row draft survives pointer replacement without losing exact decimal source (1.1s)
+  ✓   98 [chromium] › tests/components/sortable-fields.spec.ts:152:1 › action inputs use the same canonical list reorder (878ms)
+  ✓   99 [chromium] › tests/components/sortable-fields.spec.ts:177:1 › filter candidates retain invalid row state after reorder (257ms)
+  ✓  100 [chromium] › tests/components/sortable-fields.spec.ts:200:1 › touch handle reorders a duplicate row without serializing drag metadata (1.6s)
+  ✓  101 [chromium] › tests/components/sortable-fields.spec.ts:252:1 › closing a keyboard drag releases the action and preserves the form candidate (813ms)
+  ✘   92 [chromium] › tests/components/semantic-fields.spec.ts:42:1 › invalid semantic drafts block submission and retain the user's exact input (30.0s)
+(node:617824) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  102 [chromium] › tests/components/semantic-fields.spec.ts:67:1 › expanded document preserves numeric tokens and multiline source (30.0s)
+
+
+  1) [webkit] › tests/components/controls.spec.ts:19:1 › Resource references identify the target kind while accepting an exact ID 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByLabel('linked value', { exact: true })
+    Expected: "search"
+    Received: ""
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByLabel('linked value', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('linked value', { exact: true })
+        14 × locator resolved to <input data-slot="input" aria-invalid="false" aria-label="linked value" placeholder="Exact Resource ID in fixture" class="dark:bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 h-9 rounded-md border bg-transparent px-2.5 py-1 text-base shadow-xs transition-[color,box-shadow] file:h-7 file:text-sm file:font-medium focus-visible:ring-…/>
+           - unexpected value "null"
+
+
+      22 |   await selectValue(page.getByLabel("linked mode", { exact: true }), "value");
+      23 |   const linked = page.getByLabel("linked value", { exact: true });
+    > 24 |   await expect(linked).toHaveAttribute("type", "search");
+         |                        ^
+      25 |   await expect(linked).toHaveAttribute("placeholder", "Resource ID in fixture");
+      26 |   await linked.fill("row-2");
+      27 |   await page.getByRole("button", { name: "Apply patch" }).click();
+        at /root/ROM/studio/tests/components/controls.spec.ts:24:24
+
+    Error Context: test-results/controls-Resource-referenc-39321-while-accepting-an-exact-ID-webkit/error-context.md
+
+  2) [webkit] › tests/components/direct-form.spec.ts:72:1 › nested null differs from an empty value in an expanded list editor 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('dialog', { name: 'nullable values' }).getByText('Item 1').locator('..').getByText('Null', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('dialog', { name: 'nullable values' }).getByText('Item 1').locator('..').getByText('Null', { exact: true }) with timeout 5000ms
+      - waiting for getByRole('dialog', { name: 'nullable values' }).getByText('Item 1').locator('..').getByText('Null', { exact: true })
+
+
+      78 |   await expect(
+      79 |     editor.getByText("Item 1").locator("..").getByText("Null", { exact: true }),
+    > 80 |   ).toBeVisible();
+         |     ^
+      81 |   await expect(
+      82 |     editor.getByLabel("nullable_values[0] value", { exact: true }),
+      83 |   ).toHaveCount(0);
+        at /root/ROM/studio/tests/components/direct-form.spec.ts:80:5
+
+    Error Context: test-results/direct-form-nested-null-di-d79bc--in-an-expanded-list-editor-webkit/error-context.md
+
+  3) [webkit] › tests/components/reference-picker.spec.ts:224:1 › a denied relookup retires the previously selected title and preserves the ID 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByText('Ada Lovelace', { exact: true })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByText('Ada Lovelace', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Ada Lovelace', { exact: true })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      237 |     page.getByText("Reference lookup was denied. Enter an exact Resource ID."),
+      238 |   ).toBeVisible();
+    > 239 |   await expect(page.getByText("Ada Lovelace", { exact: true })).toHaveCount(0);
+          |                                                                 ^
+      240 |   await expect(page.getByTestId("stored-id")).toHaveText(
+      241 |     '"  id with spaces  "',
+      242 |   );
+        at /root/ROM/studio/tests/components/reference-picker.spec.ts:239:65
+
+    Error Context: test-results/reference-picker-a-denied--a7d12--title-and-preserves-the-ID-webkit/error-context.md
+
+  4) [webkit] › tests/components/semantic-fields.spec.ts:3:1 › standard fields provide shared compact controls without application renderers 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator: getByRole('textbox', { name: 'decimal value', exact: true })
+    Expected: "9007199254740993.000000000000000001"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveValue" getByRole('textbox', { name: 'decimal value', exact: true }) with timeout 5000ms
+      - waiting for getByRole('textbox', { name: 'decimal value', exact: true })
+
+
+       7 |   await expect(
+       8 |     page.getByRole("textbox", { name: "decimal value", exact: true }),
+    >  9 |   ).toHaveValue("9007199254740993.000000000000000001");
+         |     ^
+      10 |   await expect(page.getByLabel("date value", { exact: true })).toHaveAttribute(
+      11 |     "type",
+      12 |     "date",
+        at /root/ROM/studio/tests/components/semantic-fields.spec.ts:9:5
+
+    Error Context: test-results/semantic-fields-standard-f-9d707-thout-application-renderers-webkit/error-context.md
+
+  5) [webkit] › tests/components/semantic-fields.spec.ts:42:1 › invalid semantic drafts block submission and retain the user's exact input 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('textbox', { name: 'decimal value', exact: true })
+
+
+      48 |     exact: true,
+      49 |   });
+    > 50 |   await input.fill("1.");
+         |               ^
+      51 |   await expect(input).toHaveValue("1.");
+      52 |   await expect(input).toHaveAttribute("aria-invalid", "true");
+      53 |   await expect(
+        at /root/ROM/studio/tests/components/semantic-fields.spec.ts:50:15
+
+    Error Context: test-results/semantic-fields-invalid-se-65af3-tain-the-user-s-exact-input-webkit/error-context.md
+
+  6) [webkit] › tests/components/semantic-fields.spec.ts:67:1 › expanded document preserves numeric tokens and multiline source 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Expand json-document editor', exact: true })
+
+
+      72 |   await page
+      73 |     .getByRole("button", { name: "Expand json-document editor", exact: true })
+    > 74 |     .click();
+         |      ^
+      75 |   const json = page.getByRole("textbox", {
+      76 |     name: "json-document expanded value",
+      77 |     exact: true,
+        at /root/ROM/studio/tests/components/semantic-fields.spec.ts:74:6
+
+    Error Context: test-results/semantic-fields-expanded-d-a08ae-tokens-and-multiline-source-webkit/error-context.md
+
+  7) [chromium] › tests/components/controls.spec.ts:19:1 › Resource references identify the target kind while accepting an exact ID 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByLabel('linked value', { exact: true })
+    Expected: "search"
+    Received: ""
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByLabel('linked value', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('linked value', { exact: true })
+        14 × locator resolved to <input data-slot="input" aria-invalid="false" aria-label="linked value" placeholder="Exact Resource ID in fixture" class="dark:bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 h-9 rounded-md border bg-transparent px-2.5 py-1 text-base shadow-xs transition-[color,box-shadow] file:h-7 file:text-sm file:font-medium focus-visible:ring-…/>
+           - unexpected value "null"
+
+
+      22 |   await selectValue(page.getByLabel("linked mode", { exact: true }), "value");
+      23 |   const linked = page.getByLabel("linked value", { exact: true });
+    > 24 |   await expect(linked).toHaveAttribute("type", "search");
+         |                        ^
+      25 |   await expect(linked).toHaveAttribute("placeholder", "Resource ID in fixture");
+      26 |   await linked.fill("row-2");
+      27 |   await page.getByRole("button", { name: "Apply patch" }).click();
+        at /root/ROM/studio/tests/components/controls.spec.ts:24:24
+
+    Error Context: test-results/controls-Resource-referenc-39321-while-accepting-an-exact-ID-chromium/error-context.md
+
+  8) [chromium] › tests/components/direct-form.spec.ts:72:1 › nested null differs from an empty value in an expanded list editor 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('dialog', { name: 'nullable values' }).getByText('Item 1').locator('..').getByText('Null', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('dialog', { name: 'nullable values' }).getByText('Item 1').locator('..').getByText('Null', { exact: true }) with timeout 5000ms
+      - waiting for getByRole('dialog', { name: 'nullable values' }).getByText('Item 1').locator('..').getByText('Null', { exact: true })
+
+
+      78 |   await expect(
+      79 |     editor.getByText("Item 1").locator("..").getByText("Null", { exact: true }),
+    > 80 |   ).toBeVisible();
+         |     ^
+      81 |   await expect(
+      82 |     editor.getByLabel("nullable_values[0] value", { exact: true }),
+      83 |   ).toHaveCount(0);
+        at /root/ROM/studio/tests/components/direct-form.spec.ts:80:5
+
+    Error Context: test-results/direct-form-nested-null-di-d79bc--in-an-expanded-list-editor-chromium/error-context.md
+
+  9) [chromium] › tests/components/reference-picker.spec.ts:224:1 › a denied relookup retires the previously selected title and preserves the ID 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByText('Ada Lovelace', { exact: true })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByText('Ada Lovelace', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Ada Lovelace', { exact: true })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      237 |     page.getByText("Reference lookup was denied. Enter an exact Resource ID."),
+      238 |   ).toBeVisible();
+    > 239 |   await expect(page.getByText("Ada Lovelace", { exact: true })).toHaveCount(0);
+          |                                                                 ^
+      240 |   await expect(page.getByTestId("stored-id")).toHaveText(
+      241 |     '"  id with spaces  "',
+      242 |   );
+        at /root/ROM/studio/tests/components/reference-picker.spec.ts:239:65
+
+    Error Context: test-results/reference-picker-a-denied--a7d12--title-and-preserves-the-ID-chromium/error-context.md
+
+  10) [chromium] › tests/components/semantic-fields.spec.ts:3:1 › standard fields provide shared compact controls without application renderers 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator: getByRole('textbox', { name: 'decimal value', exact: true })
+    Expected: "9007199254740993.000000000000000001"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveValue" getByRole('textbox', { name: 'decimal value', exact: true }) with timeout 5000ms
+      - waiting for getByRole('textbox', { name: 'decimal value', exact: true })
+
+
+       7 |   await expect(
+       8 |     page.getByRole("textbox", { name: "decimal value", exact: true }),
+    >  9 |   ).toHaveValue("9007199254740993.000000000000000001");
+         |     ^
+      10 |   await expect(page.getByLabel("date value", { exact: true })).toHaveAttribute(
+      11 |     "type",
+      12 |     "date",
+        at /root/ROM/studio/tests/components/semantic-fields.spec.ts:9:5
+
+    Error Context: test-results/semantic-fields-standard-f-9d707-thout-application-renderers-chromium/error-context.md
+
+  11) [chromium] › tests/components/semantic-fields.spec.ts:42:1 › invalid semantic drafts block submission and retain the user's exact input 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('textbox', { name: 'decimal value', exact: true })
+
+
+      48 |     exact: true,
+      49 |   });
+    > 50 |   await input.fill("1.");
+         |               ^
+      51 |   await expect(input).toHaveValue("1.");
+      52 |   await expect(input).toHaveAttribute("aria-invalid", "true");
+      53 |   await expect(
+        at /root/ROM/studio/tests/components/semantic-fields.spec.ts:50:15
+
+    Error Context: test-results/semantic-fields-invalid-se-65af3-tain-the-user-s-exact-input-chromium/error-context.md
+
+  12) [chromium] › tests/components/semantic-fields.spec.ts:67:1 › expanded document preserves numeric tokens and multiline source 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Expand json-document editor', exact: true })
+
+
+      72 |   await page
+      73 |     .getByRole("button", { name: "Expand json-document editor", exact: true })
+    > 74 |     .click();
+         |      ^
+      75 |   const json = page.getByRole("textbox", {
+      76 |     name: "json-document expanded value",
+      77 |     exact: true,
+        at /root/ROM/studio/tests/components/semantic-fields.spec.ts:74:6
+
+    Error Context: test-results/semantic-fields-expanded-d-a08ae-tokens-and-multiline-source-chromium/error-context.md
+
+  12 failed
+    [webkit] › tests/components/controls.spec.ts:19:1 › Resource references identify the target kind while accepting an exact ID 
+    [webkit] › tests/components/direct-form.spec.ts:72:1 › nested null differs from an empty value in an expanded list editor 
+    [webkit] › tests/components/reference-picker.spec.ts:224:1 › a denied relookup retires the previously selected title and preserves the ID 
+    [webkit] › tests/components/semantic-fields.spec.ts:3:1 › standard fields provide shared compact controls without application renderers 
+    [webkit] › tests/components/semantic-fields.spec.ts:42:1 › invalid semantic drafts block submission and retain the user's exact input 
+    [webkit] › tests/components/semantic-fields.spec.ts:67:1 › expanded document preserves numeric tokens and multiline source 
+    [chromium] › tests/components/controls.spec.ts:19:1 › Resource references identify the target kind while accepting an exact ID 
+    [chromium] › tests/components/direct-form.spec.ts:72:1 › nested null differs from an empty value in an expanded list editor 
+    [chromium] › tests/components/reference-picker.spec.ts:224:1 › a denied relookup retires the previously selected title and preserves the ID 
+    [chromium] › tests/components/semantic-fields.spec.ts:3:1 › standard fields provide shared compact controls without application renderers 
+    [chromium] › tests/components/semantic-fields.spec.ts:42:1 › invalid semantic drafts block submission and retain the user's exact input 
+    [chromium] › tests/components/semantic-fields.spec.ts:67:1 › expanded document preserves numeric tokens and multiline source 
+  1 skipped
+  89 passed (2.4m)

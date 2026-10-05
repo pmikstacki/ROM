@@ -1,0 +1,48 @@
+Expected compile failure: presentation_duplicate, primary line 3
+Expected compile failure: presentation_duplicate_group, primary line 6
+Expected compile failure: presentation_empty_label, primary line 3
+Expected compile failure: presentation_field_duplicate, primary line 5
+Expected compile failure: presentation_field_malformed, primary line 5
+Expected compile failure: presentation_help_oversized, primary line 6
+Expected compile failure: presentation_input, primary line 3
+Expected compile failure: presentation_input_field, primary line 4
+Expected compile failure: presentation_label_oversized, primary line 5
+Expected compile failure: presentation_malformed, primary line 3
+Expected compile failure: presentation_settings_duplicate, primary line 6
+Expected compile failure: presentation_settings_key_duplicate, primary line 5
+Expected compile failure: presentation_settings_missing, primary line 3
+Expected compile failure: presentation_title_bool, primary line 3
+Expected compile failure: presentation_title_renamed, primary line 3
+Expected compile failure: presentation_unknown_group, primary line 5
+Expected compile failure: presentation_unknown_option, primary line 3
+Expected compile failure: presentation_wrong_field, primary line 5
+Expected compile failure: presentation_wrong_type, primary line 3
+Expected compile failure: resource_version_zero, primary line 3
+Expected compile failure: resource_version_duplicate, primary line 3
+Expected compile failure: resource_version_string, primary line 3
+Expected compile failure: resource_version_float, primary line 3
+Expected compile failure: resource_version_overflow, primary line 3
+Expected compile failure: input_version, primary line 3
+Expected compile failure: unsupported, primary line 5
+Expected compile failure: serde, primary line 5
+Expected compile failure: duplicate, primary line 6
+Expected compile failure: wrong_input, primary line 6
+Expected compile failure: wrong_selector, primary line 5
+Expected compile failure: input_unsupported, primary line 4
+Expected compile failure: input_duplicate, primary line 5
+Expected compile failure: input_serde, primary line 4
+Expected compile failure: input_generic, primary line 3
+Expected compile failure: input_duplicate_option, primary line 4
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running `tests/compile/target/debug/renamed`
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running `tests/compile/target/debug/input_renamed`
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running `tests/compile-renamed/target/debug/rom-renamed-input-fixture`
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running `tests/compile/target/debug/resource_version`
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running `tests/compile/target/debug/presentation_valid`
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running `tests/compile/target/debug/presentation_shadowed_builtin`

@@ -51,6 +51,10 @@ pub trait Resource: Clone + Send + Sync + 'static {
     fn field_codecs() -> Vec<crate::FieldCodec> {
         Vec::new()
     }
+    /// Advisory enum value labels; never part of persisted layout identity.
+    fn field_enum_labels() -> Vec<crate::FieldEnumLabels> {
+        Vec::new()
+    }
     /// Optional human presentation, independent of persistence and authorization.
     fn presentation() -> Option<crate::ResourcePresentation> {
         None

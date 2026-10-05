@@ -3,6 +3,7 @@
   import { normalizeValue } from "../client/codec.ts";
   import { Input } from "../components/ui/input/index.js";
   import { Button } from "../components/ui/button/index.js";
+  import { enumLabel } from "../client/enum-labels.ts";
   import SelectAdapter from "./SelectAdapter.svelte";
   import CheckboxAdapter from "./CheckboxAdapter.svelte";
   import SwitchAdapter from "./SwitchAdapter.svelte";
@@ -10,8 +11,18 @@
   import { defaultValue } from "./default-value.ts";
   import { findRenderer } from "./registry.ts";
   import { previewValue } from "./value-format.ts";
+  import { untrack } from "svelte";
+  import type { EditorDraft } from "./editor-draft.ts";
+  import ReferenceField from "./ReferenceField.svelte";
+  import ListEditor from "./ListEditor.svelte";
+  import {
+    maxCollectionDepth as maxDepth,
+    maxCollectionItems as maxItems,
+  } from "./collection-limits.ts";
   import XIcon from "@lucide/svelte/icons/x";
+  let localDraft = $state<EditorDraft>({});
   let {
+    draft = $bindable(localDraft),
     shape,
     value,
     onchange,
@@ -20,17 +31,20 @@
     depth = 0,
     codec,
     codecWrappers = [],
+    enumLabels,
     onerror = () => {},
     direct = false,
     showLabel = true,
     displayLabel,
   }: {
+    draft?: EditorDraft;
     shape: Shape;
     value: WireValue;
     onchange: (value: WireValue) => void;
     label: string;
     readonly?: boolean;
     depth?: number;
+    enumLabels?: FieldDescriptor["enum_labels"];
     codec?: FieldDescriptor["codec"];
     codecWrappers?: NonNullable<FieldDescriptor["codec_wrappers"]>;
     onerror?: (message: string) => void;
@@ -38,29 +52,22 @@
     showLabel?: boolean;
     displayLabel?: string;
   } = $props();
-  let invalid = $state("");
+  const invalid = $derived(draft.invalid ?? "");
   const fieldLabel = $derived(displayLabel || label);
-  let childErrors = $state<Record<string, string>>({});
-  let itemKeys = $state<number[]>([]);
-  let nextKey = 0;
-  $effect(() => {
-    if (
-      shape.type === "list" &&
-      Array.isArray(value) &&
-      itemKeys.length < value.length
-    ) {
-      itemKeys = [
-        ...itemKeys,
-        ...Array.from(
-          { length: value.length - itemKeys.length },
-          () => nextKey++,
-        ),
-      ];
-    }
-  });
+  let childErrors = $state<Record<string, string>>(
+    untrack(() => draft.errors ?? {}),
+  );
   function childError(key: string, error: string) {
     childErrors = { ...childErrors, [key]: error };
+    draft.errors = childErrors;
     onerror(Object.values(childErrors).find(Boolean) ?? "");
+  }
+  function childDraft(key: string): EditorDraft {
+    return untrack(() => {
+      if (!draft.children || !Object.hasOwn(draft.children, key))
+        draft.children = { ...draft.children, [key]: {} };
+      return draft.children[key];
+    });
   }
   let newKey = $state("");
   let Custom = $derived(
@@ -68,9 +75,8 @@
   );
   let wrapped = $derived(codecWrappers.length > 0);
   let wrapperMismatch = $derived(wrapped && codecWrappers[0] !== shape.type);
-  const maxDepth = 6,
-    maxItems = 100;
   function scalar(text: string) {
+    draft.text = text;
     try {
       if (text.length > 65536) throw Error("Field input limit reached.");
       let next: WireValue = text;
@@ -86,49 +92,35 @@
         next = Number(text);
       }
       next = normalizeValue(shape, next, label);
-      invalid = "";
+      draft.invalid = "";
       onerror("");
       onchange(next);
     } catch (error) {
-      invalid = error instanceof Error ? error.message : "Invalid value.";
+      draft.invalid = error instanceof Error ? error.message : "Invalid value.";
       onerror(invalid);
     }
   }
-  function listChange(index: number, next: WireValue) {
-    if (Array.isArray(value)) {
-      const copy = [...value];
-      copy[index] = next;
-      onchange(copy);
+  const unknownEnum = $derived(
+    shape.type === "enum" &&
+      (typeof value !== "string" || !shape.value.includes(value)),
+  );
+  $effect(() => {
+    if (shape.type === "enum" && !codec) {
+      const message = unknownEnum
+        ? "Stored value is not an accepted enum member. Choose a valid value."
+        : "";
+      untrack(() => onerror(message));
     }
-  }
-  function addList() {
-    if (shape.type === "list") {
-      itemKeys = [...itemKeys, nextKey++];
-      onchange([
-        ...(Array.isArray(value) ? value : []),
-        defaultValue(shape.value),
-      ]);
-    }
-  }
-  function removeList(index: number) {
-    if (!Array.isArray(value)) return;
-    itemKeys = itemKeys.filter((_, i) => i !== index);
-    const errors: Record<string, string> = {};
-    for (const [key, error] of Object.entries(childErrors)) {
-      const old = Number(key);
-      if (old !== index) errors[String(old > index ? old - 1 : old)] = error;
-    }
-    childErrors = errors;
-    onerror(Object.values(errors).find(Boolean) ?? "");
-    onchange(value.filter((_, i) => i !== index));
-  }
+  });
   function removeKey(key: string) {
     if (!value || typeof value !== "object" || Array.isArray(value)) return;
     const copy = { ...value };
     delete copy[key];
     const errors = { ...childErrors };
     delete errors[key];
+    if (draft.children) delete draft.children[key];
     childErrors = errors;
+    draft.errors = errors;
     onerror(Object.values(errors).find(Boolean) ?? "");
     onchange(copy);
   }
@@ -156,12 +148,14 @@
   </p>
 {:else if Custom}
   <Custom
-    descriptor={{ name: label, shape, codec }}
+    descriptor={{ name: label, shape, codec, enum_labels: enumLabels }}
     label={fieldLabel}
     {value}
     {onchange}
     {readonly}
     {onerror}
+    {draft}
+    onDraftChange={(next: EditorDraft) => (draft = next)}
   />
 {:else if codec && !wrapped}<p role="alert">
     No renderer is registered for codec {codec.name} version {codec.version}.
@@ -180,6 +174,8 @@
         aria-label={`Set ${fieldLabel} value`}
         onclick={() => {
           onerror("");
+          draft.text = undefined;
+          draft.invalid = "";
           onchange(defaultValue(shape.value));
         }}>Enter value</Button
       >
@@ -193,10 +189,12 @@
           displayLabel={fieldLabel}
           {readonly}
           {depth}
+          bind:draft
           {onerror}
           {direct}
           showLabel={false}
           {codec}
+          {enumLabels}
           codecWrappers={wrapped ? codecWrappers.slice(1) : []}
         />
       </div>
@@ -208,6 +206,8 @@
         aria-label={`Set ${fieldLabel} null`}
         onclick={() => {
           onerror("");
+          draft.text = undefined;
+          draft.invalid = "";
           onchange(null);
         }}>Null</Button
       >
@@ -221,10 +221,12 @@
     displayLabel={fieldLabel}
     {readonly}
     {depth}
+    bind:draft
     {onerror}
     {direct}
     {showLabel}
     {codec}
+    {enumLabels}
     codecWrappers={wrapped ? codecWrappers.slice(1) : []}
   />
 {:else if shape.type === "bool"}
@@ -249,74 +251,32 @@
       value={String(value ?? "")}
       disabled={readonly}
       {onchange}
-      options={shape.value.map((option) => ({ value: option, label: option }))}
+      options={shape.value.map((option) => ({
+        value: option,
+        label: enumLabel(option, enumLabels),
+      }))}
     />
+    {#if unknownEnum}<p role="alert" class="break-all text-sm">
+        Stored value {String(value)} is not an accepted enum member. Choose a valid
+        value.
+      </p>{/if}
   </div>
 {:else if shape.type === "list"}
-  <fieldset class="space-y-2">
-    <legend class="text-xs text-muted-foreground">
-      {direct ? "Items" : `${fieldLabel} items`}
-    </legend>
-    {#if depth >= maxDepth}<p role="alert">Collection nesting limit reached.</p>
-      <p class="break-words text-sm text-muted-foreground">
-        {previewValue(value)}
-      </p>{:else if Array.isArray(value) && value.length > maxItems}<div
-        class="space-y-2"
-      >
-        <p role="alert">
-          Collection item limit reached. Editing is unavailable.
-        </p>
-        <ol class="space-y-1 text-sm">
-          {#each value.slice(0, 10) as item, index}<li class="break-words">
-              {index + 1}. {previewValue(item)}
-            </li>{/each}
-        </ol>
-        <p class="text-sm text-muted-foreground">
-          {value.length - 10} more items
-        </p>
-      </div>{:else}
-      {#each Array.isArray(value) ? value : [] as item, index (itemKeys[index] ?? `initial-${index}`)}
-        <div
-          class="grid grid-cols-[minmax(5.5rem,0.3fr)_minmax(0,1fr)_2.25rem] items-center gap-2 border-b border-border/50 py-2 last:border-b-0"
-        >
-          <span class="text-xs text-muted-foreground">Item {index + 1}</span>
-          <div class="min-w-0">
-            <ValueEditor
-              shape={shape.value}
-              {codec}
-              codecWrappers={wrapped ? codecWrappers.slice(1) : []}
-              value={item}
-              onchange={(next) => listChange(index, next)}
-              label={`${label}[${index}]`}
-              displayLabel={`${fieldLabel}[${index}]`}
-              {readonly}
-              {direct}
-              showLabel={false}
-              depth={depth + 1}
-              onerror={(error) => childError(String(index), error)}
-            />
-          </div>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-sm"
-            aria-label={`Remove ${fieldLabel}[${index}]`}
-            disabled={readonly}
-            onclick={() => removeList(index)}><XIcon class="size-4" /></Button
-          >
-        </div>
-      {/each}
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        aria-label={`Add ${fieldLabel} item`}
-        disabled={readonly ||
-          (Array.isArray(value) && value.length >= maxItems)}
-        onclick={addList}>Add item</Button
-      >
-    {/if}
-  </fieldset>
+  <ListEditor
+    bind:draft
+    shape={shape.value}
+    {value}
+    {onchange}
+    {onerror}
+    {label}
+    displayLabel={fieldLabel}
+    {readonly}
+    {depth}
+    {direct}
+    {codec}
+    {enumLabels}
+    codecWrappers={wrapped ? codecWrappers.slice(1) : []}
+  />
 {:else if shape.type === "map"}
   <fieldset class="space-y-2">
     <legend class="text-xs text-muted-foreground">
@@ -352,8 +312,15 @@
             <ValueEditor
               shape={shape.value}
               {codec}
+              {enumLabels}
               codecWrappers={wrapped ? codecWrappers.slice(1) : []}
               value={item}
+              bind:draft={
+                () => childDraft(key),
+                (next) => {
+                  draft.children![key] = next;
+                }
+              }
               onchange={(next) => mapChange(key, next)}
               label={`${label}.${key}`}
               displayLabel={`${fieldLabel}.${key}`}
@@ -395,29 +362,32 @@
       >
     {/if}
   </fieldset>
+{:else if shape.type === "reference"}
+  <ReferenceField
+    kind={shape.value.kind}
+    path={label}
+    {value}
+    label={fieldLabel}
+    {showLabel}
+    {readonly}
+    {onchange}
+    {onerror}
+  />
 {:else}
   <label
     >{#if showLabel}<span>{fieldLabel}</span>{/if}<Input
       aria-label={`${fieldLabel} value`}
-      type={shape.type === "reference" ? "search" : "text"}
+      type="text"
       inputmode={shape.type === "u64" || shape.type === "i64"
         ? "numeric"
         : shape.type === "f64"
           ? "decimal"
           : undefined}
-      value={value === null ? "" : String(value)}
-      placeholder={shape.type === "reference"
-        ? `Resource ID in ${shape.value.kind}`
-        : undefined}
+      value={draft.text ?? (value === null ? "" : String(value))}
       disabled={readonly}
       aria-invalid={!!invalid}
       oninput={(event) => scalar(event.currentTarget.value)}
     /></label
   >
-  {#if shape.type === "reference" && showLabel}<p
-      class="text-xs text-muted-foreground"
-    >
-      Resource ID in {shape.value.kind}
-    </p>{/if}
 {/if}
 {#if invalid}<p role="alert">{invalid}</p>{/if}

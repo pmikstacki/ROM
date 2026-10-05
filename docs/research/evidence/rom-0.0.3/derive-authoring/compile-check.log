@@ -1,0 +1,85 @@
+Expected compile failure: presentation_duplicate, primary line 3
+Expected compile failure: presentation_duplicate_group, primary line 6
+Expected compile failure: presentation_empty_label, primary line 3
+Expected compile failure: presentation_field_duplicate, primary line 5
+Expected compile failure: presentation_field_malformed, primary line 5
+Expected compile failure: presentation_help_oversized, primary line 6
+Expected compile failure: presentation_input, primary line 3
+Expected compile failure: presentation_input_field, primary line 4
+Expected compile failure: presentation_label_oversized, primary line 5
+Expected compile failure: presentation_malformed, primary line 3
+Expected compile failure: presentation_settings_duplicate, primary line 6
+Expected compile failure: presentation_settings_key_duplicate, primary line 5
+Expected compile failure: presentation_settings_missing, primary line 3
+Expected compile failure: presentation_title_bool, primary line 3
+Expected compile failure: presentation_title_renamed, primary line 3
+Expected compile failure: presentation_unknown_group, primary line 5
+Expected compile failure: presentation_unknown_option, primary line 3
+Expected compile failure: presentation_wrong_field, primary line 5
+Expected compile failure: presentation_wrong_type, primary line 3
+Expected compile failure: resource_version_zero, primary line 3
+Expected compile failure: resource_version_duplicate, primary line 3
+Expected compile failure: resource_version_string, primary line 3
+Expected compile failure: resource_version_float, primary line 3
+Expected compile failure: resource_version_overflow, primary line 3
+Expected compile failure: input_version, primary line 3
+Expected compile failure: unsupported, primary line 5
+Expected compile failure: serde, primary line 5
+Expected compile failure: duplicate, primary line 6
+Expected compile failure: wrong_input, primary line 6
+Expected compile failure: wrong_selector, primary line 5
+Expected compile failure: input_unsupported, primary line 4
+Expected compile failure: input_duplicate, primary line 5
+Expected compile failure: input_serde, primary line 4
+Expected compile failure: input_generic, primary line 3
+Expected compile failure: input_duplicate_option, primary line 4
+   Compiling rom-fixtures v0.0.2 (/workspace/ROM/tests/compile)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.21s
+     Running `tests/compile/target/debug/renamed`
+    Checking rom-fixtures v0.0.2 (/workspace/ROM/tests/compile)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+   Compiling rom-fixtures v0.0.2 (/workspace/ROM/tests/compile)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.16s
+     Running `tests/compile/target/debug/input_renamed`
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.26
+   Compiling quote v1.0.47
+   Compiling version_check v0.9.5
+   Compiling generic-array v0.14.7
+   Compiling crossbeam-utils v0.8.23
+   Compiling crossbeam-epoch v0.9.21
+   Compiling syn v3.0.6
+   Compiling typenum v1.20.1
+   Compiling crossbeam-deque v0.8.8
+   Compiling serde_core v1.0.229
+   Compiling zmij v1.0.23
+   Compiling rayon-core v1.13.0
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling serde v1.0.229
+   Compiling serde_json v1.0.151
+   Compiling digest v0.10.7
+   Compiling serde_derive v1.0.229
+   Compiling tokio-macros v2.7.2
+   Compiling either v1.18.0
+   Compiling cpufeatures v0.2.17
+   Compiling memchr v2.8.3
+   Compiling cfg-if v1.0.5
+   Compiling pin-project-lite v0.2.17
+   Compiling itoa v1.0.18
+   Compiling tokio v1.53.1
+   Compiling sha2 v0.10.9
+   Compiling rayon v1.12.0
+   Compiling rom-derive v0.0.2 (/workspace/ROM/crates/rom-derive)
+   Compiling rom v0.0.2 (/workspace/ROM/crates/rom)
+   Compiling rom-renamed-input-fixture v0.0.2 (/workspace/ROM/tests/compile-renamed)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 8.35s
+     Running `tests/compile-renamed/target/debug/rom-renamed-input-fixture`
+   Compiling rom-fixtures v0.0.2 (/workspace/ROM/tests/compile)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.16s
+     Running `tests/compile/target/debug/resource_version`
+   Compiling rom-fixtures v0.0.2 (/workspace/ROM/tests/compile)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.17s
+     Running `tests/compile/target/debug/presentation_valid`
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running `tests/compile/target/debug/presentation_shadowed_builtin`

@@ -1,0 +1,290 @@
+[
+  {
+    "name": "rom.date",
+    "version": 1,
+    "accepted": [
+      [
+        "2000-02-29",
+        "2000-02-29"
+      ],
+      [
+        "0001-01-01",
+        "0001-01-01"
+      ],
+      [
+        "9999-12-31",
+        "9999-12-31"
+      ]
+    ],
+    "rejected": [
+      "1900-02-29",
+      "2025-02-29",
+      "0000-01-01",
+      "2026-2-01",
+      "2026-04-31",
+      null,
+      123
+    ]
+  },
+  {
+    "name": "rom.time",
+    "version": 1,
+    "accepted": [
+      [
+        "00:00:00",
+        "00:00:00"
+      ],
+      [
+        "23:59:59.123456789",
+        "23:59:59.123456789"
+      ],
+      [
+        "12:30:10.12000",
+        "12:30:10.12"
+      ]
+    ],
+    "rejected": [
+      "24:00:00",
+      "12:60:00",
+      "23:59:60",
+      "12:30",
+      "12:30:00Z",
+      "12:30:00.",
+      "12:30:00.1234567890",
+      null
+    ]
+  },
+  {
+    "name": "rom.datetime",
+    "version": 1,
+    "accepted": [
+      [
+        "2024-03-31T01:30:00+01:00",
+        "2024-03-31T00:30:00.000000000Z"
+      ],
+      [
+        "2024-03-31T02:30:00+02:00",
+        "2024-03-31T00:30:00.000000000Z"
+      ],
+      [
+        "2026-10-05T12:30:00.1200-05:30",
+        "2026-10-05T18:00:00.120000000Z"
+      ]
+    ],
+    "rejected": [
+      "2026-10-05T12:00:00",
+      "2026-10-05T12:00:00-00:00",
+      "2026-10-05 12:00:00Z",
+      "2026-10-05T12:00:60Z",
+      "0001-01-01T00:00:00+01:00",
+      "9999-12-31T23:59:59-01:00",
+      "2026-10-05T12:00:00+24:00",
+      "2026-10-05T12:00:00+00:99",
+      null
+    ]
+  },
+  {
+    "name": "rom.color",
+    "version": 1,
+    "accepted": [
+      [
+        "#ABCdef",
+        "#abcdef"
+      ],
+      [
+        "#112233FF",
+        "#112233ff"
+      ]
+    ],
+    "rejected": [
+      "red",
+      "#abc",
+      "#gg0000",
+      "#1122334",
+      "#112233ff ",
+      null
+    ]
+  },
+  {
+    "name": "rom.email",
+    "version": 1,
+    "accepted": [
+      [
+        "Alice+tag@EXAMPLE.COM",
+        "Alice+tag@example.com"
+      ],
+      [
+        "a.b@example.test",
+        "a.b@example.test"
+      ]
+    ],
+    "rejected": [
+      "",
+      "a..b@example.test",
+      ".a@example.test",
+      "a@-example.test",
+      "a@example..test",
+      "a@b@c",
+      "Display <a@b.test>",
+      "a\r\n@b.test",
+      "a@é.test",
+      null
+    ]
+  },
+  {
+    "name": "rom.url",
+    "version": 1,
+    "accepted": [
+      [
+        "HTTPS://EXAMPLE.COM:443/a",
+        "https://example.com/a"
+      ],
+      [
+        "https://example.test",
+        "https://example.test/"
+      ],
+      [
+        "http://[::1]/",
+        "http://[::1]/"
+      ],
+      [
+        "https://example.test/﻿",
+        "https://example.test/%EF%BB%BF"
+      ]
+    ],
+    "rejected": [
+      "javascript:alert(1)",
+      "file:///etc/passwd",
+      "/relative",
+      "https://a:b@example.test/",
+      "https://example.test/\n",
+      "https://example.test/a b",
+      "https:\\example.test",
+      "https:///",
+      "https://example.test:99999",
+      null,
+      "https://example.test/",
+      "https://example.test/ "
+    ]
+  },
+  {
+    "name": "rom.multiline",
+    "version": 1,
+    "accepted": [
+      [
+        "",
+        ""
+      ],
+      [
+        "one\r\ntwo\n",
+        "one\r\ntwo\n"
+      ]
+    ],
+    "rejected": [
+      null,
+      123,
+      {},
+      []
+    ]
+  },
+  {
+    "name": "rom.json-document",
+    "version": 1,
+    "accepted": [
+      [
+        " {\"n\":123456789012345678901234567890.12345678901234567890} ",
+        " {\"n\":123456789012345678901234567890.12345678901234567890} "
+      ],
+      [
+        "null",
+        "null"
+      ],
+      [
+        "[true, false]",
+        "[true, false]"
+      ]
+    ],
+    "rejected": [
+      "",
+      "{",
+      "NaN",
+      "[1,]",
+      "true false",
+      null,
+      {}
+    ]
+  },
+  {
+    "name": "rom.decimal",
+    "version": 1,
+    "accepted": [
+      [
+        "000123.45000",
+        "123.45"
+      ],
+      [
+        "-000.000",
+        "0"
+      ],
+      [
+        "-00.00100",
+        "-0.001"
+      ],
+      [
+        "123456789012345678901234567890.1234567890123456789",
+        "123456789012345678901234567890.1234567890123456789"
+      ]
+    ],
+    "rejected": [
+      "1e3",
+      "+1",
+      " 1",
+      "1.",
+      ".1",
+      "NaN",
+      "",
+      "1.2.3",
+      null,
+      123
+    ]
+  },
+  {
+    "name": "rom.unit-value",
+    "version": 1,
+    "accepted": [
+      [
+        {
+          "value": "001.20",
+          "unit": "kg"
+        },
+        {
+          "value": "1.2",
+          "unit": "kg"
+        }
+      ]
+    ],
+    "rejected": [
+      {
+        "value": 1.2,
+        "unit": "kg"
+      },
+      {
+        "value": "1",
+        "unit": ""
+      },
+      {
+        "value": "1",
+        "unit": "kg",
+        "extra": "x"
+      },
+      {
+        "value": "1"
+      },
+      {
+        "value": "1",
+        "unit": "kg m"
+      },
+      null
+    ]
+  }
+]

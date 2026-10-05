@@ -42,6 +42,8 @@ pub struct DiscoveredField {
     pub codec: Option<CodecIdentity>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub codec_wrappers: Vec<CodecWrapper>,
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub enum_labels: BTreeMap<String, String>,
 }
 
 // Borrow accepted descriptors until their complete wire representation fits.
@@ -62,6 +64,8 @@ struct FieldMetadata<'a> {
     codec: Option<&'a CodecIdentity>,
     #[serde(skip_serializing_if = "no_wrappers")]
     codec_wrappers: &'a [CodecWrapper],
+    #[serde(skip_serializing_if = "Option::is_none")]
+    enum_labels: Option<&'a BTreeMap<String, String>>,
 }
 #[derive(Serialize)]
 struct ActionMetadata<'a> {
@@ -143,6 +147,10 @@ impl Runtime {
                     }
                     budget.comma(resource.fields.len())?;
                     budget.charge(&FieldMetadata {
+                        enum_labels: definition
+                            .field_enum_labels()
+                            .get(&field.name)
+                            .filter(|labels| !labels.is_empty()),
                         name: &field.name,
                         shape: &field.shape,
                         codec: definition
@@ -155,6 +163,11 @@ impl Runtime {
                             .map_or(&[], |binding| binding.codec_wrappers.as_slice()),
                     })?;
                     resource.fields.push(DiscoveredField {
+                        enum_labels: definition
+                            .field_enum_labels()
+                            .get(&field.name)
+                            .cloned()
+                            .unwrap_or_default(),
                         name: field.name.clone(),
                         shape: field.shape.clone(),
                         codec: definition

@@ -1,0 +1,20 @@
+   Compiling rom-storage-conformance v0.0.2 (/workspace/ROM/tests/persistence)
+    Finished `test` profile [unoptimized] target(s) in 0.66s
+     Running tests/derive_presentation.rs (target/debug/deps/derive_presentation-0a3beba1ac17276f)
+
+running 4 tests
+test aliased_title_shape_remains_a_registration_error ... ok
+test custom_title_semantics_reject_derived_and_manual_registration ... ok
+test renamed_derived_hints_follow_authorized_fields_and_preserve_codec ... ok
+test absent_presentation_preserves_default_and_builder_override_is_validated ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/presentation_discovery.rs (target/debug/deps/presentation_discovery-5cef6668c9238c04)
+
+running 2 tests
+test invalid_presentation_rejects_registration_without_changing_schema ... ok
+test discovers_only_authorized_presentation_and_uses_exact_budget ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

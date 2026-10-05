@@ -9,8 +9,16 @@
     mode = "editor",
     onerror,
     label,
+    draft: editorDraft,
+    onDraftChange,
   }: RendererProps = $props();
+  let text = $state("");
+  $effect(() => {
+    text = editorDraft?.text ?? (typeof value === "string" ? value : "");
+  });
   function change(next: string) {
+    text = next;
+    onDraftChange?.({ ...editorDraft, text: next });
     const canonical = next.trim().toUpperCase();
     onchange(canonical);
     onerror?.(
@@ -22,7 +30,7 @@
 </script>
 
 {#if mode === "editor"}<Input
-    value={typeof value === "string" ? value : ""}
+    value={text}
     aria-label={`${label || descriptor.name} value`}
     {readonly}
     oninput={(event) => change(event.currentTarget.value)}

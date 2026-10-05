@@ -1,0 +1,62 @@
+
+> rom-studio@0.0.2 build:components
+> vite build --mode components --outDir .component-dist
+
+vite v8.3.2 building client environment for components...
+transforming...
+✓ 4929 modules transformed.
+rendering chunks...
+computing gzip size...
+.component-dist/tests/components/direct-form.html                                                         0.76 kB │ gzip:  0.36 kB
+.component-dist/tests/components/reference.html                                                           0.81 kB │ gzip:  0.37 kB
+.component-dist/tests/components/renderer-regressions.html                                                0.92 kB │ gzip:  0.39 kB
+.component-dist/tests/components/semantic-fields.html                                                     0.93 kB │ gzip:  0.38 kB
+.component-dist/tests/components/sortable-fields.html                                                     0.98 kB │ gzip:  0.40 kB
+.component-dist/notices/npm/cn/0.3.3/LICENSE                                                              1.06 kB
+.component-dist/notices/npm/tw-animate-css/1.4.0/LICENSE                                                  1.06 kB
+.component-dist/notices/npm/svelte-dnd-action/0.9.80/LICENSE                                              1.06 kB
+.component-dist/notices/npm/bits-ui/2.19.5/LICENSE                                                        1.07 kB
+.component-dist/notices/npm/tailwind-variants/3.3.1/LICENSE                                               1.07 kB
+.component-dist/notices/vendored/svar-filter-vendored/1c581c3312c626c525ee64b8f94446a025fa141c/LICENSE    1.07 kB
+.component-dist/notices/npm/tabbable/6.5.0/LICENSE                                                        1.07 kB
+.component-dist/tests/components/harness.html                                                             1.08 kB │ gzip:  0.41 kB
+.component-dist/notices/npm/_floating-ui_core/1.8.0/LICENSE                                               1.08 kB
+.component-dist/notices/npm/_floating-ui_dom/1.8.0/LICENSE                                                1.08 kB
+.component-dist/notices/npm/_floating-ui_utils/0.2.12/LICENSE                                             1.08 kB
+.component-dist/notices/npm/inline-style-parser/0.2.7/LICENSE                                             1.09 kB
+.component-dist/notices/npm/clsx/2.1.1/license                                                            1.10 kB
+.component-dist/notices/npm/style-to-object/1.0.14/LICENSE                                                1.11 kB
+.component-dist/notices/npm/svelte/5.57.1/LICENSE.md                                                      1.12 kB
+.component-dist/notices/npm/runed/0.35.1/LICENSE                                                          1.16 kB
+.component-dist/notices/npm/svelte-toolbelt/0.10.6/LICENSE                                                1.16 kB
+.component-dist/notices/npm/shadcn-svelte/1.7.0/LICENSE.md                                                1.19 kB
+.component-dist/notices/vendored/shadcn-svelte-vendored/source-checkout/LICENSE.md                        1.19 kB
+.component-dist/notices/tool-runtime/rolldown/1.2.12/LICENSE                                              1.30 kB
+.component-dist/tests/components/details.html                                                             1.33 kB │ gzip:  0.43 kB
+.component-dist/index.html                                                                                1.45 kB │ gzip:  0.49 kB
+.component-dist/notices/tool-runtime/rolldown/1.2.12/THIRD-PARTY-LICENSE                                  2.20 kB
+.component-dist/notices/npm/_lucide_svelte/1.51.0/LICENSE                                                 3.20 kB
+.component-dist/third-party-notices.json                                                                108.32 kB │ gzip: 10.07 kB
+.component-dist/notices/tool-runtime/vite/8.3.2/LICENSE.md                                              108.78 kB
+.component-dist/assets/app-CHYvC8mw.css                                                                 177.75 kB │ gzip: 25.94 kB
+.component-dist/assets/resource-presentation-Bsbcryo9.js                                                  0.59 kB │ gzip:  0.36 kB
+.component-dist/assets/details-D49zzy2W.js                                                                1.33 kB │ gzip:  0.74 kB
+.component-dist/assets/semanticFields-BomvCNDs.js                                                         1.38 kB │ gzip:  0.82 kB
+.component-dist/assets/directForm-DJSexT80.js                                                             1.55 kB │ gzip:  0.74 kB
+.component-dist/assets/sortableFields-CuU5uKQl.js                                                         2.49 kB │ gzip:  1.16 kB
+.component-dist/assets/ActionForm-PGQMAytl.js                                                             2.50 kB │ gzip:  1.28 kB
+.component-dist/assets/reference-D341dH2x.js                                                              2.87 kB │ gzip:  1.47 kB
+.component-dist/assets/rendererRegressions-Dr49a7dv.js                                                    2.96 kB │ gzip:  1.35 kB
+.component-dist/assets/ValueDisplay-CKVqXwdy.js                                                           3.16 kB │ gzip:  1.25 kB
+.component-dist/assets/ResourceTable-pyt0SK-W.js                                                          5.72 kB │ gzip:  1.72 kB
+.component-dist/assets/ResponsiveInspector-BeWa7rch.js                                                    6.38 kB │ gzip:  2.23 kB
+.component-dist/assets/components-DEnH4XVm.js                                                             7.06 kB │ gzip:  2.85 kB
+.component-dist/assets/FilterBuilder-DKLw9QNV.js                                                         10.13 kB │ gzip:  3.68 kB
+.component-dist/assets/controller-CnTqzsUP.js                                                            29.00 kB │ gzip:  9.56 kB
+.component-dist/assets/ResourceForm-CtasEM-T.js                                                          40.07 kB │ gzip: 11.59 kB
+.component-dist/assets/ResourcePage-DEuKMDUr.js                                                          52.91 kB │ gzip: 14.18 kB
+.component-dist/assets/main-CwNTpW7y.js                                                                  73.66 kB │ gzip: 20.49 kB
+.component-dist/assets/ValueEditor-CACP4TVQ.js                                                          108.70 kB │ gzip: 31.44 kB
+.component-dist/assets/app-C7KHpByB.js                                                                  287.84 kB │ gzip: 90.19 kB
+
+✓ built in 2.58s

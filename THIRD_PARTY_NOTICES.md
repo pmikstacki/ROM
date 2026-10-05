@@ -2,7 +2,7 @@
 
 ROM is MIT licensed; dependencies retain their own licenses. This is a source-notice collection from the locked all-features Cargo graph, including optional/target-specific/dev packages. It does not imply every package ships in every executable. Cargo source archives preserve upstream distributions.
 
-Lockfile SHA-256: `f288709d12f8c7adc39a5d72cb7253a9d86afa990dd94226724e39262500d992`.
+Lockfile SHA-256: `a080b892d06dd30e65917a9a13715918cbd2b02fe64827f0334d7bde7005b441`.
 
 SQLite is in the public domain; see https://sqlite.org/copyright.html. The optional native profile preserves the official amalgamation headers.
 

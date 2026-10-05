@@ -1,0 +1,33 @@
+
+Running 1 test using 1 worker
+
+(node:703106) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  1 [chromium] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query (5.8s)
+
+
+  1) [chromium] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1n
+    Received: 1
+
+       at semantic-workflow.ts:80
+
+      78 | ) {
+      79 |   const resource = await read(page, id);
+    > 80 |   expect(resource.revision).toBe(revision);
+         |                             ^
+      81 |   expect(resource.value).toMatchObject({ ...canonical, ...overrides });
+      82 | }
+      83 | async function fillValues(
+        at assertValues (/root/ROM/studio/tests/runtime/semantic-workflow.ts:80:29)
+        at semanticWorkflow (/root/ROM/studio/tests/runtime/semantic-workflow.ts:175:3)
+        at /root/ROM/studio/tests/runtime/host.spec.ts:16:7
+
+    Error Context: test-results/host-real-sqlite-semantic--8293a-ate-patch-actions-and-query-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query 

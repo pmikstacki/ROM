@@ -1,0 +1,1512 @@
+
+> rom-studio@0.0.3 check
+> svelte-check --tsconfig ./tsconfig.json
+
+Loading svelte-check in workspace: /root/ROM/studio
+Getting Svelte diagnostics...
+
+svelte-check found 0 errors and 0 warnings
+
+> rom-studio@0.0.3 test:unit
+> node --experimental-strip-types --test tests/unit/*.test.ts
+
+TAP version 13
+# (node:794166) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: canonical query boundary survives cloning and float integer replay
+ok 1 - canonical query boundary survives cloning and float integer replay
+  ---
+  duration_ms: 57.572275
+  type: 'test'
+  ...
+# Subtest: anchors reject journal cursors and response identity changes
+ok 2 - anchors reject journal cursors and response identity changes
+  ---
+  duration_ms: 5.000519
+  type: 'test'
+  ...
+# Subtest: anchor admission rejects malformed native envelope members
+ok 3 - anchor admission rejects malformed native envelope members
+  ---
+  duration_ms: 4.391622
+  type: 'test'
+  ...
+# Subtest: anchor replies bind the requested literal order and predicate structure
+ok 4 - anchor replies bind the requested literal order and predicate structure
+  ---
+  duration_ms: 5.960091
+  type: 'test'
+  ...
+# Subtest: anchor correspondence leaves canonical codec operands opaque
+ok 5 - anchor correspondence leaves canonical codec operands opaque
+  ---
+  duration_ms: 11.946524
+  type: 'test'
+  ...
+# Subtest: anchor value states keep missing distinct from present null
+ok 6 - anchor value states keep missing distinct from present null
+  ---
+  duration_ms: 9.153357
+  type: 'test'
+  ...
+# Subtest: native comparison operators cannot be coerced from arrays
+ok 7 - native comparison operators cannot be coerced from arrays
+  ---
+  duration_ms: 0.490061
+  type: 'test'
+  ...
+# Subtest: native absence predicates retain their null and equality constraints
+ok 8 - native absence predicates retain their null and equality constraints
+  ---
+  duration_ms: 0.264102
+  type: 'test'
+  ...
+# Subtest: public anchor response is bound to the submitted snapshot despite caller edits
+ok 9 - public anchor response is bound to the submitted snapshot despite caller edits
+  ---
+  duration_ms: 17.552293
+  type: 'test'
+  ...
+# (node:794167) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: an expired authenticated session cannot retain the previous CSRF authority
+ok 10 - an expired authenticated session cannot retain the previous CSRF authority
+  ---
+  duration_ms: 90.646504
+  type: 'test'
+  ...
+# Subtest: an old expired response cannot clear replacement session authority
+ok 11 - an old expired response cannot clear replacement session authority
+  ---
+  duration_ms: 1.577066
+  type: 'test'
+  ...
+# (node:794170) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: blob capabilities and reserve bind the admitted kind, ID and exact integer body
+ok 12 - blob capabilities and reserve bind the admitted kind, ID and exact integer body
+  ---
+  duration_ms: 92.491668
+  type: 'test'
+  ...
+# Subtest: blob uploads use immutable bytes, same-origin CSRF and bound projected responses
+ok 13 - blob uploads use immutable bytes, same-origin CSRF and bound projected responses
+  ---
+  duration_ms: 2.503767
+  type: 'test'
+  ...
+# Subtest: blob capability limits, operation and response status admission fail closed
+ok 14 - blob capability limits, operation and response status admission fail closed
+  ---
+  duration_ms: 1.404128
+  type: 'test'
+  ...
+# Subtest: blob generation and finite deadline protect binary requests and explicit recovery
+ok 15 - blob generation and finite deadline protect binary requests and explicit recovery
+  ---
+  duration_ms: 12.982883
+  type: 'test'
+  ...
+# Subtest: download enforces admitted size and binary type without JSON decoding
+ok 16 - download enforces admitted size and binary type without JSON decoding
+  ---
+  duration_ms: 2.16384
+  type: 'test'
+  ...
+# Subtest: download IDs cannot normalize into another route and rejected headers cancel unused bytes
+ok 17 - download IDs cannot normalize into another route and rejected headers cancel unused bytes
+  ---
+  duration_ms: 1.501362
+  type: 'test'
+  ...
+# Subtest: returned capabilities cannot widen private admission and reserve input is frozen before waiting
+ok 18 - returned capabilities cannot widen private admission and reserve input is frozen before waiting
+  ---
+  duration_ms: 1.012995
+  type: 'test'
+  ...
+# Subtest: binary request pre-abort reaches no transport and failed capability refresh closes admission
+ok 19 - binary request pre-abort reaches no transport and failed capability refresh closes admission
+  ---
+  duration_ms: 1.120729
+  type: 'test'
+  ...
+# Subtest: capability completion cannot stamp an old response with a new session generation
+ok 20 - capability completion cannot stamp an old response with a new session generation
+  ---
+  duration_ms: 28.526028
+  type: 'test'
+  ...
+# Subtest: a superseded capability request cannot reopen admission after a newer denial
+ok 21 - a superseded capability request cannot reopen admission after a newer denial
+  ---
+  duration_ms: 0.788778
+  type: 'test'
+  ...
+# (node:794186) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: binds result identity and preserves revision, never accepts wrong resource
+ok 22 - binds result identity and preserves revision, never accepts wrong resource
+  ---
+  duration_ms: 44.153976
+  type: 'test'
+  ...
+# Subtest: lost response retains exact frozen request and key for explicit retry
+ok 23 - lost response retains exact frozen request and key for explicit retry
+  ---
+  duration_ms: 15.121255
+  type: 'test'
+  ...
+# Subtest: session generation rejects stale replies and old mutation retries
+ok 24 - session generation rejects stale replies and old mutation retries
+  ---
+  duration_ms: 12.250551
+  type: 'test'
+  ...
+# Subtest: denial is rejected, conflict is distinct and unknown outcome is recoverable
+ok 25 - denial is rejected, conflict is distinct and unknown outcome is recoverable
+  ---
+  duration_ms: 19.870336
+  type: 'test'
+  ...
+# Subtest: response bounds, content type and rows are enforced
+ok 26 - response bounds, content type and rows are enforced
+  ---
+  duration_ms: 27.216812
+  type: 'test'
+  ...
+# Subtest: public mutation status cannot bypass private ownership or reuse a failed attempt
+ok 27 - public mutation status cannot bypass private ownership or reuse a failed attempt
+  ---
+  duration_ms: 0.327953
+  type: 'test'
+  ...
+# Subtest: an unclassified server failure remains unknown and must not imply rollback
+ok 28 - an unclassified server failure remains unknown and must not imply rollback
+  ---
+  duration_ms: 3.133824
+  type: 'test'
+  ...
+# Subtest: receipt replay rechecks current server authority rather than returning a cached result
+ok 29 - receipt replay rechecks current server authority rather than returning a cached result
+  ---
+  duration_ms: 6.008003
+  type: 'test'
+  ...
+# (node:794189) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: wire codec preserves boundary integers and ordinary false/zero/null/empty values
+ok 30 - wire codec preserves boundary integers and ordinary false/zero/null/empty values
+  ---
+  duration_ms: 4.86386
+  type: 'test'
+  ...
+# Subtest: wire parser rejects duplicate keys, oversized text, excessive nesting, and infinite numbers
+ok 31 - wire parser rejects duplicate keys, oversized text, excessive nesting, and infinite numbers
+  ---
+  duration_ms: 0.782116
+  type: 'test'
+  ...
+# Subtest: wire maps preserve reserved names without prototype mutation
+ok 32 - wire maps preserve reserved names without prototype mutation
+  ---
+  duration_ms: 0.238553
+  type: 'test'
+  ...
+# Subtest: wire encoder refuses nonfinite and recursive values before sending them
+ok 33 - wire encoder refuses nonfinite and recursive values before sending them
+  ---
+  duration_ms: 0.277217
+  type: 'test'
+  ...
+# Subtest: scalar normalization applies exact integer ranges and finite float semantics
+ok 34 - scalar normalization applies exact integer ranges and finite float semantics
+  ---
+  duration_ms: 4.733752
+  type: 'test'
+  ...
+# Subtest: object and patch encoders distinguish omission, null, value and removal
+ok 35 - object and patch encoders distinguish omission, null, value and removal
+  ---
+  duration_ms: 0.52642
+  type: 'test'
+  ...
+# Subtest: structural normalization bounds nesting and validates enums, references and maps
+ok 36 - structural normalization bounds nesting and validates enums, references and maps
+  ---
+  duration_ms: 0.288297
+  type: 'test'
+  ...
+# Subtest: malformed runtime modes and shapes are refused, not coerced
+ok 37 - malformed runtime modes and shapes are refused, not coerced
+  ---
+  duration_ms: 0.134475
+  type: 'test'
+  ...
+# Subtest: wire strings agree with Rust Unicode and preserve signed zero
+ok 38 - wire strings agree with Rust Unicode and preserve signed zero
+  ---
+  duration_ms: 0.319046
+  type: 'test'
+  ...
+# Subtest: array and map accessors are rejected without executing user code
+ok 39 - array and map accessors are rejected without executing user code
+  ---
+  duration_ms: 4.206511
+  type: 'test'
+  ...
+# Subtest: parsed floating integer tokens retain their Rust number category on replay
+ok 40 - parsed floating integer tokens retain their Rust number category on replay
+  ---
+  duration_ms: 0.532521
+  type: 'test'
+  ...
+# (node:794192) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: authorized discovery can omit an input descriptor that would disclose a hidden target
+ok 41 - authorized discovery can omit an input descriptor that would disclose a hidden target
+  ---
+  duration_ms: 33.027309
+  type: 'test'
+  ...
+# Subtest: discovery rejects native-impossible empty enum
+ok 42 - discovery rejects native-impossible empty enum
+  ---
+  duration_ms: 1.49517
+  type: 'test'
+  ...
+# Subtest: discovery rejects native-impossible oversized enum
+ok 43 - discovery rejects native-impossible oversized enum
+  ---
+  duration_ms: 1.044134
+  type: 'test'
+  ...
+# Subtest: discovery rejects native-impossible nested optional
+ok 44 - discovery rejects native-impossible nested optional
+  ---
+  duration_ms: 4.055263
+  type: 'test'
+  ...
+# Subtest: discovery rejects native-impossible nested nullable
+ok 45 - discovery rejects native-impossible nested nullable
+  ---
+  duration_ms: 0.785753
+  type: 'test'
+  ...
+# Subtest: discovery rejects native-impossible scalar presence
+ok 46 - discovery rejects native-impossible scalar presence
+  ---
+  duration_ms: 0.500641
+  type: 'test'
+  ...
+# Subtest: discovery rejects native-impossible codec UTF-8 bytes
+ok 47 - discovery rejects native-impossible codec UTF-8 bytes
+  ---
+  duration_ms: 4.572716
+  type: 'test'
+  ...
+# Subtest: accepts authorized descriptor and rejects duplicate or inconsistent metadata
+ok 48 - accepts authorized descriptor and rejects duplicate or inconsistent metadata
+  ---
+  duration_ms: 4.238662
+  type: 'test'
+  ...
+# Subtest: bounded POST stream handles split CRLF frames and surfaces terminal errors
+ok 49 - bounded POST stream handles split CRLF frames and surfaces terminal errors
+  ---
+  duration_ms: 2.337571
+  type: 'test'
+  ...
+# Subtest: stream rejects oversized frames and a wrong kind before disclosure
+ok 50 - stream rejects oversized frames and a wrong kind before disclosure
+  ---
+  duration_ms: 1.441789
+  type: 'test'
+  ...
+# Subtest: idle stream closes its reader on timeout and cancellation
+ok 51 - idle stream closes its reader on timeout and cancellation
+  ---
+  duration_ms: 14.093292
+  type: 'test'
+  ...
+# Subtest: stream flushes UTF8 decoder and treats silent EOF as stale
+ok 52 - stream flushes UTF8 decoder and treats silent EOF as stale
+  ---
+  duration_ms: 1.751508
+  type: 'test'
+  ...
+# Subtest: invalid stream media cancels its body, and opening errors retain server category
+ok 53 - invalid stream media cancels its body, and opening errors retain server category
+  ---
+  duration_ms: 3.442349
+  type: 'test'
+  ...
+# Subtest: live snapshots obey the requested page limit
+ok 54 - live snapshots obey the requested page limit
+  ---
+  duration_ms: 1.116702
+  type: 'test'
+  ...
+# Subtest: observation admission is finite and cancellation releases its slot
+ok 55 - observation admission is finite and cancellation releases its slot
+  ---
+  duration_ms: 1.934676
+  type: 'test'
+  ...
+# Subtest: discovery retains bounded wrapper paths and rejects shape mismatches
+ok 56 - discovery retains bounded wrapper paths and rejects shape mismatches
+  ---
+  duration_ms: 1.132611
+  type: 'test'
+  ...
+# (node:794220) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: shared native discovery retains enum labels through wrappers and action inputs
+ok 57 - shared native discovery retains enum labels through wrappers and action inputs
+  ---
+  duration_ms: 6.110898
+  type: 'test'
+  ...
+# Subtest: shared native invalid enum label vectors are rejected
+ok 58 - shared native invalid enum label vectors are rejected
+  ---
+  duration_ms: 2.373659
+  type: 'test'
+  ...
+# Subtest: enum labels bound UTF8 and preserve prototype-shaped exact members
+ok 59 - enum labels bound UTF8 and preserve prototype-shaped exact members
+  ---
+  duration_ms: 0.297905
+  type: 'test'
+  ...
+# Subtest: enum label map bounds, omissions, partial labels and invalid container types
+ok 60 - enum label map bounds, omissions, partial labels and invalid container types
+  ---
+  duration_ms: 4.646416
+  type: 'test'
+  ...
+# Subtest: enum labels do not inherit object prototype or merge duplicate display labels
+ok 61 - enum labels do not inherit object prototype or merge duplicate display labels
+  ---
+  duration_ms: 0.169812
+  type: 'test'
+  ...
+# (node:794222) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: filter round trip preserves exact values, comparisons and ordered fields
+ok 62 - filter round trip preserves exact values, comparisons and ordered fields
+  ---
+  duration_ms: 8.594787
+  type: 'test'
+  ...
+# Subtest: nested conjunctions retain all rules without invoking a numeric parser
+ok 63 - nested conjunctions retain all rules without invoking a numeric parser
+  ---
+  duration_ms: 0.276235
+  type: 'test'
+  ...
+# Subtest: unsupported operators, OR and hidden fields are rejected without silent dropping
+ok 64 - unsupported operators, OR and hidden fields are rejected without silent dropping
+  ---
+  duration_ms: 0.554774
+  type: 'test'
+  ...
+# Subtest: absence is distinct from null and allowed only for optional fields
+ok 65 - absence is distinct from null and allowed only for optional fields
+  ---
+  duration_ms: 0.333404
+  type: 'test'
+  ...
+# Subtest: native query bounds and scalar comparison restrictions apply before execution
+ok 66 - native query bounds and scalar comparison restrictions apply before execution
+  ---
+  duration_ms: 1.254914
+  type: 'test'
+  ...
+# Subtest: malformed trees, cyclic groups and unknown attributes are rejected
+ok 67 - malformed trees, cyclic groups and unknown attributes are rejected
+  ---
+  duration_ms: 0.256588
+  type: 'test'
+  ...
+# Subtest: draft conversion resets page continuation and never aliases active query arrays
+ok 68 - draft conversion resets page continuation and never aliases active query arrays
+  ---
+  duration_ms: 2.819315
+  type: 'test'
+  ...
+# Subtest: invalid saved query operators cannot enter an editable draft
+ok 69 - invalid saved query operators cannot enter an editable draft
+  ---
+  duration_ms: 0.948461
+  type: 'test'
+  ...
+# Subtest: wrapped custom values are cloned without aliasing or loss of reserved map names
+ok 70 - wrapped custom values are cloned without aliasing or loss of reserved map names
+  ---
+  duration_ms: 0.542831
+  type: 'test'
+  ...
+# Subtest: optional present comparison survives saved query conversion
+ok 71 - optional present comparison survives saved query conversion
+  ---
+  duration_ms: 0.460314
+  type: 'test'
+  ...
+# Subtest: inherited fields and getter rules are rejected without evaluating the getter
+ok 72 - inherited fields and getter rules are rejected without evaluating the getter
+  ---
+  duration_ms: 0.983369
+  type: 'test'
+  ...
+# Subtest: non-enumerable filter accessors are rejected before invocation
+ok 73 - non-enumerable filter accessors are rejected before invocation
+  ---
+  duration_ms: 0.232752
+  type: 'test'
+  ...
+# Subtest: draft envelope rejects inherited members, symbols, unknown and hidden getters
+ok 74 - draft envelope rejects inherited members, symbols, unknown and hidden getters
+  ---
+  duration_ms: 0.266677
+  type: 'test'
+  ...
+# (node:794223) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: journal validates cursor generation, kind and strictly advancing positions
+ok 75 - journal validates cursor generation, kind and strictly advancing positions
+  ---
+  duration_ms: 83.232259
+  type: 'test'
+  ...
+# (node:794229) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: discovery retains typed Resource and field presentation
+ok 76 - discovery retains typed Resource and field presentation
+  ---
+  duration_ms: 2.187215
+  type: 'test'
+  ...
+# Subtest: discovery rejects invalid presentation UTF-8 label
+ok 77 - discovery rejects invalid presentation UTF-8 label
+  ---
+  duration_ms: 0.409999
+  type: 'test'
+  ...
+# Subtest: discovery rejects invalid presentation empty label
+ok 78 - discovery rejects invalid presentation empty label
+  ---
+  duration_ms: 1.450385
+  type: 'test'
+  ...
+# Subtest: discovery rejects invalid presentation unknown selector
+ok 79 - discovery rejects invalid presentation unknown selector
+  ---
+  duration_ms: 0.216612
+  type: 'test'
+  ...
+# Subtest: discovery rejects invalid presentation hidden field
+ok 80 - discovery rejects invalid presentation hidden field
+  ---
+  duration_ms: 0.21076
+  type: 'test'
+  ...
+# Subtest: discovery rejects invalid presentation unknown group
+ok 81 - discovery rejects invalid presentation unknown group
+  ---
+  duration_ms: 0.121881
+  type: 'test'
+  ...
+# Subtest: discovery rejects invalid presentation duplicate group
+ok 82 - discovery rejects invalid presentation duplicate group
+  ---
+  duration_ms: 0.17366
+  type: 'test'
+  ...
+# Subtest: discovery rejects invalid presentation unknown executable hint
+ok 83 - discovery rejects invalid presentation unknown executable hint
+  ---
+  duration_ms: 0.107114
+  type: 'test'
+  ...
+# Subtest: title selectors cannot reinterpret custom codecs or nontext values
+ok 84 - title selectors cannot reinterpret custom codecs or nontext values
+  ---
+  duration_ms: 3.429685
+  type: 'test'
+  ...
+# Subtest: legacy descriptors omit presentation without changing discovery version
+ok 85 - legacy descriptors omit presentation without changing discovery version
+  ---
+  duration_ms: 1.838643
+  type: 'test'
+  ...
+# Subtest: client accepts the exact backend discovery conformance fixture
+ok 86 - client accepts the exact backend discovery conformance fixture
+  ---
+  duration_ms: 2.533923
+  type: 'test'
+  ...
+# (node:794233) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: reference lookup bounds authorized candidates, preserves exact IDs and leaves navigation untouched
+ok 87 - reference lookup bounds authorized candidates, preserves exact IDs and leaves navigation untouched
+  ---
+  duration_ms: 28.218003
+  type: 'test'
+  ...
+# Subtest: hidden kinds and disconnected sessions perform no reference request
+ok 88 - hidden kinds and disconnected sessions perform no reference request
+  ---
+  duration_ms: 1.658561
+  type: 'test'
+  ...
+# Subtest: candidate titles cannot read a withheld title field
+ok 89 - candidate titles cannot read a withheld title field
+  ---
+  duration_ms: 3.739363
+  type: 'test'
+  ...
+# Subtest: denied lookup is distinct from no matching authorized candidates
+ok 90 - denied lookup is distinct from no matching authorized candidates
+  ---
+  duration_ms: 3.703005
+  type: 'test'
+  ...
+# Subtest: session changes and superseded requests discard delayed reference replies
+ok 91 - session changes and superseded requests discard delayed reference replies
+  ---
+  duration_ms: 2.904969
+  type: 'test'
+  ...
+# Subtest: reference candidate admission enforces bytes and row limits
+ok 92 - reference candidate admission enforces bytes and row limits
+  ---
+  duration_ms: 12.135964
+  type: 'test'
+  ...
+# Subtest: a full bounded page is marked limited without traversing subsequent pages
+ok 93 - a full bounded page is marked limited without traversing subsequent pages
+  ---
+  duration_ms: 3.886563
+  type: 'test'
+  ...
+# Subtest: lookup bounds simultaneous requests and rejects oversized search without fetching
+ok 94 - lookup bounds simultaneous requests and rejects oversized search without fetching
+  ---
+  duration_ms: 3.701792
+  type: 'test'
+  ...
+# Subtest: already cancelled lookup and tombstone candidates do not disclose selectable results
+ok 95 - already cancelled lookup and tombstone candidates do not disclose selectable results
+  ---
+  duration_ms: 2.530908
+  type: 'test'
+  ...
+# (node:794285) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: POST deadline rejects even when transport ignores abort
+ok 96 - POST deadline rejects even when transport ignores abort
+  ---
+  duration_ms: 33.089988
+  type: 'test'
+  ...
+# Subtest: already aborted request does not invoke transport
+ok 97 - already aborted request does not invoke transport
+  ---
+  duration_ms: 0.417382
+  type: 'test'
+  ...
+# Subtest: oversized body rejection does not await transport cancellation
+ok 98 - oversized body rejection does not await transport cancellation
+  ---
+  duration_ms: 1.303626
+  type: 'test'
+  ...
+# Subtest: query reply obeys explicit page limit
+ok 99 - query reply obeys explicit page limit
+  ---
+  duration_ms: 1.804538
+  type: 'test'
+  ...
+# Subtest: mutation reply must match revision and deletion semantics
+ok 100 - mutation reply must match revision and deletion semantics
+  ---
+  duration_ms: 1.928313
+  type: 'test'
+  ...
+# Subtest: legal no-op revision and deletion are accepted
+ok 101 - legal no-op revision and deletion are accepted
+  ---
+  duration_ms: 0.850435
+  type: 'test'
+  ...
+# Subtest: response reader and parser use the same byte policy
+ok 102 - response reader and parser use the same byte policy
+  ---
+  duration_ms: 13.754808
+  type: 'test'
+  ...
+# Subtest: timer values outside execution range are rejected before transport
+ok 103 - timer values outside execution range are rejected before transport
+  ---
+  duration_ms: 0.312002
+  type: 'test'
+  ...
+# Subtest: floating wire tokens cannot become integer metadata
+ok 104 - floating wire tokens cannot become integer metadata
+  ---
+  duration_ms: 1.812744
+  type: 'test'
+  ...
+# Subtest: request timeout cancels an opened idle response body
+ok 105 - request timeout cancels an opened idle response body
+  ---
+  duration_ms: 6.407601
+  type: 'test'
+  ...
+# Subtest: a mutation without a prior row binds the initial revision
+ok 106 - a mutation without a prior row binds the initial revision
+  ---
+  duration_ms: 0.665144
+  type: 'test'
+  ...
+# (node:794290) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: titles use declared authorized fields rather than interpreting identity
+ok 107 - titles use declared authorized fields rather than interpreting identity
+  ---
+  duration_ms: 0.797044
+  type: 'test'
+  ...
+# Subtest: missing titles fall back without guessing JSON identity
+ok 108 - missing titles fall back without guessing JSON identity
+  ---
+  duration_ms: 0.215089
+  type: 'test'
+  ...
+# Subtest: hidden undeclared title fields are not resolved
+ok 109 - hidden undeclared title fields are not resolved
+  ---
+  duration_ms: 0.147581
+  type: 'test'
+  ...
+# Subtest: settings catalog includes classified descriptors only and groups plugins
+ok 110 - settings catalog includes classified descriptors only and groups plugins
+  ---
+  duration_ms: 1.304117
+  type: 'test'
+  ...
+# (node:794293) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: standard codec selection requires exact immutable identity
+ok 111 - standard codec selection requires exact immutable identity
+  ---
+  duration_ms: 1.332301
+  type: 'test'
+  ...
+# Subtest: semantic date preserves its canonical wire contract: 2024-02-29
+ok 112 - semantic date preserves its canonical wire contract: 2024-02-29
+  ---
+  duration_ms: 0.550055
+  type: 'test'
+  ...
+# Subtest: semantic time preserves its canonical wire contract: 12:30:01.123400000
+ok 113 - semantic time preserves its canonical wire contract: 12:30:01.123400000
+  ---
+  duration_ms: 0.18416
+  type: 'test'
+  ...
+# Subtest: semantic datetime preserves its canonical wire contract: 2026-10-05T12:01:02.123456789+02:00
+ok 114 - semantic datetime preserves its canonical wire contract: 2026-10-05T12:01:02.123456789+02:00
+  ---
+  duration_ms: 1.651608
+  type: 'test'
+  ...
+# Subtest: semantic datetime preserves its canonical wire contract: 0001-01-01T00:00:00Z
+ok 115 - semantic datetime preserves its canonical wire contract: 0001-01-01T00:00:00Z
+  ---
+  duration_ms: 0.20531
+  type: 'test'
+  ...
+# Subtest: semantic color preserves its canonical wire contract: \#ABCDEF88
+ok 116 - semantic color preserves its canonical wire contract: \#ABCDEF88
+  ---
+  duration_ms: 0.09505
+  type: 'test'
+  ...
+# Subtest: semantic decimal preserves its canonical wire contract: -000012.34000
+ok 117 - semantic decimal preserves its canonical wire contract: -000012.34000
+  ---
+  duration_ms: 0.316952
+  type: 'test'
+  ...
+# Subtest: semantic decimal preserves its canonical wire contract: -000.000
+ok 118 - semantic decimal preserves its canonical wire contract: -000.000
+  ---
+  duration_ms: 0.112894
+  type: 'test'
+  ...
+# Subtest: semantic decimal preserves its canonical wire contract: 9007199254740993.000000000000000001
+ok 119 - semantic decimal preserves its canonical wire contract: 9007199254740993.000000000000000001
+  ---
+  duration_ms: 0.273118
+  type: 'test'
+  ...
+# Subtest: semantic email preserves its canonical wire contract: Alice@EXAMPLE.COM
+ok 120 - semantic email preserves its canonical wire contract: Alice@EXAMPLE.COM
+  ---
+  duration_ms: 0.554884
+  type: 'test'
+  ...
+# Subtest: semantic url preserves its canonical wire contract: https://example.com
+ok 121 - semantic url preserves its canonical wire contract: https://example.com
+  ---
+  duration_ms: 0.182858
+  type: 'test'
+  ...
+# Subtest: semantic multiline preserves its canonical wire contract: one\\r\\ntwo
+ok 122 - semantic multiline preserves its canonical wire contract: one\\r\\ntwo
+  ---
+  duration_ms: 0.065294
+  type: 'test'
+  ...
+# Subtest: semantic json-document preserves its canonical wire contract: {"large":9007199254740993,"decimal":0.000000000000000001}
+ok 123 - semantic json-document preserves its canonical wire contract: {"large":9007199254740993,"decimal":0.000000000000000001}
+  ---
+  duration_ms: 0.142491
+  type: 'test'
+  ...
+# Subtest: semantic date rejects 2025-02-29
+ok 124 - semantic date rejects 2025-02-29
+  ---
+  duration_ms: 0.331209
+  type: 'test'
+  ...
+# Subtest: semantic date rejects 0000-01-01
+ok 125 - semantic date rejects 0000-01-01
+  ---
+  duration_ms: 0.070815
+  type: 'test'
+  ...
+# Subtest: semantic time rejects 24:00:00
+ok 126 - semantic time rejects 24:00:00
+  ---
+  duration_ms: 0.058381
+  type: 'test'
+  ...
+# Subtest: semantic time rejects 12:00:60
+ok 127 - semantic time rejects 12:00:60
+  ---
+  duration_ms: 0.048703
+  type: 'test'
+  ...
+# Subtest: semantic datetime rejects 2026-10-05T10:00:00
+ok 128 - semantic datetime rejects 2026-10-05T10:00:00
+  ---
+  duration_ms: 0.052519
+  type: 'test'
+  ...
+# Subtest: semantic datetime rejects 2026-02-30T10:00:00Z
+ok 129 - semantic datetime rejects 2026-02-30T10:00:00Z
+  ---
+  duration_ms: 0.051227
+  type: 'test'
+  ...
+# Subtest: semantic datetime rejects 2026-10-05T10:00:00-00:00
+ok 130 - semantic datetime rejects 2026-10-05T10:00:00-00:00
+  ---
+  duration_ms: 0.0473
+  type: 'test'
+  ...
+# Subtest: semantic datetime rejects 0001-01-01T00:00:00+01:00
+ok 131 - semantic datetime rejects 0001-01-01T00:00:00+01:00
+  ---
+  duration_ms: 0.067118
+  type: 'test'
+  ...
+# Subtest: semantic color rejects red
+ok 132 - semantic color rejects red
+  ---
+  duration_ms: 0.137591
+  type: 'test'
+  ...
+# Subtest: semantic color rejects \#123
+ok 133 - semantic color rejects \#123
+  ---
+  duration_ms: 0.057719
+  type: 'test'
+  ...
+# Subtest: semantic decimal rejects 1e3
+ok 134 - semantic decimal rejects 1e3
+  ---
+  duration_ms: 0.056788
+  type: 'test'
+  ...
+# Subtest: semantic decimal rejects 1.
+ok 135 - semantic decimal rejects 1.
+  ---
+  duration_ms: 0.062999
+  type: 'test'
+  ...
+# Subtest: semantic email rejects a..b@example.com
+ok 136 - semantic email rejects a..b@example.com
+  ---
+  duration_ms: 0.08967
+  type: 'test'
+  ...
+# Subtest: semantic email rejects x@-example.com
+ok 137 - semantic email rejects x@-example.com
+  ---
+  duration_ms: 0.066105
+  type: 'test'
+  ...
+# Subtest: semantic url rejects javascript:alert(1)
+ok 138 - semantic url rejects javascript:alert(1)
+  ---
+  duration_ms: 0.078769
+  type: 'test'
+  ...
+# Subtest: semantic url rejects https://user:pass@example.com
+ok 139 - semantic url rejects https://user:pass@example.com
+  ---
+  duration_ms: 0.077788
+  type: 'test'
+  ...
+# Subtest: semantic json-document rejects {"invalid":}
+ok 140 - semantic json-document rejects {"invalid":}
+  ---
+  duration_ms: 0.085492
+  type: 'test'
+  ...
+# Subtest: unit magnitude remains exact and unit tokens are explicit
+ok 141 - unit magnitude remains exact and unit tokens are explicit
+  ---
+  duration_ms: 0.712684
+  type: 'test'
+  ...
+# Subtest: frontend validates the same semantic codec vectors as the backend
+ok 142 - frontend validates the same semantic codec vectors as the backend
+  ---
+  duration_ms: 73.971156
+  type: 'test'
+  ...
+# (node:794295) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: work reads bind handles and validate protocol, state and counters
+ok 143 - work reads bind handles and validate protocol, state and counters
+  ---
+  duration_ms: 43.522957
+  type: 'test'
+  ...
+# Subtest: operator control binds key, operation, history and coherent revision
+ok 144 - operator control binds key, operation, history and coherent revision
+  ---
+  duration_ms: 4.046406
+  type: 'test'
+  ...
+# Subtest: work capabilities and lists reject invalid booleans, handles, duplicate rows and limits
+ok 145 - work capabilities and lists reject invalid booleans, handles, duplicate rows and limits
+  ---
+  duration_ms: 1.808786
+  type: 'test'
+  ...
+# Subtest: response is bound to the original submitted control despite caller edits
+ok 146 - response is bound to the original submitted control despite caller edits
+  ---
+  duration_ms: 0.924345
+  type: 'test'
+  ...
+1..146
+# tests 146
+# suites 0
+# pass 146
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 819.581888
+TAP version 13
+# (node:794415) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: connect exposes discovered resources and selected rows
+ok 1 - connect exposes discovered resources and selected rows
+  ---
+  duration_ms: 1.678298
+  type: 'test'
+  ...
+# Subtest: query Apply retains the selected key continuously and reads its latest authorized revision
+ok 2 - query Apply retains the selected key continuously and reads its latest authorized revision
+  ---
+  duration_ms: 1.376525
+  type: 'test'
+  ...
+# Subtest: query Apply clears a currently denied selection even when the query contains its old row
+ok 3 - query Apply clears a currently denied selection even when the query contains its old row
+  ---
+  duration_ms: 0.86356
+  type: 'test'
+  ...
+# Subtest: query Apply resets moving anchors and history while preserving live choice
+ok 4 - query Apply resets moving anchors and history while preserving live choice
+  ---
+  duration_ms: 5.843852
+  type: 'test'
+  ...
+# Subtest: late query selection read cannot undo disconnect
+ok 5 - late query selection read cannot undo disconnect
+  ---
+  duration_ms: 0.679551
+  type: 'test'
+  ...
+# Subtest: late query selection read cannot undo navigation
+ok 6 - late query selection read cannot undo navigation
+  ---
+  duration_ms: 0.217593
+  type: 'test'
+  ...
+# Subtest: late query selection read cannot undo selection
+ok 7 - late query selection read cannot undo selection
+  ---
+  duration_ms: 0.331079
+  type: 'test'
+  ...
+# Subtest: live filter exclusion retains a currently readable Resource at its latest revision
+ok 8 - live filter exclusion retains a currently readable Resource at its latest revision
+  ---
+  duration_ms: 0.446458
+  type: 'test'
+  ...
+# Subtest: live exclusion clears a selection when its current read is denied
+ok 9 - live exclusion clears a selection when its current read is denied
+  ---
+  duration_ms: 0.594109
+  type: 'test'
+  ...
+# Subtest: late excluded live selection read cannot undo disconnect
+ok 10 - late excluded live selection read cannot undo disconnect
+  ---
+  duration_ms: 2.573619
+  type: 'test'
+  ...
+# Subtest: late excluded live selection read cannot undo navigation
+ok 11 - late excluded live selection read cannot undo navigation
+  ---
+  duration_ms: 0.742811
+  type: 'test'
+  ...
+# Subtest: late excluded live selection read cannot undo stop
+ok 12 - late excluded live selection read cannot undo stop
+  ---
+  duration_ms: 0.734024
+  type: 'test'
+  ...
+# Subtest: late excluded live selection read cannot undo selection
+ok 13 - late excluded live selection read cannot undo selection
+  ---
+  duration_ms: 2.310559
+  type: 'test'
+  ...
+# Subtest: late query cannot replace another navigation
+ok 14 - late query cannot replace another navigation
+  ---
+  duration_ms: 0.367428
+  type: 'test'
+  ...
+# Subtest: unknown outcome blocks another mutation and exact retry uses same object
+ok 15 - unknown outcome blocks another mutation and exact retry uses same object
+  ---
+  duration_ms: 2.364702
+  type: 'test'
+  ...
+# Subtest: disconnect aborts and suppresses delayed discovery
+ok 16 - disconnect aborts and suppresses delayed discovery
+  ---
+  duration_ms: 0.285552
+  type: 'test'
+  ...
+# Subtest: finite lease revalidation reopens once with fresh snapshot
+ok 17 - finite lease revalidation reopens once with fresh snapshot
+  ---
+  duration_ms: 0.40507
+  type: 'test'
+  ...
+# Subtest: repeated finite lease failure stays bounded and clears projections
+ok 18 - repeated finite lease failure stays bounded and clears projections
+  ---
+  duration_ms: 0.411932
+  type: 'test'
+  ...
+# Subtest: separated normal lease expiries renew after each accepted snapshot
+ok 19 - separated normal lease expiries renew after each accepted snapshot
+  ---
+  duration_ms: 0.387075
+  type: 'test'
+  ...
+# Subtest: moving pagination uses server envelope, refetches previous and resets on new query
+ok 20 - moving pagination uses server envelope, refetches previous and resets on new query
+  ---
+  duration_ms: 0.40535
+  type: 'test'
+  ...
+# Subtest: delayed anchor cannot paginate a different Resource
+ok 21 - delayed anchor cannot paginate a different Resource
+  ---
+  duration_ms: 0.212554
+  type: 'test'
+  ...
+# Subtest: pagination history is bounded and first page remains available
+ok 22 - pagination history is bounded and first page remains available
+  ---
+  duration_ms: 5.155884
+  type: 'test'
+  ...
+# Subtest: moving page changes cancel the old live stream and open a new one
+ok 23 - moving page changes cancel the old live stream and open a new one
+  ---
+  duration_ms: 4.284789
+  type: 'test'
+  ...
+# Subtest: query Apply preserves live table choice when only the selected Resource read is denied
+ok 24 - query Apply preserves live table choice when only the selected Resource read is denied
+  ---
+  duration_ms: 1.282837
+  type: 'test'
+  ...
+# (node:794416) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: unknown reserve repeats the frozen key/file then upload without Resource kind switches
+ok 25 - unknown reserve repeats the frozen key/file then upload without Resource kind switches
+  ---
+  duration_ms: 1.639374
+  type: 'test'
+  ...
+# Subtest: unknown upload retries publication only and disposal clears retained content
+ok 26 - unknown upload retries publication only and disposal clears retained content
+  ---
+  duration_ms: 0.436198
+  type: 'test'
+  ...
+# Subtest: byte limit rejects before mutation
+ok 27 - byte limit rejects before mutation
+  ---
+  duration_ms: 0.191063
+  type: 'test'
+  ...
+# Subtest: a result from the old session generation never populates the new view
+ok 28 - a result from the old session generation never populates the new view
+  ---
+  duration_ms: 0.337972
+  type: 'test'
+  ...
+# Subtest: disposal denies a late completed download
+ok 29 - disposal denies a late completed download
+  ---
+  duration_ms: 0.553662
+  type: 'test'
+  ...
+# Subtest: HTTP 500 retains the exact pending reservation until explicit retry
+ok 30 - HTTP 500 retains the exact pending reservation until explicit retry
+  ---
+  duration_ms: 1.272738
+  type: 'test'
+  ...
+# (node:794417) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: browser session supplies CSRF only after verified authenticated response
+ok 31 - browser session supplies CSRF only after verified authenticated response
+  ---
+  duration_ms: 24.120269
+  type: 'test'
+  ...
+# Subtest: unauthenticated authority and expired session fail closed
+ok 32 - unauthenticated authority and expired session fail closed
+  ---
+  duration_ms: 1.280312
+  type: 'test'
+  ...
+# Subtest: logout includes last CSRF and clears it before request returns
+ok 33 - logout includes last CSRF and clears it before request returns
+  ---
+  duration_ms: 0.71098
+  type: 'test'
+  ...
+# Subtest: primary provider must exist; provider URL is encoded
+ok 34 - primary provider must exist; provider URL is encoded
+  ---
+  duration_ms: 0.638382
+  type: 'test'
+  ...
+# Subtest: delayed session response cannot restore authority after logout
+ok 35 - delayed session response cannot restore authority after logout
+  ---
+  duration_ms: 0.577227
+  type: 'test'
+  ...
+1..35
+# tests 35
+# suites 0
+# pass 35
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 207.829335
+
+> rom-studio@0.0.3 build
+> vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 4908 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                                                0.44 kB │ gzip:   0.29 kB
+dist/notices/npm/cn/0.3.3/LICENSE                                                              1.06 kB
+dist/notices/npm/tw-animate-css/1.4.0/LICENSE                                                  1.06 kB
+dist/notices/npm/svelte-dnd-action/0.9.80/LICENSE                                              1.06 kB
+dist/notices/npm/bits-ui/2.19.5/LICENSE                                                        1.07 kB
+dist/notices/npm/tailwind-variants/3.3.1/LICENSE                                               1.07 kB
+dist/notices/vendored/svar-filter-vendored/1c581c3312c626c525ee64b8f94446a025fa141c/LICENSE    1.07 kB
+dist/notices/npm/tabbable/6.5.0/LICENSE                                                        1.07 kB
+dist/notices/npm/_floating-ui_core/1.8.0/LICENSE                                               1.08 kB
+dist/notices/npm/_floating-ui_dom/1.8.0/LICENSE                                                1.08 kB
+dist/notices/npm/_floating-ui_utils/0.2.12/LICENSE                                             1.08 kB
+dist/notices/npm/inline-style-parser/0.2.7/LICENSE                                             1.09 kB
+dist/notices/npm/clsx/2.1.1/license                                                            1.10 kB
+dist/notices/npm/style-to-object/1.0.14/LICENSE                                                1.11 kB
+dist/notices/npm/svelte/5.57.1/LICENSE.md                                                      1.12 kB
+dist/notices/npm/runed/0.35.1/LICENSE                                                          1.16 kB
+dist/notices/npm/svelte-toolbelt/0.10.6/LICENSE                                                1.16 kB
+dist/notices/npm/shadcn-svelte/1.7.0/LICENSE.md                                                1.19 kB
+dist/notices/vendored/shadcn-svelte-vendored/source-checkout/LICENSE.md                        1.19 kB
+dist/notices/tool-runtime/rolldown/1.2.12/LICENSE                                              1.30 kB
+dist/notices/tool-runtime/rolldown/1.2.12/THIRD-PARTY-LICENSE                                  2.20 kB
+dist/notices/npm/_lucide_svelte/1.51.0/LICENSE                                                 3.20 kB
+dist/third-party-notices.json                                                                103.81 kB │ gzip:   8.60 kB
+dist/notices/tool-runtime/vite/8.3.2/LICENSE.md                                              108.78 kB
+dist/assets/index-BBf8R0qD.css                                                               178.29 kB │ gzip:  26.03 kB
+dist/assets/index-CQaDQnAF.js                                                                619.00 kB │ gzip: 175.06 kB
+
+✓ built in 4.61s
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+> rom-studio@0.0.3 test:components
+> npm run build:components && playwright test --config tests/components/playwright.config.ts
+
+
+> rom-studio@0.0.3 build:components
+> vite build --mode components --outDir .component-dist
+
+vite v8.3.2 building client environment for components...
+transforming...
+12:45:41 PM [vite-plugin-svelte] tests/components/SortableFieldsHarness.svelte:36:6 `invalidLayoutRejected` is updated, but is not declared with `$state(...)`. Changing its value will not correctly trigger updates
+https://svelte.dev/e/non_reactive_update
+34:     findRenderer(lifecycleCodec) === RegistryScalarHarnessRenderer &&
+35:     rendererLayout(lifecycleCodec) === "inline";
+36:   let invalidLayoutRejected = false;
+                               ^
+37:   try {
+38:     registerRenderer(
+✓ 4932 modules transformed.
+rendering chunks...
+computing gzip size...
+.component-dist/tests/components/direct-form.html                                                         0.76 kB │ gzip:  0.36 kB
+.component-dist/tests/components/reference.html                                                           0.81 kB │ gzip:  0.37 kB
+.component-dist/tests/components/renderer-regressions.html                                                0.92 kB │ gzip:  0.39 kB
+.component-dist/tests/components/semantic-fields.html                                                     0.93 kB │ gzip:  0.38 kB
+.component-dist/tests/components/sortable-fields.html                                                     0.98 kB │ gzip:  0.40 kB
+.component-dist/notices/npm/cn/0.3.3/LICENSE                                                              1.06 kB
+.component-dist/notices/npm/tw-animate-css/1.4.0/LICENSE                                                  1.06 kB
+.component-dist/notices/npm/svelte-dnd-action/0.9.80/LICENSE                                              1.06 kB
+.component-dist/notices/npm/bits-ui/2.19.5/LICENSE                                                        1.07 kB
+.component-dist/notices/npm/tailwind-variants/3.3.1/LICENSE                                               1.07 kB
+.component-dist/notices/vendored/svar-filter-vendored/1c581c3312c626c525ee64b8f94446a025fa141c/LICENSE    1.07 kB
+.component-dist/notices/npm/tabbable/6.5.0/LICENSE                                                        1.07 kB
+.component-dist/tests/components/harness.html                                                             1.08 kB │ gzip:  0.41 kB
+.component-dist/notices/npm/_floating-ui_core/1.8.0/LICENSE                                               1.08 kB
+.component-dist/notices/npm/_floating-ui_dom/1.8.0/LICENSE                                                1.08 kB
+.component-dist/notices/npm/_floating-ui_utils/0.2.12/LICENSE                                             1.08 kB
+.component-dist/notices/npm/inline-style-parser/0.2.7/LICENSE                                             1.09 kB
+.component-dist/notices/npm/clsx/2.1.1/license                                                            1.10 kB
+.component-dist/notices/npm/style-to-object/1.0.14/LICENSE                                                1.11 kB
+.component-dist/notices/npm/svelte/5.57.1/LICENSE.md                                                      1.12 kB
+.component-dist/notices/npm/runed/0.35.1/LICENSE                                                          1.16 kB
+.component-dist/notices/npm/svelte-toolbelt/0.10.6/LICENSE                                                1.16 kB
+.component-dist/notices/npm/shadcn-svelte/1.7.0/LICENSE.md                                                1.19 kB
+.component-dist/notices/vendored/shadcn-svelte-vendored/source-checkout/LICENSE.md                        1.19 kB
+.component-dist/notices/tool-runtime/rolldown/1.2.12/LICENSE                                              1.30 kB
+.component-dist/tests/components/details.html                                                             1.33 kB │ gzip:  0.43 kB
+.component-dist/index.html                                                                                1.45 kB │ gzip:  0.50 kB
+.component-dist/notices/tool-runtime/rolldown/1.2.12/THIRD-PARTY-LICENSE                                  2.20 kB
+.component-dist/notices/npm/_lucide_svelte/1.51.0/LICENSE                                                 3.20 kB
+.component-dist/third-party-notices.json                                                                108.63 kB │ gzip:  9.97 kB
+.component-dist/notices/tool-runtime/vite/8.3.2/LICENSE.md                                              108.78 kB
+.component-dist/assets/app-BBf8R0qD.css                                                                 178.29 kB │ gzip: 26.03 kB
+.component-dist/assets/resource-presentation-Bsbcryo9.js                                                  0.59 kB │ gzip:  0.36 kB
+.component-dist/assets/details-D6ZpHxNm.js                                                                1.33 kB │ gzip:  0.74 kB
+.component-dist/assets/directForm-dA7HVTVo.js                                                             1.55 kB │ gzip:  0.75 kB
+.component-dist/assets/semanticFields-Choxftwe.js                                                         2.02 kB │ gzip:  1.06 kB
+.component-dist/assets/ActionForm-DPJJ7jhy.js                                                             2.50 kB │ gzip:  1.28 kB
+.component-dist/assets/reference-DJo0YigB.js                                                              2.87 kB │ gzip:  1.47 kB
+.component-dist/assets/rendererRegressions-p41Bt7rt.js                                                    2.96 kB │ gzip:  1.36 kB
+.component-dist/assets/ValueDisplay-DkEdD3zj.js                                                           3.39 kB │ gzip:  1.31 kB
+.component-dist/assets/sortableFields-B4vXooPS.js                                                         5.16 kB │ gzip:  2.05 kB
+.component-dist/assets/ResourceTable-CVV3dldd.js                                                          5.72 kB │ gzip:  1.71 kB
+.component-dist/assets/ResponsiveInspector-DC8q5hlJ.js                                                    6.38 kB │ gzip:  2.23 kB
+.component-dist/assets/components-DPXCp3-p.js                                                             7.06 kB │ gzip:  2.83 kB
+.component-dist/assets/FilterBuilder-C2EAOG0h.js                                                         10.18 kB │ gzip:  3.69 kB
+.component-dist/assets/controller-BN5cC25g.js                                                            29.48 kB │ gzip:  9.70 kB
+.component-dist/assets/ResourceForm-DYm75rxN.js                                                          40.53 kB │ gzip: 11.75 kB
+.component-dist/assets/ResourcePage-CYDiRMLW.js                                                          52.91 kB │ gzip: 14.26 kB
+.component-dist/assets/main-DopQCfrs.js                                                                  74.12 kB │ gzip: 20.69 kB
+.component-dist/assets/ValueEditor-BYKVzlY8.js                                                          112.34 kB │ gzip: 32.58 kB
+.component-dist/assets/app-C3gwM5KN.js                                                                  289.40 kB │ gzip: 90.54 kB
+
+✓ built in 5.51s
+[WebServer] (node:795610) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 222 tests using 2 workers
+
+(node:795698) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:795699) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [webkit] › tests/components/application.spec.ts:9:1 › real SDK composes two metadata-driven pages; logout clears details (879ms)
+  ✓    2 [webkit] › tests/components/attachments-ergonomics.spec.ts:166:1 › attachment selection uses right inspector and exact confirmation binding (1.0s)
+  ✓    3 [webkit] › tests/components/application.spec.ts:93:1 › real app reports unavailable session without simulated data (388ms)
+  ✓    5 [webkit] › tests/components/application.spec.ts:106:1 › moving pages use native query anchors and previous refetches (670ms)
+  ✓    4 [webkit] › tests/components/attachments-ergonomics.spec.ts:217:1 › lost reservation acknowledgement retains exact request and contents through inspector close (1.1s)
+  ✓    7 [webkit] › tests/components/attachments-ergonomics.spec.ts:263:1 › denied capability has explicit unavailable state and no successful empty list (562ms)
+  ✓    6 [webkit] › tests/components/controls.spec.ts:7:1 › integer fields request a numeric mobile keyboard without losing exact input (743ms)
+  ✓    8 [webkit] › tests/components/attachments-ergonomics.spec.ts:277:1 › mobile attachment details contain focus and return to selected row (719ms)
+  ✓    9 [webkit] › tests/components/controls.spec.ts:19:1 › Resource references identify the target kind while accepting an exact ID (720ms)
+  ✓   10 [webkit] › tests/components/attachments-ergonomics.spec.ts:311:1 › lost upload response retries identical bytes and prevents pending navigation (741ms)
+  ✓   11 [webkit] › tests/components/controls.spec.ts:30:1 › Resource controls preserve integer, presence, boolean and nested edits (1.2s)
+  ✓   12 [webkit] › tests/components/attachments-ergonomics.spec.ts:345:1 › attachment list error stays distinct from empty success and can refresh (685ms)
+  ✓   14 [webkit] › tests/components/details.spec.ts:2:1 › selected Resource shows its current title as a direct editable field (562ms)
+  ✓   15 [webkit] › tests/components/details.spec.ts:27:1 › direct boolean control keeps false and becomes an explicit edit only when switched (516ms)
+  ✓   16 [webkit] › tests/components/details.spec.ts:42:1 › mobile Resource editor uses the full viewport and a concise heading (558ms)
+  ✓   13 [webkit] › tests/components/controls.spec.ts:58:1 › same field hosts support custom codec, nested collections and generic action input (2.2s)
+  ✓   17 [webkit] › tests/components/details.spec.ts:53:1 › live revision retains draft and disables stale submission until explicit reload (736ms)
+  ✓   18 [webkit] › tests/components/controls.spec.ts:82:1 › expanded action input describes submission rather than Resource saving (744ms)
+  ✓   19 [webkit] › tests/components/details.spec.ts:88:1 › an open field popup cannot mutate a draft after a newer revision (654ms)
+  ✓   20 [webkit] › tests/components/controls.spec.ts:91:1 › unsupported action stays visible, generic table selects, query emits values (800ms)
+  ✓   21 [webkit] › tests/components/details.spec.ts:117:1 › stale Resource keeps collection details readable without reopening mutation (691ms)
+  ✓   23 [webkit] › tests/components/direct-form.spec.ts:3:1 › current null and absent fields are distinct from an empty value (403ms)
+  ✓   24 [webkit] › tests/components/direct-form.spec.ts:14:1 › generic scalar fields fit label, control and actions in one mobile row (408ms)
+  ✓   22 [webkit] › tests/components/controls.spec.ts:108:1 › keyboard controls and assembled accessibility (1.3s)
+  ✓   25 [webkit] › tests/components/direct-form.spec.ts:35:1 › choosing Set a value starts from the current value (866ms)
+  ✓   26 [webkit] › tests/components/controls.spec.ts:118:1 › descriptor change retains an open draft and requires explicit reopen (1.2s)
+  ✓   27 [webkit] › tests/components/direct-form.spec.ts:53:1 › switching an invalid omitted field to a value resets its draft (984ms)
+  ✓   28 [webkit] › tests/components/controls.spec.ts:166:1 › invalid field keeps keyboard focus and cannot submit until corrected (747ms)
+  ✓   30 [webkit] › tests/components/controls.spec.ts:192:1 › shared Select Checkbox and submit keyboard semantics preserve a boolean (492ms)
+  ✓   29 [webkit] › tests/components/direct-form.spec.ts:72:1 › nested null differs from an empty value in an expanded list editor (886ms)
+  ✓   32 [webkit] › tests/components/direct-form.spec.ts:105:1 › large collections remain readable when editing is bounded (515ms)
+  ✓   33 [webkit] › tests/components/direct-form.spec.ts:118:1 › descriptor change keeps existing collection available for read-only inspection (494ms)
+  ✓   31 [webkit] › tests/components/controls.spec.ts:212:1 › optional remove and empty string remain distinct from omitted fields (1.5s)
+  ✓   34 [webkit] › tests/components/direct-form.spec.ts:133:1 › direct fields distinguish unchanged, false, zero, empty, null and removal (1.7s)
+  ✓   35 [webkit] › tests/components/controls.spec.ts:233:1 › nested invalid input survives sibling edits and removal releases only its error (1.5s)
+  ✓   36 [webkit] › tests/components/filter-workspace.spec.ts:54:1 › compact actions keep their names and the inspector toggle stays on the right (647ms)
+  ✓   38 [webkit] › tests/components/filter-workspace.spec.ts:111:1 › quick and full filters share draft without querying until Apply (1.2s)
+  ✓   37 [webkit] › tests/components/controls.spec.ts:254:1 › enum reference and prototype-shaped map keys use generic controls (2.0s)
+  ✓   40 [webkit] › tests/components/controls.spec.ts:274:1 › opaque input uses the shared strict lossless codec (685ms)
+  ✓   39 [webkit] › tests/components/filter-workspace.spec.ts:166:1 › Resource draft survives filter tab, Apply and mobile inspector lifecycle (1.6s)
+  ✓   41 [webkit] › tests/components/controls.spec.ts:290:1 › sort field is independent from filter field (1.6s)
+  ✓   42 [webkit] › tests/components/filter-workspace.spec.ts:229:1 › invalid filter input survives popover close and switching editors (1.6s)
+  ✓   43 [webkit] › tests/components/controls.spec.ts:304:1 › sort picker excludes collection fields but retains scalar fields (676ms)
+  ✓   44 [webkit] › tests/components/filter-workspace.spec.ts:292:1 › removing an earlier rule preserves the later rule's invalid draft (1.1s)
+  ✓   46 [webkit] › tests/components/filter-workspace.spec.ts:328:1 › descriptor change permits explicit discard of an obsolete filter (899ms)
+  ✓   47 [webkit] › tests/components/filter-workspace.spec.ts:360:1 › invalid input after an applied numeric filter is marked pending (990ms)
+  ✓   45 [webkit] › tests/components/controls.spec.ts:319:1 › wrapped custom codecs apply only to leaves; unknown leaves remain read-only (2.8s)
+  ✓   49 [webkit] › tests/components/controls.spec.ts:383:1 › query filters preserve wrapper provenance and edit only registered leaves (821ms)
+  ✓   48 [webkit] › tests/components/generic-presentation.spec.ts:7:1 › shared mode picker uses keyboard and keeps nullable operation controlled (1.1s)
+  ✓   51 [webkit] › tests/components/generic-presentation.spec.ts:26:1 › shared query picker preserves independent sort selection and closes on Escape (811ms)
+ROM_TABLE_FRAME {"engine":"webkit","rows":100,"columns":16,"cells_before":1600,"cells_after_clear":0,"navigation_to_visible_frame_ms":765,"clear_to_frame_ms":156,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓   50 [webkit] › tests/components/controls.spec.ts:399:3 › finite generic table 100 row frame and DOM retention sample (1.4s)
+  ✓   52 [webkit] › tests/components/login-ergonomics.spec.ts:3:1 › sign-in providers stay readable on narrow screens and preserve exact login route (469ms)
+  ✓   54 [webkit] › tests/components/login-ergonomics.spec.ts:53:1 › unavailable session presents retry without exposing workspace values (463ms)
+  ✓   55 [webkit] › tests/components/login-ergonomics.spec.ts:74:1 › primary provider auto-redirect retains explicit sign-in choice (544ms)
+  ✓   56 [webkit] › tests/components/login-ergonomics.spec.ts:105:1 › expired session clears protected values and explains sign-in (533ms)
+  ✓   57 [webkit] › tests/components/login-ergonomics.spec.ts:172:1 › expired authenticated response retains available provider sign-in (411ms)
+  ✓   58 [webkit] › tests/components/presentation-ux.spec.ts:53:1 › generic Resource presentation separates human title, field label, and exact identity (574ms)
+  ✓   59 [webkit] › tests/components/presentation-ux.spec.ts:82:1 › mobile Resource details returns focus to the actual row opener (588ms)
+  ✓   60 [webkit] › tests/components/reference-picker.spec.ts:7:1 › reference lookup is lazy and chooses an authorized title without changing exact identity or main navigation (703ms)
+  ✓   61 [webkit] › tests/components/reference-picker.spec.ts:30:1 › debounced search filters bounded candidates and Escape restores focus (954ms)
+  ✓   62 [webkit] › tests/components/reference-picker.spec.ts:68:1 › denied lookup preserves the exact ID fallback and never reports an empty successful search (529ms)
+ROM_TABLE_FRAME {"engine":"webkit","rows":500,"columns":16,"cells_before":8000,"cells_after_clear":0,"navigation_to_visible_frame_ms":2801,"clear_to_frame_ms":2263,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓   53 [webkit] › tests/components/controls.spec.ts:399:3 › finite generic table 500 row frame and DOM retention sample (5.7s)
+  ✓   64 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar text (440ms)
+  ✓   63 [webkit] › tests/components/reference-picker.spec.ts:88:1 › withheld titles use the shared safe fallback and undisclosed kinds do not query (559ms)
+  ✓   65 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar zero (451ms)
+  ✓   67 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar false (376ms)
+  ✓   68 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Explicit null (367ms)
+  ✓   66 [webkit] › tests/components/reference-picker.spec.ts:109:1 › session invalidation removes delayed and selected descriptions without erasing an exact ID (1.3s)
+  ✓   69 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Missing optional (433ms)
+  ✓   70 [webkit] › tests/components/reference-picker.spec.ts:130:1 › without lookup context the supported reference stays an exact ID editor (410ms)
+  ✓   71 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Empty codec list (466ms)
+  ✓   72 [webkit] › tests/components/reference-picker.spec.ts:143:1 › the picker remains inside a narrow mobile viewport (571ms)
+  ✓   73 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Empty codec map (423ms)
+  ✓   75 [webkit] › tests/components/renderer-regressions.spec.ts:40:1 › mobile nested Select remains usable after scrolling its Sheet (981ms)
+  ✓   76 [webkit] › tests/components/renderer-regressions.spec.ts:76:1 › mobile nested Select dismisses by ordinary outside click without closing its Sheet (805ms)
+  ✓   77 [webkit] › tests/components/renderer-regressions.spec.ts:103:1 › mobile Escape dismisses Select before Sheet and restores toolbar focus (737ms)
+  ✓   74 [webkit] › tests/components/reference-picker.spec.ts:164:1 › search requests are capped per open picker while exact ID editing remains available (2.9s)
+  ✓   78 [webkit] › tests/components/right-inspector.spec.ts:3:1 › right inspector toggles by keyboard and preserves filter drafts (743ms)
+  ✓   79 [webkit] › tests/components/reference-picker.spec.ts:197:1 › selected authorized descriptions disappear with the session while the exact ID stays intact (675ms)
+  ✓   81 [webkit] › tests/components/reference-picker.spec.ts:215:1 › empty reference input reports the canonical field path without replacing the last value (422ms)
+  ✓   80 [webkit] › tests/components/right-inspector.spec.ts:52:1 › right mobile Sheet restores toggle focus and preserves Resource draft across resize (806ms)
+  ✓   82 [webkit] › tests/components/reference-picker.spec.ts:224:1 › a denied relookup retires the previously selected title and preserves the ID (748ms)
+  ✓   83 [webkit] › tests/components/semantic-fields.spec.ts:3:1 › standard fields provide shared compact controls without application renderers (588ms)
+  ✓   85 [webkit] › tests/components/semantic-fields.spec.ts:42:1 › invalid semantic drafts block submission and retain the user's exact input (544ms)
+  ✓   84 [webkit] › tests/components/settings-presentation.spec.ts:72:1 › Settings groups disclosed plugin Resources and uses the authorized patch path (1.0s)
+  ✓   86 [webkit] › tests/components/semantic-fields.spec.ts:67:1 › expanded document preserves numeric tokens and multiline source (841ms)
+  ✓   87 [webkit] › tests/components/settings-presentation.spec.ts:120:1 › Settings exposes no group when discovery discloses no settings metadata (576ms)
+  ✓   88 [webkit] › tests/components/semantic-fields.spec.ts:101:1 › read-only semantic details expose the complete exact value (721ms)
+  ✓   90 [webkit] › tests/components/semantic-fields.spec.ts:120:1 › compact measurement keeps its magnitude visible beside the unit (482ms)
+  ✓   89 [webkit] › tests/components/shell-presentation.spec.ts:3:1 › mobile sidebar opens, selects a descriptor and returns space to the page (1.5s)
+  ✓   92 [webkit] › tests/components/work-presentation.spec.ts:79:1 › Work loads readable snapshots automatically and applies operator filters (826ms)
+  ✓   91 [webkit] › tests/components/sortable-fields.spec.ts:10:1 › manual reorder keeps invalid duplicate row draft and blocks resource submission (1.2s)
+  ✓   94 [webkit] › tests/components/sortable-fields.spec.ts:40:1 › keyboard drag submits only canonical values and retains duplicate identity (887ms)
+  ✓   93 [webkit] › tests/components/work-presentation.spec.ts:111:1 › Work inspector close preserves the exact recovery retry request (1.1s)
+  ✓   96 [webkit] › tests/components/work-presentation.spec.ts:144:1 › mobile Work details returns focus to the actual row opener (844ms)
+(node:804906) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   95 [webkit] › tests/components/sortable-fields.spec.ts:63:1 › pointer reorder keeps invalid drafts attached and removal clears row error (1.5s)
+  ✓   97 [webkit] › tests/components/sortable-fields.spec.ts:98:1 › readonly and bounded lists expose no drag or mutation controls (590ms)
+  ✓   98 [chromium] › tests/components/application.spec.ts:9:1 › real SDK composes two metadata-driven pages; logout clears details (834ms)
+  ✓  100 [chromium] › tests/components/application.spec.ts:93:1 › real app reports unavailable session without simulated data (218ms)
+  ✓  101 [chromium] › tests/components/application.spec.ts:106:1 › moving pages use native query anchors and previous refetches (553ms)
+  ✓   99 [webkit] › tests/components/sortable-fields.spec.ts:114:1 › codec row draft survives pointer replacement without losing exact decimal source (1.5s)
+  ✓  102 [chromium] › tests/components/attachments-ergonomics.spec.ts:166:1 › attachment selection uses right inspector and exact confirmation binding (756ms)
+  ✓  104 [chromium] › tests/components/attachments-ergonomics.spec.ts:217:1 › lost reservation acknowledgement retains exact request and contents through inspector close (786ms)
+  ✓  103 [webkit] › tests/components/sortable-fields.spec.ts:152:1 › action inputs use the same canonical list reorder (1.6s)
+  ✓  105 [chromium] › tests/components/attachments-ergonomics.spec.ts:263:1 › denied capability has explicit unavailable state and no successful empty list (395ms)
+  ✓  107 [chromium] › tests/components/attachments-ergonomics.spec.ts:277:1 › mobile attachment details contain focus and return to selected row (569ms)
+  ✓  106 [webkit] › tests/components/sortable-fields.spec.ts:177:1 › filter candidates retain invalid row state after reorder (869ms)
+  -  109 [webkit] › tests/components/sortable-fields.spec.ts:200:1 › touch handle reorders a duplicate row without serializing drag metadata
+  ✓  108 [chromium] › tests/components/attachments-ergonomics.spec.ts:311:1 › lost upload response retries identical bytes and prevents pending navigation (620ms)
+  ✓  111 [chromium] › tests/components/attachments-ergonomics.spec.ts:345:1 › attachment list error stays distinct from empty success and can refresh (513ms)
+  ✓  112 [chromium] › tests/components/controls.spec.ts:7:1 › integer fields request a numeric mobile keyboard without losing exact input (518ms)
+  ✓  110 [webkit] › tests/components/sortable-fields.spec.ts:252:1 › closing a keyboard drag releases the action and preserves the form candidate (1.5s)
+  ✓  113 [chromium] › tests/components/controls.spec.ts:19:1 › Resource references identify the target kind while accepting an exact ID (516ms)
+  ✓  114 [webkit] › tests/components/sortable-fields.spec.ts:279:1 › prototype-shaped map keys keep invalid drafts local to their editor (789ms)
+  ✓  115 [chromium] › tests/components/controls.spec.ts:30:1 › Resource controls preserve integer, presence, boolean and nested edits (967ms)
+  ✓  116 [webkit] › tests/components/sortable-fields.spec.ts:314:1 › labelled enum bulk append preserves duplicates and canonical ordered values (1.2s)
+  ✓  117 [chromium] › tests/components/controls.spec.ts:58:1 › same field hosts support custom codec, nested collections and generic action input (1.5s)
+  ✓  119 [chromium] › tests/components/controls.spec.ts:82:1 › expanded action input describes submission rather than Resource saving (540ms)
+  ✓  118 [webkit] › tests/components/sortable-fields.spec.ts:357:1 › bulk chooser cancellation emits nothing and unknown stored enum remains visible (1.6s)
+  ✓  120 [chromium] › tests/components/controls.spec.ts:91:1 › unsupported action stays visible, generic table selects, query emits values (600ms)
+  ✓  122 [chromium] › tests/components/controls.spec.ts:108:1 › keyboard controls and assembled accessibility (977ms)
+  ✓  121 [webkit] › tests/components/sortable-fields.spec.ts:406:1 › action and filter reuse labelled enum bulk append with exact members (2.3s)
+  ✓  123 [chromium] › tests/components/controls.spec.ts:118:1 › descriptor change retains an open draft and requires explicit reopen (925ms)
+  ✓  124 [webkit] › tests/components/sortable-fields.spec.ts:464:1 › enum labels display across wrapped collections and unknown members stay exact (811ms)
+  ✓  125 [chromium] › tests/components/controls.spec.ts:166:1 › invalid field keeps keyboard focus and cannot submit until corrected (633ms)
+  ✓  127 [chromium] › tests/components/controls.spec.ts:192:1 › shared Select Checkbox and submit keyboard semantics preserve a boolean (340ms)
+  ✓  126 [webkit] › tests/components/sortable-fields.spec.ts:487:1 › renderer unregister lifecycle preserves newer inline registration and collections stay expanded (646ms)
+  ✓  128 [chromium] › tests/components/controls.spec.ts:212:1 › optional remove and empty string remain distinct from omitted fields (1.0s)
+  ✓  129 [webkit] › tests/components/sortable-fields.spec.ts:521:3 › closing and reopening entries retains invalid draft after dialog unmount (1.3s)
+  ✓  130 [chromium] › tests/components/controls.spec.ts:233:1 › nested invalid input survives sibling edits and removal releases only its error (1.2s)
+  ✓  131 [webkit] › tests/components/sortable-fields.spec.ts:521:3 › closing and reopening amounts retains invalid draft after dialog unmount (1.3s)
+  ✓  132 [chromium] › tests/components/controls.spec.ts:254:1 › enum reference and prototype-shaped map keys use generic controls (1.5s)
+  ✓  134 [chromium] › tests/components/controls.spec.ts:274:1 › opaque input uses the shared strict lossless codec (353ms)
+  ✓  133 [webkit] › tests/components/sortable-fields.spec.ts:521:3 › closing and reopening dictionary retains invalid draft after dialog unmount (1.4s)
+(node:807741) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  135 [chromium] › tests/components/controls.spec.ts:290:1 › sort field is independent from filter field (874ms)
+  ✓  137 [chromium] › tests/components/controls.spec.ts:304:1 › sort picker excludes collection fields but retains scalar fields (353ms)
+  ✓  136 [chromium] › tests/components/details.spec.ts:2:1 › selected Resource shows its current title as a direct editable field (514ms)
+  ✓  139 [chromium] › tests/components/details.spec.ts:27:1 › direct boolean control keeps false and becomes an explicit edit only when switched (354ms)
+  ✓  140 [chromium] › tests/components/details.spec.ts:42:1 › mobile Resource editor uses the full viewport and a concise heading (378ms)
+  ✓  141 [chromium] › tests/components/details.spec.ts:53:1 › live revision retains draft and disables stale submission until explicit reload (663ms)
+  ✓  138 [chromium] › tests/components/controls.spec.ts:319:1 › wrapped custom codecs apply only to leaves; unknown leaves remain read-only (2.2s)
+  ✓  142 [chromium] › tests/components/details.spec.ts:88:1 › an open field popup cannot mutate a draft after a newer revision (481ms)
+  ✓  144 [chromium] › tests/components/details.spec.ts:117:1 › stale Resource keeps collection details readable without reopening mutation (482ms)
+  ✓  143 [chromium] › tests/components/controls.spec.ts:383:1 › query filters preserve wrapper provenance and edit only registered leaves (636ms)
+  ✓  145 [chromium] › tests/components/direct-form.spec.ts:3:1 › current null and absent fields are distinct from an empty value (258ms)
+  ✓  147 [chromium] › tests/components/direct-form.spec.ts:14:1 › generic scalar fields fit label, control and actions in one mobile row (291ms)
+ROM_TABLE_FRAME {"engine":"chromium","rows":100,"columns":16,"cells_before":1600,"cells_after_clear":0,"navigation_to_visible_frame_ms":371,"clear_to_frame_ms":79.40000003576279,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  146 [chromium] › tests/components/controls.spec.ts:399:3 › finite generic table 100 row frame and DOM retention sample (745ms)
+  ✓  148 [chromium] › tests/components/direct-form.spec.ts:35:1 › choosing Set a value starts from the current value (596ms)
+  ✓  150 [chromium] › tests/components/direct-form.spec.ts:53:1 › switching an invalid omitted field to a value resets its draft (688ms)
+  ✓  151 [chromium] › tests/components/direct-form.spec.ts:72:1 › nested null differs from an empty value in an expanded list editor (680ms)
+  ✓  152 [chromium] › tests/components/direct-form.spec.ts:105:1 › large collections remain readable when editing is bounded (278ms)
+ROM_TABLE_FRAME {"engine":"chromium","rows":500,"columns":16,"cells_before":8000,"cells_after_clear":0,"navigation_to_visible_frame_ms":1423.5,"clear_to_frame_ms":206.30000001192093,"api_requests":0,"scope":"Local descriptor-only browser fixture, warm asset cache, real generic ResourceTable and custom codec renderers. Navigation includes module execution and frame scheduling. DOM retention count, not heap reclamation or database/parser cost."}
+  ✓  149 [chromium] › tests/components/controls.spec.ts:399:3 › finite generic table 500 row frame and DOM retention sample (2.1s)
+  ✓  153 [chromium] › tests/components/direct-form.spec.ts:118:1 › descriptor change keeps existing collection available for read-only inspection (362ms)
+  ✓  154 [chromium] › tests/components/filter-workspace.spec.ts:54:1 › compact actions keep their names and the inspector toggle stays on the right (481ms)
+  ✓  156 [chromium] › tests/components/filter-workspace.spec.ts:111:1 › quick and full filters share draft without querying until Apply (896ms)
+  ✓  155 [chromium] › tests/components/direct-form.spec.ts:133:1 › direct fields distinguish unchanged, false, zero, empty, null and removal (1.3s)
+  ✓  158 [chromium] › tests/components/generic-presentation.spec.ts:7:1 › shared mode picker uses keyboard and keeps nullable operation controlled (657ms)
+  ✓  157 [chromium] › tests/components/filter-workspace.spec.ts:166:1 › Resource draft survives filter tab, Apply and mobile inspector lifecycle (1.1s)
+  ✓  159 [chromium] › tests/components/generic-presentation.spec.ts:26:1 › shared query picker preserves independent sort selection and closes on Escape (580ms)
+  ✓  161 [chromium] › tests/components/login-ergonomics.spec.ts:3:1 › sign-in providers stay readable on narrow screens and preserve exact login route (251ms)
+  ✓  162 [chromium] › tests/components/login-ergonomics.spec.ts:53:1 › unavailable session presents retry without exposing workspace values (293ms)
+  ✓  160 [chromium] › tests/components/filter-workspace.spec.ts:229:1 › invalid filter input survives popover close and switching editors (1.0s)
+  ✓  163 [chromium] › tests/components/login-ergonomics.spec.ts:74:1 › primary provider auto-redirect retains explicit sign-in choice (398ms)
+  ✓  165 [chromium] › tests/components/login-ergonomics.spec.ts:105:1 › expired session clears protected values and explains sign-in (317ms)
+  ✓  164 [chromium] › tests/components/filter-workspace.spec.ts:292:1 › removing an earlier rule preserves the later rule's invalid draft (689ms)
+  ✓  166 [chromium] › tests/components/login-ergonomics.spec.ts:172:1 › expired authenticated response retains available provider sign-in (214ms)
+  ✓  168 [chromium] › tests/components/presentation-ux.spec.ts:53:1 › generic Resource presentation separates human title, field label, and exact identity (363ms)
+  ✓  167 [chromium] › tests/components/filter-workspace.spec.ts:328:1 › descriptor change permits explicit discard of an obsolete filter (611ms)
+  ✓  169 [chromium] › tests/components/presentation-ux.spec.ts:82:1 › mobile Resource details returns focus to the actual row opener (337ms)
+  ✓  170 [chromium] › tests/components/filter-workspace.spec.ts:360:1 › invalid input after an applied numeric filter is marked pending (611ms)
+  ✓  171 [chromium] › tests/components/reference-picker.spec.ts:7:1 › reference lookup is lazy and chooses an authorized title without changing exact identity or main navigation (399ms)
+  ✓  172 [chromium] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar text (201ms)
+  ✓  174 [chromium] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar zero (175ms)
+  ✓  175 [chromium] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar false (169ms)
+  ✓  173 [chromium] › tests/components/reference-picker.spec.ts:30:1 › debounced search filters bounded candidates and Escape restores focus (670ms)
+  ✓  176 [chromium] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Explicit null (196ms)
+  ✓  178 [chromium] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Missing optional (202ms)
+  ✓  177 [chromium] › tests/components/reference-picker.spec.ts:68:1 › denied lookup preserves the exact ID fallback and never reports an empty successful search (339ms)
+  ✓  179 [chromium] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Empty codec list (202ms)
+  ✓  181 [chromium] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Empty codec map (182ms)
+  ✓  180 [chromium] › tests/components/reference-picker.spec.ts:88:1 › withheld titles use the shared safe fallback and undisclosed kinds do not query (288ms)
+  ✓  182 [chromium] › tests/components/renderer-regressions.spec.ts:40:1 › mobile nested Select remains usable after scrolling its Sheet (676ms)
+  ✓  183 [chromium] › tests/components/reference-picker.spec.ts:109:1 › session invalidation removes delayed and selected descriptions without erasing an exact ID (1.0s)
+  ✓  185 [chromium] › tests/components/reference-picker.spec.ts:130:1 › without lookup context the supported reference stays an exact ID editor (208ms)
+  ✓  184 [chromium] › tests/components/renderer-regressions.spec.ts:76:1 › mobile nested Select dismisses by ordinary outside click without closing its Sheet (672ms)
+  ✓  186 [chromium] › tests/components/reference-picker.spec.ts:143:1 › the picker remains inside a narrow mobile viewport (305ms)
+  ✓  187 [chromium] › tests/components/renderer-regressions.spec.ts:103:1 › mobile Escape dismisses Select before Sheet and restores toolbar focus (543ms)
+  ✓  189 [chromium] › tests/components/right-inspector.spec.ts:3:1 › right inspector toggles by keyboard and preserves filter drafts (385ms)
+  ✓  190 [chromium] › tests/components/right-inspector.spec.ts:52:1 › right mobile Sheet restores toggle focus and preserves Resource draft across resize (474ms)
+  ✓  191 [chromium] › tests/components/semantic-fields.spec.ts:3:1 › standard fields provide shared compact controls without application renderers (336ms)
+  ✓  192 [chromium] › tests/components/semantic-fields.spec.ts:42:1 › invalid semantic drafts block submission and retain the user's exact input (250ms)
+  ✓  193 [chromium] › tests/components/semantic-fields.spec.ts:67:1 › expanded document preserves numeric tokens and multiline source (478ms)
+  ✓  188 [chromium] › tests/components/reference-picker.spec.ts:164:1 › search requests are capped per open picker while exact ID editing remains available (2.7s)
+  ✓  194 [chromium] › tests/components/semantic-fields.spec.ts:101:1 › read-only semantic details expose the complete exact value (453ms)
+  ✓  196 [chromium] › tests/components/semantic-fields.spec.ts:120:1 › compact measurement keeps its magnitude visible beside the unit (253ms)
+  ✓  195 [chromium] › tests/components/reference-picker.spec.ts:197:1 › selected authorized descriptions disappear with the session while the exact ID stays intact (439ms)
+  ✓  198 [chromium] › tests/components/reference-picker.spec.ts:215:1 › empty reference input reports the canonical field path without replacing the last value (230ms)
+  ✓  199 [chromium] › tests/components/reference-picker.spec.ts:224:1 › a denied relookup retires the previously selected title and preserves the ID (484ms)
+  ✓  197 [chromium] › tests/components/settings-presentation.spec.ts:72:1 › Settings groups disclosed plugin Resources and uses the authorized patch path (844ms)
+  ✓  201 [chromium] › tests/components/settings-presentation.spec.ts:120:1 › Settings exposes no group when discovery discloses no settings metadata (333ms)
+  ✓  202 [chromium] › tests/components/sortable-fields.spec.ts:10:1 › manual reorder keeps invalid duplicate row draft and blocks resource submission (915ms)
+  ✓  200 [chromium] › tests/components/shell-presentation.spec.ts:3:1 › mobile sidebar opens, selects a descriptor and returns space to the page (1.3s)
+  ✓  203 [chromium] › tests/components/sortable-fields.spec.ts:40:1 › keyboard drag submits only canonical values and retains duplicate identity (583ms)
+  ✓  204 [chromium] › tests/components/work-presentation.spec.ts:79:1 › Work loads readable snapshots automatically and applies operator filters (562ms)
+  ✓  206 [chromium] › tests/components/work-presentation.spec.ts:111:1 › Work inspector close preserves the exact recovery retry request (660ms)
+  ✓  207 [chromium] › tests/components/work-presentation.spec.ts:144:1 › mobile Work details returns focus to the actual row opener (414ms)
+  ✓  205 [chromium] › tests/components/sortable-fields.spec.ts:63:1 › pointer reorder keeps invalid drafts attached and removal clears row error (1.5s)
+  ✓  208 [chromium] › tests/components/sortable-fields.spec.ts:98:1 › readonly and bounded lists expose no drag or mutation controls (181ms)
+  ✓  209 [chromium] › tests/components/sortable-fields.spec.ts:114:1 › codec row draft survives pointer replacement without losing exact decimal source (1.3s)
+  ✓  210 [chromium] › tests/components/sortable-fields.spec.ts:152:1 › action inputs use the same canonical list reorder (792ms)
+  ✓  211 [chromium] › tests/components/sortable-fields.spec.ts:177:1 › filter candidates retain invalid row state after reorder (272ms)
+  ✓  212 [chromium] › tests/components/sortable-fields.spec.ts:200:1 › touch handle reorders a duplicate row without serializing drag metadata (1.7s)
+  ✓  213 [chromium] › tests/components/sortable-fields.spec.ts:252:1 › closing a keyboard drag releases the action and preserves the form candidate (903ms)
+  ✓  214 [chromium] › tests/components/sortable-fields.spec.ts:279:1 › prototype-shaped map keys keep invalid drafts local to their editor (501ms)
+  ✓  215 [chromium] › tests/components/sortable-fields.spec.ts:314:1 › labelled enum bulk append preserves duplicates and canonical ordered values (996ms)
+  ✓  216 [chromium] › tests/components/sortable-fields.spec.ts:357:1 › bulk chooser cancellation emits nothing and unknown stored enum remains visible (1.1s)
+  ✓  217 [chromium] › tests/components/sortable-fields.spec.ts:406:1 › action and filter reuse labelled enum bulk append with exact members (1.8s)
+  ✓  218 [chromium] › tests/components/sortable-fields.spec.ts:464:1 › enum labels display across wrapped collections and unknown members stay exact (464ms)
+  ✓  219 [chromium] › tests/components/sortable-fields.spec.ts:487:1 › renderer unregister lifecycle preserves newer inline registration and collections stay expanded (276ms)
+  ✓  220 [chromium] › tests/components/sortable-fields.spec.ts:521:3 › closing and reopening entries retains invalid draft after dialog unmount (874ms)
+  ✓  221 [chromium] › tests/components/sortable-fields.spec.ts:521:3 › closing and reopening amounts retains invalid draft after dialog unmount (948ms)
+  ✓  222 [chromium] › tests/components/sortable-fields.spec.ts:521:3 › closing and reopening dictionary retains invalid draft after dialog unmount (904ms)
+
+  1 skipped
+  221 passed (1.7m)

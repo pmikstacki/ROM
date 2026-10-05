@@ -1,0 +1,37 @@
+[WebServer] (node:813143) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:813208) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/components/presentation-ux.spec.ts:53:1 › generic Resource presentation separates human title, field label, and exact identity (5.4s)
+
+
+  1) [chromium] › tests/components/presentation-ux.spec.ts:53:1 › generic Resource presentation separates human title, field label, and exact identity 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('columnheader', { name: 'Resource', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('columnheader', { name: 'Resource', exact: true }) with timeout 5000ms
+      - waiting for getByRole('columnheader', { name: 'Resource', exact: true })
+
+
+      67 |     page.getByRole("columnheader", { name: "Display name", exact: true }),
+      68 |   ).toBeVisible();
+    > 69 |   await expect(page.getByRole("columnheader", { name: "Resource", exact: true })).toBeVisible();
+         |                                                                                   ^
+      70 |   await expect(page.getByRole("columnheader", { name: "ID", exact: true })).toHaveCount(0);
+      71 |   await expect(
+      72 |     page
+        at /root/ROM/studio/tests/components/presentation-ux.spec.ts:69:83
+
+    Error Context: test-results/presentation-ux-generic-Re-ed573-ld-label-and-exact-identity-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/components/presentation-ux.spec.ts:53:1 › generic Resource presentation separates human title, field label, and exact identity 

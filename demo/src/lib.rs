@@ -49,9 +49,13 @@ pub mod studio;
 #[cfg(feature = "studio")]
 mod studio_application;
 #[cfg(feature = "studio")]
+mod studio_choices;
+#[cfg(feature = "studio")]
 mod studio_controls;
 #[cfg(feature = "studio")]
 mod studio_model;
+#[cfg(feature = "studio")]
+mod studio_semantic;
 #[cfg(feature = "studio")]
 mod studio_startup;
 

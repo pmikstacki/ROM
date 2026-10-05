@@ -1,0 +1,15 @@
+[WebServer] (node:817993) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 2 workers
+
+(node:818184) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:818188) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium] › tests/components/presentation-ux.spec.ts:53:1 › generic Resource presentation separates human title, field label, and exact identity (580ms)
+  ✓  1 [webkit] › tests/components/presentation-ux.spec.ts:53:1 › generic Resource presentation separates human title, field label, and exact identity (775ms)
+  ✓  3 [chromium] › tests/components/presentation-ux.spec.ts:88:1 › mobile Resource details returns focus to the actual row opener (381ms)
+  ✓  4 [webkit] › tests/components/presentation-ux.spec.ts:88:1 › mobile Resource details returns focus to the actual row opener (526ms)
+
+  4 passed (3.0s)

@@ -21,6 +21,9 @@ Use this project skill for Studio changes. It is not an assembled release-bundle
 - [Authorized discovery](../../../crates/rom/src/discovery.rs): bounded descriptor projection.
 - [Frontend wire types](../../../studio/src/lib/client/types.ts) and [discovery validation](../../../studio/src/lib/client/discovery.ts): accepted client contract.
 - [Renderer registry](../../../studio/src/lib/renderers/registry.ts): codec identity and component composition.
+- [Standard semantic field contracts](../../../docs/studio-fields.md): exact representations and control limits.
+- [Backend semantic codecs](../../../crates/rom-fields/src/lib.rs): validated dates, colors, text formats, decimals, and units.
+- [Shared semantic vectors](../../../crates/rom-fields/tests/fixtures/semantic-codecs-v1.json): Rust/browser normalization agreement.
 - [Value editor](../../../studio/src/lib/renderers/ValueEditor.svelte): candidate values and nested wrappers.
 - [Application controller](../../../studio/src/lib/application/controller.ts): sessions, revisions, queries, and durable receipt recovery.
 - [Studio author example](../../../docs/research/rom-0.0.2-studio-author-workflow.md): independent consumer and explicit custom renderer.
@@ -47,3 +50,12 @@ These checks do not replace packaged release acceptance or a human usability rev
 Read [presentation authoring](../../../docs/studio-presentation.md) before adding labels or Settings classification.
 Check [the shared wire fixture](../../../studio/tests/fixtures/presentation-discovery.json) when changing discovery.
 Use [Settings composition](../../../studio/src/lib/application/SettingsPage.svelte) as the navigation reference, not as a separate write API.
+
+## Editor state and authorization
+
+Keep invalid drafts separate from wire values. Use the optional renderer draft callback when a custom editor must survive a list remount.
+Use own-property lookup for map keys. Prototype-shaped keys must not access inherited editor state.
+Reference choices must use the session-owned lookup contract. Keep exact IDs when labels are unavailable.
+Do not describe candidate-page filtering as a full-text query. Do not retain disclosed labels after session or permission changes.
+A Blob reference does not perform upload or attachment completion. Use the existing attachment lifecycle for those operations.
+Test both actual browser engines. A routed binary-body limitation does not prove that a real upload failed.

@@ -5,3 +5,5 @@ export type * from "./lib/client/types.ts";
 export { registerRenderer } from "./lib/renderers/registry.ts";
 export type { FieldRenderer, RendererProps } from "./lib/renderers/types.ts";
 export { Input } from "./lib/components/ui/input/index.js";
+
+export type { RendererRegistrationOptions } from "./lib/renderers/registry.ts";

@@ -1,0 +1,123 @@
+[WebServer] (node:568832) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:568847) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:568958) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 11:36:40 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:40 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ValueEditor.svelte:70:4) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ListEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ValueEditor.svelte:90:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ListEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:55:22) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:55:22) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ValueEditor.svelte:70:4) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ListEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ValueEditor.svelte:86:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ListEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:55:22) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:55:22) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+  ✓  1 [chromium] › tests/components/sortable-fields.spec.ts:5:1 › manual reorder keeps invalid duplicate row draft and blocks resource submission (3.3s)
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:41 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ValueEditor.svelte:70:4) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ListEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ValueEditor.svelte:86:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ListEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:55:22) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:55:22) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:55:22) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+  ✓  2 [chromium] › tests/components/sortable-fields.spec.ts:14:1 › keyboard drag submits only canonical values and retains duplicate identity (576ms)
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ValueEditor.svelte:70:4) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ListEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ValueEditor.svelte:90:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ListEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:42 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:55:22) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:43 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:55:22) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:43 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:43 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:55:22) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:43 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+  ✓  3 [chromium] › tests/components/sortable-fields.spec.ts:19:1 › pointer reorder keeps invalid drafts attached and removal clears row error (1.3s)
+[WebServer] 11:36:43 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+[WebServer] 11:36:43 AM [vite] (client) [console.warn] [svelte] ownership_invalid_mutation
+[WebServer] Mutating unbound props (`draft`, at src/​lib/​renderers/​ListEditor.svelte:51:6) is strongly discouraged. Consider using `bind:draft={...}` in src/lib/renderers/ValueEditor.svelte (or using a callback) instead
+[WebServer] https://svelte.dev/e/ownership_invalid_mutation
+  ✓  4 [chromium] › tests/components/sortable-fields.spec.ts:25:1 › readonly and bounded lists expose no drag or mutation controls (263ms)
+
+  4 passed (7.0s)

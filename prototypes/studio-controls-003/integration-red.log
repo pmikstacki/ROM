@@ -1,0 +1,34 @@
+[WebServer] (node:564644) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:564660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:564783) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/components/sortable-fields.spec.ts:5:1 › manual reorder keeps invalid duplicate row draft and blocks resource submission (30.0s)
+
+
+  1) [chromium] › tests/components/sortable-fields.spec.ts:5:1 › manual reorder keeps invalid duplicate row draft and blocks resource submission 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('dialog', { name: 'entries', exact: true }).getByRole('button', { name: 'Move entries[1] down', exact: true })
+
+
+       5 | test("manual reorder keeps invalid duplicate row draft and blocks resource submission",async({page})=>{
+       6 |  const editor=await open(page);await editor.getByLabel("entries[1] value",{exact:true}).fill("invalid");
+    >  7 |  await editor.getByRole("button",{name:"Move entries[1] down",exact:true}).click();
+         |                                                                            ^
+       8 |  const moved=editor.getByLabel("entries[2] value",{exact:true});await expect(moved).toHaveValue("invalid");await expect(moved).toHaveAttribute("aria-invalid","true");await expect(moved).toBeFocused();
+       9 |  await page.keyboard.press("Escape");await expect(page.getByRole("button",{name:"Save 1 change",exact:true})).toBeDisabled();
+      10 |  await page.getByRole("button",{name:"Edit entries",exact:true}).click();await page.getByRole("dialog",{name:"entries",exact:true}).getByLabel("entries[2] value",{exact:true}).fill("11");await page.keyboard.press("Escape");
+        at /root/ROM/studio/tests/components/sortable-fields.spec.ts:7:76
+
+    Error Context: test-results/sortable-fields-manual-reo-ad560--blocks-resource-submission-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/components/sortable-fields.spec.ts:5:1 › manual reorder keeps invalid duplicate row draft and blocks resource submission 

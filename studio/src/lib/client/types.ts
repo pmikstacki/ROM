@@ -20,6 +20,7 @@ export interface FieldDescriptor {
   shape: Shape;
   codec?: CodecIdentity;
   codec_wrappers?: CodecWrapper[];
+  enum_labels?: Record<string, string>;
 }
 export type InputDescriptor =
   | { type: "unit" }
@@ -29,6 +30,7 @@ export type InputDescriptor =
         shape: Shape;
         codec?: CodecIdentity;
         codec_wrappers?: CodecWrapper[];
+        enum_labels?: Record<string, string>;
       };
     }
   | { type: "object"; value: FieldDescriptor[] };

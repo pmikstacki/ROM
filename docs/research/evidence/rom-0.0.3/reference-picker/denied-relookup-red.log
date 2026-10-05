@@ -1,0 +1,41 @@
+[WebServer] (node:577486) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:577501) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:577620) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/components/reference-picker.spec.ts:224:1 › a denied relookup retires the previously selected title and preserves the ID (5.6s)
+
+
+  1) [chromium] › tests/components/reference-picker.spec.ts:224:1 › a denied relookup retires the previously selected title and preserves the ID 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByText('Ada Lovelace', { exact: true })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByText('Ada Lovelace', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Ada Lovelace', { exact: true })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      237 |     page.getByText("Reference lookup was denied. Enter an exact Resource ID."),
+      238 |   ).toBeVisible();
+    > 239 |   await expect(page.getByText("Ada Lovelace", { exact: true })).toHaveCount(0);
+          |                                                                 ^
+      240 |   await expect(page.getByTestId("stored-id")).toHaveText(
+      241 |     '"  id with spaces  "',
+      242 |   );
+        at /root/ROM/studio/tests/components/reference-picker.spec.ts:239:65
+
+    Error Context: ../../../tmp/rom-reference-dev-results/reference-picker-a-denied--a7d12--title-and-preserves-the-ID-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/components/reference-picker.spec.ts:224:1 › a denied relookup retires the previously selected title and preserves the ID 

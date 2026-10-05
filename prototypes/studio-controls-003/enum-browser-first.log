@@ -1,0 +1,105 @@
+[WebServer] (node:646376) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:646391) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:646506) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 12:11:11 PM [vite] (client) [console.error] 
+[WebServer] 
+[WebServer]     at onerror (http://127.0.0.1:43324/rom-studio/src/lib/resources/ResourceForm.svelte:162:29)
+[WebServer]     at $effect (http://127.0.0.1:43324/rom-studio/src/lib/renderers/ValueEditor.svelte:120:79)
+[WebServer] 12:11:11 PM [vite] (client) [Unhandled error] Svelte error: effect_update_depth_exceeded
+[WebServer] Maximum update depth exceeded. This typically indicates that an effect reads and writes the same piece of state
+[WebServer] https://svelte.dev/e/effect_update_depth_exceeded
+[WebServer] 
+[WebServer] 12:11:13 PM [vite] (client) [console.error] 
+[WebServer] 
+[WebServer]     at onerror (http://127.0.0.1:43324/rom-studio/src/lib/resources/ResourceForm.svelte:162:29)
+[WebServer]     at $effect (http://127.0.0.1:43324/rom-studio/src/lib/renderers/ValueEditor.svelte:120:79)
+[WebServer] 12:11:13 PM [vite] (client) [Unhandled error] Svelte error: effect_update_depth_exceeded
+[WebServer] Maximum update depth exceeded. This typically indicates that an effect reads and writes the same piece of state
+[WebServer] https://svelte.dev/e/effect_update_depth_exceeded
+[WebServer] 
+[WebServer] 12:11:15 PM [vite] (client) [console.error] 
+[WebServer] 
+[WebServer]     at onerror (http://127.0.0.1:43324/rom-studio/src/lib/resources/ResourceForm.svelte:162:29)
+[WebServer]     at $effect (http://127.0.0.1:43324/rom-studio/src/lib/renderers/ValueEditor.svelte:120:79)
+[WebServer] 12:11:15 PM [vite] (client) [Unhandled error] Svelte error: effect_update_depth_exceeded
+[WebServer] Maximum update depth exceeded. This typically indicates that an effect reads and writes the same piece of state
+[WebServer] https://svelte.dev/e/effect_update_depth_exceeded
+[WebServer] 
+[WebServer] 12:11:17 PM [vite] (client) [console.error] 
+[WebServer] 
+[WebServer]     at onerror (http://127.0.0.1:43324/rom-studio/src/lib/resources/ResourceForm.svelte:162:29)
+[WebServer]     at $effect (http://127.0.0.1:43324/rom-studio/src/lib/renderers/ValueEditor.svelte:120:79)
+[WebServer] 12:11:17 PM [vite] (client) [Unhandled error] Svelte error: effect_update_depth_exceeded
+[WebServer] Maximum update depth exceeded. This typically indicates that an effect reads and writes the same piece of state
+[WebServer] https://svelte.dev/e/effect_update_depth_exceeded
+[WebServer] 
+  ✓  1 [chromium] › tests/components/sortable-fields.spec.ts:314:1 › labelled enum bulk append preserves duplicates and canonical ordered values (10.3s)
+[WebServer] 12:11:21 PM [vite] (client) [console.error] 
+[WebServer] 
+[WebServer]     at onerror (http://127.0.0.1:43324/rom-studio/src/lib/resources/ResourceForm.svelte:162:29)
+[WebServer]     at $effect (http://127.0.0.1:43324/rom-studio/src/lib/renderers/ValueEditor.svelte:120:79)
+[WebServer] 12:11:21 PM [vite] (client) [Unhandled error] Svelte error: effect_update_depth_exceeded
+[WebServer] Maximum update depth exceeded. This typically indicates that an effect reads and writes the same piece of state
+[WebServer] https://svelte.dev/e/effect_update_depth_exceeded
+[WebServer] 
+  ✘  2 [chromium] › tests/components/sortable-fields.spec.ts:331:1 › bulk chooser cancellation emits nothing and unknown stored enum remains visible (9.3s)
+(node:646840) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [chromium] › tests/components/sortable-fields.spec.ts:349:1 › action and filter reuse labelled enum bulk append with exact members (30.0s)
+
+
+  1) [chromium] › tests/components/sortable-fields.spec.ts:331:1 › bulk chooser cancellation emits nothing and unknown stored enum remains visible 
+
+    Error: expect(locator).toBeDisabled() failed
+
+    Locator: getByRole('region', { name: 'Resource editor' }).getByRole('button', { name: 'Save resource', exact: true })
+    Expected: disabled
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeDisabled" getByRole('region', { name: 'Resource editor' }).getByRole('button', { name: 'Save resource', exact: true }) with timeout 5000ms
+      - waiting for getByRole('region', { name: 'Resource editor' }).getByRole('button', { name: 'Save resource', exact: true })
+
+
+      341 |  await expect(page.getByRole('checkbox',{name:'Select Waiting (queued) for choices',exact:true})).not.toBeChecked();
+      342 |  await page.keyboard.press('Escape');await page.keyboard.press('Escape');
+    > 343 |  await expect(resource.getByRole('button',{name:'Save changes',exact:true})).toBeDisabled();
+          |                                                                               ^
+      344 |  const unknown=page.getByRole('region',{name:'Unknown enum'});
+      345 |  await expect(unknown.getByRole('alert')).toContainText('retired');
+      346 |  await expect(unknown.getByRole('button',{name:'Save changes',exact:true})).toBeDisabled();
+        at /root/ROM/studio/tests/components/sortable-fields.spec.ts:343:79
+
+    Error Context: test-results/sortable-fields-bulk-choos-99140-stored-enum-remains-visible-chromium/error-context.md
+
+  2) [chromium] › tests/components/sortable-fields.spec.ts:349:1 › action and filter reuse labelled enum bulk append with exact members 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('region', { name: 'Action editor' }).getByRole('button', { name: 'Edit choices', exact: true })
+
+
+      350 |  await page.goto(fixture);
+      351 |  const action=page.getByRole('region',{name:'Action editor'});
+    > 352 |  await action.getByRole('button',{name:'Edit choices',exact:true}).click();
+          |                                                                    ^
+      353 |  let editor=page.getByRole('dialog',{name:'choices',exact:true});
+      354 |  await editor.getByRole('button',{name:'Choose choices items',exact:true}).click();
+      355 |  await page.getByRole('checkbox',{name:'Select Active (paused) for choices',exact:true}).click();
+        at /root/ROM/studio/tests/components/sortable-fields.spec.ts:352:68
+
+    Error Context: test-results/sortable-fields-action-and-e611b-k-append-with-exact-members-chromium/error-context.md
+
+  2 failed
+    [chromium] › tests/components/sortable-fields.spec.ts:331:1 › bulk chooser cancellation emits nothing and unknown stored enum remains visible 
+    [chromium] › tests/components/sortable-fields.spec.ts:349:1 › action and filter reuse labelled enum bulk append with exact members 
+  1 passed (51.8s)

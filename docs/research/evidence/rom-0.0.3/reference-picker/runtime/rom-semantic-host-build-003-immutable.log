@@ -1,0 +1,8 @@
+Running as unit: run-u253.service
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.12s
+Finished with result: success
+Main processes terminated with: code=exited, status=0/SUCCESS
+Service runtime: 157ms
+CPU time consumed: 100ms
+Memory peak: 52.7M (swap: 0B)
+IO bytes read: 2.2M

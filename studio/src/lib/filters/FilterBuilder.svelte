@@ -89,8 +89,10 @@
   function update(index: number, next: FilterRule) {
     if (disabled) return;
     const rules = [...displayed];
-    identities.set(next, ruleId(rules[index]));
-    rules[index] = next;
+    // Preserve the same identity after a parent stores the rule in deep state.
+    const controlled = $state(next);
+    identities.set(controlled, ruleId(rules[index]));
+    rules[index] = controlled;
     replace(rules);
   }
   function clearError(index: number) {
@@ -209,6 +211,7 @@
             {#if rule.value !== null}{#key `${rule.field}:${rule.filter}`}<ValueEditor
                   shape={field.shape}
                   codec={field.codec}
+                  enumLabels={field.enum_labels}
                   codecWrappers={field.codec_wrappers ?? []}
                   value={rule.value}
                   label={`Filter ${index + 1}`}

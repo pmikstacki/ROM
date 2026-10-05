@@ -7,6 +7,9 @@ pub enum Presence<T> {
     Value(T),
 }
 impl<T: Field> Field for Presence<T> {
+    fn enum_labels() -> BTreeMap<String, String> {
+        T::enum_labels()
+    }
     fn codec_identity() -> Option<CodecIdentity> {
         T::codec_identity()
     }

@@ -1,0 +1,30 @@
+[WebServer] (node:788263) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:788361) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/components/semantic-fields.spec.ts:120:1 › compact measurement keeps its magnitude visible beside the unit (446ms)
+
+
+  1) [chromium] › tests/components/semantic-fields.spec.ts:120:1 › compact measurement keeps its magnitude visible beside the unit 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      128 |     return element.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight)>=context.measureText("12.5").width;
+      129 |   });
+    > 130 |   expect(fits).toBe(true);
+          |                ^
+      131 |   await expect(page.getByRole("textbox",{name:"Compact measurement unit",exact:true})).toHaveValue("kg");
+      132 | });
+      133 |
+        at /root/ROM/studio/tests/components/semantic-fields.spec.ts:130:16
+
+    Error Context: test-results/semantic-fields-compact-me-d6aa7-ude-visible-beside-the-unit-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/components/semantic-fields.spec.ts:120:1 › compact measurement keeps its magnitude visible beside the unit 

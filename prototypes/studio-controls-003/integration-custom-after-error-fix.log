@@ -1,0 +1,41 @@
+[WebServer] (node:572920) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:572935) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:573031) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/components/sortable-fields.spec.ts:30:1 › codec row draft survives pointer replacement without losing exact decimal source (6.4s)
+
+
+  1) [chromium] › tests/components/sortable-fields.spec.ts:30:1 › codec row draft survives pointer replacement without losing exact decimal source 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  getByTestId('submitted')
+    Expected: "{\"type\":\"patch\",\"input\":{\"amounts\":{\"op\":\"set\",\"value\":[\"1.2300\",\"9.0000\",\"1.2300\"]}}}"
+    Received: "{\"type\":\"patch\",\"input\":{\"amounts\":{\"op\":\"set\",\"value\":[\"1.2300\",\"9.0000\",\"1.23\"]}}}"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" getByTestId('submitted') with timeout 5000ms
+      - waiting for getByTestId('submitted')
+        14 × locator resolved to <output data-testid="submitted">{"type":"patch","input":{"amounts":{"op":"set","v…</output>
+           - unexpected value "{"type":"patch","input":{"amounts":{"op":"set","value":["1.2300","9.0000","1.23"]}}}"
+
+
+      31 |  await page.goto(fixture);await page.getByRole("button",{name:"Edit amounts",exact:true}).click();const editor=page.getByRole("dialog",{name:"amounts",exact:true});await editor.getByLabel("amounts[1] value",{exact:true}).fill("invalid");
+      32 |  const a=await editor.getByRole("button",{name:"Drag amounts[1]",exact:true}).boundingBox();const z=await editor.getByText("Item 3",{exact:true}).locator("..").boundingBox();expect(a&&z).toBeTruthy();await page.mouse.move(a!.x+a!.width/2,a!.y+a!.height/2);await page.mouse.down();await page.mouse.move(a!.x+a!.width/2,z!.y+z!.height-5,{steps:20});await page.waitForTimeout(300);await page.mouse.up();
+    > 33 |  await expect(editor.getByLabel("amounts[2] value",{exact:true})).toHaveValue("invalid");await expect(editor.getByLabel("amounts[2] value",{exact:true})).toHaveAttribute("aria-invalid","true");await editor.getByLabel("amounts[2] value",{exact:true}).fill("1.2300");await page.keyboard.press("Escape");await page.getByRole("button",{name:"Save 1 change",exact:true}).click();await expect(page.getByTestId("submitted")).toHaveText('{"type":"patch","input":{"amounts":{"op":"set","value":["1.2300","9.0000","1.2300"]}}}');
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                   ^
+      34 | });
+      35 |
+      36 | test("action inputs use the same canonical list reorder",async({page})=>{
+        at /root/ROM/studio/tests/components/sortable-fields.spec.ts:33:419
+
+    Error Context: test-results/sortable-fields-codec-row--287a7-losing-exact-decimal-source-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/components/sortable-fields.spec.ts:30:1 › codec row draft survives pointer replacement without losing exact decimal source 

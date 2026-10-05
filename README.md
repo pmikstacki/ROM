@@ -6,8 +6,9 @@ Declare a resource once. The framework supplies standard storage, operations, en
 
 Actions request changes. The core validates and commits transitions. Events describe committed facts. Reactions can submit further actions through the same core.
 
-**Status: 0.0.2 released as a verified local source-and-Studio distribution; experimental software.**
-All eight release gates passed on source revision `8652fcd2d296f2bfe3102cdc0dfe977fecf1b034`.
+**Status: 0.0.3 is prepared for release acceptance; experimental software.**
+The last completed local source-and-Studio distribution is 0.0.2.
+Its eight release gates passed on source revision `8652fcd2d296f2bfe3102cdc0dfe977fecf1b034`.
 See the [release acceptance record](docs/research/rom-0.0.2-release-completion.md) and [support boundary](docs/release-support.md).
 Registry publication and GitHub Actions remain disabled. These results do not establish production readiness.
 
@@ -27,17 +28,20 @@ The opt-in [provider deployment profile](docs/provider-deployment.md) adds expli
 
 Studio is a generic workspace for backend operations on ROM Resources. It uses Svelte 5, shadcn-svelte, Bits UI, and Lucide icons.
 
-These screenshots show the accepted 0.0.2 VPN preview. They show implemented screens, not design mockups.
+These screenshots show the implemented 0.0.3 workspace on a real local host with synthetic data.
+They are not design mockups or a claim of completed VPN deployment.
+The [capture record](docs/research/evidence/rom-0.0.3/studio-screens/source-facts.json) identifies source, native binary, and assets.
 
-![ROM Studio desktop: Resource navigation, Inventory table, and the Filters sidebar](docs/research/evidence/rom-0.0.2/preview-activation-8652/studio-desktop.png)
+![ROM Studio desktop: generic fields and the shared right inspector](docs/research/evidence/rom-0.0.3/studio-screens/field-showcase-desktop.png)
 
-The desktop layout has Resource navigation on the left, a table in the center, and a shared Filters/Details panel on the right.
+The desktop layout has Resource navigation on the left, a table in the center, and a shared Filters/Details inspector on the right.
+The right-edge chevron opens or closes that inspector.
 Quick filters remain in a popover. The sidebar provides the full filter and sorting controls.
 
 <details>
-<summary>Mobile Filters panel</summary>
+<summary>Mobile Resource fields</summary>
 
-![ROM Studio mobile: the Filters drawer with sorting and page-size controls](docs/research/evidence/rom-0.0.2/preview-activation-8652/studio-mobile.png)
+![ROM Studio mobile: the same generic field controls in the right drawer](docs/research/evidence/rom-0.0.3/studio-screens/field-showcase-mobile.png)
 
 </details>
 
@@ -50,9 +54,22 @@ Simple form fields use compact rows with labels. Collections open a larger edito
 | Forms and actions | Create, patch, replace, or delete state; invoke actions from their input descriptors. |
 | Filters | Apply descriptor-based filters, sorting, and moving pagination. |
 | Live queries | Observe changing authorized results without subscription code for each Resource kind. |
-| Work | Inspect the shared work controls exposed by the host. |
+| Work | Inspect readable work snapshots and perform authorized retry or reconciliation through the shared right inspector. |
+| Settings | Manage ordinary Settings Resources and authorized plugin groups through the same forms and actions. |
 | Attachments | Reserve, upload, download, and detach through the Blob boundary. |
 | Login | Use human OIDC login and server-side sessions through the optional Rust host. |
+
+<details>
+<summary>Settings and mobile Work inspection</summary>
+
+![Settings: authorized plugin groups and generic Resource operations](docs/research/evidence/rom-0.0.3/studio-screens/settings-desktop.png)
+
+![Mobile Work: readable status rows and the shared right inspector](docs/research/evidence/rom-0.0.3/studio-screens/work-mobile.png)
+
+</details>
+
+Work shows authoritative snapshots. It does not invent a timeline when the host supplies no work history.
+Settings metadata organizes navigation; it does not grant configuration permissions.
 
 ### How a Resource reaches Studio
 
@@ -81,14 +98,19 @@ Studio has generic controls for strings, booleans, exact integers, finite number
 Optional and nullable fields retain the distinction between absence, null, removal, and an unchanged value.
 Custom codecs use a renderer registered for their exact name and version.
 
-A missing custom renderer preserves the value and blocks unsafe editing. A reference currently accepts an ID rather than a rich Resource picker.
-Enums use their wire values as labels. Lists support adding and removing items, but not drag-and-drop sorting.
-Date, time, color, and other semantic editors need further descriptor and control work.
-The semantic control gaps remain part of the proposed 0.0.3 scope.
+A missing custom renderer preserves the value and blocks unsafe editing.
+Application entry points explicitly register trusted custom components for an exact codec name and version.
+The standard Studio bundle does not load application extensions automatically.
 
-The current development increment adds authorized human titles and field labels, a shared right inspector, readable Work inspection, and plugin Settings groups.
-These changes are not a released 0.0.3 artifact.
-See [presentation authoring and compatibility](docs/studio-presentation.md), [the research and remaining scope](docs/research/rom-0.0.3-studio-release-research.md), and [increment verification](docs/research/evidence/rom-0.0.3/initial-increment/README.md).
+The 0.0.3 development catalog adds enum labels, ordered multi-choice lists, drag-and-drop sorting, and bounded reference pickers.
+Standard controls cover dates, times, timestamps, colors, email, URLs, multiline text, exact JSON source, decimals, and units.
+Invalid drafts stay local and block submission. Decimal editing does not use JavaScript floating-point conversion.
+See [field contracts and limits](docs/studio-fields.md), including lexical decimal sorting and bounded candidate search.
+
+The development workspace also adds authorized human titles, a shared right inspector, readable Work inspection, and plugin Settings groups.
+These changes are not yet a released 0.0.3 artifact. The screenshots above show the current implemented source.
+See [presentation authoring](docs/studio-presentation.md), [release scope](docs/research/rom-0.0.3-studio-release-research.md),
+and [the release plan](docs/superpowers/plans/2026-10-05-rom-0.0.3-release.md).
 Use [AI development guidance](docs/ai-development.md) to select the Resource, extension, operator, release, or Studio workflow.
 
 The [external Studio author workflow](docs/research/rom-0.0.2-studio-author-workflow.md) demonstrates explicit custom renderer registration.

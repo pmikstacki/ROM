@@ -1,0 +1,25 @@
+{
+  "recordedAt": "2026-10-05T12:19:52.099Z",
+  "note": "Frozen maintained component build, Chromium106 pass; WebKit same component-dist. Historical prototype identity remains separate.",
+  "files": {
+    "studio/src/lib/client/types.ts": "e7563b233c9d87405565664a5a542321ddb3292bd3ba0de84b7bae6fafaead77",
+    "studio/src/lib/client/discovery.ts": "30e58886492a0ad3d65e39944b29869f8109fe39bb9a0ac20d2ef94163fa1a02",
+    "studio/src/lib/client/enum-labels.ts": "c663dbb63e2b0a36784ca47b6f1684df899d34a3571a640d0f01cb7f5420999a",
+    "studio/src/lib/renderers/ValueEditor.svelte": "d1bb9246cb92ee231353a78189d23d9e24a240e0466f93359716499924ff29b8",
+    "studio/src/lib/renderers/ListEditor.svelte": "5d0cec5283d935f287c0ba611d22ce04c57bb7ded8779e02fcf2ff7eff4661c7",
+    "studio/src/lib/renderers/EnumListChoices.svelte": "c08f57b9fcce23698493a3a4fcbc916a3d1fecbdc2514ff3fb3749f356d36bda",
+    "studio/src/lib/renderers/editor-draft.ts": "2021c4a44c8464b5869ed0b0e18420aaf96ab738a91c526776e9c0b728f7f7b1",
+    "studio/src/lib/renderers/collection-limits.ts": "b790f114a393f583658669cce42722709b36e1901c54e7c3165b95da73115567",
+    "studio/src/lib/renderers/FieldHost.svelte": "549a30e7173f6dc349fbba83471c6a5eb3d7f68a3eb5d6a05ad399d2364f726f",
+    "studio/src/lib/renderers/ValueDisplay.svelte": "f9b7f10e351f4853a5b4aac55e7ac64dc0f828a012e540b9484bdce3cfbab8af",
+    "studio/src/lib/renderers/registry.ts": "2647e97b3437ae2d96dc34aaa6fd0c736512503d77db8d0a696a48b8f54f880f",
+    "studio/src/lib/renderers/SemanticField.svelte": "26bf8114e72aa03351725bcb3de0849bd335f898ccb50c5091f1334b52f7330d",
+    "studio/src/lib/renderers/ReferenceField.svelte": "7694893fefed3f75e10a08db3b38be95e1cd18e83a2fcd552903be74b6f95492",
+    "studio/src/lib/filters/FilterBuilder.svelte": "d66d8bdec35d23d97d5d49ff859e0360c38f043ff92a9ede32e6d2e9b82fcee0",
+    "studio/src/App.svelte": "8d15aba719c9b016f4ad0f19393112b96847f1f614931a86553653a04676eb51",
+    "studio/tests/components/sortable-fields.spec.ts": "a520ec383c28368fc8fa9060a2bd1ea6b9d5b80e6d71e8c1b4cc00d3e0d4dcb2",
+    "studio/tests/components/SortableFieldsHarness.svelte": "1ca46558b82caae646fa4f2d4ab8ea036243757f0d0ffb4a2381fcedfca6364f",
+    "studio/tests/components/attachments-ergonomics.spec.ts": "65fc6137ad44a1adcfcdf2400ad41f4458d4c51cba2e280690044e9d37f5798c",
+    "studio/package-lock.json": "d852a5ff6a5a21374ff7d01cabc179dc52c15dbf5e8b7e6b7285b7843c00ae52"
+  }
+}

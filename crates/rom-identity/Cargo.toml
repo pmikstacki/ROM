@@ -14,11 +14,11 @@ workspace = true
 default = []
 [dependencies]
 rom.workspace = true
-rom-auth = { version = "=0.0.2", path = "../rom-auth", default-features = false }
+rom-auth = { version = "=0.0.3", path = "../rom-auth", default-features = false }
 serde.workspace = true
 serde_json.workspace = true
 [dev-dependencies]
-rom-auth = { version = "=0.0.2", path = "../rom-auth", default-features = false, features = ["jwt", "oidc"] }
+rom-auth = { version = "=0.0.3", path = "../rom-auth", default-features = false, features = ["jwt", "oidc"] }
 jsonwebtoken = { version = "=11.1.0", default-features = false, features = ["aws_lc_rs", "use_pem"] }
 rom-sqlite.workspace = true
 tokio.workspace = true

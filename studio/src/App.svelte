@@ -1,8 +1,10 @@
 <script lang="ts">
-  import { onDestroy, onMount, untrack } from "svelte";
+  import { onDestroy, onMount, setContext, untrack } from "svelte";
   import { createClient } from "./lib/client/client.ts";
   import type { RomClient } from "./lib/client/types.ts";
   import { createApplication } from "./lib/application/controller.ts";
+  import LoginPage from "./lib/application/LoginPage.svelte";
+  import { REFERENCE_LOOKUP } from "./lib/renderers/reference-lookup.ts";
   import ResourcePage from "./lib/application/ResourcePage.svelte";
   import AttachmentPage from "./lib/application/AttachmentPage.svelte";
   import WorkPage from "./lib/application/WorkPage.svelte";
@@ -15,9 +17,11 @@
   import StudioShell from "./lib/presentation/StudioShell.svelte";
   import * as Card from "./lib/components/ui/card/index.js";
   import * as Alert from "./lib/components/ui/alert/index.js";
-  import { Boxes } from "@lucide/svelte";
   import { Button } from "./lib/components/ui/button/index.js";
-  import { createBrowserAuth } from "./lib/application/auth.ts";
+  import {
+    createBrowserAuth,
+    SessionExpiredError,
+  } from "./lib/application/auth.ts";
   import type { ProviderChoice } from "./lib/application/auth.ts";
   const base = import.meta.env.BASE_URL;
   const auth = createBrowserAuth(base);
@@ -26,9 +30,28 @@
   }: { client?: RomClient } = $props();
   let providers = $state<ProviderChoice[]>([]),
     authError = $state(""),
-    checking = $state(false);
+    checking = $state(false),
+    primaryProvider = $state<string | null>(null),
+    sessionExpired = $state(false);
   let sessionGeneration: string | undefined;
   let destroyed = false;
+  async function showProviders() {
+    const choices = await auth.providers();
+    if (destroyed) return;
+    providers = choices.providers;
+    primaryProvider = choices.primary ?? null;
+    if (choices.primary) {
+      try {
+        const flag = "rom-primary-redirect";
+        if (!sessionStorage.getItem(flag)) {
+          sessionStorage.setItem(flag, "1");
+          location.assign(auth.loginUrl(choices.primary));
+        }
+      } catch {
+        /* Provider buttons remain available when session storage is blocked. */
+      }
+    }
+  }
   async function sessionCheck(connect = false) {
     if (checking) return;
     checking = true;
@@ -36,21 +59,10 @@
       const session = await auth.refresh();
       if (destroyed) return;
       if (!session.authenticated) {
+        if (sessionGeneration !== undefined) sessionExpired = true;
         controller.disconnect();
-        const choices = await auth.providers();
-        providers = choices.providers;
         sessionGeneration = undefined;
-        if (choices.primary) {
-          try {
-            const flag = "rom-primary-redirect";
-            if (!sessionStorage.getItem(flag)) {
-              sessionStorage.setItem(flag, "1");
-              location.assign(auth.loginUrl(choices.primary));
-            }
-          } catch {
-            /* Provider buttons remain available when session storage is blocked. */
-          }
-        }
+        await showProviders();
       } else {
         try {
           sessionStorage.removeItem("rom-primary-redirect");
@@ -60,6 +72,8 @@
           sessionGeneration !== session.generation
         )
           controller.disconnect();
+        sessionExpired = false;
+        primaryProvider = null;
         sessionGeneration = session.generation;
         providers = [];
         if (connect || controller.state.phase === "disconnected")
@@ -68,6 +82,16 @@
       authError = "";
     } catch (problem) {
       controller.disconnect();
+      if (problem instanceof SessionExpiredError) {
+        sessionExpired = true;
+        sessionGeneration = undefined;
+        try {
+          await showProviders();
+        } catch {
+          providers = [];
+          primaryProvider = null;
+        }
+      }
       authError =
         problem instanceof Error ? problem.message : "Session unavailable.";
     } finally {
@@ -75,6 +99,7 @@
     }
   }
   async function signOut() {
+    sessionExpired = false;
     controller.disconnect();
     sessionGeneration = undefined;
     try {
@@ -102,13 +127,28 @@
   );
   let snapshot = $state.raw(controller.state),
     page = $state<StudioPage>("resources"),
-    workNavigationBlocked = $state(false);
+    workNavigationBlocked = $state(false),
+    attachmentNavigationBlocked = $state(false);
+  setContext(REFERENCE_LOOKUP, {
+    descriptor: (kind: string) =>
+      snapshot.phase === "ready"
+        ? snapshot.descriptors.find((item) => item.kind === kind)
+        : undefined,
+    lookup: (kind: string, search: string, signal: AbortSignal) =>
+      controller.lookupResources(kind, search, signal),
+  });
   const blockedNavigation = $derived(
-    navigationBlocked(snapshot.pending?.state, workNavigationBlocked),
+    navigationBlocked(
+      snapshot.pending?.state,
+      workNavigationBlocked || attachmentNavigationBlocked,
+    ),
   );
   const unsubscribe = controller.subscribe((next) => {
     snapshot = next;
-    if (next.phase !== "ready") workNavigationBlocked = false;
+    if (next.phase !== "ready") {
+      workNavigationBlocked = false;
+      attachmentNavigationBlocked = false;
+    }
   });
   function navigate(next: StudioPage) {
     if (blockedNavigation) return;
@@ -128,7 +168,7 @@
   );
 </script>
 
-{#snippet notices()}
+{#snippet noticesContent()}
   {#if authError}<Alert.Root variant="destructive"
       ><Alert.Description>{authError}</Alert.Description></Alert.Root
     >{/if}
@@ -163,42 +203,16 @@
 {/snippet}
 
 {#if snapshot.phase === "disconnected" || snapshot.phase === "error"}
-  <main class="flex min-h-svh items-center justify-center bg-muted/40 p-6">
-    <div class="w-full max-w-sm space-y-6">
-      <div class="flex items-center justify-center gap-2.5">
-        <span
-          class="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground"
-          ><Boxes class="size-5" /></span
-        >
-        <h1 class="text-lg font-semibold tracking-tight">ROM Studio</h1>
-      </div>
-      <Card.Root>
-        <Card.Header
-          ><Card.Title><h2>Connect to ROM</h2></Card.Title><Card.Description
-            >Sign in through your configured identity provider.</Card.Description
-          ></Card.Header
-        >
-        <Card.Content class="space-y-3">
-          {#each providers as provider}<Button
-              class="w-full"
-              href={auth.loginUrl(provider.id)}
-              >Sign in with {provider.label}</Button
-            >{/each}
-          <Button
-            class="w-full"
-            variant="outline"
-            disabled={checking}
-            onclick={() => void sessionCheck(true)}
-            >{checking ? "Connecting…" : "Connect"}</Button
-          >
-        </Card.Content>
-      </Card.Root>
-      {@render notices()}
-      <p class="text-center text-xs text-muted-foreground">
-        One Resource definition. One mutation path.
-      </p>
-    </div>
-  </main>
+  <LoginPage
+    {providers}
+    {checking}
+    primary={primaryProvider}
+    {sessionExpired}
+    loginUrl={(id) => auth.loginUrl(id)}
+    onCheck={() => void sessionCheck(true)}
+  >
+    {#snippet notices()}{@render noticesContent()}{/snippet}
+  </LoginPage>
 {:else if snapshot.phase === "connecting"}
   <main class="flex min-h-svh items-center justify-center">
     <p role="status" class="text-sm text-muted-foreground">
@@ -217,10 +231,12 @@
     navigationBlocked={blockedNavigation}
     onsignout={() => void signOut()}
   >
-    {@render notices()}
+    {@render noticesContent()}
     {#if page === "attachments"}<AttachmentPage
         {client}
         descriptors={snapshot.descriptors}
+        onNavigationBlockChange={(blocked) =>
+          (attachmentNavigationBlocked = blocked)}
       />
     {:else if page === "work"}<WorkPage
         {snapshot}

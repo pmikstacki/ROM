@@ -1,0 +1,84 @@
+[WebServer] (node:648629) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:648644) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 13 tests using 1 worker
+
+(node:648807) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/components/sortable-fields.spec.ts:10:1 › manual reorder keeps invalid duplicate row draft and blocks resource submission (1.2s)
+  ✓   2 [chromium] › tests/components/sortable-fields.spec.ts:40:1 › keyboard drag submits only canonical values and retains duplicate identity (719ms)
+  ✓   3 [chromium] › tests/components/sortable-fields.spec.ts:63:1 › pointer reorder keeps invalid drafts attached and removal clears row error (1.6s)
+  ✓   4 [chromium] › tests/components/sortable-fields.spec.ts:98:1 › readonly and bounded lists expose no drag or mutation controls (337ms)
+  ✓   5 [chromium] › tests/components/sortable-fields.spec.ts:114:1 › codec row draft survives pointer replacement without losing exact decimal source (1.3s)
+  ✘   6 [chromium] › tests/components/sortable-fields.spec.ts:152:1 › action inputs use the same canonical list reorder (5.9s)
+(node:653835) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [chromium] › tests/components/sortable-fields.spec.ts:177:1 › filter candidates retain invalid row state after reorder (554ms)
+  ✓   8 [chromium] › tests/components/sortable-fields.spec.ts:200:1 › touch handle reorders a duplicate row without serializing drag metadata (1.9s)
+  ✓   9 [chromium] › tests/components/sortable-fields.spec.ts:252:1 › closing a keyboard drag releases the action and preserves the form candidate (898ms)
+  ✓  10 [chromium] › tests/components/sortable-fields.spec.ts:279:1 › prototype-shaped map keys keep invalid drafts local to their editor (621ms)
+  ✓  11 [chromium] › tests/components/sortable-fields.spec.ts:314:1 › labelled enum bulk append preserves duplicates and canonical ordered values (976ms)
+  ✓  12 [chromium] › tests/components/sortable-fields.spec.ts:331:1 › bulk chooser cancellation emits nothing and unknown stored enum remains visible (689ms)
+  ✘  13 [chromium] › tests/components/sortable-fields.spec.ts:349:1 › action and filter reuse labelled enum bulk append with exact members (6.1s)
+
+
+  1) [chromium] › tests/components/sortable-fields.spec.ts:152:1 › action inputs use the same canonical list reorder 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  getByTestId('invoked')
+    Expected: "{\"entries\":[7,9,7]}"
+    Received: ""
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" getByTestId('invoked') with timeout 5000ms
+      - waiting for getByTestId('invoked')
+        14 × locator resolved to <output data-testid="invoked"></output>
+           - unexpected value ""
+
+
+      172 |   await page.keyboard.press("Escape");
+      173 |   await area.getByRole("button", { name: "Run reorder", exact: true }).click();
+    > 174 |   await expect(page.getByTestId("invoked")).toHaveText('{"entries":[7,9,7]}');
+          |                                             ^
+      175 | });
+      176 |
+      177 | test("filter candidates retain invalid row state after reorder", async ({
+        at /root/ROM/studio/tests/components/sortable-fields.spec.ts:174:45
+
+    Error Context: test-results/sortable-fields-action-inp-9b86b-same-canonical-list-reorder-chromium/error-context.md
+
+  2) [chromium] › tests/components/sortable-fields.spec.ts:349:1 › action and filter reuse labelled enum bulk append with exact members 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  getByTestId('invoked')
+    Expected: "{\"choices\":[\"paused\"]}"
+    Received: ""
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" getByTestId('invoked') with timeout 5000ms
+      - waiting for getByTestId('invoked')
+        14 × locator resolved to <output data-testid="invoked"></output>
+           - unexpected value ""
+
+
+      358 |   page,
+      359 | }) => {
+    > 360 |   await page.goto(fixture);
+          |                            ^
+      361 |   const resource = page.getByRole("region", { name: "Resource editor" });
+      362 |   await resource
+      363 |     .getByRole("button", { name: "Edit choices", exact: true })
+        at /root/ROM/studio/tests/components/sortable-fields.spec.ts:360:44
+
+    Error Context: test-results/sortable-fields-action-and-e611b-k-append-with-exact-members-chromium/error-context.md
+
+  2 failed
+    [chromium] › tests/components/sortable-fields.spec.ts:152:1 › action inputs use the same canonical list reorder 
+    [chromium] › tests/components/sortable-fields.spec.ts:349:1 › action and filter reuse labelled enum bulk append with exact members 
+  11 passed (25.0s)

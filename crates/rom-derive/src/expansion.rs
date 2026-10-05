@@ -1,3 +1,4 @@
+use crate::presentation::{FieldHints, Presentation};
 use proc_macro::TokenStream;
 use quote::{format_ident, quote, quote_spanned};
 use syn::{Data, DeriveInput, Fields, LitInt, LitStr, Path, parse_macro_input, spanned::Spanned};
@@ -31,6 +32,7 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
             format!("{label} requires concrete fields"),
         ));
     }
+    let mut presentation = Presentation::default();
     let mut kind = None;
     let mut version = None;
     let mut crate_seen = false;
@@ -44,6 +46,9 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
         }
         if attr.path().is_ident(attribute) {
             attr.parse_nested_meta(|m| {
+                if model == Model::Resource && presentation.parse(&m)? {
+                    return Ok(());
+                }
                 if m.path.is_ident("version") {
                     if model == Model::Input {
                         return Err(m.error("Input does not support version"));
@@ -115,6 +120,7 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
     let mut descriptors = vec![];
     let mut input_descriptors = vec![];
     let mut codec_bindings = vec![];
+    let mut enum_label_bindings = vec![];
     let mut encodes = vec![];
     let mut decodes = vec![];
     let mut selectors = vec![];
@@ -130,6 +136,7 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
         };
         let mut wire = LitStr::new(default_name, id.span());
         let mut renamed = false;
+        let mut hints = FieldHints::default();
         for a in &f.attrs {
             if a.path().is_ident("serde") {
                 return Err(syn::Error::new(
@@ -139,6 +146,9 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
             }
             if a.path().is_ident(attribute) {
                 a.parse_nested_meta(|m| {
+                    if model == Model::Resource && hints.parse(&m)? {
+                        return Ok(());
+                    }
                     if m.path.is_ident("rename") && !renamed {
                         renamed = true;
                         wire = m.value()?.parse()?;
@@ -155,9 +165,11 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
                 format!("duplicate or empty {label} field name"),
             ));
         }
+        presentation.field(wire.clone(), hints, ty.clone());
         wire_names.push(wire.clone());
         descriptors.push(quote_spanned!(ty.span()=> #facade::FieldDescriptor { name:#wire.into(), shape:<#ty as #facade::Field>::shape() }));
-        input_descriptors.push(quote_spanned!(ty.span()=> #facade::InputFieldDescriptor { name:#wire.into(), shape:<#ty as #facade::Field>::shape(), codec:<#ty as #facade::Field>::codec_identity(), codec_wrappers:<#ty as #facade::Field>::codec_wrappers() }));
+        input_descriptors.push(quote_spanned!(ty.span()=> #facade::InputFieldDescriptor { name:#wire.into(), shape:<#ty as #facade::Field>::shape(), codec:<#ty as #facade::Field>::codec_identity(), codec_wrappers:<#ty as #facade::Field>::codec_wrappers(), enum_labels:<#ty as #facade::Field>::enum_labels() }));
+        enum_label_bindings.push(quote_spanned!(ty.span()=> { let labels = <#ty as #facade::Field>::enum_labels(); if !labels.is_empty() { bindings.push(#facade::FieldEnumLabels { name:#wire.into(), labels }); } }));
         codec_bindings.push(quote_spanned!(ty.span()=> if let Some(codec)=<#ty as #facade::Field>::codec_identity() { bindings.push(#facade::FieldCodec {name:#wire.into(),codec,codec_wrappers:<#ty as #facade::Field>::codec_wrappers()}); }));
         encodes.push(quote_spanned!(ty.span()=> if <#ty as #facade::Field>::is_present(&self.#id) { map.insert(#wire.into(),<#ty as #facade::Field>::encode(&self.#id)); }));
         let decode = if model == Model::Input {
@@ -192,11 +204,14 @@ fn expand(input: DeriveInput, model: Model) -> syn::Result<proc_macro2::TokenStr
             }
         });
     }
+    let presentation = presentation.expand(&facade)?;
     Ok(quote! {
         impl #facade::Resource for #name {
             const KIND:&'static str=#kind;
+            #presentation
             fn descriptor()->#facade::Descriptor { #facade::Descriptor {kind:Self::KIND.into(),version:#version,fields:vec![#(#descriptors),*]} }
             fn field_codecs()->Vec<#facade::FieldCodec> { let mut bindings=Vec::new(); #(#codec_bindings)* bindings }
+            fn field_enum_labels()->Vec<#facade::FieldEnumLabels> { let mut bindings=Vec::new(); #(#enum_label_bindings)* bindings }
             fn normalize_field(name:&str,value:#facade::Value)->#facade::Result<#facade::Value> {
                 match name { #(#field_codecs)* _=>Err(#facade::Error::invalid(Self::KIND,name)) }
             }

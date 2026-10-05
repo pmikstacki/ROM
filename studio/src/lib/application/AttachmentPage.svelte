@@ -7,10 +7,16 @@
   } from "../client/types.ts";
   import AttachmentPanel from "../attachments/AttachmentPanel.svelte";
   import { Button } from "../components/ui/button/index.js";
+  import { RefreshCw, Paperclip } from "@lucide/svelte";
   let {
     client,
     descriptors,
-  }: { client: RomClient; descriptors: ResourceDescriptor[] } = $props();
+    onNavigationBlockChange = () => {},
+  }: {
+    client: RomClient;
+    descriptors: ResourceDescriptor[];
+    onNavigationBlockChange?: (blocked: boolean) => void;
+  } = $props();
   let capability = $state.raw<BlobCapabilities | null>(null),
     error = $state(""),
     busy = $state(false),
@@ -20,6 +26,7 @@
     descriptors.find((value) => value.kind === capability?.resource_kind),
   );
   async function connect() {
+    if (busy) return;
     busy = true;
     error = "";
     try {
@@ -45,16 +52,38 @@
   });
 </script>
 
-{#if busy}<p role="status">
-    Loading attachment capabilities…
-  </p>{:else if capability && descriptor}<AttachmentPanel
+{#if capability && descriptor}
+  <AttachmentPanel
     {client}
     capabilities={capability}
     {descriptor}
-  />{:else}<h1 class="text-xl font-semibold tracking-tight">Attachments</h1>
-  <p>
-    No authorized attachment capability and Resource descriptor are available.
-  </p>
-  <Button onclick={() => void connect()}>Check attachment capabilities</Button
-  >{/if}
-{#if error}<p role="alert">{error}</p>{/if}
+    {onNavigationBlockChange}
+  />
+{:else}
+  <section class="space-y-4" aria-label="Attachment availability">
+    <h1 class="flex items-center gap-2 text-xl font-semibold tracking-tight">
+      <Paperclip class="size-5" aria-hidden="true" />{busy
+        ? "Attachments"
+        : "Attachments unavailable"}
+    </h1>
+    {#if busy}<p role="status" class="text-sm text-muted-foreground">
+        Checking attachment access…
+      </p>
+    {:else}<p class="text-sm text-muted-foreground">
+        This session has no available attachment capability and authorized
+        Resource descriptor. Check access to try again.
+      </p>{/if}
+    {#if error}<p role="alert" class="break-words text-sm text-destructive">
+        {error}
+      </p>{/if}
+    <Button
+      variant="outline"
+      disabled={busy}
+      onclick={() => void connect()}
+      aria-label="Check attachment capabilities"
+      ><RefreshCw aria-hidden="true" /><span
+        >{busy ? "Checking access…" : "Check attachment capabilities"}</span
+      ></Button
+    >
+  </section>
+{/if}

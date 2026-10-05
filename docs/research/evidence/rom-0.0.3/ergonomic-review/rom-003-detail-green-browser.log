@@ -1,0 +1,19 @@
+[WebServer] (node:707112) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 2 workers
+
+(node:707192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:707191) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium] › tests/components/semantic-fields.spec.ts:3:1 › standard fields provide shared compact controls without application renderers (456ms)
+  ✓  1 [webkit] › tests/components/semantic-fields.spec.ts:3:1 › standard fields provide shared compact controls without application renderers (521ms)
+  ✓  3 [chromium] › tests/components/semantic-fields.spec.ts:42:1 › invalid semantic drafts block submission and retain the user's exact input (201ms)
+  ✓  4 [webkit] › tests/components/semantic-fields.spec.ts:42:1 › invalid semantic drafts block submission and retain the user's exact input (368ms)
+  ✓  5 [chromium] › tests/components/semantic-fields.spec.ts:67:1 › expanded document preserves numeric tokens and multiline source (426ms)
+  ✓  6 [webkit] › tests/components/semantic-fields.spec.ts:67:1 › expanded document preserves numeric tokens and multiline source (540ms)
+  ✓  7 [chromium] › tests/components/semantic-fields.spec.ts:101:1 › read-only semantic details expose the complete exact value (382ms)
+  ✓  8 [webkit] › tests/components/semantic-fields.spec.ts:101:1 › read-only semantic details expose the complete exact value (533ms)
+
+  8 passed (3.5s)

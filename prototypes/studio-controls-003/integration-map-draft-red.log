@@ -1,0 +1,31 @@
+[WebServer] (node:631216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:631232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:631328) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/components/sortable-fields.spec.ts:279:1 › prototype-shaped map keys keep invalid drafts local to their editor (512ms)
+
+
+  1) [chromium] › tests/components/sortable-fields.spec.ts:279:1 › prototype-shaped map keys keep invalid drafts local to their editor 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      279 | test("prototype-shaped map keys keep invalid drafts local to their editor",async({page})=>{
+      280 |  await page.goto(fixture);await page.getByRole("button",{name:"Edit dictionary",exact:true}).click();const editor=page.getByRole("dialog",{name:"dictionary",exact:true});await editor.getByLabel("dictionary.__proto__ value",{exact:true}).fill("invalid");
+    > 281 |  expect(await page.evaluate(()=>Object.hasOwn(Object.prototype,"text"))).toBe(false);await expect(editor.getByLabel("dictionary.__proto__ value",{exact:true})).toHaveAttribute("aria-invalid","true");await expect(editor.getByLabel("dictionary.constructor value",{exact:true})).toHaveValue("3");await editor.getByLabel("dictionary.__proto__ value",{exact:true}).fill("4");await page.keyboard.press("Escape");await page.getByRole("button",{name:"Save 1 change",exact:true}).click();const patch=JSON.parse((await page.getByTestId("submitted").textContent())!);expect(patch.input.dictionary.value).toEqual(JSON.parse('{"__proto__":4,"constructor":3}'));
+          |                                                                          ^
+      282 | });
+      283 |
+        at /root/ROM/studio/tests/components/sortable-fields.spec.ts:281:74
+
+    Error Context: test-results/sortable-fields-prototype--a4f8d-rafts-local-to-their-editor-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/components/sortable-fields.spec.ts:279:1 › prototype-shaped map keys keep invalid drafts local to their editor 

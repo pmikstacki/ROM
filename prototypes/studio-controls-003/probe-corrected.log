@@ -1,0 +1,135 @@
+
+> probe
+> node probe.mjs
+
+[
+  {
+    "name": "lossless integer",
+    "result": "pass"
+  },
+  {
+    "name": "lossless decimal",
+    "result": "pass"
+  },
+  {
+    "name": "lossless exponent",
+    "result": "pass"
+  },
+  {
+    "name": "invalid JSON rejected",
+    "result": "pass"
+  },
+  {
+    "name": "depth rejected before parser",
+    "result": "pass"
+  },
+  {
+    "name": "UTF8 size rejected",
+    "result": "pass"
+  },
+  {
+    "name": "quoted brackets accepted",
+    "result": "pass"
+  },
+  {
+    "name": "chromium Manual keyboard fallback identity error focus",
+    "result": "pass"
+  },
+  {
+    "name": "chromium Sortable keyboard fallback identity error focus",
+    "result": "pass"
+  },
+  {
+    "name": "chromium library keyboard handle reorder",
+    "result": "pass"
+  },
+  {
+    "name": "chromium pointer handle reorder",
+    "result": "pass"
+  },
+  {
+    "name": "chromium synthetic touch handle reorder",
+    "result": "pass"
+  },
+  {
+    "name": "chromium CDP touch handle reorder",
+    "result": "pass"
+  },
+  {
+    "name": "chromium nested input does not drag",
+    "result": "pass"
+  },
+  {
+    "name": "chromium active keyboard teardown remount",
+    "result": "pass"
+  },
+  {
+    "name": "chromium document exact tokens and escaped HTML",
+    "result": "pass"
+  },
+  {
+    "name": "chromium document tree text token roundtrip",
+    "result": "pass"
+  },
+  {
+    "name": "chromium document invalid draft blocked",
+    "result": "pass"
+  },
+  {
+    "name": "chromium exact textarea keeps document and blocks invalid size depth",
+    "result": "pass"
+  },
+  {
+    "name": "chromium runtime no page errors",
+    "result": "pass"
+  },
+  {
+    "name": "webkit Manual keyboard fallback identity error focus",
+    "result": "pass"
+  },
+  {
+    "name": "webkit Sortable keyboard fallback identity error focus",
+    "result": "pass"
+  },
+  {
+    "name": "webkit library keyboard handle reorder",
+    "result": "pass"
+  },
+  {
+    "name": "webkit pointer handle reorder",
+    "result": "pass"
+  },
+  {
+    "name": "webkit touch drag",
+    "result": "not executed",
+    "reason": "Touch constructor unavailable; physical-device touch not claimed"
+  },
+  {
+    "name": "webkit nested input does not drag",
+    "result": "pass"
+  },
+  {
+    "name": "webkit active keyboard teardown remount",
+    "result": "pass"
+  },
+  {
+    "name": "webkit document exact tokens and escaped HTML",
+    "result": "pass"
+  },
+  {
+    "name": "webkit document tree text token roundtrip",
+    "result": "pass"
+  },
+  {
+    "name": "webkit document invalid draft blocked",
+    "result": "pass"
+  },
+  {
+    "name": "webkit exact textarea keeps document and blocks invalid size depth",
+    "result": "pass"
+  },
+  {
+    "name": "webkit runtime no page errors",
+    "result": "pass"
+  }
+]

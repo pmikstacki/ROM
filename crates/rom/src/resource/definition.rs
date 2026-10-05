@@ -53,6 +53,7 @@ pub struct Definition<R: Resource> {
     actions: BTreeMap<String, ErasedAction>,
     action_inputs: BTreeMap<String, Option<InputDescriptor>>,
     field_codecs: BTreeMap<String, crate::FieldCodec>,
+    field_enum_labels: BTreeMap<String, BTreeMap<String, String>>,
     pub(crate) metadata_error: Option<Error>,
     policy: Option<Policy<R>>,
     read_policy: Option<fn(&Actor) -> bool>,
@@ -82,6 +83,12 @@ impl<R: Resource> Definition<R> {
             Err(error) => (BTreeMap::new(), Some(error)),
         };
         let presentation = R::presentation();
+        let labels = super::enum_labels::field_bindings(&descriptor, R::field_enum_labels());
+        let (field_enum_labels, labels_error) = match labels {
+            Ok(labels) => (labels, None),
+            Err(error) => (BTreeMap::new(), Some(error)),
+        };
+        let metadata_error = metadata_error.or(labels_error);
         let metadata_error = metadata_error.or_else(|| {
             presentation
                 .as_ref()
@@ -91,6 +98,7 @@ impl<R: Resource> Definition<R> {
             presentation,
             descriptor,
             field_codecs,
+            field_enum_labels,
             metadata_error,
             action_inputs: BTreeMap::new(),
             actions: BTreeMap::new(),
@@ -243,6 +251,7 @@ pub(crate) trait Registered: Send + Sync {
     fn actions(&self) -> &BTreeMap<String, ErasedAction>;
     fn action_inputs(&self) -> &BTreeMap<String, Option<InputDescriptor>>;
     fn field_codecs(&self) -> &BTreeMap<String, crate::FieldCodec>;
+    fn field_enum_labels(&self) -> &BTreeMap<String, BTreeMap<String, String>>;
     fn normalize(&self, v: Value) -> Result<Value>;
     fn normalize_field(&self, name: &str, value: Value) -> Result<Value>;
     fn allows(&self, actor: &Actor, access: Access, v: &Value) -> bool;
@@ -294,6 +303,9 @@ impl<R: Resource> Registered for Definition<R> {
     }
     fn field_codecs(&self) -> &BTreeMap<String, crate::FieldCodec> {
         &self.field_codecs
+    }
+    fn field_enum_labels(&self) -> &BTreeMap<String, BTreeMap<String, String>> {
+        &self.field_enum_labels
     }
     fn actions(&self) -> &BTreeMap<String, ErasedAction> {
         &self.actions

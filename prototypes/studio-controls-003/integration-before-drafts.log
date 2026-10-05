@@ -1,0 +1,47 @@
+[WebServer] (node:566717) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:566733) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:566817) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/components/sortable-fields.spec.ts:5:1 › manual reorder keeps invalid duplicate row draft and blocks resource submission (3.3s)
+  ✓  2 [chromium] › tests/components/sortable-fields.spec.ts:14:1 › keyboard drag submits only canonical values and retains duplicate identity (586ms)
+  ✘  3 [chromium] › tests/components/sortable-fields.spec.ts:19:1 › pointer reorder keeps invalid drafts attached and removal clears row error (6.0s)
+(node:567229) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [chromium] › tests/components/sortable-fields.spec.ts:25:1 › readonly and bounded lists expose no drag or mutation controls (394ms)
+
+
+  1) [chromium] › tests/components/sortable-fields.spec.ts:19:1 › pointer reorder keeps invalid drafts attached and removal clears row error 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByRole('dialog', { name: 'entries', exact: true }).getByLabel('entries[2] value', { exact: true })
+    Expected: "invalid"
+    Received: "7"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByRole('dialog', { name: 'entries', exact: true }).getByLabel('entries[2] value', { exact: true }) with timeout 5000ms
+      - waiting for getByRole('dialog', { name: 'entries', exact: true }).getByLabel('entries[2] value', { exact: true })
+        14 × locator resolved to <input type="text" data-slot="input" inputmode="numeric" aria-invalid="false" aria-label="entries[2] value" class="dark:bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 h-9 rounded-md border bg-transparent px-2.5 py-1 text-base shadow-xs transition-[color,box-shadow] file:h-7 file:text-sm file:font-medium focus-visible:ring-3 aria-…/>
+           - unexpected value "7"
+
+
+      19 | test("pointer reorder keeps invalid drafts attached and removal clears row error",async({page})=>{
+      20 |  const editor=await open(page);await editor.getByLabel("entries[1] value",{exact:true}).fill("invalid");const a=await editor.getByRole("button",{name:"Drag entries[1]",exact:true}).boundingBox();const z=await editor.getByText("Item 3",{exact:true}).locator("..").boundingBox();expect(a&&z).toBeTruthy();
+    > 21 |  await page.mouse.move(a!.x+a!.width/2,a!.y+a!.height/2);await page.mouse.down();await page.mouse.move(a!.x+a!.width/2,z!.y+z!.height-5,{steps:20});await page.waitForTimeout(300);await page.mouse.up();await expect(editor.getByLabel("entries[2] value",{exact:true})).toHaveValue("invalid");
+         |                                                                                                                                                                                                                                                                           ^
+      22 |  await editor.getByRole("button",{name:"Remove entries[2]",exact:true}).click();await page.keyboard.press("Escape");await page.getByRole("button",{name:"Save 1 change",exact:true}).click();await expect(page.getByTestId("submitted")).toHaveText('{"type":"patch","input":{"entries":{"op":"set","value":[7,9]}}}');
+      23 | });
+      24 |
+        at /root/ROM/studio/tests/components/sortable-fields.spec.ts:21:267
+
+    Error Context: test-results/sortable-fields-pointer-re-6dfed-nd-removal-clears-row-error-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/components/sortable-fields.spec.ts:19:1 › pointer reorder keeps invalid drafts attached and removal clears row error 
+  3 passed (12.6s)

@@ -1,0 +1,120 @@
+{
+  "date": "2026-10-05T11:15:17.461Z",
+  "results": [
+    {
+      "name": "lossless integer",
+      "result": "pass"
+    },
+    {
+      "name": "lossless decimal",
+      "result": "pass"
+    },
+    {
+      "name": "lossless exponent",
+      "result": "pass"
+    },
+    {
+      "name": "invalid JSON rejected",
+      "result": "pass"
+    },
+    {
+      "name": "depth rejected before parser",
+      "result": "pass"
+    },
+    {
+      "name": "UTF8 size rejected",
+      "result": "pass"
+    },
+    {
+      "name": "quoted brackets accepted",
+      "result": "pass"
+    },
+    {
+      "name": "chromium Manual keyboard fallback identity error focus",
+      "result": "pass"
+    },
+    {
+      "name": "chromium Sortable keyboard fallback identity error focus",
+      "result": "fail",
+      "error": "Expected values to be strictly equal:\n\nfalse !== true\n"
+    },
+    {
+      "name": "chromium library keyboard handle reorder",
+      "result": "fail",
+      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'a',\n+   'b',\n    'c',\n-   'b'\n  ]\n"
+    },
+    {
+      "name": "chromium pointer handle reorder",
+      "result": "fail",
+      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'a',\n+   'b',\n    'c',\n-   'b'\n  ]\n"
+    },
+    {
+      "name": "chromium synthetic touch handle reorder",
+      "result": "fail",
+      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'a',\n+   'b',\n    'c',\n-   'b'\n  ]\n"
+    },
+    {
+      "name": "chromium nested input does not drag",
+      "result": "pass"
+    },
+    {
+      "name": "chromium active keyboard teardown remount",
+      "result": "pass"
+    },
+    {
+      "name": "chromium document exact tokens and escaped HTML",
+      "result": "pass"
+    },
+    {
+      "name": "chromium document invalid draft blocked",
+      "result": "pass"
+    },
+    {
+      "name": "chromium runtime no page errors",
+      "result": "pass"
+    },
+    {
+      "name": "webkit Manual keyboard fallback identity error focus",
+      "result": "pass"
+    },
+    {
+      "name": "webkit Sortable keyboard fallback identity error focus",
+      "result": "pass"
+    },
+    {
+      "name": "webkit library keyboard handle reorder",
+      "result": "fail",
+      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'a',\n+   'b',\n    'c',\n-   'b'\n  ]\n"
+    },
+    {
+      "name": "webkit pointer handle reorder",
+      "result": "fail",
+      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'a',\n+   'b',\n    'c',\n-   'b'\n  ]\n"
+    },
+    {
+      "name": "webkit synthetic touch handle reorder",
+      "result": "fail",
+      "error": "locator.evaluate: TypeError: Illegal constructor"
+    },
+    {
+      "name": "webkit nested input does not drag",
+      "result": "pass"
+    },
+    {
+      "name": "webkit active keyboard teardown remount",
+      "result": "pass"
+    },
+    {
+      "name": "webkit document exact tokens and escaped HTML",
+      "result": "pass"
+    },
+    {
+      "name": "webkit document invalid draft blocked",
+      "result": "pass"
+    },
+    {
+      "name": "webkit runtime no page errors",
+      "result": "pass"
+    }
+  ]
+}

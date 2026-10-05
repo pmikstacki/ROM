@@ -1,0 +1,80 @@
+{
+  "timestamp": "2026-10-05T11:49:11.697Z",
+  "baseline": "6d3b6b2",
+  "head": "6d3b6b24b1447a78abb96c13e5957b3654745f07",
+  "dirty": " M Cargo.lock\n M Cargo.toml\n M crates/rom-derive/src/expansion.rs\n M crates/rom-derive/src/lib.rs\n M demo/Cargo.toml\n M demo/src/lib.rs\n M demo/src/studio_application.rs\n M demo/src/studio_startup.rs\n M demo/studio/TicketCode.svelte\n M studio/package-lock.json\n M studio/package.json\n M studio/src/App.svelte\n M studio/src/lib/application/AttachmentPage.svelte\n M studio/src/lib/application/auth.ts\n M studio/src/lib/application/controller.ts\n M studio/src/lib/attachments/AttachmentPanel.svelte\n M studio/src/lib/filters/FilterBuilder.svelte\n M studio/src/lib/renderers/FieldHost.svelte\n M studio/src/lib/renderers/ValueEditor.svelte\n M studio/src/lib/renderers/registry.ts\n M studio/src/lib/renderers/types.ts\n M studio/vite.config.ts\n M tests/compile/check.mjs\n M tests/persistence/Cargo.toml\n?? crates/rom-derive/src/presentation.rs\n?? crates/rom-fields/\n?? demo/src/studio_semantic.rs\n?? docs/research/evidence/rom-0.0.3/catalog-integration/\n?? docs/research/evidence/rom-0.0.3/derive-authoring/\n?? docs/research/evidence/rom-0.0.3/reference-picker/\n?? docs/research/rom-0.0.3-control-adoption-experiments.md\n?? docs/research/rom-0.0.3-semantic-fields.md\n?? docs/superpowers/plans/2026-10-05-rom-0.0.3-release.md\n?? prototypes/\n?? studio/src/lib/application/LoginPage.svelte\n?? studio/src/lib/attachments/AttachmentDetails.svelte\n?? studio/src/lib/renderers/ListEditor.svelte\n?? studio/src/lib/renderers/ReferenceField.svelte\n?? studio/src/lib/renderers/SemanticField.svelte\n?? studio/src/lib/renderers/collection-limits.ts\n?? studio/src/lib/renderers/editor-draft.ts\n?? studio/src/lib/renderers/reference-lookup.ts\n?? studio/src/lib/renderers/semantic-fields.ts\n?? studio/tests/components/ReferenceHarness.svelte\n?? studio/tests/components/SemanticFieldsHarness.svelte\n?? studio/tests/components/SortableFieldsHarness.svelte\n?? studio/tests/components/attachments-ergonomics.spec.ts\n?? studio/tests/components/login-ergonomics.spec.ts\n?? studio/tests/components/reference-picker.spec.ts\n?? studio/tests/components/reference.html\n?? studio/tests/components/reference.ts\n?? studio/tests/components/semantic-fields.html\n?? studio/tests/components/semantic-fields.spec.ts\n?? studio/tests/components/semantic-fields.ts\n?? studio/tests/components/sortable-fields.html\n?? studio/tests/components/sortable-fields.spec.ts\n?? studio/tests/components/sortable-fields.ts\n?? studio/tests/components/sortable-playwright.config.ts\n?? studio/tests/unit/auth-expiry.test.ts\n?? studio/tests/unit/reference-picker.test.ts\n?? studio/tests/unit/semantic-fields.test.ts\n?? tests/compile/src/bin/presentation_duplicate.rs\n?? tests/compile/src/bin/presentation_duplicate_group.rs\n?? tests/compile/src/bin/presentation_empty_label.rs\n?? tests/compile/src/bin/presentation_field_duplicate.rs\n?? tests/compile/src/bin/presentation_field_malformed.rs\n?? tests/compile/src/bin/presentation_help_oversized.rs\n?? tests/compile/src/bin/presentation_input.rs\n?? tests/compile/src/bin/presentation_input_field.rs\n?? tests/compile/src/bin/presentation_label_oversized.rs\n?? tests/compile/src/bin/presentation_malformed.rs\n?? tests/compile/src/bin/presentation_settings_duplicate.rs\n?? tests/compile/src/bin/presentation_settings_key_duplicate.rs\n?? tests/compile/src/bin/presentation_settings_missing.rs\n?? tests/compile/src/bin/presentation_shadowed_builtin.rs\n?? tests/compile/src/bin/presentation_title_bool.rs\n?? tests/compile/src/bin/presentation_title_renamed.rs\n?? tests/compile/src/bin/presentation_unknown_group.rs\n?? tests/compile/src/bin/presentation_unknown_option.rs\n?? tests/compile/src/bin/presentation_valid.rs\n?? tests/compile/src/bin/presentation_wrong_field.rs\n?? tests/compile/src/bin/presentation_wrong_type.rs\n?? tests/persistence/tests/derive_presentation.rs\n?? tests/persistence/tests/semantic_resources.rs\n",
+  "toolchain": {
+    "node": "v22.16.0",
+    "browser": "Chromium 138.0.7204.49"
+  },
+  "sha256": {
+    "studio/src/lib/application/controller.ts": "d1937f31a67ab1db03378be3a23cb83f993e3584a0fca584ce2274780a5b46ec",
+    "studio/src/lib/renderers/ReferenceField.svelte": "935d04342302602717e6fcb19cdcfe5b87cee32fee64d5557f56922f0935dc9e",
+    "studio/src/lib/renderers/reference-lookup.ts": "8fff39f0a89b235122058539ab9aa8ae316ee86d7d74c4da616c521157c18d93",
+    "studio/src/lib/renderers/ValueEditor.svelte": "22b06c32d61f5946edaa331cd0c467e65884b047f1537c5c5ced8b4596758636",
+    "studio/src/App.svelte": "72125bfa31119347bc9f87b801f14f2f0fef11bb0a9714f7387724f51818bae3",
+    "studio/vite.config.ts": "a5a050918add90ab6a67291fdb1fe6c3b7c6f7b145ddd69d653b1b8b5c8b2f0a",
+    "studio/src/lib/presentation/resource-presentation.ts": "21550df5f2bab14f2323116c4cb6ebe5b5125b696bbb922b4013b3d48519124b",
+    "studio/tests/unit/reference-picker.test.ts": "930ea23e5f88c54e7fb3198ce332a8cf779b8c2081d6827bdc9b29a9cd53621f",
+    "studio/tests/components/reference-picker.spec.ts": "1a60fa7aaf00b43754a47507baadc074e6b52532f834897f68615efb0a524bd5",
+    "studio/tests/components/ReferenceHarness.svelte": "865eb337e508b555025bb3e017b3665f89d945aa6178f70b7fd0d335f36eb6b0",
+    "studio/tests/components/reference.ts": "938833cc080af5ee5734eb8db07b00e768e18a7c9dfd3c2c3ba11b7abb9b3667",
+    "studio/tests/components/reference.html": "181ee42ccac26dbfb27d2dc8c1fe2131956a32ac97ce01410f0429837af46fd3",
+    "studio/package-lock.json": "d852a5ff6a5a21374ff7d01cabc179dc52c15dbf5e8b7e6b7285b7843c00ae52",
+    "Cargo.lock": "a42b2ae6cb59179cd07fcb95fe4ff7295ffff7e1971354fb3e2b9c39c2acc08d"
+  },
+  "commands": [
+    {
+      "command": "npm run test:unit",
+      "result": 0,
+      "passed": 140,
+      "log": "unit-tests-final.log"
+    },
+    {
+      "command": "node --experimental-strip-types --test tests/components/application-model.test.ts",
+      "result": 0,
+      "passed": 24,
+      "log": "controller-regressions-final.log"
+    },
+    {
+      "command": "npm run check",
+      "result": 0,
+      "log": "svelte-check-final.log"
+    },
+    {
+      "command": "npx playwright test --config /tmp/rom-reference-dev.config.ts --project chromium",
+      "result": 0,
+      "passed": 11,
+      "log": "browser-development-final.log",
+      "mode": "Development server43325; standard shared component build tests remain adoption-agent integration responsibility."
+    },
+    {
+      "command": "npx playwright test --config /tmp/rom-reference-dev.config.ts --project chromium --grep \"a denied relookup\"",
+      "result": 1,
+      "log": "denied-relookup-red.log",
+      "reason": "Reproduced previous chosen title retention after denied relookup; fixed in final component."
+    }
+  ],
+  "limits": [
+    "Search filters only the first20 authorized candidates; no server full-text or existence promise.",
+    "Standard same-session SDK admission/deadline remains network boundary; picker additionally admits at most64KiB projected rows, caps4 active lookup calls and8 searches per open popover, debounces250ms.",
+    "No query cache. Last selected title is editor display state tied to current exact ID/descriptor and cleared before a new lookup, ID change, or disclosed descriptor loss.",
+    "This evidence does not establish WebKit, packaged consumer or live adapter reference-picker acceptance. Root/adoption perform final shared integration acceptance."
+  ],
+  "followups": [
+    {
+      "timestamp": "2026-10-05T12:23:23.970Z",
+      "change": "Restored public exact-ID input type=search and Resource ID in KIND placeholder after shared controls regression. Test locators now use searchbox. Prior development browser evidence predates this compatibility edit; final shared bundle browser run remains adoption-agent responsibility.",
+      "sha256": {
+        "studio/src/lib/renderers/ReferenceField.svelte": "7694893fefed3f75e10a08db3b38be95e1cd18e83a2fcd552903be74b6f95492",
+        "studio/tests/components/reference-picker.spec.ts": "38fd84327761ab86dd3d766f687ba03995fde69b791b766c81facf269e2b19d1"
+      }
+    },
+    {
+      "timestamp": "2026-10-05T12:56:37.953Z",
+      "reported_by": "root",
+      "verification": "Final shared Studio suite221passed1skip before final header text correction; affected4presentation cases passed after header correction. Separate actual-host standard28passed/custom4passed, plus post-width semantic4/custom4passed are independently executed and pinned in runtime/source-facts.json.",
+      "scope": "Reported shared component acceptance distinguished from independently executed runtime evidence. Fresh clean release producer acceptance remains separate."
+    }
+  ]
+}

@@ -151,7 +151,7 @@ dependencies = [
 
 [[package]]
 name = "rom"
-version = "0.0.2"
+version = "0.0.3"
 dependencies = [
  "rayon",
  "rom-derive",
@@ -163,7 +163,7 @@ dependencies = [
 
 [[package]]
 name = "rom-derive"
-version = "0.0.2"
+version = "0.0.3"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -172,7 +172,7 @@ dependencies = [
 
 [[package]]
 name = "rom-fixtures"
-version = "0.0.2"
+version = "0.0.3"
 dependencies = [
  "rom",
 ]

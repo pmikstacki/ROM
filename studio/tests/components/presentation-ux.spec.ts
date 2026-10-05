@@ -67,6 +67,12 @@ test("generic Resource presentation separates human title, field label, and exac
     page.getByRole("columnheader", { name: "Display name", exact: true }),
   ).toBeVisible();
   await expect(
+    page.getByRole("columnheader", { name: "Resource", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("columnheader", { name: "ID", exact: true }),
+  ).toHaveCount(0);
+  await expect(
     page
       .getByRole("group", { name: "Display name", exact: true })
       .getByText("Display name", { exact: true }),

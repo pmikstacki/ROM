@@ -1,4 +1,12 @@
 import { RemoteError } from "../client/client.ts";
+import { stringifyWire } from "../client/codec.ts";
+import { resourceTitle } from "../presentation/resource-presentation.ts";
+import {
+  REFERENCE_BYTES,
+  REFERENCE_LIMIT,
+  REFERENCE_SEARCH_BYTES,
+  type ReferenceLookupResult,
+} from "../renderers/reference-lookup.ts";
 import type {
   RomClient,
   ResourceDescriptor,
@@ -49,6 +57,7 @@ export function createApplication(
     rowSelection = 0,
     subscription: AbortController | undefined;
   let requests = new AbortController();
+  const referenceRequests = new Set<AbortController>();
   const history: { query: QuerySpec; page: number }[] = [];
   let firstQuery: QuerySpec = { limit: 50 };
   const listeners = new Set<(state: ApplicationState) => void>();
@@ -429,6 +438,94 @@ export function createApplication(
     if (started !== epoch) throw Error("Session changed.");
     return result;
   }
+  /** Query a disclosed target without changing the main Resource navigation or draft. */
+  async function lookupResources(
+    kind: string,
+    search = "",
+    external?: AbortSignal,
+  ): Promise<ReferenceLookupResult> {
+    const descriptor =
+      state.phase === "ready"
+        ? state.descriptors.find((candidate) => candidate.kind === kind)
+        : undefined;
+    if (!descriptor)
+      return {
+        status: "unavailable",
+        message:
+          "Reference candidates are unavailable. Enter an exact Resource ID.",
+      };
+    if (new TextEncoder().encode(search).byteLength > REFERENCE_SEARCH_BYTES)
+      return { status: "error", message: "Reference search is too long." };
+    if (referenceRequests.size >= 4)
+      return {
+        status: "error",
+        message: "Reference lookup limit reached. Try again.",
+      };
+    const started = epoch,
+      generation = client.generation,
+      controller = new AbortController();
+    const signal = AbortSignal.any([
+      requests.signal,
+      controller.signal,
+      ...(external ? [external] : []),
+    ]);
+    const current = () =>
+      !signal.aborted &&
+      started === epoch &&
+      generation === client.generation &&
+      state.phase === "ready" &&
+      state.descriptors.includes(descriptor);
+    referenceRequests.add(controller);
+    try {
+      if (!current())
+        return { status: "cancelled", message: "Reference lookup cancelled." };
+      const rows = await client.query(kind, { limit: REFERENCE_LIMIT }, signal);
+      if (!current())
+        return { status: "cancelled", message: "Reference lookup cancelled." };
+      // The SDK already bounds wire bytes and rows. This smaller admission limit bounds picker state.
+      if (
+        rows.length > REFERENCE_LIMIT ||
+        rows.some((row) => row.key.kind !== kind)
+      )
+        throw Error("reference rows limit");
+      stringifyWire(rows as unknown as WireValue, REFERENCE_BYTES);
+      const needle = search.toLowerCase();
+      const candidates = rows
+        .filter((row) => row.value !== null)
+        .map((row) => ({
+          id: row.key.id,
+          title: resourceTitle(descriptor, row),
+        }))
+        .filter(
+          (candidate) =>
+            candidate.id.toLowerCase().includes(needle) ||
+            candidate.title.toLowerCase().includes(needle),
+        );
+      return {
+        status: "ready",
+        candidates,
+        limited: rows.length === REFERENCE_LIMIT,
+      };
+    } catch (problem) {
+      if (!current())
+        return { status: "cancelled", message: "Reference lookup cancelled." };
+      if (
+        problem instanceof RemoteError &&
+        (problem.category === "denied" || problem.status === 403)
+      )
+        return {
+          status: "denied",
+          message: "Reference lookup was denied. Enter an exact Resource ID.",
+        };
+      return {
+        status: "error",
+        message: "Reference lookup failed. Enter an exact Resource ID.",
+      };
+    } finally {
+      referenceRequests.delete(controller);
+      controller.abort();
+    }
+  }
   function disconnect() {
     epoch++;
     navigation++;
@@ -474,6 +571,7 @@ export function createApplication(
     stopLive,
     loadWork,
     inspectWork,
+    lookupResources,
     disconnect,
   };
 }

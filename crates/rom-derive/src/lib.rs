@@ -1,6 +1,7 @@
 //! Structural Resource derive. Descriptor, codec and selectors share one field list.
 use proc_macro::TokenStream;
 mod expansion;
+mod presentation;
 use expansion::Model;
 
 // Rust requires proc-macro entry points at the crate root. Expansion lives in its module.

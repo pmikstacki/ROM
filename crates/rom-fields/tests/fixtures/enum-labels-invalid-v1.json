@@ -1,0 +1,54 @@
+[
+  {
+    "shape": {
+      "type": "string"
+    },
+    "enum_labels": {
+      "queued": "Waiting"
+    }
+  },
+  {
+    "shape": {
+      "type": "enum",
+      "value": [
+        "queued"
+      ]
+    },
+    "enum_labels": {
+      "unknown": "Waiting"
+    }
+  },
+  {
+    "shape": {
+      "type": "enum",
+      "value": [
+        "queued"
+      ]
+    },
+    "enum_labels": {
+      "queued": ""
+    }
+  },
+  {
+    "shape": {
+      "type": "enum",
+      "value": [
+        "queued"
+      ]
+    },
+    "enum_labels": {
+      "queued": 1
+    }
+  },
+  {
+    "shape": {
+      "type": "enum",
+      "value": [
+        "queued"
+      ]
+    },
+    "enum_labels": {
+      "queued": "ééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé"
+    }
+  }
+]

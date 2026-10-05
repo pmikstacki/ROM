@@ -109,5 +109,11 @@ pub async fn seed_all(runtime: &Runtime, issuer: &str) -> Result<()> {
         },
     )
     .await?;
+    seed(
+        runtime,
+        "workshop-sample",
+        crate::studio_semantic::example()?,
+    )
+    .await?;
     Ok(())
 }

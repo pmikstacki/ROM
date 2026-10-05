@@ -1,0 +1,30 @@
+[WebServer] (node:708510) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:708526) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 18 tests using 1 worker
+
+(node:708642) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [webkit] › tests/components/sortable-fields.spec.ts:10:1 › manual reorder keeps invalid duplicate row draft and blocks resource submission (1.3s)
+  ✓   2 [webkit] › tests/components/sortable-fields.spec.ts:40:1 › keyboard drag submits only canonical values and retains duplicate identity (775ms)
+  ✓   3 [webkit] › tests/components/sortable-fields.spec.ts:63:1 › pointer reorder keeps invalid drafts attached and removal clears row error (1.3s)
+  ✓   4 [webkit] › tests/components/sortable-fields.spec.ts:98:1 › readonly and bounded lists expose no drag or mutation controls (427ms)
+  ✓   5 [webkit] › tests/components/sortable-fields.spec.ts:114:1 › codec row draft survives pointer replacement without losing exact decimal source (1.2s)
+  ✓   6 [webkit] › tests/components/sortable-fields.spec.ts:152:1 › action inputs use the same canonical list reorder (1.3s)
+  ✓   7 [webkit] › tests/components/sortable-fields.spec.ts:177:1 › filter candidates retain invalid row state after reorder (586ms)
+  -   8 [webkit] › tests/components/sortable-fields.spec.ts:200:1 › touch handle reorders a duplicate row without serializing drag metadata
+  ✓   9 [webkit] › tests/components/sortable-fields.spec.ts:252:1 › closing a keyboard drag releases the action and preserves the form candidate (1.3s)
+  ✓  10 [webkit] › tests/components/sortable-fields.spec.ts:279:1 › prototype-shaped map keys keep invalid drafts local to their editor (738ms)
+  ✓  11 [webkit] › tests/components/sortable-fields.spec.ts:314:1 › labelled enum bulk append preserves duplicates and canonical ordered values (1.1s)
+  ✓  12 [webkit] › tests/components/sortable-fields.spec.ts:357:1 › bulk chooser cancellation emits nothing and unknown stored enum remains visible (1.4s)
+  ✓  13 [webkit] › tests/components/sortable-fields.spec.ts:406:1 › action and filter reuse labelled enum bulk append with exact members (2.2s)
+  ✓  14 [webkit] › tests/components/sortable-fields.spec.ts:464:1 › enum labels display across wrapped collections and unknown members stay exact (652ms)
+  ✓  15 [webkit] › tests/components/sortable-fields.spec.ts:487:1 › renderer unregister lifecycle preserves newer inline registration and collections stay expanded (484ms)
+  ✓  16 [webkit] › tests/components/sortable-fields.spec.ts:521:3 › closing and reopening entries retains invalid draft after dialog unmount (1.1s)
+  ✓  17 [webkit] › tests/components/sortable-fields.spec.ts:521:3 › closing and reopening amounts retains invalid draft after dialog unmount (1.1s)
+  ✓  18 [webkit] › tests/components/sortable-fields.spec.ts:521:3 › closing and reopening dictionary retains invalid draft after dialog unmount (1.1s)
+
+  1 skipped
+  17 passed (19.7s)

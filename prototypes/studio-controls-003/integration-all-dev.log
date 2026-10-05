@@ -1,0 +1,43 @@
+[WebServer] (node:576410) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:576493) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 1 worker
+
+(node:576610) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/components/sortable-fields.spec.ts:10:1 › manual reorder keeps invalid duplicate row draft and blocks resource submission (1.3s)
+  ✓  2 [chromium] › tests/components/sortable-fields.spec.ts:40:1 › keyboard drag submits only canonical values and retains duplicate identity (538ms)
+  ✓  3 [chromium] › tests/components/sortable-fields.spec.ts:63:1 › pointer reorder keeps invalid drafts attached and removal clears row error (1.3s)
+  ✓  4 [chromium] › tests/components/sortable-fields.spec.ts:98:1 › readonly and bounded lists expose no drag or mutation controls (284ms)
+  ✓  5 [chromium] › tests/components/sortable-fields.spec.ts:114:1 › codec row draft survives pointer replacement without losing exact decimal source (1.3s)
+  ✓  6 [chromium] › tests/components/sortable-fields.spec.ts:152:1 › action inputs use the same canonical list reorder (986ms)
+  ✘  7 [chromium] › tests/components/sortable-fields.spec.ts:177:1 › filter candidates retain invalid row state after reorder (364ms)
+(node:577097) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  8 [chromium] › tests/components/sortable-fields.spec.ts:205:1 › touch handle reorders a duplicate row without serializing drag metadata (1.9s)
+  ✓  9 [chromium] › tests/components/sortable-fields.spec.ts:257:1 › closing a keyboard drag releases the action and preserves the form candidate (937ms)
+
+
+  1) [chromium] › tests/components/sortable-fields.spec.ts:177:1 › filter candidates retain invalid row state after reorder 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    Expected: {"op": "eq", "path": ["entries"], "type": "compare", "value": [7, 9, 11]}
+    Received: undefined
+
+      195 |     .click();
+      196 |   const query = JSON.parse((await page.getByTestId("filtered").textContent())!);
+    > 197 |   expect(query.filter).toEqual({
+          |                        ^
+      198 |     type: "compare",
+      199 |     path: ["entries"],
+      200 |     op: "eq",
+        at /root/ROM/studio/tests/components/sortable-fields.spec.ts:197:24
+
+    Error Context: test-results/sortable-fields-filter-can-21cef-lid-row-state-after-reorder-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/components/sortable-fields.spec.ts:177:1 › filter candidates retain invalid row state after reorder 
+  8 passed (11.1s)

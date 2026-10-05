@@ -4,6 +4,7 @@
   import * as Sidebar from "../components/ui/sidebar/index.js";
   import { Separator } from "../components/ui/separator/index.js";
   import * as Breadcrumb from "../components/ui/breadcrumb/index.js";
+  import { resourceLabel } from "./resource-presentation.ts";
   import StudioNavigation from "./StudioNavigation.svelte";
   import type { StudioPage } from "./navigation.ts";
   let sidebarTrigger = $state<HTMLElement | null>(null);
@@ -26,6 +27,9 @@
     children: Snippet;
     navigationBlocked?: boolean;
   } = $props();
+  const selectedDescriptor = $derived(
+    descriptors.find((item) => item.kind === kind),
+  );
 </script>
 
 <Sidebar.Provider>
@@ -63,7 +67,9 @@
           <Breadcrumb.Item class="min-w-0"
             ><Breadcrumb.Page class="truncate">
               {page === "resources"
-                ? kind || "Resources"
+                ? selectedDescriptor
+                  ? resourceLabel(selectedDescriptor)
+                  : kind || "Resources"
                 : page === "work"
                   ? "Work"
                   : page === "settings"

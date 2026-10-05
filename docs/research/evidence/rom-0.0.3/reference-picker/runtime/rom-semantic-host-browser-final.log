@@ -1,0 +1,48 @@
+
+Running 4 tests using 1 worker
+
+(node:705046) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓  1 [chromium] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query (12.0s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓  2 [chromium] › tests/runtime/host.spec.ts:7:3 › real redb semantic catalog create patch actions and query (11.9s)
+(node:705663) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓  3 [webkit] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query (13.4s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  4 [webkit] › tests/runtime/host.spec.ts:7:3 › real redb semantic catalog create patch actions and query (21.4s)
+
+
+  1) [webkit] › tests/runtime/host.spec.ts:7:3 › real redb semantic catalog create patch actions and query 
+
+    Error: locator.click: Target page, context or browser has been closed
+    Call log:
+      - waiting for locator('[role="listbox"][data-state="open"]').locator('[role="option"][data-rom-select-value="null"]')
+        - locator resolved to <div role="option" id="bits-c189" data-value="2" data-select-item="" data-label="Set null" data-slot="select-item" data-rom-select-value="null" class="focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2 relative flex w-full cursor-default items-center outline-hidden select-none data-disabled:pointer-e…>…</div>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is not stable
+        - retrying click action
+        - waiting 20ms
+        - waiting for element to be visible, enabled and stable
+
+
+       at ../components/select-value.ts:12
+
+      10 |   await popup
+      11 |     .locator(`[role="option"][data-rom-select-value="${escaped}"]`)
+    > 12 |     .click();
+         |      ^
+      13 | }
+      14 |
+        at selectValue (/root/ROM/studio/tests/components/select-value.ts:12:6)
+        at semanticWorkflow (/root/ROM/studio/tests/runtime/semantic-workflow.ts:155:5)
+        at /root/ROM/studio/tests/runtime/host.spec.ts:16:7
+
+    Error Context: test-results/host-real-redb-semantic-ca-60af0-ate-patch-actions-and-query-webkit/error-context.md
+
+  1 failed
+    [webkit] › tests/runtime/host.spec.ts:7:3 › real redb semantic catalog create patch actions and query 
+  3 passed (1.0m)

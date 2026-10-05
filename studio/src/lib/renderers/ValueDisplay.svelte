@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { FieldDescriptor, WireValue } from "../client/types.ts";
+  import { enumLabel } from "../client/enum-labels.ts";
   import { findRenderer } from "./registry.ts";
   import { displayValue } from "./value-format.ts";
   import ValueDisplay from "./ValueDisplay.svelte";
@@ -35,7 +36,7 @@
 {#if mismatch || depth >= 6}<span class="inline-block"
     >{displayValue(value)} (bounded generic display)</span
   >
-{:else if wrappers.length > 0 && value !== null && value !== undefined}
+{:else if (wrappers.length > 0 || (!descriptor.codec && descriptor.enum_labels && descriptor.shape.type !== "enum")) && value !== null && value !== undefined}
   {#if descriptor.shape.type === "optional" || descriptor.shape.type === "nullable"}<ValueDisplay
       descriptor={inner}
       {value}
@@ -70,7 +71,12 @@
     readonly
     onchange={() => {}}
   />
-{:else}<span class="inline-block">{displayValue(value)}</span
+{:else}<span class="inline-block"
+    >{descriptor.shape.type === "enum" &&
+    typeof value === "string" &&
+    descriptor.shape.value.includes(value)
+      ? enumLabel(value, descriptor.enum_labels)
+      : displayValue(value)}</span
   >{#if descriptor.codec && value !== null && value !== undefined}<span
       class="codec-note"
     >

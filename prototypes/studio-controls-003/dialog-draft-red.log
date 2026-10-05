@@ -1,0 +1,103 @@
+[WebServer] (node:704573) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:704588) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:704695) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/components/sortable-fields.spec.ts:517:2 › closing and reopening entries retains invalid draft after dialog unmount (5.9s)
+(node:704871) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium] › tests/components/sortable-fields.spec.ts:517:2 › closing and reopening amounts retains invalid draft after dialog unmount (5.9s)
+(node:705245) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [chromium] › tests/components/sortable-fields.spec.ts:517:2 › closing and reopening dictionary retains invalid draft after dialog unmount (5.9s)
+
+
+  1) [chromium] › tests/components/sortable-fields.spec.ts:517:2 › closing and reopening entries retains invalid draft after dialog unmount 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByRole('dialog', { name: 'entries', exact: true }).getByLabel('entries[1] value', { exact: true })
+    Expected: "invalid-number"
+    Received: "7"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByRole('dialog', { name: 'entries', exact: true }).getByLabel('entries[1] value', { exact: true }) with timeout 5000ms
+      - waiting for getByRole('dialog', { name: 'entries', exact: true }).getByLabel('entries[1] value', { exact: true })
+        14 × locator resolved to <input type="text" data-slot="input" inputmode="numeric" aria-invalid="false" aria-label="entries[1] value" class="dark:bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 h-9 rounded-md border bg-transparent px-2.5 py-1 text-base shadow-xs transition-[color,box-shadow] file:h-7 file:text-sm file:font-medium focus-visible:ring-3 aria-…/>
+           - unexpected value "7"
+
+
+      528 |   await area.getByRole('button',{name:`Edit ${field}`,exact:true}).click();
+      529 |   editor=page.getByRole('dialog',{name:field,exact:true});
+    > 530 |   await expect(editor.getByLabel(input,{exact:true})).toHaveValue(bad);
+          |                                                       ^
+      531 |   await expect(editor.getByLabel(input,{exact:true})).toHaveAttribute('aria-invalid','true');
+      532 |   await page.keyboard.press('Escape');
+      533 |   await expect(editor).toHaveCount(0);
+        at /root/ROM/studio/tests/components/sortable-fields.spec.ts:530:55
+
+    Error Context: test-results/sortable-fields-closing-an-79214--draft-after-dialog-unmount-chromium/error-context.md
+
+  2) [chromium] › tests/components/sortable-fields.spec.ts:517:2 › closing and reopening amounts retains invalid draft after dialog unmount 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByRole('dialog', { name: 'amounts', exact: true }).getByLabel('amounts[1] value', { exact: true })
+    Expected: "invalid-decimal"
+    Received: "1.2300"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByRole('dialog', { name: 'amounts', exact: true }).getByLabel('amounts[1] value', { exact: true }) with timeout 5000ms
+      - waiting for getByRole('dialog', { name: 'amounts', exact: true }).getByLabel('amounts[1] value', { exact: true })
+        14 × locator resolved to <input type="text" data-slot="input" inputmode="decimal" aria-invalid="false" aria-label="amounts[1] value" class="dark:bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border bg-transparent px-2.5 py-1 text-base transition-[color,box-shadow] file:h-7 file:text-sm file:font-medium focus-visible:ring-3 aria-invalid:ring-3…/>
+           - unexpected value "1.2300"
+
+
+      528 |   await area.getByRole('button',{name:`Edit ${field}`,exact:true}).click();
+      529 |   editor=page.getByRole('dialog',{name:field,exact:true});
+    > 530 |   await expect(editor.getByLabel(input,{exact:true})).toHaveValue(bad);
+          |                                                       ^
+      531 |   await expect(editor.getByLabel(input,{exact:true})).toHaveAttribute('aria-invalid','true');
+      532 |   await page.keyboard.press('Escape');
+      533 |   await expect(editor).toHaveCount(0);
+        at /root/ROM/studio/tests/components/sortable-fields.spec.ts:530:55
+
+    Error Context: test-results/sortable-fields-closing-an-6b002--draft-after-dialog-unmount-chromium/error-context.md
+
+  3) [chromium] › tests/components/sortable-fields.spec.ts:517:2 › closing and reopening dictionary retains invalid draft after dialog unmount 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByRole('dialog', { name: 'dictionary', exact: true }).getByLabel('dictionary.__proto__ value', { exact: true })
+    Expected: "invalid-map"
+    Received: "2"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByRole('dialog', { name: 'dictionary', exact: true }).getByLabel('dictionary.__proto__ value', { exact: true }) with timeout 5000ms
+      - waiting for getByRole('dialog', { name: 'dictionary', exact: true }).getByLabel('dictionary.__proto__ value', { exact: true })
+        14 × locator resolved to <input type="text" data-slot="input" inputmode="numeric" aria-invalid="false" aria-label="dictionary.__proto__ value" class="dark:bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 h-9 rounded-md border bg-transparent px-2.5 py-1 text-base shadow-xs transition-[color,box-shadow] file:h-7 file:text-sm file:font-medium focus-visible:ri…/>
+           - unexpected value "2"
+
+
+      528 |   await area.getByRole('button',{name:`Edit ${field}`,exact:true}).click();
+      529 |   editor=page.getByRole('dialog',{name:field,exact:true});
+    > 530 |   await expect(editor.getByLabel(input,{exact:true})).toHaveValue(bad);
+          |                                                       ^
+      531 |   await expect(editor.getByLabel(input,{exact:true})).toHaveAttribute('aria-invalid','true');
+      532 |   await page.keyboard.press('Escape');
+      533 |   await expect(editor).toHaveCount(0);
+        at /root/ROM/studio/tests/components/sortable-fields.spec.ts:530:55
+
+    Error Context: test-results/sortable-fields-closing-an-2affb--draft-after-dialog-unmount-chromium/error-context.md
+
+  3 failed
+    [chromium] › tests/components/sortable-fields.spec.ts:517:2 › closing and reopening entries retains invalid draft after dialog unmount 
+    [chromium] › tests/components/sortable-fields.spec.ts:517:2 › closing and reopening amounts retains invalid draft after dialog unmount 
+    [chromium] › tests/components/sortable-fields.spec.ts:517:2 › closing and reopening dictionary retains invalid draft after dialog unmount 

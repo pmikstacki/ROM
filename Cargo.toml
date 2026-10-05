@@ -1,20 +1,21 @@
 [workspace]
-members = ["crates/rom-conformance", "crates/rom-cli", "demo", "crates/rom-backup", "crates/rom-blob", "crates/rom-blob-object-store", "crates/rom-config", "crates/rom-http", "crates/rom-studio-host", "crates/rom-identity", "crates/rom-auth", "crates/rom", "crates/rom-derive", "crates/rom-sqlite", "crates/rom-redb", "examples/consumer", "tests/persistence", "tools/query-measure"]
+members = ["crates/rom-fields", "crates/rom-conformance", "crates/rom-cli", "demo", "crates/rom-backup", "crates/rom-blob", "crates/rom-blob-object-store", "crates/rom-config", "crates/rom-http", "crates/rom-studio-host", "crates/rom-identity", "crates/rom-auth", "crates/rom", "crates/rom-derive", "crates/rom-sqlite", "crates/rom-redb", "examples/consumer", "tests/persistence", "tools/query-measure"]
 exclude = ["tests/compile"]
 resolver = "3"
 [workspace.package]
-version = "0.0.2"
+version = "0.0.3"
 edition = "2024"
 rust-version = "1.99"
 license = "MIT"
 repository = "https://github.com/pmikstacki/ROM"
 publish = false
 [workspace.dependencies]
-rom-conformance = { version = "=0.0.2", path = "crates/rom-conformance" }
-rom = { version = "=0.0.2", path = "crates/rom" }
-rom-derive = { version = "=0.0.2", path = "crates/rom-derive" }
-rom-sqlite = { version = "=0.0.2", path = "crates/rom-sqlite" }
-rom-redb = { version = "=0.0.2", path = "crates/rom-redb" }
+rom-fields = { version = "=0.0.3", path = "crates/rom-fields" }
+rom-conformance = { version = "=0.0.3", path = "crates/rom-conformance" }
+rom = { version = "=0.0.3", path = "crates/rom" }
+rom-derive = { version = "=0.0.3", path = "crates/rom-derive" }
+rom-sqlite = { version = "=0.0.3", path = "crates/rom-sqlite" }
+rom-redb = { version = "=0.0.3", path = "crates/rom-redb" }
 redb = "=4.3.0"
 tokio = { version = "=1.53.1", features = ["rt-multi-thread", "macros", "sync", "time"] }
 rayon = "=1.12.0"

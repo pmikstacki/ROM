@@ -16,6 +16,7 @@ fn typed_inputs_describe_their_actual_wire_values() {
     assert_eq!(
         <u64 as Input>::descriptor(),
         Some(InputDescriptor::Scalar {
+            enum_labels: Default::default(),
             codec_wrappers: vec![],
             shape: Shape::U64,
             codec: None
@@ -40,6 +41,7 @@ fn typed_inputs_describe_their_actual_wire_values() {
 #[test]
 fn descriptors_reject_ambiguous_or_invalid_metadata() {
     let field = InputFieldDescriptor {
+        enum_labels: Default::default(),
         codec_wrappers: vec![],
         name: "same".into(),
         shape: Shape::Bool,
@@ -68,6 +70,7 @@ fn descriptors_reject_ambiguous_or_invalid_metadata() {
     );
     assert!(
         InputDescriptor::Scalar {
+            enum_labels: Default::default(),
             codec_wrappers: vec![],
             shape: Shape::Optional(Box::new(Shape::Bool)),
             codec: None
@@ -142,12 +145,14 @@ impl Input for ManualNamed {
     fn descriptor() -> Option<InputDescriptor> {
         Some(InputDescriptor::Object(vec![
             InputFieldDescriptor {
+                enum_labels: Default::default(),
                 codec_wrappers: vec![],
                 name: "wire-name".into(),
                 shape: Shape::Bool,
                 codec: None,
             },
             InputFieldDescriptor {
+                enum_labels: Default::default(),
                 codec_wrappers: vec![],
                 name: "count".into(),
                 shape: Shape::Nullable(Box::new(Shape::U64)),
@@ -260,12 +265,14 @@ fn codec_wrapper_paths_must_match_the_declared_shape() {
     };
     assert!(field_bindings(&layout, vec![invalid]).is_err());
     let no_codec = InputDescriptor::Scalar {
+        enum_labels: Default::default(),
         shape: Shape::List(Box::new(Shape::String)),
         codec: None,
         codec_wrappers: vec![CodecWrapper::List],
     };
     assert!(no_codec.validate(None).is_err());
     let valid = InputDescriptor::Scalar {
+        enum_labels: Default::default(),
         shape: Shape::Map(Box::new(Shape::List(Box::new(Shape::Nullable(Box::new(
             Shape::String,
         )))))),

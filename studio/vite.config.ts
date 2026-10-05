@@ -32,6 +32,9 @@ export default defineConfig(({ mode }) => ({
           rollupOptions: {
             input: {
               main: "index.html",
+              sortableFields: "tests/components/sortable-fields.html",
+              reference: "tests/components/reference.html",
+              semanticFields: "tests/components/semantic-fields.html",
               components: "tests/components/harness.html",
               details: "tests/components/details.html",
               rendererRegressions: "tests/components/renderer-regressions.html",

@@ -3,6 +3,7 @@ use crate::{
     COMPLETE, DISPLAY, Dashboard, InventoryItem, NOTICE, Task,
     model::completed,
     studio_model::{CLOSE, MaintenanceTicket, RESTOCK},
+    studio_semantic::{FieldShowcase, MEASURE, SET_CATEGORY, SET_VALUES},
 };
 use rom::operator::{OperatorAccess, OperatorAuthorizer, WorkScope};
 use rom::{
@@ -64,12 +65,21 @@ pub fn build(storage: Arc<dyn Storage>, clock: Arc<dyn rom::Clock>) -> Result<Ru
         )
         .resource(
             IdentityProvider::definition()
+                .presentation(ResourcePresentation {
+                    label: Some("Identity provider".into()),
+                    ..Default::default()
+                })
                 .policy(|a, _, _| admin(a))
                 .allow_all_fields()
                 .discovery_policy(|a, _| admin(a)),
         )
         .resource(
             IdentityLink::definition()
+                .presentation(ResourcePresentation {
+                    label: Some("Linked identity".into()),
+                    title_field: Some("subject".into()),
+                    ..Default::default()
+                })
                 .policy(|a, _, _| admin(a))
                 .allow_all_fields()
                 .discovery_policy(|a, _| admin(a)),
@@ -90,6 +100,10 @@ pub fn build(storage: Arc<dyn Storage>, clock: Arc<dyn rom::Clock>) -> Result<Ru
         )
         .resource(
             Task::definition()
+                .presentation(ResourcePresentation {
+                    title_field: Some("title".into()),
+                    ..Default::default()
+                })
                 .policy(|a, _, _| domain(a))
                 .allow_all_fields()
                 .discovery_policy(|a, _| domain(a))
@@ -115,6 +129,15 @@ pub fn build(storage: Arc<dyn Storage>, clock: Arc<dyn rom::Clock>) -> Result<Ru
                 .allow_all_fields()
                 .discovery_policy(|a, _| domain(a))
                 .action(CLOSE),
+        )
+        .resource(
+            FieldShowcase::definition()
+                .action(MEASURE)
+                .action(SET_VALUES)
+                .action(SET_CATEGORY)
+                .policy(|a, _, _| domain(a))
+                .allow_all_fields()
+                .discovery_policy(|a, _| domain(a)),
         )
         .reaction(
             Reaction::new(

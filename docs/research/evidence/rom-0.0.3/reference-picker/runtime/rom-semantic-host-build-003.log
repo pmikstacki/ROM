@@ -1,0 +1,22 @@
+Running as unit: run-u250.service
+   Compiling rom-derive v0.0.3 (/workspace/ROM/crates/rom-derive)
+   Compiling rom-auth v0.0.3 (/workspace/ROM/crates/rom-auth)
+   Compiling rom v0.0.3 (/workspace/ROM/crates/rom)
+   Compiling rom-blob v0.0.3 (/workspace/ROM/crates/rom-blob)
+   Compiling rom-backup v0.0.3 (/workspace/ROM/crates/rom-backup)
+   Compiling rom-identity v0.0.3 (/workspace/ROM/crates/rom-identity)
+   Compiling rom-http v0.0.3 (/workspace/ROM/crates/rom-http)
+   Compiling rom-sqlite v0.0.3 (/workspace/ROM/crates/rom-sqlite)
+   Compiling rom-studio-host v0.0.3 (/workspace/ROM/crates/rom-studio-host)
+   Compiling rom-redb v0.0.3 (/workspace/ROM/crates/rom-redb)
+   Compiling rom-blob-object-store v0.0.3 (/workspace/ROM/crates/rom-blob-object-store)
+   Compiling rom-config v0.0.3 (/workspace/ROM/crates/rom-config)
+   Compiling rom-fields v0.0.3 (/workspace/ROM/crates/rom-fields)
+   Compiling rom-demo v0.0.3 (/workspace/ROM/demo)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 16.08s
+Finished with result: success
+Main processes terminated with: code=exited, status=0/SUCCESS
+Service runtime: 16.120s
+CPU time consumed: 28.166s
+Memory peak: 1.9G (swap: 0B)
+IO bytes read: 437.8M written: 149.8M

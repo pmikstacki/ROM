@@ -1,9 +1,28 @@
 import { selectValue } from "../components/select-value.ts";
 import { test, expect, type Page } from "@playwright/test";
 import { startHost } from "./host-fixture.mjs";
+import { semanticWorkflow } from "./semantic-workflow.ts";
+
+for (const backend of ["sqlite", "redb"])
+  test(`real ${backend} semantic catalog create patch actions and query`, async ({
+    page,
+  }) => {
+    const host = await startHost(backend);
+    test.info().annotations.push({
+      type: "retained-fixture",
+      description: host.directory,
+    });
+    try {
+      await semanticWorkflow(page, host.url);
+    } finally {
+      await host.close();
+    }
+  });
 
 async function openFullFilters(page: Page) {
-  await page.getByRole("button", { name: "Quick filters", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Quick filters", exact: true })
+    .click();
   await page
     .getByRole("dialog", { name: "Quick filters", exact: true })
     .getByRole("button", { name: "Open full filters", exact: true })
@@ -62,7 +81,9 @@ for (const backend of ["sqlite", "redb"])
       await expect(
         page.getByText("Confirmed once", { exact: true }).first(),
       ).toBeVisible();
-      await expect(page.getByText("Revision 2", { exact: true })).toBeVisible();
+      await expect(
+        page.getByRole("region", { name: "Resource details", exact: true }),
+      ).toContainText("Revision 2");
       await page.unroute("**/api/invoke");
       const filters = await openFullFilters(page);
       await filters.getByLabel("Query limit", { exact: true }).fill("1");
@@ -136,8 +157,13 @@ for (const backend of ["sqlite", "redb"])
           .getByLabel("optional_code value", { exact: true })
           .fill("ticket-o2");
         await page
+          .getByRole("button", { name: "Edit code_list", exact: true })
+          .click();
+        await page
+          .getByRole("dialog", { name: "code list", exact: true })
           .getByLabel("code_list[0] value", { exact: true })
           .fill("ticket-l2");
+        await page.keyboard.press("Escape");
         await page.getByLabel("code value", { exact: true }).fill("ticket-b2");
         await page
           .getByRole("button", { name: "Save 3 changes", exact: true })
@@ -168,15 +194,21 @@ for (const backend of ["sqlite", "redb"])
       ).toBeVisible();
       await page.getByRole("button", { name: "tasks", exact: true }).click();
       await expect(
-        page.getByText("Confirmed once", { exact: true }),
+        page.getByText("Confirmed once", { exact: true }).first(),
       ).toBeVisible();
+      const workCapabilities = page.waitForResponse(
+        (response) =>
+          response.url().endsWith("/api/work/capabilities") &&
+          response.status() === 200,
+      );
+      const workList = page.waitForResponse(
+        (response) =>
+          response.url().endsWith("/api/work/list") &&
+          response.status() === 200,
+      );
       await page.getByRole("button", { name: "Work", exact: true }).click();
-      await page
-        .getByRole("button", { name: "Load work capabilities", exact: true })
-        .click();
-      await page
-        .getByRole("button", { name: "List work", exact: true })
-        .click();
+      await workCapabilities;
+      await workList;
       await expect(
         page.getByRole("heading", { name: "Work", exact: true }),
       ).toBeVisible();
@@ -269,10 +301,7 @@ for (const backend of ["sqlite", "redb"])
         .getByRole("button", { name: "Retry same attachment", exact: true })
         .click();
       await expect(
-        page.getByRole("heading", {
-          name: "Committed Resource folder/name",
-          exact: true,
-        }),
+        page.getByRole("status").filter({ hasText: "Attachment committed" }),
       ).toBeVisible();
       const row = page.getByRole("row").filter({
         has: page.getByRole("button", {

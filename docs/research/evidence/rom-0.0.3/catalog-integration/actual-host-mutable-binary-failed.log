@@ -1,0 +1,639 @@
+
+Running 28 tests using 1 worker
+
+(node:718621) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   1 [chromium] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query (12.5s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   2 [chromium] › tests/runtime/host.spec.ts:7:3 › real redb semantic catalog create patch actions and query (12.0s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘   3 [chromium] › tests/runtime/host.spec.ts:39:3 › real sqlite human auth and generic resources (7.2s)
+(node:726344) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘   4 [chromium] › tests/runtime/host.spec.ts:39:3 › real redb human auth and generic resources (7.4s)
+(node:727215) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘   5 [chromium] › tests/runtime/host.spec.ts:250:3 › real sqlite attachment publication, lost response, download and detach (6.1s)
+(node:728519) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘   6 [chromium] › tests/runtime/host.spec.ts:250:3 › real redb attachment publication, lost response, download and detach (6.1s)
+(node:731246) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘   7 [chromium] › tests/runtime/host.spec.ts:339:3 › real sqlite OS SIGTERM drains accepted publication and OIDC work (3.9s)
+(node:733059) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘   8 [chromium] › tests/runtime/host.spec.ts:339:3 › real redb OS SIGTERM drains accepted publication and OIDC work (191ms)
+(node:733745) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘   9 [chromium] › tests/runtime/host.spec.ts:481:3 › real sqlite finite renderer query and stream measurement (191ms)
+(node:734209) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  10 [chromium] › tests/runtime/host.spec.ts:481:3 › real redb finite renderer query and stream measurement (180ms)
+(node:734430) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  11 [chromium] › tests/runtime/host.spec.ts:572:3 › real sqlite shared session logout clears two tabs and closes delivery (201ms)
+(node:735123) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  12 [chromium] › tests/runtime/host.spec.ts:572:3 › real redb shared session logout clears two tabs and closes delivery (189ms)
+(node:735473) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  13 [chromium] › tests/runtime/host.spec.ts:668:3 › real sqlite complete generic Task and Inventory browser workflows (183ms)
+(node:735862) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  14 [chromium] › tests/runtime/host.spec.ts:668:3 › real redb complete generic Task and Inventory browser workflows (194ms)
+(node:736482) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  15 [webkit] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query (269ms)
+(node:737124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  16 [webkit] › tests/runtime/host.spec.ts:7:3 › real redb semantic catalog create patch actions and query (244ms)
+(node:737515) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  17 [webkit] › tests/runtime/host.spec.ts:39:3 › real sqlite human auth and generic resources (243ms)
+(node:738051) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  18 [webkit] › tests/runtime/host.spec.ts:39:3 › real redb human auth and generic resources (255ms)
+(node:738662) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  19 [webkit] › tests/runtime/host.spec.ts:250:3 › real sqlite attachment publication, lost response, download and detach (271ms)
+(node:739147) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  20 [webkit] › tests/runtime/host.spec.ts:250:3 › real redb attachment publication, lost response, download and detach (266ms)
+(node:739631) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  21 [webkit] › tests/runtime/host.spec.ts:339:3 › real sqlite OS SIGTERM drains accepted publication and OIDC work (253ms)
+(node:740245) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  22 [webkit] › tests/runtime/host.spec.ts:339:3 › real redb OS SIGTERM drains accepted publication and OIDC work (256ms)
+(node:740830) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  23 [webkit] › tests/runtime/host.spec.ts:481:3 › real sqlite finite renderer query and stream measurement (231ms)
+(node:741153) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  24 [webkit] › tests/runtime/host.spec.ts:481:3 › real redb finite renderer query and stream measurement (243ms)
+(node:741822) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  25 [webkit] › tests/runtime/host.spec.ts:572:3 › real sqlite shared session logout clears two tabs and closes delivery (263ms)
+(node:742236) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  26 [webkit] › tests/runtime/host.spec.ts:572:3 › real redb shared session logout clears two tabs and closes delivery (224ms)
+(node:742703) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  27 [webkit] › tests/runtime/host.spec.ts:668:3 › real sqlite complete generic Task and Inventory browser workflows (246ms)
+(node:743269) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  28 [webkit] › tests/runtime/host.spec.ts:668:3 › real redb complete generic Task and Inventory browser workflows (286ms)
+
+
+  1) [chromium] › tests/runtime/host.spec.ts:39:3 › real sqlite human auth and generic resources ───
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Confirmed once', { exact: true })
+    Expected: visible
+    Error: strict mode violation: getByText('Confirmed once', { exact: true }) resolved to 2 elements:
+        1) <td title="task-a" data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 max-w-48 truncate font-medium">…</td> aka getByRole('cell', { name: 'Confirmed once', description: 'task-a' })
+        2) <span class="inline-block">Confirmed once</span> aka locator('span').filter({ hasText: 'Confirmed once' })
+
+    Call log:
+      - Expect "toBeVisible" getByText('Confirmed once', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Confirmed once', { exact: true })
+
+
+      195 |       await expect(
+      196 |         page.getByText("Confirmed once", { exact: true }),
+    > 197 |       ).toBeVisible();
+          |         ^
+      198 |       await page.getByRole("button", { name: "Work", exact: true }).click();
+      199 |       await page
+      200 |         .getByRole("button", { name: "Load work capabilities", exact: true })
+        at /root/ROM/studio/tests/runtime/host.spec.ts:197:9
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-sqlite-human-auth-and-generic-resources-chromium/error-context.md
+
+  2) [chromium] › tests/runtime/host.spec.ts:39:3 › real redb human auth and generic resources ─────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Confirmed once', { exact: true })
+    Expected: visible
+    Error: strict mode violation: getByText('Confirmed once', { exact: true }) resolved to 2 elements:
+        1) <td title="task-a" data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 max-w-48 truncate font-medium">…</td> aka getByRole('cell', { name: 'Confirmed once', description: 'task-a' })
+        2) <span class="inline-block">Confirmed once</span> aka locator('span').filter({ hasText: 'Confirmed once' })
+
+    Call log:
+      - Expect "toBeVisible" getByText('Confirmed once', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Confirmed once', { exact: true })
+
+
+      195 |       await expect(
+      196 |         page.getByText("Confirmed once", { exact: true }),
+    > 197 |       ).toBeVisible();
+          |         ^
+      198 |       await page.getByRole("button", { name: "Work", exact: true }).click();
+      199 |       await page
+      200 |         .getByRole("button", { name: "Load work capabilities", exact: true })
+        at /root/ROM/studio/tests/runtime/host.spec.ts:197:9
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-redb-human-auth-and-generic-resources-chromium/error-context.md
+
+  3) [chromium] › tests/runtime/host.spec.ts:250:3 › real sqlite attachment publication, lost response, download and detach 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'Committed Resource folder/name', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: 'Committed Resource folder/name', exact: true }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'Committed Resource folder/name', exact: true })
+
+
+      299 |           exact: true,
+      300 |         }),
+    > 301 |       ).toBeVisible();
+          |         ^
+      302 |       const row = page.getByRole("row").filter({
+      303 |         has: page.getByRole("button", {
+      304 |           name: "Open folder/name",
+        at /root/ROM/studio/tests/runtime/host.spec.ts:301:9
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-sqlite-attachmen-028a9-esponse-download-and-detach-chromium/error-context.md
+
+  4) [chromium] › tests/runtime/host.spec.ts:250:3 › real redb attachment publication, lost response, download and detach 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'Committed Resource folder/name', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: 'Committed Resource folder/name', exact: true }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'Committed Resource folder/name', exact: true })
+
+
+      299 |           exact: true,
+      300 |         }),
+    > 301 |       ).toBeVisible();
+          |         ^
+      302 |       const row = page.getByRole("row").filter({
+      303 |         has: page.getByRole("button", {
+      304 |           name: "Open folder/name",
+        at /root/ROM/studio/tests/runtime/host.spec.ts:301:9
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-redb-attachment--7d3f7-esponse-download-and-detach-chromium/error-context.md
+
+  5) [chromium] › tests/runtime/host.spec.ts:339:3 › real sqlite OS SIGTERM drains accepted publication and OIDC work 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-sqlite-OS-SIGTER-6f441-d-publication-and-OIDC-work-chromium/error-context.md
+
+  6) [chromium] › tests/runtime/host.spec.ts:339:3 › real redb OS SIGTERM drains accepted publication and OIDC work 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-redb-OS-SIGTERM--9c663-d-publication-and-OIDC-work-chromium/error-context.md
+
+  7) [chromium] › tests/runtime/host.spec.ts:481:3 › real sqlite finite renderer query and stream measurement 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-sqlite-finite-re-2b0be-uery-and-stream-measurement-chromium/error-context.md
+
+  8) [chromium] › tests/runtime/host.spec.ts:481:3 › real redb finite renderer query and stream measurement 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-redb-finite-renderer-query-and-stream-measurement-chromium/error-context.md
+
+  9) [chromium] › tests/runtime/host.spec.ts:572:3 › real sqlite shared session logout clears two tabs and closes delivery 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-sqlite-shared-se-23f9d-wo-tabs-and-closes-delivery-chromium/error-context.md
+
+  10) [chromium] › tests/runtime/host.spec.ts:572:3 › real redb shared session logout clears two tabs and closes delivery 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-redb-shared-sess-7867a-wo-tabs-and-closes-delivery-chromium/error-context.md
+
+  11) [chromium] › tests/runtime/host.spec.ts:668:3 › real sqlite complete generic Task and Inventory browser workflows 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-sqlite-complete--d8449-Inventory-browser-workflows-chromium/error-context.md
+
+  12) [chromium] › tests/runtime/host.spec.ts:668:3 › real redb complete generic Task and Inventory browser workflows 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-redb-complete-ge-d6a0f-Inventory-browser-workflows-chromium/error-context.md
+
+  13) [webkit] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-sqlite-semantic--8293a-ate-patch-actions-and-query-webkit/error-context.md
+
+  14) [webkit] › tests/runtime/host.spec.ts:7:3 › real redb semantic catalog create patch actions and query 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-redb-semantic-ca-60af0-ate-patch-actions-and-query-webkit/error-context.md
+
+  15) [webkit] › tests/runtime/host.spec.ts:39:3 › real sqlite human auth and generic resources ────
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-sqlite-human-auth-and-generic-resources-webkit/error-context.md
+
+  16) [webkit] › tests/runtime/host.spec.ts:39:3 › real redb human auth and generic resources ──────
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-redb-human-auth-and-generic-resources-webkit/error-context.md
+
+  17) [webkit] › tests/runtime/host.spec.ts:250:3 › real sqlite attachment publication, lost response, download and detach 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-sqlite-attachmen-028a9-esponse-download-and-detach-webkit/error-context.md
+
+  18) [webkit] › tests/runtime/host.spec.ts:250:3 › real redb attachment publication, lost response, download and detach 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-redb-attachment--7d3f7-esponse-download-and-detach-webkit/error-context.md
+
+  19) [webkit] › tests/runtime/host.spec.ts:339:3 › real sqlite OS SIGTERM drains accepted publication and OIDC work 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-sqlite-OS-SIGTER-6f441-d-publication-and-OIDC-work-webkit/error-context.md
+
+  20) [webkit] › tests/runtime/host.spec.ts:339:3 › real redb OS SIGTERM drains accepted publication and OIDC work 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-redb-OS-SIGTERM--9c663-d-publication-and-OIDC-work-webkit/error-context.md
+
+  21) [webkit] › tests/runtime/host.spec.ts:481:3 › real sqlite finite renderer query and stream measurement 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-sqlite-finite-re-2b0be-uery-and-stream-measurement-webkit/error-context.md
+
+  22) [webkit] › tests/runtime/host.spec.ts:481:3 › real redb finite renderer query and stream measurement 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-redb-finite-renderer-query-and-stream-measurement-webkit/error-context.md
+
+  23) [webkit] › tests/runtime/host.spec.ts:572:3 › real sqlite shared session logout clears two tabs and closes delivery 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-sqlite-shared-se-23f9d-wo-tabs-and-closes-delivery-webkit/error-context.md
+
+  24) [webkit] › tests/runtime/host.spec.ts:572:3 › real redb shared session logout clears two tabs and closes delivery 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-redb-shared-sess-7867a-wo-tabs-and-closes-delivery-webkit/error-context.md
+
+  25) [webkit] › tests/runtime/host.spec.ts:668:3 › real sqlite complete generic Task and Inventory browser workflows 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-sqlite-complete--d8449-Inventory-browser-workflows-webkit/error-context.md
+
+  26) [webkit] › tests/runtime/host.spec.ts:668:3 › real redb complete generic Task and Inventory browser workflows 
+
+    Error: Host exited 1: Error: "usage: rom-demo [smoke|reference|operator|upgrade|serve] [sqlite|redb] [database] [port]"
+
+
+       at host-fixture.mjs:64
+
+      62 |       child.once("exit", (code) => {
+      63 |         clearTimeout(timer);
+    > 64 |         reject(Error(`Host exited ${code}: ${err}`));
+         |                ^
+      65 |       });
+      66 |       child.stdout.on("data", (c) => {
+      67 |         out = (out + c).slice(0, 65536);
+        at ChildProcess.<anonymous> (/root/ROM/studio/tests/runtime/host-fixture.mjs:64:16)
+
+    Error Context: ../../../var/tmp/rom-003-standard-host-results/host-real-redb-complete-ge-d6a0f-Inventory-browser-workflows-webkit/error-context.md
+
+  26 failed
+    [chromium] › tests/runtime/host.spec.ts:39:3 › real sqlite human auth and generic resources ────
+    [chromium] › tests/runtime/host.spec.ts:39:3 › real redb human auth and generic resources ──────
+    [chromium] › tests/runtime/host.spec.ts:250:3 › real sqlite attachment publication, lost response, download and detach 
+    [chromium] › tests/runtime/host.spec.ts:250:3 › real redb attachment publication, lost response, download and detach 
+    [chromium] › tests/runtime/host.spec.ts:339:3 › real sqlite OS SIGTERM drains accepted publication and OIDC work 
+    [chromium] › tests/runtime/host.spec.ts:339:3 › real redb OS SIGTERM drains accepted publication and OIDC work 
+    [chromium] › tests/runtime/host.spec.ts:481:3 › real sqlite finite renderer query and stream measurement 
+    [chromium] › tests/runtime/host.spec.ts:481:3 › real redb finite renderer query and stream measurement 
+    [chromium] › tests/runtime/host.spec.ts:572:3 › real sqlite shared session logout clears two tabs and closes delivery 
+    [chromium] › tests/runtime/host.spec.ts:572:3 › real redb shared session logout clears two tabs and closes delivery 
+    [chromium] › tests/runtime/host.spec.ts:668:3 › real sqlite complete generic Task and Inventory browser workflows 
+    [chromium] › tests/runtime/host.spec.ts:668:3 › real redb complete generic Task and Inventory browser workflows 
+    [webkit] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query 
+    [webkit] › tests/runtime/host.spec.ts:7:3 › real redb semantic catalog create patch actions and query 
+    [webkit] › tests/runtime/host.spec.ts:39:3 › real sqlite human auth and generic resources ──────
+    [webkit] › tests/runtime/host.spec.ts:39:3 › real redb human auth and generic resources ────────
+    [webkit] › tests/runtime/host.spec.ts:250:3 › real sqlite attachment publication, lost response, download and detach 
+    [webkit] › tests/runtime/host.spec.ts:250:3 › real redb attachment publication, lost response, download and detach 
+    [webkit] › tests/runtime/host.spec.ts:339:3 › real sqlite OS SIGTERM drains accepted publication and OIDC work 
+    [webkit] › tests/runtime/host.spec.ts:339:3 › real redb OS SIGTERM drains accepted publication and OIDC work 
+    [webkit] › tests/runtime/host.spec.ts:481:3 › real sqlite finite renderer query and stream measurement 
+    [webkit] › tests/runtime/host.spec.ts:481:3 › real redb finite renderer query and stream measurement 
+    [webkit] › tests/runtime/host.spec.ts:572:3 › real sqlite shared session logout clears two tabs and closes delivery 
+    [webkit] › tests/runtime/host.spec.ts:572:3 › real redb shared session logout clears two tabs and closes delivery 
+    [webkit] › tests/runtime/host.spec.ts:668:3 › real sqlite complete generic Task and Inventory browser workflows 
+    [webkit] › tests/runtime/host.spec.ts:668:3 › real redb complete generic Task and Inventory browser workflows 
+  2 passed (1.3m)

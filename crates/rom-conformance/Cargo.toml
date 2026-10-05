@@ -15,4 +15,4 @@ blob = ["dep:rom-blob"]
 [dependencies]
 rom.workspace = true
 tokio.workspace = true
-rom-blob = { version = "=0.0.2", path = "../rom-blob", optional = true }
+rom-blob = { version = "=0.0.3", path = "../rom-blob", optional = true }

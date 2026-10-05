@@ -1,0 +1,9 @@
+rom-studio-controls-003-probe@ /root/ROM/prototypes/studio-controls-003
+├── @playwright/test@1.63.0
+├── @sveltejs/vite-plugin-svelte@7.3.1
+├── lossless-json@4.3.1
+├── svelte-dnd-action@0.9.80
+├── svelte-jsoneditor@3.13.0
+├── svelte@5.57.1
+└── vite@8.3.2
+

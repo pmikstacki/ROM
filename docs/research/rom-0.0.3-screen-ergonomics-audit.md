@@ -145,3 +145,106 @@ These scenarios are test requirements, not executed results.
 Prioritize inspector consistency, readable titles, Work structure, and recovery retention before adding visual history.
 Capture browser evidence for the acceptance scenarios after implementation.
 Source inspection alone does not establish accessibility, mobile usability, or recovery safety.
+
+## Executed login and attachment increment
+
+Date: 2026-10-05. The baseline observations above remain historical source inspection.
+This increment changes login and attachment presentation. It does not certify the whole Studio screen inventory.
+
+Login now uses the extracted `LoginPage` component with the existing authentication flow.
+Provider links retain their exact routes. The primary provider retains its automatic redirect and explicit fallback choice.
+Long provider labels wrap on narrow screens. Session checking and unavailable providers use readable status text.
+An expired session removes authorized Resource values and provides a sign-in path.
+The explicit expired-authenticated-response case uses `SessionExpiredError`; it does not match error strings to establish authority.
+
+Attachments now use the shared right inspector on desktop and mobile.
+A title comes from the authorized projection. The exact opaque ID remains visible and copyable.
+Detachment confirmation resets on selection change and before submission. The request uses the exact selected ID.
+Loading, unavailable capability, query failure, empty results, committed upload, and unknown outcome remain distinct states.
+Unknown reservation and upload responses retain the controller's frozen reservation, ID, key, and file contents.
+The application blocks ordinary navigation while an attachment operation is pending or unknown.
+Closing the inspector does not clear the pending operation or upload draft.
+
+### Failed regressions and fixes
+
+The first focused attachment regression reproduced the missing right inspector before the presentation change.
+A separate explicit expired-session regression reproduced the missing sign-in explanation and provider choice.
+The application owner repaired that session path while preserving the provider redirect policy.
+
+A narrow-screen check at 390 pixels with 200% CSS zoom exposed attachment page overflow.
+The document width was 508 pixels against a 390-pixel viewport.
+The attachment header, form grid, store selector minimum width, and upload button caused the overflow.
+The local fix lets actions wrap and lets form controls shrink within a zero-minimum grid track.
+The same regression then measured a 390-pixel document width.
+The Resource table retains its own horizontal scroll area.
+
+### Focused executed cases
+
+The isolated Chromium development-server run passed eleven focused tests before the added zoom assertions.
+The later narrow login and attachment zoom checks passed after the attachment fix.
+The Studio type check passed with zero errors and zero warnings.
+These tests use the real application, SDK, and components with deterministic HTTP route fixtures.
+They do not establish a real identity-provider exchange or a real object-store upload.
+
+| Screen | Executed positive and error cases |
+| --- | --- |
+| Login | Long provider label at 390 pixels; exact login route; keyboard focus; unavailable session retry; primary redirect and fallback choice. |
+| Login session changes | Authenticated session becomes unauthenticated; expired authenticated response; protected table values disappear; sign-in remains available. |
+| Attachment details | Desktop right inspector; authorized human title; long opaque ID; exact clipboard copy; confirmation resets when selection changes. |
+| Attachment mobile | Right Sheet contains focus; Escape returns focus to the selected row; 390-pixel layout and 200% CSS zoom avoid page overflow. |
+| Attachment recovery | Lost reservation response repeats the same reservation and key; lost upload response repeats identical ID and bytes; pending navigation is blocked. |
+| Attachment errors | Denied capability shows unavailable state without an upload form or successful empty list; query denial stays distinct from empty results; refresh restores rows. |
+
+Focused commands:
+
+```sh
+cd studio
+npm run check
+npx playwright test --config /tmp/rom-ergonomics-playwright.config.mjs
+```
+
+The temporary development configuration used Chromium and `http://127.0.0.1:43326/rom-studio/`.
+It selected `login-ergonomics.spec.ts` and `attachments-ergonomics.spec.ts` without changing the shared component build.
+The release owner separately coordinates the complete component-bundle Chromium and WebKit run.
+Its results must be recorded separately; this focused record does not claim they passed.
+
+### Remaining audit scope
+
+Resource editing, Settings, Work recovery, relation selection, and sortable lists are separate concurrent work.
+The full combined screen audit remains incomplete until those executed results and the packaged entry point are reviewed together.
+Actual browser zoom controls, a human usability review, and a real provider/object-store journey remain outside this focused test evidence.
+The current attachment query returns at most 50 rows. This increment does not invent totals or continuation metadata.
+
+### Later combined browser evidence
+
+The later rebuilt component bundle passed the selected integration matrix on Chromium and WebKit.
+[`integration-browser-latest.log`](../../prototypes/studio-controls-003/integration-browser-latest.log) records 81 passes and one explicit WebKit touch skip.
+[`integration-build-latest.log`](../../prototypes/studio-controls-003/integration-build-latest.log) records the fresh bundle build.
+All eleven login and attachment tests passed in both engines.
+The skipped case belongs to the sortable-list touch fixture, not the login or attachment tests.
+
+The attachment upload fixture uses an actual local HTTP receiver.
+It collects the browser's streamed Blob bytes and asserts their exact contents.
+The first upload response destroys its socket to produce a lost acknowledgement.
+The retry retains the reservation ID, key, selected file, and identical bytes.
+The fixture redirects only the upload fetch destination and supplies CORS preflight responses.
+It does not substitute an echoed fixture body for browser upload evidence.
+
+The earlier complete component run exposed three WebKit fixture failures.
+WebKit rejected the unsupported clipboard permission and supplied no intercepted binary request body.
+The fixture now uses supported clipboard permissions and the actual upload receiver.
+Exact ID clipboard reads and exact upload byte assertions passed in both engines after that repair.
+These local results do not establish a real external identity-provider exchange or production object-store behavior.
+
+## Frozen 0.0.3 component acceptance
+
+The final combined component run records 219 passes and one explicit WebKit physical-touch skip.
+Both Chromium and WebKit used the same rebuilt component assets. All 146 unit tests passed.
+Svelte check reported zero errors and warnings.
+Evidence: [browser log](../../prototypes/studio-controls-003/review-final-browser.log),
+[unit log](../../prototypes/studio-controls-003/review-final-unit.log), and
+[source identity](../../prototypes/studio-controls-003/review-final-maintained-source-identity.json).
+
+This run includes invalid drafts across expanded-editor unmounts and complete read-only semantic disclosure.
+The [independent spec review](rom-0.0.3-final-spec-review.md) records the earlier findings and their corrections.
+These component results do not replace actual-host, clean-source artifact, or persistent-preview acceptance.

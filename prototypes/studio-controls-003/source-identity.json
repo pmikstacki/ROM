@@ -1,0 +1,14 @@
+{
+  "repositoryHead": "6d3b6b24b1447a78abb96c13e5957b3654745f07",
+  "node": "v22.16.0",
+  "files": {
+    "App.svelte": "3477a66d0598ac9cf9c7e47d3b1ce355a11c9caa5a06eed9f601392cfc0d111a",
+    "Manual.svelte": "e3ac71c5d2cca432e04985c854b1682d1050e1d04dc650c63510c341b4cfb041",
+    "Sortable.svelte": "a28a00954d0cd3b633aad6880cdb0d4c0f67fcb7f64d44a8e43a16c08569a13b",
+    "Document.svelte": "d9b2d827420d2875ccb505cdd415d6fd6d45a57467c1e7febcc0ac99a4edaa51",
+    "TextDocument.svelte": "5417836a8af7b29fa55996fb9eaeb4588b6de62650c4c47ff0de169b151dcf8c",
+    "bounds.js": "12a6dd2635b96cd3b3a0455f9d18b9d60369c0a0b36529ba9f586f345ad1fd09",
+    "probe.mjs": "1dca380697e2faae001f91b021164ebc50321782c9880d141acd9dc18fbe3a1d",
+    "package-lock.json": "1bcadcec5588c7a0d489c9581cea8d3fb9d589fd8ac1e9201d2a196ba055c5c5"
+  }
+}

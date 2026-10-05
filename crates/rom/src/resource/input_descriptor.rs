@@ -1,7 +1,7 @@
 //! Authoring metadata for codecs and action inputs, separate from persisted layouts.
 use crate::{Error, Result, Shape, validate_shape};
 use serde::{Deserialize, Serialize};
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 
 /// A trusted custom codec's presentation identity, scoped to its Resource binding.
 /// This identifies a codec, not a global Field registry or executable plugin.
@@ -48,6 +48,8 @@ pub struct InputFieldDescriptor {
     pub codec: Option<CodecIdentity>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub codec_wrappers: Vec<CodecWrapper>,
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub enum_labels: BTreeMap<String, String>,
 }
 
 /// An action input's supported wire representation. `None` describes an opaque input.
@@ -61,6 +63,8 @@ pub enum InputDescriptor {
         codec: Option<CodecIdentity>,
         #[serde(default, skip_serializing_if = "Vec::is_empty")]
         codec_wrappers: Vec<CodecWrapper>,
+        #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+        enum_labels: BTreeMap<String, String>,
     },
     Object(Vec<InputFieldDescriptor>),
 }
@@ -72,12 +76,14 @@ impl InputDescriptor {
                 shape,
                 codec,
                 codec_wrappers,
+                enum_labels,
             } => {
                 // Scalar action input has a value; absence only describes object members.
                 if matches!(shape, Shape::Optional(_)) {
                     return Err(Error::invalid("input", "scalar presence"));
                 }
                 validate_shape(shape, 0, kinds)?;
+                super::enum_labels::validate_labels(shape, enum_labels)?;
                 validate_wrappers(shape, codec.as_ref(), codec_wrappers)?;
                 if let Some(codec) = codec {
                     codec.validate()?;
@@ -91,6 +97,7 @@ impl InputDescriptor {
                         return Err(Error::invalid("input", "duplicate or empty field"));
                     }
                     validate_shape(&field.shape, 0, kinds)?;
+                    super::enum_labels::validate_labels(&field.shape, &field.enum_labels)?;
                     validate_wrappers(&field.shape, field.codec.as_ref(), &field.codec_wrappers)?;
                     if let Some(codec) = &field.codec {
                         codec.validate()?;

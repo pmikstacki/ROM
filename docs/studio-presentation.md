@@ -6,6 +6,24 @@ It does not change persisted values, grant permissions, or load executable front
 
 ## Declare presentation in Rust
 
+The Resource derive can supply presentation from the same Rust declaration:
+
+```rust,ignore
+#[derive(rom::Resource)]
+#[resource(name = "settings", label = "Settings", title_field = "name",
+    settings(group = "studio", label = "Studio"),
+    group(name = "display", label = "Display"))]
+struct StudioSettings {
+    #[resource(label = "Name", help = "Name shown in Studio", group = "display")]
+    name: String,
+}
+```
+
+A renamed field uses its canonical wire name in `title_field`.
+The compiler rejects malformed attributes, duplicate declarations, unknown groups, and known invalid title shapes.
+Registration validates the concrete field types, including aliases that a procedural macro cannot resolve.
+Input derives do not accept Resource presentation attributes.
+
 Attach presentation to the Resource definition before runtime registration.
 A native plugin uses the same definition builder as application code.
 
@@ -68,11 +86,12 @@ This change does not modify persisted `Descriptor` or `FieldDescriptor` identity
 Rust code that constructs `DiscoveredResource` with a struct literal must now provide its optional `presentation` field.
 
 Declared field groups are validated and projected, but the current form does not arrange controls into those groups.
-Semantic formats such as dates, colors, decimals, and relation pickers need separate value contracts and editor conformance.
+The [standard field catalog](studio-fields.md) supplies explicit temporal, color, text, decimal, and unit contracts with shared controls.
+Reference pickers use bounded authorized queries. They preserve exact IDs.
 Presentation cannot make an unknown custom codec safe to edit.
 Custom renderers still require explicit frontend bundle composition.
 
-See [the 0.0.3 research](research/rom-0.0.3-studio-release-research.md) for the remaining control work.
+See [the 0.0.3 research](research/rom-0.0.3-studio-release-research.md) for the release scope and evidence boundaries.
 See [AI development guidance](ai-development.md) for the source map and verification commands.
 
 Studio declares its own favicon under `/rom-studio/rom-icon.svg`.

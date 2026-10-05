@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+(node:708189) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✘  1 [chromium] › tests/runtime/host.spec.ts:39:3 › real sqlite human auth and generic resources (6.0s)
+
+
+  1) [chromium] › tests/runtime/host.spec.ts:39:3 › real sqlite human auth and generic resources ───
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Revision 2', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('Revision 2', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Revision 2', { exact: true })
+
+
+      82 |         page.getByText("Confirmed once", { exact: true }).first(),
+      83 |       ).toBeVisible();
+    > 84 |       await expect(page.getByText("Revision 2", { exact: true })).toBeVisible();
+         |                                                                   ^
+      85 |       await page.unroute("**/api/invoke");
+      86 |       const filters = await openFullFilters(page);
+      87 |       await filters.getByLabel("Query limit", { exact: true }).fill("1");
+        at /root/ROM/studio/tests/runtime/host.spec.ts:84:67
+
+    Error Context: test-results/host-real-sqlite-human-auth-and-generic-resources-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/runtime/host.spec.ts:39:3 › real sqlite human auth and generic resources ────
