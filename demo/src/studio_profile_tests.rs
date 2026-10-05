@@ -20,9 +20,31 @@ fn config(path: &std::path::Path) -> serde_json::Value {
     })
 }
 fn write_profile(path: &std::path::Path, value: &serde_json::Value) {
-    std::fs::write(path, value.to_string()).expect("profile");
-    std::fs::set_permissions(path, std::fs::Permissions::from_mode(0o444))
+    let temporary = path.with_extension("profile.tmp");
+    std::fs::write(&temporary, value.to_string()).expect("temporary profile");
+    std::fs::set_permissions(&temporary, std::fs::Permissions::from_mode(0o444))
         .expect("read-only profile");
+    std::fs::rename(temporary, path).expect("replace profile");
+}
+#[test]
+fn write_profile_replaces_read_only_profile_as_an_unprivileged_user() {
+    let root = fixture();
+    let profile = root.join("profile.json");
+    write_profile(&profile, &serde_json::json!({"version": 1}));
+    write_profile(&profile, &serde_json::json!({"version": 2}));
+    assert_eq!(
+        std::fs::read_to_string(&profile).expect("replaced profile"),
+        r#"{"version":2}"#
+    );
+    assert_eq!(
+        std::fs::metadata(&profile)
+            .expect("profile metadata")
+            .permissions()
+            .mode()
+            & 0o777,
+        0o444
+    );
+    std::fs::remove_dir_all(root).expect("cleanup profile fixture");
 }
 #[test]
 fn trusted_profile_uses_private_external_secret_without_enabling_public_http() {
