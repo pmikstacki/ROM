@@ -70,12 +70,36 @@ async fn caller_deadline_retains_capacity_until_verifier_completion() {
     ));
     assert_eq!(provider.count(), 1);
     provider.release();
-    auth.drain().await.unwrap();
-    assert!(
-        auth.resolver()(headers("Bearer after-completion"))
-            .await
-            .is_ok()
-    );
+    tokio::time::timeout(Duration::from_secs(1), auth.drain())
+        .await
+        .expect("the original admitted verifier should drain after release")
+        .unwrap();
+
+    // Prove the same job tracker admits work again after the detached verifier
+    // releases its slot. The short caller deadline remains active here, so a
+    // loaded host may time out the response even though the verifier was admitted.
+    let retry = tokio::spawn(auth.resolver()(headers("Bearer after-completion")));
+    tokio::time::timeout(Duration::from_secs(1), async {
+        while provider.count() < 2 {
+            tokio::task::yield_now().await;
+        }
+    })
+    .await
+    .expect("the recovered job tracker should admit the second verifier");
+    tokio::time::timeout(Duration::from_secs(1), auth.drain())
+        .await
+        .expect("the admitted verifier should drain")
+        .unwrap();
+    match retry.await.unwrap() {
+        Ok(actor) => {
+            assert_eq!(actor.subject, "service");
+            assert_eq!(actor.valid_until(), Some(NOW + 5));
+        }
+        // `response_timeout` is independent of admission: under host load the
+        // caller can time out while the admitted job still completes and drains.
+        Err(rom::Error::Overloaded) => {}
+        other => panic!("unexpected result after successful re-admission: {other:?}"),
+    }
     assert_eq!(provider.count(), 2);
     auth.close();
     auth.drain().await.unwrap();

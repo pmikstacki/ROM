@@ -1,0 +1,15 @@
+
+running 1 test
+
+thread 'admission::caller_deadline_retains_capacity_until_verifier_completion' (1090115) panicked at demo/tests/provider_auth/admission.rs:75:5:
+fresh verifier result after original job drained: Err(Overloaded)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test admission::caller_deadline_retains_capacity_until_verifier_completion ... FAILED
+
+failures:
+
+failures:
+    admission::caller_deadline_retains_capacity_until_verifier_completion
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.07s
+

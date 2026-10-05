@@ -1,0 +1,22 @@
+   Compiling rom-demo v0.0.3 (/root/ROM/demo)
+    Finished `test` profile [unoptimized] target(s) in 0.71s
+     Running tests/provider_auth.rs (/var/tmp/rom-003-root-producer-target/debug/deps/provider_auth-47ab8681074eb4df)
+
+running 1 test
+test admission::caller_deadline_retains_capacity_until_verifier_completion ... FAILED
+
+failures:
+
+---- admission::caller_deadline_retains_capacity_until_verifier_completion stdout ----
+
+thread 'admission::caller_deadline_retains_capacity_until_verifier_completion' (1095796) panicked at demo/tests/provider_auth/admission.rs:82:6:
+red control: slot was incorrectly free before verifier completion: Elapsed(())
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    admission::caller_deadline_retains_capacity_until_verifier_completion
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 15 filtered out; finished in 1.04s
+
+error: test failed, to rerun pass `-p rom-demo --test provider_auth`

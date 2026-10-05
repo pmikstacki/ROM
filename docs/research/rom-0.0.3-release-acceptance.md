@@ -1,8 +1,16 @@
 # ROM 0.0.3 release acceptance
 
 Status: implementation acceptance passed; clean-source distribution and persistent preview remain pending.
-Date: 2026-10-05. Source baseline: `6d3b6b2`, with coordinated release changes uncommitted.
+Date: 2026-10-05. Initial source baseline: `6d3b6b2`. Latest committed candidate: `5538323`.
 Do not use this record as a completed release declaration.
+
+## Owner's completion contract
+
+The Studio and backend requests form one release scope. They are not optional polish after publication.
+Completion requires the shared right inspector, readable Work inspection, plugin Settings, and browser ergonomics regressions.
+It also requires generic backend support, focused DRY/module cleanup, AI workflows, and the neutral Studio favicon.
+Mockups and implementation commits do not complete this scope.
+The goal remains active until the complete artifact passes independent verification and the permanent preview passes acceptance.
 
 ## Implemented scope
 
@@ -49,3 +57,12 @@ See [red evidence](evidence/rom-0.0.3/ergonomic-review/rom-003-resource-header-r
 
 The first clean-source producer passed gates one through five, then rejected external fixture paths during packaging.
 The [fixture portability correction](rom-0.0.3-package-portability.md) passed extracted-package verification; the complete producer must run again.
+
+The `5538323` producer passed gates one through six, then encountered a native WebKit compositor crash in gate seven.
+The same browser case passed five consecutive repetitions without a source change.
+The repeated complete producer then failed the provider deadline regression in gate six.
+The failed assertion expects a fresh verification to finish within the same 30-millisecond caller deadline.
+The [deadline investigation](rom-0.0.3-auth-deadline.md) separates response timeout from admission and completion.
+The corrected regression retains the short deadline and proves re-admission through a second provider contact and bounded drain.
+Do not treat the focused repetitions as complete producer acceptance.
+Both failed stages and their logs remain preserved outside the accepted evidence set.
