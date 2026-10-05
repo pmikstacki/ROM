@@ -46,3 +46,6 @@ Earlier captures remain in `studio-screens/before-unit-width/`.
 The human-title table column now reads `Resource`; an ID-only column retains `ID`.
 The existing presentation regression first failed on the old header, then passed across both browser engines.
 See [red evidence](evidence/rom-0.0.3/ergonomic-review/rom-003-resource-header-red.log) and [green evidence](evidence/rom-0.0.3/ergonomic-review/rom-003-resource-header-green.log).
+
+The first clean-source producer passed gates one through five, then rejected external fixture paths during packaging.
+The [fixture portability correction](rom-0.0.3-package-portability.md) passed extracted-package verification; the complete producer must run again.

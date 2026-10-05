@@ -87,10 +87,8 @@ async fn labels_are_shared_advisory_frozen_authorized_and_schema_independent() {
     let schema = Labelled::descriptor();
     let actor = Actor::trusted("test", "admin");
     let runtime = runtime(store.clone());
-    let expected: Value = serde_json::from_str(include_str!(
-        "../../../crates/rom-fields/tests/fixtures/enum-labels-discovery-v1.json"
-    ))
-    .unwrap();
+    let expected: Value =
+        serde_json::from_str(include_str!("fixtures/enum-labels-discovery-v1.json")).unwrap();
     assert_eq!(
         serde_json::to_value(runtime.discover(&actor).await.unwrap()).unwrap(),
         expected

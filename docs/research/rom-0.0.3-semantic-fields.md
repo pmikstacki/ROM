@@ -190,8 +190,8 @@ This change adds fields to public Rust structures. It requires a source update f
 Studio's strict discovery parser must accept and validate the optional map with the paired 0.0.3 release.
 An older strict client is not assumed to accept this new discovery member.
 
-The shared positive fixture is [`enum-labels-discovery-v1.json`](../../crates/rom-fields/tests/fixtures/enum-labels-discovery-v1.json).
-The negative fixture is [`enum-labels-invalid-v1.json`](../../crates/rom-fields/tests/fixtures/enum-labels-invalid-v1.json).
+The shared positive fixture is [`enum-labels-discovery-v1.json`](../../examples/consumer/tests/fixtures/enum-labels-discovery-v1.json).
+The negative fixture is [`enum-labels-invalid-v1.json`](../../crates/rom/tests/fixtures/enum-labels-invalid-v1.json).
 Its cases reject a non-enum shape, an unknown key, empty text, non-string text, and oversized UTF-8 text.
 The native unit tests also cover excessive entry counts, duplicate bindings, unknown fields, wrappers, and duplicate display labels.
 

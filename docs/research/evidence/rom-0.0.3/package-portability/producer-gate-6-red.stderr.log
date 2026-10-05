@@ -1,0 +1,670 @@
+   Packaging rom-derive v0.0.3 (/root/ROM/crates/rom-derive)
+warning: patch `rom v0.0.3 (/root/ROM/crates/rom)` was not used in the crate graph
+warning: patch `rom-auth v0.0.3 (/root/ROM/crates/rom-auth)` was not used in the crate graph
+warning: patch `rom-backup v0.0.3 (/root/ROM/crates/rom-backup)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/root/ROM/crates/rom-blob)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/root/ROM/crates/rom-conformance)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/root/ROM/crates/rom-http)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/root/ROM/crates/rom-identity)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/root/ROM/crates/rom-redb)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/root/ROM/crates/rom-sqlite)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 8 files, 22.9KiB (6.6KiB compressed)
+   Packaging rom v0.0.3 (/root/ROM/crates/rom)
+warning: patch `rom-auth v0.0.3 (/root/ROM/crates/rom-auth)` was not used in the crate graph
+warning: patch `rom-backup v0.0.3 (/root/ROM/crates/rom-backup)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/root/ROM/crates/rom-blob)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/root/ROM/crates/rom-conformance)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/root/ROM/crates/rom-http)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/root/ROM/crates/rom-identity)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/root/ROM/crates/rom-redb)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/root/ROM/crates/rom-sqlite)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 102 files, 455.4KiB (97.9KiB compressed)
+   Packaging rom-auth v0.0.3 (/root/ROM/crates/rom-auth)
+warning: patch `rom v0.0.3 (/root/ROM/crates/rom)` was not used in the crate graph
+warning: patch `rom-backup v0.0.3 (/root/ROM/crates/rom-backup)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/root/ROM/crates/rom-blob)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/root/ROM/crates/rom-conformance)` was not used in the crate graph
+warning: patch `rom-derive v0.0.3 (/root/ROM/crates/rom-derive)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/root/ROM/crates/rom-http)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/root/ROM/crates/rom-identity)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/root/ROM/crates/rom-redb)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/root/ROM/crates/rom-sqlite)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 24 files, 133.3KiB (34.5KiB compressed)
+   Packaging rom-backup v0.0.3 (/root/ROM/crates/rom-backup)
+warning: patch `rom-auth v0.0.3 (/root/ROM/crates/rom-auth)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/root/ROM/crates/rom-blob)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/root/ROM/crates/rom-conformance)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/root/ROM/crates/rom-http)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/root/ROM/crates/rom-identity)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/root/ROM/crates/rom-redb)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/root/ROM/crates/rom-sqlite)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 38 files, 160.4KiB (37.9KiB compressed)
+   Packaging rom-sqlite v0.0.3 (/root/ROM/crates/rom-sqlite)
+warning: patch `rom-auth v0.0.3 (/root/ROM/crates/rom-auth)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/root/ROM/crates/rom-blob)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/root/ROM/crates/rom-conformance)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/root/ROM/crates/rom-http)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/root/ROM/crates/rom-identity)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/root/ROM/crates/rom-redb)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 35 files, 173.0KiB (39.0KiB compressed)
+   Packaging rom-blob v0.0.3 (/root/ROM/crates/rom-blob)
+warning: patch `rom-auth v0.0.3 (/root/ROM/crates/rom-auth)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/root/ROM/crates/rom-conformance)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/root/ROM/crates/rom-http)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/root/ROM/crates/rom-identity)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/root/ROM/crates/rom-redb)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 18 files, 67.7KiB (18.1KiB compressed)
+   Packaging rom-conformance v0.0.3 (/root/ROM/crates/rom-conformance)
+warning: patch `rom-auth v0.0.3 (/root/ROM/crates/rom-auth)` was not used in the crate graph
+warning: patch `rom-backup v0.0.3 (/root/ROM/crates/rom-backup)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/root/ROM/crates/rom-http)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/root/ROM/crates/rom-identity)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/root/ROM/crates/rom-redb)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/root/ROM/crates/rom-sqlite)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 18 files, 33.0KiB (9.9KiB compressed)
+   Packaging rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)
+warning: patch `rom-auth v0.0.3 (/root/ROM/crates/rom-auth)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/root/ROM/crates/rom-http)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/root/ROM/crates/rom-identity)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/root/ROM/crates/rom-redb)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 14 files, 87.0KiB (26.0KiB compressed)
+   Packaging rom-redb v0.0.3 (/root/ROM/crates/rom-redb)
+warning: patch `rom-auth v0.0.3 (/root/ROM/crates/rom-auth)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/root/ROM/crates/rom-blob)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/root/ROM/crates/rom-conformance)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/root/ROM/crates/rom-http)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/root/ROM/crates/rom-identity)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/root/ROM/crates/rom-sqlite)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 19 files, 69.0KiB (15.6KiB compressed)
+   Packaging rom-cli v0.0.3 (/root/ROM/crates/rom-cli)
+warning: patch `rom-auth v0.0.3 (/root/ROM/crates/rom-auth)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/root/ROM/crates/rom-blob)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/root/ROM/crates/rom-conformance)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/root/ROM/crates/rom-http)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/root/ROM/crates/rom-identity)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 33 files, 176.6KiB (41.6KiB compressed)
+   Packaging rom-identity v0.0.3 (/root/ROM/crates/rom-identity)
+warning: patch `rom-blob v0.0.3 (/root/ROM/crates/rom-blob)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/root/ROM/crates/rom-conformance)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/root/ROM/crates/rom-http)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/root/ROM/crates/rom-redb)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 14 files, 73.3KiB (20.0KiB compressed)
+   Packaging rom-config v0.0.3 (/root/ROM/crates/rom-config)
+warning: patch `rom-blob v0.0.3 (/root/ROM/crates/rom-blob)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/root/ROM/crates/rom-conformance)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/root/ROM/crates/rom-http)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 15 files, 76.9KiB (20.9KiB compressed)
+   Packaging rom-fields v0.0.3 (/root/ROM/crates/rom-fields)
+warning: patch `rom-auth v0.0.3 (/root/ROM/crates/rom-auth)` was not used in the crate graph
+warning: patch `rom-backup v0.0.3 (/root/ROM/crates/rom-backup)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/root/ROM/crates/rom-blob)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/root/ROM/crates/rom-http)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/root/ROM/crates/rom-identity)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/root/ROM/crates/rom-redb)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/root/ROM/crates/rom-sqlite)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 16 files, 44.1KiB (12.5KiB compressed)
+   Packaging rom-http v0.0.3 (/root/ROM/crates/rom-http)
+warning: patch `rom-auth v0.0.3 (/root/ROM/crates/rom-auth)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/root/ROM/crates/rom-blob)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/root/ROM/crates/rom-conformance)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/root/ROM/crates/rom-identity)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/root/ROM/crates/rom-redb)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 28 files, 111.8KiB (26.3KiB compressed)
+   Packaging rom-studio-host v0.0.3 (/root/ROM/crates/rom-studio-host)
+warning: patch `rom-blob-object-store v0.0.3 (/root/ROM/crates/rom-blob-object-store)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/root/ROM/crates/rom-config)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/root/ROM/crates/rom-conformance)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/root/ROM/crates/rom-fields)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Packaged 41 files, 209.8KiB (51.2KiB compressed)
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-backup v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-backup-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-sqlite-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Checking serde_json v1.0.151
+   Compiling rom-derive v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-derive-0.0.3)
+    Checking url v2.5.8
+    Checking rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)
+    Checking chrono v0.4.45
+    Checking rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 1.94s
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-backup v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-backup-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-sqlite-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+   Compiling rom-derive v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-derive-0.0.3)
+    Checking rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 1.60s
+warning: patch `rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)` was not used in the crate graph
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-backup v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-backup-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-sqlite-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Checking syn v3.0.6
+    Checking rom-derive v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-derive-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 0.54s
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-backup v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-backup-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-sqlite-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Checking futures-core v0.3.34
+    Checking rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)
+    Checking futures-util v0.3.34
+    Checking rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)
+    Checking rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 1.54s
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Checking rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 0.14s
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Checking rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)
+    Checking rom-backup v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-backup-0.0.3)
+    Checking rom-sqlite v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-sqlite-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 1.79s
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-sqlite-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Checking rom-backup v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-backup-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 0.22s
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Checking errno v0.3.14
+    Checking slab v0.4.12
+    Checking signal-hook-registry v1.4.8
+    Checking futures-task v0.3.34
+    Checking tokio v1.53.1
+    Checking futures-util v0.3.34
+    Checking icu_normalizer v2.3.0
+    Checking idna_adapter v1.2.2
+    Checking idna v1.1.0
+    Checking form_urlencoded v1.2.2
+    Checking url v2.5.8
+    Checking clap v4.6.7
+    Checking hyper v1.11.1
+    Checking tokio-rustls v0.26.6
+    Checking tower v0.5.3
+    Checking tower-http v0.6.11
+    Checking hyper-util v0.1.21
+    Checking tokio-util v0.7.19
+    Checking rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)
+    Checking hyper-rustls v0.27.10
+    Checking reqwest v0.13.5
+    Checking rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 3.73s
+warning: patch `rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)` was not used in the crate graph
+warning: patch `rom-backup v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-backup-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-derive v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-derive-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-sqlite-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Checking rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 0.23s
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Checking tokio v1.53.1
+    Checking hashbrown v0.17.1
+    Checking indexmap v2.14.2
+    Checking serde v1.0.229
+   Compiling rom-derive v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-derive-0.0.3)
+    Checking serde_urlencoded v0.7.1
+    Checking chrono v0.4.45
+    Checking quick-xml v0.41.0
+    Checking tokio-util v0.7.19
+    Checking h2 v0.4.19
+    Checking tower v0.5.3
+    Checking tokio-rustls v0.26.6
+    Checking tower-http v0.6.11
+    Checking rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)
+    Checking hyper v1.11.1
+    Checking hyper-util v0.1.21
+    Checking hyper-rustls v0.27.10
+    Checking reqwest v0.13.5
+    Checking object_store v0.14.2
+    Checking rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)
+    Checking rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 5.61s
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+   Compiling serde_core v1.0.229
+    Checking serde_json v1.0.151
+    Checking serde v1.0.229
+    Checking rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)
+    Checking config v0.15.27
+    Checking rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 3.37s
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Checking rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)
+    Checking rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 0.18s
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-sqlite-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Checking rom-backup v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-backup-0.0.3)
+    Checking redb v4.3.0
+    Checking rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 1.54s
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Checking tokio v1.53.1
+    Checking sync_wrapper v1.0.2
+    Checking futures-util v0.3.34
+    Checking axum-core v0.5.6
+    Checking serde v1.0.229
+    Checking hyper v1.11.1
+    Checking tower v0.5.3
+    Checking rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)
+    Checking hyper-util v0.1.21
+    Checking axum v0.8.9
+    Checking rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 3.74s
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+    Checking tokio v1.53.1
+    Checking serde v1.0.229
+    Checking serde_urlencoded v0.7.1
+    Checking jsonwebtoken v11.1.0
+    Checking url v2.5.8
+   Compiling getrandom v0.4.3
+    Checking rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)
+    Checking hyper v1.11.1
+    Checking tower v0.5.3
+    Checking rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)
+    Checking hyper-util v0.1.21
+    Checking tokio-rustls v0.26.6
+    Checking hyper-rustls v0.27.10
+    Checking axum v0.8.9
+    Checking tower-http v0.6.11
+    Checking tokio-util v0.7.19
+    Checking reqwest v0.13.5
+    Checking rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)
+    Checking rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)
+    Checking rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)
+    Checking rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 3.93s
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+   Compiling rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)
+   Compiling rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)
+    Finished `dev` profile [unoptimized] target(s) in 3.05s
+     Running `/var/tmp/rom-003-root-producer-target/debug/rom --help`
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+   Compiling rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)
+   Compiling rom-backup v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-backup-0.0.3)
+   Compiling rom-sqlite v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-sqlite-0.0.3)
+   Compiling rom-consumer v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/consumer)
+    Finished `dev` profile [unoptimized] target(s) in 3.75s
+     Running `/var/tmp/rom-003-root-producer-target/debug/rom-consumer`
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+   Compiling rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)
+   Compiling rom-sqlite v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-sqlite-0.0.3)
+   Compiling rom-consumer v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/consumer)
+error: couldn't read `tests/../../../crates/rom-fields/tests/fixtures/enum-labels-discovery-v1.json`: No such file or directory (os error 2)
+  --> tests/enum_labels.rs:90:48
+   |
+90 |       let expected: Value = serde_json::from_str(include_str!(
+   |  ________________________________________________^
+91 | |         "../../../crates/rom-fields/tests/fixtures/enum-labels-discovery-v1.json"
+92 | |     ))
+   | |_____^
+
+error: could not compile `rom-consumer` (test "enum_labels") due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+node:internal/errors:983
+  const err = new Error(message);
+              ^
+
+Error: Command failed: cargo test --offline --tests
+    at genericNodeError (node:internal/errors:983:15)
+    at wrappedFn (node:internal/errors:537:14)
+    at checkExecSyncError (node:child_process:882:11)
+    at execFileSync (node:child_process:918:15)
+    at run (file:///root/ROM/scripts/check-packages.mjs:20:61)
+    at file:///root/ROM/scripts/check-packages.mjs:78:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  status: 101,
+  signal: null,
+  output: [ null, null, null ],
+  pid: 948439,
+  stdout: null,
+  stderr: null
+}
+
+Node.js v22.16.0

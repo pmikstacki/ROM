@@ -1,0 +1,158 @@
+TAP version 13
+# Subtest: application copy keeps required test support but excludes private files and build caches
+ok 1 - application copy keeps required test support but excludes private files and build caches
+  ---
+  duration_ms: 6.761778
+  type: 'test'
+  ...
+# Subtest: dependency path audit rejects a ROM dependency resolved from the checkout or a sibling prefix
+ok 2 - dependency path audit rejects a ROM dependency resolved from the checkout or a sibling prefix
+  ---
+  duration_ms: 0.198517
+  type: 'test'
+  ...
+# Subtest: copied application inventory includes hidden configuration and shared support bytes
+ok 3 - copied application inventory includes hidden configuration and shared support bytes
+  ---
+  duration_ms: 6.782728
+  type: 'test'
+  ...
+# Subtest: external application manifest retains exact identity, optional features and dependency scopes
+ok 4 - external application manifest retains exact identity, optional features and dependency scopes
+  ---
+  duration_ms: 0.82156
+  type: 'test'
+  ...
+# Subtest: unsupported dependency kinds and alternate registries fail explicitly
+ok 5 - unsupported dependency kinds and alternate registries fail explicitly
+  ---
+  duration_ms: 0.38442
+  type: 'test'
+  ...
+# Subtest: complete static asset identity rejects changed, missing, and extra files
+ok 6 - complete static asset identity rejects changed, missing, and extra files
+  ---
+  duration_ms: 8.884639
+  type: 'test'
+  ...
+# Subtest: asset admission rejects links, caches, invalid UTF8, and external or escaping references
+ok 7 - asset admission rejects links, caches, invalid UTF8, and external or escaping references
+  ---
+  duration_ms: 4.131964
+  type: 'test'
+  ...
+# Subtest: fresh offline build produces an exclusively created immutable asset extraction
+ok 8 - fresh offline build produces an exclusively created immutable asset extraction
+  ---
+  duration_ms: 44.481744
+  type: 'test'
+  ...
+# Subtest: npm failures and changed copied lock prevent acceptance and retain command evidence
+ok 9 - npm failures and changed copied lock prevent acceptance and retain command evidence
+  ---
+  duration_ms: 8.250073
+  type: 'test'
+  ...
+# Subtest: packaged consumer must build locked inputs and run the actual-host command on the extraction
+ok 10 - packaged consumer must build locked inputs and run the actual-host command on the extraction
+  ---
+  duration_ms: 40.816125
+  type: 'test'
+  ...
+# Subtest: packaged consumer retains incomplete evidence if host fails or changes accepted assets
+ok 11 - packaged consumer retains incomplete evidence if host fails or changes accepted assets
+  ---
+  duration_ms: 50.639255
+  type: 'test'
+  ...
+# Subtest: emitted runtime ownership retains exact license and notice bytes without requiring SPDX
+ok 12 - emitted runtime ownership retains exact license and notice bytes without requiring SPDX
+  ---
+  duration_ms: 14.374782
+  type: 'test'
+  ...
+# Subtest: build refuses missing full license text, unknown virtual code, or an untrusted package owner
+ok 13 - build refuses missing full license text, unknown virtual code, or an untrusted package owner
+  ---
+  duration_ms: 6.343404
+  type: 'test'
+  ...
+# Subtest: asset admission fails closed on missing inventory, missing or changed notices, and uncovered JavaScript
+ok 14 - asset admission fails closed on missing inventory, missing or changed notices, and uncovered JavaScript
+  ---
+  duration_ms: 3.487641
+  type: 'test'
+  ...
+# Subtest: inventory rejects missing owner bindings and malformed notice metadata before admission
+ok 15 - inventory rejects missing owner bindings and malformed notice metadata before admission
+  ---
+  duration_ms: 4.009222
+  type: 'test'
+  ...
+# Subtest: distinct transformed module IDs preserve query suffixes in the emitted inventory
+ok 16 - distinct transformed module IDs preserve query suffixes in the emitted inventory
+  ---
+  duration_ms: 2.612791
+  type: 'test'
+  ...
+# Subtest: unclassified JavaScript assets cannot bypass emitted runtime provenance
+ok 17 - unclassified JavaScript assets cannot bypass emitted runtime provenance
+  ---
+  duration_ms: 2.116328
+  type: 'test'
+  ...
+# Subtest: copied responsive hook and imported CSS retain their actual owners
+ok 18 - copied responsive hook and imported CSS retain their actual owners
+  ---
+  duration_ms: 3.914532
+  type: 'test'
+  ...
+# Subtest: emitted SVAR modules retain the original MIT notice with their pinned source commit
+ok 19 - emitted SVAR modules retain the original MIT notice with their pinned source commit
+  ---
+  duration_ms: 2.654099
+  type: 'test'
+  ...
+# Subtest: inventory rejects emitted SVAR code stripped of its required owner
+ok 20 - inventory rejects emitted SVAR code stripped of its required owner
+  ---
+  duration_ms: 2.405708
+  type: 'test'
+  ...
+# Subtest: SVAR owner cannot silently change its source commit or retained license profile
+ok 21 - SVAR owner cannot silently change its source commit or retained license profile
+  ---
+  duration_ms: 4.297118
+  type: 'test'
+  ...
+# Subtest: Studio copied inputs retain complete regular sources and exact npm identities
+ok 22 - Studio copied inputs retain complete regular sources and exact npm identities
+  ---
+  duration_ms: 13.14085
+  type: 'test'
+  ...
+# Subtest: Studio source refuses incomplete inputs, incompatible npm lock, and source links
+ok 23 - Studio source refuses incomplete inputs, incompatible npm lock, and source links
+  ---
+  duration_ms: 3.859688
+  type: 'test'
+  ...
+# Subtest: private frontend environment and key inputs are never admitted to a fresh copy
+ok 24 - private frontend environment and key inputs are never admitted to a fresh copy
+  ---
+  duration_ms: 3.501538
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 147.492123
+open task membership: 1
+after complete: 0
+settings: [Snapshot { id: "preferences", revision: 2, value: Some(Setting { owner: "alice", enabled: true, attempts: 1 }) }]
+state/event/receipt/effect counts: [2, 4, 4, 1]

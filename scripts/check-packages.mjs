@@ -64,6 +64,12 @@ for (const p of packages) {
   run('cargo', ['--config', join(app, '.cargo', 'config.toml'), 'check', '--offline', '--all-features',
     '--manifest-path', join(archivePath(p), 'Cargo.toml')], app);
 }
+// Core unit fixtures must also be self-contained in the extracted library.
+const core = packages.find(p => p.name === 'rom');
+if (!core) throw Error('Packaged core is missing');
+run('cargo', ['--config', join(app, '.cargo', 'config.toml'), 'test', '--offline',
+  '--manifest-path', join(archivePath(core), 'Cargo.toml'), '--lib'], app);
+
 // The optional CLI must also run from its extracted package, not from workspace
 // paths or a previously built binary. Other packages are library-only here.
 const cli = packages.find(p => p.name === 'rom-cli');
@@ -92,6 +98,7 @@ writeFileSync(join(scratch,'acceptance.json'), JSON.stringify({
     {name:reference.name,path:demo,inputs_sha256:demoInputs,resolved_lock_sha256:hash(join(demo,'Cargo.lock'))},
   ],
   verified_dependency_root:unpacked,
+  core_tests:'cargo test --offline --lib against extracted rom',
   reference_tests:'cargo test --offline --all-features',
   real_provider:'Separate source ./demo/verify-provider gate; not rerun against this copied application',
   publication:false,

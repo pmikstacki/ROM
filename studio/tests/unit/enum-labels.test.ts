@@ -7,13 +7,7 @@ import { discovery } from "../../src/lib/client/discovery.ts";
 import type { WireValue } from "../../src/lib/client/types.ts";
 function fixture(name: string) {
   return parseWire(
-    readFileSync(
-      new URL(
-        `../../../crates/rom-fields/tests/fixtures/${name}`,
-        import.meta.url,
-      ),
-      "utf8",
-    ),
+    readFileSync(new URL(`../../../${name}`, import.meta.url), "utf8"),
   );
 }
 function parse(field: WireValue) {
@@ -31,8 +25,9 @@ function parse(field: WireValue) {
   }).resources[0].fields[0];
 }
 test("shared native discovery retains enum labels through wrappers and action inputs", () => {
-  const resource = discovery(fixture("enum-labels-discovery-v1.json"))
-    .resources[0];
+  const resource = discovery(
+    fixture("examples/consumer/tests/fixtures/enum-labels-discovery-v1.json"),
+  ).resources[0];
   assert.deepEqual(resource.fields[0].enum_labels, {
     queued: "Waiting",
     running: "Active",
@@ -44,7 +39,9 @@ test("shared native discovery retains enum labels through wrappers and action in
     assert.deepEqual(scalar.value.enum_labels, resource.fields[0].enum_labels);
 });
 test("shared native invalid enum label vectors are rejected", () => {
-  const invalid = fixture("enum-labels-invalid-v1.json");
+  const invalid = fixture(
+    "crates/rom/tests/fixtures/enum-labels-invalid-v1.json",
+  );
   assert.ok(Array.isArray(invalid));
   for (const vector of invalid) {
     assert.ok(vector && typeof vector === "object" && !Array.isArray(vector));

@@ -45,6 +45,9 @@ node scripts/check-packages.mjs ROM_ROOT
 ./demo/verify-studio --assets-dir ABSOLUTE_EXTRACTED_ASSETS
 ```
 
+The package gate executes core library tests from the extracted package.
+It also checks the copied consumer and reference application. Test fixtures must remain within their owning packages.
+
 After the seventh gate, the producer copies complete frontend inputs into a private directory.
 It excludes generated frontend directories and rejects conventional private environment and key files.
 It runs these fixed commands in the copy:

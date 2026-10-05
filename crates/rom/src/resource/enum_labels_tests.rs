@@ -7,7 +7,7 @@ use std::collections::BTreeMap;
 #[test]
 fn shared_invalid_vectors_fail_label_validation_or_wire_decoding() {
     let cases: crate::Value = serde_json::from_str(include_str!(
-        "../../../rom-fields/tests/fixtures/enum-labels-invalid-v1.json"
+        "../../tests/fixtures/enum-labels-invalid-v1.json"
     ))
     .unwrap();
     for case in cases.as_array().unwrap() {

@@ -1,0 +1,28 @@
+warning: patch `rom-auth v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-auth-0.0.3)` was not used in the crate graph
+warning: patch `rom-backup v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-backup-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-0.0.3)` was not used in the crate graph
+warning: patch `rom-blob-object-store v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-blob-object-store-0.0.3)` was not used in the crate graph
+warning: patch `rom-cli v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-cli-0.0.3)` was not used in the crate graph
+warning: patch `rom-config v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-config-0.0.3)` was not used in the crate graph
+warning: patch `rom-conformance v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-conformance-0.0.3)` was not used in the crate graph
+warning: patch `rom-fields v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-fields-0.0.3)` was not used in the crate graph
+warning: patch `rom-http v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-http-0.0.3)` was not used in the crate graph
+warning: patch `rom-identity v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-identity-0.0.3)` was not used in the crate graph
+warning: patch `rom-redb v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-redb-0.0.3)` was not used in the crate graph
+warning: patch `rom-sqlite v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-sqlite-0.0.3)` was not used in the crate graph
+warning: patch `rom-studio-host v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-studio-host-0.0.3)` was not used in the crate graph
+help: Check that the patched package version and available features are compatible
+      with the dependency requirements. If the patch has a different version from
+      what is locked in the Cargo.lock file, run `cargo update` to use the new
+      version. This may also occur with an optional dependency that is not enabled.
+   Compiling rom v0.0.3 (/tmp/rom-packaged-consumer-U1cXYi/unpacked/rom-0.0.3)
+error: couldn't read `src/resource/../../../rom-fields/tests/fixtures/enum-labels-invalid-v1.json`: No such file or directory (os error 2)
+  --> src/resource/enum_labels_tests.rs:9:52
+   |
+ 9 |       let cases: crate::Value = serde_json::from_str(include_str!(
+   |  ____________________________________________________^
+10 | |         "../../../rom-fields/tests/fixtures/enum-labels-invalid-v1.json"
+11 | |     ))
+   | |_____^
+
+error: could not compile `rom` (lib test) due to 1 previous error

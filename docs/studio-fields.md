@@ -44,7 +44,7 @@ Manual Resources can supply the corresponding `Resource::field_enum_labels()` bi
 Registration validates label keys against the declared enum members, including optional, nullable, list, and map wrappers.
 Labels do not change accepted values, persisted schema identity, or receipt normalization. Duplicate labels do not merge distinct enum members.
 
-See [the demo enum](../demo/src/studio_choices.rs) and [the shared discovery fixture](../crates/rom-fields/tests/fixtures/enum-labels-discovery-v1.json).
+See [the demo enum](../demo/src/studio_choices.rs) and [the shared discovery fixture](../examples/consumer/tests/fixtures/enum-labels-discovery-v1.json).
 
 ## Lists and references
 
