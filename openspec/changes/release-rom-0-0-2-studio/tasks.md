@@ -31,4 +31,4 @@
 - [x] 5.3 Update dependency notices, support notes, skills, and final scenario evidence.
 - [x] 5.4 Run full clean-source acceptance and produce independently verified local artifacts.
 - [x] 5.5 Deploy persistent protected NixOS preview and verify restart/base-path/API/stream behavior.
-- [ ] 5.6 Integrate accepted code into main, publish source using existing conventions, and report release identity.
+- [x] 5.6 Integrate accepted code into main, publish source using existing conventions, and report release identity.

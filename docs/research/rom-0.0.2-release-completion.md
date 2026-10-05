@@ -14,7 +14,9 @@ After a full container restart, Studio and provider routes returned HTTP 200. Th
 The preview database remained at 106,496 bytes across the restart. The demonstration provider uses in-memory grants and keys, so users must log in again after restart.
 The host-side VPN checks passed with the Caddy local CA. Remote Mac or iPhone access was not independently observed in this run.
 
-Source integration and push remain tracked in OpenSpec task 5.6. The historical inspection below records an earlier incomplete revision and remains unchanged.
+Source was integrated and pushed to GitHub `main` at commit `3e4822e`.
+The release bundle remains bound to the verified source revision above; the later `3e4822e` commit contains release-status documentation only.
+GitHub Actions and registry publication remain disabled by design. The historical inspection below records an earlier incomplete revision and remains unchanged.
 
 Date: 2026-10-04 UTC. Inspected baseline revision: `dbcf23d` on
 `codex/rom-0.0.2-studio`. Status: incomplete. This record does not accept a

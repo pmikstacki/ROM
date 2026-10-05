@@ -8,7 +8,8 @@ The complete local 0.0.2 source-and-Studio artifact passed all eight release gat
 The persistent NixOS preview now serves the matching binary and Studio assets.
 Authenticated demo login and a live query passed through the VPN gateway. The protected API rejected an unauthenticated discovery request.
 Both preview services returned after a full container restart, and the Resource database remained intact.
-Source integration and publication to the source-only Git remote are the remaining release tasks.
+Source integration completed at `3e4822e` and was pushed to GitHub `main`.
+GitHub Actions and package publication remain disabled. Remote Mac and iPhone reachability still needs the owner's client-side verification.
 
 The implementation timeline below preserves earlier status snapshots and failures.
 

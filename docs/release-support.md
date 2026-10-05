@@ -4,6 +4,7 @@ Status: native source alpha accepted on 2026-10-03.
 The [completion report](research/framework-release-completion.md) identifies the accepted source revision, artifacts, and executed evidence.
 The 0.0.2 Studio source and asset release passed local acceptance on 2026-10-05.
 The [completion record](research/rom-0.0.2-release-completion.md) identifies its exact source revision and evidence.
+The accepted source was pushed to GitHub `main` at `3e4822e`; GitHub Actions and registry publication remain disabled.
 
 ## Supported profile
 

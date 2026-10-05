@@ -12,6 +12,7 @@ The release distribution is local source and Studio assets. Registry and binary 
 The persistent VPN preview now serves those exact Studio assets and the matching binary.
 Protected API, demo login, live query, restart, and retained database checks passed through the gateway.
 Remote Mac and iPhone access still needs client-side verification.
+The accepted source and release-status documentation are pushed to GitHub `main` at `3e4822e`.
 See the [release completion record](rom-0.0.2-release-completion.md) and [preview activation evidence](rom-0.0.2-preview-activation-8652.md).
 
 The scoped reports below preserve the original inputs, failures, measurements, and limits.
