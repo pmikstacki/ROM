@@ -14,10 +14,14 @@
   services.caddy.virtualHosts."https://${publicHost}".extraConfig = lib.mkBefore ''
     redir /rom-studio /rom-studio/ 308
     handle /rom-studio/* {
-      reverse_proxy 127.0.0.1:44173
+      reverse_proxy 127.0.0.1:44173 {
+        lb_try_duration 5s
+      }
     }
     handle /rom-studio-provider/* {
-      reverse_proxy 127.0.0.1:44174
+      reverse_proxy 127.0.0.1:44174 {
+        lb_try_duration 5s
+      }
     }
   '';
 }

@@ -74,6 +74,9 @@ import ./host-module.nix {
 The profile command is supplied by the demo launcher. Its separate acceptance must pass before deployment.
 The provider listens on `127.0.0.1:44174`. Studio listens on `127.0.0.1:44173`.
 The gateway preserves both public mount paths.
+Each Caddy route retries connection failures for up to five seconds while its service starts.
+This can bridge a short restart window. It cannot prevent errors after a service accepts the connection.
+See the [restart acceptance record](../../docs/research/rom-0.0.2-preview-restart-results.md).
 
 ## Acceptance limits
 
