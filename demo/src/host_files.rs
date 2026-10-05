@@ -29,8 +29,11 @@ pub(crate) fn read_systemd_credential(
 enum OwnerPolicy {
     #[cfg(feature = "provider-profile")]
     None,
+    #[cfg(feature = "studio")]
     Current,
+    #[cfg(feature = "studio")]
     Trusted,
+    #[cfg(feature = "studio")]
     SystemdCredential,
 }
 #[cfg(target_os = "linux")]
@@ -58,6 +61,7 @@ fn read(
         .open(path)
         .map_err(|_| Error::Denied)?;
     let metadata = file.metadata().map_err(|_| Error::Denied)?;
+    #[cfg(feature = "studio")]
     let current_uid = || {
         std::fs::metadata("/proc/self")
             .map(|process| process.uid())
@@ -66,13 +70,16 @@ fn read(
     let owner_admitted = match owner {
         #[cfg(feature = "provider-profile")]
         OwnerPolicy::None => true,
+        #[cfg(feature = "studio")]
         OwnerPolicy::Current => metadata.uid() == current_uid()?,
+        #[cfg(feature = "studio")]
         OwnerPolicy::Trusted => {
             let uid = current_uid()?;
             (metadata.uid() == 0 || metadata.uid() == uid)
                 && metadata.mode() & 0o022 == 0
                 && (metadata.uid() != uid || metadata.mode() & 0o200 == 0)
         }
+        #[cfg(feature = "studio")]
         OwnerPolicy::SystemdCredential => {
             (metadata.uid() == 0 || metadata.uid() == current_uid()?)
                 && matches!(metadata.mode() & 0o777, 0o400 | 0o440)
