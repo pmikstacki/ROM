@@ -28,7 +28,7 @@
 ## 5. Release and preview
 - [x] 5.1 Align maintained package versions to 0.0.2 and document compatibility.
 - [x] 5.2 Add frontend/browser/extracted-asset acceptance to fixed release and artifact gates.
-- [ ] 5.3 Update dependency notices, support notes, skills, and final scenario evidence.
-- [ ] 5.4 Run full clean-source acceptance and produce independently verified local artifacts.
-- [ ] 5.5 Deploy persistent protected NixOS preview and verify restart/base-path/API/stream behavior.
+- [x] 5.3 Update dependency notices, support notes, skills, and final scenario evidence.
+- [x] 5.4 Run full clean-source acceptance and produce independently verified local artifacts.
+- [x] 5.5 Deploy persistent protected NixOS preview and verify restart/base-path/API/stream behavior.
 - [ ] 5.6 Integrate accepted code into main, publish source using existing conventions, and report release identity.

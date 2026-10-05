@@ -1,5 +1,21 @@
 # ROM 0.0.2 release completion record
 
+## Current acceptance (2026-10-05)
+
+The local source-and-Studio release passed all eight producer gates from a clean checkout.
+The producer recorded source revision `8652fcd2d296f2bfe3102cdc0dfe977fecf1b034`, version `0.0.2`, and Rust `1.99.0`.
+Every gate returned exit code zero. The independent archive check verified the manifest, source archive, Studio archive, skills archive, and evidence checksums.
+The release manifest sets `publication_enabled` to `false`; the accepted distribution contains source and Studio assets, not a registry package or binary.
+The exact local artifacts are in `../../dist/release-0.0.2-8652fcd2d296/`.
+
+The persistent NixOS preview now serves the exact packaged Studio assets and the matching `rom-demo` binary.
+The preview identity, checks, endpoint results, service closure, and rollback evidence are in [preview deployment acceptance](rom-0.0.2-preview-activation-8652.md).
+After a full container restart, Studio and provider routes returned HTTP 200. The protected discovery API returned HTTP 401 without a session.
+The preview database remained at 106,496 bytes across the restart. The demonstration provider uses in-memory grants and keys, so users must log in again after restart.
+The host-side VPN checks passed with the Caddy local CA. Remote Mac or iPhone access was not independently observed in this run.
+
+Source integration and push remain tracked in OpenSpec task 5.6. The historical inspection below records an earlier incomplete revision and remains unchanged.
+
 Date: 2026-10-04 UTC. Inspected baseline revision: `dbcf23d` on
 `codex/rom-0.0.2-studio`. Status: incomplete. This record does not accept a
 release artifact or a persistent preview.

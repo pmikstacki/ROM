@@ -1,8 +1,20 @@
-# Prepared 0.0.2 scenario and support index
+# ROM 0.0.2 scenario and support index
 
-Date: 2026-10-04. This index identifies scoped evidence, not a completed release.
+Date: 2026-10-05.
 The historical [native-alpha scenarios](framework-release-scenarios.md) retain their original acceptance scope.
 Do not use their six-gate result as evidence for the current eight-gate profile.
+
+## Current release acceptance
+
+The eight-gate source-and-Studio artifact passed local acceptance from source revision `8652fcd2d296f2bfe3102cdc0dfe977fecf1b034`.
+The manifest, source, Studio, skills, and evidence checksums passed independent verification.
+The release distribution is local source and Studio assets. Registry and binary publication are disabled.
+The persistent VPN preview now serves those exact Studio assets and the matching binary.
+Protected API, demo login, live query, restart, and retained database checks passed through the gateway.
+Remote Mac and iPhone access still needs client-side verification.
+See the [release completion record](rom-0.0.2-release-completion.md) and [preview activation evidence](rom-0.0.2-preview-activation-8652.md).
+
+The scoped reports below preserve the original inputs, failures, measurements, and limits.
 
 ## Current scoped evidence
 
@@ -31,7 +43,7 @@ Do not use their six-gate result as evidence for the current eight-gate profile.
 Each linked report identifies its inputs, failures, executed checks, and limits.
 Earlier counts remain historical results. This index does not change them.
 
-## Pending complete acceptance
+## Earlier acceptance snapshot (2026-10-04; superseded)
 
 | Obligation | Evidence necessary for completion | Current state |
 | --- | --- | --- |
@@ -45,6 +57,6 @@ Earlier counts remain historical results. This index does not change them.
 
 Use the [fixed producer procedure](../../scripts/release-artifacts/README.md) for complete local acceptance.
 Use the [scoped preview procedure](rom-0.0.2-scoped-preview-activation.md) for the selected existing-container installation.
-The [release completion record](rom-0.0.2-release-completion.md) maps the current evidence to each remaining obligation.
+The [release completion record](rom-0.0.2-release-completion.md) adds the current accepted release evidence above the historical snapshot.
 The [progress record](rom-0.0.2-progress.md) preserves earlier failures and later corrections.
 The [support boundary](../release-support.md) distinguishes prepared Studio from the historical accepted alpha.

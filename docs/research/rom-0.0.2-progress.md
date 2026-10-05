@@ -1,7 +1,16 @@
 # ROM 0.0.2 execution record
 
-Started: 2026-10-03. Updated: 2026-10-04. Status: active release goal.
-Implemented slices have executed tests. Complete 0.0.2 artifact acceptance remains pending.
+Started: 2026-10-03. Updated: 2026-10-05. Status: active release goal.
+
+## Current status (2026-10-05)
+
+The complete local 0.0.2 source-and-Studio artifact passed all eight release gates from source revision `8652fcd2d296f2bfe3102cdc0dfe977fecf1b034`.
+The persistent NixOS preview now serves the matching binary and Studio assets.
+Authenticated demo login and a live query passed through the VPN gateway. The protected API rejected an unauthenticated discovery request.
+Both preview services returned after a full container restart, and the Resource database remained intact.
+Source integration and publication to the source-only Git remote are the remaining release tasks.
+
+The implementation timeline below preserves earlier status snapshots and failures.
 
 The owner authorized the full release without further approvals. Studio is now in scope.
 The accepted native alpha and its evidence remain unchanged.
