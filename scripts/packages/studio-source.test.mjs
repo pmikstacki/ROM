@@ -8,7 +8,7 @@ import { frontendFixture as fixture } from './studio-test-support.mjs';
 test('Studio copied inputs retain complete regular sources and exact npm identities', () => {
   const f = fixture();
   try {
-    for (const path of ['node_modules/cache', 'dist/index.html', '.component-dist/page.html', '.demo-dist/index.html', 'test-results/log', 'playwright-report/index.html']) f.put(path, 'generated');
+    for (const path of ['node_modules/cache', 'dist/index.html', '.component-dist/page.html', '.demo-dist/index.html', '.demo-field-dist/index.html', 'test-results/log', 'playwright-report/index.html']) f.put(path, 'generated');
     const before = studioSource(f.root);
     assert.equal(before.package_version, '0.0.2');
     assert.ok(Object.hasOwn(before.files, '.gitignore'));
@@ -16,7 +16,7 @@ test('Studio copied inputs retain complete regular sources and exact npm identit
     const copied = copyStudio(f.root, join(f.root, 'external'));
     assert.deepEqual(studioSource(join(f.root, 'external')), before);
     assert.equal(readFileSync(join(copied, 'src/App.svelte'), 'utf8'), 'source');
-    for (const name of ['node_modules', 'dist', '.component-dist', '.demo-dist', 'test-results', 'playwright-report']) assert.equal(existsSync(join(copied, name)), false);
+    for (const name of ['node_modules', 'dist', '.component-dist', '.demo-dist', '.demo-field-dist', 'test-results', 'playwright-report']) assert.equal(existsSync(join(copied, name)), false);
     assert.throws(() => copyStudio(f.root, join(f.root, 'external')), /exist/);
     f.put('src/App.svelte', 'changed');
     assert.notEqual(studioSource(f.root).sha256, before.sha256);

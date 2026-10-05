@@ -6,7 +6,7 @@ import { applicationInputs } from './application.mjs';
 import { digest, hash } from '../skills/files.mjs';
 import { isPrivateSourcePath } from './source-policy.mjs';
 
-const generated = new Set(['node_modules', 'dist', '.component-dist', '.demo-dist', 'test-results', 'playwright-report', '.git']);
+const generated = new Set(['node_modules', 'dist', '.component-dist', '.demo-dist', '.demo-field-dist', 'test-results', 'playwright-report', '.git']);
 export const isGeneratedStudioPath = path => generated.has(path.split('/')[0]);
 
 function sourcePaths(directory) {
