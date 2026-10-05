@@ -1,8 +1,8 @@
 # ROM 0.0.3 release acceptance
 
-Status: implementation acceptance passed; clean-source distribution and persistent preview remain pending.
+Status: complete local distribution and persistent preview accepted on 2026-10-05.
 Date: 2026-10-05. Initial source baseline: `6d3b6b2`. Earlier committed candidate: `5538323`.
-Do not use this record as a completed release declaration.
+The [completion record](rom-0.0.3-release-completion.md) binds final acceptance to source `584c01b` and records support limits.
 
 ## Owner's completion contract
 
@@ -12,12 +12,15 @@ It also requires generic backend support, focused DRY/module cleanup, AI workflo
 Mockups and implementation commits do not complete this scope.
 The goal remains active until the complete artifact passes independent verification and the permanent preview passes acceptance.
 
-## Candidate acceptance and later finding
+## Historical candidate and corrected acceptance
 
-The [candidate record](rom-0.0.3-release-completion.md) adds the executed artifact and preview results.
+The [historical candidate record](rom-0.0.3-candidate-c66c470.md) retains its executed artifact and preview results.
 The clean c66c470 producer passed all eight gates. Independent artifact verification and permanent preview restart acceptance passed.
 The earlier development and failure records remain unchanged.
-A later restart-after-delete finding requires a bootstrap correction before final goal completion.
+A later restart-after-delete finding required a bootstrap correction.
+The corrected source `584c01b` passed all eight producer gates and independent artifact verification.
+Its explicit application passed 28 cases with the corrected WPE runtime.
+The updated permanent preview preserved all 14 baseline Resources and attachment bytes through a full container restart.
 
 ## Implemented scope
 

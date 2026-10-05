@@ -1,0 +1,292 @@
+{
+  "recorded_at": "2026-10-05T15:50:45.521Z",
+  "application": {
+    "commit": "584c01b614127b3f62799f1a26a1cdf3f734c3dc",
+    "binary": {
+      "path": "/var/tmp/rom-003-preview-native-584c01b-studio/rom-demo",
+      "sha256": "ddeda5f8674333da679703674d679173553fad6294b0a559b7c22b8525109c2b",
+      "bytes": 28251024
+    },
+    "assets": {
+      "path": "/var/tmp/rom-003-preview-application-584c01b/app-dist",
+      "inventory": [
+        {
+          "path": "assets/index-BakPwmva.js",
+          "bytes": 620290,
+          "sha256": "6d7061f97e0975c1added3219da61e0a50057669d67a7440f2fa2eed3a35734a"
+        },
+        {
+          "path": "assets/index-BBf8R0qD.css",
+          "bytes": 178294,
+          "sha256": "ea672ef1df94ff1b618f69ad1e056ad59e88efa7d61a3734fe5803c62e9dcd64"
+        },
+        {
+          "path": "index.html",
+          "bytes": 441,
+          "sha256": "e7dca98287d9dd924eecc9c0bbbbf23075e15a939099b530bdc0f9716d432a20"
+        },
+        {
+          "path": "notices/npm/_floating-ui_core/1.8.0/LICENSE",
+          "bytes": 1089,
+          "sha256": "0e4c9a9b6c71019cbbea3bdc20b01223110a9035700f9c960c8fcbf78c2325ce"
+        },
+        {
+          "path": "notices/npm/_floating-ui_dom/1.8.0/LICENSE",
+          "bytes": 1089,
+          "sha256": "0e4c9a9b6c71019cbbea3bdc20b01223110a9035700f9c960c8fcbf78c2325ce"
+        },
+        {
+          "path": "notices/npm/_floating-ui_utils/0.2.12/LICENSE",
+          "bytes": 1089,
+          "sha256": "0e4c9a9b6c71019cbbea3bdc20b01223110a9035700f9c960c8fcbf78c2325ce"
+        },
+        {
+          "path": "notices/npm/_lucide_svelte/1.51.0/LICENSE",
+          "bytes": 3208,
+          "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57"
+        },
+        {
+          "path": "notices/npm/bits-ui/2.19.5/LICENSE",
+          "bytes": 1072,
+          "sha256": "91b34549ceba8602e9a763d32443fa2ae92fba1a148b45e71ad480c723004818"
+        },
+        {
+          "path": "notices/npm/clsx/2.1.1/license",
+          "bytes": 1104,
+          "sha256": "9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97"
+        },
+        {
+          "path": "notices/npm/cn/0.3.3/LICENSE",
+          "bytes": 1063,
+          "sha256": "00ff8408e93e2ecc4d90c0edeabdf434100c3aff50acc5d330e17eccd4a3faa5"
+        },
+        {
+          "path": "notices/npm/inline-style-parser/0.2.7/LICENSE",
+          "bytes": 1098,
+          "sha256": "395c95f20598da653ff1eb1cb9d74947c7fac689697147f1d192fd0242a0e635"
+        },
+        {
+          "path": "notices/npm/runed/0.35.1/LICENSE",
+          "bytes": 1166,
+          "sha256": "8914f144af4333312a07b30438dc6b75dd8da7a665c3ae9fa751f229eb615e8b"
+        },
+        {
+          "path": "notices/npm/shadcn-svelte/1.7.0/LICENSE.md",
+          "bytes": 1192,
+          "sha256": "230594c9dedb06fb0759381a520b449c1b47b0f63b95fc88ef9d7e851e2540a9"
+        },
+        {
+          "path": "notices/npm/style-to-object/1.0.14/LICENSE",
+          "bytes": 1110,
+          "sha256": "896c9fd6b5fc48ac31800b9d29a6e3ffcb0c2d534ed077ebfa5c2fa388cc38b7"
+        },
+        {
+          "path": "notices/npm/svelte-dnd-action/0.9.80/LICENSE",
+          "bytes": 1069,
+          "sha256": "02c4f4f135b95f7872a8d12cb7904158e767936c1d9b07182ec87f7ece70584a"
+        },
+        {
+          "path": "notices/npm/svelte-toolbelt/0.10.6/LICENSE",
+          "bytes": 1166,
+          "sha256": "8914f144af4333312a07b30438dc6b75dd8da7a665c3ae9fa751f229eb615e8b"
+        },
+        {
+          "path": "notices/npm/svelte/5.57.1/LICENSE.md",
+          "bytes": 1126,
+          "sha256": "06257f4847b13a49a039efb17b944c141e71b12fd8d231b362d86919067d77a3"
+        },
+        {
+          "path": "notices/npm/tabbable/6.5.0/LICENSE",
+          "bytes": 1079,
+          "sha256": "8e714750725e75c8b31172ef84c0805f94873f86e3b5cfca8a948553f0778fa1"
+        },
+        {
+          "path": "notices/npm/tailwind-variants/3.3.1/LICENSE",
+          "bytes": 1073,
+          "sha256": "f3f8984c684106a9ffb50c44ff5dd6f2082526d78a820235a6592423d376d650"
+        },
+        {
+          "path": "notices/npm/tw-animate-css/1.4.0/LICENSE",
+          "bytes": 1068,
+          "sha256": "039184dfa0a822397b3f45a435b5b1e538721587fbade96b9fa80f86cb354109"
+        },
+        {
+          "path": "notices/tool-runtime/rolldown/1.2.12/LICENSE",
+          "bytes": 1302,
+          "sha256": "23ecfff35a5a2e80d92142f75228912c3b1abc4b5a8337a821ff4397e2f9f734"
+        },
+        {
+          "path": "notices/tool-runtime/rolldown/1.2.12/THIRD-PARTY-LICENSE",
+          "bytes": 2209,
+          "sha256": "a877291d800ed43692f3f9ae09d8e01cc6f7293ad39d43896059c188ffbb8b7c"
+        },
+        {
+          "path": "notices/tool-runtime/vite/8.3.2/LICENSE.md",
+          "bytes": 108786,
+          "sha256": "a47172e44a86a7e2cd1c16282341f7726ec60caafe3a6166fe3e0602005b6fa6"
+        },
+        {
+          "path": "notices/vendored/shadcn-svelte-vendored/source-checkout/LICENSE.md",
+          "bytes": 1192,
+          "sha256": "230594c9dedb06fb0759381a520b449c1b47b0f63b95fc88ef9d7e851e2540a9"
+        },
+        {
+          "path": "notices/vendored/svar-filter-vendored/1c581c3312c626c525ee64b8f94446a025fa141c/LICENSE",
+          "bytes": 1078,
+          "sha256": "873d0542c84ec8a7ecaf127c18ae1209ab319bc5f5a2efbb6160da8956c2787f"
+        },
+        {
+          "path": "rom-icon.svg",
+          "bytes": 234,
+          "sha256": "01aa30ad5f14529c11e476eef725b38250027a361e8bcb50ba61a53a2ee0568b"
+        },
+        {
+          "path": "third-party-notices.json",
+          "bytes": 103940,
+          "sha256": "b34d4610c3cb0f85aee8dd7be0f8ea60f17f5edb59067bb1980e5c0859637d53"
+        }
+      ],
+      "inventory_sha256": "3873a853e554d296d1a80e216b41b7aa245d3b2635884825a2ad9a017ba7c215"
+    },
+    "lockedPlaywright": "1.63.0",
+    "sourceReceiptSha256": "429121268126a3d8fec433ac21ba8d82f316aa9caddcd4248092fa917f90df48",
+    "verified": true
+  },
+  "download": {
+    "download_bytes": 107337541,
+    "expanded_archive_bytes": 304186339,
+    "archive_sha256": "043a4e597f3dc1db502103ec6ad06df6168dd1a400ab51894076007465e3f3f7"
+  },
+  "runtime": {
+    "revision": 2364,
+    "officialDownload": "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2364/webkit-ubuntu-24.04.zip",
+    "source": "/var/tmp/rom-003-webkit-fixed-probe/downloaded-2364",
+    "wpeTreeHash": "7124bface1cbed5a2e749ddcc3c8599a12715dc71a4bb79e953494af45bceea6",
+    "patchedTreeHash": "506428a0195e976f549e2301c792b04ad034c411aee96e4b3f724e7526b7719a",
+    "loader": "/nix/store/5m9amsvvh2z8sl7jrnc87hzy21glw6k1-glibc-2.40-66/lib/ld-linux-x86-64.so.2",
+    "patchelf": "/nix/store/4wyd0nnxzknglw4j5pw7xr7giw3fpb0k-patchelf-0.15.0/bin/patchelf",
+    "stores": [
+      "/nix/store/09aq563zkqcw9ikxn02p4bm13i2hz51r-libxcb-1.17.0",
+      "/nix/store/187jl497p1hr5rsybpr751rk1s40wl0d-libpng-apng-1.6.43",
+      "/nix/store/1gsbh7hcxqwpf1rk5h8x04vc8dpph1rw-libpulseaudio-17.0",
+      "/nix/store/1kfyx9lmvkxd9mvg8py9w1q9brv5q6hd-systemd-minimal-256.10",
+      "/nix/store/1mr06d73yd5ld74w9g0sg0i87dyzra1f-libjpeg-turbo-3.0.4",
+      "/nix/store/1xid1r772g3w9wnrn721qjbnhcg46szw-libffi-3.4.6",
+      "/nix/store/20yryxk063i1r7wvlral81frr00r4q5y-system-path",
+      "/nix/store/24j6bjw0m538dx3axhmg6g8122hw2q3l-lm-sensors-3.6.0",
+      "/nix/store/2745pvn6cv32yn9gp2rlqiqhqgs01pb5-libunistring-1.2",
+      "/nix/store/28611j8cjjvifa0lxcm2ddvjl35rj9zb-nghttp2-1.64.0-lib",
+      "/nix/store/2iv1z95ckglxkjfym0q5sl6an78axwzn-llvm-18.1.8-lib",
+      "/nix/store/2lq8ihiy3d2b2xa0m9mnwdqhscczzb2m-mesa-24.2.8",
+      "/nix/store/3vzqb31d2d8s253c94kddml4v7dr6789-extra-utils",
+      "/nix/store/466cgcc5r8xzc9g91dc8j716vdknixpm-lcms2-2.16",
+      "/nix/store/4ada10fnnazmjmkf13fa83q94qh6gfj9-libopus-1.5.2",
+      "/nix/store/52g7pnwxvqpmipcvmc2c0qyvwkfv7myy-libepoxy-1.5.10",
+      "/nix/store/58hahz0ds522pz7bc9fwmgjjfy36swn8-libXext-1.3.6",
+      "/nix/store/5fyihpawb075p85ya1xb5ss9s2w0jrbk-pcre2-10.44",
+      "/nix/store/5gkwrcybjxwxn2b7z401waa0nq30bka4-flite-2.2-lib",
+      "/nix/store/5m9amsvvh2z8sl7jrnc87hzy21glw6k1-glibc-2.40-66",
+      "/nix/store/5yyk0kd3929bf6ac43rrmpnijrcygcnf-libunwind-1.8.1",
+      "/nix/store/6l7d86r8jfm0dwmwrwr8757cq89gyr7m-libpciaccess-0.18.1",
+      "/nix/store/6qmfmza7nyac6jnk44v6pigqpiadhjh0-libdrm-2.4.123",
+      "/nix/store/6rx2yb7mq67d0fcm6028rmr55a52vb7j-libxshmfence-1.3.2",
+      "/nix/store/7dmw2y0r7zcl23jb32885v3whb7qjk7i-hyphen-2.8.8",
+      "/nix/store/83ajpiypk4hnxflxqnwskpl6rcbp69k1-libgudev-238",
+      "/nix/store/8gfcx6sj2yrv5ry0dmi1nxibxcp1ggwl-wayland-1.23.1",
+      "/nix/store/9045sjkafh8rkjybarzgph2720zn04p4-libgpg-error-1.50",
+      "/nix/store/9mwfi1naginyz9sch0l37f4pxmi6d9kw-fontconfig-2.15.0-lib",
+      "/nix/store/9ym4rh48acgpmhhl7vzw7l0haz0lp78z-libyuv-1787",
+      "/nix/store/a79pxcmsswqiianw3nqhbpvqn07ridr1-libpsl-0.21.5",
+      "/nix/store/av8xcj0jnl69mdvzpxvz11vigxkyrwiz-icu4c-74.2",
+      "/nix/store/avp5csfm2mrg5ycb9qmianx4khp9fzm2-gfortran-13.3.0-lib",
+      "/nix/store/b6mjyiadysqlh7nps52faznnqmp32604-zlib-1.3.1",
+      "/nix/store/bfwqrbwqpbnsdbgf86gz8pn8vvddci3i-libxml2-2.13.8",
+      "/nix/store/by9dax6q0bx0bwzh9wnkwxqshybp763a-dav1d-1.5.0",
+      "/nix/store/c0y50qpz9k7nafpai4jp9ic3hkgq8297-harfbuzz-icu-10.0.1",
+      "/nix/store/c47b963idja6h1d8n91pf28v2jcq96kp-libidn2-2.3.7",
+      "/nix/store/d6i2dvhql6srx5vsjh42q3sfzn3isrlv-libaom-3.10.0",
+      "/nix/store/fdhs2scwssjcsrsqw11z49gv0r2a21wh-libmanette-0.2.9",
+      "/nix/store/frnyn9h74xi0r9p7barq89wvrfb5sxw3-libevdev-1.13.3",
+      "/nix/store/fyzm5kmzs8s8qs2lmzr70qy5yj4f188a-orc-0.4.40",
+      "/nix/store/g8id9ac031i3fpfsm7zf2p7di6ls5gmq-graphite2-1.3.14",
+      "/nix/store/gmakyj9sfqk08f6072152d2vcclv7q66-aspell-0.60.8.1",
+      "/nix/store/gpgcyp2ns1r8f0sazaizqi0ainxfxzg2-libXdmcp-1.1.5",
+      "/nix/store/gv3kq66mvm039jzyyyxqfs18gfslv8jd-libwebp-1.4.0",
+      "/nix/store/h08i7wrlqmd48lnaimaz28pny9i8vmr8-expat-2.7.1",
+      "/nix/store/h28fwgq6wi81c67a502vb5hjdjv0mrpi-libogg-1.3.5",
+      "/nix/store/i88qpfah2j0yq7nihbm626abbhzkc21g-libX11-1.8.10",
+      "/nix/store/ilz9m3kw59y4yyzxlwwv6i4fzmmagkys-gst-plugins-base-1.24.10",
+      "/nix/store/k0myw579z0gav01cndr6wk7vx63nrbma-dbus-1.14.10-lib",
+      "/nix/store/kmywn5ivcz44v4nd8d6snh6viaawfmh6-enchant-2.6.9",
+      "/nix/store/l8bxh62birsv608hkkx56v32mbsc0497-mpg123-1.32.9",
+      "/nix/store/lkmngkp2lpyrprs85dqa537rmk3mz7lv-libvmaf-3.0.0",
+      "/nix/store/njvg6r852g82r94g5bxjsrpq6g7kmfsp-harfbuzz-10.0.1",
+      "/nix/store/nnfc7jajz8linw50amjk42rynig03dc5-libtasn1-4.20.0",
+      "/nix/store/qzjb1p4qz3sa9nkb1b5ai8nxbda17lz0-libselinux-3.7",
+      "/nix/store/r1ilwryz6s92xcik8c6z43rrrpwzv1wl-libevent-2.1.12",
+      "/nix/store/rab8q4c4iqr0sqix4z792jipn4k6zs42-libXi-1.8.2",
+      "/nix/store/rgvzwzcwdw3aii28ycr2c8a6xw1mj8x2-libxslt-1.1.42",
+      "/nix/store/rzxp038v3k8md0jgn3q2jkfdnrh8k4wb-gstreamer-1.24.10",
+      "/nix/store/s6mwa9zhvgjhyiyg014pdj1xln099v6w-glib-2.82.1",
+      "/nix/store/sj5s2b58xpqqz2kmg8xpzq2xb0ldl3ai-libvorbis-1.3.7",
+      "/nix/store/sz4dchxmxnhk3ancyyh0d636gdrb651b-elfutils-0.191",
+      "/nix/store/v9smapvfv1z340qs3p7xbw6zb6zplfcf-sqlite-3.46.1",
+      "/nix/store/vrl8bn3frgdlnz52ccvqf36kbma9wnls-libxkbcommon-1.7.0",
+      "/nix/store/vrqss3954zk1c52mda3xf1rv7wc5ygba-bzip2-1.0.8",
+      "/nix/store/w0hcakfcz24vw3f9a0ncxys23jg83bpb-libavif-1.1.1",
+      "/nix/store/w5pzcgdksw1zcpjqrx03v7lyhvrjd5gc-lame-3.100-lib",
+      "/nix/store/ws1zf8zhnk98yp0b4zkgk5w3s29bxsyl-libglvnd-1.7.0",
+      "/nix/store/xq3pf3dbpzy4q5ac941lh5aag3bxj3fl-gst-plugins-bad-1.24.10",
+      "/nix/store/yajrv8lpsmrypm6ra5sf82whpn1gjqm3-libXau-1.0.11",
+      "/nix/store/yh310lhknz4yq8hb6ha4ga9hv1gka40j-libgcrypt-1.10.3-lib",
+      "/nix/store/z6smrrfpdc2yl9k9ifr5mp51dvg66swi-libsndfile-1.2.2",
+      "/nix/store/zbz995ia3g5grja492pflq65cg1svbjh-flac-1.4.3",
+      "/nix/store/zqds74n0cczzmkj4y2zs2iwdkdyls3rg-at-spi2-core-2.54.1",
+      "/nix/store/zrcar9dxgd1b453k1b7lsms6mm84frs8-freetype-2.13.3",
+      "/nix/store/zxp2pp577dpvazax4jfcn1yprqqfa98w-libjpeg-turbo-3.0.4"
+    ],
+    "adaptation": "Exact existing2359 loader/rpath and wrapper adaptation; browser revision2364 not locked2359"
+  },
+  "runtime_path": "/var/tmp/rom-studio-webkit-2364/pw_run.sh",
+  "prior_runtime_preserved": "/var/tmp/rom-studio-webkit-2359",
+  "focused_status": "passed",
+  "full28_status": "passed",
+  "upstream_sources": [
+    "https://github.com/microsoft/playwright/issues/42637",
+    "https://github.com/WebKit/WebKit/pull/73621",
+    "https://github.com/microsoft/playwright/pull/42748"
+  ],
+  "focused_stats": {
+    "startTime": "2026-10-05T15:48:56.135Z",
+    "duration": 138346.83000000002,
+    "expected": 10,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "full28_stats": {
+    "startTime": "2026-10-05T15:51:45.500Z",
+    "duration": 317748.299,
+    "expected": 28,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "focused_exit_code": 0,
+  "full28_exit_code": 0,
+  "completed_at": "2026-10-05T15:58:06.695Z",
+  "post_run_identity": {
+    "sourceUnchanged": true,
+    "binaryUnchanged": true,
+    "assetsUnchanged": true
+  },
+  "evidence_sha256": {
+    "focused.log": "9279077fa60d42ca7c0f9e08b14d87ce854e8e5d7f9122d68f3fa512189d89d7",
+    "focused.json": "1a90552a42c26733cca1a26acecc1f0851ff2e700a4968204efcba5bee9606e5",
+    "full.log": "551c8af57e83613a0a31cca7068c537d44d920e4c93fc4aee639ea067afed4bf",
+    "full.json": "2eddf5cb137513f6e20fdb7ef02b16efcdb3a540e5ea59eddcfa0b323536bdc3",
+    "adapt.mjs": "8deba08dfdb4e9c958758330622ff2fad87626ba9ea94b261b135249405ab86e",
+    "application-identity.json": "125148a23f256b8f768284adc75e4c8a7b461943cc15305e956eba8741492b91",
+    "download-facts.json": "d4964847ef321a57669d28a8682b84b395a184a28ccd772e8605af5857343d42"
+  }
+}

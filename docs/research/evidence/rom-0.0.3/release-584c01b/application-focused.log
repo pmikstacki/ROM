@@ -1,0 +1,35 @@
+
+Running 10 tests using 1 worker
+
+(node:1434270) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   1 [webkit] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query (13.6s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   2 [webkit] › tests/runtime/host.spec.ts:7:3 › real redb semantic catalog create patch actions and query (13.4s)
+(node:1434684) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   3 [webkit] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query (13.6s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   4 [webkit] › tests/runtime/host.spec.ts:7:3 › real redb semantic catalog create patch actions and query (13.3s)
+(node:1435175) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   5 [webkit] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query (13.5s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   6 [webkit] › tests/runtime/host.spec.ts:7:3 › real redb semantic catalog create patch actions and query (13.4s)
+(node:1435663) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   7 [webkit] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query (13.6s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   8 [webkit] › tests/runtime/host.spec.ts:7:3 › real redb semantic catalog create patch actions and query (13.6s)
+(node:1436008) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓   9 [webkit] › tests/runtime/host.spec.ts:7:3 › real sqlite semantic catalog create patch actions and query (13.6s)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+  ✓  10 [webkit] › tests/runtime/host.spec.ts:7:3 › real redb semantic catalog create patch actions and query (13.3s)
+
+  10 passed (2.3m)

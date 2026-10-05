@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "reviewed_commit": "584c01b614127b3f62799f1a26a1cdf3f734c3dc",
+  "clean_worktree_observed": true,
+  "status": "no material blocker; corrected final production and deployment pending",
+  "findings": [],
+  "independently_executed_tests": false,
+  "source_sha256": {
+    "demo/src/studio_startup.rs": "9772fcaed8212e85e15f717f3caf306f0c02fa179af1381dd1634e102b6c9878",
+    "demo/src/studio.rs": "e722aafb574668b2752585db07607fa41dcaff25e672532d05ed3f827c336aaa",
+    "demo/src/studio_startup_tests.rs": "c2f567ffbd358f1a2c5bfc47df62dee3f12c905416ac997e66442032236b4860",
+    "demo/src/lib.rs": "c5ad89be63c3728fa1c6f4424070ae0c1b7885fe7460b16cf6065292e6ed6ae9"
+  },
+  "source_matches_frozen_review": true,
+  "library_source_changed_from_c66c470": false,
+  "inspected_public_evidence": [
+    "docs/research/evidence/rom-0.0.3/startup-preservation/green.log",
+    "docs/research/evidence/rom-0.0.3/startup-preservation/full-check.log",
+    "docs/research/evidence/rom-0.0.3/startup-preservation/demo-full-test-clippy.log",
+    "docs/research/evidence/rom-0.0.3/startup-preservation/copied-upgrade.json"
+  ],
+  "focused_native_tests_passed": 8,
+  "copied_upgrade": {
+    "binary_sha256": "ddeda5f8674333da679703674d679173553fad6294b0a559b7c22b8525109c2b",
+    "binary_bytes_verified": true,
+    "existing_rows_preserved": 13,
+    "deleted_row_preserved": true,
+    "added_rows": 1,
+    "added_events": 1,
+    "added_receipts": 1,
+    "effects_unchanged": true,
+    "http_status": 200
+  },
+  "copied_restart": {
+    "http_status": 200,
+    "exit_code": 0,
+    "counts_unchanged": true
+  },
+  "original_state_changed": false,
+  "private_ids_profiles_secrets_redacted": true,
+  "open_tasks": [
+    "5.6",
+    "5.7"
+  ],
+  "pending": [
+    "corrected clean-source complete producer",
+    "independent final artifact verification",
+    "corrected live authentication and restart acceptance"
+  ],
+  "report_sha256": "8a1e850b825fb8c32cd5379b7e30135780ce3b12500a911e81332be3433045bc"
+}

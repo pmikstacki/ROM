@@ -1,0 +1,93 @@
+{
+  "source_revision": "584c01b614127b3f62799f1a26a1cdf3f734c3dc",
+  "status": "pass",
+  "stages": [
+    {
+      "stage": "after_activation",
+      "status": "pass",
+      "started_at": "2026-10-05T15:59:16.142Z",
+      "completed_at": "2026-10-05T15:59:17.463Z",
+      "tls": {
+        "ca_verified_by_curl": true,
+        "browser_ignore_https_errors": true,
+        "limitation": "Browser bypass limited to the explicitly known internal-CA preview origin. Curl separately verifies the private CA and hostname."
+      },
+      "assets": {
+        "title": "ROM Studio",
+        "index_sha256": "e7dca98287d9dd924eecc9c0bbbbf23075e15a939099b530bdc0f9716d432a20",
+        "favicon": {
+          "declared_path": "/rom-studio/rom-icon.svg",
+          "available": true,
+          "sha256": "01aa30ad5f14529c11e476eef725b38250027a361e8bcb50ba61a53a2ee0568b"
+        }
+      },
+      "preservation": {
+        "baseline_rows": 14,
+        "differences_count": 0
+      },
+      "ui": {
+        "field_showcase": true,
+        "plugin_settings": true,
+        "work_shared_inspector_right_chevron": true,
+        "custom_ticket_code_editor": true,
+        "neutral_favicon": true,
+        "prohibited_mutation_requests": 0
+      },
+      "authorized_kind_count": 10,
+      "authorized_row_count": 14
+    },
+    {
+      "stage": "after_full_container_restart",
+      "status": "pass",
+      "started_at": "2026-10-05T15:59:38.564Z",
+      "completed_at": "2026-10-05T15:59:39.912Z",
+      "tls": {
+        "ca_verified_by_curl": true,
+        "browser_ignore_https_errors": true,
+        "limitation": "Browser bypass limited to the explicitly known internal-CA preview origin. Curl separately verifies the private CA and hostname."
+      },
+      "assets": {
+        "title": "ROM Studio",
+        "index_sha256": "e7dca98287d9dd924eecc9c0bbbbf23075e15a939099b530bdc0f9716d432a20",
+        "favicon": {
+          "declared_path": "/rom-studio/rom-icon.svg",
+          "available": true,
+          "sha256": "01aa30ad5f14529c11e476eef725b38250027a361e8bcb50ba61a53a2ee0568b"
+        }
+      },
+      "preservation": {
+        "baseline_rows": 14,
+        "differences_count": 0
+      },
+      "ui": {
+        "field_showcase": true,
+        "plugin_settings": true,
+        "work_shared_inspector_right_chevron": true,
+        "custom_ticket_code_editor": true,
+        "neutral_favicon": true,
+        "prohibited_mutation_requests": 0
+      },
+      "authorized_kind_count": 10,
+      "authorized_row_count": 14
+    }
+  ],
+  "identity": {
+    "source_revision": "584c01b614127b3f62799f1a26a1cdf3f734c3dc",
+    "container": "active",
+    "closure": "/nix/store/1gzz85gykrcgqvpiczbbqwgkchlavrx5-nixos-system-rom-studio-24.11.20250630.50ab793",
+    "binary_sha256": "ddeda5f8674333da679703674d679173553fad6294b0a559b7c22b8525109c2b",
+    "units": {
+      "rom-studio.service": {
+        "active": "active",
+        "enabled": "enabled"
+      },
+      "rom-studio-provider.service": {
+        "active": "active",
+        "enabled": "enabled"
+      }
+    },
+    "secondary": "active",
+    "recorded_at": "2026-10-05T16:01:56.728Z"
+  },
+  "limits": "Read-only host-side known-origin Chromium acceptance. No claim of remote macOS/iOS VPN ingress or browser CA trust."
+}

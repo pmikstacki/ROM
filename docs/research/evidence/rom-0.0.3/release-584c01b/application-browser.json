@@ -1,0 +1,1414 @@
+{
+  "config": {
+    "argv": [
+      "/nix/store/b3x7xvp565xqlj0whi2giwgbrplfwfpb-nodejs-22.16.0/bin/node",
+      "/var/tmp/rom-003-preview-application-584c01b/source/studio/node_modules/.bin/playwright",
+      "test",
+      "--config",
+      "tests/runtime/playwright.host.config.ts",
+      "--output",
+      "/var/tmp/rom-003-webkit-fixed-probe/full-results",
+      "--reporter=list,json"
+    ],
+    "configFile": "/var/tmp/rom-003-preview-application-584c01b/source/studio/tests/runtime/playwright.host.config.ts",
+    "rootDir": "/var/tmp/rom-003-preview-application-584c01b/source/studio/tests/runtime",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/var/tmp/rom-003-webkit-fixed-probe/full-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/var/tmp/rom-003-preview-application-584c01b/source/studio/tests/runtime",
+        "testIgnore": [],
+        "testMatch": [
+          "host.spec.ts"
+        ],
+        "timeout": 120000
+      },
+      {
+        "outputDir": "/var/tmp/rom-003-webkit-fixed-probe/full-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/var/tmp/rom-003-preview-application-584c01b/source/studio/tests/runtime",
+        "testIgnore": [],
+        "testMatch": [
+          "host.spec.ts"
+        ],
+        "timeout": 120000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "host.spec.ts",
+      "file": "host.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real sqlite semantic catalog create patch actions and query",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-w687U8"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12143,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:51:46.070Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-w687U8"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-10deb631dce79ca20412",
+          "file": "host.spec.ts",
+          "line": 7,
+          "column": 3
+        },
+        {
+          "title": "real redb semantic catalog create patch actions and query",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-JA8OpT"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11883,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:51:58.371Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-JA8OpT"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-25533d07d7b4d48550d1",
+          "file": "host.spec.ts",
+          "line": 7,
+          "column": 3
+        },
+        {
+          "title": "real sqlite human auth and generic resources",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-ytSB9n"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22688,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:52:10.260Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-ytSB9n"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-3bc4db70220bebc5fb4d",
+          "file": "host.spec.ts",
+          "line": 39,
+          "column": 3
+        },
+        {
+          "title": "real redb human auth and generic resources",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-htboTk"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22625,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:52:32.954Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-htboTk"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-f8fc6263bbc04d5a3460",
+          "file": "host.spec.ts",
+          "line": 39,
+          "column": 3
+        },
+        {
+          "title": "real sqlite attachment publication, lost response, download and detach",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-w2i4e7"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 987,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:52:55.586Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-w2i4e7"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-6918cdaa74970022e43a",
+          "file": "host.spec.ts",
+          "line": 257,
+          "column": 3
+        },
+        {
+          "title": "real redb attachment publication, lost response, download and detach",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-V8rVkm"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 880,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:52:56.579Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-V8rVkm"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-bf041af78433c3a5fc19",
+          "file": "host.spec.ts",
+          "line": 257,
+          "column": 3
+        },
+        {
+          "title": "real sqlite OS SIGTERM drains accepted publication and OIDC work",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-w80eae"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1383,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:52:57.465Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-w80eae"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-9a299af7c109ed96734b",
+          "file": "host.spec.ts",
+          "line": 343,
+          "column": 3
+        },
+        {
+          "title": "real redb OS SIGTERM drains accepted publication and OIDC work",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-7mfaQK"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1415,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:52:58.855Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-7mfaQK"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-5debc5253be1e6ac747d",
+          "file": "host.spec.ts",
+          "line": 343,
+          "column": 3
+        },
+        {
+          "title": "real sqlite finite renderer query and stream measurement",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 736,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROM_FINITE_COST {\"backend\":\"sqlite\",\"engine\":\"chromium\",\"dataset\":{\"tasks\":3,\"inventory\":1,\"held_out_custom_resource\":1},\"cells\":15,\"measurements_ms\":{\"query_to_visible_frame\":135.5,\"stream_open_to_frame\":63.80000001192093,\"mutation_to_visible_frame\":66.40000003576279},\"http_requests\":{\"/rom-studio/api/discover\":1,\"/rom-studio/api/query\":3,\"/rom-studio/api/live\":1,\"/rom-studio/api/read\":1,\"/rom-studio/api/invoke\":1},\"scope\":\"One local sample, real host and browser. Includes browser-driver scheduling, network, codecs and frame scheduling; not an isolated renderer or universal performance benchmark.\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:53:00.276Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-73bb0eaca06b043cda8e",
+          "file": "host.spec.ts",
+          "line": 485,
+          "column": 3
+        },
+        {
+          "title": "real redb finite renderer query and stream measurement",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 782,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROM_FINITE_COST {\"backend\":\"redb\",\"engine\":\"chromium\",\"dataset\":{\"tasks\":3,\"inventory\":1,\"held_out_custom_resource\":1},\"cells\":15,\"measurements_ms\":{\"query_to_visible_frame\":135.80000001192093,\"stream_open_to_frame\":62.80000001192093,\"mutation_to_visible_frame\":65.19999998807907},\"http_requests\":{\"/rom-studio/api/discover\":1,\"/rom-studio/api/query\":3,\"/rom-studio/api/live\":1,\"/rom-studio/api/read\":1,\"/rom-studio/api/invoke\":1},\"scope\":\"One local sample, real host and browser. Includes browser-driver scheduling, network, codecs and frame scheduling; not an isolated renderer or universal performance benchmark.\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:53:01.018Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-de4f432bebcda2209235",
+          "file": "host.spec.ts",
+          "line": 485,
+          "column": 3
+        },
+        {
+          "title": "real sqlite shared session logout clears two tabs and closes delivery",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-VlnvIG"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 17902,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROM_SHARED_SESSION {\"backend\":\"sqlite\",\"engine\":\"chromium\",\"delivery_terminal\":\"failed\",\"delivery_terminal_after_logout_ms\":37,\"both_tabs_cleared_after_logout_ms\":11435,\"scope\":\"Two pages share one real host session; browser request termination and current DOM clearing, not offline revocation.\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:53:01.806Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-VlnvIG"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-1e9f60c1b5e6fa263aa7",
+          "file": "host.spec.ts",
+          "line": 576,
+          "column": 3
+        },
+        {
+          "title": "real redb shared session logout clears two tabs and closes delivery",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-eRUZTE"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 17945,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROM_SHARED_SESSION {\"backend\":\"redb\",\"engine\":\"chromium\",\"delivery_terminal\":\"failed\",\"delivery_terminal_after_logout_ms\":30,\"both_tabs_cleared_after_logout_ms\":11431,\"scope\":\"Two pages share one real host session; browser request termination and current DOM clearing, not offline revocation.\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:53:19.715Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-eRUZTE"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-4add93c94f2d1dc9edde",
+          "file": "host.spec.ts",
+          "line": 576,
+          "column": 3
+        },
+        {
+          "title": "real sqlite complete generic Task and Inventory browser workflows",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 38227,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROM_FINITE_SNAPSHOTS {\"backend\":\"sqlite\",\"engine\":\"chromium\",\"snapshots\":3,\"observer_query_requests_during_snapshots\":0,\"cells\":5,\"mutation_to_frame_ms\":[159.39999997615814,3546.5,4060.300000011921],\"scope\":\"Real host sequential changes, browser-driver/network/frame-inclusive samples; DOM count, not heap GC.\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:53:37.666Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-14c439258a95fa933c9d",
+          "file": "host.spec.ts",
+          "line": 672,
+          "column": 3
+        },
+        {
+          "title": "real redb complete generic Task and Inventory browser workflows",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 35854,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROM_FINITE_SNAPSHOTS {\"backend\":\"redb\",\"engine\":\"chromium\",\"snapshots\":3,\"observer_query_requests_during_snapshots\":0,\"cells\":5,\"mutation_to_frame_ms\":[137,3114.400000035763,3414.100000023842],\"scope\":\"Real host sequential changes, browser-driver/network/frame-inclusive samples; DOM count, not heap GC.\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:54:15.899Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-e4c68136f4097a06ee00",
+          "file": "host.spec.ts",
+          "line": 672,
+          "column": 3
+        },
+        {
+          "title": "real sqlite semantic catalog create patch actions and query",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-9T8abo"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13508,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:54:52.273Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-9T8abo"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-78bf7073e9841f599893",
+          "file": "host.spec.ts",
+          "line": 7,
+          "column": 3
+        },
+        {
+          "title": "real redb semantic catalog create patch actions and query",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-HRAkmQ"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13392,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:55:05.880Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-HRAkmQ"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-2b717156546fef44022f",
+          "file": "host.spec.ts",
+          "line": 7,
+          "column": 3
+        },
+        {
+          "title": "real sqlite human auth and generic resources",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-r752NI"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22464,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:55:19.278Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-r752NI"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-a0fa34bafd16b1f5a6d2",
+          "file": "host.spec.ts",
+          "line": 39,
+          "column": 3
+        },
+        {
+          "title": "real redb human auth and generic resources",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-crKfpt"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22385,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:55:41.750Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-crKfpt"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-891415ac7a9e526e1021",
+          "file": "host.spec.ts",
+          "line": 39,
+          "column": 3
+        },
+        {
+          "title": "real sqlite attachment publication, lost response, download and detach",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-50pP8S"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 994,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:56:04.141Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-50pP8S"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-ed9688c80b756ff5abd8",
+          "file": "host.spec.ts",
+          "line": 257,
+          "column": 3
+        },
+        {
+          "title": "real redb attachment publication, lost response, download and detach",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-WIgGi4"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 925,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:56:05.141Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-WIgGi4"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-a826b95af0d9802b59a2",
+          "file": "host.spec.ts",
+          "line": 257,
+          "column": 3
+        },
+        {
+          "title": "real sqlite OS SIGTERM drains accepted publication and OIDC work",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-kJhsNS"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1525,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:56:06.072Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-kJhsNS"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-53bc1a9d9e1319d0abea",
+          "file": "host.spec.ts",
+          "line": 343,
+          "column": 3
+        },
+        {
+          "title": "real redb OS SIGTERM drains accepted publication and OIDC work",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-luTV6C"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1617,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:56:07.603Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-luTV6C"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-7f5ef6941af13873a797",
+          "file": "host.spec.ts",
+          "line": 343,
+          "column": 3
+        },
+        {
+          "title": "real sqlite finite renderer query and stream measurement",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 887,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROM_FINITE_COST {\"backend\":\"sqlite\",\"engine\":\"webkit\",\"dataset\":{\"tasks\":3,\"inventory\":1,\"held_out_custom_resource\":1},\"cells\":15,\"measurements_ms\":{\"query_to_visible_frame\":166,\"stream_open_to_frame\":43,\"mutation_to_visible_frame\":53},\"http_requests\":{\"/rom-studio/api/discover\":1,\"/rom-studio/api/query\":3,\"/rom-studio/api/live\":1,\"/rom-studio/api/read\":1,\"/rom-studio/api/invoke\":1},\"scope\":\"One local sample, real host and browser. Includes browser-driver scheduling, network, codecs and frame scheduling; not an isolated renderer or universal performance benchmark.\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:56:09.226Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-fad40d48c6d1298f84e8",
+          "file": "host.spec.ts",
+          "line": 485,
+          "column": 3
+        },
+        {
+          "title": "real redb finite renderer query and stream measurement",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 807,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROM_FINITE_COST {\"backend\":\"redb\",\"engine\":\"webkit\",\"dataset\":{\"tasks\":3,\"inventory\":1,\"held_out_custom_resource\":1},\"cells\":15,\"measurements_ms\":{\"query_to_visible_frame\":168,\"stream_open_to_frame\":42,\"mutation_to_visible_frame\":52},\"http_requests\":{\"/rom-studio/api/discover\":1,\"/rom-studio/api/query\":3,\"/rom-studio/api/live\":1,\"/rom-studio/api/read\":1,\"/rom-studio/api/invoke\":1},\"scope\":\"One local sample, real host and browser. Includes browser-driver scheduling, network, codecs and frame scheduling; not an isolated renderer or universal performance benchmark.\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:56:10.120Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-7e6514f497fcd266e86c",
+          "file": "host.spec.ts",
+          "line": 485,
+          "column": 3
+        },
+        {
+          "title": "real sqlite shared session logout clears two tabs and closes delivery",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-mDbxMJ"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 16040,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROM_SHARED_SESSION {\"backend\":\"sqlite\",\"engine\":\"webkit\",\"delivery_terminal\":\"finished\",\"delivery_terminal_after_logout_ms\":35,\"both_tabs_cleared_after_logout_ms\":14966,\"scope\":\"Two pages share one real host session; browser request termination and current DOM clearing, not offline revocation.\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:56:10.932Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-mDbxMJ"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-b4c2172b1a2f0064948d",
+          "file": "host.spec.ts",
+          "line": 576,
+          "column": 3
+        },
+        {
+          "title": "real redb shared session logout clears two tabs and closes delivery",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "retained-fixture",
+                  "description": "/var/tmp/rom-studio-host-browser-Zkf9YC"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 16037,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROM_SHARED_SESSION {\"backend\":\"redb\",\"engine\":\"webkit\",\"delivery_terminal\":\"finished\",\"delivery_terminal_after_logout_ms\":32,\"both_tabs_cleared_after_logout_ms\":14967,\"scope\":\"Two pages share one real host session; browser request termination and current DOM clearing, not offline revocation.\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:56:26.978Z",
+                  "annotations": [
+                    {
+                      "type": "retained-fixture",
+                      "description": "/var/tmp/rom-studio-host-browser-Zkf9YC"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-9e4557f1f0ec3f0a21bd",
+          "file": "host.spec.ts",
+          "line": 576,
+          "column": 3
+        },
+        {
+          "title": "real sqlite complete generic Task and Inventory browser workflows",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10117,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROM_FINITE_SNAPSHOTS {\"backend\":\"sqlite\",\"engine\":\"webkit\",\"snapshots\":3,\"observer_query_requests_during_snapshots\":0,\"cells\":5,\"mutation_to_frame_ms\":[101,157,127],\"scope\":\"Real host sequential changes, browser-driver/network/frame-inclusive samples; DOM count, not heap GC.\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:56:43.022Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-ee423c17bf5f26ce8156",
+          "file": "host.spec.ts",
+          "line": 672,
+          "column": 3
+        },
+        {
+          "title": "real redb complete generic Task and Inventory browser workflows",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9938,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROM_FINITE_SNAPSHOTS {\"backend\":\"redb\",\"engine\":\"webkit\",\"snapshots\":3,\"observer_query_requests_during_snapshots\":0,\"cells\":5,\"mutation_to_frame_ms\":[102,158,126],\"scope\":\"Real host sequential changes, browser-driver/network/frame-inclusive samples; DOM count, not heap GC.\"}\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-05T15:56:53.145Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "69cb82147222d773bdbe-d96620af1e8817bb9220",
+          "file": "host.spec.ts",
+          "line": 672,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-05T15:51:45.500Z",
+    "duration": 317748.299,
+    "expected": 28,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

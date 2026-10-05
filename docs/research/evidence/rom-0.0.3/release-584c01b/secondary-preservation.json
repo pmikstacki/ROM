@@ -1,0 +1,38 @@
+{
+  "source": "584c01b614127b3f62799f1a26a1cdf3f734c3dc",
+  "binary_sha256": "ddeda5f8674333da679703674d679173553fad6294b0a559b7c22b8525109c2b",
+  "status": "pass",
+  "start_mode": "approved-transient-recreated",
+  "existing_rows_and_tombstones_preserved": true,
+  "second_restart_all_table_hashes_equal": true,
+  "counts": {
+    "before": {
+      "resources": 13,
+      "receipts": 24,
+      "events": 22,
+      "effects": 4,
+      "rom_state": 1,
+      "schemas": 9,
+      "reference_edges": 0
+    },
+    "upgraded": {
+      "resources": 14,
+      "receipts": 25,
+      "events": 23,
+      "effects": 4,
+      "rom_state": 1,
+      "schemas": 10,
+      "reference_edges": 1
+    },
+    "restarted": {
+      "resources": 14,
+      "receipts": 25,
+      "events": 23,
+      "effects": 4,
+      "rom_state": 1,
+      "schemas": 10,
+      "reference_edges": 1
+    }
+  },
+  "scope": "Actual secondary preview startup and restart; loopback readiness, unchanged original data and exact read-only profile copy. Not primary VPN acceptance."
+}

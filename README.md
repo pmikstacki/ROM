@@ -6,13 +6,15 @@ Declare a resource once. The framework supplies standard storage, operations, en
 
 Actions request changes. The core validates and commits transitions. Events describe committed facts. Reactions can submit further actions through the same core.
 
-**Status: 0.0.3 candidate passed artifact and preview acceptance; a restart regression correction remains pending.**
-The complete eight-gate producer accepted source revision `c66c470eb894b8449f9ab707d94179c88af09113`.
+**Status: ROM 0.0.3 passed complete local release and persistent preview acceptance.**
+The eight-gate producer accepted source revision `584c01b614127b3f62799f1a26a1cdf3f734c3dc`.
 An independent verifier accepted the source, Studio, and skills artifacts.
+The explicit application passed 28 host/browser cases across SQLite/redb and Chromium/WebKit.
 The persistent [VPN preview](https://10.66.0.2/rom-studio/) passed fresh-login checks and a full container restart.
 See the [completion record](docs/research/rom-0.0.3-release-completion.md), [compatibility review](docs/research/rom-0.0.3-compatibility.md), and [support boundary](docs/release-support.md).
 GitHub hosts source only. Registry publication and GitHub Actions remain disabled.
-A later restart-after-delete check found a demo bootstrap defect. Final release completion requires its correction and repeated acceptance.
+The corrected demo bootstrap preserves edited and deleted seeded Resources across restart.
+The application tests use an isolated corrected WPE runtime; earlier native browser failures remain documented.
 These results do not establish production readiness or human usability.
 
 The historical native source alpha, `0.1.0-alpha.1`, passed the complete local release procedure for its library, CLI, adapters, and reference application. See its [completion audit and support limits](docs/research/framework-release-completion.md), [completed release checklist](openspec/changes/prepare-framework-release/tasks.md), and [earlier MVP evidence](docs/research/mvp-release-results.md).
@@ -105,13 +107,13 @@ A missing custom renderer preserves the value and blocks unsafe editing.
 Application entry points explicitly register trusted custom components for an exact codec name and version.
 The standard Studio bundle does not load application extensions automatically.
 
-The 0.0.3 development catalog adds enum labels, ordered multi-choice lists, drag-and-drop sorting, and bounded reference pickers.
+The 0.0.3 field catalog adds enum labels, ordered multi-choice lists, drag-and-drop sorting, and bounded reference pickers.
 Standard controls cover dates, times, timestamps, colors, email, URLs, multiline text, exact JSON source, decimals, and units.
 Invalid drafts stay local and block submission. Decimal editing does not use JavaScript floating-point conversion.
 See [field contracts and limits](docs/studio-fields.md), including lexical decimal sorting and bounded candidate search.
 
-The development workspace also adds authorized human titles, a shared right inspector, readable Work inspection, and plugin Settings groups.
-These changes are not yet a released 0.0.3 artifact. The screenshots above show the current implemented source.
+The Studio workspace also provides authorized human titles, a shared right inspector, readable Work inspection, and plugin Settings groups.
+The accepted 0.0.3 distribution contains these changes. The screenshot capture record identifies its earlier, unchanged UI source.
 See [presentation authoring](docs/studio-presentation.md), [release scope](docs/research/rom-0.0.3-studio-release-research.md),
 and [the release plan](docs/superpowers/plans/2026-10-05-rom-0.0.3-release.md).
 Use [AI development guidance](docs/ai-development.md) to select the Resource, extension, operator, release, or Studio workflow.

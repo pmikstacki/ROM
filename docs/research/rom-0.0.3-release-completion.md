@@ -1,99 +1,93 @@
-# ROM 0.0.3 candidate acceptance record
+# ROM 0.0.3 release completion
 
-## Accepted source and artifacts
+## Accepted source and distribution
 
-The complete producer passed all eight fixed gates on 2026-10-05.
-Its clean source revision is c66c470eb894b8449f9ab707d94179c88af09113.
-Its Git tree is f7503bfd37571376c2d54bdd48053c3394ab305a.
-The [manifest](evidence/rom-0.0.3/release-c66c470/manifest.json) identifies every gate, archive, source file, lock, and production asset.
-The [separate artifact verifier](evidence/rom-0.0.3/release-c66c470/artifact-verification.json) accepted the exact distribution.
+The completed local release uses source revision `584c01b614127b3f62799f1a26a1cdf3f734c3dc`.
+Its Git tree is `7c35772c89aa5e78ca70b040adb58293236215a5`.
+The [manifest](evidence/rom-0.0.3/release-584c01b/manifest.json) records the clean source, locks, archives, assets, and all eight gates.
+The [artifact verifier](evidence/rom-0.0.3/release-584c01b/artifact-verification.json) independently reconstructs the accepted distribution.
+The [independent audit](evidence/rom-0.0.3/release-584c01b/independent-review.md) maps the release requirements to evidence.
 
-The local distribution is in dist/release-0.0.3-c66c470, relative to the repository root.
-It contains source, skills, and Studio archives. It is not a registry publication or a native binary distribution.
-GitHub remains the source host. GitHub Actions and registry publication remain disabled.
-The accepted source remains fixed when later documentation records its completion.
+The local distribution is `dist/release-0.0.3-584c01b-retry`, relative to the repository root.
+It contains source, skills, and production Studio archives. It is not a registry or native binary publication.
+The source tag is `v0.0.3`. GitHub hosts source only. Actions and registry publication remain disabled.
+Later documentation records completion without changing the accepted artifact's source identity.
 
-| Gate | Executed result |
+| Acceptance | Executed result |
 | --- | --- |
-| Full local verifier | Passed |
-| Optimized workspace build | Passed |
-| Demo and provider verification | Passed |
-| AI skills examples and source admission | Passed |
-| Extracted Rust packages and public consumers | Passed |
-| Studio component/browser gate | 221 passes; one explicit WebKit physical-touch skip |
-| Extracted production assets with actual host | 28 passes across SQLite/redb and Chromium/WebKit |
-| Independent extracted Studio author | Offline install, typecheck, build, provider install, and four browser cases passed |
+| Complete producer | All eight fixed gates passed |
+| Full local verifier and optimized build | Passed |
+| Demo, provider, AI skills, and extracted Rust packages | Passed |
+| Studio unit tests and typecheck | 146 passes; zero Svelte errors or warnings |
+| Component browser tests | 221 passes; one explicit WebKit physical-touch skip |
+| Extracted standard Studio with actual host | 28 passes across SQLite/redb and Chromium/WebKit |
+| Independent extracted SDK author | Four browser cases passed, with offline install, typecheck, build, and provider setup |
+| Explicit application bundle | Fresh 28-case acceptance passed with the corrected immutable optimized binary |
+| Restart provisioning regression | Eight focused cases passed; edited and deleted Resources remain unchanged |
+| Permanent VPN preview | Authenticated acceptance passed before and after activation, and after full container restart |
 
-The producer's eighth gate includes the independent author workflow.
-Its inline custom renderer uses the public SDK. Canonical values, revision changes, and ordinary Task mutations remain verified.
-The [earlier selector correction](rom-0.0.3-external-author-ergonomics.md) retains failed cases and the reason for the correction.
-Failed producer stages remain preserved. They are not accepted artifacts.
+## Completed scope
 
-## Completed release scope
+Studio uses a shared right inspector for Filters, Resource details, Work, Settings, and Attachments.
+The right-edge chevron opens or closes it. Quick filters retain their popover.
+Desktop and narrow layouts share compact controls, labels, icons, and preserved drafts.
+Work presents current authorized state and recovery controls. It does not fabricate historical events.
+Plugin Settings are ordinary Resources. They reuse authorized discovery, forms, revisions, and mutation paths.
+Human titles remain separate from exact identities.
 
-Studio uses one shared right inspector for Filters, Resource details, Work, Settings, and Attachments.
-Quick filters retain their popover. The right-edge chevron controls the inspector.
-Desktop and narrow layouts share generic controls and readable labels.
-Work displays the current authorized state and recovery controls. It does not invent a historical timeline.
-Settings edits ordinary Resources, including settings groups supplied by plugins.
+Ten standard semantic codecs cover dates, times, timestamps, colors, email, URLs, multiline text, JSON, decimals, and units.
+Enums, ordered multi-choice, sortable lists, maps, nested objects, references, and Blob controls share the Resource contracts.
+Backend validation remains authoritative. Unsupported custom versions preserve values and block unsafe edits.
+The application entry explicitly registers `demo-ticket-code` version one. The standard SDK does not load application extensions implicitly.
 
-The ten standard semantic codecs cover dates, times, timestamps, colors, email, URLs, multiline text, JSON, decimals, and units.
-Enum labels, ordered multi-choice, lists, maps, nested objects, relations, and Blob controls use shared contracts.
-The backend validates encoded values. Presentation metadata does not change identity or authority.
-Unknown codecs preserve existing values and prevent unsafe edits.
-Custom renderers register their exact codec and version in the application entry point.
+The Resource derive generates presentation bindings. Manual declarations use the same registration checks.
+The module and DRY pass preserves public API paths. Verified skills and examples document the same boundaries.
+The [README screenshots](../../README.md#rom-studio) show implemented screens with synthetic data and recorded capture identities.
 
-The Resource derive supplies presentation metadata. Manual implementations use the same registration checks.
-Focused module and DRY reviews preserve public API paths.
-AI skills, instructions, and executable examples describe the same public boundaries.
-The [README screenshots](../../README.md#rom-studio) show implemented screens with synthetic data.
+## Restart and permanent preview
 
-## Permanent preview acceptance
+The immutable application binary SHA-256 is `ddeda5f8674333da679703674d679173553fad6294b0a559b7c22b8525109c2b`.
+The persistent release directory is `/var/lib/rom-studio-preview/site/releases/rom-0.0.3-584c01b`.
+The [application receipt](evidence/rom-0.0.3/release-584c01b/application-acceptance.json) identifies the newly executed custom bundle, native binary, and all browser cases.
+The [live preview receipt](evidence/rom-0.0.3/release-584c01b/preview-acceptance.json) records actual gateway acceptance and exact baseline preservation.
+The [attachment receipt](evidence/rom-0.0.3/release-584c01b/attachment-preservation.json) records path and byte preservation.
 
-The persistent preview serves https://10.66.0.2/rom-studio/.
-Its immutable release directory is /var/lib/rom-studio-preview/site/releases/rom-0.0.3-c66c470eb894.
-The application entry explicitly registers demo-ticket-code version one.
-The standard SDK bundle does not implicitly register application codecs.
+All 14 baseline authorized Resources retained their values and revisions after activation and full container restart.
+The existing attachment retained its bytes. Both application and provider units are active and enabled.
+Trusted-CA HTTPS serves the accepted index and neutral favicon. Unauthenticated discovery returns HTTP 401.
+The previous releases and separate stopped-writer database/attachment backups remain available.
+No host networking, WireGuard, SSH, Caddy route, or DNS change was required.
 
-The [application identity bridge](evidence/rom-0.0.3/release-c66c470/application-identity-bridge.json) verifies unchanged production inputs, assets, and native binary.
-It references an earlier executed 28-case application acceptance. It does not claim another execution at the current commit.
-Fresh complete producer acceptance separately ran all mandatory gates against c66c470.
+The secondary preview also restarts with its original database and an exact read-only profile copy.
+Its [preservation receipt](evidence/rom-0.0.3/release-584c01b/secondary-preservation.json) confirms that existing Rows and the tombstone remain unchanged.
+Only the absent showcase is provisioned through an ordinary action. A second restart preserves table counts and hashes.
+The [startup investigation](rom-0.0.3-startup-preservation.md) explains the correction and the retained RED/GREEN evidence.
+No deleted Resource is resurrected. Core disclosure, receipt replay, and storage integrity rules remain unchanged.
 
-The [live preview record](evidence/rom-0.0.3/release-c66c470/preview-acceptance.json) records fresh OIDC login before and after activation.
-It repeats acceptance after a complete container restart.
-All 13 preexisting authorized Resources retained their values and revisions.
-The new Field showcase seed adds one row and one kind: the accepted preview has 14 rows across ten kinds.
-The checks cover semantic controls, custom editing, plugin Settings, Work's right chevron, and the neutral favicon.
-They perform no domain mutations.
+## Failed evidence and support limits
 
-The [attachment check](evidence/rom-0.0.3/release-c66c470/attachment-preservation.json) confirms that all preexisting attachment paths and bytes remain present.
-Private Resource identifiers, attachment paths, configurations, and credentials remain outside the public evidence.
-Both SQLite databases and their matching attachments have separate stopped-writer backups.
-The previous release and rollback selector remain available.
+The earlier [c66c470 candidate](rom-0.0.3-candidate-c66c470.md) remains preserved as historical acceptance.
+The later deleted-seed finding required the corrected release above.
+The first corrected producer failed one WebKit case: the native WPE web process terminated with SIGSEGV on its compositor thread.
+An unchanged focused repetition passed four cases and failed one with the same native crash site.
+The [bounded diagnosis](evidence/rom-0.0.3/release-584c01b/webkit-diagnosis.md) retains this evidence.
+The subsequent complete producer passed without a source change, skipped assertion, or increased deadline.
+The first explicit application run also failed both WebKit semantic cases, with 26 of 28 cases passing.
+The exact native crash offset matches the [upstream Playwright report](https://github.com/microsoft/playwright/issues/42637).
+[WebKit PR 73621](https://github.com/WebKit/WebKit/pull/73621) adds the missing SkImageFilter null check.
+[Playwright PR 42748](https://github.com/microsoft/playwright/pull/42748) includes this fix in WPE revision 2364.
+These sources strongly support the upstream defect as the local cause. Stripped local stacks alone did not identify its function.
+The isolated corrected runtime passed ten repeated semantic cases and the full explicit application suite.
+The application, native binary, assertions, deadlines, and locked Playwright 1.63.0 client remained unchanged.
+The producer passed with its original runtime; the additional application acceptance used WPE 2364.
+These finite passes do not establish all browser protocol features or the universal absence of native crashes.
 
-After restart, application and provider units are active and enabled.
-Trusted-CA HTTPS returns the accepted index and favicon. Unauthenticated discovery returns HTTP 401.
-The [identity log](evidence/rom-0.0.3/release-c66c470/preview-postrestart-identity.log) records the exact binary, assets, and NixOS closure.
-No host network, WireGuard, SSH, Caddy route, or DNS change was required.
-
-## Support limits
-
-ROM 0.0.3 remains experimental. Automated tests do not establish production readiness or human usability.
-The physical-touch WebKit case is explicitly skipped; keyboard, mobile focus, and Chromium touch have separate coverage.
-The demo identity provider retains grants and signing keys in memory. Restart requires a new login.
+ROM 0.0.3 remains experimental. Tests do not establish production readiness or human usability.
+The physical-touch WebKit case is explicitly skipped. Other keyboard, mobile-focus, and Chromium-touch checks have separate evidence.
+The demo provider keeps signing keys and grants in memory. Its restart requires a fresh login.
 Trusted curl verifies the private CA. The browser probe bypasses TLS errors only for the known internal preview origin.
 Host-side VPN acceptance does not establish remote macOS/iOS ingress or their CA trust.
 
 Moving pagination, bounded relation lookup, exact JSON source editing, and lexical decimal ordering retain their documented limits.
 Native storage format eight, archive format six, and query protocol version one remain unchanged.
 Read the [compatibility review](rom-0.0.3-compatibility.md) before recompiling extensions.
-
-## Later restart-after-delete finding
-
-The old isolated preview could not restart after an ordinary deletion of a seeded Task.
-The demo bootstrap replayed the retained create receipt. Current disclosure correctly rejected its deleted result.
-Both old and current binaries reproduced the failure on private database copies. Fresh databases started.
-Original user data and profiles remain intact, with separate stopped-writer backups.
-The healthy persistent preview remains active. It does not contain that deleted seeded Task.
-Final release completion now requires a generic bootstrap correction, actual database regressions, and repeated complete acceptance.
-Do not restore deleted values or weaken the core disclosure check.

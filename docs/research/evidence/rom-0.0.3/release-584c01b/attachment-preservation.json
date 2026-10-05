@@ -1,0 +1,80 @@
+{
+  "status": "pass",
+  "stages": [
+    {
+      "stage": "after_activation",
+      "status": "pass",
+      "completed_at": "2026-10-05T15:59:17.599Z",
+      "trees": [
+        {
+          "name": "persistent",
+          "present": true,
+          "files": 1,
+          "bytes": 163040
+        },
+        {
+          "name": "isolated",
+          "present": true,
+          "files": 0,
+          "bytes": 0
+        }
+      ],
+      "comparisons": [
+        {
+          "name": "persistent",
+          "root_preserved": true,
+          "missing_files": 0,
+          "changed_files": 0,
+          "missing_directories": 0,
+          "new_files": 0
+        },
+        {
+          "name": "isolated",
+          "root_preserved": true,
+          "missing_files": 0,
+          "changed_files": 0,
+          "missing_directories": 0,
+          "new_files": 0
+        }
+      ]
+    },
+    {
+      "stage": "after_full_container_restart",
+      "status": "pass",
+      "completed_at": "2026-10-05T15:59:40.063Z",
+      "trees": [
+        {
+          "name": "persistent",
+          "present": true,
+          "files": 1,
+          "bytes": 163040
+        },
+        {
+          "name": "isolated",
+          "present": true,
+          "files": 0,
+          "bytes": 0
+        }
+      ],
+      "comparisons": [
+        {
+          "name": "persistent",
+          "root_preserved": true,
+          "missing_files": 0,
+          "changed_files": 0,
+          "missing_directories": 0,
+          "new_files": 0
+        },
+        {
+          "name": "isolated",
+          "root_preserved": true,
+          "missing_files": 0,
+          "changed_files": 0,
+          "missing_directories": 0,
+          "new_files": 0
+        }
+      ]
+    }
+  ],
+  "limits": "Exact preexisting path and byte preservation. No claim of authorization or Blob-reference completeness."
+}

@@ -1,0 +1,26 @@
+{
+  "reviewed_at": "2026-10-05T16:06:33.662Z",
+  "mode": "read-only source and retained receipts; no new browser/build/publication",
+  "accepted_source": "584c01b614127b3f62799f1a26a1cdf3f734c3dc",
+  "files_sha256": {
+    "README.md": "dcdd63d2a5a859d2e7099dc77c3dfeacea7885f00ff43ce37458aec1769b5767",
+    "docs/release-support.md": "f948df959651e5abbff7b45df5591e7038fd024932d23af795c627f8dfb0a769",
+    "docs/research/rom-0.0.3-release-completion.md": "a2cd0756f2a55cac86a426a2294ff13ce23c2668d03d63c1b7878b244883ab9b",
+    "docs/research/rom-0.0.3-release-acceptance.md": "e5b16d0fcae2d059d6125f1f6401925ce6bbb56c44fa52907f1b79b38e95b614",
+    "docs/research/rom-0.0.3-startup-preservation.md": "c4e6c128f6ffb3b2303eb939c728d887fbcf43b42dbbf13f5825b853009807f6"
+  },
+  "material_count_identity_support_mismatches": [],
+  "pending_document_prerequisite": "docs/research/evidence/rom-0.0.3/release-584c01b/independent-review.md",
+  "local_tag": {
+    "name": "v0.0.3",
+    "object": "a37ae48adcb4f3933139a0e2e44e7a4efad79ec3",
+    "commit": "584c01b614127b3f62799f1a26a1cdf3f734c3dc"
+  },
+  "remote_publication_verified": false,
+  "corrected_during_review": [
+    "README stale unreleased-artifact statement",
+    "local tag missing before owner created it"
+  ],
+  "optional_terminology": "WPEWebProcess crashed on compositor thread; compositor process wording is imprecise",
+  "report_sha256": "aef867d1b5c17a3567583b3c53eda72ddb9e79d2898637f72522d6795edbec8d"
+}

@@ -1,0 +1,242 @@
+
+running 6 tests
+test upgrade::legacy::tests::frozen_checkout_preserves_the_original_string_codec ... ok
+test upgrade::legacy::tests::migration_accepts_only_frozen_callback_identity_and_payload_contracts ... ok
+test host_files_tests::linux::private_reader_rejects_link_public_permissions_bounds_and_invalid_utf8 ... ok
+test host_files_tests::linux::opened_fifo_is_rejected_without_waiting_for_a_writer ... ok
+test upgrade::legacy::tests::old_profile_keeps_checkout_validation_before_reference_migration ... ok
+test upgrade::legacy::tests::current_wire_commands_prepare_the_frozen_profile_without_changing_its_catalog_or_rules ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 1 test
+test explicit_compensation_and_revocation_on_both_adapters ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.56s
+
+
+running 1 test
+test readme_invocations_decode_without_a_second_schema ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 1 test
+test operator_command_recovers_work_then_runs_explicit_compensation_on_both_stores ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.41s
+
+
+running 16 tests
+test files::fifo_child ... ignored, private subprocess fixture invoked by fifo_without_writer_denies_within_bound
+test scratch::collision_child ... ignored, private subprocess fixture invoked by preexisting_directory_is_preserved_and_creation_retries
+
+running 1 test
+
+running 1 test
+test scratch::collision_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.00s
+
+test scratch::concurrent_scratch_directories_are_unique_and_private ... ok
+test approval::malformed_duplicate_and_oversized_bearers_never_contact_provider ... ok
+test files::fifo_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.01s
+
+test files::fifo_without_writer_denies_within_bound ... ok
+test scratch::preexisting_directory_is_preserved_and_creation_retries ... ok
+test approval::unsafe_endpoint_and_missing_provider_are_static_denials ... ok
+test approval::invalid_host_capacity_and_unrepresentable_timeout_reject_at_construction ... ok
+test files::invalid_files_deny_before_contact_and_errors_disclose_no_path_or_material ... ok
+test files::private_regular_file_verifies_without_trimming_secret_material ... ok
+test admission::provider_revision_change_while_verifying_denies_stale_binding_without_holding_core_gate ... ok
+test files::exact_secret_and_bearer_byte_bounds_are_admitted ... ok
+test approval::current_unapproved_configuration_denies_before_external_acquisition ... ok
+test admission::caller_cancellation_retains_capacity_and_cancelled_drain_can_be_reawaited ... ok
+test admission::caller_deadline_retains_capacity_until_verifier_completion ... ok
+test outage::transport_timeout_denies_statically_then_drains_and_recovers_capacity ... ok
+
+test result: ok. 14 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.56s
+
+
+running 13 tests
+test provider_profile::configuration::config_rejects_duplicate_unknown_fields_and_nonprivate_file_without_diagnostics ... ok
+test provider_profile::configuration::valid_config_safe_defaults_and_closed_bounded_schema ... ok
+test provider_profile::authority::serving_excludes_provisioner_and_local_roles_cannot_mutate_business_resource ... ok
+test provider_profile::authority::local_maintenance_validates_key_revision_identity_and_operation_before_mutation ... ok
+test provider_profile::authority::linked_service_discovers_only_declared_task_metadata ... ok
+test provider_profile::commands::offline_command_refuses_a_database_owned_by_a_live_runtime ... ok
+test provider_profile::serving::stop_drains_paused_authentication_before_closing_runtime ... ok
+test provider_profile::commands::readiness_allows_immediate_sigterm_and_serving_never_provisions ... ok
+test provider_profile::provisioning::both_store_resume_preserves_revisions_and_changed_input_is_rejected ... ok
+test provider_profile::commands::offline_commands_on_both_stores_reject_unconfigured_targets_and_emit_only_safe_results ... ok
+test provider_profile::authority::linked_service_authority_revocation_and_structured_archive_redaction ... ok
+test provider_profile::commands::readiness_allows_immediate_sigint_and_serving_never_provisions ... ok
+test provider_profile::provisioning::each_lost_ack_step_resumes_after_native_close_and_reopen ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.96s
+
+
+running 3 tests
+test reference_process_exit_child ... ignored, fault helper invoked only by committed_rejection_recovers_after_process_exit_without_shutdown
+
+running 1 test
+
+running 1 test
+test committed_rejection_recovers_after_process_exit_without_shutdown ... ok
+test reference_command_recovers_pending_work_on_both_stores ... ok
+
+test result: ok. 2 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 1.08s
+
+
+running 1 test
+test reservation_arguments_are_named_and_invalid_fields_do_not_commit ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 4 tests
+test redb_immediate_sigterm_drains_and_reopens ... ok
+test redb_immediate_sigint_drains_and_reopens ... ok
+test sqlite_immediate_sigint_drains_and_reopens ... ok
+test sqlite_immediate_sigterm_drains_and_reopens ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.33s
+
+
+running 5 tests
+test checkout_v2_declares_stock_reference_without_changing_wire_values ... ok
+test generic_patch_cannot_reverse_a_confirmed_checkout ... ok
+test transported_mutations_preserve_demo_invariants_on_both_adapters ... ok
+test checkout_reference_restricts_an_empty_stock_until_pending_checkout_is_deleted ... ok
+test generic_writes_cannot_retarget_compensation_or_corrupt_reservations ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.26s
+
+
+running 6 tests
+test upgrade_process_exit_child ... ignored, actual process-exit fixture invoked by process_exit_preserves_pending_compensation_through_migration_backup_and_restore
+
+running 1 test
+test upgrade_rejects_invalid_arguments_without_creating_files ... ok
+
+running 1 test
+test invalid_conversion_missing_target_and_unaccepted_work_never_publish ... ok
+test migrated_receipt_requires_its_recorded_codec_and_current_authority ... ok
+test upgrade_command_runs_the_real_application_on_both_backends ... ok
+test process_exit_preserves_pending_compensation_through_migration_backup_and_restore ... ok
+
+test result: ok. 5 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 2.19s
+
+
+running 3 tests
+test custom_field_canonicalizes_and_rejects_invalid_stock_codes ... ok
+test local_cli_discovers_only_deliberately_published_domain_metadata ... ok
+test same_author_application_runs_on_sqlite_and_redb ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.63s
+
+
+running 1 test
+test error_tests::expired_identity_has_a_distinct_gone_category ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 1 test
+test http_body_capacity_is_fallible_at_engine_boundaries ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 34 tests
+test authentication::denied_async_authentication_responds_without_waiting_for_streamed_body ... ok
+test discovery::discovery_http_never_returns_an_oversized_partial_catalog ... ok
+test authentication::shutdown_closes_admission_and_pending_auth_cannot_bypass_runtime_closure ... ok
+test admission::strict_json_and_declared_and_chunked_body_bounds_reject_before_execution ... ok
+test authentication::delayed_async_authentication_allows_unrelated_tcp_request_to_commit ... ok
+test authentication::body_admission_rejects_extra_request_before_async_authentication ... ok
+test mutation::disconnect_after_acceptance_retains_work_permit_and_retry_replays_one_commit ... ok
+test journal::retention_loss_is_explicit_for_both_missing_and_expired_cursor ... ok
+test discovery::discovery_route_uses_explicit_grants_and_strict_authenticated_input ... ok
+test journal::expired_history_requires_explicit_head_then_snapshot_recovery ... ok
+test journal::journal_replays_distinct_facts_and_rejects_wrong_generation_scope_and_future_cursor ... ok
+test discovery::studio_wire_fixtures_use_actual_http_values_and_live_frames ... ok
+test mutation::lost_commit_ack_is_unknown_on_wire_and_same_identity_resolves_it ... ok
+test operator::default_policy_denies_work_without_disclosing_its_existence ... ok
+test journal::journal_pages_are_bounded_and_cancelled_wait_does_not_acknowledge_a_fact ... ok
+test authentication::synchronous_and_asynchronous_constructors_share_limit_validation ... ok
+test operator::operator_capabilities_use_current_verified_actor_and_default_to_false ... ok
+test observations::stream_capacity_is_bounded_and_disconnect_releases_the_subscription ... ok
+test operator::operator_capabilities_accept_only_an_empty_object ... ok
+test authentication::sync_and_async_authentication_share_resource_and_body_contracts ... ok
+test mutation::embedded_and_wire_share_mutation_identity_authorization_and_projection ... ok
+test operator::operator_routes_reject_top_level_positional_arrays ... ok
+test operator::structured_request_admission_preserves_nested_resource_arrays ... ok
+test operator::operator_routes_refuse_actor_fields_and_oversized_bodies ... ok
+test observations::live_is_fresh_coalescing_state_and_revocation_and_shutdown_close_streams ... ok
+test query_anchor::query_anchor_route_preserves_native_float_codec_and_moving_boundary ... ok
+test query::all_wire_observation_forms_apply_field_projection_and_predicate_authority ... ok
+test observations::idle_stream_expiry_rechecks_without_a_resource_write ... ok
+test query::structured_queries_and_patches_use_the_generic_wire_contract ... ok
+test query::ranges_sort_and_client_anchor_share_query_and_live_wire_paths ... ok
+test operator_flow::operator_http_matches_embedded_inspection_and_atomic_retry_without_resending ... ok
+test observations::live_keeps_one_pending_read_across_keepalives ... ok
+test admission::slow_body_owns_independent_admission_until_timeout ... ok
+test observations::journal_keeps_one_pending_read_across_keepalives ... ok
+
+test result: ok. 34 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+added 40 packages in 193ms
+TAP version 13
+# Subtest: separate commands issue a private CLI auth file and redact credentials
+ok 1 - separate commands issue a private CLI auth file and redact credentials
+  ---
+  duration_ms: 504.786004
+  type: 'test'
+  ...
+# Subtest: fixture private reads reject unsafe and unbounded files without FIFO blocking
+ok 2 - fixture private reads reject unsafe and unbounded files without FIFO blocking
+  ---
+  duration_ms: 26.394439
+  type: 'test'
+  ...
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+# Subtest: actual provider preserves service profile and loses opaque tokens at restart
+ok 3 - actual provider preserves service profile and loses opaque tokens at restart
+  ---
+  duration_ms: 109.424072
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 568.610256
+Provider acceptance (sqlite): operations, receipt replay, ROM reopen, access revocation, audience binding and credential rotation passed.
+Provider acceptance (redb): operations, receipt replay, ROM reopen, access revocation, audience binding and credential rotation passed.
+Provider acceptance (sqlite): expired token denied, fresh token accepted and output/database marker scans passed.
+Provider acceptance (redb): expired token denied, fresh token accepted and output/database marker scans passed.

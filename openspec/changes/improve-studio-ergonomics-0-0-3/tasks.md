@@ -28,5 +28,5 @@
 - [x] 5.3 Run browser ergonomics E2E, affected native tests, and the full local verifier for the initial increment.
 - [x] 5.4 Complete Chromium/WebKit and SQLite/redb integrated acceptance for the full catalog.
 - [x] 5.5 Refresh README screenshots and support limits from implemented screens.
-- [ ] 5.6 Prepare and independently verify the clean-source 0.0.3 release artifact and preview.
-- [ ] 5.7 Verify that demo restart preserves edited and deleted seeded Resources through the generic storage contract.
+- [x] 5.6 Prepare and independently verify the clean-source 0.0.3 release artifact and preview.
+- [x] 5.7 Verify that demo restart preserves edited and deleted seeded Resources through the generic storage contract.

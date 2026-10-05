@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "reviewed_commit": "584c01b614127b3f62799f1a26a1cdf3f734c3dc",
+  "source_tree": "7c35772c89aa5e78ca70b040adb58293236215a5",
+  "artifact_directory": "/root/ROM/dist/release-0.0.3-584c01b-retry",
+  "artifact_verification": {
+    "command": "verifyArtifacts from scripts/release-artifacts/verification.mjs",
+    "exit_code": 0,
+    "complete": true,
+    "manifest_version": 2,
+    "verification_profile": "rom-studio-v2",
+    "all_eight_recorded_gates_exit_zero": true,
+    "any_bounded_abort_or_spawn_failure": false,
+    "publication_enabled": false,
+    "archive_sha256": {
+      "source": "f18922f9c2a6059570c0bff541deaf379f23c99a02c6185c33c8f3f965a45abe",
+      "skills": "f47797b4491ab5ac658f1a23fc006f353765c071eab75fb2bcdd88346120fbfc",
+      "studio": "93ac15e977659708b245b34dac6229839d29e3355924f64c59cac99cfe538a11"
+    }
+  },
+  "gate_results": {
+    "gate_1_local_check": "passed",
+    "gate_2_release_build": "passed",
+    "gate_3_demo_smoke": "passed on SQLite and redb",
+    "gate_4_provider_acceptance": "passed on SQLite and redb",
+    "gate_5_skill_checks": "passed",
+    "gate_6_extracted_packages": "passed; 15 archives",
+    "gate_7_studio_browser": "221 passed; 1 documented WebKit physical-touch skip",
+    "gate_8_packaged_host_browser": "28 passed on SQLite/redb and Chromium/WebKit"
+  },
+  "producer_history": {
+    "first_complete_attempt": "failed at gate 8 after WPE native compositor SIGSEGV; 27 of 28 passed",
+    "focused_probe": "same SIGSEGV in 1 of 5 runs, no source change",
+    "unchanged_complete_retry": "all eight gates passed"
+  },
+  "external_consumer": {
+    "evidence": "/var/tmp/rom-studio-accepted-source-NcRkDi/external-author/result.json",
+    "completed": true,
+    "install_typecheck_build_provider_install": "all exit 0",
+    "browser_cases": 4,
+    "browser_passed": 4,
+    "coverage": [
+      "SQLite",
+      "redb",
+      "Chromium",
+      "WebKit"
+    ],
+    "renderer_model": "explicit public application registration"
+  },
+  "startup_review": {
+    "evidence": "/var/tmp/rom-003-startup-final-review.md",
+    "material_source_blocker": false,
+    "focused_native_tests_recorded": 8,
+    "copied_upgrade": "13 existing rows preserved including tombstone; one missing showcase, event, and receipt added; effects unchanged",
+    "copied_restart": "HTTP 200, exit 0, ledger counts unchanged",
+    "independently_executed_by_this_reviewer": false
+  },
+  "open_spec": {
+    "requirements_mapped": 7,
+    "tasks_5_6_5_7": "unchecked in immutable v0.0.3 source tag despite later passing evidence; root owns final documentation commit",
+    "pending": [],
+    "explicit_app_acceptance": "pass 28/28 on fixed runtime 2364"
+  },
+  "limitations": [
+    "No claim of human usability or production readiness from automated tests alone.",
+    "One WebKit physical-touch case is skipped because its test driver uses Chromium CDP.",
+    "The standard bundle does not auto-load application custom code; composition is explicit and tested separately.",
+    "Plugin Settings presentation scenario is fixture-backed; no distinct plugin Settings kind is listed in gate-8 scenarios.",
+    "Live VPN preview acceptance must identify the corrected 584c01b runtime and assets before deployment completion is claimed.",
+    "The explicit application browser suite has 2 WPE/WebKit native process crashes with matching signature; do not accept its 26/28 result.",
+    "A passing secondary copied-store restoration does not establish that the corrected primary deployment serves the 584c01b binary and assets.",
+    "Remote Mac/iOS VPN ingress and browser trust of the internal CA are not verified by host-side preview acceptance.",
+    "OpenSpec task checkboxes 5.6/5.7 remain unchecked in immutable v0.0.3 tag despite later passing acceptance evidence; final documentation commit and source/tag publication remain owner follow-up."
+  ],
+  "report": "/var/tmp/rom-003-final-artifact-review-584c01b.md",
+  "explicit_demo_app_acceptance": {
+    "evidence": "/var/tmp/rom-003-preview-application-584c01b/acceptance/report-full.json",
+    "source_commit": "584c01b614127b3f62799f1a26a1cdf3f734c3dc",
+    "expected": 26,
+    "unexpected": 2,
+    "skipped": 0,
+    "flaky": 0,
+    "failed_cases": [
+      "SQLite WebKit semantic Set/null interaction",
+      "redb WebKit semantic Set/null interaction"
+    ],
+    "error": "Target page/context/browser closed during option click; bounded system evidence records WPE compositor SIGSEGV in libWPEWebKit.",
+    "accepted": true,
+    "fixed_runtime_evidence": "/var/tmp/rom-003-webkit-fixed-probe/full.json",
+    "fixed_runtime": {
+      "revision": 2364,
+      "locked_playwright_client": "1.63.0",
+      "expected": 28,
+      "unexpected": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "exit_status": "pass",
+      "engines": [
+        "Chromium",
+        "WebKit"
+      ],
+      "source_commit": "584c01b614127b3f62799f1a26a1cdf3f734c3dc",
+      "native_binary_sha256": "ddeda5f8674333da679703674d679173553fad6294b0a559b7c22b8525109c2b",
+      "assets_unchanged": true
+    }
+  },
+  "webkit_diagnosis": {
+    "report": "/var/tmp/rom-003-webkit-584-diagnosis/report.md",
+    "focused_repetition": "4/5 passed, same native crash reproduced 1/5",
+    "source_changed": false,
+    "upstream_correspondence": [
+      "https://github.com/microsoft/playwright/issues/42637",
+      "https://github.com/WebKit/WebKit/pull/73621"
+    ],
+    "fixed_runtime_probe": {
+      "evidence": "/var/tmp/rom-003-webkit-fixed-probe/probe-facts.json",
+      "runtime_revision": 2364,
+      "locked_playwright_client": "1.63.0",
+      "focused_cases": 10,
+      "passed": 10,
+      "failed": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "source_and_app_assets_unchanged": true,
+      "native_binary_sha256": "ddeda5f8674333da679703674d679173553fad6294b0a559b7c22b8525109c2b",
+      "full_28_status": "running",
+      "root_cause_resolved": false
+    },
+    "root_cause_resolved": "The 2359 failure class is avoided on the tested 2364 runtime; no claim of general WebKit/Safari resolution."
+  },
+  "secondary_restore_restart": {
+    "evidence": "/var/tmp/rom-003-secondary-restoration-preparation/run-1791214722483/recovery-result.json",
+    "status": "pass",
+    "existing_rows_and_tombstones_preserved": true,
+    "second_restart_all_table_hashes_equal": true,
+    "scope": "copied secondary store only; not corrected primary deployment"
+  },
+  "primary_live_acceptance": {
+    "evidence": "/root/ROM/docs/research/evidence/rom-0.0.3/release-584c01b/preview-acceptance.json",
+    "source_commit": "584c01b614127b3f62799f1a26a1cdf3f734c3dc",
+    "status": "pass after activation and full container restart",
+    "baseline_rows": 14,
+    "differences": 0,
+    "authorized_resource_kinds": 10,
+    "authorized_rows": 14,
+    "ui_checks": {
+      "field_showcase": true,
+      "plugin_settings": true,
+      "work_shared_inspector_right_chevron": true,
+      "custom_ticket_code_editor": true,
+      "neutral_favicon": true,
+      "prohibited_mutation_requests": 0
+    },
+    "tls": "curl verified internal CA and hostname; browser bypass limited to known internal-CA origin",
+    "remote_mac_ios_ingress_tested": false,
+    "container_closure": "/nix/store/1gzz85gykrcgqvpiczbbqwgkchlavrx5-nixos-system-rom-studio-24.11.20250630.50ab793",
+    "services": {
+      "rom-studio.service": "active+enabled",
+      "rom-studio-provider.service": "active+enabled"
+    }
+  },
+  "attachment_preservation": {
+    "evidence": "/root/ROM/docs/research/evidence/rom-0.0.3/release-584c01b/attachment-preservation.json",
+    "status": "pass before and after full container restart",
+    "persistent_files": 1,
+    "persistent_bytes": 163040,
+    "isolated_files": 0,
+    "changed_files": 0,
+    "missing_files": 0
+  },
+  "independent_deployment_file_identity": {
+    "container": "/opt/rom-studio",
+    "binary_sha256": "ddeda5f8674333da679703674d679173553fad6294b0a559b7c22b8525109c2b",
+    "index_html_sha256": "e7dca98287d9dd924eecc9c0bbbbf23075e15a939099b530bdc0f9716d432a20",
+    "javascript_sha256": "6d7061f97e0975c1added3219da61e0a50057669d67a7440f2fa2eed3a35734a",
+    "css_sha256": "ea672ef1df94ff1b618f69ad1e056ad59e88efa7d61a3734fe5803c62e9dcd64",
+    "favicon_sha256": "01aa30ad5f14529c11e476eef725b38250027a361e8bcb50ba61a53a2ee0568b",
+    "receipt_match": true
+  },
+  "release_scope_status": "all implementation and recorded acceptance requirements pass; only administrative task status and owner-managed final publication remain"
+}

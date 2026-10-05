@@ -1,0 +1,16 @@
+{
+  "status": "failed",
+  "source_revision": "584c01b614127b3f62799f1a26a1cdf3f734c3dc",
+  "runtime": "WPE 2359 with locked Playwright 1.63.0 client",
+  "stats": {
+    "startTime": "2026-10-05T15:38:31.235Z",
+    "duration": 328063.543,
+    "expected": 26,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  },
+  "retained_report": "/var/tmp/rom-003-preview-application-584c01b/acceptance/report-full.json",
+  "report_sha256": "4429ac164d3924f6edcb48c00418bed4f40170cd1681b08f9a546ce46b45e433",
+  "disposition": "Both semantic WebKit cases terminated with the native compositor crash signature. Original failures remain failures; the later fixed2364 acceptance is separate."
+}

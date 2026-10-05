@@ -1,7 +1,11 @@
 # Source release support boundary
 
-Current candidate: 0.0.3 passed source, Studio, and persistent preview acceptance on 2026-10-05.
-A later demo restart-after-delete finding requires correction before final release completion.
+Current release: 0.0.3 passed source, Studio, and persistent preview acceptance on 2026-10-05.
+Accepted source: `584c01b614127b3f62799f1a26a1cdf3f734c3dc`.
+Restart acceptance preserves edited and deleted seeded Resources.
+Explicit application acceptance uses WPE 2364 with the locked Playwright 1.63.0 client.
+The earlier default WPE 2359 runs retain their documented native compositor failure.
+The tested replacement runtime does not establish every browser protocol feature or every Safari platform.
 The [completion record](research/rom-0.0.3-release-completion.md) identifies its accepted source and executed checks.
 Use the matching 0.0.3 Cargo and Studio source set. Recompile trusted extensions.
 The [compatibility review](research/rom-0.0.3-compatibility.md) lists descriptor and renderer changes.

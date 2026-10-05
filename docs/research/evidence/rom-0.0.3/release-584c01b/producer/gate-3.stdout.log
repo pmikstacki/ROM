@@ -1,0 +1,110 @@
+
+running 4 tests
+test upgrade::legacy::tests::frozen_checkout_preserves_the_original_string_codec ... ok
+test upgrade::legacy::tests::migration_accepts_only_frozen_callback_identity_and_payload_contracts ... ok
+test upgrade::legacy::tests::old_profile_keeps_checkout_validation_before_reference_migration ... ok
+test upgrade::legacy::tests::current_wire_commands_prepare_the_frozen_profile_without_changing_its_catalog_or_rules ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 1 test
+test explicit_compensation_and_revocation_on_both_adapters ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.48s
+
+
+running 1 test
+test readme_invocations_decode_without_a_second_schema ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 1 test
+test operator_command_recovers_work_then_runs_explicit_compensation_on_both_stores ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.32s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test reference_process_exit_child ... ignored, fault helper invoked only by committed_rejection_recovers_after_process_exit_without_shutdown
+
+running 1 test
+
+running 1 test
+test reference_command_recovers_pending_work_on_both_stores ... ok
+test committed_rejection_recovers_after_process_exit_without_shutdown ... ok
+
+test result: ok. 2 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.84s
+
+
+running 1 test
+test reservation_arguments_are_named_and_invalid_fields_do_not_commit ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 4 tests
+test redb_immediate_sigterm_drains_and_reopens ... ok
+test redb_immediate_sigint_drains_and_reopens ... ok
+test sqlite_immediate_sigint_drains_and_reopens ... ok
+test sqlite_immediate_sigterm_drains_and_reopens ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.23s
+
+
+running 5 tests
+test checkout_v2_declares_stock_reference_without_changing_wire_values ... ok
+test generic_patch_cannot_reverse_a_confirmed_checkout ... ok
+test checkout_reference_restricts_an_empty_stock_until_pending_checkout_is_deleted ... ok
+test transported_mutations_preserve_demo_invariants_on_both_adapters ... ok
+test generic_writes_cannot_retarget_compensation_or_corrupt_reservations ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+
+running 6 tests
+test upgrade_process_exit_child ... ignored, actual process-exit fixture invoked by process_exit_preserves_pending_compensation_through_migration_backup_and_restore
+
+running 1 test
+test upgrade_rejects_invalid_arguments_without_creating_files ... ok
+
+running 1 test
+test invalid_conversion_missing_target_and_unaccepted_work_never_publish ... ok
+test migrated_receipt_requires_its_recorded_codec_and_current_authority ... ok
+test upgrade_command_runs_the_real_application_on_both_backends ... ok
+test process_exit_preserves_pending_compensation_through_migration_backup_and_restore ... ok
+
+test result: ok. 5 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 2.21s
+
+
+running 3 tests
+test custom_field_canonicalizes_and_rejects_invalid_stock_codes ... ok
+test local_cli_discovers_only_deliberately_published_domain_metadata ... ok
+test same_author_application_runs_on_sqlite_and_redb ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.83s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+Smoke passed (sqlite): two Resource kinds, codec rejection, typed patch, TCP query/live/journal, configuration, reaction, explicit compensation, typed notification, access denial, folder attachment/reopen/detach, graceful shutdown.
+Smoke passed (redb): two Resource kinds, codec rejection, typed patch, TCP query/live/journal, configuration, reaction, explicit compensation, typed notification, access denial, folder attachment/reopen/detach, graceful shutdown.
+Serve/reopen/SIGINT drain passed (SQLite and redb).

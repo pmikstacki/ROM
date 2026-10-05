@@ -1,0 +1,13 @@
+- Validating...
+✓ change/add-structured-action-inputs
+✓ change/design-capability-adapters
+✓ change/design-provider-neutral-auth
+✓ change/enforce-resource-transitions
+✓ change/establish-rom
+✓ change/evaluate-query-compensation-and-skills
+✓ change/harden-core-and-add-cli
+✓ change/improve-studio-ergonomics-0-0-3
+✓ change/integrate-resource-mvp
+✓ change/prepare-framework-release
+✓ change/release-rom-0-0-2-studio
+Totals: 11 passed, 0 failed (11 items)

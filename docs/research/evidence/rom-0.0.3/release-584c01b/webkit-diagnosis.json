@@ -1,0 +1,48 @@
+{
+  "source_commit": "584c01b614127b3f62799f1a26a1cdf3f734c3dc",
+  "classification": "intermittent native WPE WebKit compositor SIGSEGV",
+  "underlying_cause": "unresolved native engine/environment/rendering trigger",
+  "source_change_justified": false,
+  "original_results": {
+    "passed": 27,
+    "failed": 1
+  },
+  "focused_repeat_results": {
+    "passed": 4,
+    "failed": 1,
+    "skipped": 0,
+    "flaky": 0
+  },
+  "crash_signatures": [
+    {
+      "time_utc": "2026-10-05 15:22:28",
+      "process": "WPEWebProcess",
+      "pid": 1375363,
+      "thread": 1375383,
+      "signal": "SIGSEGV",
+      "library": "libWPEWebKit-2.0.so.1.12.0",
+      "offset": "0x60a0f8a"
+    },
+    {
+      "time_utc": "2026-10-05 15:25:43",
+      "process": "WPEWebProcess",
+      "pid": 1379581,
+      "thread": 1379601,
+      "signal": "SIGSEGV",
+      "library": "libWPEWebKit-2.0.so.1.12.0",
+      "offset": "0x60a0f8a"
+    }
+  ],
+  "historical_exact_signature_verified": false,
+  "independently_executed_browser_cases": false,
+  "full_retry_status": "pending",
+  "report_sha256": "b150e47689d485525cf2731a3c3d625c3352a87ee66aa7c74a9febe2ed33ba76",
+  "evidence_sha256": {
+    "journal-bounded.log": "d624a381b9a8448c71c8e0efb7f7a1220554c84000d3e0b8e2a11a736b92794f",
+    "compositor-stack.log": "95e9ec24e3a35b3804a5511819587225a69ef18231c7bbf554ad5af18138dd9d",
+    "repeat-journal-bounded.log": "cce786cafdd04f54713e7a085d5be94fcc00fe6c618669c456af9074bfb7877b",
+    "repeat-compositor-stack.log": "2807fb8cd0a421d823057981aa5efd9a1ed006accb3c125e0322fc80e01dfb44",
+    "browser-failure.log": "e0371c3003662131060823de310e27e49a4de72a49d2c4ba9009d9b57d1c5411",
+    "error-context.md": "a5ff1a30e52cfa6e3a30ae1bc6258046cfa68b35314cd2f64e9c2639d987d747"
+  }
+}

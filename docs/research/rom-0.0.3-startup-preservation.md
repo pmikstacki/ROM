@@ -18,7 +18,8 @@ No missing editor, authorization failure, or unknown commit result is converted 
 
 The [RED regression](evidence/rom-0.0.3/startup-preservation/red.log) fails on both actual database adapters.
 It covers initial seed, ordinary edit, ordinary delete, shutdown, reopen, and repeated bootstrap.
-The corrected run passed. Final release acceptance remains pending.
+The corrected run passed. At that stage, final release acceptance remained pending.
+The later [completion record](rom-0.0.3-release-completion.md) records the complete corrected producer and permanent preview acceptance.
 
 The first fixture attempt hit reference-restrict before deletion. Its separate log remains preserved.
 The corrected fixture moves the dependent reference before deletion and reproduces the intended Denied replay.
