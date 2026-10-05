@@ -17,9 +17,19 @@ fn text(value: &serde_json::Value, key: &str) -> SmokeResult<String> {
     }
     Ok(text.into())
 }
-fn bounded_file(path: &Path, max: usize, private: bool) -> SmokeResult<String> {
+fn bounded_file(
+    path: &Path,
+    max: usize,
+    private: bool,
+    credentials_directory: Option<&Path>,
+) -> SmokeResult<String> {
     let result = if private {
-        crate::host_files::read_owned_private(path, max)
+        match credentials_directory {
+            Some(directory) if path.parent() == Some(directory) => {
+                crate::host_files::read_systemd_credential(path, max, directory)
+            }
+            _ => crate::host_files::read_owned_private(path, max),
+        }
     } else {
         crate::host_files::read_regular(path, max)
     };
@@ -27,7 +37,17 @@ fn bounded_file(path: &Path, max: usize, private: bool) -> SmokeResult<String> {
 }
 impl TrustedProfile {
     pub fn read(path: &Path) -> SmokeResult<Self> {
-        let config: serde_json::Value = serde_json::from_str(&bounded_file(path, 16384, false)?)?;
+        let credentials_directory =
+            std::env::var_os("CREDENTIALS_DIRECTORY").map(std::path::PathBuf::from);
+        Self::read_with_credentials(path, credentials_directory.as_deref())
+    }
+
+    pub(super) fn read_with_credentials(
+        path: &Path,
+        credentials_directory: Option<&Path>,
+    ) -> SmokeResult<Self> {
+        let config: serde_json::Value =
+            serde_json::from_str(&bounded_file(path, 16384, false, credentials_directory)?)?;
         let object = config.as_object().ok_or("profile must be an object")?;
         let fields = [
             "public_origin",
@@ -49,7 +69,7 @@ impl TrustedProfile {
             return Err("trusted Studio profile requires public HTTPS".into());
         }
         let secret_path = text(&config, "client_secret_file")?;
-        let secret = bounded_file(Path::new(&secret_path), 4096, true)?;
+        let secret = bounded_file(Path::new(&secret_path), 4096, true, credentials_directory)?;
         let secret = secret.strip_suffix('\n').unwrap_or(&secret).to_owned();
         if secret.is_empty() {
             return Err("empty Studio credential file".into());

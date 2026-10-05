@@ -53,6 +53,53 @@ mod linux {
         );
         std::fs::remove_dir_all(root).expect("remove synthetic fixture");
     }
+
+    #[cfg(feature = "studio")]
+    #[test]
+    fn regular_reader_accepts_root_owned_read_only_profile_and_rejects_writable_profile() {
+        let root = root();
+        let profile = root.join("profile.json");
+        std::fs::write(&profile, "trusted profile").expect("profile");
+        std::fs::set_permissions(&profile, std::fs::Permissions::from_mode(0o444))
+            .expect("read-only mode");
+        assert_eq!(
+            crate::host_files::read_regular(&profile, 32).expect("root-owned profile is trusted"),
+            "trusted profile"
+        );
+        std::fs::set_permissions(&profile, std::fs::Permissions::from_mode(0o664))
+            .expect("writable owner mode");
+        assert!(crate::host_files::read_regular(&profile, 32).is_err());
+        std::fs::remove_dir_all(root).expect("remove synthetic fixture");
+    }
+
+    #[cfg(feature = "studio")]
+    #[test]
+    fn systemd_credential_reader_accepts_private_manager_file_only_in_credential_directory() {
+        let root = root();
+        let credential = root.join("client-secret");
+        let outside = root.join("outside-secret");
+        std::fs::write(&credential, "credential").expect("credential");
+        std::fs::set_permissions(&credential, std::fs::Permissions::from_mode(0o440))
+            .expect("systemd credential mode");
+        assert_eq!(
+            crate::host_files::read_systemd_credential(&credential, 32, &root)
+                .expect("systemd credential is admitted"),
+            "credential"
+        );
+
+        std::fs::write(&outside, "outside").expect("outside credential");
+        std::fs::set_permissions(&outside, std::fs::Permissions::from_mode(0o440))
+            .expect("systemd credential mode");
+        assert!(
+            crate::host_files::read_systemd_credential(&outside, 32, &root.join("other")).is_err()
+        );
+
+        std::fs::set_permissions(&credential, std::fs::Permissions::from_mode(0o600))
+            .expect("writable credential mode");
+        assert!(crate::host_files::read_systemd_credential(&credential, 32, &root).is_err());
+        std::fs::remove_dir_all(root).expect("remove synthetic fixture");
+    }
+
     #[test]
     fn opened_fifo_is_rejected_without_waiting_for_a_writer() {
         let root = root();

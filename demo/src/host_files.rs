@@ -4,18 +4,43 @@ use std::path::Path;
 
 #[cfg(feature = "provider-profile")]
 pub(crate) fn read_private(path: &Path, max: usize) -> Result<String> {
-    read(path, max, true, false, false)
+    read(path, max, true, OwnerPolicy::None, false)
 }
 #[cfg(feature = "studio")]
 pub(crate) fn read_owned_private(path: &Path, max: usize) -> Result<String> {
-    read(path, max, true, true, true)
+    read(path, max, true, OwnerPolicy::Current, true)
 }
 #[cfg(feature = "studio")]
 pub(crate) fn read_regular(path: &Path, max: usize) -> Result<String> {
-    read(path, max, false, false, true)
+    read(path, max, false, OwnerPolicy::Trusted, true)
+}
+#[cfg(feature = "studio")]
+pub(crate) fn read_systemd_credential(
+    path: &Path,
+    max: usize,
+    credentials_directory: &Path,
+) -> Result<String> {
+    if !credentials_directory.is_absolute() || path.parent() != Some(credentials_directory) {
+        return Err(Error::Denied);
+    }
+    read(path, max, false, OwnerPolicy::SystemdCredential, true)
+}
+#[derive(Clone, Copy)]
+enum OwnerPolicy {
+    #[cfg(feature = "provider-profile")]
+    None,
+    Current,
+    Trusted,
+    SystemdCredential,
 }
 #[cfg(target_os = "linux")]
-fn read(path: &Path, max: usize, private: bool, owned: bool, absolute: bool) -> Result<String> {
+fn read(
+    path: &Path,
+    max: usize,
+    private: bool,
+    owner: OwnerPolicy,
+    absolute: bool,
+) -> Result<String> {
     use std::{
         io::Read,
         os::unix::fs::{MetadataExt, OpenOptionsExt},
@@ -33,14 +58,30 @@ fn read(path: &Path, max: usize, private: bool, owned: bool, absolute: bool) -> 
         .open(path)
         .map_err(|_| Error::Denied)?;
     let metadata = file.metadata().map_err(|_| Error::Denied)?;
+    let current_uid = || {
+        std::fs::metadata("/proc/self")
+            .map(|process| process.uid())
+            .map_err(|_| Error::Denied)
+    };
+    let owner_admitted = match owner {
+        #[cfg(feature = "provider-profile")]
+        OwnerPolicy::None => true,
+        OwnerPolicy::Current => metadata.uid() == current_uid()?,
+        OwnerPolicy::Trusted => {
+            let uid = current_uid()?;
+            (metadata.uid() == 0 || metadata.uid() == uid)
+                && metadata.mode() & 0o022 == 0
+                && (metadata.uid() != uid || metadata.mode() & 0o200 == 0)
+        }
+        OwnerPolicy::SystemdCredential => {
+            (metadata.uid() == 0 || metadata.uid() == current_uid()?)
+                && matches!(metadata.mode() & 0o777, 0o400 | 0o440)
+        }
+    };
     if !metadata.is_file()
         || metadata.len() > bound
         || (private && metadata.mode() & 0o077 != 0)
-        || (owned
-            && metadata.uid()
-                != std::fs::metadata("/proc/self")
-                    .map_err(|_| Error::Denied)?
-                    .uid())
+        || !owner_admitted
     {
         return Err(Error::Denied);
     }
@@ -54,7 +95,7 @@ fn read(path: &Path, max: usize, private: bool, owned: bool, absolute: bool) -> 
     String::from_utf8(bytes).map_err(|_| Error::Denied)
 }
 #[cfg(not(target_os = "linux"))]
-fn read(_: &Path, _: usize, _: bool, _: bool, _: bool) -> Result<String> {
+fn read(_: &Path, _: usize, _: bool, _: OwnerPolicy, _: bool) -> Result<String> {
     // Preserve the reference profile's Linux boundary; never use a weaker fallback.
     Err(Error::Denied)
 }
