@@ -1,0 +1,2256 @@
+
+> rom-studio@0.0.2 test
+> playwright test --config tests/components/playwright.config.ts --project=webkit
+
+[WebServer] (node:506745) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 66 tests using 2 workers
+
+(node:506821) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:506822) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [webkit] › tests/components/application.spec.ts:9:1 › real SDK composes two metadata-driven pages; logout clears details (1ms)
+  ✘   2 [webkit] › tests/components/controls.spec.ts:7:1 › integer fields request a numeric mobile keyboard without losing exact input (1ms)
+(node:506869) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:506879) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 [webkit] › tests/components/application.spec.ts:93:1 › real app reports unavailable session without simulated data (1ms)
+  ✘   4 [webkit] › tests/components/controls.spec.ts:19:1 › Resource references identify the target kind while accepting an exact ID (2ms)
+(node:506903) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:506927) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 [webkit] › tests/components/application.spec.ts:106:1 › moving pages use native query anchors and previous refetches (1ms)
+  ✘   6 [webkit] › tests/components/controls.spec.ts:30:1 › Resource controls preserve integer, presence, boolean and nested edits (1ms)
+(node:506952) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:506980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 [webkit] › tests/components/details.spec.ts:2:1 › selected Resource shows its current title as a direct editable field (1ms)
+  ✘   8 [webkit] › tests/components/controls.spec.ts:58:1 › same field hosts support custom codec, nested collections and generic action input (1ms)
+(node:507005) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507034) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 [webkit] › tests/components/details.spec.ts:27:1 › direct boolean control keeps false and becomes an explicit edit only when switched (1ms)
+  ✘  10 [webkit] › tests/components/controls.spec.ts:82:1 › expanded action input describes submission rather than Resource saving (1ms)
+(node:507059) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  11 [webkit] › tests/components/details.spec.ts:42:1 › mobile Resource editor uses the full viewport and a concise heading (1ms)
+(node:507096) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507125) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  12 [webkit] › tests/components/controls.spec.ts:91:1 › unsupported action stays visible, generic table selects, query emits values (1ms)
+  ✘  13 [webkit] › tests/components/details.spec.ts:53:1 › live revision retains draft and disables stale submission until explicit reload (1ms)
+(node:507149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507174) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  14 [webkit] › tests/components/controls.spec.ts:108:1 › keyboard controls and assembled accessibility (1ms)
+  ✘  15 [webkit] › tests/components/details.spec.ts:88:1 › an open field popup cannot mutate a draft after a newer revision (1ms)
+(node:507199) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507223) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  16 [webkit] › tests/components/controls.spec.ts:118:1 › descriptor change retains an open draft and requires explicit reopen (1ms)
+  ✘  17 [webkit] › tests/components/details.spec.ts:117:1 › stale Resource keeps collection details readable without reopening mutation (1ms)
+(node:507248) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507279) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  18 [webkit] › tests/components/controls.spec.ts:166:1 › invalid field keeps keyboard focus and cannot submit until corrected (1ms)
+  ✘  19 [webkit] › tests/components/direct-form.spec.ts:3:1 › current null and absent fields are distinct from an empty value (1ms)
+(node:507317) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507327) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  20 [webkit] › tests/components/controls.spec.ts:192:1 › shared Select Checkbox and submit keyboard semantics preserve a boolean (1ms)
+  ✘  21 [webkit] › tests/components/direct-form.spec.ts:14:1 › generic scalar fields fit label, control and actions in one mobile row (1ms)
+(node:507366) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507365) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  22 [webkit] › tests/components/direct-form.spec.ts:35:1 › choosing Set a value starts from the current value (1ms)
+  ✘  23 [webkit] › tests/components/controls.spec.ts:212:1 › optional remove and empty string remain distinct from omitted fields (1ms)
+(node:507409) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507425) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  24 [webkit] › tests/components/direct-form.spec.ts:53:1 › switching an invalid omitted field to a value resets its draft (1ms)
+  ✘  25 [webkit] › tests/components/controls.spec.ts:233:1 › nested invalid input survives sibling edits and removal releases only its error (1ms)
+(node:507449) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507473) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  26 [webkit] › tests/components/direct-form.spec.ts:72:1 › nested null differs from an empty value in an expanded list editor (1ms)
+  ✘  27 [webkit] › tests/components/controls.spec.ts:254:1 › enum reference and prototype-shaped map keys use generic controls (1ms)
+(node:507497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507521) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  28 [webkit] › tests/components/direct-form.spec.ts:105:1 › large collections remain readable when editing is bounded (1ms)
+  ✘  29 [webkit] › tests/components/controls.spec.ts:274:1 › opaque input uses the shared strict lossless codec (2ms)
+(node:507545) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  30 [webkit] › tests/components/direct-form.spec.ts:118:1 › descriptor change keeps existing collection available for read-only inspection (1ms)
+(node:507569) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  31 [webkit] › tests/components/controls.spec.ts:290:1 › sort field is independent from filter field (1ms)
+(node:507593) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  32 [webkit] › tests/components/direct-form.spec.ts:133:1 › direct fields distinguish unchanged, false, zero, empty, null and removal (1ms)
+(node:507617) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507641) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  33 [webkit] › tests/components/controls.spec.ts:304:1 › sort picker excludes collection fields but retains scalar fields (1ms)
+  ✘  34 [webkit] › tests/components/filter-workspace.spec.ts:54:1 › compact actions keep their names and the inspector toggle stays on the right (1ms)
+(node:507665) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507689) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  35 [webkit] › tests/components/controls.spec.ts:319:1 › wrapped custom codecs apply only to leaves; unknown leaves remain read-only (1ms)
+  ✘  36 [webkit] › tests/components/filter-workspace.spec.ts:111:1 › quick and full filters share draft without querying until Apply (1ms)
+(node:507713) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507737) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  37 [webkit] › tests/components/controls.spec.ts:383:1 › query filters preserve wrapper provenance and edit only registered leaves (1ms)
+  ✘  38 [webkit] › tests/components/filter-workspace.spec.ts:166:1 › Resource draft survives filter tab, Apply and mobile inspector lifecycle (1ms)
+(node:507765) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507789) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  39 [webkit] › tests/components/controls.spec.ts:399:3 › finite generic table 100 row frame and DOM retention sample (1ms)
+  ✘  40 [webkit] › tests/components/filter-workspace.spec.ts:229:1 › invalid filter input survives popover close and switching editors (1ms)
+(node:507815) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507839) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  41 [webkit] › tests/components/controls.spec.ts:399:3 › finite generic table 500 row frame and DOM retention sample (1ms)
+  ✘  42 [webkit] › tests/components/filter-workspace.spec.ts:292:1 › removing an earlier rule preserves the later rule's invalid draft (1ms)
+(node:507863) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507887) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  43 [webkit] › tests/components/generic-presentation.spec.ts:7:1 › shared mode picker uses keyboard and keeps nullable operation controlled (1ms)
+  ✘  44 [webkit] › tests/components/filter-workspace.spec.ts:328:1 › descriptor change permits explicit discard of an obsolete filter (1ms)
+(node:507919) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507943) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  45 [webkit] › tests/components/generic-presentation.spec.ts:26:1 › shared query picker preserves independent sort selection and closes on Escape (1ms)
+  ✘  46 [webkit] › tests/components/filter-workspace.spec.ts:360:1 › invalid input after an applied numeric filter is marked pending (1ms)
+(node:507967) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:507991) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  47 [webkit] › tests/components/presentation-ux.spec.ts:53:1 › generic Resource presentation separates human title, field label, and exact identity (1ms)
+  ✘  48 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar text (1ms)
+(node:508015) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:508039) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  49 [webkit] › tests/components/presentation-ux.spec.ts:82:1 › mobile Resource details returns focus to the actual row opener (1ms)
+  ✘  50 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar zero (1ms)
+(node:508063) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:508087) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  51 [webkit] › tests/components/right-inspector.spec.ts:3:1 › right inspector toggles by keyboard and preserves filter drafts (2ms)
+  ✘  52 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar false (1ms)
+(node:508111) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:508135) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  53 [webkit] › tests/components/right-inspector.spec.ts:52:1 › right mobile Sheet restores toggle focus and preserves Resource draft across resize (1ms)
+  ✘  54 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Explicit null (2ms)
+(node:508159) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:508183) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  55 [webkit] › tests/components/settings-presentation.spec.ts:72:1 › Settings groups disclosed plugin Resources and uses the authorized patch path (1ms)
+  ✘  56 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Missing optional (1ms)
+(node:508207) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:508231) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  57 [webkit] › tests/components/settings-presentation.spec.ts:120:1 › Settings exposes no group when discovery discloses no settings metadata (1ms)
+  ✘  58 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Empty codec list (1ms)
+(node:508264) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:508288) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  59 [webkit] › tests/components/shell-presentation.spec.ts:3:1 › mobile sidebar opens, selects a descriptor and returns space to the page (1ms)
+  ✘  60 [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Empty codec map (1ms)
+(node:508312) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:508336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  61 [webkit] › tests/components/work-presentation.spec.ts:79:1 › Work loads readable snapshots automatically and applies operator filters (1ms)
+  ✘  62 [webkit] › tests/components/renderer-regressions.spec.ts:40:1 › mobile nested Select remains usable after scrolling its Sheet (2ms)
+(node:508368) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:508392) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  63 [webkit] › tests/components/work-presentation.spec.ts:111:1 › Work inspector close preserves the exact recovery retry request (1ms)
+  ✘  64 [webkit] › tests/components/renderer-regressions.spec.ts:76:1 › mobile nested Select dismisses by ordinary outside click without closing its Sheet (1ms)
+(node:508418) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:508442) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  65 [webkit] › tests/components/work-presentation.spec.ts:144:1 › mobile Work details returns focus to the actual row opener (1ms)
+  ✘  66 [webkit] › tests/components/renderer-regressions.spec.ts:103:1 › mobile Escape dismisses Select before Sheet and restores toolbar focus (1ms)
+
+
+  1) [webkit] › tests/components/application.spec.ts:9:1 › real SDK composes two metadata-driven pages; logout clears details 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=506846
+    [pid=506846][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=506846][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=506846][err] linux environments out of the box. For more information, see:
+    [pid=506846][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=506846
+      - [pid=506846][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=506846][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=506846][err] linux environments out of the box. For more information, see:
+      - [pid=506846][err] https://nix.dev/permalink/stub-ld
+      - [pid=506846] <gracefully close start>
+      - [pid=506846] <kill>
+      - [pid=506846] <will force kill>
+      - [pid=506846] exception while trying to kill process: Error: kill ESRCH
+      - [pid=506846] <process did exit: exitCode=127, signal=null>
+      - [pid=506846] starting temporary directories cleanup
+      - [pid=506846] finished temporary directories cleanup
+      - [pid=506846] <gracefully close end>
+
+
+    Error Context: test-results/application-real-SDK-compo-b0d2f-pages-logout-clears-details-webkit/error-context.md
+
+  2) [webkit] › tests/components/application.spec.ts:93:1 › real app reports unavailable session without simulated data 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=506894
+    [pid=506894][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=506894][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=506894][err] linux environments out of the box. For more information, see:
+    [pid=506894][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=506894
+      - [pid=506894][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=506894][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=506894][err] linux environments out of the box. For more information, see:
+      - [pid=506894][err] https://nix.dev/permalink/stub-ld
+      - [pid=506894] <gracefully close start>
+      - [pid=506894] <kill>
+      - [pid=506894] <will force kill>
+      - [pid=506894] exception while trying to kill process: Error: kill ESRCH
+      - [pid=506894] <process did exit: exitCode=127, signal=null>
+      - [pid=506894] starting temporary directories cleanup
+      - [pid=506894] finished temporary directories cleanup
+      - [pid=506894] <gracefully close end>
+
+
+    Error Context: test-results/application-real-app-repor-f454f-sion-without-simulated-data-webkit/error-context.md
+
+  3) [webkit] › tests/components/application.spec.ts:106:1 › moving pages use native query anchors and previous refetches 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=506943
+    [pid=506943][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=506943][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=506943][err] linux environments out of the box. For more information, see:
+    [pid=506943][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=506943
+      - [pid=506943][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=506943][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=506943][err] linux environments out of the box. For more information, see:
+      - [pid=506943][err] https://nix.dev/permalink/stub-ld
+      - [pid=506943] <gracefully close start>
+      - [pid=506943] <kill>
+      - [pid=506943] <will force kill>
+      - [pid=506943] exception while trying to kill process: Error: kill ESRCH
+      - [pid=506943] <process did exit: exitCode=127, signal=null>
+      - [pid=506943] starting temporary directories cleanup
+      - [pid=506943] finished temporary directories cleanup
+      - [pid=506943] <gracefully close end>
+
+
+    Error Context: test-results/application-moving-pages-u-dcb4e-hors-and-previous-refetches-webkit/error-context.md
+
+  4) [webkit] › tests/components/controls.spec.ts:7:1 › integer fields request a numeric mobile keyboard without losing exact input 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=506860
+    [pid=506860][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=506860][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=506860][err] linux environments out of the box. For more information, see:
+    [pid=506860][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=506860
+      - [pid=506860][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=506860][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=506860][err] linux environments out of the box. For more information, see:
+      - [pid=506860][err] https://nix.dev/permalink/stub-ld
+      - [pid=506860] <gracefully close start>
+      - [pid=506860] <kill>
+      - [pid=506860] <will force kill>
+      - [pid=506860] exception while trying to kill process: Error: kill ESRCH
+      - [pid=506860] <process did exit: exitCode=127, signal=null>
+      - [pid=506860] starting temporary directories cleanup
+      - [pid=506860] finished temporary directories cleanup
+      - [pid=506860] <gracefully close end>
+
+
+    Error Context: test-results/controls-integer-fields-re-f0184--without-losing-exact-input-webkit/error-context.md
+
+  5) [webkit] › tests/components/controls.spec.ts:19:1 › Resource references identify the target kind while accepting an exact ID 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=506918
+    [pid=506918][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=506918][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=506918][err] linux environments out of the box. For more information, see:
+    [pid=506918][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=506918
+      - [pid=506918][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=506918][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=506918][err] linux environments out of the box. For more information, see:
+      - [pid=506918][err] https://nix.dev/permalink/stub-ld
+      - [pid=506918] <gracefully close start>
+      - [pid=506918] <kill>
+      - [pid=506918] <will force kill>
+      - [pid=506918] exception while trying to kill process: Error: kill ESRCH
+      - [pid=506918] <process did exit: exitCode=127, signal=null>
+      - [pid=506918] starting temporary directories cleanup
+      - [pid=506918] finished temporary directories cleanup
+      - [pid=506918] <gracefully close end>
+
+
+    Error Context: test-results/controls-Resource-referenc-39321-while-accepting-an-exact-ID-webkit/error-context.md
+
+  6) [webkit] › tests/components/controls.spec.ts:30:1 › Resource controls preserve integer, presence, boolean and nested edits 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=506967
+    [pid=506967][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=506967][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=506967][err] linux environments out of the box. For more information, see:
+    [pid=506967][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=506967
+      - [pid=506967][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=506967][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=506967][err] linux environments out of the box. For more information, see:
+      - [pid=506967][err] https://nix.dev/permalink/stub-ld
+      - [pid=506967] <gracefully close start>
+      - [pid=506967] <kill>
+      - [pid=506967] <will force kill>
+      - [pid=506967] exception while trying to kill process: Error: kill ESRCH
+      - [pid=506967] <process did exit: exitCode=127, signal=null>
+      - [pid=506967] starting temporary directories cleanup
+      - [pid=506967] finished temporary directories cleanup
+      - [pid=506967] <gracefully close end>
+
+
+    Error Context: test-results/controls-Resource-controls-e12dc-ce-boolean-and-nested-edits-webkit/error-context.md
+
+  7) [webkit] › tests/components/controls.spec.ts:58:1 › same field hosts support custom codec, nested collections and generic action input 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507025
+    [pid=507025][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507025][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507025][err] linux environments out of the box. For more information, see:
+    [pid=507025][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507025
+      - [pid=507025][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507025][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507025][err] linux environments out of the box. For more information, see:
+      - [pid=507025][err] https://nix.dev/permalink/stub-ld
+      - [pid=507025] <gracefully close start>
+      - [pid=507025] <kill>
+      - [pid=507025] <will force kill>
+      - [pid=507025] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507025] <process did exit: exitCode=127, signal=null>
+      - [pid=507025] starting temporary directories cleanup
+      - [pid=507025] finished temporary directories cleanup
+      - [pid=507025] <gracefully close end>
+
+
+    Error Context: test-results/controls-same-field-hosts--41ddb-ns-and-generic-action-input-webkit/error-context.md
+
+  8) [webkit] › tests/components/controls.spec.ts:82:1 › expanded action input describes submission rather than Resource saving 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507086
+    [pid=507086][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507086][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507086][err] linux environments out of the box. For more information, see:
+    [pid=507086][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507086
+      - [pid=507086][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507086][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507086][err] linux environments out of the box. For more information, see:
+      - [pid=507086][err] https://nix.dev/permalink/stub-ld
+      - [pid=507086] <gracefully close start>
+      - [pid=507086] <kill>
+      - [pid=507086] <will force kill>
+      - [pid=507086] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507086] <process did exit: exitCode=127, signal=null>
+      - [pid=507086] starting temporary directories cleanup
+      - [pid=507086] finished temporary directories cleanup
+      - [pid=507086] <gracefully close end>
+
+
+    Error Context: test-results/controls-expanded-action-i-a9b47-rather-than-Resource-saving-webkit/error-context.md
+
+  9) [webkit] › tests/components/controls.spec.ts:91:1 › unsupported action stays visible, generic table selects, query emits values 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507140
+    [pid=507140][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507140][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507140][err] linux environments out of the box. For more information, see:
+    [pid=507140][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507140
+      - [pid=507140][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507140][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507140][err] linux environments out of the box. For more information, see:
+      - [pid=507140][err] https://nix.dev/permalink/stub-ld
+      - [pid=507140] <gracefully close start>
+      - [pid=507140] <kill>
+      - [pid=507140] <will force kill>
+      - [pid=507140] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507140] <process did exit: exitCode=127, signal=null>
+      - [pid=507140] starting temporary directories cleanup
+      - [pid=507140] finished temporary directories cleanup
+      - [pid=507140] <gracefully close end>
+
+
+    Error Context: test-results/controls-unsupported-actio-f2af7--selects-query-emits-values-webkit/error-context.md
+
+  10) [webkit] › tests/components/controls.spec.ts:108:1 › keyboard controls and assembled accessibility 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507190
+    [pid=507190][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507190][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507190][err] linux environments out of the box. For more information, see:
+    [pid=507190][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507190
+      - [pid=507190][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507190][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507190][err] linux environments out of the box. For more information, see:
+      - [pid=507190][err] https://nix.dev/permalink/stub-ld
+      - [pid=507190] <gracefully close start>
+      - [pid=507190] <kill>
+      - [pid=507190] <will force kill>
+      - [pid=507190] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507190] <process did exit: exitCode=127, signal=null>
+      - [pid=507190] starting temporary directories cleanup
+      - [pid=507190] finished temporary directories cleanup
+      - [pid=507190] <gracefully close end>
+
+
+    Error Context: test-results/controls-keyboard-controls-and-assembled-accessibility-webkit/error-context.md
+
+  11) [webkit] › tests/components/controls.spec.ts:118:1 › descriptor change retains an open draft and requires explicit reopen 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507238
+    [pid=507238][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507238][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507238][err] linux environments out of the box. For more information, see:
+    [pid=507238][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507238
+      - [pid=507238][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507238][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507238][err] linux environments out of the box. For more information, see:
+      - [pid=507238][err] https://nix.dev/permalink/stub-ld
+      - [pid=507238] <gracefully close start>
+      - [pid=507238] <kill>
+      - [pid=507238] <will force kill>
+      - [pid=507238] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507238] <process did exit: exitCode=127, signal=null>
+      - [pid=507238] starting temporary directories cleanup
+      - [pid=507238] finished temporary directories cleanup
+      - [pid=507238] <gracefully close end>
+
+
+    Error Context: test-results/controls-descriptor-change-836fa-nd-requires-explicit-reopen-webkit/error-context.md
+
+  12) [webkit] › tests/components/controls.spec.ts:166:1 › invalid field keeps keyboard focus and cannot submit until corrected 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507294
+    [pid=507294][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507294][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507294][err] linux environments out of the box. For more information, see:
+    [pid=507294][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507294
+      - [pid=507294][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507294][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507294][err] linux environments out of the box. For more information, see:
+      - [pid=507294][err] https://nix.dev/permalink/stub-ld
+      - [pid=507294] <gracefully close start>
+      - [pid=507294] <kill>
+      - [pid=507294] <will force kill>
+      - [pid=507294] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507294] <process did exit: exitCode=127, signal=null>
+      - [pid=507294] starting temporary directories cleanup
+      - [pid=507294] finished temporary directories cleanup
+      - [pid=507294] <gracefully close end>
+
+
+    Error Context: test-results/controls-invalid-field-kee-6a786-nnot-submit-until-corrected-webkit/error-context.md
+
+  13) [webkit] › tests/components/controls.spec.ts:192:1 › shared Select Checkbox and submit keyboard semantics preserve a boolean 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507343
+    [pid=507343][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507343][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507343][err] linux environments out of the box. For more information, see:
+    [pid=507343][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507343
+      - [pid=507343][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507343][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507343][err] linux environments out of the box. For more information, see:
+      - [pid=507343][err] https://nix.dev/permalink/stub-ld
+      - [pid=507343] <gracefully close start>
+      - [pid=507343] <kill>
+      - [pid=507343] <will force kill>
+      - [pid=507343] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507343] <process did exit: exitCode=127, signal=null>
+      - [pid=507343] starting temporary directories cleanup
+      - [pid=507343] finished temporary directories cleanup
+      - [pid=507343] <gracefully close end>
+
+
+    Error Context: test-results/controls-shared-Select-Che-8c04d-emantics-preserve-a-boolean-webkit/error-context.md
+
+  14) [webkit] › tests/components/controls.spec.ts:212:1 › optional remove and empty string remain distinct from omitted fields 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507406
+    [pid=507406][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507406][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507406][err] linux environments out of the box. For more information, see:
+    [pid=507406][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507406
+      - [pid=507406][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507406][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507406][err] linux environments out of the box. For more information, see:
+      - [pid=507406][err] https://nix.dev/permalink/stub-ld
+      - [pid=507406] <gracefully close start>
+      - [pid=507406] <kill>
+      - [pid=507406] <will force kill>
+      - [pid=507406] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507406] <process did exit: exitCode=127, signal=null>
+      - [pid=507406] starting temporary directories cleanup
+      - [pid=507406] finished temporary directories cleanup
+      - [pid=507406] <gracefully close end>
+
+
+    Error Context: test-results/controls-optional-remove-a-6a898-istinct-from-omitted-fields-webkit/error-context.md
+
+  15) [webkit] › tests/components/controls.spec.ts:233:1 › nested invalid input survives sibling edits and removal releases only its error 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507464
+    [pid=507464][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507464][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507464][err] linux environments out of the box. For more information, see:
+    [pid=507464][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507464
+      - [pid=507464][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507464][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507464][err] linux environments out of the box. For more information, see:
+      - [pid=507464][err] https://nix.dev/permalink/stub-ld
+      - [pid=507464] <gracefully close start>
+      - [pid=507464] <kill>
+      - [pid=507464] <will force kill>
+      - [pid=507464] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507464] <process did exit: exitCode=127, signal=null>
+      - [pid=507464] starting temporary directories cleanup
+      - [pid=507464] finished temporary directories cleanup
+      - [pid=507464] <gracefully close end>
+
+
+    Error Context: test-results/controls-nested-invalid-in-3d144-val-releases-only-its-error-webkit/error-context.md
+
+  16) [webkit] › tests/components/controls.spec.ts:254:1 › enum reference and prototype-shaped map keys use generic controls 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507512
+    [pid=507512][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507512][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507512][err] linux environments out of the box. For more information, see:
+    [pid=507512][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507512
+      - [pid=507512][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507512][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507512][err] linux environments out of the box. For more information, see:
+      - [pid=507512][err] https://nix.dev/permalink/stub-ld
+      - [pid=507512] <gracefully close start>
+      - [pid=507512] <kill>
+      - [pid=507512] <will force kill>
+      - [pid=507512] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507512] <process did exit: exitCode=127, signal=null>
+      - [pid=507512] starting temporary directories cleanup
+      - [pid=507512] finished temporary directories cleanup
+      - [pid=507512] <gracefully close end>
+
+
+    Error Context: test-results/controls-enum-reference-an-333e9-p-keys-use-generic-controls-webkit/error-context.md
+
+  17) [webkit] › tests/components/controls.spec.ts:274:1 › opaque input uses the shared strict lossless codec 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507560
+    [pid=507560][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507560][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507560][err] linux environments out of the box. For more information, see:
+    [pid=507560][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507560
+      - [pid=507560][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507560][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507560][err] linux environments out of the box. For more information, see:
+      - [pid=507560][err] https://nix.dev/permalink/stub-ld
+      - [pid=507560] <gracefully close start>
+      - [pid=507560] <kill>
+      - [pid=507560] <will force kill>
+      - [pid=507560] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507560] <process did exit: exitCode=127, signal=null>
+      - [pid=507560] starting temporary directories cleanup
+      - [pid=507560] finished temporary directories cleanup
+      - [pid=507560] <gracefully close end>
+
+
+    Error Context: test-results/controls-opaque-input-uses-the-shared-strict-lossless-codec-webkit/error-context.md
+
+  18) [webkit] › tests/components/controls.spec.ts:290:1 › sort field is independent from filter field 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507608
+    [pid=507608][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507608][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507608][err] linux environments out of the box. For more information, see:
+    [pid=507608][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507608
+      - [pid=507608][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507608][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507608][err] linux environments out of the box. For more information, see:
+      - [pid=507608][err] https://nix.dev/permalink/stub-ld
+      - [pid=507608] <gracefully close start>
+      - [pid=507608] <kill>
+      - [pid=507608] <will force kill>
+      - [pid=507608] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507608] <process did exit: exitCode=127, signal=null>
+      - [pid=507608] starting temporary directories cleanup
+      - [pid=507608] finished temporary directories cleanup
+      - [pid=507608] <gracefully close end>
+
+
+    Error Context: test-results/controls-sort-field-is-independent-from-filter-field-webkit/error-context.md
+
+  19) [webkit] › tests/components/controls.spec.ts:304:1 › sort picker excludes collection fields but retains scalar fields 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507656
+    [pid=507656][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507656][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507656][err] linux environments out of the box. For more information, see:
+    [pid=507656][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507656
+      - [pid=507656][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507656][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507656][err] linux environments out of the box. For more information, see:
+      - [pid=507656][err] https://nix.dev/permalink/stub-ld
+      - [pid=507656] <gracefully close start>
+      - [pid=507656] <kill>
+      - [pid=507656] <will force kill>
+      - [pid=507656] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507656] <process did exit: exitCode=127, signal=null>
+      - [pid=507656] starting temporary directories cleanup
+      - [pid=507656] finished temporary directories cleanup
+      - [pid=507656] <gracefully close end>
+
+
+    Error Context: test-results/controls-sort-picker-exclu-f2118-s-but-retains-scalar-fields-webkit/error-context.md
+
+  20) [webkit] › tests/components/controls.spec.ts:319:1 › wrapped custom codecs apply only to leaves; unknown leaves remain read-only 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507704
+    [pid=507704][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507704][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507704][err] linux environments out of the box. For more information, see:
+    [pid=507704][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507704
+      - [pid=507704][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507704][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507704][err] linux environments out of the box. For more information, see:
+      - [pid=507704][err] https://nix.dev/permalink/stub-ld
+      - [pid=507704] <gracefully close start>
+      - [pid=507704] <kill>
+      - [pid=507704] <will force kill>
+      - [pid=507704] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507704] <process did exit: exitCode=127, signal=null>
+      - [pid=507704] starting temporary directories cleanup
+      - [pid=507704] finished temporary directories cleanup
+      - [pid=507704] <gracefully close end>
+
+
+    Error Context: test-results/controls-wrapped-custom-co-c20d3-own-leaves-remain-read-only-webkit/error-context.md
+
+  21) [webkit] › tests/components/controls.spec.ts:383:1 › query filters preserve wrapper provenance and edit only registered leaves 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507756
+    [pid=507756][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507756][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507756][err] linux environments out of the box. For more information, see:
+    [pid=507756][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507756
+      - [pid=507756][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507756][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507756][err] linux environments out of the box. For more information, see:
+      - [pid=507756][err] https://nix.dev/permalink/stub-ld
+      - [pid=507756] <gracefully close start>
+      - [pid=507756] <kill>
+      - [pid=507756] <will force kill>
+      - [pid=507756] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507756] <process did exit: exitCode=127, signal=null>
+      - [pid=507756] starting temporary directories cleanup
+      - [pid=507756] finished temporary directories cleanup
+      - [pid=507756] <gracefully close end>
+
+
+    Error Context: test-results/controls-query-filters-pre-d6539-edit-only-registered-leaves-webkit/error-context.md
+
+  22) [webkit] › tests/components/controls.spec.ts:399:3 › finite generic table 100 row frame and DOM retention sample 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507806
+    [pid=507806][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507806][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507806][err] linux environments out of the box. For more information, see:
+    [pid=507806][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507806
+      - [pid=507806][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507806][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507806][err] linux environments out of the box. For more information, see:
+      - [pid=507806][err] https://nix.dev/permalink/stub-ld
+      - [pid=507806] <gracefully close start>
+      - [pid=507806] <kill>
+      - [pid=507806] <will force kill>
+      - [pid=507806] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507806] <process did exit: exitCode=127, signal=null>
+      - [pid=507806] starting temporary directories cleanup
+      - [pid=507806] finished temporary directories cleanup
+      - [pid=507806] <gracefully close end>
+
+
+    Error Context: test-results/controls-finite-generic-ta-1cde0-me-and-DOM-retention-sample-webkit/error-context.md
+
+  23) [webkit] › tests/components/controls.spec.ts:399:3 › finite generic table 500 row frame and DOM retention sample 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507854
+    [pid=507854][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507854][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507854][err] linux environments out of the box. For more information, see:
+    [pid=507854][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507854
+      - [pid=507854][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507854][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507854][err] linux environments out of the box. For more information, see:
+      - [pid=507854][err] https://nix.dev/permalink/stub-ld
+      - [pid=507854] <gracefully close start>
+      - [pid=507854] <kill>
+      - [pid=507854] <will force kill>
+      - [pid=507854] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507854] <process did exit: exitCode=127, signal=null>
+      - [pid=507854] starting temporary directories cleanup
+      - [pid=507854] finished temporary directories cleanup
+      - [pid=507854] <gracefully close end>
+
+
+    Error Context: test-results/controls-finite-generic-ta-c2954-me-and-DOM-retention-sample-webkit/error-context.md
+
+  24) [webkit] › tests/components/details.spec.ts:2:1 › selected Resource shows its current title as a direct editable field 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=506996
+    [pid=506996][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=506996][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=506996][err] linux environments out of the box. For more information, see:
+    [pid=506996][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=506996
+      - [pid=506996][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=506996][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=506996][err] linux environments out of the box. For more information, see:
+      - [pid=506996][err] https://nix.dev/permalink/stub-ld
+      - [pid=506996] <gracefully close start>
+      - [pid=506996] <kill>
+      - [pid=506996] <will force kill>
+      - [pid=506996] exception while trying to kill process: Error: kill ESRCH
+      - [pid=506996] <process did exit: exitCode=127, signal=null>
+      - [pid=506996] starting temporary directories cleanup
+      - [pid=506996] finished temporary directories cleanup
+      - [pid=506996] <gracefully close end>
+
+
+    Error Context: test-results/details-selected-Resource--81063--as-a-direct-editable-field-webkit/error-context.md
+
+  25) [webkit] › tests/components/details.spec.ts:27:1 › direct boolean control keeps false and becomes an explicit edit only when switched 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507049
+    [pid=507049][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507049][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507049][err] linux environments out of the box. For more information, see:
+    [pid=507049][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507049
+      - [pid=507049][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507049][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507049][err] linux environments out of the box. For more information, see:
+      - [pid=507049][err] https://nix.dev/permalink/stub-ld
+      - [pid=507049] <gracefully close start>
+      - [pid=507049] <kill>
+      - [pid=507049] <will force kill>
+      - [pid=507049] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507049] <process did exit: exitCode=127, signal=null>
+      - [pid=507049] starting temporary directories cleanup
+      - [pid=507049] finished temporary directories cleanup
+      - [pid=507049] <gracefully close end>
+
+
+    Error Context: test-results/details-direct-boolean-con-eeea6-cit-edit-only-when-switched-webkit/error-context.md
+
+  26) [webkit] › tests/components/details.spec.ts:42:1 › mobile Resource editor uses the full viewport and a concise heading 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507111
+    [pid=507111][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507111][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507111][err] linux environments out of the box. For more information, see:
+    [pid=507111][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507111
+      - [pid=507111][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507111][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507111][err] linux environments out of the box. For more information, see:
+      - [pid=507111][err] https://nix.dev/permalink/stub-ld
+      - [pid=507111] <gracefully close start>
+      - [pid=507111] <kill>
+      - [pid=507111] <will force kill>
+      - [pid=507111] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507111] <process did exit: exitCode=127, signal=null>
+      - [pid=507111] starting temporary directories cleanup
+      - [pid=507111] finished temporary directories cleanup
+      - [pid=507111] <gracefully close end>
+
+
+    Error Context: test-results/details-mobile-Resource-ed-fad7d-wport-and-a-concise-heading-webkit/error-context.md
+
+  27) [webkit] › tests/components/details.spec.ts:53:1 › live revision retains draft and disables stale submission until explicit reload 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507165
+    [pid=507165][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507165][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507165][err] linux environments out of the box. For more information, see:
+    [pid=507165][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507165
+      - [pid=507165][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507165][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507165][err] linux environments out of the box. For more information, see:
+      - [pid=507165][err] https://nix.dev/permalink/stub-ld
+      - [pid=507165] <gracefully close start>
+      - [pid=507165] <kill>
+      - [pid=507165] <will force kill>
+      - [pid=507165] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507165] <process did exit: exitCode=127, signal=null>
+      - [pid=507165] starting temporary directories cleanup
+      - [pid=507165] finished temporary directories cleanup
+      - [pid=507165] <gracefully close end>
+
+
+    Error Context: test-results/details-live-revision-reta-b6d4d-ssion-until-explicit-reload-webkit/error-context.md
+
+  28) [webkit] › tests/components/details.spec.ts:88:1 › an open field popup cannot mutate a draft after a newer revision 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507214
+    [pid=507214][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507214][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507214][err] linux environments out of the box. For more information, see:
+    [pid=507214][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507214
+      - [pid=507214][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507214][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507214][err] linux environments out of the box. For more information, see:
+      - [pid=507214][err] https://nix.dev/permalink/stub-ld
+      - [pid=507214] <gracefully close start>
+      - [pid=507214] <kill>
+      - [pid=507214] <will force kill>
+      - [pid=507214] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507214] <process did exit: exitCode=127, signal=null>
+      - [pid=507214] starting temporary directories cleanup
+      - [pid=507214] finished temporary directories cleanup
+      - [pid=507214] <gracefully close end>
+
+
+    Error Context: test-results/details-an-open-field-popu-437e2-raft-after-a-newer-revision-webkit/error-context.md
+
+  29) [webkit] › tests/components/details.spec.ts:117:1 › stale Resource keeps collection details readable without reopening mutation 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507262
+    [pid=507262][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507262][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507262][err] linux environments out of the box. For more information, see:
+    [pid=507262][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507262
+      - [pid=507262][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507262][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507262][err] linux environments out of the box. For more information, see:
+      - [pid=507262][err] https://nix.dev/permalink/stub-ld
+      - [pid=507262] <gracefully close start>
+      - [pid=507262] <kill>
+      - [pid=507262] <will force kill>
+      - [pid=507262] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507262] <process did exit: exitCode=127, signal=null>
+      - [pid=507262] starting temporary directories cleanup
+      - [pid=507262] finished temporary directories cleanup
+      - [pid=507262] <gracefully close end>
+
+
+    Error Context: test-results/details-stale-Resource-kee-64586--without-reopening-mutation-webkit/error-context.md
+
+  30) [webkit] › tests/components/direct-form.spec.ts:3:1 › current null and absent fields are distinct from an empty value 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507308
+    [pid=507308][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507308][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507308][err] linux environments out of the box. For more information, see:
+    [pid=507308][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507308
+      - [pid=507308][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507308][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507308][err] linux environments out of the box. For more information, see:
+      - [pid=507308][err] https://nix.dev/permalink/stub-ld
+      - [pid=507308] <gracefully close start>
+      - [pid=507308] <kill>
+      - [pid=507308] <will force kill>
+      - [pid=507308] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507308] <process did exit: exitCode=127, signal=null>
+      - [pid=507308] starting temporary directories cleanup
+      - [pid=507308] finished temporary directories cleanup
+      - [pid=507308] <gracefully close end>
+
+
+    Error Context: test-results/direct-form-current-null-a-530af-istinct-from-an-empty-value-webkit/error-context.md
+
+  31) [webkit] › tests/components/direct-form.spec.ts:14:1 › generic scalar fields fit label, control and actions in one mobile row 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507350
+    [pid=507350][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507350][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507350][err] linux environments out of the box. For more information, see:
+    [pid=507350][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507350
+      - [pid=507350][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507350][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507350][err] linux environments out of the box. For more information, see:
+      - [pid=507350][err] https://nix.dev/permalink/stub-ld
+      - [pid=507350] <gracefully close start>
+      - [pid=507350] <kill>
+      - [pid=507350] <will force kill>
+      - [pid=507350] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507350] <process did exit: exitCode=127, signal=null>
+      - [pid=507350] starting temporary directories cleanup
+      - [pid=507350] finished temporary directories cleanup
+      - [pid=507350] <gracefully close end>
+
+
+    Error Context: test-results/direct-form-generic-scalar-8eeae-d-actions-in-one-mobile-row-webkit/error-context.md
+
+  32) [webkit] › tests/components/direct-form.spec.ts:35:1 › choosing Set a value starts from the current value 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507392
+    [pid=507392][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507392][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507392][err] linux environments out of the box. For more information, see:
+    [pid=507392][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507392
+      - [pid=507392][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507392][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507392][err] linux environments out of the box. For more information, see:
+      - [pid=507392][err] https://nix.dev/permalink/stub-ld
+      - [pid=507392] <gracefully close start>
+      - [pid=507392] <kill>
+      - [pid=507392] <will force kill>
+      - [pid=507392] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507392] <process did exit: exitCode=127, signal=null>
+      - [pid=507392] starting temporary directories cleanup
+      - [pid=507392] finished temporary directories cleanup
+      - [pid=507392] <gracefully close end>
+
+
+    Error Context: test-results/direct-form-choosing-Set-a-4a748-arts-from-the-current-value-webkit/error-context.md
+
+  33) [webkit] › tests/components/direct-form.spec.ts:53:1 › switching an invalid omitted field to a value resets its draft 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507440
+    [pid=507440][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507440][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507440][err] linux environments out of the box. For more information, see:
+    [pid=507440][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507440
+      - [pid=507440][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507440][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507440][err] linux environments out of the box. For more information, see:
+      - [pid=507440][err] https://nix.dev/permalink/stub-ld
+      - [pid=507440] <gracefully close start>
+      - [pid=507440] <kill>
+      - [pid=507440] <will force kill>
+      - [pid=507440] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507440] <process did exit: exitCode=127, signal=null>
+      - [pid=507440] starting temporary directories cleanup
+      - [pid=507440] finished temporary directories cleanup
+      - [pid=507440] <gracefully close end>
+
+
+    Error Context: test-results/direct-form-switching-an-i-af6d7-to-a-value-resets-its-draft-webkit/error-context.md
+
+  34) [webkit] › tests/components/direct-form.spec.ts:72:1 › nested null differs from an empty value in an expanded list editor 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507488
+    [pid=507488][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507488][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507488][err] linux environments out of the box. For more information, see:
+    [pid=507488][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507488
+      - [pid=507488][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507488][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507488][err] linux environments out of the box. For more information, see:
+      - [pid=507488][err] https://nix.dev/permalink/stub-ld
+      - [pid=507488] <gracefully close start>
+      - [pid=507488] <kill>
+      - [pid=507488] <will force kill>
+      - [pid=507488] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507488] <process did exit: exitCode=127, signal=null>
+      - [pid=507488] starting temporary directories cleanup
+      - [pid=507488] finished temporary directories cleanup
+      - [pid=507488] <gracefully close end>
+
+
+    Error Context: test-results/direct-form-nested-null-di-d79bc--in-an-expanded-list-editor-webkit/error-context.md
+
+  35) [webkit] › tests/components/direct-form.spec.ts:105:1 › large collections remain readable when editing is bounded 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507536
+    [pid=507536][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507536][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507536][err] linux environments out of the box. For more information, see:
+    [pid=507536][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507536
+      - [pid=507536][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507536][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507536][err] linux environments out of the box. For more information, see:
+      - [pid=507536][err] https://nix.dev/permalink/stub-ld
+      - [pid=507536] <gracefully close start>
+      - [pid=507536] <kill>
+      - [pid=507536] <will force kill>
+      - [pid=507536] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507536] <process did exit: exitCode=127, signal=null>
+      - [pid=507536] starting temporary directories cleanup
+      - [pid=507536] finished temporary directories cleanup
+      - [pid=507536] <gracefully close end>
+
+
+    Error Context: test-results/direct-form-large-collecti-a3d07-ble-when-editing-is-bounded-webkit/error-context.md
+
+  36) [webkit] › tests/components/direct-form.spec.ts:118:1 › descriptor change keeps existing collection available for read-only inspection 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507584
+    [pid=507584][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507584][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507584][err] linux environments out of the box. For more information, see:
+    [pid=507584][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507584
+      - [pid=507584][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507584][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507584][err] linux environments out of the box. For more information, see:
+      - [pid=507584][err] https://nix.dev/permalink/stub-ld
+      - [pid=507584] <gracefully close start>
+      - [pid=507584] <kill>
+      - [pid=507584] <will force kill>
+      - [pid=507584] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507584] <process did exit: exitCode=127, signal=null>
+      - [pid=507584] starting temporary directories cleanup
+      - [pid=507584] finished temporary directories cleanup
+      - [pid=507584] <gracefully close end>
+
+
+    Error Context: test-results/direct-form-descriptor-cha-2a877-le-for-read-only-inspection-webkit/error-context.md
+
+  37) [webkit] › tests/components/direct-form.spec.ts:133:1 › direct fields distinguish unchanged, false, zero, empty, null and removal 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507632
+    [pid=507632][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507632][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507632][err] linux environments out of the box. For more information, see:
+    [pid=507632][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507632
+      - [pid=507632][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507632][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507632][err] linux environments out of the box. For more information, see:
+      - [pid=507632][err] https://nix.dev/permalink/stub-ld
+      - [pid=507632] <gracefully close start>
+      - [pid=507632] <kill>
+      - [pid=507632] <will force kill>
+      - [pid=507632] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507632] <process did exit: exitCode=127, signal=null>
+      - [pid=507632] starting temporary directories cleanup
+      - [pid=507632] finished temporary directories cleanup
+      - [pid=507632] <gracefully close end>
+
+
+    Error Context: test-results/direct-form-direct-fields--14491-zero-empty-null-and-removal-webkit/error-context.md
+
+  38) [webkit] › tests/components/filter-workspace.spec.ts:54:1 › compact actions keep their names and the inspector toggle stays on the right 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507680
+    [pid=507680][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507680][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507680][err] linux environments out of the box. For more information, see:
+    [pid=507680][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507680
+      - [pid=507680][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507680][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507680][err] linux environments out of the box. For more information, see:
+      - [pid=507680][err] https://nix.dev/permalink/stub-ld
+      - [pid=507680] <gracefully close start>
+      - [pid=507680] <kill>
+      - [pid=507680] <will force kill>
+      - [pid=507680] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507680] <process did exit: exitCode=127, signal=null>
+      - [pid=507680] starting temporary directories cleanup
+      - [pid=507680] finished temporary directories cleanup
+      - [pid=507680] <gracefully close end>
+
+
+    Error Context: test-results/filter-workspace-compact-a-909c1-r-toggle-stays-on-the-right-webkit/error-context.md
+
+  39) [webkit] › tests/components/filter-workspace.spec.ts:111:1 › quick and full filters share draft without querying until Apply 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507728
+    [pid=507728][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507728][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507728][err] linux environments out of the box. For more information, see:
+    [pid=507728][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507728
+      - [pid=507728][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507728][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507728][err] linux environments out of the box. For more information, see:
+      - [pid=507728][err] https://nix.dev/permalink/stub-ld
+      - [pid=507728] <gracefully close start>
+      - [pid=507728] <kill>
+      - [pid=507728] <will force kill>
+      - [pid=507728] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507728] <process did exit: exitCode=127, signal=null>
+      - [pid=507728] starting temporary directories cleanup
+      - [pid=507728] finished temporary directories cleanup
+      - [pid=507728] <gracefully close end>
+
+
+    Error Context: test-results/filter-workspace-quick-and-1da45-ithout-querying-until-Apply-webkit/error-context.md
+
+  40) [webkit] › tests/components/filter-workspace.spec.ts:166:1 › Resource draft survives filter tab, Apply and mobile inspector lifecycle 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507780
+    [pid=507780][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507780][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507780][err] linux environments out of the box. For more information, see:
+    [pid=507780][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507780
+      - [pid=507780][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507780][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507780][err] linux environments out of the box. For more information, see:
+      - [pid=507780][err] https://nix.dev/permalink/stub-ld
+      - [pid=507780] <gracefully close start>
+      - [pid=507780] <kill>
+      - [pid=507780] <will force kill>
+      - [pid=507780] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507780] <process did exit: exitCode=127, signal=null>
+      - [pid=507780] starting temporary directories cleanup
+      - [pid=507780] finished temporary directories cleanup
+      - [pid=507780] <gracefully close end>
+
+
+    Error Context: test-results/filter-workspace-Resource--4ff4d--mobile-inspector-lifecycle-webkit/error-context.md
+
+  41) [webkit] › tests/components/filter-workspace.spec.ts:229:1 › invalid filter input survives popover close and switching editors 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507830
+    [pid=507830][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507830][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507830][err] linux environments out of the box. For more information, see:
+    [pid=507830][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507830
+      - [pid=507830][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507830][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507830][err] linux environments out of the box. For more information, see:
+      - [pid=507830][err] https://nix.dev/permalink/stub-ld
+      - [pid=507830] <gracefully close start>
+      - [pid=507830] <kill>
+      - [pid=507830] <will force kill>
+      - [pid=507830] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507830] <process did exit: exitCode=127, signal=null>
+      - [pid=507830] starting temporary directories cleanup
+      - [pid=507830] finished temporary directories cleanup
+      - [pid=507830] <gracefully close end>
+
+
+    Error Context: test-results/filter-workspace-invalid-f-37972-close-and-switching-editors-webkit/error-context.md
+
+  42) [webkit] › tests/components/filter-workspace.spec.ts:292:1 › removing an earlier rule preserves the later rule's invalid draft 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507878
+    [pid=507878][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507878][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507878][err] linux environments out of the box. For more information, see:
+    [pid=507878][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507878
+      - [pid=507878][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507878][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507878][err] linux environments out of the box. For more information, see:
+      - [pid=507878][err] https://nix.dev/permalink/stub-ld
+      - [pid=507878] <gracefully close start>
+      - [pid=507878] <kill>
+      - [pid=507878] <will force kill>
+      - [pid=507878] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507878] <process did exit: exitCode=127, signal=null>
+      - [pid=507878] starting temporary directories cleanup
+      - [pid=507878] finished temporary directories cleanup
+      - [pid=507878] <gracefully close end>
+
+
+    Error Context: test-results/filter-workspace-removing--0b0c0--later-rule-s-invalid-draft-webkit/error-context.md
+
+  43) [webkit] › tests/components/filter-workspace.spec.ts:328:1 › descriptor change permits explicit discard of an obsolete filter 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507934
+    [pid=507934][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507934][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507934][err] linux environments out of the box. For more information, see:
+    [pid=507934][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507934
+      - [pid=507934][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507934][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507934][err] linux environments out of the box. For more information, see:
+      - [pid=507934][err] https://nix.dev/permalink/stub-ld
+      - [pid=507934] <gracefully close start>
+      - [pid=507934] <kill>
+      - [pid=507934] <will force kill>
+      - [pid=507934] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507934] <process did exit: exitCode=127, signal=null>
+      - [pid=507934] starting temporary directories cleanup
+      - [pid=507934] finished temporary directories cleanup
+      - [pid=507934] <gracefully close end>
+
+
+    Error Context: test-results/filter-workspace-descripto-9deab-scard-of-an-obsolete-filter-webkit/error-context.md
+
+  44) [webkit] › tests/components/filter-workspace.spec.ts:360:1 › invalid input after an applied numeric filter is marked pending 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507982
+    [pid=507982][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507982][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507982][err] linux environments out of the box. For more information, see:
+    [pid=507982][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507982
+      - [pid=507982][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507982][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507982][err] linux environments out of the box. For more information, see:
+      - [pid=507982][err] https://nix.dev/permalink/stub-ld
+      - [pid=507982] <gracefully close start>
+      - [pid=507982] <kill>
+      - [pid=507982] <will force kill>
+      - [pid=507982] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507982] <process did exit: exitCode=127, signal=null>
+      - [pid=507982] starting temporary directories cleanup
+      - [pid=507982] finished temporary directories cleanup
+      - [pid=507982] <gracefully close end>
+
+
+    Error Context: test-results/filter-workspace-invalid-i-8a456-ic-filter-is-marked-pending-webkit/error-context.md
+
+  45) [webkit] › tests/components/generic-presentation.spec.ts:7:1 › shared mode picker uses keyboard and keeps nullable operation controlled 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507910
+    [pid=507910][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507910][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507910][err] linux environments out of the box. For more information, see:
+    [pid=507910][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507910
+      - [pid=507910][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507910][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507910][err] linux environments out of the box. For more information, see:
+      - [pid=507910][err] https://nix.dev/permalink/stub-ld
+      - [pid=507910] <gracefully close start>
+      - [pid=507910] <kill>
+      - [pid=507910] <will force kill>
+      - [pid=507910] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507910] <process did exit: exitCode=127, signal=null>
+      - [pid=507910] starting temporary directories cleanup
+      - [pid=507910] finished temporary directories cleanup
+      - [pid=507910] <gracefully close end>
+
+
+    Error Context: test-results/generic-presentation-share-44c0b-llable-operation-controlled-webkit/error-context.md
+
+  46) [webkit] › tests/components/generic-presentation.spec.ts:26:1 › shared query picker preserves independent sort selection and closes on Escape 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=507958
+    [pid=507958][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=507958][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=507958][err] linux environments out of the box. For more information, see:
+    [pid=507958][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=507958
+      - [pid=507958][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=507958][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=507958][err] linux environments out of the box. For more information, see:
+      - [pid=507958][err] https://nix.dev/permalink/stub-ld
+      - [pid=507958] <gracefully close start>
+      - [pid=507958] <kill>
+      - [pid=507958] <will force kill>
+      - [pid=507958] exception while trying to kill process: Error: kill ESRCH
+      - [pid=507958] <process did exit: exitCode=127, signal=null>
+      - [pid=507958] starting temporary directories cleanup
+      - [pid=507958] finished temporary directories cleanup
+      - [pid=507958] <gracefully close end>
+
+
+    Error Context: test-results/generic-presentation-share-db09a-ection-and-closes-on-Escape-webkit/error-context.md
+
+  47) [webkit] › tests/components/presentation-ux.spec.ts:53:1 › generic Resource presentation separates human title, field label, and exact identity 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508006
+    [pid=508006][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508006][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508006][err] linux environments out of the box. For more information, see:
+    [pid=508006][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508006
+      - [pid=508006][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508006][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508006][err] linux environments out of the box. For more information, see:
+      - [pid=508006][err] https://nix.dev/permalink/stub-ld
+      - [pid=508006] <gracefully close start>
+      - [pid=508006] <kill>
+      - [pid=508006] <will force kill>
+      - [pid=508006] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508006] <process did exit: exitCode=127, signal=null>
+      - [pid=508006] starting temporary directories cleanup
+      - [pid=508006] finished temporary directories cleanup
+      - [pid=508006] <gracefully close end>
+
+
+    Error Context: test-results/presentation-ux-generic-Re-ed573-ld-label-and-exact-identity-webkit/error-context.md
+
+  48) [webkit] › tests/components/presentation-ux.spec.ts:82:1 › mobile Resource details returns focus to the actual row opener 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508054
+    [pid=508054][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508054][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508054][err] linux environments out of the box. For more information, see:
+    [pid=508054][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508054
+      - [pid=508054][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508054][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508054][err] linux environments out of the box. For more information, see:
+      - [pid=508054][err] https://nix.dev/permalink/stub-ld
+      - [pid=508054] <gracefully close start>
+      - [pid=508054] <kill>
+      - [pid=508054] <will force kill>
+      - [pid=508054] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508054] <process did exit: exitCode=127, signal=null>
+      - [pid=508054] starting temporary directories cleanup
+      - [pid=508054] finished temporary directories cleanup
+      - [pid=508054] <gracefully close end>
+
+
+    Error Context: test-results/presentation-ux-mobile-Res-583df-us-to-the-actual-row-opener-webkit/error-context.md
+
+  49) [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar text 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508030
+    [pid=508030][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508030][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508030][err] linux environments out of the box. For more information, see:
+    [pid=508030][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508030
+      - [pid=508030][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508030][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508030][err] linux environments out of the box. For more information, see:
+      - [pid=508030][err] https://nix.dev/permalink/stub-ld
+      - [pid=508030] <gracefully close start>
+      - [pid=508030] <kill>
+      - [pid=508030] <will force kill>
+      - [pid=508030] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508030] <process did exit: exitCode=127, signal=null>
+      - [pid=508030] starting temporary directories cleanup
+      - [pid=508030] finished temporary directories cleanup
+      - [pid=508030] <gracefully close end>
+
+
+    Error Context: test-results/renderer-regressions-gener-b6587-isible-text-for-Scalar-text-webkit/error-context.md
+
+  50) [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar zero 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508078
+    [pid=508078][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508078][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508078][err] linux environments out of the box. For more information, see:
+    [pid=508078][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508078
+      - [pid=508078][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508078][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508078][err] linux environments out of the box. For more information, see:
+      - [pid=508078][err] https://nix.dev/permalink/stub-ld
+      - [pid=508078] <gracefully close start>
+      - [pid=508078] <kill>
+      - [pid=508078] <will force kill>
+      - [pid=508078] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508078] <process did exit: exitCode=127, signal=null>
+      - [pid=508078] starting temporary directories cleanup
+      - [pid=508078] finished temporary directories cleanup
+      - [pid=508078] <gracefully close end>
+
+
+    Error Context: test-results/renderer-regressions-gener-5a669-isible-text-for-Scalar-zero-webkit/error-context.md
+
+  51) [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar false 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508126
+    [pid=508126][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508126][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508126][err] linux environments out of the box. For more information, see:
+    [pid=508126][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508126
+      - [pid=508126][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508126][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508126][err] linux environments out of the box. For more information, see:
+      - [pid=508126][err] https://nix.dev/permalink/stub-ld
+      - [pid=508126] <gracefully close start>
+      - [pid=508126] <kill>
+      - [pid=508126] <will force kill>
+      - [pid=508126] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508126] <process did exit: exitCode=127, signal=null>
+      - [pid=508126] starting temporary directories cleanup
+      - [pid=508126] finished temporary directories cleanup
+      - [pid=508126] <gracefully close end>
+
+
+    Error Context: test-results/renderer-regressions-gener-c3156-sible-text-for-Scalar-false-webkit/error-context.md
+
+  52) [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Explicit null 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508174
+    [pid=508174][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508174][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508174][err] linux environments out of the box. For more information, see:
+    [pid=508174][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508174
+      - [pid=508174][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508174][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508174][err] linux environments out of the box. For more information, see:
+      - [pid=508174][err] https://nix.dev/permalink/stub-ld
+      - [pid=508174] <gracefully close start>
+      - [pid=508174] <kill>
+      - [pid=508174] <will force kill>
+      - [pid=508174] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508174] <process did exit: exitCode=127, signal=null>
+      - [pid=508174] starting temporary directories cleanup
+      - [pid=508174] finished temporary directories cleanup
+      - [pid=508174] <gracefully close end>
+
+
+    Error Context: test-results/renderer-regressions-gener-ad48c-ible-text-for-Explicit-null-webkit/error-context.md
+
+  53) [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Missing optional 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508222
+    [pid=508222][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508222][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508222][err] linux environments out of the box. For more information, see:
+    [pid=508222][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508222
+      - [pid=508222][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508222][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508222][err] linux environments out of the box. For more information, see:
+      - [pid=508222][err] https://nix.dev/permalink/stub-ld
+      - [pid=508222] <gracefully close start>
+      - [pid=508222] <kill>
+      - [pid=508222] <will force kill>
+      - [pid=508222] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508222] <process did exit: exitCode=127, signal=null>
+      - [pid=508222] starting temporary directories cleanup
+      - [pid=508222] finished temporary directories cleanup
+      - [pid=508222] <gracefully close end>
+
+
+    Error Context: test-results/renderer-regressions-gener-8ed86-e-text-for-Missing-optional-webkit/error-context.md
+
+  54) [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Empty codec list 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508279
+    [pid=508279][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508279][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508279][err] linux environments out of the box. For more information, see:
+    [pid=508279][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508279
+      - [pid=508279][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508279][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508279][err] linux environments out of the box. For more information, see:
+      - [pid=508279][err] https://nix.dev/permalink/stub-ld
+      - [pid=508279] <gracefully close start>
+      - [pid=508279] <kill>
+      - [pid=508279] <will force kill>
+      - [pid=508279] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508279] <process did exit: exitCode=127, signal=null>
+      - [pid=508279] starting temporary directories cleanup
+      - [pid=508279] finished temporary directories cleanup
+      - [pid=508279] <gracefully close end>
+
+
+    Error Context: test-results/renderer-regressions-gener-e01ab-e-text-for-Empty-codec-list-webkit/error-context.md
+
+  55) [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Empty codec map 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508327
+    [pid=508327][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508327][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508327][err] linux environments out of the box. For more information, see:
+    [pid=508327][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508327
+      - [pid=508327][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508327][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508327][err] linux environments out of the box. For more information, see:
+      - [pid=508327][err] https://nix.dev/permalink/stub-ld
+      - [pid=508327] <gracefully close start>
+      - [pid=508327] <kill>
+      - [pid=508327] <will force kill>
+      - [pid=508327] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508327] <process did exit: exitCode=127, signal=null>
+      - [pid=508327] starting temporary directories cleanup
+      - [pid=508327] finished temporary directories cleanup
+      - [pid=508327] <gracefully close end>
+
+
+    Error Context: test-results/renderer-regressions-gener-5730d-le-text-for-Empty-codec-map-webkit/error-context.md
+
+  56) [webkit] › tests/components/renderer-regressions.spec.ts:40:1 › mobile nested Select remains usable after scrolling its Sheet 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508383
+    [pid=508383][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508383][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508383][err] linux environments out of the box. For more information, see:
+    [pid=508383][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508383
+      - [pid=508383][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508383][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508383][err] linux environments out of the box. For more information, see:
+      - [pid=508383][err] https://nix.dev/permalink/stub-ld
+      - [pid=508383] <gracefully close start>
+      - [pid=508383] <kill>
+      - [pid=508383] <will force kill>
+      - [pid=508383] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508383] <process did exit: exitCode=127, signal=null>
+      - [pid=508383] starting temporary directories cleanup
+      - [pid=508383] finished temporary directories cleanup
+      - [pid=508383] <gracefully close end>
+
+
+    Error Context: test-results/renderer-regressions-mobil-04c19-e-after-scrolling-its-Sheet-webkit/error-context.md
+
+  57) [webkit] › tests/components/renderer-regressions.spec.ts:76:1 › mobile nested Select dismisses by ordinary outside click without closing its Sheet 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508433
+    [pid=508433][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508433][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508433][err] linux environments out of the box. For more information, see:
+    [pid=508433][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508433
+      - [pid=508433][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508433][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508433][err] linux environments out of the box. For more information, see:
+      - [pid=508433][err] https://nix.dev/permalink/stub-ld
+      - [pid=508433] <gracefully close start>
+      - [pid=508433] <kill>
+      - [pid=508433] <will force kill>
+      - [pid=508433] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508433] <process did exit: exitCode=127, signal=null>
+      - [pid=508433] starting temporary directories cleanup
+      - [pid=508433] finished temporary directories cleanup
+      - [pid=508433] <gracefully close end>
+
+
+    Error Context: test-results/renderer-regressions-mobil-34b3f-k-without-closing-its-Sheet-webkit/error-context.md
+
+  58) [webkit] › tests/components/renderer-regressions.spec.ts:103:1 › mobile Escape dismisses Select before Sheet and restores toolbar focus 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508471
+    [pid=508471][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508471][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508471][err] linux environments out of the box. For more information, see:
+    [pid=508471][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508471
+      - [pid=508471][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508471][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508471][err] linux environments out of the box. For more information, see:
+      - [pid=508471][err] https://nix.dev/permalink/stub-ld
+      - [pid=508471] <gracefully close start>
+      - [pid=508471] <kill>
+      - [pid=508471] <will force kill>
+      - [pid=508471] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508471] <process did exit: exitCode=127, signal=null>
+      - [pid=508471] starting temporary directories cleanup
+      - [pid=508471] finished temporary directories cleanup
+      - [pid=508471] <gracefully close end>
+
+
+    Error Context: test-results/renderer-regressions-mobil-11611--and-restores-toolbar-focus-webkit/error-context.md
+
+  59) [webkit] › tests/components/right-inspector.spec.ts:3:1 › right inspector toggles by keyboard and preserves filter drafts 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508102
+    [pid=508102][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508102][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508102][err] linux environments out of the box. For more information, see:
+    [pid=508102][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508102
+      - [pid=508102][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508102][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508102][err] linux environments out of the box. For more information, see:
+      - [pid=508102][err] https://nix.dev/permalink/stub-ld
+      - [pid=508102] <gracefully close start>
+      - [pid=508102] <kill>
+      - [pid=508102] <will force kill>
+      - [pid=508102] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508102] <process did exit: exitCode=127, signal=null>
+      - [pid=508102] starting temporary directories cleanup
+      - [pid=508102] finished temporary directories cleanup
+      - [pid=508102] <gracefully close end>
+
+
+    Error Context: test-results/right-inspector-right-insp-71bec-and-preserves-filter-drafts-webkit/error-context.md
+
+  60) [webkit] › tests/components/right-inspector.spec.ts:52:1 › right mobile Sheet restores toggle focus and preserves Resource draft across resize 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508150
+    [pid=508150][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508150][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508150][err] linux environments out of the box. For more information, see:
+    [pid=508150][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508150
+      - [pid=508150][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508150][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508150][err] linux environments out of the box. For more information, see:
+      - [pid=508150][err] https://nix.dev/permalink/stub-ld
+      - [pid=508150] <gracefully close start>
+      - [pid=508150] <kill>
+      - [pid=508150] <will force kill>
+      - [pid=508150] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508150] <process did exit: exitCode=127, signal=null>
+      - [pid=508150] starting temporary directories cleanup
+      - [pid=508150] finished temporary directories cleanup
+      - [pid=508150] <gracefully close end>
+
+
+    Error Context: test-results/right-inspector-right-mobi-d807e-esource-draft-across-resize-webkit/error-context.md
+
+  61) [webkit] › tests/components/settings-presentation.spec.ts:72:1 › Settings groups disclosed plugin Resources and uses the authorized patch path 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508198
+    [pid=508198][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508198][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508198][err] linux environments out of the box. For more information, see:
+    [pid=508198][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508198
+      - [pid=508198][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508198][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508198][err] linux environments out of the box. For more information, see:
+      - [pid=508198][err] https://nix.dev/permalink/stub-ld
+      - [pid=508198] <gracefully close start>
+      - [pid=508198] <kill>
+      - [pid=508198] <will force kill>
+      - [pid=508198] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508198] <process did exit: exitCode=127, signal=null>
+      - [pid=508198] starting temporary directories cleanup
+      - [pid=508198] finished temporary directories cleanup
+      - [pid=508198] <gracefully close end>
+
+
+    Error Context: test-results/settings-presentation-Sett-8ac29-s-the-authorized-patch-path-webkit/error-context.md
+
+  62) [webkit] › tests/components/settings-presentation.spec.ts:120:1 › Settings exposes no group when discovery discloses no settings metadata 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508255
+    [pid=508255][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508255][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508255][err] linux environments out of the box. For more information, see:
+    [pid=508255][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508255
+      - [pid=508255][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508255][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508255][err] linux environments out of the box. For more information, see:
+      - [pid=508255][err] https://nix.dev/permalink/stub-ld
+      - [pid=508255] <gracefully close start>
+      - [pid=508255] <kill>
+      - [pid=508255] <will force kill>
+      - [pid=508255] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508255] <process did exit: exitCode=127, signal=null>
+      - [pid=508255] starting temporary directories cleanup
+      - [pid=508255] finished temporary directories cleanup
+      - [pid=508255] <gracefully close end>
+
+
+    Error Context: test-results/settings-presentation-Sett-f3a0a-closes-no-settings-metadata-webkit/error-context.md
+
+  63) [webkit] › tests/components/shell-presentation.spec.ts:3:1 › mobile sidebar opens, selects a descriptor and returns space to the page 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508303
+    [pid=508303][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508303][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508303][err] linux environments out of the box. For more information, see:
+    [pid=508303][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508303
+      - [pid=508303][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508303][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508303][err] linux environments out of the box. For more information, see:
+      - [pid=508303][err] https://nix.dev/permalink/stub-ld
+      - [pid=508303] <gracefully close start>
+      - [pid=508303] <kill>
+      - [pid=508303] <will force kill>
+      - [pid=508303] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508303] <process did exit: exitCode=127, signal=null>
+      - [pid=508303] starting temporary directories cleanup
+      - [pid=508303] finished temporary directories cleanup
+      - [pid=508303] <gracefully close end>
+
+
+    Error Context: test-results/shell-presentation-mobile--903e0-d-returns-space-to-the-page-webkit/error-context.md
+
+  64) [webkit] › tests/components/work-presentation.spec.ts:79:1 › Work loads readable snapshots automatically and applies operator filters 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508359
+    [pid=508359][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508359][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508359][err] linux environments out of the box. For more information, see:
+    [pid=508359][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508359
+      - [pid=508359][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508359][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508359][err] linux environments out of the box. For more information, see:
+      - [pid=508359][err] https://nix.dev/permalink/stub-ld
+      - [pid=508359] <gracefully close start>
+      - [pid=508359] <kill>
+      - [pid=508359] <will force kill>
+      - [pid=508359] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508359] <process did exit: exitCode=127, signal=null>
+      - [pid=508359] starting temporary directories cleanup
+      - [pid=508359] finished temporary directories cleanup
+      - [pid=508359] <gracefully close end>
+
+
+    Error Context: test-results/work-presentation-Work-loa-211b3-nd-applies-operator-filters-webkit/error-context.md
+
+  65) [webkit] › tests/components/work-presentation.spec.ts:111:1 › Work inspector close preserves the exact recovery retry request 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508407
+    [pid=508407][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508407][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508407][err] linux environments out of the box. For more information, see:
+    [pid=508407][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508407
+      - [pid=508407][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508407][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508407][err] linux environments out of the box. For more information, see:
+      - [pid=508407][err] https://nix.dev/permalink/stub-ld
+      - [pid=508407] <gracefully close start>
+      - [pid=508407] <kill>
+      - [pid=508407] <will force kill>
+      - [pid=508407] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508407] <process did exit: exitCode=127, signal=null>
+      - [pid=508407] starting temporary directories cleanup
+      - [pid=508407] finished temporary directories cleanup
+      - [pid=508407] <gracefully close end>
+
+
+    Error Context: test-results/work-presentation-Work-ins-2869a-xact-recovery-retry-request-webkit/error-context.md
+
+  66) [webkit] › tests/components/work-presentation.spec.ts:144:1 › mobile Work details returns focus to the actual row opener 
+
+    Error: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+    <launched> pid=508457
+    [pid=508457][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+    [pid=508457][err] NixOS cannot run dynamically linked executables intended for generic
+    [pid=508457][err] linux environments out of the box. For more information, see:
+    [pid=508457][err] https://nix.dev/permalink/stub-ld
+    Call log:
+      - <launching> /root/.cache/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window
+      - <launched> pid=508457
+      - [pid=508457][err] Could not start dynamically linked executable: /root/.cache/ms-playwright/webkit-2359/minibrowser-wpe/bin/MiniBrowser
+      - [pid=508457][err] NixOS cannot run dynamically linked executables intended for generic
+      - [pid=508457][err] linux environments out of the box. For more information, see:
+      - [pid=508457][err] https://nix.dev/permalink/stub-ld
+      - [pid=508457] <gracefully close start>
+      - [pid=508457] <kill>
+      - [pid=508457] <will force kill>
+      - [pid=508457] exception while trying to kill process: Error: kill ESRCH
+      - [pid=508457] <process did exit: exitCode=127, signal=null>
+      - [pid=508457] starting temporary directories cleanup
+      - [pid=508457] finished temporary directories cleanup
+      - [pid=508457] <gracefully close end>
+
+
+    Error Context: test-results/work-presentation-mobile-W-b01ad-us-to-the-actual-row-opener-webkit/error-context.md
+
+  66 failed
+    [webkit] › tests/components/application.spec.ts:9:1 › real SDK composes two metadata-driven pages; logout clears details 
+    [webkit] › tests/components/application.spec.ts:93:1 › real app reports unavailable session without simulated data 
+    [webkit] › tests/components/application.spec.ts:106:1 › moving pages use native query anchors and previous refetches 
+    [webkit] › tests/components/controls.spec.ts:7:1 › integer fields request a numeric mobile keyboard without losing exact input 
+    [webkit] › tests/components/controls.spec.ts:19:1 › Resource references identify the target kind while accepting an exact ID 
+    [webkit] › tests/components/controls.spec.ts:30:1 › Resource controls preserve integer, presence, boolean and nested edits 
+    [webkit] › tests/components/controls.spec.ts:58:1 › same field hosts support custom codec, nested collections and generic action input 
+    [webkit] › tests/components/controls.spec.ts:82:1 › expanded action input describes submission rather than Resource saving 
+    [webkit] › tests/components/controls.spec.ts:91:1 › unsupported action stays visible, generic table selects, query emits values 
+    [webkit] › tests/components/controls.spec.ts:108:1 › keyboard controls and assembled accessibility 
+    [webkit] › tests/components/controls.spec.ts:118:1 › descriptor change retains an open draft and requires explicit reopen 
+    [webkit] › tests/components/controls.spec.ts:166:1 › invalid field keeps keyboard focus and cannot submit until corrected 
+    [webkit] › tests/components/controls.spec.ts:192:1 › shared Select Checkbox and submit keyboard semantics preserve a boolean 
+    [webkit] › tests/components/controls.spec.ts:212:1 › optional remove and empty string remain distinct from omitted fields 
+    [webkit] › tests/components/controls.spec.ts:233:1 › nested invalid input survives sibling edits and removal releases only its error 
+    [webkit] › tests/components/controls.spec.ts:254:1 › enum reference and prototype-shaped map keys use generic controls 
+    [webkit] › tests/components/controls.spec.ts:274:1 › opaque input uses the shared strict lossless codec 
+    [webkit] › tests/components/controls.spec.ts:290:1 › sort field is independent from filter field 
+    [webkit] › tests/components/controls.spec.ts:304:1 › sort picker excludes collection fields but retains scalar fields 
+    [webkit] › tests/components/controls.spec.ts:319:1 › wrapped custom codecs apply only to leaves; unknown leaves remain read-only 
+    [webkit] › tests/components/controls.spec.ts:383:1 › query filters preserve wrapper provenance and edit only registered leaves 
+    [webkit] › tests/components/controls.spec.ts:399:3 › finite generic table 100 row frame and DOM retention sample 
+    [webkit] › tests/components/controls.spec.ts:399:3 › finite generic table 500 row frame and DOM retention sample 
+    [webkit] › tests/components/details.spec.ts:2:1 › selected Resource shows its current title as a direct editable field 
+    [webkit] › tests/components/details.spec.ts:27:1 › direct boolean control keeps false and becomes an explicit edit only when switched 
+    [webkit] › tests/components/details.spec.ts:42:1 › mobile Resource editor uses the full viewport and a concise heading 
+    [webkit] › tests/components/details.spec.ts:53:1 › live revision retains draft and disables stale submission until explicit reload 
+    [webkit] › tests/components/details.spec.ts:88:1 › an open field popup cannot mutate a draft after a newer revision 
+    [webkit] › tests/components/details.spec.ts:117:1 › stale Resource keeps collection details readable without reopening mutation 
+    [webkit] › tests/components/direct-form.spec.ts:3:1 › current null and absent fields are distinct from an empty value 
+    [webkit] › tests/components/direct-form.spec.ts:14:1 › generic scalar fields fit label, control and actions in one mobile row 
+    [webkit] › tests/components/direct-form.spec.ts:35:1 › choosing Set a value starts from the current value 
+    [webkit] › tests/components/direct-form.spec.ts:53:1 › switching an invalid omitted field to a value resets its draft 
+    [webkit] › tests/components/direct-form.spec.ts:72:1 › nested null differs from an empty value in an expanded list editor 
+    [webkit] › tests/components/direct-form.spec.ts:105:1 › large collections remain readable when editing is bounded 
+    [webkit] › tests/components/direct-form.spec.ts:118:1 › descriptor change keeps existing collection available for read-only inspection 
+    [webkit] › tests/components/direct-form.spec.ts:133:1 › direct fields distinguish unchanged, false, zero, empty, null and removal 
+    [webkit] › tests/components/filter-workspace.spec.ts:54:1 › compact actions keep their names and the inspector toggle stays on the right 
+    [webkit] › tests/components/filter-workspace.spec.ts:111:1 › quick and full filters share draft without querying until Apply 
+    [webkit] › tests/components/filter-workspace.spec.ts:166:1 › Resource draft survives filter tab, Apply and mobile inspector lifecycle 
+    [webkit] › tests/components/filter-workspace.spec.ts:229:1 › invalid filter input survives popover close and switching editors 
+    [webkit] › tests/components/filter-workspace.spec.ts:292:1 › removing an earlier rule preserves the later rule's invalid draft 
+    [webkit] › tests/components/filter-workspace.spec.ts:328:1 › descriptor change permits explicit discard of an obsolete filter 
+    [webkit] › tests/components/filter-workspace.spec.ts:360:1 › invalid input after an applied numeric filter is marked pending 
+    [webkit] › tests/components/generic-presentation.spec.ts:7:1 › shared mode picker uses keyboard and keeps nullable operation controlled 
+    [webkit] › tests/components/generic-presentation.spec.ts:26:1 › shared query picker preserves independent sort selection and closes on Escape 
+    [webkit] › tests/components/presentation-ux.spec.ts:53:1 › generic Resource presentation separates human title, field label, and exact identity 
+    [webkit] › tests/components/presentation-ux.spec.ts:82:1 › mobile Resource details returns focus to the actual row opener 
+    [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar text 
+    [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar zero 
+    [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Scalar false 
+    [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Explicit null 
+    [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Missing optional 
+    [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Empty codec list 
+    [webkit] › tests/components/renderer-regressions.spec.ts:14:3 › generic display exposes visible text for Empty codec map 
+    [webkit] › tests/components/renderer-regressions.spec.ts:40:1 › mobile nested Select remains usable after scrolling its Sheet 
+    [webkit] › tests/components/renderer-regressions.spec.ts:76:1 › mobile nested Select dismisses by ordinary outside click without closing its Sheet 
+    [webkit] › tests/components/renderer-regressions.spec.ts:103:1 › mobile Escape dismisses Select before Sheet and restores toolbar focus 
+    [webkit] › tests/components/right-inspector.spec.ts:3:1 › right inspector toggles by keyboard and preserves filter drafts 
+    [webkit] › tests/components/right-inspector.spec.ts:52:1 › right mobile Sheet restores toggle focus and preserves Resource draft across resize 
+    [webkit] › tests/components/settings-presentation.spec.ts:72:1 › Settings groups disclosed plugin Resources and uses the authorized patch path 
+    [webkit] › tests/components/settings-presentation.spec.ts:120:1 › Settings exposes no group when discovery discloses no settings metadata 
+    [webkit] › tests/components/shell-presentation.spec.ts:3:1 › mobile sidebar opens, selects a descriptor and returns space to the page 
+    [webkit] › tests/components/work-presentation.spec.ts:79:1 › Work loads readable snapshots automatically and applies operator filters 
+    [webkit] › tests/components/work-presentation.spec.ts:111:1 › Work inspector close preserves the exact recovery retry request 
+    [webkit] › tests/components/work-presentation.spec.ts:144:1 › mobile Work details returns focus to the actual row opener 

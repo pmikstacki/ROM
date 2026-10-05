@@ -7,5 +7,7 @@ export interface RendererProps {
   readonly?: boolean;
   mode?: "editor" | "detail" | "cell";
   onerror?: (message: string) => void;
+  /** Human label; descriptor.name remains the canonical field identity. */
+  label?: string;
 }
 export type FieldRenderer = Component<RendererProps>;

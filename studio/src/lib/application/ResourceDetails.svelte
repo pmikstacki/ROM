@@ -9,6 +9,7 @@
   import ActionForm from "../resources/ActionForm.svelte";
   import CheckboxAdapter from "../renderers/CheckboxAdapter.svelte";
   import { Button } from "../components/ui/button/index.js";
+  import ResourceSummary from "../presentation/ResourceSummary.svelte";
   let {
     descriptor,
     selected,
@@ -28,12 +29,7 @@
 </script>
 
 <section class="space-y-5" aria-label="Resource details">
-  <h2 class="text-lg font-semibold tracking-tight">
-    Resource {selected.key.id}
-  </h2>
-  <p class="text-xs text-muted-foreground">
-    Revision {String(selected.revision)}
-  </p>
+  <ResourceSummary {descriptor} resource={selected} />
   {#if stale}<p role="status">
       This Resource changed after the draft was opened.
     </p>

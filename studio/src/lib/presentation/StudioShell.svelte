@@ -5,6 +5,7 @@
   import { Separator } from "../components/ui/separator/index.js";
   import * as Breadcrumb from "../components/ui/breadcrumb/index.js";
   import StudioNavigation from "./StudioNavigation.svelte";
+  import type { StudioPage } from "./navigation.ts";
   let sidebarTrigger = $state<HTMLElement | null>(null);
   let {
     descriptors,
@@ -14,14 +15,16 @@
     onkind,
     onsignout,
     children,
+    navigationBlocked = false,
   }: {
     descriptors: ResourceDescriptor[];
     kind: string | null;
-    page: "resources" | "work" | "attachments";
-    onpage: (page: "resources" | "work" | "attachments") => void;
+    page: StudioPage;
+    onpage: (page: StudioPage) => void;
     onkind: (kind: string) => void;
     onsignout: () => void;
     children: Snippet;
+    navigationBlocked?: boolean;
   } = $props();
 </script>
 
@@ -33,6 +36,7 @@
     {onpage}
     {onkind}
     {onsignout}
+    {navigationBlocked}
     onMobileCloseAutoFocus={(event) => {
       event.preventDefault();
       sidebarTrigger?.focus();
@@ -62,7 +66,9 @@
                 ? kind || "Resources"
                 : page === "work"
                   ? "Work"
-                  : "Attachments"}
+                  : page === "settings"
+                    ? "Settings"
+                    : "Attachments"}
             </Breadcrumb.Page></Breadcrumb.Item
           >
         </Breadcrumb.List>

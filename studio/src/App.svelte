@@ -6,6 +6,12 @@
   import ResourcePage from "./lib/application/ResourcePage.svelte";
   import AttachmentPage from "./lib/application/AttachmentPage.svelte";
   import WorkPage from "./lib/application/WorkPage.svelte";
+  import SettingsPage from "./lib/application/SettingsPage.svelte";
+  import {
+    navigationBlocked,
+    type StudioPage,
+  } from "./lib/presentation/navigation.ts";
+  import { settingsSections } from "./lib/presentation/resource-presentation.ts";
   import StudioShell from "./lib/presentation/StudioShell.svelte";
   import * as Card from "./lib/components/ui/card/index.js";
   import * as Alert from "./lib/components/ui/alert/index.js";
@@ -95,8 +101,23 @@
     },
   );
   let snapshot = $state.raw(controller.state),
-    page = $state<"resources" | "work" | "attachments">("resources");
-  const unsubscribe = controller.subscribe((next) => (snapshot = next));
+    page = $state<StudioPage>("resources"),
+    workNavigationBlocked = $state(false);
+  const blockedNavigation = $derived(
+    navigationBlocked(snapshot.pending?.state, workNavigationBlocked),
+  );
+  const unsubscribe = controller.subscribe((next) => {
+    snapshot = next;
+    if (next.phase !== "ready") workNavigationBlocked = false;
+  });
+  function navigate(next: StudioPage) {
+    if (blockedNavigation) return;
+    page = next;
+    if (next === "settings" && !descriptor?.presentation?.settings) {
+      const first = settingsSections(snapshot.descriptors)[0]?.resources[0];
+      if (first) void controller.selectKind(first.kind);
+    }
+  }
   onDestroy(() => {
     destroyed = true;
     unsubscribe();
@@ -189,8 +210,11 @@
     descriptors={snapshot.descriptors}
     kind={snapshot.kind}
     {page}
-    onpage={(next) => (page = next)}
-    onkind={(kind) => void controller.selectKind(kind)}
+    onpage={navigate}
+    onkind={(kind) => {
+      if (!blockedNavigation) void controller.selectKind(kind);
+    }}
+    navigationBlocked={blockedNavigation}
     onsignout={() => void signOut()}
   >
     {@render notices()}
@@ -198,7 +222,16 @@
         {client}
         descriptors={snapshot.descriptors}
       />
-    {:else if page === "work"}<WorkPage {snapshot} {controller} />
+    {:else if page === "work"}<WorkPage
+        {snapshot}
+        {controller}
+        onNavigationBlockChange={(blocked) => (workNavigationBlocked = blocked)}
+      />
+    {:else if page === "settings"}<SettingsPage
+        {snapshot}
+        {controller}
+        navigationBlocked={blockedNavigation}
+      />
     {:else if descriptor}{#key descriptor.kind}<ResourcePage
           {snapshot}
           {controller}

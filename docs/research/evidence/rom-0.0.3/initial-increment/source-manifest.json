@@ -1,0 +1,247 @@
+{
+  "baseline": "091836e770752153a54e163191cf0fee5f0ab345",
+  "scope": "Working source used by final checks; evidence directory excluded to avoid self-reference",
+  "generated_at": "2026-10-05T11:06:26.120Z",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "2bfeab27fab9c1a1c97967305c2f6423baa757968838879c0fd2eee0d39c6dd4"
+    },
+    {
+      "path": "README.md",
+      "sha256": "03cd41e337f2d64fd1cad7c2a1f5b4f04ff39562f034af9400f8b11a0a98f540"
+    },
+    {
+      "path": "crates/rom/src/discovery.rs",
+      "sha256": "58de7e008ecc1cdf94130509e6ae1d077ea142414713771d12f008f5e6dca9e7"
+    },
+    {
+      "path": "crates/rom/src/resource.rs",
+      "sha256": "a8869c207fe51b5f187e5d26a953d1249ead584f4d65260e88d537ff4098a707"
+    },
+    {
+      "path": "crates/rom/src/resource/definition.rs",
+      "sha256": "d0eaa9afaae57775df354bd8c909ff99ee478a93035231280e67320b01791519"
+    },
+    {
+      "path": "crates/rom/src/resource/presentation.rs",
+      "sha256": "c773413b7bace5df867c23d321496173d0eb1c5d455baca72326e9167166dbf2"
+    },
+    {
+      "path": "crates/rom/src/resource/presentation_tests.rs",
+      "sha256": "1f019b28e4508ba585f783aaddf3a84af843f4714585c4d6d018848bf25f5108"
+    },
+    {
+      "path": "crates/rom/src/resource/schema.rs",
+      "sha256": "ccc4c3debedaa6e9cb38fe2fbf9a77925231a5c4d50689b95ae25e01649cea90"
+    },
+    {
+      "path": "demo/src/studio_application.rs",
+      "sha256": "505d6ff99a6e77ac04d04d30615d6f61405812c1ba165b0121719c7f280459d9"
+    },
+    {
+      "path": "demo/studio/TicketCode.svelte",
+      "sha256": "fe486cdd73dcd82574cb1dc171e3660eccbf9dddc5ee59b42b974239afd27fc8"
+    },
+    {
+      "path": "docs/ai-development.md",
+      "sha256": "0b1a72a7c18bf8c565c93827247ce0fcb6eaac98c5015c15c8b376df3eb54d67"
+    },
+    {
+      "path": "docs/research/mockups/rom-0.0.3/right-inspector-proposal.png",
+      "sha256": "314831743583f2af42cda8a1e06ac9595dec958ac6ee959ecf1d2ae23e00f280"
+    },
+    {
+      "path": "docs/research/rom-0.0.3-admin-renderer-patterns.md",
+      "sha256": "14ae8163d13445bd428f0d17c7264656c4510cfad94695da4959f43f5bc74a67"
+    },
+    {
+      "path": "docs/research/rom-0.0.3-descriptor-review.md",
+      "sha256": "32fb00365d7de563244bcb2c54be6df2de1c40f28e65c562a66e2add5a4bae94"
+    },
+    {
+      "path": "docs/research/rom-0.0.3-increment-review.md",
+      "sha256": "3f0b6cd371d16fd44022c7585fd424fa1018555f71124a1b5ab29aa1ef1f070e"
+    },
+    {
+      "path": "docs/research/rom-0.0.3-screen-ergonomics-audit.md",
+      "sha256": "06c1fef1f4a02bf49bdf0d4daf00fe2e9ba1986bb9849e41b68fdff5012908bd"
+    },
+    {
+      "path": "docs/research/rom-0.0.3-studio-release-research.md",
+      "sha256": "8b67e2c4c8ed9b5d8235963e296d9d20884c5fc6967280603982a036d147508e"
+    },
+    {
+      "path": "docs/research/rom-0.0.3-svelte-controls-research.md",
+      "sha256": "1f781d7ad397304d2700636f8c2c9f486c8760bd1bd73257dbbdbe153eb0f43a"
+    },
+    {
+      "path": "docs/studio-presentation.md",
+      "sha256": "384899caeccf6cb4f379a6afe9db653077fe232155bdb416aea57c2686e11327"
+    },
+    {
+      "path": "openspec/changes/improve-studio-ergonomics-0-0-3/design.md",
+      "sha256": "8243ec616678dad59e0fe91600f481072c4fd67ba29db785adea8869f55a8fbf"
+    },
+    {
+      "path": "openspec/changes/improve-studio-ergonomics-0-0-3/proposal.md",
+      "sha256": "8f10d67bf473771cf0ed4a280894ae31a102396ffcbb241bd54024bf1761e2e4"
+    },
+    {
+      "path": "openspec/changes/improve-studio-ergonomics-0-0-3/specs/studio-presentation/spec.md",
+      "sha256": "8cbdea5b5d7b4e6a2b720c2e18be528661c29b60f87bb02ea99096d50cb5b881"
+    },
+    {
+      "path": "openspec/changes/improve-studio-ergonomics-0-0-3/tasks.md",
+      "sha256": "990b0ef07bc5e25e37042fe3a26927af7bbaab94c9ab98b274dd8771cbbb2f8c"
+    },
+    {
+      "path": "skills/project/rom-studio/SKILL.md",
+      "sha256": "dfd730fb1ffddf95629f13f76d3b9345157428685c2ab9d79bb6a5f077b29696"
+    },
+    {
+      "path": "studio/index.html",
+      "sha256": "49eb8877e06d1afb9e815a711bc51596451d1cdbeb73c18a485127a1b3d996fd"
+    },
+    {
+      "path": "studio/public/rom-icon.svg",
+      "sha256": "01aa30ad5f14529c11e476eef725b38250027a361e8bcb50ba61a53a2ee0568b"
+    },
+    {
+      "path": "studio/src/App.svelte",
+      "sha256": "94f2aefbd8ff55284f74bc7b5a2e634e8782643c9cf0e792f430c3fbc13d19c4"
+    },
+    {
+      "path": "studio/src/lib/application/InspectorToggle.svelte",
+      "sha256": "1dbe19692e44c27b1ac95842ad982609084e81b00d0dcf61202ba6fce3de2e1d"
+    },
+    {
+      "path": "studio/src/lib/application/ResourceDetails.svelte",
+      "sha256": "9b0ce3ad19561af32739bb59793ca81a1c9c608459704c1dea933892e66da00a"
+    },
+    {
+      "path": "studio/src/lib/application/ResourcePage.svelte",
+      "sha256": "b4a5eb97bc4f78366b04a3fcaccadc9ed4e7adfc26d064419d5e7d2bd57ada14"
+    },
+    {
+      "path": "studio/src/lib/application/ResponsiveInspector.svelte",
+      "sha256": "9f0bee77ca6127577ee2f64ea95c49a5e89fd06da4a153ca6d6796e34082bcb6"
+    },
+    {
+      "path": "studio/src/lib/application/SettingsPage.svelte",
+      "sha256": "eb8ad856fc68c13ccf370c4b7fdc91a931a775334afe0d3b90d471607a9e3678"
+    },
+    {
+      "path": "studio/src/lib/application/WorkDetails.svelte",
+      "sha256": "61a994c7c5184683b1bfdabbcfec08c9b75fbf3c900053a5d4342afcd22c743d"
+    },
+    {
+      "path": "studio/src/lib/application/WorkFilters.svelte",
+      "sha256": "75bb745675d25effa3654c0559844723ed5a87b4d2a005af5fc1f3f6656b1927"
+    },
+    {
+      "path": "studio/src/lib/application/WorkPage.svelte",
+      "sha256": "0aff3183be4fec9ec5edb06df77401477ae3632da32a166795f5133dcbc6f05a"
+    },
+    {
+      "path": "studio/src/lib/application/WorkRecovery.svelte",
+      "sha256": "eb9008e779c402b4fd779060378097c0ee325787e950ef35f63419cd99faeeba"
+    },
+    {
+      "path": "studio/src/lib/application/work-presentation.ts",
+      "sha256": "d73b3f019dde9eadd5dcb2c7f346d62edcaa3b6b71d0de754903a6ef4f85749b"
+    },
+    {
+      "path": "studio/src/lib/client/discovery.ts",
+      "sha256": "05173d54199c6a6a6efa6c5fa66ad68f973b46aa904db6b5cf9d0634d633f377"
+    },
+    {
+      "path": "studio/src/lib/client/types.ts",
+      "sha256": "227aeef12a8f2c63d88b2db9376ff0952ebe9b170b8855abe6e4f5c46ae8a9bf"
+    },
+    {
+      "path": "studio/src/lib/presentation/ResourceSummary.svelte",
+      "sha256": "292f98e3bcd912c5ca82da7d73d79e69bff033aed6536f7aa9ed32827b4910f0"
+    },
+    {
+      "path": "studio/src/lib/presentation/StudioNavigation.svelte",
+      "sha256": "f244dced9506dea989594d1b5da8c5cc92405a78d9c581b9c538acb721707694"
+    },
+    {
+      "path": "studio/src/lib/presentation/StudioShell.svelte",
+      "sha256": "1b0a3ab31a05e85cd81583214dbfa3da50e8bb7a8cc41210c6ea8f1dc7fe2cc2"
+    },
+    {
+      "path": "studio/src/lib/presentation/navigation.ts",
+      "sha256": "f57d3f0587fff0589f2069156cfc07e4e75f6a5be7ed54b238f0de6ac93ddf50"
+    },
+    {
+      "path": "studio/src/lib/presentation/resource-presentation.ts",
+      "sha256": "21550df5f2bab14f2323116c4cb6ebe5b5125b696bbb922b4013b3d48519124b"
+    },
+    {
+      "path": "studio/src/lib/renderers/FieldHost.svelte",
+      "sha256": "19d0ec0fb570b9949f5c3c064e2e8486d7b1a7562d8c1ee619d32c8e3fafd953"
+    },
+    {
+      "path": "studio/src/lib/renderers/ValueEditor.svelte",
+      "sha256": "186d3d6e87c6eaa8a3a32ffe2321a805346cb796094cc84f7e3f72f84bc4e7ab"
+    },
+    {
+      "path": "studio/src/lib/renderers/types.ts",
+      "sha256": "9b797190f6c6671bddccc463dbe0c8ef8c3c417d8358c659b8930bb228a025a8"
+    },
+    {
+      "path": "studio/src/lib/resources/ResourceForm.svelte",
+      "sha256": "d6740a9dccfa45f91a87c2f1b678f4e9d34ffa5b572cc80f55285bbc50d12688"
+    },
+    {
+      "path": "studio/src/lib/resources/ResourceTable.svelte",
+      "sha256": "6a2173b6cbf54c4109ad47e1830673abaaf66d41bcab522a98d6ea0dd459a737"
+    },
+    {
+      "path": "studio/tests/components/filter-workspace.spec.ts",
+      "sha256": "3a1dcf6d9a174adbdec7d342934225f6b2a9cd58aad27358597f8fa42553ff36"
+    },
+    {
+      "path": "studio/tests/components/presentation-ux.spec.ts",
+      "sha256": "2001ba1ed0b67d8abff1edcdb3509cae90de038438483ce2aa4ca467e617b8ef"
+    },
+    {
+      "path": "studio/tests/components/right-inspector.spec.ts",
+      "sha256": "6daedc938278219241877c213b08346eaf483443405eb940e55ee15a276d96e1"
+    },
+    {
+      "path": "studio/tests/components/settings-presentation.spec.ts",
+      "sha256": "9251b1fa6e6779ba76a5593d99abae071583d848f4adb175e581416e03b51309"
+    },
+    {
+      "path": "studio/tests/components/work-presentation.spec.ts",
+      "sha256": "5a53095458b2b13489e697318becbb3633a0c7cfe01b2807f8702330e2e71abf"
+    },
+    {
+      "path": "studio/tests/fixtures/presentation-discovery.json",
+      "sha256": "a0740a3c5c864e9e7dbc230f720c756b8ffa003336a0ec398f94c7b4246b21ce"
+    },
+    {
+      "path": "studio/tests/unit/presentation-discovery.test.ts",
+      "sha256": "0a019c6fa7aeeca20c276ff07626d1c226addf0d5dcaacd6140975e16c15b878"
+    },
+    {
+      "path": "studio/tests/unit/resource-presentation.test.ts",
+      "sha256": "c8dd72f66c4a3589e0f51229a137ff5bfb08037ff391b9fc48e68524c173affc"
+    },
+    {
+      "path": "tests/persistence/tests/presentation_discovery.rs",
+      "sha256": "51f6091b5e2efbea1b2264ea680329b7fbec4316ef13f1306c8c85c334a8b018"
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "f288709d12f8c7adc39a5d72cb7253a9d86afa990dd94226724e39262500d992"
+    },
+    {
+      "path": "studio/package-lock.json",
+      "sha256": "44a7ef3624f657b82b69731c13c48d69a3054f9c9a18d87a97406d6d9742c7e8"
+    }
+  ]
+}

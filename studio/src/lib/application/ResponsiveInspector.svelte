@@ -9,11 +9,17 @@
     children,
     onCloseFocus = () => {},
     title = "Resource tools",
+    label = "Resource tools",
+    description = "Filters and selected Resource details.",
+    id,
   }: {
     open?: boolean;
     children: Snippet;
     onCloseFocus?: () => void;
     title?: string;
+    label?: string;
+    description?: string;
+    id?: string;
   } = $props();
   const mobile = new MediaQuery(INSPECTOR_MEDIA_QUERY);
   let desktopTarget = $state<HTMLDivElement | null>(null);
@@ -39,13 +45,16 @@
   }}
 >
   <aside
+    id={mobile.current ? undefined : id}
     hidden={mobile.current || !open}
     class="min-w-0 rounded-lg border bg-card p-4 xl:sticky xl:top-4"
-    aria-label="Resource tools"
+    aria-label={label}
   >
     <div bind:this={desktopTarget}></div>
   </aside>
   <Sheet.Content
+    id={mobile.current ? id : undefined}
+    side="right"
     forceMount
     preventScroll={false}
     onCloseAutoFocus={(event) => {
@@ -58,9 +67,7 @@
   >
     <Sheet.Header class="pr-8">
       <Sheet.Title>{title}</Sheet.Title>
-      <Sheet.Description class="sr-only"
-        >Filters and selected Resource details.</Sheet.Description
-      >
+      <Sheet.Description class="sr-only">{description}</Sheet.Description>
     </Sheet.Header>
     <div bind:this={mobileTarget}></div>
   </Sheet.Content>

@@ -8,6 +8,7 @@
     descriptor,
     mode = "editor",
     onerror,
+    label,
   }: RendererProps = $props();
   function change(next: string) {
     const canonical = next.trim().toUpperCase();
@@ -22,7 +23,7 @@
 
 {#if mode === "editor"}<Input
     value={typeof value === "string" ? value : ""}
-    aria-label={`${descriptor.name} value`}
+    aria-label={`${label || descriptor.name} value`}
     {readonly}
     oninput={(event) => change(event.currentTarget.value)}
   />{:else}<span>{String(value)}</span>{/if}

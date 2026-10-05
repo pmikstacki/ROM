@@ -49,6 +49,7 @@ type FieldPolicy<R> = fn(&Actor, Access, &str, &R) -> bool;
 type TransitionValidator<R> = fn(&Actor, Option<&R>, Option<&R>) -> Result<()>;
 pub struct Definition<R: Resource> {
     descriptor: Descriptor,
+    presentation: Option<crate::ResourcePresentation>,
     actions: BTreeMap<String, ErasedAction>,
     action_inputs: BTreeMap<String, Option<InputDescriptor>>,
     field_codecs: BTreeMap<String, crate::FieldCodec>,
@@ -80,7 +81,14 @@ impl<R: Resource> Definition<R> {
             Ok(bindings) => (bindings, None),
             Err(error) => (BTreeMap::new(), Some(error)),
         };
+        let presentation = R::presentation();
+        let metadata_error = metadata_error.or_else(|| {
+            presentation
+                .as_ref()
+                .and_then(|p| p.validate(&descriptor, &field_codecs).err())
+        });
         Self {
+            presentation,
             descriptor,
             field_codecs,
             metadata_error,
@@ -100,6 +108,15 @@ impl<R: Resource> Definition<R> {
             replay_codecs: BTreeMap::new(),
             replay_error: None,
         }
+    }
+    /// Set validated human presentation for this definition, including derived Resources.
+    /// Metadata cannot alter value codecs, persisted schema or operation permissions.
+    pub fn presentation(mut self, presentation: crate::ResourcePresentation) -> Self {
+        if let Err(error) = presentation.validate(&self.descriptor, &self.field_codecs) {
+            self.metadata_error = Some(error);
+        }
+        self.presentation = Some(presentation);
+        self
     }
     /// Retain an older Resource codec only for fingerprint checks on existing receipts.
     /// The old kind must match and its positive version must precede this definition.
@@ -220,6 +237,7 @@ impl<R: Resource> Definition<R> {
 pub(crate) trait Registered: Send + Sync {
     fn descriptor(&self) -> Descriptor;
     fn descriptor_ref(&self) -> &Descriptor;
+    fn presentation(&self) -> Option<&crate::ResourcePresentation>;
     fn replay_codec(&self, version: u32) -> Option<&replay::Codec>;
     fn allows_discovery(&self, actor: &Actor, target: DiscoveryTarget<'_>) -> bool;
     fn actions(&self) -> &BTreeMap<String, ErasedAction>;
@@ -244,6 +262,9 @@ pub(crate) trait Registered: Send + Sync {
     ) -> Result<()>;
 }
 impl<R: Resource> Registered for Definition<R> {
+    fn presentation(&self) -> Option<&crate::ResourcePresentation> {
+        self.presentation.as_ref()
+    }
     fn replay_codec(&self, version: u32) -> Option<&replay::Codec> {
         self.replay_codecs.get(&version)
     }

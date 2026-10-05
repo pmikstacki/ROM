@@ -25,6 +25,8 @@ pub struct DiscoveredResource {
     pub actions: Vec<String>,
     /// Versioned descriptions of visible actions; null input is explicitly opaque.
     pub action_inputs: Vec<DiscoveredActionInput>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub presentation: Option<ResourcePresentation>,
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 pub struct DiscoveredActionInput {
@@ -130,6 +132,7 @@ impl Runtime {
                     fields: Vec::new(),
                     actions: Vec::new(),
                     action_inputs: Vec::new(),
+                    presentation: None,
                 };
                 for field in &descriptor.fields {
                     if !definition
@@ -186,6 +189,19 @@ impl Runtime {
                             });
                         }
                     }
+                }
+                if let Some(presentation) = definition.presentation() {
+                    let visible = resource
+                        .fields
+                        .iter()
+                        .map(|field| field.name.as_str())
+                        .collect();
+                    let presentation = presentation.project(&visible);
+                    // The header already includes its closing brace. Charge the inserted key,
+                    // colon and comma as well as the complete projected metadata.
+                    budget.charge(&presentation)?;
+                    budget.0 = budget.0.checked_sub(16).ok_or(Error::TooLarge)?;
+                    resource.presentation = Some(presentation.into_owned());
                 }
                 result.resources.push(resource);
             }

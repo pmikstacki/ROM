@@ -6,7 +6,10 @@ Declare a resource once. The framework supplies standard storage, operations, en
 
 Actions request changes. The core validates and commits transitions. Events describe committed facts. Reactions can submit further actions through the same core.
 
-**Status: 0.0.2 preparation; experimental software.** The current package set includes Studio. Its [execution record](docs/research/rom-0.0.2-progress.md) separates tested components from pending release and preview gates.
+**Status: 0.0.2 released as a verified local source-and-Studio distribution; experimental software.**
+All eight release gates passed on source revision `8652fcd2d296f2bfe3102cdc0dfe977fecf1b034`.
+See the [release acceptance record](docs/research/rom-0.0.2-release-completion.md) and [support boundary](docs/release-support.md).
+Registry publication and GitHub Actions remain disabled. These results do not establish production readiness.
 
 The historical native source alpha, `0.1.0-alpha.1`, passed the complete local release procedure for its library, CLI, adapters, and reference application. See its [completion audit and support limits](docs/research/framework-release-completion.md), [completed release checklist](openspec/changes/prepare-framework-release/tasks.md), and [earlier MVP evidence](docs/research/mvp-release-results.md).
 
@@ -16,9 +19,107 @@ With Rust 1.99, run `./demo/run smoke` from this repository. This command tests 
 
 The generic [command-line client](docs/cli.md) now supports discovery, queries, mutations, live snapshots and journal streams. Run `cargo run --locked -p rom-cli -- --help` to start. See the [core/CLI verification results](docs/research/core-cli-results.md).
 
-Studio uses Svelte and shadcn-svelte components with shared Resource descriptors, field renderers, forms, tables, and action controls. The optional Rust host supplies human OIDC login and server-side sessions. [Browser acceptance](docs/research/rom-0.0.2-full-browser-workflows-results.md) covers Task and Inventory workflows on SQLite and redb in Chromium and WebKit. The [external author example](docs/research/rom-0.0.2-studio-author-workflow.md) uses a public entry point and a custom renderer from extracted Studio source. Final artifact acceptance and persistent VPN preview remain pending. These tests do not establish production readiness or human usability.
+Studio uses Svelte and shadcn-svelte components with shared Resource descriptors, field renderers, forms, tables, and action controls. The optional Rust host supplies human OIDC login and server-side sessions. [Browser acceptance](docs/research/rom-0.0.2-full-browser-workflows-results.md) covers Task and Inventory workflows on SQLite and redb in Chromium and WebKit. The [external author example](docs/research/rom-0.0.2-studio-author-workflow.md) uses a public entry point and a custom renderer from extracted Studio source. The [packaged release and persistent preview](docs/research/rom-0.0.2-release-completion.md) also passed acceptance. These tests do not establish production readiness or human usability.
 
 The opt-in [provider deployment profile](docs/provider-deployment.md) adds explicit service provisioning, private secret references, and authentication through a real provider. Its [verification record](docs/research/provider-deployment-results.md) separates integration trials from the final release gates.
+
+## ROM Studio
+
+Studio is a generic workspace for backend operations on ROM Resources. It uses Svelte 5, shadcn-svelte, Bits UI, and Lucide icons.
+
+These screenshots show the accepted 0.0.2 VPN preview. They show implemented screens, not design mockups.
+
+![ROM Studio desktop: Resource navigation, Inventory table, and the Filters sidebar](docs/research/evidence/rom-0.0.2/preview-activation-8652/studio-desktop.png)
+
+The desktop layout has Resource navigation on the left, a table in the center, and a shared Filters/Details panel on the right.
+Quick filters remain in a popover. The sidebar provides the full filter and sorting controls.
+
+<details>
+<summary>Mobile Filters panel</summary>
+
+![ROM Studio mobile: the Filters drawer with sorting and page-size controls](docs/research/evidence/rom-0.0.2/preview-activation-8652/studio-mobile.png)
+
+</details>
+
+On narrow screens, the panel opens as a drawer. Action buttons use icons where space is limited; wide layouts retain text beside icons.
+Simple form fields use compact rows with labels. Collections open a larger editor instead of expanding every row.
+
+| Workspace | Current behavior |
+| --- | --- |
+| Resources | Discover authorized Resource kinds, query rows, and open their details. |
+| Forms and actions | Create, patch, replace, or delete state; invoke actions from their input descriptors. |
+| Filters | Apply descriptor-based filters, sorting, and moving pagination. |
+| Live queries | Observe changing authorized results without subscription code for each Resource kind. |
+| Work | Inspect the shared work controls exposed by the host. |
+| Attachments | Reserve, upload, download, and detach through the Blob boundary. |
+| Login | Use human OIDC login and server-side sessions through the optional Rust host. |
+
+### How a Resource reaches Studio
+
+A Rust declaration supplies the Resource contract. Discovery exposes authorized descriptors to Studio.
+The same descriptors drive tables, field controls, action inputs, and query controls.
+An application does not need a new controller or form implementation for each ordinary Resource kind.
+
+```mermaid
+flowchart LR
+    R[Resource declaration] --> D[Authorized discovery]
+    D --> S[Generic Studio views]
+    S --> A[Action or mutation]
+    A --> C[Core: authorization and validation]
+    C --> P[Atomic commit: state, receipt, events]
+    P --> L[Live queries and reactions]
+    L --> S
+```
+
+Studio submits operations through the shared client contract. The core enforces authorization, validation, revisions, and durable idempotency.
+A form edit is a draft until submission. An uncertain response does not prove that a mutation failed.
+Studio can retry the same accepted request to recover its receipt without requesting a second change.
+
+### Current field coverage
+
+Studio has generic controls for strings, booleans, exact integers, finite numbers, enums, references, lists, and maps.
+Optional and nullable fields retain the distinction between absence, null, removal, and an unchanged value.
+Custom codecs use a renderer registered for their exact name and version.
+
+A missing custom renderer preserves the value and blocks unsafe editing. A reference currently accepts an ID rather than a rich Resource picker.
+Enums use their wire values as labels. Lists support adding and removing items, but not drag-and-drop sorting.
+Date, time, color, and other semantic editors need further descriptor and control work.
+The semantic control gaps remain part of the proposed 0.0.3 scope.
+
+The current development increment adds authorized human titles and field labels, a shared right inspector, readable Work inspection, and plugin Settings groups.
+These changes are not a released 0.0.3 artifact.
+See [presentation authoring and compatibility](docs/studio-presentation.md), [the research and remaining scope](docs/research/rom-0.0.3-studio-release-research.md), and [increment verification](docs/research/evidence/rom-0.0.3/initial-increment/README.md).
+Use [AI development guidance](docs/ai-development.md) to select the Resource, extension, operator, release, or Studio workflow.
+
+The [external Studio author workflow](docs/research/rom-0.0.2-studio-author-workflow.md) demonstrates explicit custom renderer registration.
+The demo renderer is registered by the `studio-demo` build entry point; the standard Studio build does not load that extension.
+See [Studio client contracts](docs/research/rom-studio-client-contract.md) and [field UX evidence](docs/research/rom-studio-field-ux-proposal.md).
+
+### Run and verify
+
+From the repository root, run the native smoke journey:
+
+```sh
+./demo/run smoke
+./demo/run smoke redb
+```
+
+These commands verify backend flows. They do not start the Studio login host.
+For a local browser deployment, follow the [Studio author workflow](docs/research/rom-0.0.2-studio-author-workflow.md).
+For persistent deployment, follow the [NixOS preview documentation](infra/nixos/README.md).
+
+To verify and build the frontend assets:
+
+```sh
+cd studio
+npm ci
+npm run check
+npm run build
+```
+
+The assets use the `/rom-studio/` base path. A complete deployment also needs the matching Rust host and a configured identity provider.
+The private VPN preview at `https://10.66.0.2/rom-studio/` is specific to the owner's environment.
+It is not a public demo endpoint. The demonstration provider needs a new login after a restart.
 
 ## Design
 

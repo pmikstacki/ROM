@@ -22,6 +22,8 @@
     onerror = () => {},
     direct = false,
     current,
+    displayLabel,
+    help,
   }: {
     descriptor: FieldDescriptor;
     intent: FieldIntent;
@@ -31,7 +33,11 @@
     onerror?: (message: string) => void;
     direct?: boolean;
     current?: WireValue;
+    displayLabel?: string;
+    help?: string;
   } = $props();
+  const controlLabel = $derived(displayLabel || descriptor.name);
+  const helpId = $props.id();
   let unknownCodec = $derived(
     !!descriptor.codec && !findRenderer(descriptor.codec),
   );
@@ -85,12 +91,12 @@
     <Dialog.Root bind:open={expandedOpen}>
       <Dialog.Trigger
         class="inline-flex h-9 max-w-full items-center truncate rounded-md px-2 text-sm text-primary hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
-        aria-label={`${readonly ? "View" : "Edit"} ${descriptor.name}`}
+        aria-label={`${readonly ? "View" : "Edit"} ${controlLabel}`}
         >{expandedLabel}</Dialog.Trigger
       >
       <Dialog.Content class="max-h-[80dvh] overflow-y-auto sm:max-w-xl">
         <Dialog.Header>
-          <Dialog.Title>{descriptor.name.replaceAll("_", " ")}</Dialog.Title>
+          <Dialog.Title>{controlLabel.replaceAll("_", " ")}</Dialog.Title>
           <Dialog.Description>
             {readonly
               ? "This value is read-only while editing is unavailable."
@@ -106,6 +112,7 @@
               value={shown}
               onchange={(value) => onchange({ mode: "value", value })}
               label={descriptor.name}
+              displayLabel={controlLabel}
               {readonly}
               {onerror}
               {direct}
@@ -121,6 +128,7 @@
         value={shown}
         onchange={(value) => onchange({ mode: "value", value })}
         label={descriptor.name}
+        displayLabel={controlLabel}
         {readonly}
         {onerror}
         {direct}
@@ -131,11 +139,12 @@
 
 <div
   role="group"
-  aria-label={descriptor.name.replaceAll("_", " ")}
+  aria-label={controlLabel.replaceAll("_", " ")}
+  aria-describedby={help ? helpId : undefined}
   class="resource-field grid grid-cols-[minmax(6.5rem,0.34fr)_minmax(0,1fr)_2.25rem] items-center gap-x-2 gap-y-1 border-b border-border/60 py-2.5 last:border-b-0"
 >
-  <span class="min-w-0 break-words text-sm font-medium"
-    >{descriptor.name.replaceAll("_", " ")}</span
+  <span class="min-w-0 break-words text-sm font-medium" title={help}
+    >{displayLabel || descriptor.name.replaceAll("_", " ")}</span
   >
   <div class="col-start-2 row-start-1 min-w-0">
     {#if unknownCodec}<div
@@ -158,13 +167,13 @@
   <div class="col-start-3 row-start-1 justify-self-end">
     {#if unknownCodec}<Dialog.Root>
         <Dialog.Trigger
-          aria-label={`${descriptor.name} read-only details`}
+          aria-label={`${controlLabel} read-only details`}
           class="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
           ><InfoIcon class="size-4" /></Dialog.Trigger
         >
         <Dialog.Content class="max-h-[80dvh] overflow-y-auto sm:max-w-xl">
           <Dialog.Header>
-            <Dialog.Title>{descriptor.name.replaceAll("_", " ")}</Dialog.Title>
+            <Dialog.Title>{controlLabel.replaceAll("_", " ")}</Dialog.Title>
             <Dialog.Description>
               No safe editor for {descriptor.codec?.name} v{descriptor.codec
                 ?.version}. Its value stays unchanged.
@@ -177,7 +186,7 @@
       </Dialog.Root>{:else if direct}<DropdownMenu.Root>
         <DropdownMenu.Trigger
           disabled={readonly}
-          aria-label={`${descriptor.name} options`}
+          aria-label={`${controlLabel} options`}
           title={intent.mode === "omit" ? "Unchanged" : "Edited"}
           class="relative inline-flex size-9 items-center justify-center rounded-md text-muted-foreground hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
           ><MoreHorizontalIcon
@@ -204,7 +213,7 @@
             >{/if}
         </DropdownMenu.Content>
       </DropdownMenu.Root>{:else}<SelectAdapter
-        label={`${descriptor.name} mode`}
+        label={`${controlLabel} mode`}
         value={intent.mode}
         disabled={readonly}
         onchange={mode}
@@ -217,6 +226,7 @@
         ]}
       />{/if}
   </div>
+  {#if help}<span id={helpId} class="sr-only">{help}</span>{/if}
   {#if error}<p role="alert" class="col-span-3 text-sm text-destructive">
       {error}
     </p>{/if}

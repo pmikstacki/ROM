@@ -51,7 +51,7 @@ async function connect(page: Page) {
   return queries;
 }
 
-test("compact actions keep their names and details stays beside quick filters", async ({
+test("compact actions keep their names and the inspector toggle stays on the right", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -85,6 +85,9 @@ test("compact actions keep their names and details stays beside quick filters", 
   expect(detailBox).not.toBeNull();
   expect(Math.abs(filterBox!.y - detailBox!.y)).toBeLessThan(2);
   expect(detailBox!.x).toBeGreaterThan(filterBox!.x);
+  expect(detailBox!.x + detailBox!.width).toBeGreaterThan(330);
+  await expect(details).toHaveAttribute("aria-expanded", "false");
+  await expect(details.locator("svg")).toHaveCount(1);
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
@@ -97,7 +100,12 @@ test("compact actions keep their names and details stays beside quick filters", 
       page.getByRole("button", { name, exact: true }).locator("span"),
     ).toBeVisible();
   }
-  await expect(details.locator("span")).toBeVisible();
+  const desktopToggle = page.getByRole("button", {
+    name: "Open details panel",
+    exact: true,
+  });
+  await expect(desktopToggle).toHaveAttribute("aria-expanded", "false");
+  await expect(desktopToggle.locator("svg")).toHaveCount(1);
 });
 
 test("quick and full filters share draft without querying until Apply", async ({

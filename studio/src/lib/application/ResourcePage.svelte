@@ -16,13 +16,14 @@
   import FilterPanel from "../resources/FilterPanel.svelte";
   import ResourceDetails from "./ResourceDetails.svelte";
   import ResponsiveInspector from "./ResponsiveInspector.svelte";
+  import InspectorToggle from "./InspectorToggle.svelte";
+  import { resourceLabel } from "../presentation/resource-presentation.ts";
   import * as Popover from "../components/ui/popover/index.js";
   import * as Tabs from "../components/ui/tabs/index.js";
   import { Button } from "../components/ui/button/index.js";
   import { Badge } from "../components/ui/badge/index.js";
   import { Input } from "../components/ui/input/index.js";
   import FilterIcon from "@lucide/svelte/icons/list-filter";
-  import PanelIcon from "@lucide/svelte/icons/panel-right";
   import PlusIcon from "@lucide/svelte/icons/plus";
   import RefreshIcon from "@lucide/svelte/icons/rotate-cw";
   import ObserveIcon from "@lucide/svelte/icons/radio";
@@ -66,6 +67,9 @@
   let quickTarget = $state<HTMLDivElement | null>(null),
     fullTarget = $state<HTMLDivElement | null>(null);
   let inspectorTrigger = $state<HTMLButtonElement | null>(null);
+  let inspectorOpener = $state<HTMLButtonElement | null>(null);
+  const componentId = $props.id();
+  const inspectorId = `${componentId}-inspector`;
   const blocked = $derived(
     snapshot.busy ||
       snapshot.pending?.state === "unknown" ||
@@ -146,15 +150,13 @@
     inspectorOpen = true;
     tab = "filters";
   }
-  function openInspector() {
-    inspectorOpen = true;
-    tab = snapshot.selected ? "details" : "filters";
-  }
 </script>
 
 <div class="flex flex-wrap items-center justify-between gap-3">
   <div>
-    <h1 class="text-xl font-semibold tracking-tight">{descriptor.kind}</h1>
+    <h1 class="text-xl font-semibold tracking-tight">
+      {resourceLabel(descriptor)}
+    </h1>
     <p class="text-xs text-muted-foreground">
       Manage Resources and observe committed changes.
     </p>
@@ -209,16 +211,6 @@
         <div bind:this={quickTarget}></div>
       </Popover.Content>
     </Popover.Root>
-    <Button
-      variant="ghost"
-      size="sm"
-      class="max-lg:size-9"
-      bind:ref={inspectorTrigger}
-      aria-label="Open details panel"
-      title="Open details panel"
-      onclick={openInspector}
-      ><PanelIcon /><span class="hidden lg:inline">Details panel</span></Button
-    >
   </div>
   <div
     role="group"
@@ -257,6 +249,17 @@
       >{snapshot.live ? "Stop live query" : "Observe live query"}</span
     ></Button
   >
+  <div class="ml-auto">
+    <InspectorToggle
+      bind:ref={inspectorTrigger}
+      open={inspectorOpen}
+      controls={inspectorId}
+      onclick={() => {
+        inspectorOpener = inspectorTrigger;
+        inspectorOpen = !inspectorOpen;
+      }}
+    />
+  </div>
 </div>
 {#if snapshot.busy}<p role="status">Loading…</p>{/if}
 {#if error}<p role="alert" class="text-sm text-destructive">{error}</p>{/if}
@@ -282,7 +285,9 @@
     <ResourceTable
       {descriptor}
       rows={snapshot.rows}
-      onselect={(row) => {
+      onselect={(row, opener) => {
+        inspectorOpener = opener ?? inspectorTrigger;
+        inspectorOpener?.focus();
         inspectorOpen = true;
         tab = "details";
         void controller.selectRow(row.key.id);
@@ -332,9 +337,13 @@
     </nav>
   </div>
   <ResponsiveInspector
+    id={inspectorId}
     bind:open={inspectorOpen}
     title={tab === "details" ? "Edit Resource" : "Filters"}
-    onCloseFocus={() => inspectorTrigger?.focus()}
+    onCloseFocus={() => {
+      if (inspectorOpener?.isConnected) inspectorOpener.focus();
+      else inspectorTrigger?.focus();
+    }}
   >
     <Tabs.Root bind:value={tab} class="gap-4">
       <Tabs.List class="w-full"

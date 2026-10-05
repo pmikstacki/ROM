@@ -1,0 +1,1 @@
+{"version":1,"resources":[{"kind":"presentation-human","version":1,"fields":[{"name":"name","shape":{"type":"string"}}],"actions":[],"action_inputs":[],"presentation":{"label":"Human","title_field":"name","fields":{"name":{"label":"Full name","group":"public"}},"groups":[{"name":"public","label":"Identity"}],"settings":{"group":"people","label":"People"}}}]}

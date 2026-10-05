@@ -3,6 +3,7 @@ mod command;
 mod definition;
 mod fields;
 mod input_descriptor;
+mod presentation;
 mod query;
 mod schema;
 
@@ -14,6 +15,9 @@ pub(crate) use input_descriptor::visible_shape;
 pub use input_descriptor::{
     CodecIdentity, CodecWrapper, FieldCodec, InputDescriptor, InputFieldDescriptor,
 };
+pub use presentation::{
+    FieldPresentation, PresentationGroup, ResourcePresentation, SettingsPresentation,
+};
 pub use query::{FieldRef, Query};
 pub use schema::{Descriptor, FieldDescriptor, Resource, Shape};
 
@@ -23,3 +27,6 @@ pub(crate) use schema::{canonical_fields, matches_shape, validate_shape};
 
 #[cfg(test)]
 mod input_descriptor_tests;
+
+#[cfg(test)]
+mod presentation_tests;

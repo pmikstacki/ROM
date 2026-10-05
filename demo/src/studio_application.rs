@@ -5,7 +5,10 @@ use crate::{
     studio_model::{CLOSE, MaintenanceTicket, RESTOCK},
 };
 use rom::operator::{OperatorAccess, OperatorAuthorizer, WorkScope};
-use rom::{Actor, DeliveryOutcome, PrincipalKind, Reaction, Resource, Result, Runtime, Storage};
+use rom::{
+    Actor, DeliveryOutcome, PrincipalKind, Reaction, Resource, ResourcePresentation, Result,
+    Runtime, SettingsPresentation, Storage,
+};
 use rom_identity::{IdentityGate, IdentityLink, IdentityProvider, User};
 use rom_studio_host::StudioSettings;
 use std::sync::Arc;
@@ -50,6 +53,11 @@ pub fn build(storage: Arc<dyn Storage>, clock: Arc<dyn rom::Clock>) -> Result<Ru
         .resource(rom_blob::definition().discovery_policy(|actor, _| domain(actor)))
         .resource(
             User::definition()
+                .presentation(ResourcePresentation {
+                    label: Some("User".into()),
+                    title_field: Some("display_name".into()),
+                    ..Default::default()
+                })
                 .policy(|a, _, _| admin(a))
                 .allow_all_fields()
                 .discovery_policy(|a, _| admin(a)),
@@ -68,6 +76,14 @@ pub fn build(storage: Arc<dyn Storage>, clock: Arc<dyn rom::Clock>) -> Result<Ru
         )
         .resource(
             StudioSettings::definition()
+                .presentation(ResourcePresentation {
+                    label: Some("Studio settings".into()),
+                    settings: Some(SettingsPresentation {
+                        group: "studio".into(),
+                        label: "Studio".into(),
+                    }),
+                    ..Default::default()
+                })
                 .policy(|a, _, _| admin(a))
                 .allow_all_fields()
                 .discovery_policy(|a, _| admin(a)),

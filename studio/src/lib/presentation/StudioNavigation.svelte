@@ -1,7 +1,16 @@
 <script lang="ts">
   import * as Sidebar from "../components/ui/sidebar/index.js";
-  import { Boxes, Database, Workflow, Paperclip, LogOut } from "@lucide/svelte";
+  import {
+    Boxes,
+    Database,
+    Workflow,
+    Paperclip,
+    LogOut,
+    Settings,
+  } from "@lucide/svelte";
   import type { ResourceDescriptor } from "../client/types.ts";
+  import type { StudioPage } from "./navigation.ts";
+  import { resourceLabel } from "./resource-presentation.ts";
 
   let {
     descriptors,
@@ -11,14 +20,16 @@
     onkind,
     onsignout,
     onMobileCloseAutoFocus,
+    navigationBlocked = false,
   }: {
     descriptors: ResourceDescriptor[];
     kind: string | null;
-    page: "resources" | "work" | "attachments";
-    onpage: (page: "resources" | "work" | "attachments") => void;
+    page: StudioPage;
+    onpage: (page: StudioPage) => void;
     onkind: (kind: string) => void;
     onsignout: () => void;
     onMobileCloseAutoFocus: (event: Event) => void;
+    navigationBlocked?: boolean;
   } = $props();
   const sidebar = Sidebar.useSidebar();
   function tooltip(label: string) {
@@ -26,10 +37,8 @@
       ? label
       : undefined;
   }
-  function navigate(
-    next: "resources" | "work" | "attachments",
-    resource?: string,
-  ) {
+  function navigate(next: StudioPage, resource?: string) {
+    if (navigationBlocked) return;
     onpage(next);
     if (resource) onkind(resource);
     sidebar.setOpenMobile(false);
@@ -44,6 +53,7 @@
           size="lg"
           onclick={() => navigate("resources")}
           aria-label="ROM Studio home"
+          aria-disabled={navigationBlocked}
         >
           <span
             class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground"
@@ -65,6 +75,7 @@
         <Sidebar.MenuItem
           ><Sidebar.MenuButton
             isActive={page === "resources"}
+            aria-disabled={navigationBlocked}
             aria-current={page === "resources" ? "true" : undefined}
             onclick={() => navigate("resources")}
             tooltipContent={tooltip("Resources")}
@@ -74,6 +85,7 @@
         <Sidebar.MenuItem
           ><Sidebar.MenuButton
             isActive={page === "work"}
+            aria-disabled={navigationBlocked}
             aria-current={page === "work" ? "page" : undefined}
             onclick={() => navigate("work")}
             tooltipContent={tooltip("Work")}
@@ -83,12 +95,23 @@
         <Sidebar.MenuItem
           ><Sidebar.MenuButton
             isActive={page === "attachments"}
+            aria-disabled={navigationBlocked}
             aria-current={page === "attachments" ? "page" : undefined}
             onclick={() => navigate("attachments")}
             tooltipContent={tooltip("Attachments")}
             ><Paperclip /><span>Attachments</span></Sidebar.MenuButton
           ></Sidebar.MenuItem
         >
+        <Sidebar.MenuItem>
+          <Sidebar.MenuButton
+            isActive={page === "settings"}
+            aria-disabled={navigationBlocked}
+            aria-current={page === "settings" ? "page" : undefined}
+            onclick={() => navigate("settings")}
+            tooltipContent={tooltip("Settings")}
+            ><Settings /><span>Settings</span></Sidebar.MenuButton
+          >
+        </Sidebar.MenuItem>
       </Sidebar.Menu>
     </Sidebar.Group>
     <Sidebar.Group>
@@ -98,12 +121,14 @@
           <Sidebar.MenuItem
             ><Sidebar.MenuButton
               isActive={page === "resources" && kind === descriptor.kind}
+              aria-disabled={navigationBlocked}
               aria-current={page === "resources" && kind === descriptor.kind
                 ? "page"
                 : undefined}
-              tooltipContent={tooltip(descriptor.kind)}
+              tooltipContent={tooltip(resourceLabel(descriptor))}
               onclick={() => navigate("resources", descriptor.kind)}
-              ><Database /><span class="truncate">{descriptor.kind}</span
+              ><Database /><span class="truncate"
+                >{resourceLabel(descriptor)}</span
               ></Sidebar.MenuButton
             ></Sidebar.MenuItem
           >

@@ -103,6 +103,8 @@
     </p>{/if}
   {#each primaryFields as field (field.name)}<FieldHost
       descriptor={field}
+      displayLabel={descriptor.presentation?.fields?.[field.name]?.label}
+      help={descriptor.presentation?.fields?.[field.name]?.help}
       direct={direct && mode === "patch"}
       current={value[field.name]}
       intent={intents[field.name] ?? { mode: "omit" }}
@@ -110,15 +112,15 @@
       onerror={(error) => (invalid = { ...invalid, [field.name]: error })}
       readonly={readonly || busy || changed}
     />{/each}
-  {#if advancedFields.length}<details
-      class="border-b border-border/60 py-3"
-    >
+  {#if advancedFields.length}<details class="border-b border-border/60 py-3">
       <summary class="cursor-pointer text-sm font-medium">
         Advanced fields · {advancedFields.length} read-only
       </summary>
       <div class="mt-3 space-y-3">
         {#each advancedFields as field (field.name)}<FieldHost
             descriptor={field}
+            displayLabel={descriptor.presentation?.fields?.[field.name]?.label}
+            help={descriptor.presentation?.fields?.[field.name]?.help}
             direct
             current={value[field.name]}
             intent={{ mode: "omit" }}

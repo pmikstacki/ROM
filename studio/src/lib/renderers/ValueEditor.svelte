@@ -23,6 +23,7 @@
     onerror = () => {},
     direct = false,
     showLabel = true,
+    displayLabel,
   }: {
     shape: Shape;
     value: WireValue;
@@ -35,8 +36,10 @@
     onerror?: (message: string) => void;
     direct?: boolean;
     showLabel?: boolean;
+    displayLabel?: string;
   } = $props();
   let invalid = $state("");
+  const fieldLabel = $derived(displayLabel || label);
   let childErrors = $state<Record<string, string>>({});
   let itemKeys = $state<number[]>([]);
   let nextKey = 0;
@@ -154,6 +157,7 @@
 {:else if Custom}
   <Custom
     descriptor={{ name: label, shape, codec }}
+    label={fieldLabel}
     {value}
     {onchange}
     {readonly}
@@ -164,25 +168,29 @@
     Editing is unavailable.
   </p>
 {:else if shape.type === "nullable" && depth > 0}
-  {#if value === null}<div class="flex min-h-9 items-center justify-between gap-2">
+  {#if value === null}<div
+      class="flex min-h-9 items-center justify-between gap-2"
+    >
       <span class="text-sm text-muted-foreground">Null</span>
       <Button
         type="button"
         variant="ghost"
         size="sm"
         disabled={readonly}
-        aria-label={`Set ${label} value`}
+        aria-label={`Set ${fieldLabel} value`}
         onclick={() => {
           onerror("");
           onchange(defaultValue(shape.value));
         }}>Enter value</Button
       >
     </div>{:else}<div class="flex items-center gap-2">
-      <div class="min-w-0 flex-1"><ValueEditor
+      <div class="min-w-0 flex-1">
+        <ValueEditor
           shape={shape.value}
           {value}
           {onchange}
           {label}
+          displayLabel={fieldLabel}
           {readonly}
           {depth}
           {onerror}
@@ -190,13 +198,14 @@
           showLabel={false}
           {codec}
           codecWrappers={wrapped ? codecWrappers.slice(1) : []}
-        /></div>
+        />
+      </div>
       <Button
         type="button"
         variant="ghost"
         size="sm"
         disabled={readonly}
-        aria-label={`Set ${label} null`}
+        aria-label={`Set ${fieldLabel} null`}
         onclick={() => {
           onerror("");
           onchange(null);
@@ -209,6 +218,7 @@
     {value}
     {onchange}
     {label}
+    displayLabel={fieldLabel}
     {readonly}
     {depth}
     {onerror}
@@ -219,23 +229,23 @@
   />
 {:else if shape.type === "bool"}
   {#if direct}<SwitchAdapter
-      {label}
+      label={fieldLabel}
       {showLabel}
       checked={value === true}
       disabled={readonly}
       {onchange}
     />{:else}<CheckboxAdapter
-      label={`${label} value`}
-      text={showLabel ? label : ""}
+      label={`${fieldLabel} value`}
+      text={showLabel ? fieldLabel : ""}
       checked={value === true}
       disabled={readonly}
       {onchange}
     />{/if}
 {:else if shape.type === "enum"}
   <div class="space-y-1.5">
-    {#if showLabel}<span class="text-sm">{label}</span>{/if}
+    {#if showLabel}<span class="text-sm">{fieldLabel}</span>{/if}
     <SelectAdapter
-      label={`${label} value`}
+      label={`${fieldLabel} value`}
       value={String(value ?? "")}
       disabled={readonly}
       {onchange}
@@ -245,44 +255,52 @@
 {:else if shape.type === "list"}
   <fieldset class="space-y-2">
     <legend class="text-xs text-muted-foreground">
-      {direct ? "Items" : `${label} items`}
+      {direct ? "Items" : `${fieldLabel} items`}
     </legend>
-    {#if depth >= maxDepth}<p role="alert">
-        Collection nesting limit reached.
-      </p><p class="break-words text-sm text-muted-foreground"
-        >{previewValue(value)}</p
-      >{:else if Array.isArray(value) && value.length > maxItems}<div class="space-y-2">
-        <p role="alert">Collection item limit reached. Editing is unavailable.</p>
+    {#if depth >= maxDepth}<p role="alert">Collection nesting limit reached.</p>
+      <p class="break-words text-sm text-muted-foreground">
+        {previewValue(value)}
+      </p>{:else if Array.isArray(value) && value.length > maxItems}<div
+        class="space-y-2"
+      >
+        <p role="alert">
+          Collection item limit reached. Editing is unavailable.
+        </p>
         <ol class="space-y-1 text-sm">
-          {#each value.slice(0, 10) as item, index}<li class="break-words"
-              >{index + 1}. {previewValue(item)}</li
-            >{/each}
+          {#each value.slice(0, 10) as item, index}<li class="break-words">
+              {index + 1}. {previewValue(item)}
+            </li>{/each}
         </ol>
-        <p class="text-sm text-muted-foreground"
-          >{value.length - 10} more items</p
-        >
+        <p class="text-sm text-muted-foreground">
+          {value.length - 10} more items
+        </p>
       </div>{:else}
       {#each Array.isArray(value) ? value : [] as item, index (itemKeys[index] ?? `initial-${index}`)}
-        <div class="grid grid-cols-[minmax(5.5rem,0.3fr)_minmax(0,1fr)_2.25rem] items-center gap-2 border-b border-border/50 py-2 last:border-b-0">
+        <div
+          class="grid grid-cols-[minmax(5.5rem,0.3fr)_minmax(0,1fr)_2.25rem] items-center gap-2 border-b border-border/50 py-2 last:border-b-0"
+        >
           <span class="text-xs text-muted-foreground">Item {index + 1}</span>
-          <div class="min-w-0"><ValueEditor
-            shape={shape.value}
-            {codec}
-            codecWrappers={wrapped ? codecWrappers.slice(1) : []}
-            value={item}
-            onchange={(next) => listChange(index, next)}
-            label={`${label}[${index}]`}
-            {readonly}
-            {direct}
-            showLabel={false}
-            depth={depth + 1}
-            onerror={(error) => childError(String(index), error)}
-          /></div>
+          <div class="min-w-0">
+            <ValueEditor
+              shape={shape.value}
+              {codec}
+              codecWrappers={wrapped ? codecWrappers.slice(1) : []}
+              value={item}
+              onchange={(next) => listChange(index, next)}
+              label={`${label}[${index}]`}
+              displayLabel={`${fieldLabel}[${index}]`}
+              {readonly}
+              {direct}
+              showLabel={false}
+              depth={depth + 1}
+              onerror={(error) => childError(String(index), error)}
+            />
+          </div>
           <Button
             type="button"
             variant="ghost"
             size="icon-sm"
-            aria-label={`Remove ${label}[${index}]`}
+            aria-label={`Remove ${fieldLabel}[${index}]`}
             disabled={readonly}
             onclick={() => removeList(index)}><XIcon class="size-4" /></Button
           >
@@ -292,7 +310,7 @@
         type="button"
         variant="outline"
         size="sm"
-        aria-label={`Add ${label} item`}
+        aria-label={`Add ${fieldLabel} item`}
         disabled={readonly ||
           (Array.isArray(value) && value.length >= maxItems)}
         onclick={addList}>Add item</Button
@@ -302,53 +320,63 @@
 {:else if shape.type === "map"}
   <fieldset class="space-y-2">
     <legend class="text-xs text-muted-foreground">
-      {direct ? "Entries" : `${label} entries`}
+      {direct ? "Entries" : `${fieldLabel} entries`}
     </legend>
-    {#if depth >= maxDepth}<p role="alert">
-        Collection nesting limit reached.
-      </p><p class="break-words text-sm text-muted-foreground"
-        >{previewValue(value)}</p
-      >{:else if value && typeof value === "object" && !Array.isArray(value) && Object.keys(value).length > maxItems}<div class="space-y-2">
-        <p role="alert">Collection item limit reached. Editing is unavailable.</p>
+    {#if depth >= maxDepth}<p role="alert">Collection nesting limit reached.</p>
+      <p class="break-words text-sm text-muted-foreground">
+        {previewValue(value)}
+      </p>{:else if value && typeof value === "object" && !Array.isArray(value) && Object.keys(value).length > maxItems}<div
+        class="space-y-2"
+      >
+        <p role="alert">
+          Collection item limit reached. Editing is unavailable.
+        </p>
         <dl class="space-y-1 text-sm">
           {#each Object.entries(value).slice(0, 10) as [key, item]}<div
-              class="break-words"><dt class="inline font-medium">{key}:</dt>
-              <dd class="inline"> {previewValue(item)}</dd></div
-            >{/each}
+              class="break-words"
+            >
+              <dt class="inline font-medium">{key}:</dt>
+              <dd class="inline">{previewValue(item)}</dd>
+            </div>{/each}
         </dl>
-        <p class="text-sm text-muted-foreground"
-          >{Object.keys(value).length - 10} more entries</p
-        >
+        <p class="text-sm text-muted-foreground">
+          {Object.keys(value).length - 10} more entries
+        </p>
       </div>{:else}
       {#each Object.entries(value && typeof value === "object" && !Array.isArray(value) ? value : {}) as [key, item] (key)}
-        <div class="grid grid-cols-[minmax(5.5rem,0.3fr)_minmax(0,1fr)_2.25rem] items-center gap-2 border-b border-border/50 py-2 last:border-b-0">
+        <div
+          class="grid grid-cols-[minmax(5.5rem,0.3fr)_minmax(0,1fr)_2.25rem] items-center gap-2 border-b border-border/50 py-2 last:border-b-0"
+        >
           <span class="break-all text-xs text-muted-foreground">{key}</span>
-          <div class="min-w-0"><ValueEditor
-            shape={shape.value}
-            {codec}
-            codecWrappers={wrapped ? codecWrappers.slice(1) : []}
-            value={item}
-            onchange={(next) => mapChange(key, next)}
-            label={`${label}.${key}`}
-            {readonly}
-            {direct}
-            showLabel={false}
-            depth={depth + 1}
-            onerror={(error) => childError(key, error)}
-          /></div>
+          <div class="min-w-0">
+            <ValueEditor
+              shape={shape.value}
+              {codec}
+              codecWrappers={wrapped ? codecWrappers.slice(1) : []}
+              value={item}
+              onchange={(next) => mapChange(key, next)}
+              label={`${label}.${key}`}
+              displayLabel={`${fieldLabel}.${key}`}
+              {readonly}
+              {direct}
+              showLabel={false}
+              depth={depth + 1}
+              onerror={(error) => childError(key, error)}
+            />
+          </div>
           <Button
             type="button"
             variant="ghost"
             size="icon-sm"
-            aria-label={`Remove ${label}.${key}`}
+            aria-label={`Remove ${fieldLabel}.${key}`}
             disabled={readonly}
             onclick={() => removeKey(key)}><XIcon class="size-4" /></Button
           >
         </div>
       {/each}
       <label
-        >{label} new key<Input
-          aria-label={`${label} new key`}
+        >{fieldLabel} new key<Input
+          aria-label={`${fieldLabel} new key`}
           bind:value={newKey}
           disabled={readonly}
         /></label
@@ -357,7 +385,7 @@
         type="button"
         variant="outline"
         size="sm"
-        aria-label={`Add ${label} entry`}
+        aria-label={`Add ${fieldLabel} entry`}
         disabled={readonly ||
           !newKey ||
           (value !== null &&
@@ -369,8 +397,8 @@
   </fieldset>
 {:else}
   <label
-    >{#if showLabel}<span>{label}</span>{/if}<Input
-      aria-label={`${label} value`}
+    >{#if showLabel}<span>{fieldLabel}</span>{/if}<Input
+      aria-label={`${fieldLabel} value`}
       type={shape.type === "reference" ? "search" : "text"}
       inputmode={shape.type === "u64" || shape.type === "i64"
         ? "numeric"
@@ -386,7 +414,9 @@
       oninput={(event) => scalar(event.currentTarget.value)}
     /></label
   >
-  {#if shape.type === "reference" && showLabel}<p class="text-xs text-muted-foreground">
+  {#if shape.type === "reference" && showLabel}<p
+      class="text-xs text-muted-foreground"
+    >
       Resource ID in {shape.value.kind}
     </p>{/if}
 {/if}

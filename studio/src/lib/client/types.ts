@@ -37,12 +37,34 @@ export interface ActionInput {
   version: number;
   input: InputDescriptor | null;
 }
+/** Advisory metadata. It never changes accepted values or permissions. */
+export interface FieldPresentation {
+  label?: string;
+  help?: string;
+  group?: string;
+}
+export interface PresentationGroup {
+  name: string;
+  label: string;
+}
+export interface SettingsPresentation {
+  group: string;
+  label: string;
+}
+export interface ResourcePresentation {
+  label?: string;
+  title_field?: string;
+  fields?: Record<string, FieldPresentation>;
+  groups?: PresentationGroup[];
+  settings?: SettingsPresentation;
+}
 export interface ResourceDescriptor {
   kind: string;
   version: number;
   fields: FieldDescriptor[];
   actions: string[];
   action_inputs: ActionInput[];
+  presentation?: ResourcePresentation;
 }
 export interface Discovery {
   version: number;

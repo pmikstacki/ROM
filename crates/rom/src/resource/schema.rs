@@ -51,6 +51,10 @@ pub trait Resource: Clone + Send + Sync + 'static {
     fn field_codecs() -> Vec<crate::FieldCodec> {
         Vec::new()
     }
+    /// Optional human presentation, independent of persistence and authorization.
+    fn presentation() -> Option<crate::ResourcePresentation> {
+        None
+    }
     fn normalize_field(name: &str, value: Value) -> Result<Value>;
     fn encode(&self) -> Value;
     fn decode(value: Value) -> Result<Self>;

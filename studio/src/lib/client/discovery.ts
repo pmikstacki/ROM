@@ -2,6 +2,8 @@ import type {
   ActionInput,
   CodecWrapper,
   WireObject,
+  ResourcePresentation,
+  FieldPresentation,
   CodecIdentity,
   Discovery,
   FieldDescriptor,
@@ -125,6 +127,76 @@ function input(value: WireValue): InputDescriptor | null {
   }
   throw new Error("invalid input descriptor");
 }
+function presentation(
+  value: WireValue,
+  fields: FieldDescriptor[],
+): ResourcePresentation {
+  const p = record(value);
+  const checkKeys = (o: WireObject, allowed: string[]) => {
+    if (Object.keys(o).some((key) => !allowed.includes(key)))
+      throw Error("invalid presentation property");
+  };
+  const bounded = (value: WireValue | undefined, bytes = 256): string => {
+    if (
+      typeof value !== "string" ||
+      value.length === 0 ||
+      new TextEncoder().encode(value).byteLength > bytes
+    )
+      throw Error("invalid presentation text");
+    return value;
+  };
+  checkKeys(p, ["label", "title_field", "fields", "groups", "settings"]);
+  const result: ResourcePresentation = {};
+  if (p.label !== undefined) result.label = bounded(p.label);
+  if (p.groups !== undefined) {
+    result.groups = list(p.groups).map((value) => {
+      const group = record(value);
+      checkKeys(group, ["name", "label"]);
+      return { name: bounded(group.name), label: bounded(group.label) };
+    });
+    if (new Set(result.groups.map((g) => g.name)).size !== result.groups.length)
+      throw Error("duplicate presentation group");
+  }
+  if (p.fields !== undefined) {
+    const hints = record(p.fields);
+    if (Object.keys(hints).length > 1024)
+      throw Error("presentation fields limit");
+    result.fields = Object.create(null) as Record<string, FieldPresentation>;
+    for (const [name, value] of Object.entries(hints)) {
+      if (!fields.some((field) => field.name === name))
+        throw Error("unknown presentation field");
+      const hint = record(value);
+      checkKeys(hint, ["label", "help", "group"]);
+      const field: FieldPresentation = {};
+      if (hint.label !== undefined) field.label = bounded(hint.label);
+      if (hint.help !== undefined) field.help = bounded(hint.help, 2048);
+      if (hint.group !== undefined) {
+        field.group = bounded(hint.group);
+        if (!result.groups?.some((g) => g.name === field.group))
+          throw Error("unknown presentation group");
+      }
+      result.fields[name] = field;
+    }
+  }
+  if (p.title_field !== undefined) {
+    result.title_field = bounded(p.title_field);
+    const field = fields.find((field) => field.name === result.title_field);
+    let shape = field?.shape;
+    while (shape?.type === "optional" || shape?.type === "nullable")
+      shape = shape.value;
+    if (!field || field.codec || shape?.type !== "string")
+      throw Error("invalid presentation title field");
+  }
+  if (p.settings !== undefined) {
+    const settings = record(p.settings);
+    checkKeys(settings, ["group", "label"]);
+    result.settings = {
+      group: bounded(settings.group),
+      label: bounded(settings.label),
+    };
+  }
+  return result;
+}
 export function discovery(value: WireValue): Discovery {
   const o = record(value);
   if (unsigned(o.version, o, "version") !== 1n)
@@ -148,10 +220,16 @@ export function discovery(value: WireValue): Discovery {
         throw new Error("inconsistent action descriptors");
       if (action_inputs.some((a) => a.version !== 1))
         throw new Error("unsupported action input version");
+      const resourceFields = fields(resource.fields);
       return {
         kind: text(resource.kind),
         version: version(resource),
-        fields: fields(resource.fields),
+        fields: resourceFields,
+        ...(resource.presentation === undefined
+          ? {}
+          : {
+              presentation: presentation(resource.presentation, resourceFields),
+            }),
         actions,
         action_inputs,
       };
