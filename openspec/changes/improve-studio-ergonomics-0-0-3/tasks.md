@@ -7,7 +7,7 @@
 - [x] 2.2 Verify backend/frontend compatibility with shared encoded fixtures and negative cases.
 - [x] 2.3 Use authorized titles, labels, and exact secondary identities throughout generic views.
 - [x] 2.4 Improve derive metadata authoring and diagnostics without a separate handwritten frontend schema.
-- [ ] 2.5 Verify custom renderer composition in the packaged application and improve missing-editor diagnostics.
+- [x] 2.5 Verify custom renderer composition in the packaged application and improve missing-editor diagnostics.
 
 ## 3. Shared workspace and Settings
 - [x] 3.1 Add the right-edge inspector chevron while retaining quick filters and draft/focus behavior.
@@ -29,3 +29,4 @@
 - [x] 5.4 Complete Chromium/WebKit and SQLite/redb integrated acceptance for the full catalog.
 - [x] 5.5 Refresh README screenshots and support limits from implemented screens.
 - [ ] 5.6 Prepare and independently verify the clean-source 0.0.3 release artifact and preview.
+- [ ] 5.7 Verify that demo restart preserves edited and deleted seeded Resources through the generic storage contract.

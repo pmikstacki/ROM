@@ -1,0 +1,120 @@
+{
+  "source_revision": "c66c470eb894b8449f9ab707d94179c88af09113",
+  "preview": "https://10.66.0.2/rom-studio/",
+  "read_only": true,
+  "checks": {
+    "before": {
+      "status": "pass",
+      "started_at": "2026-10-05T14:39:41.245Z",
+      "completed_at": "2026-10-05T14:39:42.054Z",
+      "kinds": 9,
+      "rows": 13,
+      "assets": {
+        "index_sha256": "80b809e279e0c3948b078542142a60e05de6cd5b4e3573f826ae6cd5b49a16f3",
+        "title": "ROM Studio",
+        "assets": [
+          {
+            "path": "/rom-studio/assets/index-CKo0Stie.css",
+            "sha256": "c371d91d7e1b20ed1eec5ae545b834bf9e4a20027e5c4ee979ed6b07322c7749"
+          },
+          {
+            "path": "/rom-studio/assets/index-DOQtvyu6.js",
+            "sha256": "41d35378f78f7f3acf2654b040aa9a5467363760a91f52a216124810319bc56d"
+          }
+        ],
+        "favicon": {
+          "declared_path": null,
+          "available": false
+        }
+      },
+      "tls": {
+        "ca_verified_by_curl": true,
+        "browser_ignore_https_errors": true,
+        "limitation": "Browser bypass limited to the explicitly known internal-CA preview origin. Curl separately verifies the private CA and hostname."
+      }
+    },
+    "after": {
+      "status": "pass",
+      "started_at": "2026-10-05T14:43:52.928Z",
+      "completed_at": "2026-10-05T14:43:54.295Z",
+      "kinds": 10,
+      "rows": 14,
+      "assets": {
+        "index_sha256": "e7dca98287d9dd924eecc9c0bbbbf23075e15a939099b530bdc0f9716d432a20",
+        "title": "ROM Studio",
+        "assets": [
+          {
+            "path": "/rom-studio/assets/index-BBf8R0qD.css",
+            "sha256": "ea672ef1df94ff1b618f69ad1e056ad59e88efa7d61a3734fe5803c62e9dcd64"
+          },
+          {
+            "path": "/rom-studio/assets/index-BakPwmva.js",
+            "sha256": "6d7061f97e0975c1added3219da61e0a50057669d67a7440f2fa2eed3a35734a"
+          }
+        ],
+        "favicon": {
+          "declared_path": "/rom-studio/rom-icon.svg",
+          "available": true,
+          "sha256": "01aa30ad5f14529c11e476eef725b38250027a361e8bcb50ba61a53a2ee0568b"
+        }
+      },
+      "tls": {
+        "ca_verified_by_curl": true,
+        "browser_ignore_https_errors": true,
+        "limitation": "Browser bypass limited to the explicitly known internal-CA preview origin. Curl separately verifies the private CA and hostname."
+      },
+      "ui": {
+        "field_showcase": true,
+        "plugin_settings": true,
+        "work_shared_inspector_right_chevron": true,
+        "custom_ticket_code_editor": true,
+        "neutral_favicon": true,
+        "prohibited_mutation_requests": 0
+      },
+      "preserved_preexisting_rows": 13,
+      "preservation_differences": 0
+    },
+    "restart": {
+      "status": "pass",
+      "started_at": "2026-10-05T14:45:27.122Z",
+      "completed_at": "2026-10-05T14:45:28.511Z",
+      "kinds": 10,
+      "rows": 14,
+      "assets": {
+        "index_sha256": "e7dca98287d9dd924eecc9c0bbbbf23075e15a939099b530bdc0f9716d432a20",
+        "title": "ROM Studio",
+        "assets": [
+          {
+            "path": "/rom-studio/assets/index-BBf8R0qD.css",
+            "sha256": "ea672ef1df94ff1b618f69ad1e056ad59e88efa7d61a3734fe5803c62e9dcd64"
+          },
+          {
+            "path": "/rom-studio/assets/index-BakPwmva.js",
+            "sha256": "6d7061f97e0975c1added3219da61e0a50057669d67a7440f2fa2eed3a35734a"
+          }
+        ],
+        "favicon": {
+          "declared_path": "/rom-studio/rom-icon.svg",
+          "available": true,
+          "sha256": "01aa30ad5f14529c11e476eef725b38250027a361e8bcb50ba61a53a2ee0568b"
+        }
+      },
+      "tls": {
+        "ca_verified_by_curl": true,
+        "browser_ignore_https_errors": true,
+        "limitation": "Browser bypass limited to the explicitly known internal-CA preview origin. Curl separately verifies the private CA and hostname."
+      },
+      "ui": {
+        "field_showcase": true,
+        "plugin_settings": true,
+        "work_shared_inspector_right_chevron": true,
+        "custom_ticket_code_editor": true,
+        "neutral_favicon": true,
+        "prohibited_mutation_requests": 0
+      },
+      "preserved_preexisting_rows": 13,
+      "preservation_differences": 0
+    }
+  },
+  "boundary": "Private Resource identities, values, profiles and authentication material remain outside this public summary. Host-side VPN checks do not prove remote client ingress or CA trust."
+}

@@ -1,0 +1,24 @@
+   Compiling rom-demo v0.0.3 (/workspace/ROM/demo)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.46s
+     Running unittests src/lib.rs (target/debug/deps/rom_demo-6ad77b2c75c41564)
+
+running 2 tests
+
+thread 'studio_startup_tests::sqlite_restart_preserves_deleted_seed' (2496646) panicked at demo/src/studio_startup_tests.rs:40:73:
+restart must preserve a deleted seed instead of disclosing its create receipt: Denied
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test studio_startup_tests::sqlite_restart_preserves_deleted_seed ... FAILED
+
+thread 'studio_startup_tests::redb_restart_preserves_deleted_seed' (2496645) panicked at demo/src/studio_startup_tests.rs:40:73:
+restart must preserve a deleted seed instead of disclosing its create receipt: Denied
+test studio_startup_tests::redb_restart_preserves_deleted_seed ... FAILED
+
+failures:
+
+failures:
+    studio_startup_tests::redb_restart_preserves_deleted_seed
+    studio_startup_tests::sqlite_restart_preserves_deleted_seed
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 14 filtered out; finished in 0.05s
+
+error: test failed, to rerun pass `-p rom-demo --lib`

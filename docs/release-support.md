@@ -1,12 +1,21 @@
 # Source release support boundary
 
+Current candidate: 0.0.3 passed source, Studio, and persistent preview acceptance on 2026-10-05.
+A later demo restart-after-delete finding requires correction before final release completion.
+The [completion record](research/rom-0.0.3-release-completion.md) identifies its accepted source and executed checks.
+Use the matching 0.0.3 Cargo and Studio source set. Recompile trusted extensions.
+The [compatibility review](research/rom-0.0.3-compatibility.md) lists descriptor and renderer changes.
+Native format eight, archive format six, and query protocol version one remain unchanged.
+
+The native-alpha and 0.0.2 records below retain their historical support boundaries.
+
 Status: native source alpha accepted on 2026-10-03.
 The [completion report](research/framework-release-completion.md) identifies the accepted source revision, artifacts, and executed evidence.
 The 0.0.2 Studio source and asset release passed local acceptance on 2026-10-05.
 The [completion record](research/rom-0.0.2-release-completion.md) identifies its exact source revision and evidence.
 The accepted source was pushed to GitHub `main` at `3e4822e`; GitHub Actions and registry publication remain disabled.
 
-## Supported profile
+## Historical native-alpha profile
 
 | Area | Boundary |
 | --- | --- |
@@ -72,9 +81,9 @@ Report a defect with the source revision, lock hash, safe error category, and a 
 Exclude credentials, private Resource values, and customer databases from reports.
 GitHub hosts source; local scripts perform verification and artifact preparation.
 
-## Prepared 0.0.2 package set
+## Historical 0.0.2 package set
 
-The maintained workspace manifests now use version `0.0.2`. All local ROM dependency constraints use the same exact version.
+The 0.0.2 workspace manifests use version `0.0.2`. All local ROM dependency constraints use the same exact version.
 The frontend manifest and lock identify `0.0.2` separately from the Cargo lock.
 Use the complete matching source package set. Do not mix native alpha packages with 0.0.2 packages.
 
@@ -94,7 +103,7 @@ The executed provider profile does not establish compatibility with every identi
 Actual native/browser tests do not establish production TLS deployment or client VPN reachability.
 Final artifact acceptance and protected preview acceptance remain release gates.
 
-## Studio source authoring for prepared 0.0.2
+## Historical Studio source authoring for 0.0.2
 
 The [public Studio facade](../studio/src/index.ts) exports the application, client, renderer registration, shared types, and input control.
 The [external author example](../examples/studio-consumer/README.md) uses these exports from an independently extracted Studio source tree.
@@ -112,6 +121,6 @@ The historical native-alpha scenario report retains its original six-gate scope.
 
 The local release bundle uses source revision `8652fcd2d296f2bfe3102cdc0dfe977fecf1b034`.
 It contains source and Studio assets. It does not publish a registry package or binary.
-The persistent NixOS preview serves this Studio build and its protected API at `/rom-studio/`.
+The accepted 0.0.2 preview served that Studio build and its protected API at `/rom-studio/`.
 The preview uses the demonstration identity provider. Its in-memory grants and signing keys reset after restart.
 Local HTTPS, API-protection, and restart checks passed. Remote Mac and iPhone access still needs client-side verification.

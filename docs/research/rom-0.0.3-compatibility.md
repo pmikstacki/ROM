@@ -1,6 +1,7 @@
 # ROM 0.0.3 compatibility review
 
-Status: prepared source changes; final release and preview acceptance remain pending.
+Status: local source, Studio artifacts, and permanent preview accepted.
+The [completion record](rom-0.0.3-release-completion.md) identifies exact source and limits.
 
 Use one matching Cargo and Studio source set. Recompile trusted extensions.
 Native storage format 8, archive format 6, and query protocol version 1 remain unchanged.
@@ -47,4 +48,4 @@ Drag-and-drop has ordinary move controls as an alternative.
 Work inspection shows authoritative snapshots; it does not invent a timeline without a history source.
 
 See [field contracts](../studio-fields.md) and [presentation authoring](../studio-presentation.md).
-Final acceptance must bind native/browser evidence and artifacts to the released source revision.
+The completed acceptance binds native/browser evidence and artifacts to the exact source revision.

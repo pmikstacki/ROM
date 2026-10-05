@@ -58,6 +58,8 @@ mod studio_model;
 mod studio_semantic;
 #[cfg(feature = "studio")]
 mod studio_startup;
+#[cfg(all(feature = "studio", test))]
+mod studio_startup_tests;
 
 #[cfg(feature = "studio")]
 mod studio_blobs;

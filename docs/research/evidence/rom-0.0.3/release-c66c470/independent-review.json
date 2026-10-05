@@ -1,0 +1,93 @@
+{
+  "review_status": "artifact-and-persistent-preview-accepted; recordkeeping follow-up noted",
+  "verification": {
+    "command": "node --input-type=module - ARTIFACT_DIRECTORY (verifyArtifacts from scripts/release-artifacts/verification.mjs)",
+    "exit_code": 0,
+    "complete": true,
+    "manifest_version": 2,
+    "verification_profile": "rom-studio-v2",
+    "source_revision": "c66c470eb894b8449f9ab707d94179c88af09113",
+    "source_tree": "f7503bfd37571376c2d54bdd48053c3394ab305a",
+    "lock_sha256": "a080b892d06dd30e65917a9a13715918cbd2b02fe64827f0334d7bde7005b441",
+    "eight_gates_exit_zero": true,
+    "no_spawn_failure_or_bounded_abort": true,
+    "publication_enabled": false
+  },
+  "artifact_directory": "/root/ROM/dist/release-0.0.3-c66c470",
+  "archives": {
+    "source_sha256": "1b30aa8d6b5318739396f6d4c047a4544862f232d5ca19d8aebf022037097c6f",
+    "skills_sha256": "3990de9207e6381c2fe6e2b7a642d35301aa6d721d887ce741a4ef99c24ea5ea",
+    "studio_sha256": "556edf29d5d3bdf853c5cd1559105a833212bbfb8a499ef0ddac708dc20c8f1f"
+  },
+  "gate_evidence": {
+    "gate1": "./scripts/check passed",
+    "gate2": "./scripts/build --release passed",
+    "gate3": "./demo/verify passed",
+    "gate4": "./demo/verify-provider passed",
+    "gate5": "./scripts/check-skills passed",
+    "gate6": "extracted package and consumer check passed; 15 archives",
+    "gate7": "221 passed; one explicitly documented WebKit physical-touch skip",
+    "gate8": "28/28 actual-host SQLite/redb Chromium/WebKit cases passed on production assets"
+  },
+  "external_consumer": {
+    "result_path": "/var/tmp/rom-studio-accepted-source-tsLjfY/external-author/result.json",
+    "completed": true,
+    "install_typecheck_build_exit_zero": true,
+    "browser_cases": 4,
+    "browser_cases_passed": 4,
+    "coverage": [
+      "SQLite",
+      "redb",
+      "Chromium",
+      "WebKit"
+    ],
+    "registration_model": "explicit application registration through public rom-studio exports"
+  },
+  "bridge": {
+    "sha256": "62da3bad15484af4dfeb61430a06ac84578e90a98d30534307b70d022abf8de4",
+    "validated_all_source_and_asset_digests": true,
+    "prior_execution_commit": "553832325dbc602505646ae42bdc9bd7a2fde432",
+    "prior_browser_cases": 28,
+    "prior_browser_skipped": 0,
+    "browser_reexecuted_on_current_commit": false
+  },
+  "known_limits": {
+    "webkit_physical_touch": "explicitly skipped because test uses Chromium-only CDP; not an OpenSpec keyboard/focus blocker",
+    "plugin_settings_real_host": "plugin group and revision patch are component-tested with an API fixture; built-in Settings and generic resources are host-backed, but no distinct plugin Settings kind is named in gate-8 scenarios",
+    "readme_status": "README still identifies 0.0.2 as last completed local source/Studio distribution and describes 0.0.3 as unreleased; this snapshot predates its completed producer run",
+    "preview": "Two separate actual HTTPS acceptance reports passed, including after full container restart; older immutable install metadata still labels preview acceptance pending and should be reconciled in a docs/receipt update.",
+    "task_checkboxes": "OpenSpec tasks 2.5 and 5.6 remain unchecked in accepted source; current producer and external consumer evidence covers packaged composition, and later live reports cover preview acceptance.",
+    "separate_isolated_unit": "Parent reports an old isolated 0c unit restart returned Denied against a copied DB, distinct from the Caddy target; originals/snapshot preserved. Not independently inspected; not a release blocker based on supplied evidence."
+  },
+  "report": "/var/tmp/rom-003-final-artifact-review-c66c470.md",
+  "preview_live_acceptance": {
+    "status": "pass",
+    "reports": [
+      "/var/tmp/rom-003-preview-live-acceptance/after-1791211434295.json",
+      "/var/tmp/rom-003-preview-live-acceptance/after-1791211528511.json"
+    ],
+    "origin": "https://10.66.0.2",
+    "second_report_after_full_container_restart": true,
+    "tls": "curl verified private CA and hostname; browser HTTPS error bypass limited to this known internal-CA origin",
+    "resource_kinds": 10,
+    "rows": 14,
+    "baseline_rows": 13,
+    "baseline_differences": [],
+    "ui_checks": {
+      "field_showcase": true,
+      "plugin_settings": true,
+      "work_shared_inspector_right_chevron": true,
+      "custom_ticket_code_editor": true,
+      "neutral_favicon": true,
+      "prohibited_mutation_requests": 0
+    },
+    "attachment_persistence_audit_parent_reported": {
+      "bytes": 163040,
+      "persistent": 1,
+      "isolated": 0,
+      "independently_verified": false
+    },
+    "units_active_enabled_after_restart_parent_reported": true,
+    "limitation": "Host-side VPN-origin acceptance does not establish every remote client path."
+  }
+}

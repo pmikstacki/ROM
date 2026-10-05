@@ -68,11 +68,11 @@ async fn run_config(
     let clock = Arc::new(DemoClock {
         offset: AtomicU64::new(0),
     });
-    let runtime = studio_application::build(storage, clock.clone())?;
+    let runtime = studio_application::build(storage.clone(), clock.clone())?;
     let gate = crate::studio_blobs::PublicationGate::new();
     let blobs = crate::studio_blobs::build(runtime.clone(), Path::new(path), gate.clone())?;
     let result = async {
-        studio_startup::seed_all(&runtime,issuer).await?;
+        studio_startup::seed_all(&runtime,storage.as_ref(),issuer).await?;
         let listener=tokio::net::TcpListener::bind((std::net::Ipv4Addr::LOCALHOST,port)).await?;
         let origin=profile.as_ref().map(|value|value.origin.clone()).unwrap_or(format!("http://{}",listener.local_addr()?));
         let mut config=HostConfig::new(&origin,"/rom-studio/",assets,studio_application::host_actor())

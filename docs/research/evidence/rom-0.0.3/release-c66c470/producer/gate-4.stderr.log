@@ -1,0 +1,25 @@
+    Finished `dev` profile [unoptimized] target(s) in 0.10s
+    Finished `test` profile [unoptimized] target(s) in 0.11s
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_demo-c486bf244b50c7d5)
+     Running unittests src/main.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_demo-edc4b98cded0827a)
+     Running tests/compensation.rs (/var/tmp/rom-003-root-producer-target/debug/deps/compensation-332c180c14138ca3)
+     Running tests/documented_commands.rs (/var/tmp/rom-003-root-producer-target/debug/deps/documented_commands-35f5bc4d7461e794)
+     Running tests/operator.rs (/var/tmp/rom-003-root-producer-target/debug/deps/operator-08cb1f9246336873)
+     Running tests/provider_auth.rs (/var/tmp/rom-003-root-producer-target/debug/deps/provider_auth-9f2d8f403273be91)
+     Running tests/provider_profile.rs (/var/tmp/rom-003-root-producer-target/debug/deps/provider_profile-d13bce805d30e6f1)
+     Running tests/reference.rs (/var/tmp/rom-003-root-producer-target/debug/deps/reference-027efc9ca0d584e5)
+     Running tests/reservation_input.rs (/var/tmp/rom-003-root-producer-target/debug/deps/reservation_input-3bf3415d8eed4d21)
+     Running tests/server_lifecycle.rs (/var/tmp/rom-003-root-producer-target/debug/deps/server_lifecycle-7afbd328b05572d0)
+     Running tests/transitions.rs (/var/tmp/rom-003-root-producer-target/debug/deps/transitions-21762dfe4c23ac2a)
+     Running tests/upgrade.rs (/var/tmp/rom-003-root-producer-target/debug/deps/upgrade-4e26bbe2f187adea)
+     Running tests/workshop.rs (/var/tmp/rom-003-root-producer-target/debug/deps/workshop-78d1bfd6e0edb7a4)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_http-e7e48d733e6eadb1)
+     Running tests/capacity_configuration.rs (/var/tmp/rom-003-root-producer-target/debug/deps/capacity_configuration-92ab25e6736cc8f3)
+     Running tests/loopback.rs (/var/tmp/rom-003-root-producer-target/debug/deps/loopback-6ac2a02ff9e616db)
+   Doc-tests rom_demo
+   Doc-tests rom_http
+    Finished `dev` profile [unoptimized] target(s) in 0.08s
+ Documenting rom-demo v0.0.3 (/root/ROM/demo)
+ Documenting rom-http v0.0.3 (/root/ROM/crates/rom-http)
+    Finished `dev` profile [unoptimized] target(s) in 0.41s
+   Generated /var/tmp/rom-003-root-producer-target/doc/rom_demo/index.html and 1 other file

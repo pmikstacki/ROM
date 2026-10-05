@@ -1,0 +1,23 @@
+    Finished `dev` profile [unoptimized] target(s) in 0.11s
+    Finished `test` profile [unoptimized] target(s) in 0.11s
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_demo-a608a2fc164a3346)
+     Running unittests src/main.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_demo-27e4cb7aba5ac040)
+     Running tests/compensation.rs (/var/tmp/rom-003-root-producer-target/debug/deps/compensation-a8100b7aff5f4785)
+     Running tests/documented_commands.rs (/var/tmp/rom-003-root-producer-target/debug/deps/documented_commands-642e465ffd191814)
+     Running tests/operator.rs (/var/tmp/rom-003-root-producer-target/debug/deps/operator-20c80feb5ba04cdd)
+     Running tests/provider_auth.rs (/var/tmp/rom-003-root-producer-target/debug/deps/provider_auth-275da8871d8f7623)
+     Running tests/provider_profile.rs (/var/tmp/rom-003-root-producer-target/debug/deps/provider_profile-e327238f74a3bf84)
+     Running tests/reference.rs (/var/tmp/rom-003-root-producer-target/debug/deps/reference-6f450e2e45449f2b)
+     Running tests/reservation_input.rs (/var/tmp/rom-003-root-producer-target/debug/deps/reservation_input-cf4ebda01236635c)
+     Running tests/server_lifecycle.rs (/var/tmp/rom-003-root-producer-target/debug/deps/server_lifecycle-94e41c1a558836c2)
+     Running tests/transitions.rs (/var/tmp/rom-003-root-producer-target/debug/deps/transitions-24fb8b413a1be615)
+     Running tests/upgrade.rs (/var/tmp/rom-003-root-producer-target/debug/deps/upgrade-44bdc758adc8289f)
+     Running tests/workshop.rs (/var/tmp/rom-003-root-producer-target/debug/deps/workshop-8dde40f5ccbd1b35)
+   Doc-tests rom_demo
+    Finished `dev` profile [unoptimized] target(s) in 0.07s
+     Running `/var/tmp/rom-003-root-producer-target/debug/rom-demo smoke sqlite`
+    Finished `dev` profile [unoptimized] target(s) in 0.07s
+     Running `/var/tmp/rom-003-root-producer-target/debug/rom-demo smoke redb`
+ Documenting rom-demo v0.0.3 (/root/ROM/demo)
+    Finished `dev` profile [unoptimized] target(s) in 0.47s
+   Generated /var/tmp/rom-003-root-producer-target/doc/rom_demo/index.html

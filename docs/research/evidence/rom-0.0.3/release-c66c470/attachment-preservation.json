@@ -1,0 +1,41 @@
+{
+  "status": "pass",
+  "completed_at": "2026-10-05T14:45:28.678Z",
+  "limits": {
+    "files": 50000,
+    "directories": 50000,
+    "bytes": 12884901888,
+    "depth": 16,
+    "seconds": 120,
+    "reportBytes": 67108864
+  },
+  "trees": [
+    {
+      "name": "persistent",
+      "files": 1,
+      "bytes": 163040
+    },
+    {
+      "name": "isolated",
+      "files": 0,
+      "bytes": 0
+    }
+  ],
+  "comparison": [
+    {
+      "name": "persistent",
+      "root_preserved": true,
+      "missing_files": 0,
+      "changed_files": 0,
+      "missing_directories": 0
+    },
+    {
+      "name": "isolated",
+      "root_preserved": true,
+      "missing_files": 0,
+      "changed_files": 0,
+      "missing_directories": 0
+    }
+  ],
+  "boundary": "No private attachment paths or contents published. Physical preservation does not establish download authorization or database-to-file association."
+}

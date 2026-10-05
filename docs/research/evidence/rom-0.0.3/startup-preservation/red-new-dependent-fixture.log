@@ -1,0 +1,48 @@
+   Compiling rom-demo v0.0.3 (/workspace/ROM/demo)
+warning: unused import: `ResourceRef`
+ --> demo/src/studio_startup.rs:7:57
+  |
+7 | use rom::{Command, Field, Key, PrincipalKind, Resource, ResourceRef, Result, Runtime, Storage};
+  |                                                         ^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `rom-demo` (lib) generated 1 warning (run `cargo fix --lib -p rom-demo` to apply 1 suggestion)
+warning: `rom-demo` (lib test) generated 1 warning (1 duplicate)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.60s
+     Running unittests src/lib.rs (target/debug/deps/rom_demo-6ad77b2c75c41564)
+
+running 8 tests
+test studio_startup_tests::failed_seed_lookup_does_not_create_or_replay_resources ... ok
+
+thread 'studio_startup_tests::sqlite_new_showcase_uses_existing_live_task' (2499937) panicked at demo/src/studio_startup_tests.rs:202:69:
+new showcase must honor deleted Task prerequisites: Conflict
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test studio_startup_tests::sqlite_new_showcase_uses_existing_live_task ... FAILED
+
+thread 'studio_startup_tests::redb_new_showcase_uses_existing_live_task' (2499934) panicked at demo/src/studio_startup_tests.rs:202:69:
+new showcase must honor deleted Task prerequisites: Conflict
+test studio_startup_tests::redb_new_showcase_uses_existing_live_task ... FAILED
+
+thread 'studio_startup_tests::sqlite_new_showcase_is_omitted_when_tasks_are_deleted' (2499936) panicked at demo/src/studio_startup_tests.rs:202:69:
+new showcase must honor deleted Task prerequisites: Conflict
+test studio_startup_tests::sqlite_new_showcase_is_omitted_when_tasks_are_deleted ... FAILED
+test studio_startup_tests::closed_runtime_cannot_report_existing_seeds_ready ... ok
+
+thread 'studio_startup_tests::redb_new_showcase_is_omitted_when_tasks_are_deleted' (2499933) panicked at demo/src/studio_startup_tests.rs:202:69:
+new showcase must honor deleted Task prerequisites: Conflict
+test studio_startup_tests::redb_new_showcase_is_omitted_when_tasks_are_deleted ... FAILED
+test studio_startup_tests::sqlite_restart_preserves_deleted_seed ... ok
+test studio_startup_tests::redb_restart_preserves_deleted_seed ... ok
+
+failures:
+
+failures:
+    studio_startup_tests::redb_new_showcase_is_omitted_when_tasks_are_deleted
+    studio_startup_tests::redb_new_showcase_uses_existing_live_task
+    studio_startup_tests::sqlite_new_showcase_is_omitted_when_tasks_are_deleted
+    studio_startup_tests::sqlite_new_showcase_uses_existing_live_task
+
+test result: FAILED. 4 passed; 4 failed; 0 ignored; 0 measured; 14 filtered out; finished in 0.06s
+
+error: test failed, to rerun pass `-p rom-demo --lib`

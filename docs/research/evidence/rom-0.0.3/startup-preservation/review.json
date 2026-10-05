@@ -1,0 +1,43 @@
+{
+  "review_date": "2026-10-05",
+  "base_commit": "c66c470eb894b8449f9ab707d94179c88af09113",
+  "status": "frozen source review; no material findings; final acceptance pending",
+  "independently_executed_tests": false,
+  "source_sha256": {
+    "demo/src/studio_startup.rs": "9772fcaed8212e85e15f717f3caf306f0c02fa179af1381dd1634e102b6c9878",
+    "demo/src/studio.rs": "e722aafb574668b2752585db07607fa41dcaff25e672532d05ed3f827c336aaa",
+    "demo/src/studio_startup_tests.rs": "c2f567ffbd358f1a2c5bfc47df62dee3f12c905416ac997e66442032236b4860",
+    "demo/src/lib.rs": "c5ad89be63c3728fa1c6f4424070ae0c1b7885fe7460b16cf6065292e6ed6ae9"
+  },
+  "inspected_evidence_sha256": {
+    "/var/tmp/rom-003-isolated-resume-diagnosis/startup-red-deleted-seed.log": "6813fd2c41a06e7cac5ed3d9c3b8f4f863bcad0659944da270291273c49d92d2",
+    "/var/tmp/rom-003-isolated-resume-diagnosis/startup-upgrade-red.log": "ab0db518d31902b0126df779440a1b09317f88a402aa8210d8dd1b47caa68709",
+    "/var/tmp/rom-003-isolated-resume-diagnosis/startup-upgrade-green.log": "d521f4a776fe5f0cd13088667a0e5f18132646545071311ae8798aa13b837189",
+    "/var/tmp/rom-003-isolated-resume-diagnosis/demo-full-test-clippy.log": "c35fbcfc162b83049748cd3b223e964e31319bdf9d53a6a30513c750d72e20b3"
+  },
+  "findings": [],
+  "focused_tests": {
+    "passed": 8,
+    "backends": [
+      "SQLite",
+      "redb"
+    ],
+    "checks": [
+      "exact tombstone/revision/protected metadata preservation",
+      "all-kind row/journal-head/count preservation",
+      "closed runtime failure",
+      "lookup error propagation",
+      "absent dependent fixture with live target",
+      "all dependent targets deleted"
+    ]
+  },
+  "pending": [
+    "optimized isolated actual old-store startup acceptance",
+    "full local verifier",
+    "complete release producer",
+    "independent final artifact verification",
+    "live preview current authentication and restart acceptance"
+  ],
+  "private_ids_or_values_in_report": false,
+  "report_sha256": "7b0f02eef408197394544e61ccba6cab8f92f785c8c13e7477bf7072e05f2b15"
+}

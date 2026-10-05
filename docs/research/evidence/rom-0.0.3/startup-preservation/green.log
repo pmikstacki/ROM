@@ -1,0 +1,88 @@
+   Compiling rom-demo v0.0.3 (/workspace/ROM/demo)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.21s
+     Running unittests src/lib.rs (target/debug/deps/rom_demo-6ad77b2c75c41564)
+
+running 8 tests
+test studio_startup_tests::failed_seed_lookup_does_not_create_or_replay_resources ... ok
+test studio_startup_tests::sqlite_new_showcase_is_omitted_when_tasks_are_deleted ... ok
+test studio_startup_tests::sqlite_new_showcase_uses_existing_live_task ... ok
+test studio_startup_tests::redb_new_showcase_uses_existing_live_task ... ok
+test studio_startup_tests::redb_new_showcase_is_omitted_when_tasks_are_deleted ... ok
+test studio_startup_tests::closed_runtime_cannot_report_existing_seeds_ready ... ok
+test studio_startup_tests::sqlite_restart_preserves_deleted_seed ... ok
+test studio_startup_tests::redb_restart_preserves_deleted_seed ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 14 filtered out; finished in 0.06s
+
+     Running unittests src/main.rs (target/debug/deps/rom_demo-203c94ae4a897a39)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/compensation.rs (target/debug/deps/compensation-9716004b7b1296bd)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/documented_commands.rs (target/debug/deps/documented_commands-ecfc90ab645dfb1c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/operator.rs (target/debug/deps/operator-c1cfd624a1331193)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/provider_auth.rs (target/debug/deps/provider_auth-64c965526b10d1de)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/provider_profile.rs (target/debug/deps/provider_profile-006979d02f2a5d18)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/reference.rs (target/debug/deps/reference-4c6ce917eff04ae2)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests/reservation_input.rs (target/debug/deps/reservation_input-1853ea005edf0729)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/server_lifecycle.rs (target/debug/deps/server_lifecycle-fe7f7b8ac3a90fe8)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/transitions.rs (target/debug/deps/transitions-cd745c2dbd0fd8c6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests/upgrade.rs (target/debug/deps/upgrade-0faaaf82020dc658)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+     Running tests/workshop.rs (target/debug/deps/workshop-78b235b631cbf6f5)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+

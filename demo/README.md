@@ -1,6 +1,6 @@
 # Resource author workshop
 
-This runnable Rust application uses the maintained ROM libraries. It has no per-kind repository, HTTP controller, or alternate schema. The existing Studio screens remain a separate mock; this demo provides a local API and an executable author walkthrough.
+This runnable Rust application uses the maintained ROM libraries. It has no per-kind repository, HTTP controller, or alternate schema. Studio uses separately built frontend assets and the optional native host. This demo also provides a local API and an executable author walkthrough.
 
 From the repository root with Rust 1.99:
 
@@ -22,6 +22,15 @@ nixos-container run rom-dev -- bash -lc 'cd /workspace/ROM && ./demo/run smoke'
 ```
 
 `serve` binds only `127.0.0.1`. Ctrl-C closes observation streams and drains runtime work. The final status reports `Stopped` and zero owned work. `serve` prints status on startup/shutdown. Restart the same database to retain Resources, receipts, journal, and pending work. The startup seed uses stable receipt identities and does not overwrite later Resource edits. If declarations change, use an explicit migration before startup. See the [upgrade journey](../docs/reference-upgrade.md).
+
+## Studio bootstrap and restart
+
+The optional Studio host uses a separate trusted bootstrap through generic Storage and Runtime contracts.
+It provisions only absent rows. Existing values and tombstones remain unchanged.
+A new synthetic showcase selects a live seeded Task for its required relation.
+If all seeded Tasks are deleted, that optional showcase remains absent.
+Storage and runtime-admission failures remain errors. Bootstrap does not restore deleted Resources or infer success from Denied.
+The [restart regression](../docs/research/rom-0.0.3-startup-preservation.md) records both database adapters and upgrade cases.
 
 ## 1. Declare two unrelated kinds
 

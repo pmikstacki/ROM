@@ -1,0 +1,8 @@
+private isolated command captured
+(node:1269444) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+both consistent databases, matching stopped-writer attachments, private configuration, and isolated history preserved
+Running as unit: rom-studio-interactive-isolated.service; invocation ID: 6f8898ebe2754d4fbfc0c78ad40e7bde
+isolated writer resumed
+Persistent 0.0.3 closure selected; HTTPS index/favicon identity and private API401 passed.
+Next: authenticated custom/semantic acceptance and full container restart proof; retain backups.

@@ -1,0 +1,191 @@
+- Validating...
+    Finished `dev` profile [unoptimized] target(s) in 0.18s
+    Finished `test` profile [unoptimized] target(s) in 0.12s
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom-9fd8b2bcc3bf2821)
+     Running tests/json.rs (/var/tmp/rom-003-root-producer-target/debug/deps/json-d223ec46559dfda6)
+     Running tests/operator_protocol.rs (/var/tmp/rom-003-root-producer-target/debug/deps/operator_protocol-a8f3375184f1cd4f)
+     Running tests/reference_schema.rs (/var/tmp/rom-003-root-producer-target/debug/deps/reference_schema-da56e9015b839af0)
+     Running tests/replay_versions.rs (/var/tmp/rom-003-root-producer-target/debug/deps/replay_versions-30003e38c0dd918f)
+     Running tests/retry_epochs.rs (/var/tmp/rom-003-root-producer-target/debug/deps/retry_epochs-5851d3ab1a388e1d)
+     Running tests/storage_ownership.rs (/var/tmp/rom-003-root-producer-target/debug/deps/storage_ownership-c675f276ef3358bc)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_auth-76ad01059ea9f597)
+     Running tests/oidc.rs (/var/tmp/rom-003-root-producer-target/debug/deps/oidc-a723fe163582defa)
+     Running tests/profiles.rs (/var/tmp/rom-003-root-producer-target/debug/deps/profiles-02df7e18057e1315)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_backup-fda348562f5621cb)
+     Running tests/migration_codecs.rs (/var/tmp/rom-003-root-producer-target/debug/deps/migration_codecs-501d1f79c415b0de)
+     Running tests/migrations.rs (/var/tmp/rom-003-root-producer-target/debug/deps/migrations-9f952351d34a1d6f)
+     Running tests/native_ownership.rs (/var/tmp/rom-003-root-producer-target/debug/deps/native_ownership-1757477dea88a076)
+     Running tests/references.rs (/var/tmp/rom-003-root-producer-target/debug/deps/references-ccf8596b5f3ebaa7)
+     Running tests/retention.rs (/var/tmp/rom-003-root-producer-target/debug/deps/retention-ac803b96b8e6d32b)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_blob-b96cd4840dc55119)
+     Running tests/lifecycle.rs (/var/tmp/rom-003-root-producer-target/debug/deps/lifecycle-44d73fcdb52846e1)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_blob_object_store-c1b7e9dd3207d7e3)
+     Running tests/conformance.rs (/var/tmp/rom-003-root-producer-target/debug/deps/conformance-9e20d553073c4bb5)
+     Running unittests src/main.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom-298b7ba94f9803e4)
+     Running tests/commands.rs (/var/tmp/rom-003-root-producer-target/debug/deps/commands-ae52faf0cc4d0457)
+     Running tests/failures.rs (/var/tmp/rom-003-root-producer-target/debug/deps/failures-d13c7a05cf7bfd9e)
+     Running tests/loopback.rs (/var/tmp/rom-003-root-producer-target/debug/deps/loopback-c6832f2f39f24aec)
+     Running tests/operator.rs (/var/tmp/rom-003-root-producer-target/debug/deps/operator-d620f97178436efc)
+     Running tests/retry_epochs.rs (/var/tmp/rom-003-root-producer-target/debug/deps/retry_epochs-1b461f2eb582a381)
+     Running tests/streaming.rs (/var/tmp/rom-003-root-producer-target/debug/deps/streaming-b2f59bc472b5b06f)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_config-8515250839a08988)
+     Running tests/ingestion.rs (/var/tmp/rom-003-root-producer-target/debug/deps/ingestion-90a8becade71bf66)
+     Running tests/parser.rs (/var/tmp/rom-003-root-producer-target/debug/deps/parser-eb2d49dc9090a9ca)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_conformance-558b3115b749c056)
+     Running tests/blob.rs (/var/tmp/rom-003-root-producer-target/debug/deps/blob-8b8a62e97df1bdda)
+     Running tests/public_contract.rs (/var/tmp/rom-003-root-producer-target/debug/deps/public_contract-82b3b85c851cfccd)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_consumer-b4dde748c6479ad9)
+     Running unittests src/main.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_consumer-51a9af56c773cfe9)
+     Running tests/actor_gate.rs (/var/tmp/rom-003-root-producer-target/debug/deps/actor_gate-d86519287df3aa3e)
+     Running tests/bounds.rs (/var/tmp/rom-003-root-producer-target/debug/deps/bounds-9f287d25d9ceba2f)
+     Running tests/capacity_configuration.rs (/var/tmp/rom-003-root-producer-target/debug/deps/capacity_configuration-9c5738e5b49e624c)
+     Running tests/discovery.rs (/var/tmp/rom-003-root-producer-target/debug/deps/discovery-df633b206f5a6dfe)
+     Running tests/enum_labels.rs (/var/tmp/rom-003-root-producer-target/debug/deps/enum_labels-4d2eabff1e5dc135)
+     Running tests/extensions.rs (/var/tmp/rom-003-root-producer-target/debug/deps/extensions-76203392df0a74b1)
+     Running tests/fields.rs (/var/tmp/rom-003-root-producer-target/debug/deps/fields-c8f904f477d40a42)
+     Running tests/initial_authority.rs (/var/tmp/rom-003-root-producer-target/debug/deps/initial_authority-f9899bfa35ea46a7)
+     Running tests/integrated.rs (/var/tmp/rom-003-root-producer-target/debug/deps/integrated-8a0efd89c961e08e)
+     Running tests/invocation.rs (/var/tmp/rom-003-root-producer-target/debug/deps/invocation-441daa9c6ad80b9d)
+     Running tests/lifecycle.rs (/var/tmp/rom-003-root-producer-target/debug/deps/lifecycle-2cd7889c55ae86bc)
+     Running tests/native_conformance.rs (/var/tmp/rom-003-root-producer-target/debug/deps/native_conformance-6d3187102090edd8)
+     Running tests/presence.rs (/var/tmp/rom-003-root-producer-target/debug/deps/presence-3e8c6972785a8b0d)
+     Running tests/projection.rs (/var/tmp/rom-003-root-producer-target/debug/deps/projection-e7bb8d320a65769c)
+     Running tests/promotion.rs (/var/tmp/rom-003-root-producer-target/debug/deps/promotion-37c223115673d082)
+     Running tests/query_all.rs (/var/tmp/rom-003-root-producer-target/debug/deps/query_all-00cf6c815c1e5c86)
+     Running tests/query_contract.rs (/var/tmp/rom-003-root-producer-target/debug/deps/query_contract-4e4671b3bfd12ff7)
+     Running tests/source_authority.rs (/var/tmp/rom-003-root-producer-target/debug/deps/source_authority-2e753837a022e125)
+     Running tests/structured_input.rs (/var/tmp/rom-003-root-producer-target/debug/deps/structured_input-55f89288b2c9dced)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_demo-fd4d43494f4a209a)
+     Running unittests src/main.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_demo-87d579a1f4089e3d)
+     Running tests/compensation.rs (/var/tmp/rom-003-root-producer-target/debug/deps/compensation-b1cb9c3398997c36)
+     Running tests/documented_commands.rs (/var/tmp/rom-003-root-producer-target/debug/deps/documented_commands-56f078f8be119fcd)
+     Running tests/operator.rs (/var/tmp/rom-003-root-producer-target/debug/deps/operator-fc633583046cbbc9)
+     Running tests/provider_auth.rs (/var/tmp/rom-003-root-producer-target/debug/deps/provider_auth-9da78678890966ee)
+     Running tests/provider_profile.rs (/var/tmp/rom-003-root-producer-target/debug/deps/provider_profile-d254e53155897381)
+     Running tests/reference.rs (/var/tmp/rom-003-root-producer-target/debug/deps/reference-cbdd91a485b21e50)
+     Running tests/reservation_input.rs (/var/tmp/rom-003-root-producer-target/debug/deps/reservation_input-0917d4831dc23c60)
+     Running tests/server_lifecycle.rs (/var/tmp/rom-003-root-producer-target/debug/deps/server_lifecycle-3682106458ac8990)
+     Running tests/transitions.rs (/var/tmp/rom-003-root-producer-target/debug/deps/transitions-b3a249f18e834ba4)
+     Running tests/upgrade.rs (/var/tmp/rom-003-root-producer-target/debug/deps/upgrade-7cf1b59e9a52db85)
+     Running tests/workshop.rs (/var/tmp/rom-003-root-producer-target/debug/deps/workshop-cbb659ae2ba4a1a3)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_derive-a0cf72af3b3bd940)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_fields-277e79c821b79578)
+     Running tests/codecs.rs (/var/tmp/rom-003-root-producer-target/debug/deps/codecs-0a6dc16fa273b8c1)
+     Running tests/shared_vectors.rs (/var/tmp/rom-003-root-producer-target/debug/deps/shared_vectors-aac7e07e98c34cd7)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_http-d1e1916b8ddb0e12)
+     Running tests/capacity_configuration.rs (/var/tmp/rom-003-root-producer-target/debug/deps/capacity_configuration-b20c21f7b83fdd96)
+     Running tests/loopback.rs (/var/tmp/rom-003-root-producer-target/debug/deps/loopback-3983a01824070b0d)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_identity-bb361d5b64efdb67)
+     Running tests/integration.rs (/var/tmp/rom-003-root-producer-target/debug/deps/integration-97d188feda89bd89)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_query_measure-96d193056b5c0c69)
+     Running unittests src/main.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_query_measure-1a5d2ffa3e81d902)
+     Running unittests src/bin/write.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_query_write_measure-29f055ee0a229d59)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_redb-70258f79e035dcfe)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_sqlite-aa59060ffd5deb33)
+     Running tests/query_observation.rs (/var/tmp/rom-003-root-producer-target/debug/deps/query_observation-3d21fe8cc0179b7d)
+     Running tests/backup.rs (/var/tmp/rom-003-root-producer-target/debug/deps/backup-3a74177239711371)
+     Running tests/channels.rs (/var/tmp/rom-003-root-producer-target/debug/deps/channels-8fb8c631faed2209)
+     Running tests/conformance.rs (/var/tmp/rom-003-root-producer-target/debug/deps/conformance-a0925293b75567c9)
+     Running tests/derive_presentation.rs (/var/tmp/rom-003-root-producer-target/debug/deps/derive_presentation-6c9c3ae78d3634dc)
+     Running tests/journal_head.rs (/var/tmp/rom-003-root-producer-target/debug/deps/journal_head-cf93ec6693e4023b)
+     Running tests/ledger_capacity.rs (/var/tmp/rom-003-root-producer-target/debug/deps/ledger_capacity-12d1c2c680e330bb)
+     Running tests/migration_runtime.rs (/var/tmp/rom-003-root-producer-target/debug/deps/migration_runtime-6454056b05821c78)
+     Running tests/native_profile.rs (/var/tmp/rom-003-root-producer-target/debug/deps/native_profile-b144473f35fc33a9)
+     Running tests/operator.rs (/var/tmp/rom-003-root-producer-target/debug/deps/operator-d95b2cd26741249c)
+     Running tests/operator_reconciliation.rs (/var/tmp/rom-003-root-producer-target/debug/deps/operator_reconciliation-089ed5339f754380)
+     Running tests/operator_runtime.rs (/var/tmp/rom-003-root-producer-target/debug/deps/operator_runtime-c9d9f9ef404e7f7d)
+     Running tests/ownership.rs (/var/tmp/rom-003-root-producer-target/debug/deps/ownership-4f2c6f1b2b0aab7a)
+     Running tests/presentation_discovery.rs (/var/tmp/rom-003-root-producer-target/debug/deps/presentation_discovery-3985991d678550b1)
+     Running tests/query_planning.rs (/var/tmp/rom-003-root-producer-target/debug/deps/query_planning-920f4d4020acc95b)
+     Running tests/query_read.rs (/var/tmp/rom-003-root-producer-target/debug/deps/query_read-9f4cf3b0a3c23b3a)
+     Running tests/reactions.rs (/var/tmp/rom-003-root-producer-target/debug/deps/reactions-a1a66affef0bcc1a)
+     Running tests/receipt_versions.rs (/var/tmp/rom-003-root-producer-target/debug/deps/receipt_versions-7022316241ee5e46)
+     Running tests/references.rs (/var/tmp/rom-003-root-producer-target/debug/deps/references-42cfc5ef123d4234)
+     Running tests/retention.rs (/var/tmp/rom-003-root-producer-target/debug/deps/retention-9a3762bbdb0e3ee3)
+     Running tests/retry_epochs.rs (/var/tmp/rom-003-root-producer-target/debug/deps/retry_epochs-5b0486b352a07cdb)
+     Running tests/runtime_reactions.rs (/var/tmp/rom-003-root-producer-target/debug/deps/runtime_reactions-1c7980f20b6b1961)
+     Running tests/schema_migration.rs (/var/tmp/rom-003-root-producer-target/debug/deps/schema_migration-6238796bc55869a5)
+     Running tests/semantic_resources.rs (/var/tmp/rom-003-root-producer-target/debug/deps/semantic_resources-7e0e3e3ebc15d05e)
+     Running tests/shared.rs (/var/tmp/rom-003-root-producer-target/debug/deps/shared-e4e2fa141dd4f215)
+     Running tests/sqlite_index_recovery.rs (/var/tmp/rom-003-root-producer-target/debug/deps/sqlite_index_recovery-3cfd527b44fc478f)
+     Running tests/sqlite_offline_read.rs (/var/tmp/rom-003-root-producer-target/debug/deps/sqlite_offline_read-a12a4f06ceab12dc)
+     Running tests/sqlite_query_index.rs (/var/tmp/rom-003-root-producer-target/debug/deps/sqlite_query_index-baf12e9d2da141ad)
+     Running tests/studio_discovery.rs (/var/tmp/rom-003-root-producer-target/debug/deps/studio_discovery-a686f6351a2d76a6)
+     Running tests/studio_resilience.rs (/var/tmp/rom-003-root-producer-target/debug/deps/studio_resilience-b2e0d99952dcfb89)
+     Running tests/transitions.rs (/var/tmp/rom-003-root-producer-target/debug/deps/transitions-93170ded3b85da0f)
+     Running tests/upgrade.rs (/var/tmp/rom-003-root-producer-target/debug/deps/upgrade-450fdebb4482425c)
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_studio_host-09269840beee04a0)
+     Running tests/backchannel.rs (/var/tmp/rom-003-root-producer-target/debug/deps/backchannel-69786737f89adadb)
+     Running tests/coherence.rs (/var/tmp/rom-003-root-producer-target/debug/deps/coherence-6d35ca35f64f3617)
+     Running tests/configuration.rs (/var/tmp/rom-003-root-producer-target/debug/deps/configuration-c47a4191bcd2e3ce)
+     Running tests/configuration_root.rs (/var/tmp/rom-003-root-producer-target/debug/deps/configuration_root-07e364f6c228403b)
+     Running tests/host.rs (/var/tmp/rom-003-root-producer-target/debug/deps/host-7ce639ad59164ca5)
+     Running tests/human.rs (/var/tmp/rom-003-root-producer-target/debug/deps/human-a02688d87044e9cb)
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+   Doc-tests rom
+   Doc-tests rom_auth
+   Doc-tests rom_backup
+   Doc-tests rom_blob
+   Doc-tests rom_blob_object_store
+   Doc-tests rom_config
+   Doc-tests rom_conformance
+   Doc-tests rom_consumer
+   Doc-tests rom_demo
+   Doc-tests rom_derive
+   Doc-tests rom_fields
+   Doc-tests rom_http
+   Doc-tests rom_identity
+   Doc-tests rom_query_measure
+   Doc-tests rom_redb
+   Doc-tests rom_sqlite
+   Doc-tests rom_studio_host
+warning: output filename collision at /var/tmp/rom-003-root-producer-target/doc/rom/index.html
+  |
+  = note: the bin target `rom` in package `rom-cli v0.0.3 (/root/ROM/crates/rom-cli)` has the same output filename as the lib target `rom` in package `rom v0.0.3 (/root/ROM/crates/rom)`
+  = note: this is a known bug where multiple crates with the same name use the same path; see <https://github.com/rust-lang/cargo/issues/6313>
+ Documenting rom-identity v0.0.3 (/root/ROM/crates/rom-identity)
+ Documenting rom-auth v0.0.3 (/root/ROM/crates/rom-auth)
+    Finished `dev` profile [unoptimized] target(s) in 0.48s
+   Generated /var/tmp/rom-003-root-producer-target/doc/rom/index.html and 18 other files
+    Finished `dev` profile [unoptimized] target(s) in 0.04s
+    Finished `dev` profile [unoptimized] target(s) in 0.06s
+     Running `/var/tmp/rom-003-root-producer-target/debug/rom-consumer`
+    Finished `dev` profile [unoptimized] target(s) in 0.02s
+     Running `/var/tmp/rom-003-root-producer-target/debug/renamed`
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+     Running `/var/tmp/rom-003-root-producer-target/debug/input_renamed`
+    Finished `dev` profile [unoptimized] target(s) in 0.02s
+     Running `/var/tmp/rom-003-root-producer-target/debug/rom-renamed-input-fixture`
+    Finished `dev` profile [unoptimized] target(s) in 0.02s
+     Running `/var/tmp/rom-003-root-producer-target/debug/resource_version`
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+     Running `/var/tmp/rom-003-root-producer-target/debug/presentation_valid`
+    Finished `dev` profile [unoptimized] target(s) in 0.01s
+     Running `/var/tmp/rom-003-root-producer-target/debug/presentation_shadowed_builtin`
+    Finished `dev` profile [unoptimized] target(s) in 0.09s
+    Finished `test` profile [unoptimized] target(s) in 0.09s
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_auth-a2c3f882cb764801)
+     Running tests/oidc.rs (/var/tmp/rom-003-root-producer-target/debug/deps/oidc-7d986d3e119f9f2c)
+     Running tests/profiles.rs (/var/tmp/rom-003-root-producer-target/debug/deps/profiles-b941ad215a887b19)
+   Doc-tests rom_auth
+    Finished `dev` profile [unoptimized] target(s) in 0.03s
+    Finished `dev` profile [unoptimized] target(s) in 0.04s
+    Finished `dev` profile [unoptimized] target(s) in 0.04s
+    Finished `dev` profile [unoptimized] target(s) in 0.06s
+ Documenting rom-auth v0.0.3 (/root/ROM/crates/rom-auth)
+    Finished `dev` profile [unoptimized] target(s) in 0.36s
+   Generated /var/tmp/rom-003-root-producer-target/doc/rom_auth/index.html
+    Finished `dev` profile [unoptimized] target(s) in 0.08s
+    Finished `test` profile [unoptimized] target(s) in 0.07s
+     Running unittests src/lib.rs (/var/tmp/rom-003-root-producer-target/debug/deps/rom_identity-8a19bb9a6062f71a)
+     Running tests/integration.rs (/var/tmp/rom-003-root-producer-target/debug/deps/integration-0c93f622a77a9296)
+   Doc-tests rom_identity
+ Documenting rom-identity v0.0.3 (/root/ROM/crates/rom-identity)
+    Finished `dev` profile [unoptimized] target(s) in 0.22s
+   Generated /var/tmp/rom-003-root-producer-target/doc/rom_identity/index.html

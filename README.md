@@ -6,11 +6,14 @@ Declare a resource once. The framework supplies standard storage, operations, en
 
 Actions request changes. The core validates and commits transitions. Events describe committed facts. Reactions can submit further actions through the same core.
 
-**Status: 0.0.3 is prepared for release acceptance; experimental software.**
-The last completed local source-and-Studio distribution is 0.0.2.
-Its eight release gates passed on source revision `8652fcd2d296f2bfe3102cdc0dfe977fecf1b034`.
-See the [release acceptance record](docs/research/rom-0.0.2-release-completion.md) and [support boundary](docs/release-support.md).
-Registry publication and GitHub Actions remain disabled. These results do not establish production readiness.
+**Status: 0.0.3 candidate passed artifact and preview acceptance; a restart regression correction remains pending.**
+The complete eight-gate producer accepted source revision `c66c470eb894b8449f9ab707d94179c88af09113`.
+An independent verifier accepted the source, Studio, and skills artifacts.
+The persistent [VPN preview](https://10.66.0.2/rom-studio/) passed fresh-login checks and a full container restart.
+See the [completion record](docs/research/rom-0.0.3-release-completion.md), [compatibility review](docs/research/rom-0.0.3-compatibility.md), and [support boundary](docs/release-support.md).
+GitHub hosts source only. Registry publication and GitHub Actions remain disabled.
+A later restart-after-delete check found a demo bootstrap defect. Final release completion requires its correction and repeated acceptance.
+These results do not establish production readiness or human usability.
 
 The historical native source alpha, `0.1.0-alpha.1`, passed the complete local release procedure for its library, CLI, adapters, and reference application. See its [completion audit and support limits](docs/research/framework-release-completion.md), [completed release checklist](openspec/changes/prepare-framework-release/tasks.md), and [earlier MVP evidence](docs/research/mvp-release-results.md).
 
@@ -29,7 +32,7 @@ The opt-in [provider deployment profile](docs/provider-deployment.md) adds expli
 Studio is a generic workspace for backend operations on ROM Resources. It uses Svelte 5, shadcn-svelte, Bits UI, and Lucide icons.
 
 These screenshots show the implemented 0.0.3 workspace on a real local host with synthetic data.
-They are not design mockups or a claim of completed VPN deployment.
+They are not design mockups. The permanent VPN deployment has separate release-bound acceptance.
 The [capture record](docs/research/evidence/rom-0.0.3/studio-screens/source-facts.json) identifies source, native binary, and assets.
 
 ![ROM Studio desktop: generic fields and the shared right inspector](docs/research/evidence/rom-0.0.3/studio-screens/field-showcase-desktop.png)

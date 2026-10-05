@@ -12,6 +12,13 @@ It also requires generic backend support, focused DRY/module cleanup, AI workflo
 Mockups and implementation commits do not complete this scope.
 The goal remains active until the complete artifact passes independent verification and the permanent preview passes acceptance.
 
+## Candidate acceptance and later finding
+
+The [candidate record](rom-0.0.3-release-completion.md) adds the executed artifact and preview results.
+The clean c66c470 producer passed all eight gates. Independent artifact verification and permanent preview restart acceptance passed.
+The earlier development and failure records remain unchanged.
+A later restart-after-delete finding requires a bootstrap correction before final goal completion.
+
 ## Implemented scope
 
 The shared right inspector covers filters, Resource details, Work inspection, and Attachments.

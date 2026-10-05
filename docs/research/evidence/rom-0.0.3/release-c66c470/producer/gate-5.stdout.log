@@ -1,0 +1,74 @@
+TAP version 13
+# Subtest: portable bundle has deterministic content and verifies outside its source directory
+ok 1 - portable bundle has deterministic content and verifies outside its source directory
+  ---
+  duration_ms: 12.415875
+  type: 'test'
+  ...
+# Subtest: admission rejects missing changed and unsafe assets plus incompatible profiles or features
+ok 2 - admission rejects missing changed and unsafe assets plus incompatible profiles or features
+  ---
+  duration_ms: 28.675326
+  type: 'test'
+  ...
+# Subtest: admission rejects changed source identity and unknown workflows before execution
+ok 3 - admission rejects changed source identity and unknown workflows before execution
+  ---
+  duration_ms: 5.631027
+  type: 'test'
+  ...
+# Subtest: command rejects incompatible profile feature and missing asset before executing any example
+ok 4 - command rejects incompatible profile feature and missing asset before executing any example
+  ---
+  duration_ms: 164.193406
+  type: 'test'
+  ...
+# Subtest: admission rejects omitted indirect asset hashes and false lock identity metadata
+ok 5 - admission rejects omitted indirect asset hashes and false lock identity metadata
+  ---
+  duration_ms: 10.942644
+  type: 'test'
+  ...
+# Subtest: invalid supervision options reject before the process can start
+ok 6 - invalid supervision options reject before the process can start
+  ---
+  duration_ms: 23.064026
+  type: 'test'
+  ...
+# Subtest: deadline kills a descendant holding inherited stdio and returns within its bound
+ok 7 - deadline kills a descendant holding inherited stdio and returns within its bound
+  ---
+  duration_ms: 1004.907971
+  type: 'test'
+  ...
+# Subtest: output byte budget terminates the owned process group
+ok 8 - output byte budget terminates the owned process group
+  ---
+  duration_ms: 18.720056
+  type: 'test'
+  ...
+# Subtest: process output preserves UTF-8 split across pipe reads
+ok 9 - process output preserves UTF-8 split across pipe reads
+  ---
+  duration_ms: 58.301165
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1139.012754
+ROM instruction bundle assembled.
+Preflight passed: resource. No workflow ran during preflight.
+Example passed. Evidence: /tmp/rom-skill-resource-hnPLIT
+Preflight passed: native. No workflow ran during preflight.
+Example passed. Evidence: /tmp/rom-skill-native-q7cz9Z
+Preflight passed: operator. No workflow ran during preflight.
+Example passed. Evidence: /tmp/rom-skill-operator-7rtmoe
+Preflight passed: release. No workflow ran during preflight.
+Example passed. Evidence: /tmp/rom-skill-release-izVd97
+Author skill evidence retained: /tmp/rom-skill-check.o1xWc4
