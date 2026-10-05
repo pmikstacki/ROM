@@ -21,6 +21,8 @@ in {
   boot.isContainer = true;
   system.stateVersion = "24.11";
   networking.hostName = "rom-studio";
+  # The existing container shares the host network namespace. Never start DHCP here.
+  networking.useDHCP = false;
   users.groups.rom-studio.gid = 44173;
   users.users.rom-studio = { isSystemUser = true; uid = 44173; group = "rom-studio"; };
   systemd.services.rom-studio-provider = {
