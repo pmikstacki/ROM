@@ -154,3 +154,46 @@ fn explicit_denial_never_calls_decoder_or_grants_field_access() {
         &json!({"writable": true})
     ));
 }
+
+#[test]
+fn transition_validator_keeps_named_pointer_and_noncapturing_callers() {
+    fn validate(_: &Actor, _: Option<&Record>, after: Option<&Record>) -> Result<()> {
+        if after.is_some_and(|record| record.writable) {
+            Ok(())
+        } else {
+            Err(Error::Denied)
+        }
+    }
+    let pointer: fn(&Actor, Option<&Record>, Option<&Record>) -> Result<()> = validate;
+    let definitions = [
+        Record::definition().validate_transition(validate),
+        Record::definition().validate_transition(pointer),
+        Record::definition().validate_transition(|_, _, after| {
+            if after.is_some_and(|record| record.writable) {
+                Ok(())
+            } else {
+                Err(Error::Denied)
+            }
+        }),
+    ];
+    for definition in definitions {
+        assert_eq!(
+            Registered::validate_transition(
+                &definition,
+                &actor("reader"),
+                None,
+                Some(&json!({"writable": true}))
+            ),
+            Ok(())
+        );
+        assert_eq!(
+            Registered::validate_transition(
+                &definition,
+                &actor("reader"),
+                None,
+                Some(&json!({"writable": false}))
+            ),
+            Err(Error::Denied)
+        );
+    }
+}

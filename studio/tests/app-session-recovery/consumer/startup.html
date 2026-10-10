@@ -1,0 +1,13 @@
+<!doctype html><html><head><meta charset="UTF-8"><title>Maintained Studio startup probe</title></head><body><div id="app"></div>
+<script>
+// This probe exercises physical installed maintained main, separately from public API consumption.
+const scenario = new URL(location.href).searchParams.get('case');
+const store = {maxBytes:1052672,maxSlots:64,timeoutMs:50};
+const config = {version:1,authority:'recovery-fixture',recovery:{namespace:'startup-probe',retryEpoch:'0',maxBytes:1048576,intentStore:{...store,name:'rom-app-startup-intents'},editorStore:{...store,name:'rom-app-startup-editors'}}};
+if(scenario !== 'missing') {
+ const profile = document.createElement('script'); profile.id='rom-studio-auth-profile';profile.type=scenario==='wrongtype'?'text/plain':'application/json';
+ profile.textContent=scenario==='invalid'?'{}':JSON.stringify(config);document.body.append(profile);
+ if(scenario==='duplicate')document.body.append(profile.cloneNode(true));
+}
+</script>
+<script type="module" src="./node_modules/rom-studio/src/main.ts"></script></body></html>

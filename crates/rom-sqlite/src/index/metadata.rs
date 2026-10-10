@@ -75,11 +75,34 @@ impl Counters {
 }
 
 pub(super) fn load(c: &Connection, kind: &str) -> Result<Option<Counters>> {
+    load_admitted(c, kind, None)
+}
+pub(super) fn load_admitted(
+    c: &Connection,
+    kind: &str,
+    reader: Option<&crate::native_work::Reader<'_>>,
+) -> Result<Option<Counters>> {
     let mut s=c.prepare("SELECT row_count,row_bytes,canonical_row_bytes,live_count,generation FROM query_kinds WHERE kind=?").map_err(|_|Error::Storage)?;
     let mut rows = s.query([kind]).map_err(|_| Error::Storage)?;
     let Some(row) = rows.next().map_err(|_| Error::Storage)? else {
         return Ok(None);
     };
+    if let Some(reader) = reader {
+        let generation_bytes = match row.get_ref(4).map_err(|_| Error::Storage)? {
+            rusqlite::types::ValueRef::Blob(raw) | rusqlite::types::ValueRef::Text(raw) => {
+                raw.len()
+            }
+            rusqlite::types::ValueRef::Integer(_) | rusqlite::types::ValueRef::Real(_) => 8,
+            rusqlite::types::ValueRef::Null => 0,
+        };
+        reader.charge(
+            kind.len()
+                .checked_add(32)
+                .and_then(|n| n.checked_add(generation_bytes))
+                .ok_or(Error::TooLarge)?,
+            1,
+        )?;
+    }
     let result = decode(row, 0)?;
     if rows.next().map_err(|_| Error::Storage)?.is_some() {
         return Err(Error::Storage);

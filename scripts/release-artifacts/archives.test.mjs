@@ -57,9 +57,9 @@ test('verification binds complete declared profile and package version to the ex
   for (const mutation of ['format', 'feature', 'version']) {
     const f = fixture(); await produce({ ...f, runner: passed });
     mutateManifest(f.output, manifest => {
-      if (mutation === 'format') manifest.source.profile.native_storage_format = 9;
+      if (mutation === 'format') manifest.source.profile.native_storage_format += 1;
       else if (mutation === 'feature') manifest.source.profile.features.pop();
-      else manifest.source.package_version = '9.9.9';
+      else manifest.source.package_version = '0.0.4';
     });
     await assert.rejects(verifyArtifacts(f.output), /archive release profile identity/);
   }

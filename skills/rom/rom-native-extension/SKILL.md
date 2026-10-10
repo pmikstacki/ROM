@@ -1,12 +1,18 @@
 ---
 name: rom-native-extension
-description: Use when implementing or checking a native ROM module, custom codec, Storage adapter, or optional BlobStore adapter.
+description: Use when implementing or checking a trusted Rust codec, Storage adapter, or optional BlobStore adapter for ROM.
 ---
 
 # Test a native extension
 
+Use the `0.1.0` source candidate and its matching lockfile. Release acceptance remains open.
+
 Read the [native contract](../../../docs/native-extensions.md) for the selected port and its limits.
 Use the [bundle procedure](../README.md) to run `native` profile and feature preflight.
+
+Select Field, Storage, or BlobStore before using its fixture. Storage owns atomic Resource commits.
+For delivery or search projections, use the provider workflow in the checkout's `docs/ai-development.md`.
+A search index is not a Storage adapter.
 
 1. Run the [external fixture example](../assets/native/run.mjs) with `native --run`.
 2. Use its generated integration test and local fixture owner as the starting point.

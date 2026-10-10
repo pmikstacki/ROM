@@ -1,6 +1,6 @@
 use rom::{Actor, Command, PrincipalKind, Resource, Runtime};
 use rom_identity::{IdentityGate, IdentityLink, IdentityProvider, ProviderProfile, User, link_key};
-use rom_studio_host::{HostConfig, OidcProviderConfig, StudioHost, StudioSettings};
+use rom_studio_host::{AuthStage, HostConfig, OidcProviderConfig, StudioHost, StudioSettings};
 use std::sync::atomic::{AtomicU64, Ordering};
 #[path = "support/blob.rs"]
 mod blob;
@@ -206,15 +206,30 @@ async fn journey(storage: Arc<dyn rom::Storage>, expiry_probe: ExpiryProbe) {
         .unwrap();
     let runtime = Runtime::builder()
         .resource(
-            rom_blob::definition().discovery_policy(move |actor, target| {
-                actor.authority == "local"
-                    && actor.principal_kind() == PrincipalKind::Human
-                    && !matches!(
-                        (visible_metadata.load(Ordering::SeqCst), target),
-                        (1, rom::DiscoveryTarget::Field("store"))
-                            | (2, rom::DiscoveryTarget::Resource)
-                    )
-            }),
+            rom_blob::definition()
+                .policy(|actor, _, blob| {
+                    if actor == &rom_blob::worker_actor() {
+                        return true;
+                    }
+                    let owner =
+                        rom::json!([actor.authority, actor.principal_kind(), actor.subject])
+                            .to_string();
+                    blob.owner == owner
+                        && blob.digest != rom_blob::Digest::of(b"ack-denied")
+                        && !(blob.digest == rom_blob::Digest::of(b"ack-upload")
+                            && blob.state == rom_blob::BlobState::Ready)
+                        && !(blob.digest == rom_blob::Digest::of(b"ack-detach")
+                            && blob.state == rom_blob::BlobState::Detached)
+                })
+                .discovery_policy(move |actor, target| {
+                    actor.authority == "local"
+                        && actor.principal_kind() == PrincipalKind::Human
+                        && !matches!(
+                            (visible_metadata.load(Ordering::SeqCst), target),
+                            (1, rom::DiscoveryTarget::Field("store"))
+                                | (2, rom::DiscoveryTarget::Resource)
+                        )
+                }),
         )
         .clock(clock.clone())
         .actor_gate(Arc::new(gate))
@@ -329,6 +344,7 @@ async fn journey(storage: Arc<dyn rom::Storage>, expiry_probe: ExpiryProbe) {
         admin.clone(),
     )
     .allow_loopback_http(true)
+    .authentication_diagnostics(true)
     .clock(clock.clone())
     .settings("main")
     .blobs(blobs)
@@ -349,6 +365,7 @@ async fn journey(storage: Arc<dyn rom::Storage>, expiry_probe: ExpiryProbe) {
         client_secret: Some("controlled-host-test-secret".into()),
     });
     let host = StudioHost::new(runtime.clone(), config).unwrap();
+    let observer = host.clone();
     let (stop, stopped) = tokio::sync::oneshot::channel();
     let task = tokio::spawn(host.serve(listener, async {
         let _ = stopped.await;
@@ -404,6 +421,8 @@ async fn journey(storage: Arc<dyn rom::Storage>, expiry_probe: ExpiryProbe) {
         &origin,
         session["csrf_token"].as_str().unwrap(),
         &blob_store,
+        &runtime,
+        &observer,
     )
     .await;
     let rejected = browser
@@ -745,7 +764,14 @@ async fn authorization(
     callback.expect("provider must return a callback")
 }
 
-async fn blob_journey(browser: &Browser, origin: &str, csrf: &str, store: &blob::Memory) {
+async fn blob_journey(
+    browser: &Browser,
+    origin: &str,
+    csrf: &str,
+    store: &blob::Memory,
+    runtime: &Runtime,
+    observer: &StudioHost,
+) {
     let request = |path: &str| {
         browser
             .client
@@ -867,6 +893,98 @@ async fn blob_journey(browser: &Browser, origin: &str, csrf: &str, store: &blob:
     let invalid_query: serde_json::Value =
         serde_json::from_slice(&invalid_query.bytes().await.unwrap()).unwrap();
     assert_eq!(invalid_query, serde_json::json!({"error":"invalid"}));
+
+    let before = observer.authentication_diagnostics().unwrap().unwrap();
+    for (id, terminal, revision) in [
+        ("ack-upload", rom_blob::BlobState::Ready, 2),
+        ("ack-detach", rom_blob::BlobState::Detached, 3),
+    ] {
+        let reserved = request("reserve")
+            .body(
+                serde_json::json!({
+                    "id": id,
+                    "store": "attachments",
+                    "digest": rom_blob::Digest::of(id.as_bytes()).as_str(),
+                    "bytes": id.len(),
+                    "idempotency": format!("reserve-{id}")
+                })
+                .to_string(),
+            )
+            .send()
+            .await
+            .unwrap();
+        assert_eq!(reserved.status(), 200);
+        let uploaded = request(&format!("upload?id={id}"))
+            .body(id.to_owned())
+            .send()
+            .await
+            .unwrap();
+        let response = if terminal == rom_blob::BlobState::Detached {
+            assert_eq!(uploaded.status(), 200);
+            request("detach")
+                .body(serde_json::json!({"id": id}).to_string())
+                .send()
+                .await
+                .unwrap()
+        } else {
+            uploaded
+        };
+        assert_eq!(response.status(), 503);
+        let body: serde_json::Value =
+            serde_json::from_slice(&response.bytes().await.unwrap()).unwrap();
+        assert_eq!(body, serde_json::json!({"error":"outcome_unknown"}));
+        let persisted = runtime
+            .read::<rom_blob::Blob>(&rom_blob::worker_actor(), id)
+            .await
+            .unwrap();
+        assert_eq!(persisted.revision, revision);
+        assert_eq!(persisted.value.unwrap().state, terminal);
+        let denied = browser
+            .client
+            .get(format!("{origin}/rom-studio/blobs/attachment/{id}"))
+            .header("cookie", browser.cookie(origin))
+            .send()
+            .await
+            .unwrap();
+        assert_eq!(denied.status(), 403);
+        let body: serde_json::Value =
+            serde_json::from_slice(&denied.bytes().await.unwrap()).unwrap();
+        assert_eq!(body, serde_json::json!({"error":"denied"}));
+    }
+    let denied = request("reserve")
+        .body(
+            serde_json::json!({
+                "id": "ack-denied",
+                "store": "attachments",
+                "digest": rom_blob::Digest::of(b"ack-denied").as_str(),
+                "bytes": 10,
+                "idempotency": "reserve-ack-denied"
+            })
+            .to_string(),
+        )
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(denied.status(), 403);
+    let body: serde_json::Value = serde_json::from_slice(&denied.bytes().await.unwrap()).unwrap();
+    assert_eq!(body, serde_json::json!({"error":"denied"}));
+    let after = observer.authentication_diagnostics().unwrap().unwrap();
+    for (stage, succeeded, denied) in [
+        (AuthStage::BlobReserveResult, 2, 1),
+        (AuthStage::BlobUploadResult, 1, 0),
+        (AuthStage::BlobUploadUnattached, 0, 1),
+        (AuthStage::BlobProjectionResult, 3, 0),
+    ] {
+        let first = before.stage(stage);
+        let last = after.stage(stage);
+        assert_eq!(last.succeeded - first.succeeded, succeeded, "{stage:?}");
+        assert_eq!(last.denied - first.denied, denied, "{stage:?}");
+        assert_eq!(
+            [last.overloaded, last.closed, last.panicked, last.other],
+            [first.overloaded, first.closed, first.panicked, first.other],
+            "{stage:?}"
+        );
+    }
 }
 
 async fn capabilities_journey(

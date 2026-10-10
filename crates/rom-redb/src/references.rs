@@ -1,6 +1,6 @@
 //! Persisted schema and indexed restrict relations. All writes use the bundle transaction.
 use crate::{Redb, format::*};
-use redb::{Durability, ReadableTable, ReadableTableMetadata, TableDefinition};
+use redb::{Durability, ReadableDatabase, ReadableTable, ReadableTableMetadata, TableDefinition};
 use rom::{Descriptor, Error, Key, Result, Row};
 use std::collections::{BTreeMap, BTreeSet};
 use std::sync::atomic::Ordering;
@@ -34,7 +34,11 @@ fn schemas(
         .map_err(|_| Error::Storage)?;
     Ok(result)
 }
-fn targets(table: &impl ReadableTable<EdgeKey<'static>, u8>, source: &Key) -> Result<Vec<Key>> {
+fn targets(
+    table: &impl ReadableTable<EdgeKey<'static>, u8>,
+    source: &Key,
+    charge: &mut impl FnMut(usize) -> Result<()>,
+) -> Result<Vec<Key>> {
     let mut result = Vec::new();
     for entry in table
         .range((source.kind.as_str(), source.id.as_str(), "", "")..)
@@ -45,6 +49,7 @@ fn targets(table: &impl ReadableTable<EdgeKey<'static>, u8>, source: &Key) -> Re
         if kind != source.kind || id != source.id {
             break;
         }
+        charge(edge_bytes((kind, id, target_kind, target_id))?)?;
         if value.value() != 1 || target_kind.is_empty() || target_id.is_empty() {
             return Err(Error::Storage);
         }
@@ -58,6 +63,7 @@ fn targets(table: &impl ReadableTable<EdgeKey<'static>, u8>, source: &Key) -> Re
 fn live_target(
     rows: &impl ReadableTable<(&'static str, &'static str), &'static str>,
     target: &Key,
+    charge: &mut impl FnMut(usize) -> Result<()>,
 ) -> Result<bool> {
     let Some(value) = rows
         .get((target.kind.as_str(), target.id.as_str()))
@@ -65,6 +71,14 @@ fn live_target(
     else {
         return Ok(false);
     };
+    charge(
+        target
+            .kind
+            .len()
+            .checked_add(target.id.len())
+            .and_then(|n| n.checked_add(value.value().len()))
+            .ok_or(Error::TooLarge)?,
+    )?;
     let row: Row = serde_json::from_str(value.value()).map_err(|_| Error::Storage)?;
     if row.key != *target {
         return Err(Error::Storage);
@@ -76,6 +90,10 @@ impl Redb {
     pub(super) fn register_descriptors(&self, descriptors: &[Descriptor]) -> Result<()> {
         let _gate = self.commit_gate.lock().map_err(|_| Error::Panicked)?;
         self.available()?;
+        if self.native_format == JOURNAL_FORMAT {
+            let read = self.db.begin_read().map_err(|_| Error::Storage)?;
+            crate::admission::check(&read, self.native_format, self.validation_limits)?;
+        }
         let mut tx = self.db.begin_write().map_err(|_| Error::Storage)?;
         tx.set_durability(Durability::Immediate)
             .map_err(|_| Error::Storage)?;
@@ -189,12 +207,29 @@ pub(super) fn prepare(
     receipt: &rom::Receipt,
     existing: Option<&Row>,
 ) -> Result<(Vec<Key>, Vec<Key>)> {
+    prepare_with_budget(tx, rows, receipt, existing, &mut |_| Ok(()))
+}
+
+pub(super) fn prepare_with_budget(
+    tx: &redb::WriteTransaction,
+    rows: &impl ReadableTable<(&'static str, &'static str), &'static str>,
+    receipt: &rom::Receipt,
+    existing: Option<&Row>,
+    charge: &mut impl FnMut(usize) -> Result<()>,
+) -> Result<(Vec<Key>, Vec<Key>)> {
     let row = &receipt.row;
     let table = tx.open_table(SCHEMAS).map_err(|_| Error::Storage)?;
     let value = table
         .get(row.key.kind.as_str())
         .map_err(|_| Error::Storage)?
         .ok_or(Error::Unregistered)?;
+    charge(
+        row.key
+            .kind
+            .len()
+            .checked_add(value.value().len())
+            .ok_or(Error::TooLarge)?,
+    )?;
     let descriptor: Descriptor = serde_json::from_str(value.value()).map_err(|_| Error::Storage)?;
     if descriptor.kind != row.key.kind
         || descriptor.canonical().map_err(|_| Error::Storage)? != descriptor
@@ -211,16 +246,17 @@ pub(super) fn prepare(
     let new = descriptor.reference_targets(row.value.as_ref())?;
     let outgoing = tx.open_table(OUTGOING).map_err(|_| Error::Storage)?;
     let incoming = tx.open_table(INCOMING).map_err(|_| Error::Storage)?;
-    if targets(&outgoing, &row.key)? != old {
+    if targets(&outgoing, &row.key, charge)? != old {
         return Err(Error::Storage);
     }
     for target in &old {
-        if incoming
+        let marker = incoming
             .get(edge_key(target, &row.key))
-            .map_err(|_| Error::Storage)?
-            .map(|value| value.value())
-            != Some(1)
-        {
+            .map_err(|_| Error::Storage)?;
+        if marker.is_some() {
+            charge(edge_bytes(edge_key(target, &row.key))?)?;
+        }
+        if marker.map(|value| value.value()) != Some(1) {
             return Err(Error::Storage);
         }
     }
@@ -229,7 +265,7 @@ pub(super) fn prepare(
             if row.value.is_none() {
                 return Err(Error::Conflict);
             }
-        } else if !live_target(rows, target)? {
+        } else if !live_target(rows, target, charge)? {
             return Err(Error::Conflict);
         }
     }
@@ -243,6 +279,7 @@ pub(super) fn prepare(
             if kind != row.key.kind || id != row.key.id {
                 break;
             }
+            charge(edge_bytes((kind, id, source_kind, source_id))?)?;
             if value.value() != 1 {
                 return Err(Error::Storage);
             }
@@ -252,6 +289,12 @@ pub(super) fn prepare(
         }
     }
     Ok((old, new))
+}
+
+fn edge_bytes(key: EdgeKey<'_>) -> Result<usize> {
+    [key.0, key.1, key.2, key.3]
+        .iter()
+        .try_fold(1usize, |n, p| n.checked_add(p.len()).ok_or(Error::TooLarge))
 }
 
 pub(super) fn collect(

@@ -14,6 +14,10 @@ pub(super) struct Lifecycle {
     pub(super) terminal: Option<Error>,
 }
 pub(crate) struct Inner {
+    pub(crate) diagnostics: Option<crate::DiagnosticSink>,
+    pub(crate) core_overloads: crate::diagnostics::CoreOverloadCounters,
+    #[cfg(test)]
+    pub(crate) generation_test_hook: Mutex<Option<Arc<super::overload_generation::GenerationHook>>>,
     pub(crate) storage: Arc<dyn Storage>,
     pub(crate) pool: Arc<rayon::ThreadPool>,
     pub(crate) registry: BTreeMap<String, Arc<dyn Registered>>,

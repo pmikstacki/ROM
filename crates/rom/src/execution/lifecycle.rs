@@ -1,6 +1,7 @@
 //! Admission, supervised blocking work, observation and shutdown.
 use super::{Runtime, Work};
 use crate::{Actor, Error, Result};
+use crate::{DiagnosticOutcome, DiagnosticStage, execution::diagnostic_record};
 use serde::Serialize;
 use std::{
     panic::{AssertUnwindSafe, catch_unwind},
@@ -72,6 +73,14 @@ pub(crate) fn acquire(pool: &Arc<Semaphore>) -> Result<OwnedSemaphorePermit> {
     })
 }
 impl Runtime {
+    pub(crate) fn acquire_action(&self) -> Result<OwnedSemaphorePermit> {
+        acquire(&self.0.admission).map_err(|error| {
+            if matches!(error, Error::Overloaded) {
+                self.0.core_overloads.record_action_no_permits();
+            }
+            error
+        })
+    }
     pub(crate) fn track_worker(&self) -> Result<Work> {
         let mut state = self.0.lifecycle.lock().map_err(|_| Error::Panicked)?;
         if let Some(e) = &state.terminal {
@@ -154,7 +163,12 @@ impl Runtime {
             if state.closed {
                 return Err(Error::Closed);
             }
-            let permit = acquire(&self.0.io)?;
+            let permit = acquire(&self.0.io).map_err(|error| {
+                if matches!(error, Error::Overloaded) {
+                    self.0.core_overloads.record_io_no_permits();
+                }
+                error
+            })?;
             state.active += 1;
             let work = Work {
                 lifecycle: self.0.lifecycle.clone(),
@@ -202,13 +216,24 @@ impl Runtime {
                 .await?;
             self.check_actor(actor)?;
             self.ensure_open()?;
+            #[cfg(test)]
+            super::overload_generation::before_generation_compare(
+                self,
+                super::overload_generation::Boundary::Observation,
+            )
+            .await?;
             if generation == self.0.generation.load(Ordering::SeqCst) {
                 return Ok(result);
             }
         }
+        self.0
+            .core_overloads
+            .record_observation_generation_exhausted();
         Err(Error::Overloaded)
     }
     /// Every caller observes the same runtime-owned drain condition. Cancelling a waiter cannot lose work.
+    /// Diagnostics describe this waiter. Cancellation can leave a Started observation without a terminal record.
+    /// Use `status` for current runtime state; diagnostic records are bounded and lossy.
     pub async fn shutdown(&self) -> Result<()> {
         let mut changed = self.0.drained.subscribe();
         {
@@ -219,14 +244,47 @@ impl Runtime {
             self.0.subscriptions.close();
         }
         self.invalidate();
-        loop {
-            {
+        let mut recording = self
+            .0
+            .diagnostics
+            .as_ref()
+            .map(|sink| sink.shutdown_record());
+        let started = recording.as_ref().and_then(|record| record.timer());
+        diagnostic_record::stage(
+            &mut recording,
+            DiagnosticStage::Shutdown,
+            DiagnosticOutcome::Started,
+            0,
+        );
+        diagnostic_record::publish(recording);
+        let result = loop {
+            let finished = {
                 let state = self.0.lifecycle.lock().unwrap();
                 if state.active == 0 {
-                    return state.terminal.clone().map_or(Ok(()), Err);
+                    Some(state.terminal.clone().map_or(Ok(()), Err))
+                } else {
+                    None
                 }
+            };
+            if let Some(result) = finished {
+                break result;
             }
-            changed.changed().await.map_err(|_| Error::Panicked)?;
+            if changed.changed().await.is_err() {
+                break Err(Error::Panicked);
+            }
+        };
+        if let Some(sink) = &self.0.diagnostics {
+            let mut recording = sink.shutdown_record();
+            recording.stage_since(
+                DiagnosticStage::Shutdown,
+                result
+                    .as_ref()
+                    .map_or_else(diagnostic_record::outcome, |_| DiagnosticOutcome::Succeeded),
+                started,
+                0,
+            );
+            recording.publish();
         }
+        result
     }
 }

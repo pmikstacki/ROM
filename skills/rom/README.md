@@ -1,6 +1,7 @@
 # ROM author workflows
 
-This revision contains four source skills and their executable examples.
+This revision contains four source skills and their executable examples for the `0.1.0` source candidate.
+Release acceptance remains open. Bundle/profile revision 1 is separate from the ROM package version.
 The [native contract](../../docs/native-extensions.md) is the canonical compatibility guide.
 The bundle copies that guide and the maintained consumer fixture with their source paths and SHA-256 values.
 Edit their maintained sources; assembled copies are distribution artifacts.
@@ -8,6 +9,8 @@ Edit their maintained sources; assembled copies are distribution artifacts.
 ## Prerequisites
 
 Use Linux, Node.js 22, the declared Rust toolchain, and an explicit full ROM source checkout.
+Read `docs/release-support.md` in the supplied checkout for accepted releases and candidate limits.
+Read `extensions/native-alpha-v1.json` for package, toolchain, format, and feature versions.
 The source and Cargo.lock must match the assembled bundle's recorded identity.
 The local Cargo cache must contain the locked dependencies for offline examples.
 Supply the build target through `CARGO_TARGET_DIR` if a shared target is necessary.

@@ -115,6 +115,7 @@ fn seed(redb: bool, path: &Path, work: bool) -> Bundle {
     if work {
         last.reaction_limits = Some(ReactionLimits::default());
         last.reactions.push(PendingWork {
+            not_before: None,
             delivery_profile: rom::DeliveryProfile::AtLeastOnce,
             id: "pending".into(),
             definition: "copy".into(),
@@ -472,6 +473,7 @@ fn current_format_migration_preserves_nonzero_epochs_receipts_and_work() {
             let mut input = bundle("work-source", "epoch-one-receipt", 1, 1);
             input.reaction_limits = Some(ReactionLimits::default());
             input.reactions.push(PendingWork {
+                not_before: None,
                 delivery_profile: rom::DeliveryProfile::AtLeastOnce,
                 id: "epoch-one-work".into(),
                 definition: "notify".into(),

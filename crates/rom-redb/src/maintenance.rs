@@ -12,10 +12,16 @@ impl Redb {
     /// Export all logical tables from one consistent read transaction. Refuses overwrite.
     /// Contains protected data; the parent directory must be trusted.
     pub fn backup_to(&self, path: impl AsRef<Path>, limits: BackupLimits) -> Result<Manifest> {
+        if self.native_format != FORMAT {
+            return Err(Error::Unsupported(
+                "unreleased native journal archive".into(),
+            ));
+        }
         let _gate = self.commit_gate.lock().map_err(|_| Error::Panicked)?;
         self.available()?;
         let tx = self.db.begin_read().map_err(|_| Error::Storage)?;
-        let snapshot = snapshot(&tx, limits)?;
+        let snapshot =
+            snapshot_with_limits(&tx, limits, self.validation_limits, NativeFormat::Current)?;
         drop(tx);
         drop(_gate);
         rom_backup::write(path, Backend::Redb, &snapshot, limits)
@@ -35,16 +41,33 @@ impl Redb {
     }
 
     pub(super) fn restore_snapshot(
-        mut data: Snapshot,
+        data: Snapshot,
         destination: rom_backup::NativeOwnership,
         limits: BackupLimits,
         before_publish: impl FnOnce() -> Result<()>,
     ) -> Result<Self> {
+        Self::restore_snapshot_in_format(data, destination, limits, before_publish, FORMAT)
+    }
+
+    pub(super) fn restore_snapshot_in_format(
+        mut data: Snapshot,
+        destination: rom_backup::NativeOwnership,
+        limits: BackupLimits,
+        before_publish: impl FnOnce() -> Result<()>,
+        native_format: u64,
+    ) -> Result<Self> {
         data.state.prepare_restore()?;
         let storage_limits = data.state.storage_limits();
         let stage = Stage::new(destination.path())?;
-        let restored =
-            Self::open_with_validation_limits(stage.path(), storage_limits.clone(), limits)?;
+        let restored = Self::open_owned_in_format(
+            rom_backup::NativeOwnership::acquire(
+                stage.path(),
+                rom_backup::NativeAccess::OpenOrCreate,
+            )?,
+            storage_limits.clone(),
+            limits,
+            native_format,
+        )?;
         let mut tx = restored.db.begin_write().map_err(|_| Error::Storage)?;
         tx.set_durability(Durability::Immediate)
             .map_err(|_| Error::Storage)?;
@@ -129,28 +152,26 @@ impl Redb {
                 )
                 .map_err(|_| Error::Storage)?;
         }
-        tx.open_table(STATE)
-            .map_err(|_| Error::Storage)?
-            .insert(
-                "state",
-                serde_json::to_string(&data.state)
-                    .map_err(|_| Error::Storage)?
-                    .as_str(),
-            )
-            .map_err(|_| Error::Storage)?;
+        if native_format == JOURNAL_FORMAT {
+            crate::native_journal::import(&tx, &data.state)?;
+        } else {
+            crate::native_state::write(&tx, &data.state)?;
+        }
         tx.commit().map_err(|_| Error::Unknown)?;
         // Validate the actual rebuilt tables before the destination becomes visible.
         let read = restored.db.begin_read().map_err(|_| Error::Storage)?;
-        snapshot(&read, limits)?.validate()?;
+        snapshot_in_format(&read, limits, NativeFormat::Exact(native_format))?.validate()?;
         drop(read);
         drop(restored);
         stage.publish_with(before_publish)?;
         stage.finish_native_publication()?;
-        Self::open_owned(destination, storage_limits, limits).map_err(|_| Error::Unknown)
+        Self::open_owned_in_format(destination, storage_limits, limits, native_format)
+            .map_err(|_| Error::Unknown)
     }
 }
 
 /// Collect one complete bounded logical snapshot for open, backup and integrity validation.
+#[cfg(test)]
 pub(super) fn snapshot(tx: &redb::ReadTransaction, limits: BackupLimits) -> Result<Snapshot> {
     snapshot_in_format(tx, limits, NativeFormat::Current)
 }
@@ -159,12 +180,25 @@ pub(super) enum NativeFormat {
     Upgrade,
     Migration,
     Current,
+    Exact(u64),
+    #[cfg(test)]
+    PredecessorTen,
 }
 
 /// Both formats share the same bounded row, receipt, event, effect and state decoder.
 pub(super) fn snapshot_in_format(
     tx: &redb::ReadTransaction,
     limits: BackupLimits,
+    format: NativeFormat,
+) -> Result<Snapshot> {
+    snapshot_with_limits(tx, limits, limits, format)
+}
+
+/// Logical collection and configured full-native admission are independent bounds.
+pub(super) fn snapshot_with_limits(
+    tx: &redb::ReadTransaction,
+    limits: BackupLimits,
+    raw_limits: BackupLimits,
     format: NativeFormat,
 ) -> Result<Snapshot> {
     let marker = tx.open_table(META).map_err(|_| Error::Storage)?;
@@ -174,14 +208,29 @@ pub(super) fn snapshot_in_format(
         .ok_or(Error::Storage)?
         .value();
     let supported = match format {
-        NativeFormat::Upgrade => matches!(version, 3..=7),
-        NativeFormat::Migration => matches!(version, 4..=7) || version == FORMAT,
+        NativeFormat::Upgrade => {
+            matches!(version, 3..=9) || (FORMAT == JOURNAL_FORMAT && version == 10)
+        }
+        NativeFormat::Migration => matches!(version, 4..=10) || version == FORMAT,
         NativeFormat::Current => version == FORMAT,
+        NativeFormat::Exact(expected) => {
+            version == expected && matches!(version, 10 | JOURNAL_FORMAT)
+        }
+        #[cfg(test)]
+        NativeFormat::PredecessorTen => version == 10,
     };
     if !supported {
         return Err(Error::Unsupported("redb storage format".into()));
     }
-    let table_count = if version == 3 { 6 } else { 9 };
+    let table_count = if version == 3 {
+        6
+    } else if version == JOURNAL_FORMAT {
+        13
+    } else if version == 10 {
+        12
+    } else {
+        9
+    };
     if marker.len().map_err(|_| Error::Storage)? != 1
         || tx.list_tables().map_err(|_| Error::Storage)?.count() != table_count
         || tx
@@ -192,18 +241,48 @@ pub(super) fn snapshot_in_format(
     {
         return Err(Error::Storage);
     }
+    crate::admission::check(tx, version, raw_limits)?;
     let state = tx.open_table(STATE).map_err(|_| Error::Storage)?;
-    if state.len().map_err(|_| Error::Storage)? != 1 {
-        return Err(Error::Storage);
-    }
-    let value = state
-        .get("state")
-        .map_err(|_| Error::Storage)?
-        .ok_or(Error::Storage)?;
-    let mut collect = if version < FORMAT {
-        Collector::legacy(value.value(), limits)?
+    let mut collect = if version == JOURNAL_FORMAT {
+        let reader = crate::native_journal::Reader::new(
+            tx.open_table(STATE).map_err(|_| Error::Storage)?,
+            tx.open_table(POSITIONS).map_err(|_| Error::Storage)?,
+            tx.open_table(EVENTS).map_err(|_| Error::Storage)?,
+            tx.open_table(WORK).map_err(|_| Error::Storage)?,
+            tx.open_table(ROOTS).map_err(|_| Error::Storage)?,
+            tx.open_table(ACTIVE).map_err(|_| Error::Storage)?,
+            raw_limits,
+        );
+        let (canonical, _) = crate::native_journal::collect(&reader, raw_limits)?;
+        let raw = serde_json::to_string(&canonical).map_err(|_| Error::Storage)?;
+        Collector::new(&raw, limits)?
+    } else if version == 10 {
+        let records = tx.open_table(WORK).map_err(|_| Error::Storage)?;
+        let roots = tx.open_table(ROOTS).map_err(|_| Error::Storage)?;
+        let active = tx.open_table(ACTIVE).map_err(|_| Error::Storage)?;
+        let (canonical, physical) =
+            crate::native_state::read(&state, &records, &roots, &active, raw_limits)?;
+        let raw = serde_json::to_string(&canonical).map_err(|_| Error::Storage)?;
+        let mut collect = Collector::new(&raw, limits)?;
+        for size in physical {
+            collect.physical(size)?;
+        }
+        collect
     } else {
-        Collector::new(value.value(), limits)?
+        if state.len().map_err(|_| Error::Storage)? != 1 {
+            return Err(Error::Storage);
+        }
+        let value = state
+            .get("state")
+            .map_err(|_| Error::Storage)?
+            .ok_or(Error::Storage)?;
+        if version < 8 {
+            Collector::legacy(value.value(), limits)?
+        } else if version == 8 {
+            Collector::previous(value.value(), limits)?
+        } else {
+            Collector::new(value.value(), limits)?
+        }
     };
     for entry in tx
         .open_table(ROWS)
@@ -241,7 +320,6 @@ pub(super) fn snapshot_in_format(
     if version != 3 {
         references::collect(tx, &mut collect)?;
     }
-    drop(value);
     drop(state);
     drop(marker);
 

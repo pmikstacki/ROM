@@ -8,6 +8,8 @@ rustc --version
 cargo fmt --all -- --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo test --workspace --locked
+cargo clippy -p rom-openrouter --features test-support --all-targets --locked -- -D warnings
+cargo test -p rom-openrouter --features test-support --locked
 RUSTDOCFLAGS='-D warnings' cargo doc --workspace --no-deps --locked
 cargo check -p rom --no-default-features --locked
 cargo run -p rom-consumer --locked
@@ -17,6 +19,13 @@ if rg -i 'rusqlite|redb|axum|hyper|reqwest|tower|bevy|rom-derive|rom-conformance
   exit 1
 fi
 node tests/compile/check.mjs
+node tests/ai-tools-compile/check.mjs
+cargo fmt --manifest-path examples/ai-flows/Cargo.toml -- --check
+cargo clippy --manifest-path examples/ai-flows/Cargo.toml --all-targets --locked -- -D warnings
+cargo test --manifest-path examples/ai-flows/Cargo.toml --locked
+cargo fmt --manifest-path examples/maintenance-portal/Cargo.toml -- --check
+cargo clippy --manifest-path examples/maintenance-portal/Cargo.toml --all-features --all-targets --locked -- -D warnings
+cargo test --manifest-path examples/maintenance-portal/Cargo.toml --all-features --locked
 ./crates/rom-auth/verify
 
 ./crates/rom-identity/verify

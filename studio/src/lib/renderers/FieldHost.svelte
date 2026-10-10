@@ -26,6 +26,7 @@
     current,
     displayLabel,
     help,
+    draft = $bindable<EditorDraft>({}),
   }: {
     descriptor: FieldDescriptor;
     intent: FieldIntent;
@@ -37,6 +38,7 @@
     current?: WireValue;
     displayLabel?: string;
     help?: string;
+    draft?: EditorDraft;
   } = $props();
   const controlLabel = $derived(displayLabel || descriptor.name);
   const helpId = $props.id();
@@ -80,10 +82,9 @@
   );
   let expandedOpen = $state(false);
   let editorGeneration = $state(0);
-  let editorDraft = $state<EditorDraft>({});
   function mode(next: string) {
     if (readonly || unknownCodec) return;
-    editorDraft = {};
+    draft = {};
     if (direct) editorGeneration += 1;
     onerror("");
     onchange(
@@ -120,7 +121,7 @@
         {#if readonly}<div class="break-all text-sm">
             <ValueDisplay {descriptor} value={shown} />
           </div>{:else}{#key editorGeneration}<ValueEditor
-              bind:draft={editorDraft}
+              bind:draft
               shape={descriptor.shape}
               codec={descriptor.codec}
               enumLabels={descriptor.enum_labels}
@@ -138,7 +139,7 @@
     </Dialog.Root>
   {:else}
     {#key editorGeneration}<ValueEditor
-        bind:draft={editorDraft}
+        bind:draft
         shape={descriptor.shape}
         codec={descriptor.codec}
         enumLabels={descriptor.enum_labels}

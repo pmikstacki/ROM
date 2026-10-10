@@ -23,6 +23,8 @@ mod claims;
 mod error;
 mod identity;
 #[cfg(feature = "jwt")]
+mod key_id;
+#[cfg(feature = "jwt")]
 mod keys;
 mod profile;
 
@@ -30,6 +32,8 @@ mod profile;
 use claims::{present_claim, valid_name};
 pub use error::AuthError;
 pub use identity::{PrincipalKind, VerifiedIdentity};
+#[cfg(feature = "jwt")]
+pub use key_id::valid_key_id;
 #[cfg(feature = "oidc")]
 pub use oidc::OidcIdTokenAdapter;
 pub use profile::IdentityProfile;

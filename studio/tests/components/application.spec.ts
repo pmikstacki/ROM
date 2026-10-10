@@ -97,7 +97,7 @@ test("real app reports unavailable session without simulated data", async ({
     route.fulfill({ status: 503, json: { error: "down" } }),
   );
   await page.goto("./");
-  await expect(page.getByRole("alert")).toHaveText("Session unavailable.");
+  await expect(page.getByRole("alert")).toHaveText("Session temporarily unavailable. Your draft and selected context are retained.");
   await expect(
     page.getByRole("heading", { name: "Connect to ROM" }),
   ).toBeVisible();

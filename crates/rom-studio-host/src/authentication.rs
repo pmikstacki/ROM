@@ -1,9 +1,10 @@
+use crate::auth_diagnostics::{AuthOperation, AuthOutcome, AuthStage};
 use crate::{
     csrf,
     login::Attempt,
     oidc::Credentials,
     router::{Shared, no_store},
-    session::{SessionEvidence, secret},
+    session::{SessionEvidence, SessionValidity, secret},
 };
 use axum::{
     extract::{Path, Query, State},
@@ -16,29 +17,59 @@ use serde::Deserialize;
 use sha2::{Digest, Sha256};
 use std::sync::Arc;
 
+pub(crate) mod admission;
+
+#[cfg(test)]
+#[path = "authentication/admission_tests.rs"]
+mod admission_tests;
+
 pub(crate) async fn resolve(shared: &Arc<Shared>, cookie: &str) -> Result<Actor> {
-    let session = shared
-        .sessions
-        .lookup(cookie, shared.config.clock.now())
-        .ok_or(Error::Denied)?;
+    resolve_tagged(shared, cookie, AuthOperation::Session).await
+}
+pub(crate) async fn resolve_tagged(
+    shared: &Arc<Shared>,
+    cookie: &str,
+    operation: AuthOperation,
+) -> Result<Actor> {
+    let session = shared.sessions.lookup(cookie, shared.config.clock.now());
+    shared.auth.record(
+        operation,
+        AuthStage::SessionLookup,
+        if session.is_some() {
+            AuthOutcome::Succeeded
+        } else {
+            AuthOutcome::Denied
+        },
+    );
+    let session = session.ok_or(Error::Denied)?;
     let credentials = session.evidence.credentials.clone().ok_or(Error::Denied)?;
     let work_shared = shared.clone();
     let work_session = session.clone();
     let result = shared
         .auth
-        .run(async move {
-            if *work_session.cancellation().borrow() {
-                return Err(Error::Denied);
-            }
-            let actor = credentials.actor(&work_shared).await?;
-            if *work_session.cancellation().borrow() {
-                return Err(Error::Denied);
-            }
-            Ok(actor)
-        })
+        .run_queued_tagged(
+            operation,
+            shared.config.limits.acquisition_timeout,
+            async move {
+                if work_session.validity(work_shared.config.clock.now()) != SessionValidity::Current
+                {
+                    return Err(Error::Denied);
+                }
+                let actor = credentials.actor_observed(&work_shared, operation).await?;
+                if work_session.validity(work_shared.config.clock.now()) != SessionValidity::Current
+                {
+                    return Err(Error::Denied);
+                }
+                Ok(actor)
+            },
+        )
         .await;
-    if let Err(error) = &result {
-        shared.sessions.failed(cookie, error);
+    if let Err(error) = &result
+        && shared.sessions.failed(cookie, error)
+    {
+        shared
+            .auth
+            .record(operation, AuthStage::SessionRemoval, AuthOutcome::Succeeded);
     }
     result
 }

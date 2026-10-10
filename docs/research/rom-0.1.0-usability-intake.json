@@ -82,7 +82,24 @@
       "superseded_by": null,
       "investigation_classification": "framework_gap",
       "classification_basis": "Provisional release-coordinator triage; a candidate is not a confirmed defect or accepted implementation.",
-      "release_disposition": "candidate; requires research, selection, implementation and external acceptance"
+      "release_disposition": "candidate; requires research, selection, implementation and external acceptance",
+      "candidate_progress": {
+        "phase": "candidate_checked_not_release_admitted",
+        "evidence_kind": "installed_consumer_browser",
+        "evidence_directory": "/var/tmp/rom-portable-root-browser-fixed-20261007",
+        "executions": 12,
+        "engines": [
+          "chromium",
+          "webkit"
+        ],
+        "source_mode": "copied_checkout_candidate",
+        "remaining": [
+          "clean-source artifact admission",
+          "external consumer deployment acceptance",
+          "held-out human usability review"
+        ],
+        "release_accepted": false
+      }
     },
     {
       "id": "AP-UX-002",
@@ -105,7 +122,24 @@
       "superseded_by": null,
       "investigation_classification": "framework_gap",
       "classification_basis": "Provisional release-coordinator triage; a candidate is not a confirmed defect or accepted implementation.",
-      "release_disposition": "candidate; requires research, selection, implementation and external acceptance"
+      "release_disposition": "candidate; requires research, selection, implementation and external acceptance",
+      "candidate_progress": {
+        "phase": "candidate_checked_not_release_admitted",
+        "evidence_kind": "installed_consumer_browser",
+        "evidence_directory": "/var/tmp/rom-portable-root-browser-fixed-20261007",
+        "executions": 12,
+        "engines": [
+          "chromium",
+          "webkit"
+        ],
+        "source_mode": "copied_checkout_candidate",
+        "remaining": [
+          "clean-source artifact admission",
+          "external consumer deployment acceptance",
+          "held-out human usability review"
+        ],
+        "release_accepted": false
+      }
     },
     {
       "id": "AP-UX-003",
@@ -130,7 +164,24 @@
       "superseded_by": null,
       "investigation_classification": "framework_gap",
       "classification_basis": "Provisional release-coordinator triage; a candidate is not a confirmed defect or accepted implementation.",
-      "release_disposition": "candidate; requires research, selection, implementation and external acceptance"
+      "release_disposition": "candidate; requires research, selection, implementation and external acceptance",
+      "candidate_progress": {
+        "phase": "candidate_checked_not_release_admitted",
+        "evidence_kind": "installed_consumer_browser",
+        "evidence_directory": "/var/tmp/rom-portable-root-browser-fixed-20261007",
+        "executions": 12,
+        "engines": [
+          "chromium",
+          "webkit"
+        ],
+        "source_mode": "copied_checkout_candidate",
+        "remaining": [
+          "clean-source artifact admission",
+          "external consumer deployment acceptance",
+          "held-out human usability review"
+        ],
+        "release_accepted": false
+      }
     },
     {
       "id": "AP-UX-004",
@@ -168,7 +219,33 @@
       "superseded_by": null,
       "investigation_classification": "framework_gap",
       "classification_basis": "Provisional release-coordinator triage; a candidate is not a confirmed defect or accepted implementation.",
-      "release_disposition": "candidate; requires research, selection, implementation and external acceptance"
+      "release_disposition": "candidate; requires research, selection, implementation and external acceptance",
+      "candidate_progress": {
+        "phase": "candidate_checked_not_release_admitted",
+        "evidence_kind": "real_http_and_two_adapter_browser",
+        "evidence_directories": [
+          "/var/tmp/rom-recovery-sqlite-complete-20261007",
+          "/var/tmp/rom-recovery-redb-complete-20261007"
+        ],
+        "executions": 20,
+        "adapters": [
+          "sqlite",
+          "redb"
+        ],
+        "engines": [
+          "chromium",
+          "webkit"
+        ],
+        "source_mode": "authoring_checkout",
+        "native_compile_lock_sha256": "90241bd8d3d48b44cc18965e1dd495fce0cd4bdd0fd706e8fc7506266965b69a",
+        "remaining": [
+          "source-bound native compilation and artifact admission",
+          "production identity lifecycle",
+          "complete consumer navigation workflows",
+          "held-out human usability review"
+        ],
+        "release_accepted": false
+      }
     },
     {
       "id": "AP-UX-005",
@@ -185,6 +262,12 @@
           "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
           "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
           "item_id": "01a1156a-d91a-7212-9e9e-9076bad3e617",
+          "type": "userMessage"
+        },
+        {
+          "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
+          "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+          "item_id": "01a115ac-592a-7603-9b64-a7f4bdc7352d",
           "type": "userMessage"
         }
       ],
@@ -204,7 +287,33 @@
       "superseded_by": null,
       "investigation_classification": "framework_gap",
       "classification_basis": "Provisional release-coordinator triage; a candidate is not a confirmed defect or accepted implementation.",
-      "release_disposition": "candidate; requires research, selection, implementation and external acceptance"
+      "release_disposition": "candidate; requires research, selection, implementation and external acceptance",
+      "candidate_progress": {
+        "phase": "candidate_checked_not_release_admitted",
+        "evidence_kind": "real_http_and_two_adapter_browser",
+        "evidence_directories": [
+          "/var/tmp/rom-recovery-sqlite-complete-20261007",
+          "/var/tmp/rom-recovery-redb-complete-20261007"
+        ],
+        "executions": 20,
+        "adapters": [
+          "sqlite",
+          "redb"
+        ],
+        "engines": [
+          "chromium",
+          "webkit"
+        ],
+        "source_mode": "authoring_checkout",
+        "native_compile_lock_sha256": "90241bd8d3d48b44cc18965e1dd495fce0cd4bdd0fd706e8fc7506266965b69a",
+        "remaining": [
+          "source-bound native compilation and artifact admission",
+          "production identity lifecycle",
+          "complete consumer navigation workflows",
+          "held-out human usability review"
+        ],
+        "release_accepted": false
+      }
     },
     {
       "id": "AP-UX-006",
@@ -235,7 +344,17 @@
       "superseded_by": null,
       "investigation_classification": "framework_gap",
       "classification_basis": "Provisional release-coordinator triage; a candidate is not a confirmed defect or accepted implementation.",
-      "release_disposition": "candidate; requires research, selection, implementation and external acceptance"
+      "release_disposition": "candidate; requires research, selection, implementation and external acceptance",
+      "candidate_progress": {
+        "phase": "implementation_in_progress",
+        "public_seam": "rom-studio/auth",
+        "remaining": [
+          "frozen lifecycle review and source-bound public import",
+          "actual Authentik acquisition recovery",
+          "external consumer acceptance"
+        ],
+        "release_accepted": false
+      }
     },
     {
       "id": "AP-UX-007",
@@ -328,6 +447,12 @@
           "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
           "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
           "item_id": "01a1156a-d91a-7212-9e9e-9076bad3e617",
+          "type": "userMessage"
+        },
+        {
+          "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
+          "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+          "item_id": "01a11558-1568-7a12-a225-6fcd8c7164ac",
           "type": "userMessage"
         }
       ],
@@ -530,6 +655,12 @@
           "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
           "item_id": "01a11583-fb95-7f63-ba69-8698ced76e0b",
           "type": "userMessage"
+        },
+        {
+          "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
+          "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+          "item_id": "01a115a9-3946-7d91-a1a9-e83d6dfce33d",
+          "type": "userMessage"
         }
       ],
       "source_locations": [
@@ -639,6 +770,12 @@
           "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
           "turn_id": "01a1151b-50ef-7543-b1ba-fe182955be8b",
           "item_id": "01a1152c-98a2-7611-b4f8-c331f2248544",
+          "type": "userMessage"
+        },
+        {
+          "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
+          "turn_id": "01a11513-66a4-7c30-a318-bf4611d830f6",
+          "item_id": "01a11518-dea5-7442-a140-7750e2886bd9",
           "type": "userMessage"
         }
       ],
@@ -831,6 +968,12 @@
           "turn_id": "01a114f7-6fad-7971-9d7d-f16db46896c4",
           "item_id": "01a114fa-0461-7270-a9a5-6c5875448a10",
           "type": "userMessage"
+        },
+        {
+          "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
+          "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+          "item_id": "01a115a9-3946-7d91-a1a9-e83d6dfce33d",
+          "type": "userMessage"
         }
       ],
       "source_locations": [
@@ -868,6 +1011,12 @@
           "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
           "turn_id": "01a11243-dda9-7e43-947e-b6f9efde021d",
           "item_id": "01a11243-e948-7392-bd59-27609c0b2dbf",
+          "type": "userMessage"
+        },
+        {
+          "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
+          "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+          "item_id": "01a115ae-c75d-7e03-9884-37c48b10f49b",
           "type": "userMessage"
         }
       ],
@@ -1056,6 +1205,12 @@
           "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
           "item_id": "01a11583-fb9a-77a0-9694-f062bc7e8a02",
           "type": "userMessage"
+        },
+        {
+          "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
+          "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+          "item_id": "01a115ac-592a-7603-9b64-a7f4bdc7352d",
+          "type": "userMessage"
         }
       ],
       "source_locations": [
@@ -1108,6 +1263,99 @@
       "investigation_classification": "app_specific",
       "classification_basis": "Provisional release-coordinator triage; a candidate is not a confirmed defect or accepted implementation.",
       "release_disposition": "excluded_withdrawn"
+    },
+    {
+      "classification": "application_specific",
+      "source_locations": [
+        "/root/astral-plane/web/src/TransitPanel.svelte"
+      ],
+      "test_locations": [
+        "/root/astral-plane/web/tests/pdf-download.spec.ts"
+      ],
+      "status": "investigated_not_implemented",
+      "review_status": "consumer feedback inspected; generic acceptance pending selection",
+      "evidence_status": "conversation reviewed; consumer test claims not rerun",
+      "duplicate_of": null,
+      "superseded_by": null,
+      "investigation_classification": "app_specific",
+      "classification_basis": "Domain behavior remains in the consumer; reusable controls require separate selection.",
+      "release_disposition": "retain_in_consumer; evaluate_only_reusable_mechanics",
+      "id": "AP-UX-031",
+      "title": "Date timeline and selected temporal context",
+      "feedback_refs": [
+        {
+          "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
+          "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+          "item_id": "01a115a2-9a05-7320-8c34-9cf11d8312b6",
+          "type": "userMessage"
+        }
+      ],
+      "proposed_generic_seam": "Date selection and temporal controls preserve selected value; consumer owns transit calculation and comparisons.",
+      "acceptance": "Initial date selection is explicit; changing date updates the selected snapshot. Keyboard and touch controls remain usable. Export uses that selected snapshot."
+    },
+    {
+      "classification": "application_specific",
+      "source_locations": [],
+      "test_locations": [],
+      "status": "withdrawn",
+      "review_status": "source_reviewed; closed_withdrawn; no producer acceptance required",
+      "evidence_status": "conversation reviewed; consumer test claims not rerun",
+      "duplicate_of": null,
+      "superseded_by": null,
+      "investigation_classification": "app_specific",
+      "classification_basis": "Domain behavior remains in the consumer; reusable controls require separate selection.",
+      "release_disposition": "excluded_withdrawn",
+      "id": "AP-UX-032",
+      "title": "Music and sound request withdrawn",
+      "feedback_refs": [
+        {
+          "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
+          "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+          "item_id": "01a1159b-7f31-75a3-9a95-91c46e37b530",
+          "type": "userMessage"
+        },
+        {
+          "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
+          "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+          "item_id": "01a115a8-38ad-7133-bd62-8e66580ad484",
+          "type": "userMessage"
+        }
+      ],
+      "proposed_generic_seam": "No ROM work; owner explicitly assigned music to another conversation.",
+      "acceptance": "Do not add music or sound effects from this withdrawn request."
+    },
+    {
+      "id": "AP-UX-033",
+      "title": "Guest invitation and optional account save",
+      "classification": "application_owned_workflow",
+      "feedback_refs": [
+        {
+          "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
+          "turn_id": "01a114b0-49a3-7e90-b0bd-9ca83a0a7cc2",
+          "item_id": "01a114b1-e8c7-7603-866d-0a710e616903",
+          "type": "userMessage"
+        }
+      ],
+      "source_locations": [
+        "/root/astral-plane/web/src/InvitationGuest.svelte",
+        "/root/astral-plane/web/src/SavedInvitation.svelte",
+        "/root/astral-plane/src/invitations"
+      ],
+      "test_locations": [
+        "/root/astral-plane/web/tests/invitations.spec.ts",
+        "/root/astral-plane/web/tests/invitation-save.spec.ts",
+        "/root/astral-plane/tests/invitations.rs"
+      ],
+      "proposed_generic_seam": "Owner-bound forms, explicit consent, scoped authorization, durable idempotency, and recovery after lost acknowledgement. Invitation tokens and chart behavior remain application-owned.",
+      "acceptance": "A guest can complete the invitation without an account. Optional account save preserves the draft and retry identity. The sender receives one related Resource.",
+      "status": "classified_application_owned",
+      "review_status": "linked consumer report inspected; independent source and test reproduction pending",
+      "evidence_status": "Consumer reports implementation and tests. ROM coordinator has not independently rerun those tests.",
+      "duplicate_of": null,
+      "superseded_by": null,
+      "investigation_classification": "application_owned_workflow",
+      "classification_basis": "Guest invitation is an application feature. Shared form and recovery guarantees remain ROM acceptance requirements.",
+      "release_disposition": "Track application feedback without adding a chart-specific invitation subsystem to ROM."
     }
   ],
   "classification_status": "provisional_triage; no source candidate constitutes a confirmed producer defect"

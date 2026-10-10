@@ -1,2 +1,2 @@
-export { default as Badge } from "./badge.svelte";
-export { badgeVariants, type BadgeVariant } from "./badge.svelte";
+/** Stable Studio facade; generic behavior belongs to ROM UI. */
+export * from "rom-ui/primitives/badge";

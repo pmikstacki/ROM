@@ -5,6 +5,10 @@ description: Use when a ROM work control times out, loses its response, reports 
 
 # Diagnose durable work
 
+Use the `0.1.0` source candidate and its matching lockfile. Release acceptance remains open.
+For application autosave or AI flow recovery, select the public application API through the checkout's `docs/ai-development.md`.
+Operator grants and application grants are separate.
+
 Read the [native contract](../../../docs/native-extensions.md) for protocol and replay version ownership.
 Use the [bundle procedure](../README.md) to run `operator` preflight and its [fault example](../assets/operator/run.mjs).
 

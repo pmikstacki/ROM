@@ -42,7 +42,8 @@ impl Sqlite {
         snapshot.state.prepare_restore()?;
         let storage_limits = snapshot.state.storage_limits();
         let stage = Stage::new(destination.path())?;
-        let restored = Self::open_with_limits(stage.path(), storage_limits.clone())?;
+        let restored =
+            Self::open_with_validation_limits(stage.path(), storage_limits.clone(), limits)?;
         {
             let mut c = restored.connection.lock().map_err(|_| Error::Panicked)?;
             let tx = c
@@ -107,8 +108,11 @@ impl Sqlite {
             save_state(&tx, &snapshot.state)?;
             crate::index::rebuild(&tx, &snapshot, limits)?;
             tx.commit().map_err(|_| Error::Unknown)?;
+        }
+        {
+            let c = restored.connection.lock().map_err(|_| Error::Panicked)?;
             // Reject malformed reconstruction or exceeded native read limits before publication.
-            collect_snapshot(&c, limits)?.validate()?;
+            crate::snapshot::collect_snapshot(&c, limits)?.validate()?;
             let busy: i64 = c
                 .query_row("PRAGMA wal_checkpoint(TRUNCATE)", [], |r| r.get(0))
                 .map_err(|_| Error::Storage)?;

@@ -10,7 +10,7 @@ description = "Immutable folder and S3-compatible adapters for ROM blobs"
 [lints]
 workspace = true
 [dependencies]
-rom-blob = { path = "../rom-blob", version = "=0.0.3" }
+rom-blob = { path = "../rom-blob", version = "=0.1.0" }
 object_store = { version = "=0.14.2", features = ["aws"] }
 futures-util = { version = "=0.3.34", default-features = false, features = ["std"] }
 url = "=2.5.8"

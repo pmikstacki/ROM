@@ -153,7 +153,7 @@ fn explicit_legacy_archive_upgrade_preserves_data_and_requires_descriptors() {
         BackupLimits::default(),
     )
     .unwrap();
-    assert_eq!((result.archive_version, result.storage_format), (6, 8));
+    assert_eq!((result.archive_version, result.storage_format), (7, 11));
     let (_, upgraded) = read(&target, Backend::Sqlite, BackupLimits::default()).unwrap();
     let mut upgraded = serde_json::to_value(upgraded).unwrap();
     assert_eq!(upgraded["state"]["operator"]["receipts"], json!({}));
@@ -288,7 +288,7 @@ fn catalogued_archive_upgrade_preserves_or_binds_receipt_origin() {
                 Err(Error::Unsupported(_))
             ));
             let upgraded = upgrade(source.path(), &target).unwrap();
-            assert_eq!((upgraded.archive_version, upgraded.storage_format), (6, 8));
+            assert_eq!((upgraded.archive_version, upgraded.storage_format), (7, 11));
             let (_, data) = read(&target, Backend::Sqlite, BackupLimits::default()).unwrap();
             assert_eq!(data.receipts[0].replay_version, Some(origin.unwrap_or(2)));
             assert_eq!(data.receipts[0].row, snapshot.receipts[0].row);

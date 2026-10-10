@@ -1,3 +1,23 @@
+import { createLiveIntent } from "./live-intent.ts";
+import { createSessionBinding, sameOwner } from "./session-binding.ts";
+import { createMutationLane } from "./mutation-lane.ts";
+import { createEditorDrafts } from "./editor-drafts.ts";
+import { createCreationWorkflow } from "./creation-workflow.ts";
+import type { CreationDraft } from "./creation-drafts.ts";
+import type { CreationWorkflowState } from "./creation-workflow.ts";
+import { resourceDraftIdentity } from "../resources/form-draft.ts";
+import { copyApplicationState } from "./snapshot.ts";
+import type {
+  EditorSnapshot,
+  EditorPersistenceState,
+} from "./editor-drafts.ts";
+import type {
+  ManagedApplicationOptions,
+  ApplicationSessionState,
+  ApplicationRecoverySnapshot,
+  SessionRenewalOutcome,
+} from "./session-types.ts";
+export type { StudioAuthProfile } from "./session-types.ts";
 import { RemoteError } from "../client/client.ts";
 import { stringifyWire } from "../client/codec.ts";
 import { resourceTitle } from "../presentation/resource-presentation.ts";
@@ -19,6 +39,10 @@ import type {
 } from "../client/types.ts";
 export interface ApplicationState {
   phase: "disconnected" | "connecting" | "ready" | "error";
+  session?: ApplicationSessionState;
+  recovery?: ApplicationRecoverySnapshot | null;
+  editor?: EditorPersistenceState;
+  creation?: CreationWorkflowState | null;
   descriptors: ResourceDescriptor[];
   kind: string;
   rows: ProjectedView[];
@@ -36,6 +60,7 @@ export function createApplication(
   client: RomClient,
   key: () => string = () => globalThis.crypto.randomUUID(),
   revalidate?: () => Promise<boolean>,
+  managed?: ManagedApplicationOptions,
 ) {
   let state: ApplicationState = {
     phase: "disconnected",
@@ -56,16 +81,96 @@ export function createApplication(
     navigation = 0,
     rowSelection = 0,
     subscription: AbortController | undefined;
+  const liveIntent = createLiveIntent();
   let requests = new AbortController();
   const referenceRequests = new Set<AbortController>();
   const history: { query: QuerySpec; page: number }[] = [];
   let firstQuery: QuerySpec = { limit: 50 };
   const listeners = new Set<(state: ApplicationState) => void>();
+  let privateDenied = false;
+  let creationWork: ReturnType<typeof createCreationWorkflow> | null = null;
+  let creationKind = "";
+  let creationDefinition = "";
+  function disposeCreation() {
+    creationWork?.dispose();
+    creationWork = null;
+    creationKind = "";
+    creationDefinition = "";
+    update({ creation: null });
+  }
+  function creation(currentDefinition = false) {
+    if (!managed?.recovery.creationSlot)
+      throw Error("Creation recovery is not configured.");
+    const descriptor = state.descriptors.find(
+      (item) => item.kind === state.kind,
+    );
+    if (!descriptor || privateDenied)
+      throw Error("Creation Resource authority unavailable.");
+    const definition = resourceDraftIdentity(descriptor, "create");
+    if (
+      creationWork &&
+      creationKind === state.kind &&
+      (!currentDefinition || creationDefinition === definition)
+    )
+      return creationWork;
+    creationWork?.guardNavigation();
+    if (creationWork?.state.editor.snapshot)
+      throw Error(
+        "Resource definition changed. Discard creation edits before using the new definition.",
+      );
+    disposeCreation();
+    creationKind = state.kind;
+    creationDefinition = definition;
+    creationWork = createCreationWorkflow({
+      kind: state.kind,
+      descriptor: definition,
+      recovery: managed.recovery,
+      binding: () => ({ client, principal: session?.principal ?? null }),
+      allowed: () => !privateDenied && state.session?.mutationAllowed === true,
+      draftAllowed: () =>
+        !privateDenied &&
+        state.session?.status !== "denied" &&
+        !!session?.principal,
+      publish: (creation) => update({ creation }),
+    });
+    update({ creation: creationWork.state });
+    return creationWork;
+  }
   function update(patch: Partial<ApplicationState>) {
     state = { ...state, ...patch };
-    for (const listener of listeners) listener(state);
+    if (privateDenied)
+      state = {
+        ...state,
+        descriptors: [],
+        pending: null,
+        rows: [],
+        selected: null,
+        work: null,
+        error: "",
+        query: { limit: 50 },
+        editor: { status: "idle", target: null, snapshot: null },
+        creation: null,
+        recovery: state.recovery
+          ? {
+              target: state.recovery.target,
+              state: {
+                ...state.recovery.state,
+                draft: null,
+                result: null,
+                error: null,
+              },
+            }
+          : null,
+      };
+    for (const listener of listeners)
+      listener(
+        managed
+          ? copyApplicationState(state, managed.recovery.maxBytes)
+          : state,
+      );
   }
   function stopLive() {
+    liveIntent.stop();
     subscription?.abort();
     subscription = undefined;
     update({ live: false });
@@ -152,9 +257,15 @@ export function createApplication(
     return firstQuery;
   }
   async function selectKind(kind: string, query: QuerySpec = { limit: 50 }) {
+    editors?.guardNavigation();
+    lane?.guardNavigation();
+    creationWork?.guardNavigation();
     await loadPage(kind, resetQuery(query), 1);
   }
   async function applyQuery(query: QuerySpec) {
+    editors?.guardNavigation();
+    lane?.guardNavigation();
+    creationWork?.guardNavigation();
     if (!state.kind) throw Error("Choose a Resource before applying a query.");
     const started = epoch,
       kind = state.kind,
@@ -175,6 +286,9 @@ export function createApplication(
       void observe();
   }
   async function nextPage() {
+    editors?.guardNavigation();
+    lane?.guardNavigation();
+    creationWork?.guardNavigation();
     if (state.busy || !state.rows.length) return;
     const started = epoch,
       nav = navigation,
@@ -215,6 +329,9 @@ export function createApplication(
     }
   }
   async function previousPage() {
+    editors?.guardNavigation();
+    lane?.guardNavigation();
+    creationWork?.guardNavigation();
     if (state.busy) return;
     const previous = history.pop();
     if (!previous) return;
@@ -233,6 +350,9 @@ export function createApplication(
       void observe();
   }
   async function firstPage() {
+    editors?.guardNavigation();
+    lane?.guardNavigation();
+    creationWork?.guardNavigation();
     if (state.busy) return;
     const wasLive = state.live,
       started = epoch,
@@ -273,6 +393,9 @@ export function createApplication(
     }
   }
   async function selectRow(id: string) {
+    editors?.guardNavigation();
+    lane?.guardNavigation();
+    creationWork?.guardNavigation();
     const started = epoch,
       nav = navigation,
       selection = ++rowSelection;
@@ -307,6 +430,46 @@ export function createApplication(
     operation: Operation,
   ) {
     if (
+      managed?.recovery.creationSlot &&
+      expected === null &&
+      operation.type === "create"
+    ) {
+      editors?.guardNavigation();
+      lane?.guardNavigation();
+      const started = epoch;
+      try {
+        const result = await creation(true).submit(id, operation);
+        if (started === epoch) {
+          update({ selected: result });
+          await refresh();
+        }
+      } catch (problem) {
+        if (started === epoch) update({ error: message(problem) });
+        throw problem;
+      }
+      return;
+    }
+    creationWork?.guardNavigation();
+    if (lane) {
+      editors?.guardNavigation();
+      const started = epoch;
+      try {
+        const result = await lane.mutate(
+          { kind: state.kind, id },
+          expected,
+          operation,
+        );
+        if (started === epoch) {
+          update({ selected: result });
+          await refresh();
+        }
+      } catch (problem) {
+        if (started === epoch) update({ error: message(problem) });
+        throw problem;
+      }
+      return;
+    }
+    if (
       state.pending?.state === "unknown" ||
       state.pending?.state === "pending"
     )
@@ -326,6 +489,20 @@ export function createApplication(
     );
   }
   async function retry() {
+    if (lane) {
+      const started = epoch;
+      try {
+        const result = await lane.retry();
+        if (started === epoch) {
+          update({ selected: result });
+          await refresh();
+        }
+      } catch (problem) {
+        if (started === epoch) update({ error: message(problem) });
+        throw problem;
+      }
+      return;
+    }
     if (state.pending?.state !== "unknown")
       throw Error("No unknown mutation to retry.");
     await submit(state.pending);
@@ -342,13 +519,26 @@ export function createApplication(
     }
   }
   async function observe() {
-    stopLive();
+    liveIntent.start();
+    if (managed && state.session?.status !== "active") return;
+    return runObservation();
+  }
+  async function runObservation() {
     const started = epoch,
       nav = navigation,
-      controller = new AbortController();
+      previous = subscription;
+    previous?.abort();
+    if (
+      started !== epoch ||
+      nav !== navigation ||
+      subscription !== previous ||
+      !liveIntent.wanted ||
+      (managed && state.session?.status !== "active")
+    )
+      return;
+    const controller = new AbortController();
     subscription = controller;
     update({ live: true, error: "" });
-    let consecutiveRecoveries = 0;
     try {
       while (
         !controller.signal.aborted &&
@@ -367,7 +557,7 @@ export function createApplication(
               controller.signal.aborted
             )
               return;
-            consecutiveRecoveries = 0;
+            liveIntent.snapshot();
             const selected = state.selected,
               selection = rowSelection;
             update({ rows });
@@ -390,10 +580,9 @@ export function createApplication(
           if (
             problem instanceof RemoteError &&
             problem.category === "identity_expired" &&
-            consecutiveRecoveries < 1 &&
-            revalidate
+            revalidate &&
+            liveIntent.recover()
           ) {
-            consecutiveRecoveries++;
             let valid = false;
             try {
               valid = await revalidate();
@@ -414,6 +603,7 @@ export function createApplication(
       }
     } finally {
       if (subscription === controller) {
+        liveIntent.stop();
         subscription = undefined;
         update({ live: false });
       }
@@ -526,7 +716,164 @@ export function createApplication(
       controller.abort();
     }
   }
+  function fenceSession() {
+    epoch++;
+    navigation++;
+    rowSelection++;
+    requests.abort();
+    requests = new AbortController();
+    for (const request of referenceRequests) request.abort();
+    referenceRequests.clear();
+    subscription?.abort();
+    subscription = undefined;
+  }
+  function denyProjection() {
+    liveIntent.stop();
+    privateDenied = true;
+    fenceSession();
+    const ticket = epoch;
+    history.length = 0;
+    update({
+      rows: [],
+      selected: null,
+      work: null,
+      hasPrevious: false,
+      page: 1,
+      editor: { status: "idle", target: null, snapshot: null },
+      ...(state.recovery
+        ? {
+            recovery: {
+              target: state.recovery.target,
+              state: {
+                ...state.recovery.state,
+                draft: null,
+                result: null,
+                error: null,
+              },
+            },
+          }
+        : {}),
+    });
+    if (ticket === epoch) editors?.rebind(null);
+  }
+  async function renewSession(
+    preserve: boolean,
+  ): Promise<SessionRenewalOutcome> {
+    if (!preserve || !state.kind) {
+      await connect();
+      return state.phase === "ready" && !state.error ? "fresh" : "transient";
+    }
+    const ticket = epoch,
+      kind = state.kind,
+      selected = state.selected;
+    try {
+      const discovered = await client.discover(requests.signal);
+      if (ticket !== epoch) return "transient";
+      if (!discovered.resources.some((item) => item.kind === kind)) {
+        update({ descriptors: discovered.resources });
+        if (ticket !== epoch) return "transient";
+        denyProjection();
+        return "denied";
+      }
+      const rows = await client.query(kind, state.query, requests.signal);
+      if (ticket !== epoch) return "transient";
+      let current = selected;
+      if (selected) {
+        current = await client.read(kind, selected.key.id, requests.signal);
+      }
+      if (ticket !== epoch) return "transient";
+      privateDenied = false;
+      update({
+        descriptors: discovered.resources,
+        rows,
+        selected: current,
+        error: "",
+      });
+      return "fresh";
+    } catch (problem) {
+      if (ticket !== epoch) return "transient";
+      const denied =
+        problem instanceof RemoteError &&
+        ((problem.category === "denied" && problem.status === 403) ||
+          (problem.category === "missing" && problem.status === 404));
+      if (denied) denyProjection();
+      if (ticket === epoch) update({ error: message(problem) });
+      return denied ? "denied" : "transient";
+    }
+  }
+  let session: ReturnType<typeof createSessionBinding> | null = null;
+  const lane: ReturnType<typeof createMutationLane> | null = managed
+    ? createMutationLane({
+        recovery: managed.recovery,
+        binding: () => ({ client, principal: session?.principal ?? null }),
+        allowed: () => state.session?.mutationAllowed === true,
+        publish: (recovery) => update({ recovery }),
+      })
+    : null;
+  const editors: ReturnType<typeof createEditorDrafts> | null = managed
+    ? createEditorDrafts({
+        recovery: managed.recovery,
+        binding: () => ({ client, principal: session?.principal ?? null }),
+        publish: (editor) => update({ editor }),
+      })
+    : null;
+  session = managed
+    ? createSessionBinding({
+        client: () => client,
+        setClient: (next) => {
+          client = next;
+        },
+        fence: fenceSession,
+        rebind: (binding) => {
+          editors!.rebind(binding.principal);
+          return Promise.all([
+            lane!.rebind(binding),
+            creationWork?.rebind(binding),
+          ]).then(() => {});
+        },
+        clear: () => {
+          liveIntent.stop();
+          disposeCreation();
+          privateDenied = false;
+          history.length = 0;
+          update({
+            phase: "disconnected",
+            descriptors: [],
+            kind: "",
+            rows: [],
+            selected: null,
+            pending: null,
+            recovery: null,
+            editor: { status: "idle", target: null, snapshot: null },
+            work: null,
+            error: "",
+            page: 1,
+            hasPrevious: false,
+          });
+        },
+        renew: renewSession,
+        publish: (next) => {
+          const publishedEpoch = epoch,
+            publishedNavigation = navigation;
+          update({ session: next, busy: false, live: false });
+          if (
+            publishedEpoch === epoch &&
+            publishedNavigation === navigation &&
+            next.status === "active" &&
+            state.session?.status === "active" &&
+            liveIntent.wanted &&
+            !subscription
+          )
+            void runObservation();
+        },
+      })
+    : null;
   function disconnect() {
+    disposeCreation();
+    if (session) {
+      session.clear();
+      lane?.dispose();
+    }
     epoch++;
     navigation++;
     rowSelection++;
@@ -548,14 +895,156 @@ export function createApplication(
       hasPrevious: false,
     });
   }
+  function createDraftWriter(id: string) {
+    if (!session || !lane || !editors)
+      throw Error("managed draft binding unavailable");
+    const owner = session.principal;
+    const target = { kind: state.kind, id };
+    const check = () => {
+      if (!sameOwner(owner, session?.principal ?? null))
+        throw Error("Draft owner changed.");
+      if (privateDenied || state.session?.status === "denied")
+        throw Error("Draft authority denied.");
+      if (
+        target.kind !== state.kind ||
+        state.selected?.key.kind !== target.kind ||
+        state.selected.key.id !== target.id
+      )
+        throw Error("Draft target changed.");
+    };
+    check();
+    return {
+      refuse() {
+        check();
+        editors.refuse(target);
+      },
+      async stage(
+        snapshot:
+          EditorSnapshot | ((current: EditorSnapshot | null) => EditorSnapshot),
+        operation: Operation | null,
+      ) {
+        check();
+        let next: EditorSnapshot;
+        try {
+          const current = editors.state;
+          next =
+            typeof snapshot === "function"
+              ? snapshot(
+                  current.target?.kind === target.kind &&
+                    current.target.id === target.id
+                    ? current.snapshot
+                    : null,
+                )
+              : snapshot;
+        } catch (problem) {
+          check();
+          editors.refuse(target);
+          throw problem;
+        }
+        check();
+        await editors.stage(target, next);
+        check();
+        await lane.stage(target, operation);
+        check();
+      },
+    };
+  }
   return {
+    get creationSupported() {
+      return !!managed?.recovery.creationSlot;
+    },
+    createCreationWriter() {
+      const owner = session?.principal ?? null,
+        kind = state.kind;
+      let workflow = creation();
+      return {
+        async stage(value: CreationDraft) {
+          if (
+            !sameOwner(owner, session?.principal ?? null) ||
+            kind !== state.kind ||
+            workflow !== creationWork
+          )
+            throw Error("Creation draft owner or kind changed.");
+          const descriptor = state.descriptors.find(
+            (item) => item.kind === kind,
+          );
+          if (
+            !descriptor ||
+            value.form.descriptor !==
+              resourceDraftIdentity(descriptor, "create")
+          )
+            throw Error("Creation draft definition changed.");
+          workflow = creation(true);
+          await workflow.stage(value);
+        },
+      };
+    },
+    restoreCreation: () => creation().restore(),
+    retryCreation: async () => {
+      const started = epoch;
+      const result = await creation().retry();
+      if (started === epoch) {
+        update({ selected: result });
+        await refresh();
+      }
+    },
+    discardCreation: (acknowledgePossibleCommit = false) =>
+      creation().discard(acknowledgePossibleCommit),
+    createDraftWriter,
     get state() {
-      return state;
+      return managed
+        ? copyApplicationState(state, managed.recovery.maxBytes)
+        : state;
     },
     subscribe(listener: (state: ApplicationState) => void) {
       listeners.add(listener);
-      listener(state);
+      listener(
+        managed
+          ? copyApplicationState(state, managed.recovery.maxBytes)
+          : state,
+      );
       return () => listeners.delete(listener);
+    },
+    pauseSession: (reason: "transient" | "renewing") => {
+      if (!session) throw Error("managed session unavailable");
+      session.pause(reason);
+    },
+    rebindSession: (
+      binding: import("./session-types.ts").ApplicationBinding,
+    ) => {
+      if (!session) throw Error("managed session unavailable");
+      return session.rebind(binding);
+    },
+    stageDraft: async (id: string, operation: Operation | null) => {
+      if (!lane) throw Error("managed recovery unavailable");
+      if (privateDenied)
+        throw Error("Resource authority denied; draft unavailable.");
+      return lane.stage({ kind: state.kind, id }, operation);
+    },
+    stageEditorDraft: (id: string, snapshot: EditorSnapshot) => {
+      if (!editors) throw Error("managed recovery unavailable");
+      return editors.stage({ kind: state.kind, id }, snapshot);
+    },
+    restoreSelectedIntent: async () => {
+      if (
+        !lane ||
+        !editors ||
+        !state.selected ||
+        !state.session?.mutationAllowed
+      )
+        throw Error("Choose an explicit authorized recovery target.");
+      const target = { ...state.selected.key },
+        ticket = epoch;
+      await lane.restore(target);
+      if (ticket !== epoch) throw Error("recovery binding changed");
+      await editors.restore(target);
+      if (ticket !== epoch) throw Error("recovery binding changed");
+    },
+    discardSelectedIntent: (options: {
+      acknowledgePossibleCommit: boolean;
+    }) => {
+      if (!lane) throw Error("managed recovery unavailable");
+      return lane.discard(options.acknowledgePossibleCommit);
     },
     connect,
     selectKind,

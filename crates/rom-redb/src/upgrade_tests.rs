@@ -1,9 +1,9 @@
 //! Previous native format is inspected without changing its retry protocol.
 use crate::{
     Redb,
-    format::{META, STATE},
+    format::{ACTIVE, META, POSITIONS, ROOTS, STATE, WORK},
 };
-use redb::ReadableTable;
+use redb::ReadableDatabase;
 use rom::{
     Bundle, Error, Key, Receipt, Resource, RetryEpochs, Row, Storage, StorageLimits, StorageState,
     json,
@@ -72,18 +72,32 @@ fn source(path: &std::path::Path, origin: Option<u32>) -> RetryEpochs {
         || Ok(()),
     )
     .unwrap();
+    let canonical =
+        crate::maintenance::snapshot(&db.db.begin_read().unwrap(), BackupLimits::default())
+            .unwrap()
+            .state;
     drop(db);
     let db = redb::Database::open(path).unwrap();
     let tx = db.begin_write().unwrap();
     let state = {
         let table = tx.open_table(STATE).unwrap();
-        let raw = table.get("state").unwrap().unwrap();
-        let mut state: serde_json::Value = serde_json::from_str(raw.value()).unwrap();
+        let mut state = serde_json::to_value(canonical).unwrap();
+        drop(table);
         // This fixture has no work, so the only new state field is the operator ledger.
         assert_eq!(state["work"]["work"], json!({}));
         state.as_object_mut().unwrap().remove("operator").unwrap();
         serde_json::to_string(&state).unwrap()
     };
+    {
+        let mut table = tx.open_table(STATE).unwrap();
+        for key in ["metadata", "work_header", "operator"] {
+            table.remove(key).unwrap();
+        }
+    }
+    tx.delete_table(WORK).unwrap();
+    tx.delete_table(ROOTS).unwrap();
+    tx.delete_table(ACTIVE).unwrap();
+    tx.delete_table(POSITIONS).unwrap();
     tx.open_table(STATE)
         .unwrap()
         .insert("state", state.as_str())

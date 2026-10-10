@@ -517,3 +517,178 @@ fn service_reports_exact_runtime_and_validated_transport_limits() {
     assert!(!runtime.same_instance(&unrelated));
     assert!(!service.uses_runtime(&unrelated));
 }
+
+// Keep admission denial separate from acknowledgement denial after a real commit.
+#[derive(Clone, Copy)]
+enum AcknowledgementMutation {
+    Upload,
+    Detach,
+}
+async fn assert_post_commit_acknowledgement(mutation: AcknowledgementMutation) {
+    let detaching = matches!(mutation, AcknowledgementMutation::Detach);
+    let terminal = if detaching {
+        BlobState::Detached
+    } else {
+        BlobState::Ready
+    };
+    let directory = std::env::temp_dir().join(format!(
+        "rom-blob-ack-{}-{}-{}",
+        if detaching { "detach" } else { "upload" },
+        std::process::id(),
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_nanos()
+    ));
+    std::fs::create_dir(&directory).unwrap();
+    let definition = || {
+        if detaching {
+            definition().policy(|actor, _, blob| {
+                actor == &worker_actor()
+                    || (actor.subject == "alice" && blob.state != BlobState::Detached)
+            })
+        } else {
+            definition().policy(|actor, _, blob| {
+                actor == &worker_actor()
+                    || (actor.subject == "alice" && blob.state != BlobState::Ready)
+            })
+        }
+    };
+    let database = Arc::new(rom_sqlite::Sqlite::open(directory.join("database")).unwrap());
+    let runtime = Runtime::builder()
+        .resource(definition())
+        .build(database.clone(), Runtime::shared_cpu_pool(2).unwrap())
+        .unwrap();
+    let store = Arc::new(Memory::default());
+    let service = BlobService::builder(runtime.clone())
+        .store("attachments", store.clone())
+        .build()
+        .unwrap();
+    let actor = Actor::trusted("test", "alice");
+    reserve(&service, &actor).await;
+    let uploaded = if detaching {
+        Some(service.upload(&actor, "one", upload(b"hello")).await)
+    } else {
+        None
+    };
+    let denied_actor = Actor::trusted("test", "bob");
+    let denied = if detaching {
+        service.detach(&denied_actor, "one").await.map(|_| ())
+    } else {
+        service
+            .upload(&denied_actor, "one", upload(b"hello"))
+            .await
+            .map(|_| ())
+    };
+    let before = runtime.read::<Blob>(&worker_actor(), "one").await;
+    let before_counts = database.counts();
+    let upload_result = if detaching {
+        None
+    } else {
+        Some(service.upload(&actor, "one", upload(b"hello")).await)
+    };
+    let detach_result = if detaching {
+        Some(service.detach(&actor, "one").await)
+    } else {
+        None
+    };
+    let final_snapshot = runtime.read::<Blob>(&worker_actor(), "one").await;
+    let final_counts = database.counts();
+    let caller = runtime.read::<Blob>(&actor, "one").await;
+    let service_drained = service.shutdown().await;
+    let runtime_drained = runtime.shutdown().await;
+    service_drained.unwrap();
+    runtime_drained.unwrap();
+    if detaching {
+        assert!(matches!(uploaded, Some(Ok(UploadOutcome::Attached(_)))));
+    }
+    assert!(matches!(denied, Err(Error::Core(rom::Error::Denied))));
+    let before = before.unwrap();
+    assert_eq!(
+        before_counts.unwrap(),
+        if detaching {
+            [1, 2, 2, 0]
+        } else {
+            [1, 1, 1, 0]
+        }
+    );
+    assert_eq!(before.revision, if detaching { 2 } else { 1 });
+    assert_eq!(
+        before.value.unwrap().state,
+        if detaching {
+            BlobState::Ready
+        } else {
+            BlobState::Pending
+        }
+    );
+    let unconfirmed_object = match mutation {
+        AcknowledgementMutation::Upload => match upload_result {
+            Some(Ok(UploadOutcome::Unattached { object, cause })) => {
+                assert_eq!(cause, rom::Error::Denied);
+                Some(object)
+            }
+            other => panic!("expected unconfirmed attachment, got {other:?}"),
+        },
+        AcknowledgementMutation::Detach => {
+            assert!(matches!(detach_result, Some(Err(Error::Unknown))));
+            None
+        }
+    };
+    assert_eq!(
+        final_counts.unwrap(),
+        if detaching {
+            [1, 3, 3, 0]
+        } else {
+            [1, 2, 2, 0]
+        }
+    );
+    assert!(matches!(caller, Err(rom::Error::Denied)));
+    let final_snapshot = final_snapshot.unwrap();
+    assert_eq!(final_snapshot.revision, if detaching { 3 } else { 2 });
+    let final_blob = final_snapshot.value.unwrap();
+    assert_eq!(final_blob.state, terminal);
+    assert_eq!(final_blob.upload_revision, 1);
+    if let Some(object) = unconfirmed_object {
+        assert_eq!(object.digest, Digest::of(b"hello"));
+        assert_eq!(object.bytes, 5);
+        assert_eq!(
+            store.0.lock().unwrap().get(object.key.as_str()),
+            Some(&b"hello".to_vec())
+        );
+    }
+    assert_eq!(
+        store
+            .0
+            .lock()
+            .unwrap()
+            .values()
+            .cloned()
+            .collect::<Vec<_>>(),
+        vec![b"hello".to_vec()]
+    );
+    drop(service);
+    drop(runtime);
+    drop(database);
+    let reopened = Arc::new(rom_sqlite::Sqlite::open(directory.join("database")).unwrap());
+    let check = Runtime::builder()
+        .resource(definition())
+        .build(reopened, Runtime::shared_cpu_pool(1).unwrap())
+        .unwrap();
+    let persisted = check.read::<Blob>(&worker_actor(), "one").await;
+    check.shutdown().await.unwrap();
+    let persisted = persisted.unwrap();
+    assert_eq!(persisted.revision, final_snapshot.revision);
+    assert_eq!(
+        rom::Resource::encode(&persisted.value.unwrap()),
+        rom::Resource::encode(&final_blob)
+    );
+    std::fs::remove_dir_all(directory).unwrap();
+}
+#[tokio::test]
+async fn post_commit_caller_denial_preserves_ambiguous_acknowledgement() {
+    assert_post_commit_acknowledgement(AcknowledgementMutation::Upload).await;
+}
+#[tokio::test]
+async fn post_commit_caller_denial_preserves_ambiguous_detachment() {
+    assert_post_commit_acknowledgement(AcknowledgementMutation::Detach).await;
+}

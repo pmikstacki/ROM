@@ -9,9 +9,18 @@ let restored = rom_sqlite::Sqlite::restore_from(
 )?;
 ```
 
-The redb methods have the same signatures. The destination must be new. Restore refuses existing paths and symlinks. Archives are backend-specific, archive format 6 / database format 8. This is not a cross-backend migration or automatic format upgrade. Archives include canonical descriptors, retry epoch boundaries, operator receipts, delivery profiles and the validated live reference graph.
+The redb methods have the same signatures. The destination must be new. Restore refuses existing paths and symlinks.
+New candidate archives identify archive format 7 / database format 10. Archives remain backend-specific.
+The reader also accepts archive-7/database-9 through the same canonical validator and retains the original manifest marker.
+This is not a cross-backend migration or automatic native format upgrade.
+Archives include canonical descriptors, retry epoch boundaries, operator receipts, delivery profiles and the validated live reference graph.
 
-To upgrade an older archive, call `rom_backup::upgrade_v1_archive(source, destination, backend, descriptors, limits)`. Supply explicit descriptors for every stored kind. For catalogued archives, use `upgrade_v2_archive(source, destination, backend, limits)`, `upgrade_v3_archive`, `upgrade_v4_archive`, or `upgrade_v5_archive` for source archive versions 2, 3, 4, or 5 respectively. These operations preserve the source. Native adapters also provide `upgrade_from` for formats 3 through 7 into a fresh format-8 destination. Archive-4/5 and native-format-6/7 upgrades preserve retry epochs and receipt origins unchanged. Earlier sources require epoch-zero metadata.
+To upgrade an older archive, call `rom_backup::upgrade_v1_archive(source, destination, backend, descriptors, limits)`. Supply explicit descriptors for every stored kind. For catalogued archives, use `upgrade_v2_archive(source, destination, backend, limits)`, `upgrade_v3_archive`, `upgrade_v4_archive`, `upgrade_v5_archive`, or `upgrade_v6_archive` for source archive versions 2, 3, 4, 5, or 6 respectively. These operations preserve the source.
+Native adapters also provide `upgrade_from` for formats 3 through 9 into a fresh format-10 destination.
+Archive-4/5/6 and native-format-6/7/8/9 upgrades preserve retry epochs and receipt origins unchanged.
+Native format 10 separates retained Work records from bounded metadata. Canonical archives preserve the logical state representation.
+The 0.1.0 candidate adds frozen delayed-work eligibility. Accepted 0.0.3 remains archive format 6 / database format 8.
+Full release acceptance remains open. Earlier sources require epoch-zero metadata.
 
 Use [offline retention](../../docs/retention.md) to reclaim expired history. It shares
 dependency checks across adapters and requires explicit host retry boundaries.

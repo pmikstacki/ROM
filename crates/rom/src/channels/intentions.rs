@@ -46,6 +46,7 @@ impl Runtime {
                 cause,
                 definition: def.name.clone(),
                 version,
+                not_before: intent.not_before,
                 delivery_profile: def.profile.clone(),
                 service_key: def.actor.key(),
                 payload: WorkPayload::Notification {

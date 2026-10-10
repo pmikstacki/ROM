@@ -74,7 +74,15 @@ pub struct PendingWork {
     pub version: u32,
     pub service_key: String,
     pub delivery_profile: DeliveryProfile,
+    /// Immutable eligibility floor. It cannot extend the original work budgets.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub not_before: Option<u64>,
     pub payload: WorkPayload,
+}
+impl PendingWork {
+    pub(super) fn eligibility_floor(&self) -> u64 {
+        self.cause.started_at.max(self.not_before.unwrap_or(0))
+    }
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum StopReason {

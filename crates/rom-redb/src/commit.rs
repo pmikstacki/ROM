@@ -6,6 +6,9 @@ use std::sync::atomic::Ordering;
 
 impl Redb {
     pub(super) fn commit_bundle(&self, b: &Bundle) -> Result<Receipt> {
+        if self.native_format == JOURNAL_FORMAT {
+            return crate::native_journal::commit_bundle(self, b);
+        }
         // Keep the uncertain-state update serialized with other writers, including
         // the interval after redb releases its internal transaction lock.
         let _writer = self.commit_gate.lock().map_err(|_| Error::Storage)?;
@@ -17,7 +20,8 @@ impl Redb {
             .map_err(|_| Error::Storage)?;
         {
             let mut state_table = tx.open_table(STATE).map_err(|_| Error::Storage)?;
-            let mut state = crate::state::read(&state_table)?;
+            let state = crate::native_state::metadata(&state_table)?;
+            let mut work = crate::native_work::NativeWork::new(&tx, &state_table)?;
             let mut receipts = tx.open_table(RECEIPTS).map_err(|_| Error::Storage)?;
             let prior: Option<Receipt> = receipts
                 .get(b.receipt.identity.as_str())
@@ -28,9 +32,10 @@ impl Redb {
                 b.receipt.retry_epoch,
                 prior.is_some(),
                 b.completed_work.as_ref().map(|(key, now)| (key, *now)),
+                &work,
             )?;
             if let Some(prior) = prior {
-                state.check_retry_epoch(prior.retry_epoch, true, None)?;
+                state.check_retry_epoch(prior.retry_epoch, true, None, &work)?;
                 return if prior.fingerprint == b.receipt.fingerprint
                     && prior.retry_epoch == b.receipt.retry_epoch
                 {
@@ -49,25 +54,11 @@ impl Redb {
                 .map_err(|_| Error::Storage)?
                 .map(|v| serde_json::from_str(v.value()).map_err(|_| Error::Storage))
                 .transpose()?;
-            if existing.as_ref().map(|r| r.revision) != b.expected {
-                return Err(Error::Conflict);
-            }
-            let revision = b
-                .expected
-                .unwrap_or(0)
-                .checked_add(u64::from(b.changed))
-                .ok_or(Error::TooLarge)?;
-            if b.receipt.row.revision != revision
-                || (!b.changed
-                    && (!b.effects.is_empty() || existing.as_ref() != Some(&b.receipt.row)))
-            {
-                return Err(Error::NotCommitted);
-            }
-            // Common profile matches SQLite's representable revision range.
-            i64::try_from(revision).map_err(|_| Error::TooLarge)?;
+            validate_resource(b, existing.as_ref())?;
             let (old_references, new_references) =
                 references::prepare(&tx, &rows, &b.receipt, existing.as_ref())?;
-            let retired = state.bundle(b)?;
+            let delta = rom::storage_support::metadata::prepare_bundle(&state, &work, b)?;
+            let (next, work_delta, retired) = delta.into_parts();
             let row = serde_json::to_string(&b.receipt.row).map_err(|_| Error::NotCommitted)?;
             let receipt = serde_json::to_string(&b.receipt).map_err(|_| Error::NotCommitted)?;
             let mut ordinal = 0;
@@ -103,7 +94,11 @@ impl Redb {
                 ordinal += 1;
                 self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
             }
-            crate::state::write(&mut state_table, &state)?;
+            work.apply(work_delta, &mut state_table, &mut || {
+                ordinal += 1;
+                self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)
+            })?;
+            crate::native_state::write_metadata(&mut state_table, &next)?;
             ordinal += 1;
             self.checkpoint(ordinal).map_err(|_| Error::NotCommitted)?;
             let mut effects = tx.open_table(EFFECTS).map_err(|_| Error::NotCommitted)?;
@@ -130,4 +125,23 @@ impl Redb {
         self.checkpoint(usize::MAX).map_err(|_| Error::Unknown)?;
         Ok(b.receipt.clone())
     }
+}
+
+pub(super) fn validate_resource(b: &Bundle, existing: Option<&Row>) -> Result<()> {
+    if existing.map(|r| r.revision) != b.expected {
+        return Err(Error::Conflict);
+    }
+    let revision = b
+        .expected
+        .unwrap_or(0)
+        .checked_add(u64::from(b.changed))
+        .ok_or(Error::TooLarge)?;
+    if b.receipt.row.revision != revision
+        || (!b.changed && (!b.effects.is_empty() || existing != Some(&b.receipt.row)))
+    {
+        return Err(Error::NotCommitted);
+    }
+    // Common profile matches SQLite's representable revision range.
+    i64::try_from(revision).map_err(|_| Error::TooLarge)?;
+    Ok(())
 }

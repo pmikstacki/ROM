@@ -42,6 +42,7 @@ impl Runtime {
                 cause,
                 definition: def.name.clone(),
                 version: def.version,
+                not_before: None,
                 delivery_profile: DeliveryProfile::AtLeastOnce,
                 service_key: def.actor.key(),
                 payload: WorkPayload::Source(row.clone()),

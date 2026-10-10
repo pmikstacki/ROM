@@ -1,0 +1,2 @@
+const identities=['sqlite/chromium','sqlite/webkit','redb/chromium','redb/webkit'];
+export function selectIdentityCases(requested=identities){if(!Array.isArray(requested)||!requested.length||requested.length>4||new Set(requested).size!==requested.length||requested.some(value=>!identities.includes(value)))throw Error('closed distinct identity cases required');return requested.map(value=>{const[adapter,engine]=value.split('/');return{adapter,engine};});}

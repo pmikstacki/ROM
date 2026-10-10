@@ -1,12 +1,37 @@
 #[test]
 fn sqlite_native_engine_matches_selected_build_profile() {
     let linked = rusqlite::version();
+    let connection = rusqlite::Connection::open_in_memory().unwrap();
+    let source_id: String = connection
+        .query_row("SELECT sqlite_source_id()", [], |row| row.get(0))
+        .unwrap();
+    let mut statement = connection.prepare("PRAGMA compile_options").unwrap();
+    let mut options: Vec<String> = statement
+        .query_map([], |row| row.get(0))
+        .unwrap()
+        .collect::<Result<_, _>>()
+        .unwrap();
+    options.sort();
     println!("Rust-linked SQLite engine: {linked}");
+    println!("Rust-linked SQLite source ID: {source_id}");
+    println!("Rust-linked SQLite compile options: {}", options.join(","));
     if let Ok(expected) = std::env::var("ROM_EXPECT_SQLITE_VERSION") {
         assert_eq!(
             linked, expected,
             "native build silently linked a different engine"
         );
+        let expected_source = std::env::var("ROM_EXPECT_SQLITE_SOURCE_ID")
+            .expect("selected native profile must declare its exact source ID");
+        assert_eq!(
+            source_id, expected_source,
+            "native SQLite source ID differs"
+        );
+        for required in ["THREADSAFE=1", "ENABLE_COLUMN_METADATA"] {
+            assert!(
+                options.iter().any(|option| option == required),
+                "native SQLite profile lacks required option {required}"
+            );
+        }
     } else {
         assert_eq!(
             linked, "3.53.2",

@@ -5,6 +5,8 @@ description: Use when preparing local ROM source artifacts, verifying release re
 
 # Verify local release evidence
 
+Use the `0.1.0` source candidate and its matching lockfile. Release acceptance remains open.
+
 Read the [native contract](../../../docs/native-extensions.md) before assessing version and support claims.
 Use the [bundle procedure](../README.md) to run `release` preflight and its [selected-check example](../assets/release/run.mjs).
 That example executes a finite subset and produces evidence. It does not approve a release.
@@ -12,8 +14,10 @@ That example executes a finite subset and produces evidence. It does not approve
 For a release-readiness request, use the explicit full source checkout supplied as `ROM_ROOT`.
 Read `ROM_ROOT/scripts/release-artifacts/README.md`. That file defines the current complete gate sequence and prerequisites.
 The instruction bundle does not contain the complete producer or frontend inputs.
+Read `ROM_ROOT/docs/release-support.md` for accepted versions and open candidate gates.
+Use installed `rom-ui` and Studio package identities when assessing frontend acceptance.
 
-1. Record the exact source revision, tree, and Cargo.lock identity.
+1. Record the exact source revision, tree, and lockfile identities for Rust and affected frontend packages.
 2. Verify the artifact procedure's toolchain, dependency caches, browser runtimes, and provider prerequisites.
 3. Complete independent review and compatibility notes against that source identity.
 4. Run `./scripts/release` from the clean supplied checkout, with an exclusive output directory.

@@ -32,6 +32,13 @@ pub use json::parse_json;
 mod error;
 pub use error::{Error, Result};
 
+mod diagnostics;
+pub use diagnostics::{
+    CoreOverloadStats, DiagnosticEvent, DiagnosticKey, DiagnosticOptions, DiagnosticOutcome,
+    DiagnosticReader, DiagnosticSink, DiagnosticStage, DiagnosticStats, DiagnosticToken,
+    Diagnostics,
+};
+
 mod discovery;
 mod execution;
 mod invocation;
@@ -69,6 +76,7 @@ pub use reaction_work::*;
 mod storage_state;
 pub use storage_state::*;
 mod storage_ownership;
+pub mod storage_support;
 pub use storage_ownership::{StorageOwner, StorageOwnership};
 
 mod query_eval;

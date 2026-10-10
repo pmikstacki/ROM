@@ -1,4 +1,6 @@
 use jsonwebtoken::{Algorithm, DecodingKey, EncodingKey, Header, encode};
+#[path = "support/identity_gate_query_profile.rs"]
+mod identity_gate_query_profile;
 #[path = "support/oidc.rs"]
 mod oidc;
 use rom::{Actor, Clock, Command, Error, PrincipalKind, Resource, Runtime};

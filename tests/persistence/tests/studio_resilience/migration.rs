@@ -137,6 +137,7 @@ fn seed(storage: &dyn Storage) {
                 definition: "notice".into(),
                 version: 1,
                 service_key: "stable-service".into(),
+                not_before: None,
                 delivery_profile: DeliveryProfile::ReconcileBeforeRetry,
                 cause: Cause {
                     retry_epoch: 0,

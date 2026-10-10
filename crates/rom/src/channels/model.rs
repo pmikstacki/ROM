@@ -21,10 +21,20 @@ impl<P: Input> Channel<P> {
         }
     }
     pub fn intent(self, payload: P) -> Intent {
+        self.frozen_intent(payload, None)
+    }
+    /// Freeze the earliest delivery time in trusted runtime Unix seconds.
+    /// Existing age and attempt budgets still apply; an elapsed delay does not
+    /// authorize retrying an unknown external effect.
+    pub fn intent_at(self, payload: P, not_before_unix_seconds: u64) -> Intent {
+        self.frozen_intent(payload, Some(not_before_unix_seconds))
+    }
+    fn frozen_intent(self, payload: P, not_before: Option<u64>) -> Intent {
         Intent {
             channel: self.name.into(),
             payload: payload.encode(),
             delivery_version: Some(self.version),
+            not_before,
         }
     }
 }

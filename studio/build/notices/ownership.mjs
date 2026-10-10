@@ -1,7 +1,8 @@
 // Classify emitted modules and retain the installed owner's complete notice files.
-import { existsSync, lstatSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, lstatSync, readFileSync, readdirSync, realpathSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { noticePath, noticeText, sha256, svarNoticeProfile } from './inventory.mjs';
+import { installedPackage } from './installed-package.mjs';
 
 const noticeName = /^(?:.*[-_.])?(?:licen[sc]e|notice|copying|copyright)(?:[-_.].*)?$/i;
 const licenseName = /licen[sc]e|copying/i;
@@ -30,8 +31,8 @@ function noticeFiles(directory) {
 }
 
 export function packageOwner(root, directory, kind = 'npm') {
-  const modulesRoot = join(root, 'node_modules');
-  let current = resolve(directory);
+  const modulesRoot = realpathSync(join(root, 'node_modules'));
+  let current = realpathSync(directory);
   while (inside(modulesRoot, current) && current !== modulesRoot) {
     const path = join(current, 'package.json');
     if (existsSync(path)) {
@@ -49,12 +50,24 @@ export function packageOwner(root, directory, kind = 'npm') {
 }
 
 export function moduleOwner(root, originalId) {
-  if (originalId === '\0vite/modulepreload-polyfill.js') return { id: 'virtual:vite/modulepreload-polyfill.js',
-    owners: ['vite', 'rolldown'].map(name => packageOwner(root, join(root, `node_modules/${name}`), 'tool-runtime')) };
+  if (originalId === '\0vite/modulepreload-polyfill.js') {
+    const vite = packageOwner(root, installedPackage(root, 'vite'), 'tool-runtime');
+    const rolldown = packageOwner(root, installedPackage(root, 'rolldown', vite.directory), 'tool-runtime');
+    return { id: 'virtual:vite/modulepreload-polyfill.js', owners: [vite, rolldown] };
+  }
   if (originalId.startsWith('\0')) throw Error('unclassified runtime notice virtual module');
   const query = originalId.indexOf('?'), suffix = query === -1 ? '' : originalId.slice(query);
   const path = resolve(query === -1 ? originalId : originalId.slice(0, query));
-  if (inside(join(root, 'node_modules'), path)) return { id: noticeText(noticePath(relative(root, path)) + suffix), owners: [packageOwner(root, dirname(path))] };
+  // Vite can emit physical paths from a shared installation. Classify only the
+  // configured tree and retain logical IDs in the portable notice inventory.
+  const logicalModules = join(root, 'node_modules');
+  const modulesRoot = realpathSync(logicalModules);
+  const installedPath = inside(logicalModules, path)
+    ? resolve(modulesRoot, relative(logicalModules, path)) : path;
+  if (inside(modulesRoot, installedPath)) return {
+    id: noticeText(noticePath(`node_modules/${relative(modulesRoot, installedPath)}`) + suffix),
+    owners: [packageOwner(root, dirname(installedPath))],
+  };
   if (!inside(dirname(root), path)) throw Error('unclassified runtime notice external module');
   const id = noticeText((inside(root, path) ? noticePath(relative(root, path)) : `workspace/${noticePath(relative(dirname(root), path))}`) + suffix);
   if (id.startsWith(svarNoticeProfile.modulePrefix)) {

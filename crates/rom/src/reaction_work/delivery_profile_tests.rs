@@ -18,6 +18,7 @@ fn pending(id: &str, profile: DeliveryProfile) -> PendingWork {
         definition: "channel".into(),
         version: 1,
         service_key: "service".into(),
+        not_before: None,
         delivery_profile: profile,
         payload: WorkPayload::Notification {
             source: Row {

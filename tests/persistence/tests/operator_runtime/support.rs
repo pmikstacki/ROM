@@ -123,6 +123,7 @@ impl Fixture {
                 definition: "notice".into(),
                 version: 1,
                 service_key: json!(["host", "service", "secret-worker"]).to_string(),
+                not_before: None,
                 delivery_profile: DeliveryProfile::AtLeastOnce,
                 payload: WorkPayload::Notification {
                     source: row.clone(),

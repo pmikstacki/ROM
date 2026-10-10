@@ -1,0 +1,217 @@
+{
+  "checked_at": "2026-10-08T06:44:59.873Z",
+  "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
+  "host_id": "remote-ssh-codex-managed:7455bafd-bcdf-4924-b743-87f13bd5b771",
+  "updated_at": 1791396483,
+  "latest_turn_id": "01a115c2-999b-77b2-a90f-449043de2e9a",
+  "returned_turns": 8,
+  "observed_user_message_refs": [
+    {
+      "turn_id": "01a115c2-999b-77b2-a90f-449043de2e9a",
+      "item_id": "01a115c2-99d1-74d0-a928-40460585c476"
+    },
+    {
+      "turn_id": "01a115c2-999b-77b2-a90f-449043de2e9a",
+      "item_id": "01a115c2-d03e-7862-81d9-fb8bd07e31eb"
+    },
+    {
+      "turn_id": "01a115c2-999b-77b2-a90f-449043de2e9a",
+      "item_id": "01a115ce-a388-7962-b7d4-fb57537d1cd8"
+    },
+    {
+      "turn_id": "01a115c2-999b-77b2-a90f-449043de2e9a",
+      "item_id": "01a115d4-52de-7940-84e1-9f10c22816e2"
+    },
+    {
+      "turn_id": "01a115c2-999b-77b2-a90f-449043de2e9a",
+      "item_id": "01a115d6-8250-7ab0-83fb-9d74c8688fae"
+    },
+    {
+      "turn_id": "01a115c2-999b-77b2-a90f-449043de2e9a",
+      "item_id": "01a115d8-8e0d-7602-b6fa-904b1db8144f"
+    },
+    {
+      "turn_id": "01a115c2-999b-77b2-a90f-449043de2e9a",
+      "item_id": "01a115e5-a77a-7e23-84e3-d10aae3817b0"
+    },
+    {
+      "turn_id": "01a115c2-766b-7200-b992-27a17497e05a",
+      "item_id": "01a115c2-76a6-74d3-baa7-728a4e3cfb01"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11544-afce-73e3-bd8c-8eb974868ce2"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11545-3d0d-7c00-8495-f9da0cae4305"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11546-17cf-79e2-a544-46c43f247674"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11558-1568-7a12-a225-6fcd8c7164ac"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11558-e61d-7752-be93-c871d4753ea0"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11560-ac1c-7830-a70f-5773e9ee35fa"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11561-963d-7f23-844c-9c93423fde06"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11562-2a35-7061-a5b4-956451d93595"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a1156a-d91a-7212-9e9e-9076bad3e617"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11570-b070-7dd1-a2bf-8800e1d32bb5"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11573-c0cd-7e41-85d9-8fd12aa08f88"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11577-2d9a-7c30-a7fb-e9765a34b9cc"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11580-7143-7523-b431-d6555c66d146"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11583-fb95-7f63-ba69-8698ced76e0b"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a11583-fb9a-77a0-9694-f062bc7e8a02"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a1159b-7f31-75a3-9a95-91c46e37b530"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a115a2-9a05-7320-8c34-9cf11d8312b6"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a115a8-38ad-7133-bd62-8e66580ad484"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a115a9-3946-7d91-a1a9-e83d6dfce33d"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a115ac-592a-7603-9b64-a7f4bdc7352d"
+    },
+    {
+      "turn_id": "01a11544-af8a-78d1-af2e-2c3df58a89f3",
+      "item_id": "01a115ae-c75d-7e03-9884-37c48b10f49b"
+    },
+    {
+      "turn_id": "01a1151b-50ef-7543-b1ba-fe182955be8b",
+      "item_id": "01a1151b-5132-72c1-92ad-fcb366809351"
+    },
+    {
+      "turn_id": "01a1151b-50ef-7543-b1ba-fe182955be8b",
+      "item_id": "01a11520-3037-72c0-848c-c9a2d1a520d4"
+    },
+    {
+      "turn_id": "01a1151b-50ef-7543-b1ba-fe182955be8b",
+      "item_id": "01a11523-29e7-73f2-b77a-28725a7ea45c"
+    },
+    {
+      "turn_id": "01a1151b-50ef-7543-b1ba-fe182955be8b",
+      "item_id": "01a11523-e310-7f92-9dd4-2d7e0900e143"
+    },
+    {
+      "turn_id": "01a1151b-50ef-7543-b1ba-fe182955be8b",
+      "item_id": "01a1152c-989d-7f92-bfb5-50478f0d1d12"
+    },
+    {
+      "turn_id": "01a1151b-50ef-7543-b1ba-fe182955be8b",
+      "item_id": "01a1152c-98a2-7611-b4f8-c331f2248544"
+    },
+    {
+      "turn_id": "01a1151b-50ef-7543-b1ba-fe182955be8b",
+      "item_id": "01a1152d-81bd-7f10-8ab1-5d72e8b89b69"
+    },
+    {
+      "turn_id": "01a11513-66a4-7c30-a318-bf4611d830f6",
+      "item_id": "01a11513-66f2-7e51-a457-c55ac930e799"
+    },
+    {
+      "turn_id": "01a11513-66a4-7c30-a318-bf4611d830f6",
+      "item_id": "01a11515-cdc7-7813-bb13-795536c30ce2"
+    },
+    {
+      "turn_id": "01a11513-66a4-7c30-a318-bf4611d830f6",
+      "item_id": "01a11518-dea5-7442-a140-7750e2886bd9"
+    },
+    {
+      "turn_id": "01a114f7-6fad-7971-9d7d-f16db46896c4",
+      "item_id": "01a114f7-7014-7830-8172-cc21add51a8e"
+    },
+    {
+      "turn_id": "01a114f7-6fad-7971-9d7d-f16db46896c4",
+      "item_id": "01a114fa-0461-7270-a9a5-6c5875448a10"
+    },
+    {
+      "turn_id": "01a114d4-c6a9-7030-a34a-e651c8f505e6",
+      "item_id": "01a114d4-c6eb-71d0-8403-c8df6e36f309"
+    },
+    {
+      "turn_id": "01a114d4-c6a9-7030-a34a-e651c8f505e6",
+      "item_id": "01a114d6-4ae9-79a1-a78b-eb0040c85281"
+    },
+    {
+      "turn_id": "01a114d4-c6a9-7030-a34a-e651c8f505e6",
+      "item_id": "01a114d6-b525-71a0-8751-bd6c799845c2"
+    },
+    {
+      "turn_id": "01a114d4-c6a9-7030-a34a-e651c8f505e6",
+      "item_id": "01a114d8-6a57-7c21-a042-aeb586efa397"
+    },
+    {
+      "turn_id": "01a114b0-49a3-7e90-b0bd-9ca83a0a7cc2",
+      "item_id": "01a114b0-4a4f-7c62-b716-c2b3b97d4c7a"
+    },
+    {
+      "turn_id": "01a114b0-49a3-7e90-b0bd-9ca83a0a7cc2",
+      "item_id": "01a114b1-e8c7-7603-866d-0a710e616903"
+    }
+  ],
+  "page": {
+    "order": "newest_first",
+    "limit": 8,
+    "nextCursor": "{\"requestedThreadId\":\"01a111a5-617a-7800-b94f-eb82b11da39d\",\"rolloutOrdinal\":5994,\"includeAnchor\":false,\"scope\":{\"kind\":\"turns\"}}",
+    "hasMore": true
+  },
+  "raw_messages_published": false,
+  "consumer_acknowledgement": false,
+  "intake_group_count": 33,
+  "unseen_reference_ids": [],
+  "limits": "Recent eight turns checked against prior paginated intake. Reference presence is not group acceptance. Truncation and uninspected images remain limits.",
+  "independent_coverage_review": "docs/research/rom-0.1.0-feedback-coverage-2026-10-08.md",
+  "reference_disposition_summary": {
+    "active_requirement_refs": 41,
+    "withdrawn_refs": 4,
+    "non_usability_refs": 2,
+    "unmatched_refs": 0,
+    "verification": "Independent reviewer matched all 47 exact turn/item keys and retained all 33 group acceptance rows."
+  }
+}

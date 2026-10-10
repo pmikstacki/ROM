@@ -27,7 +27,7 @@ pub(super) fn key_id(token: &str) -> Result<String, AuthError> {
     if header.alg != Algorithm::RS256 || header.typ.as_deref().is_some_and(|typ| typ != "JWT") {
         return Err(AuthError::WrongProfile);
     }
-    if header.kid.is_empty() || header.kid.len() > 64 {
+    if !crate::key_id::valid_key_id(&header.kid) {
         return Err(AuthError::UnknownKey);
     }
     Ok(header.kid)

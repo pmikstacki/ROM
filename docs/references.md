@@ -38,21 +38,26 @@ events and protected tombstone values do not create live references.
 
 ## Maintenance
 
-Native format 8 and archive version 6 store descriptors and reference edges.
+Accepted 0.0.3 native format 8 and archive version 6 store descriptors and reference edges.
+The 0.1.0 candidate uses native format 9 and archive version 7.
+It retains these records and adds frozen delayed channel eligibility.
 Startup and backup validation compare the stored graph with current values.
 Missing, extra or dangling edges fail validation. Restore validates the archive
 and rebuilds both native access paths before publishing a new destination.
 
 `rom_backup::upgrade_v1_archive` upgrades an existing format-1 archive into a new
-format-6 archive. Supply explicit descriptors for all stored kinds. It preserves
+current archive. Supply explicit descriptors for all stored kinds. It preserves
 rows, receipt identities, events and work records. It rejects incompatible values
 or dangling references. It does not infer schemas or transform Resource values.
 
 `upgrade_v2_archive` upgrades a format-2 archive using its persisted catalog.
 `upgrade_v3_archive` and `upgrade_v4_archive` support archive versions 3 and 4.
 `upgrade_v5_archive` supports archive version 5.
-Normal native open rejects formats 3 through 7. Both adapters provide `upgrade_from` to read
-those formats and publish a new format-8 database. Supply the complete descriptor
+Candidate `upgrade_v6_archive` converts archive 6/storage 8 into archive 7/storage 9.
+It preserves existing operator receipts, delivery profiles, Work revisions, and original budgets.
+An older marker with scheduling metadata is rejected.
+Candidate normal native open rejects formats 3 through 8. Both adapters provide `upgrade_from` to read
+those formats and publish a new format-9 database. Supply the complete descriptor
 catalog and stop source writers before cutover. See [native upgrade](native-upgrade.md).
 Use [Resource migrations](resource-migrations.md) to change fields and rebuild references.
 

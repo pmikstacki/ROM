@@ -5,9 +5,9 @@ use rom_backup::BackupLimits;
 use std::path::Path;
 
 impl Redb {
-    /// Upgrade an offline format-3 through format-7 source into a fresh database.
+    /// Upgrade an offline format-3 through format-10 source into a fresh database.
     /// Format 3 binds the supplied schema; catalogued formats require an exact match.
-    /// Formats 6 and 7 retain retry epochs and receipt origins without rebinding.
+    /// Formats 6 through 10 retain retry epochs and receipt origins without rebinding.
     /// Values are preserved; invalid layouts and dangling references require separate repair.
     /// The source must be offline. Existing destinations are never overwritten.
     /// An unclean source needs temporary disk space approximately equal to its size
@@ -28,7 +28,7 @@ impl Redb {
     }
 
     /// Test-only interruption point after the staged file is validated, closed and synced.
-    #[cfg(feature = "test-support")]
+    #[cfg(any(test, feature = "test-support"))]
     pub fn upgrade_from_observed(
         source: impl AsRef<Path>,
         destination: impl AsRef<Path>,

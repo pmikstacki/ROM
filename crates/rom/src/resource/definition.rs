@@ -16,6 +16,9 @@ pub struct Intent {
     pub payload: Value,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub delivery_version: Option<u32>,
+    /// Frozen earliest delivery time in trusted runtime Unix seconds.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub not_before: Option<u64>,
 }
 impl Intent {
     pub fn new(channel: &str, payload: Value) -> Self {
@@ -23,6 +26,7 @@ impl Intent {
             channel: channel.into(),
             payload,
             delivery_version: None,
+            not_before: None,
         }
     }
 }
@@ -41,12 +45,18 @@ impl<R: Resource, I: Input> Action<R, I> {
     pub const fn new(name: &'static str, function: fn(&mut R, I) -> Result<Vec<Intent>>) -> Self {
         Self { name, function }
     }
+
+    /// Returns the action route declared for registration and invocation.
+    pub const fn name(&self) -> &'static str {
+        self.name
+    }
 }
 pub(crate) type ErasedAction =
     Arc<dyn Fn(Value, Value) -> Result<(Value, Vec<Intent>)> + Send + Sync>;
 type Policy<R> = fn(&Actor, Access, &R) -> bool;
 type FieldPolicy<R> = fn(&Actor, Access, &str, &R) -> bool;
-type TransitionValidator<R> = fn(&Actor, Option<&R>, Option<&R>) -> Result<()>;
+type TransitionValidator<R> =
+    Arc<dyn Fn(&Actor, Option<&R>, Option<&R>) -> Result<()> + Send + Sync>;
 pub struct Definition<R: Resource> {
     descriptor: Descriptor,
     presentation: Option<crate::ResourcePresentation>,
@@ -162,13 +172,22 @@ impl<R: Resource> Definition<R> {
     /// have passed Resource codecs. This hook applies equally to built-ins and
     /// custom actions; returning an error prevents all durable effects.
     ///
-    /// The callback must be pure, deterministic and bounded: it runs on supervised
-    /// blocking execution under the commit gate, so it must not perform I/O or
-    /// reenter the runtime. It may be evaluated again on a caller retry. Matching
+    /// The callback can capture runtime-owned application dependencies. Read one
+    /// immutable dependency snapshot per evaluation; later snapshot publication may
+    /// change admission for new transitions. Do not hold a dependency write lock
+    /// while invoking ROM, and keep snapshot acquisition short.
+    ///
+    /// The callback must be pure, deterministic for that snapshot, and bounded.
+    /// It runs on supervised blocking execution under the commit gate. It must not
+    /// perform I/O, create external effects, or reenter the runtime.
+    /// It may be evaluated again on a caller retry. Matching
     /// receipt replay does not revalidate an obsolete transition; current access
     /// rules still govern replay disclosure. A panic fails only this operation.
-    pub fn validate_transition(mut self, validate: TransitionValidator<R>) -> Self {
-        self.transition_validator = Some(validate);
+    pub fn validate_transition<F>(mut self, validate: F) -> Self
+    where
+        F: Fn(&Actor, Option<&R>, Option<&R>) -> Result<()> + Send + Sync + 'static,
+    {
+        self.transition_validator = Some(Arc::new(validate));
         self
     }
     /// Explicit per-field permission. Missing field policy denies every field.
@@ -283,7 +302,7 @@ impl<R: Resource> Registered for Definition<R> {
         before: Option<&Value>,
         after: Option<&Value>,
     ) -> Result<()> {
-        let Some(validate) = self.transition_validator else {
+        let Some(validate) = self.transition_validator.as_ref() else {
             return Ok(());
         };
         let before = before.cloned().map(R::decode).transpose()?;

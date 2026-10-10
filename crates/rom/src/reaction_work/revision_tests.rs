@@ -13,6 +13,7 @@ fn pending(id: &str, payload: WorkPayload) -> PendingWork {
         },
         definition: "test".into(),
         version: 1,
+        not_before: None,
         delivery_profile: DeliveryProfile::AtLeastOnce,
         service_key: "service".into(),
         payload,

@@ -1,7 +1,2 @@
-import Root from "./skeleton.svelte";
-
-export {
-	Root,
-	//
-	Root as Skeleton,
-};
+/** Stable Studio facade; generic behavior belongs to ROM UI. */
+export * from "rom-ui/primitives/skeleton";

@@ -1,3 +1,4 @@
+use crate::auth_diagnostics::{AuthOperation, AuthOutcome, AuthStage};
 use crate::{HostConfig, assets::Assets, csrf, session::SessionStore};
 use axum::{
     Router,
@@ -47,11 +48,14 @@ impl StudioHost {
                 field: "blob runtime".into(),
             });
         }
-        let assets = Assets::load(
+        let mut assets = Assets::load(
             &config.asset_directory,
             config.limits.assets,
             config.limits.asset_bytes,
         )?;
+        if let Some(profile) = &config.studio_bootstrap {
+            assets.install_bootstrap(profile, config.limits.asset_bytes)?;
+        }
         let client = reqwest::Client::builder()
             .redirect(reqwest::redirect::Policy::none())
             .timeout(config.limits.acquisition_timeout)
@@ -63,7 +67,12 @@ impl StudioHost {
             shutdown: tokio::sync::Mutex::new(()),
             client,
             attempts: crate::login::Attempts::new(config.limits.login_attempts),
-            auth: crate::lifecycle::Supervisor::new(config.limits.authentication_jobs),
+            auth: crate::lifecycle::Supervisor::observed(
+                config.limits.authentication_jobs,
+                config
+                    .authentication_diagnostics
+                    .then(crate::auth_diagnostics::Capture::new),
+            ),
             sessions: SessionStore::new(config.limits.sessions, config.limits.session_seconds),
             runtime: runtime.clone(),
             config,
@@ -74,11 +83,21 @@ impl StudioHost {
             let shared = resolver.clone();
             Box::pin(async move {
                 let cookie = csrf::session_cookie(&headers, "rom_session")?;
-                crate::authentication::resolve(&shared, &cookie).await
+                crate::authentication::resolve_tagged(
+                    &shared,
+                    &cookie,
+                    AuthOperation::GenericHttpResolver,
+                )
+                .await
             })
         });
         let http = rom_http::Http::new_async(runtime, auth, shared.config.http_limits)?;
         Ok(Self { shared, http })
+    }
+    /// Return an optional bounded authentication snapshot.
+    /// None means disabled; an error means diagnostics are unavailable, not an auth decision.
+    pub fn authentication_diagnostics(&self) -> Result<Option<crate::AuthSnapshot>> {
+        self.shared.auth.authentication_diagnostics()
     }
     pub fn router(&self) -> Router {
         let api = self
@@ -210,13 +229,29 @@ async fn protect(State(shared): State<Arc<Shared>>, request: Request, next: Next
     let Ok(cookie) = csrf::session_cookie(request.headers(), "rom_session") else {
         return crate::authentication::denied(StatusCode::UNAUTHORIZED);
     };
-    let Some(session) = shared.sessions.lookup(&cookie, shared.config.clock.now()) else {
+    let session = shared.sessions.lookup(&cookie, shared.config.clock.now());
+    shared.auth.record(
+        AuthOperation::ProtectedMiddleware,
+        AuthStage::SessionLookup,
+        if session.is_some() {
+            AuthOutcome::Succeeded
+        } else {
+            AuthOutcome::Denied
+        },
+    );
+    let Some(session) = session else {
         return crate::authentication::denied(StatusCode::UNAUTHORIZED);
     };
     if csrf::check_token(request.headers(), &session).is_err() {
         return crate::authentication::denied(StatusCode::FORBIDDEN);
     }
-    let actor = match crate::authentication::resolve(&shared, &cookie).await {
+    let actor = match crate::authentication::resolve_tagged(
+        &shared,
+        &cookie,
+        AuthOperation::ProtectedMiddleware,
+    )
+    .await
+    {
         Ok(actor) => actor,
         Err(error) => return crate::authentication::failure(error),
     };

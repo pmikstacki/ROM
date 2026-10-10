@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "readAt": "2026-10-08T08:58:44.059Z",
+  "hostId": "remote-ssh-codex-managed:7455bafd-bcdf-4924-b743-87f13bd5b771",
+  "threadId": "01a111a5-617a-7800-b94f-eb82b11da39d",
+  "updatedAt": 1791445000,
+  "status": {
+    "type": "idle"
+  },
+  "turnIds": [
+    "01a115c2-999b-77b2-a90f-449043de2e9a"
+  ],
+  "consumerReportedCommit": "86dca6f",
+  "scope": "Recent-page refresh; does not replace historical coverage audit.",
+  "directMessageAvailable": false,
+  "acknowledgementConfirmed": false
+}

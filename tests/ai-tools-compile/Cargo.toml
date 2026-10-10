@@ -1,0 +1,12 @@
+[package]
+name = "rom-ai-tools-compile"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.99"
+publish = false
+
+[workspace]
+
+[dependencies]
+rom = { path = "../../crates/rom" }
+rom-ai = { path = "../../crates/rom-ai" }

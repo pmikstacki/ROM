@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {admitStoppedProvider,admitProviderRebirth} from './restart-identity.mjs';
+const expected={id:'a'.repeat(64),image:'b'.repeat(64),nonce:'c'.repeat(32),cgroup:'/rom-identity-'+ 'd'.repeat(32)};
+const value={id:expected.id,image:expected.image,label:expected.nonce,privileged:false,network:'none',cgroup:expected.cgroup,pid:0,memory:805306368,cpu_period:100000,cpu_quota:75000,pids:128};
+test('stopped admission retains immutable provider identity and rejects live or replaced containers',()=>{assert.doesNotThrow(()=>admitStoppedProvider(expected,value));for(const patch of[{pid:5},{id:'e'.repeat(64)},{image:'f'.repeat(64)},{privileged:true}])assert.throws(()=>admitStoppedProvider(expected,{...value,...patch}));});
+test('rebirth requires distinct current init and monitor identities and stable namespace',()=>{const before={birth:{pid:10,start:1},conmon:{pid:11,start:1},netns:'net:[5]'};const after={birth:{pid:12,start:2},conmon:{pid:13,start:2},netns:'net:[5]'};assert.doesNotThrow(()=>admitProviderRebirth(before,after));for(const patch of[{birth:before.birth},{conmon:before.conmon},{netns:'net:[6]'}])assert.throws(()=>admitProviderRebirth(before,{...after,...patch}));});

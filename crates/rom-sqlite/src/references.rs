@@ -14,7 +14,7 @@ fn descriptor(c: &Connection, kind: &str) -> Result<Option<Descriptor>> {
     data.map(|data| decode_descriptor(kind, &data)).transpose()
 }
 
-fn decode_descriptor(kind: &str, data: &str) -> Result<Descriptor> {
+pub(crate) fn decode_descriptor(kind: &str, data: &str) -> Result<Descriptor> {
     let descriptor: Descriptor = serde_json::from_str(data).map_err(|_| Error::Storage)?;
     if descriptor.kind != kind || descriptor.canonical()? != descriptor {
         return Err(Error::Storage);
@@ -83,15 +83,23 @@ pub(super) fn register(c: &Connection, definitions: &[Descriptor]) -> Result<()>
 }
 
 pub(super) fn prepare(c: &Connection, receipt: &rom::Receipt) -> Result<Vec<Key>> {
+    let definition = descriptor(c, &receipt.row.key.kind)?.ok_or(Error::Unregistered)?;
+    prepare_with(c, receipt, &definition, |target| row(c, target))
+}
+pub(crate) fn prepare_with(
+    c: &Connection,
+    receipt: &rom::Receipt,
+    definition: &Descriptor,
+    mut load: impl FnMut(&Key) -> Result<Option<rom::Row>>,
+) -> Result<Vec<Key>> {
     let candidate = &receipt.row;
-    let definition = descriptor(c, &candidate.key.kind)?.ok_or(Error::Unregistered)?;
-    receipt.validate_new_version(&definition)?;
+    receipt.validate_new_version(definition)?;
     let targets = definition.reference_targets(candidate.value.as_ref())?;
     for target in &targets {
         if target == &candidate.key && candidate.value.is_some() {
             continue;
         }
-        if !row(c, target)?.is_some_and(|row| row.value.is_some()) {
+        if !load(target)?.is_some_and(|row| row.value.is_some()) {
             return Err(Error::Conflict);
         }
     }
@@ -119,21 +127,59 @@ pub(super) fn replace(
     targets: &[Key],
     ordinal: &mut usize,
 ) -> Result<()> {
-    let previous = {
-        let mut statement = c
-            .prepare("SELECT target_kind,target_id FROM reference_edges WHERE source_kind=? AND source_id=?")
+    let previous = previous(c, source, None)?;
+    publish(storage, c, source, targets, &previous, ordinal)
+}
+pub(crate) fn previous(
+    c: &Connection,
+    source: &Key,
+    reader: Option<&crate::native_work::Reader<'_>>,
+) -> Result<BTreeSet<Key>> {
+    let mut statement = c
+        .prepare(
+            "SELECT target_kind,target_id FROM reference_edges WHERE source_kind=? AND source_id=?",
+        )
+        .map_err(|_| Error::Storage)?;
+    let mut rows = statement
+        .query(params![source.kind, source.id])
+        .map_err(|_| Error::Storage)?;
+    let mut result = BTreeSet::new();
+    while let Some(row) = rows.next().map_err(|_| Error::Storage)? {
+        let kind = row
+            .get_ref(0)
+            .map_err(|_| Error::Storage)?
+            .as_str()
             .map_err(|_| Error::Storage)?;
-        statement
-            .query_map(params![source.kind, source.id], |row| {
-                Ok(Key {
-                    kind: row.get(0)?,
-                    id: row.get(1)?,
-                })
-            })
+        let id = row
+            .get_ref(1)
             .map_err(|_| Error::Storage)?
-            .collect::<std::result::Result<BTreeSet<_>, _>>()
-            .map_err(|_| Error::Storage)?
-    };
+            .as_str()
+            .map_err(|_| Error::Storage)?;
+        if let Some(reader) = reader {
+            reader.charge(
+                kind.len()
+                    .checked_add(id.len())
+                    .and_then(|n| n.checked_add(source.kind.len()))
+                    .and_then(|n| n.checked_add(source.id.len()))
+                    .ok_or(Error::TooLarge)?,
+                1,
+            )?;
+        }
+        result.insert(Key {
+            kind: kind.to_owned(),
+            id: id.to_owned(),
+        });
+    }
+    Ok(result)
+}
+pub(crate) fn publish(
+    storage: &Sqlite,
+    c: &Connection,
+    source: &Key,
+    targets: &[Key],
+    previous: &BTreeSet<Key>,
+    ordinal: &mut usize,
+) -> Result<()> {
     let current: BTreeSet<_> = targets.iter().cloned().collect();
     for target in previous.difference(&current) {
         c.execute(
@@ -146,7 +192,7 @@ pub(super) fn replace(
             .checkpoint(*ordinal)
             .map_err(|_| Error::NotCommitted)?;
     }
-    for target in current.difference(&previous) {
+    for target in current.difference(previous) {
         c.execute(
             "INSERT INTO reference_edges(source_kind,source_id,target_kind,target_id) VALUES (?,?,?,?)",
             params![source.kind, source.id, target.kind, target.id],

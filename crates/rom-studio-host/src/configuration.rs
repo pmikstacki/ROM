@@ -64,6 +64,9 @@ pub struct HostConfig {
     pub limits: HostLimits,
     pub http_limits: rom_http::Limits,
     pub(crate) clock: std::sync::Arc<dyn rom::Clock>,
+    pub(crate) studio_bootstrap: Option<crate::StudioBootstrap>,
+    pub(crate) authentication_diagnostics: bool,
+    pub(crate) proof_handoff_budget: Option<Duration>,
 }
 impl HostConfig {
     pub fn new(
@@ -87,10 +90,35 @@ impl HostConfig {
             limits: HostLimits::default(),
             http_limits: rom_http::Limits::default(),
             clock: std::sync::Arc::new(rom::SystemClock),
+            studio_bootstrap: None,
+            authentication_diagnostics: false,
+            proof_handoff_budget: None,
         }
+    }
+    /// Enable bounded, secret-free Host authentication snapshots. Disabled by default.
+    pub fn authentication_diagnostics(mut self, enabled: bool) -> Self {
+        self.authentication_diagnostics = enabled;
+        self
+    }
+    /// With approved OIDC providers, require remaining proof time before ordinary work.
+    ///
+    /// This minimum is combined with the configured body/staging timeout, then
+    /// rounded up to seconds. Zero or a result at least the OIDC proof ceiling
+    /// is invalid. A fresh proof shortened by token expiry or binding latency
+    /// can still refuse admission with Overloaded, retaining the live session.
+    /// This is an admission margin, not a guarantee that core I/O will finish.
+    /// Original token expiry, current grants and stream expiry remain unchanged.
+    pub fn proof_handoff_budget(mut self, minimum: Duration) -> Self {
+        self.proof_handoff_budget = Some(minimum);
+        self
     }
     pub fn clock(mut self, clock: std::sync::Arc<dyn rom::Clock>) -> Self {
         self.clock = clock;
+        self
+    }
+    /// Approve a stable browser session-binding namespace and explicit persistent stores.
+    pub fn studio_profile(mut self, profile: crate::StudioBootstrap) -> Self {
+        self.studio_bootstrap = Some(profile);
         self
     }
     pub fn provider(mut self, provider: OidcProviderConfig) -> Self {
@@ -149,6 +177,10 @@ impl HostConfig {
         self
     }
     pub fn validate(&self) -> Result<()> {
+        crate::proof_handoff::validate(self)?;
+        if let Some(profile) = &self.studio_bootstrap {
+            profile.validate()?;
+        }
         let origin = approved_url(&self.public_origin, self.loopback_http)?;
         if origin.origin().ascii_serialization() != self.public_origin
             || origin.path() != "/"

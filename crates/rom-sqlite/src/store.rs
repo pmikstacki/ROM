@@ -1,5 +1,4 @@
 //! Native connection setup, validation and host inspection.
-use crate::persistence::state;
 use crate::snapshot;
 #[cfg(feature = "test-support")]
 use rom::Row;
@@ -12,12 +11,16 @@ use std::{path::Path, sync::Mutex};
 pub struct Sqlite {
     pub(crate) connection: Mutex<Connection>,
     pub(crate) ownership: rom::StorageOwnership,
+    pub(crate) validation_limits: rom_backup::BackupLimits,
+    pub(crate) journal_candidate: bool,
     // Declared after the engine so the native connection closes before exclusion ends.
     _native_owner: Option<rom_backup::NativeOwnership>,
     #[cfg(feature = "test-support")]
     pub(crate) fault: AtomicU8,
     #[cfg(feature = "test-support")]
     observer: Mutex<Option<Observer>>,
+    #[cfg(feature = "test-support")]
+    pub(crate) stage_observation: std::sync::OnceLock<crate::stage_observation::StageObservation>,
 }
 #[cfg(feature = "test-support")]
 type Observer = std::sync::Arc<dyn Fn(usize) -> Result<()> + Send + Sync>;
@@ -66,6 +69,15 @@ impl Sqlite {
         validation_limits: rom_backup::BackupLimits,
         owner: Option<rom_backup::NativeOwnership>,
     ) -> Result<Self> {
+        Self::open_connection_for_layout(path, limits, validation_limits, owner, true)
+    }
+    pub(crate) fn open_connection_for_layout(
+        path: &Path,
+        limits: StorageLimits,
+        validation_limits: rom_backup::BackupLimits,
+        owner: Option<rom_backup::NativeOwnership>,
+        journal_candidate: bool,
+    ) -> Result<Self> {
         let mut c = Connection::open(path).map_err(|_| Error::Storage)?;
         let version: u32 = c
             .pragma_query_value(None, "user_version", |r| r.get(0))
@@ -77,7 +89,12 @@ impl Sqlite {
                 |r| r.get(0),
             )
             .map_err(|_| Error::Storage)?;
-        if version != rom_backup::STORAGE_FORMAT && (version != 0 || objects != 0) {
+        let expected_format = if journal_candidate {
+            crate::native_work::FORMAT
+        } else {
+            crate::native_work::PREDECESSOR_FORMAT
+        };
+        if version != expected_format && (version != 0 || objects != 0) {
             return Err(Error::Unsupported("SQLite storage format".into()));
         }
         c.execute_batch("PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;")
@@ -96,27 +113,37 @@ impl Sqlite {
                 CREATE INDEX reference_edges_target ON reference_edges(target_kind,target_id,source_kind,source_id);
 ").map_err(|_|Error::Storage)?;
             crate::index::initialize(&tx)?;
-            tx.pragma_update(None, "user_version", rom_backup::STORAGE_FORMAT)
+            crate::native_work::initialize(&tx)?;
+            if journal_candidate {
+                crate::native_journal::initialize(&tx)?;
+            }
+            tx.execute("INSERT INTO rom_state VALUES (1,'')", [])
                 .map_err(|_| Error::Storage)?;
-            tx.execute(
-                "INSERT INTO rom_state VALUES (1,?)",
-                [serde_json::to_string(&StorageState::new(limits.clone())?)
-                    .map_err(|_| Error::Storage)?],
-            )
-            .map_err(|_| Error::Storage)?;
-        } else {
-            snapshot::collect_snapshot(&tx, validation_limits)?.validate()?;
+            crate::native_work::replace_state_for_layout(
+                &tx,
+                &StorageState::new(limits.clone())?,
+                journal_candidate,
+            )?;
+            tx.pragma_update(None, "user_version", expected_format)
+                .map_err(|_| Error::Storage)?;
         }
-        state(&tx)?.check_limits(&limits)?;
+        let initialized =
+            snapshot::collect_native_snapshot(&tx, validation_limits, journal_candidate)?;
+        initialized.validate()?;
+        initialized.state.check_limits(&limits)?;
         tx.commit().map_err(|_| Error::Unknown)?;
         Ok(Self {
             connection: Mutex::new(c),
             ownership: rom::StorageOwnership::default(),
+            validation_limits,
+            journal_candidate,
             _native_owner: owner,
             #[cfg(feature = "test-support")]
             fault: AtomicU8::new(0),
             #[cfg(feature = "test-support")]
             observer: Mutex::new(None),
+            #[cfg(feature = "test-support")]
+            stage_observation: std::sync::OnceLock::new(),
         })
     }
     /// Close the engine before releasing its native ownership reservation.

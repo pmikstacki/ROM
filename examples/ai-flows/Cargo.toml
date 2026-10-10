@@ -1,0 +1,23 @@
+[package]
+name = "rom-ai-flows-consumer"
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.99"
+license = "MIT"
+publish = false
+
+[workspace]
+
+[dependencies]
+rom = { version = "=0.1.0", path = "../../crates/rom" }
+rom-ai = { version = "=0.1.0", path = "../../crates/rom-ai" }
+
+[dev-dependencies]
+rom-sqlite = { version = "=0.1.0", path = "../../crates/rom-sqlite", features = ["test-support"] }
+rom-redb = { version = "=0.1.0", path = "../../crates/rom-redb", features = ["test-support"] }
+tokio = { version = "=1.53.1", features = ["rt-multi-thread", "macros", "time", "sync"] }
+serde_json = { version = "=1.0.151" }
+
+[lints.rust]
+unsafe_code = "forbid"
+unused_must_use = "deny"

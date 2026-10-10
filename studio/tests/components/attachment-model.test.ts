@@ -228,3 +228,125 @@ test("HTTP 500 retains the exact pending reservation until explicit retry", asyn
   await controller.retry();
   assert.deepEqual(reservations[0], reservations[1]);
 });
+
+for (const scenario of [
+  { category: "outcome_unknown", status: 503, retain: true },
+  { category: "denied", status: 403, retain: false },
+]) {
+  test(`upload ${scenario.category} preserves the correct recovery state`, async () => {
+    const { RemoteError } = await import("../../src/lib/client/client.ts");
+    let reserved = 0;
+    const files: Blob[] = [];
+    const client: AttachmentClient = {
+      generation: 0,
+      async reserveBlob() {
+        reserved++;
+        return view;
+      },
+      async uploadBlob(_id, file) {
+        files.push(file);
+        if (files.length === 1)
+          throw new RemoteError(scenario.category, scenario.status);
+        return view;
+      },
+      async detachBlob() {
+        return view;
+      },
+      async downloadBlob() {
+        return new Uint8Array();
+      },
+      async query() {
+        return [view];
+      },
+    };
+    const controller = createAttachments(
+      client,
+      cap,
+      () => "frozen-upload-key",
+      async () => "a".repeat(64),
+    );
+    const file = new Blob(["exact bytes"]);
+    await controller.upload("file", "one", file);
+    assert.equal(reserved, 1);
+    assert.equal(files.length, 1, "no automatic retry");
+    assert.equal(controller.state.phase, scenario.retain ? "unknown" : "error");
+    const pending = controller.state.pending;
+    if (scenario.retain) {
+      assert(pending && pending.step === "upload");
+      assert.equal(pending.file, files[0]);
+      assert.equal(await pending.file.text(), await file.text());
+      assert.equal(pending.reservation.idempotency, "frozen-upload-key");
+      await controller.retry();
+      assert.equal(reserved, 1, "retry must not reserve again");
+      assert.equal(files.length, 2);
+      assert.equal(files[1], files[0], "retry uses the frozen upload body");
+      assert.equal(controller.state.phase, "success");
+    } else {
+      assert.equal(pending, null);
+    }
+    controller.dispose();
+  });
+}
+
+for (const operation of ["reserve", "upload", "detach"] as const) {
+  for (const rejection of [
+    { category: "denied", status: 403 },
+    { category: "not_committed", status: 503 },
+  ]) {
+    test(`${operation}: retry ${rejection.category} cannot resolve an earlier unknown outcome`, async () => {
+      const { RemoteError } = await import("../../src/lib/client/client.ts");
+      let attempts = 0;
+      const reservations: BlobReservation[] = [];
+      const files: Blob[] = [];
+      const attempt = async () => {
+        attempts++;
+        if (attempts === 1) throw new RemoteError("outcome_unknown", 503);
+        if (attempts === 2)
+          throw new RemoteError(rejection.category, rejection.status);
+        return view;
+      };
+      const client: AttachmentClient = {
+        generation: 0,
+        async reserveBlob(reservation) {
+          reservations.push(reservation);
+          return operation === "reserve" ? attempt() : view;
+        },
+        async uploadBlob(_id, file) {
+          files.push(file);
+          return operation === "upload" ? attempt() : view;
+        },
+        async detachBlob() { return attempt(); },
+        async downloadBlob() { return new Uint8Array(); },
+        async query() { return [view]; },
+      };
+      const controller = createAttachments(client, cap, () => "same-key", async () => "a".repeat(64));
+      try {
+        await controller.refresh();
+        if (operation === "detach") await controller.detach("file");
+        else await controller.upload("file", "one", new Blob(["exact"]));
+        const pending = controller.state.pending;
+        assert(pending);
+        assert.equal(controller.state.phase, "unknown");
+        await controller.retry();
+        assert.equal(attempts, 2, "only explicit retries dispatch work");
+        assert.deepEqual(controller.state.rows, [], "current refusal clears disclosed rows");
+        assert.equal(controller.state.result, null);
+        assert.equal(controller.state.pending, pending, "keep exact unresolved operation");
+        assert.equal(controller.state.phase, "unknown");
+        await assert.rejects(controller.detach("other"), /Resolve the current/);
+        await controller.retry();
+        assert.equal(attempts, 3);
+        assert.equal(controller.state.phase, "success");
+        assert.equal(controller.state.pending, null);
+        if (operation === "reserve") {
+          assert.equal(reservations.length, 3);
+          assert(reservations.every((item) => item === reservations[0]));
+        } else if (operation === "upload") {
+          assert.equal(reservations.length, 1, "do not reserve again");
+          assert.equal(files.length, 3);
+          assert(files.every((file) => file === files[0]));
+        }
+      } finally { controller.dispose(); }
+    });
+  }
+}

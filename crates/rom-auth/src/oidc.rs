@@ -25,3 +25,6 @@ mod claims;
 mod header;
 pub use adapter::OidcIdTokenAdapter;
 pub use bindings::OidcTokenBindings;
+
+/// Maximum local proof lifetime in seconds; token and key expiry can shorten it.
+pub const MAX_PROOF_SECONDS: u64 = 30;

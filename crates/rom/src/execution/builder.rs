@@ -12,6 +12,7 @@ use std::{
 use tokio::sync::{Semaphore, watch};
 #[derive(Default)]
 pub struct Builder {
+    diagnostics: Option<crate::DiagnosticSink>,
     retry_fence: RetryEpochs,
     registry: BTreeMap<String, Arc<dyn Registered>>,
     reactions: BTreeMap<String, Arc<reactions::RegisteredReaction>>,
@@ -26,6 +27,11 @@ pub struct Builder {
     operator_limits: crate::OperatorLimits,
 }
 impl Builder {
+    /// Send bounded diagnostic records to a host-owned reader. Exporters never run in the core.
+    pub fn diagnostics(mut self, sink: crate::DiagnosticSink) -> Self {
+        self.diagnostics = Some(sink);
+        self
+    }
     /// Minimum persisted boundaries from trusted state outside rollback backups.
     pub fn retry_fence(mut self, fence: RetryEpochs) -> Self {
         self.retry_fence = fence;
@@ -236,6 +242,10 @@ impl Builder {
         let (changes, _) = watch::channel(0);
         let (drained, _) = watch::channel(0);
         Ok(Runtime(Arc::new(Inner {
+            diagnostics: self.diagnostics,
+            core_overloads: crate::diagnostics::CoreOverloadCounters::default(),
+            #[cfg(test)]
+            generation_test_hook: Mutex::new(None),
             storage,
             pool,
             registry: self.registry,

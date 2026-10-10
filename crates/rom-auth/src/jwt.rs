@@ -49,6 +49,9 @@ struct JwtClaims {
 /// Implementations must bound acquisition time and bytes, bind keys to the configured
 /// issuer, and reject ambiguous key IDs before creating the map. Called synchronously;
 /// remote discovery, network timeouts and concurrent fetch coalescing are host concerns.
+/// Key IDs are opaque, case-sensitive strings of 1 through 256 UTF-8 bytes, without
+/// Unicode control characters. This ROM profile bound is not a JOSE requirement.
+/// IDs are matched exactly, without normalization or truncation.
 pub trait TrustedKeys {
     /// Fetch one complete key set; a successful refresh replaces the previous set.
     fn fetch(&mut self) -> Result<BTreeMap<String, DecodingKey>, AuthError>;
@@ -120,7 +123,7 @@ impl<K: TrustedKeys> JwtAdapter<K> {
         let kid = header
             .kid
             .as_deref()
-            .filter(|x| !x.is_empty() && x.len() <= 64)
+            .filter(|x| crate::key_id::valid_key_id(x))
             .ok_or(AuthError::UnknownKey)?;
         let key = self.keys.get(kid, now)?;
         let claims = decode::<JwtClaims>(token, key, &self.validation)

@@ -5,6 +5,7 @@ import { join, resolve } from 'node:path';
 import { hash, identity, relativePath } from '../skills/files.mjs';
 import { isGeneratedStudioPath } from '../packages/studio-source.mjs';
 import { isPrivateSourcePath } from '../packages/source-policy.mjs';
+import { requireWorkspaceVersion } from '../packages/workspace-version.mjs';
 
 export const capture = (program, args, cwd) => execFileSync(program, args, {
   cwd, encoding: 'utf8', timeout: 10000, maxBuffer: 32 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'],
@@ -37,6 +38,7 @@ export function snapshot(root) {
   });
   const profile = JSON.parse(readFileSync(join(root, 'extensions/native-alpha-v1.json'), 'utf8'));
   if (profile.profile_version !== 1 || profile.publication_enabled !== false || !/^\d+\.\d+\.\d+(?:[-+][A-Za-z0-9.-]+)?$/.test(profile.package_version)) throw Error('unsupported release profile');
+  requireWorkspaceVersion(root, profile.package_version);
   const objectFormat = capture('git', ['rev-parse', '--show-object-format'], root).trim();
   return { revision, tree, object_format: objectFormat, lock_sha256: hash(join(root, 'Cargo.lock')), package_version: profile.package_version, profile, selected: identity(root), files };
 }

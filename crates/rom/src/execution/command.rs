@@ -1,10 +1,11 @@
 //! One supervised command pipeline, including receipt replay and atomic commit.
-use super::{Runtime, acquire};
+use super::{Runtime, diagnostic_record};
 use crate::{
     Access, Actor, Bundle, Cause, ClaimKey, Command, Error, FieldUpdate, Invocation, Key, Mutation,
     ProtectedMetadata, Receipt, Resource, Result, Row, Snapshot, invocation, normalize_patch,
     replay, typed,
 };
+use crate::{DiagnosticOutcome as Outcome, DiagnosticStage as Stage, diagnostics::OperationRecord};
 use std::panic::{AssertUnwindSafe, catch_unwind};
 impl Runtime {
     pub async fn execute<R: Resource>(
@@ -32,12 +33,35 @@ impl Runtime {
         }
         let identity = invocation.durable_identity(actor);
         let cmd = invocation.into_command();
-        let permit = acquire(&self.0.admission)?;
+        let mut recording = self
+            .0
+            .diagnostics
+            .as_ref()
+            .map(|sink| sink.operation(&identity, None, None, 0));
+        diagnostic_record::stage(&mut recording, Stage::Admission, Outcome::Started, 0);
+        let permit = match self.acquire_action() {
+            Ok(permit) => permit,
+            Err(error) => {
+                diagnostic_record::stage(
+                    &mut recording,
+                    Stage::Admission,
+                    diagnostic_record::outcome(&error),
+                    0,
+                );
+                diagnostic_record::publish(recording);
+                return Err(error);
+            }
+        };
+        diagnostic_record::stage(&mut recording, Stage::Admission, Outcome::Succeeded, 0);
         let a = actor.clone();
         let row = self
             .io(move |runtime| {
                 let _permit = permit;
-                runtime.run(&a, cmd, identity, None)
+                if recording.is_some() {
+                    runtime.run_observed(&a, cmd, identity, None, recording)
+                } else {
+                    runtime.run(&a, cmd, identity, None)
+                }
             })
             .await?;
         let a = actor.clone();
@@ -60,17 +84,68 @@ impl Runtime {
         identity: String,
         causal: Option<(Cause, ClaimKey)>,
     ) -> Result<Row> {
+        let recording = self.0.diagnostics.as_ref().map(|sink| {
+            sink.operation(
+                &identity,
+                causal.as_ref().map(|(cause, _)| cause),
+                causal.as_ref().map(|(_, claim)| claim),
+                0,
+            )
+        });
+        self.run_observed(actor, cmd, identity, causal, recording)
+    }
+    pub(crate) fn run_observed(
+        &self,
+        actor: &Actor,
+        cmd: invocation::ErasedCommand,
+        identity: String,
+        causal: Option<(Cause, ClaimKey)>,
+        mut recording: Option<OperationRecord>,
+    ) -> Result<Row> {
+        let result = self.run_inner(actor, cmd, identity, causal, &mut recording);
+        if let Err(error) = &result {
+            let outcome = diagnostic_record::outcome(error);
+            let stage = if matches!(error, Error::Denied) {
+                Stage::Authorization
+            } else {
+                recording
+                    .as_ref()
+                    .and_then(OperationRecord::last_stage)
+                    .unwrap_or(Stage::Execution)
+            };
+            let already_recorded = recording.as_ref().is_some_and(|record| {
+                record.last_stage() == Some(stage) && record.last_outcome() == Some(outcome)
+            });
+            if !already_recorded {
+                diagnostic_record::stage(&mut recording, stage, outcome, 0);
+            }
+        }
+        // All inner guards and native transactions have returned before queue publication.
+        diagnostic_record::publish(recording);
+        result
+    }
+    fn run_inner(
+        &self,
+        actor: &Actor,
+        cmd: invocation::ErasedCommand,
+        identity: String,
+        causal: Option<(Cause, ClaimKey)>,
+        recording: &mut Option<OperationRecord>,
+    ) -> Result<Row> {
         // run executes in bounded I/O. Resolve current authority under the commit
         // gate before exposing registry membership or invoking application codecs.
         // Later checks still protect receipt disclosure and commit after proposal work.
+        diagnostic_record::stage(recording, Stage::Authorization, Outcome::Started, 0);
         {
             let _guard = self.0.gate.lock().map_err(|_| Error::Panicked)?;
             self.check_authority(actor)?;
         }
+        diagnostic_record::stage(recording, Stage::Authorization, Outcome::Succeeded, 0);
         let mut causal = causal;
         if let Some((cause, claim)) = &mut causal {
             cause.parent = Some(claim.id.clone());
         }
+        diagnostic_record::stage(recording, Stage::Resolve, Outcome::Started, 0);
         let def = self.0.registry.get(&cmd.kind).ok_or(Error::Unregistered)?;
         let key = Key {
             kind: cmd.kind.clone(),
@@ -82,18 +157,28 @@ impl Runtime {
                 if owner == permit.provenance.source && permit.target == key => {}
             _ => return Err(Error::Denied),
         }
+        diagnostic_record::stage(recording, Stage::Resolve, Outcome::Succeeded, 0);
         // A retained receipt defines its original request interpretation. Check it
         // before the current codec can reject a renamed or transformed old input.
         {
             let _guard = self.0.gate.lock().map_err(|_| Error::Panicked)?;
             self.check_authority(actor)?;
+            diagnostic_record::stage(recording, Stage::Receipt, Outcome::Started, 0);
             if let Some(receipt) =
                 self.retry_receipt(&identity, cmd.retry_epoch, causal.is_some())?
             {
-                let current = self.0.storage.load(&key)?;
-                return self.replay_outcome(actor, def.as_ref(), current.as_ref(), receipt, &cmd);
+                let current = diagnostic_record::load(self.0.storage.as_ref(), &key, recording)?;
+                diagnostic_record::stage(recording, Stage::Receipt, Outcome::Started, 0);
+                let result =
+                    self.replay_outcome(actor, def.as_ref(), current.as_ref(), receipt, &cmd);
+                if result.is_ok() {
+                    diagnostic_record::stage(recording, Stage::Receipt, Outcome::Replay, 0);
+                }
+                return result;
             }
+            diagnostic_record::stage(recording, Stage::Receipt, Outcome::Succeeded, 0);
         }
+        diagnostic_record::stage(recording, Stage::Validation, Outcome::Started, 0);
         let input = replay::input(def.as_ref(), &cmd.mutation)?;
         let explicit_fields = !matches!(cmd.mutation, Mutation::Action(_, _) | Mutation::Patch(_));
         let patch_fields = match &cmd.mutation {
@@ -104,12 +189,20 @@ impl Runtime {
         let prior = {
             let _denied = self.0.gate.lock().unwrap();
             self.check_authority(actor)?;
-            let prior = self.0.storage.load(&key)?;
+            let prior = diagnostic_record::load(self.0.storage.as_ref(), &key, recording)?;
+            diagnostic_record::stage(recording, Stage::Receipt, Outcome::Started, 0);
             if let Some(receipt) =
                 self.retry_receipt(&identity, cmd.retry_epoch, causal.is_some())?
             {
-                return self.replay_outcome(actor, def.as_ref(), prior.as_ref(), receipt, &cmd);
+                let result =
+                    self.replay_outcome(actor, def.as_ref(), prior.as_ref(), receipt, &cmd);
+                if result.is_ok() {
+                    diagnostic_record::stage(recording, Stage::Receipt, Outcome::Replay, 0);
+                }
+                return result;
             }
+            diagnostic_record::stage(recording, Stage::Receipt, Outcome::Succeeded, 0);
+            diagnostic_record::stage(recording, Stage::Validation, Outcome::Started, 0);
             let authorization = prior
                 .as_ref()
                 .and_then(|r| r.value.as_ref())
@@ -127,6 +220,7 @@ impl Runtime {
             prior
         };
         self.check_actor(actor)?;
+        diagnostic_record::stage(recording, Stage::Execution, Outcome::Started, 0);
         // Native business functions compute proposals off Tokio. They must be pure w.r.t. external effects.
         let (new_value, effects) = match &cmd.mutation {
             Mutation::Create(v) | Mutation::Replace(v) => (Some(def.normalize(v.clone())?), vec![]),
@@ -208,10 +302,17 @@ impl Runtime {
         }
         let denied = self.0.gate.lock().unwrap();
         self.check_authority(actor)?;
-        let current = self.0.storage.load(&key)?;
+        let current = diagnostic_record::load(self.0.storage.as_ref(), &key, recording)?;
+        diagnostic_record::stage(recording, Stage::Receipt, Outcome::Started, 0);
         if let Some(receipt) = self.retry_receipt(&identity, cmd.retry_epoch, causal.is_some())? {
-            return self.replay_outcome(actor, def.as_ref(), current.as_ref(), receipt, &cmd);
+            let result = self.replay_outcome(actor, def.as_ref(), current.as_ref(), receipt, &cmd);
+            if result.is_ok() {
+                diagnostic_record::stage(recording, Stage::Receipt, Outcome::Replay, 0);
+            }
+            return result;
         }
+        diagnostic_record::stage(recording, Stage::Receipt, Outcome::Succeeded, 0);
+        diagnostic_record::stage(recording, Stage::Validation, Outcome::Started, 0);
         // Recheck authoritative current state after CPU work and before conditional commit.
         if let Some(v) = current.as_ref().and_then(|r| r.value.as_ref())
             && !def.allows(actor, Access::Write, v)
@@ -230,6 +331,7 @@ impl Runtime {
         )?;
         // Validate the actual CAS-checked transition for every mutation path.
         // Catch locally: application failure must not unwind through/poison the gate.
+        diagnostic_record::stage(recording, Stage::Validation, Outcome::Started, 0);
         catch_unwind(AssertUnwindSafe(|| {
             def.validate_transition(
                 actor,
@@ -238,6 +340,7 @@ impl Runtime {
             )
         }))
         .unwrap_or(Err(Error::Panicked))?;
+        diagnostic_record::stage(recording, Stage::Validation, Outcome::Succeeded, 0);
         let source_provenance = actor
             .source
             .as_ref()
@@ -320,12 +423,25 @@ impl Runtime {
             effects,
         };
         self.check_authority(actor)?;
+        diagnostic_record::stage(recording, Stage::Commit, Outcome::Started, 0);
         let receipt = self.0.storage.commit(&bundle);
+        diagnostic_record::stage(
+            recording,
+            Stage::Commit,
+            match &receipt {
+                Ok(_) => Outcome::Succeeded,
+                Err(error) => diagnostic_record::outcome(error),
+            },
+            0,
+        );
         // Unknown may mean committed: invalidate even when the adapter loses its acknowledgment.
         if receipt.is_ok() || receipt == Err(Error::Unknown) {
             self.invalidate();
         }
         let receipt = receipt?;
+        if changed {
+            diagnostic_record::stage(recording, Stage::Event, Outcome::Succeeded, 1);
+        }
         self.disclose(
             actor,
             &denied,
@@ -333,6 +449,7 @@ impl Runtime {
             Some(&receipt.row),
             &receipt.row,
         )?;
+        diagnostic_record::stage(recording, Stage::Execution, Outcome::Succeeded, 0);
         Ok(receipt.row)
     }
 }

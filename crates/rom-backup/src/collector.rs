@@ -8,21 +8,30 @@ pub struct Collector {
     limits: BackupLimits,
     bytes: usize,
     records: usize,
+    scheduling: bool,
 }
 impl Collector {
     pub fn new(state: &str, limits: BackupLimits) -> Result<Self> {
-        Self::collect(state, limits, false)
+        Self::collect(state, limits, crate::STORAGE_FORMAT)
     }
     /// Collect state from an explicit pre-format-8 source, initializing recovery metadata.
     pub fn legacy(state: &str, limits: BackupLimits) -> Result<Self> {
-        Self::collect(state, limits, true)
+        Self::collect(state, limits, 7)
     }
-    fn collect(state: &str, limits: BackupLimits, legacy: bool) -> Result<Self> {
+    /// Collect format-8 state without erasing its operator recovery metadata.
+    pub fn previous(state: &str, limits: BackupLimits) -> Result<Self> {
+        Self::collect(state, limits, 8)
+    }
+    fn collect(state: &str, limits: BackupLimits, format: u32) -> Result<Self> {
         if state.len() > limits.max_bytes || limits.max_records == 0 {
             return Err(Error::TooLarge);
         }
-        let parsed: rom::StorageState = if legacy {
+        let parsed: rom::StorageState = if format < 8 {
             crate::decode_legacy_storage_state(decode(state)?)?
+        } else if format == 8 {
+            let value = decode(state)?;
+            crate::legacy_state::reject_scheduling_fields(&value)?;
+            serde_json::from_value(value).map_err(|_| Error::Storage)?
         } else {
             decode(state)?
         };
@@ -48,6 +57,7 @@ impl Collector {
             limits,
             bytes: state.len(),
             records,
+            scheduling: format >= 9,
         })
     }
     fn charge(&mut self, data: &str, key_bytes: usize) -> Result<()> {
@@ -117,6 +127,10 @@ impl Collector {
     }
     pub fn effect(&mut self, id: &str, ordinal: u64, data: &str) -> Result<()> {
         self.charge(data, id.len())?;
+        if !self.scheduling {
+            let value: serde_json::Value = decode(data)?;
+            crate::legacy_state::reject_intent_scheduling_fields(&value)?;
+        }
         self.snapshot.effects.push(StoredEffect {
             identity: id.into(),
             ordinal,

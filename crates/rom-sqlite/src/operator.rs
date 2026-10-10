@@ -12,7 +12,8 @@ impl Sqlite {
         max_bytes: usize,
     ) -> Result<StorageWorkSnapshot> {
         let connection = self.connection.lock().map_err(|_| Error::Panicked)?;
-        state(&connection)?.work_snapshot(max_records, max_bytes)
+        crate::native_work::admit_operator(&connection, max_records, max_bytes)?;
+        state(&connection, self.validation_limits)?.work_snapshot(max_records, max_bytes)
     }
 
     pub(crate) fn operator_control(
@@ -23,7 +24,7 @@ impl Sqlite {
         let transaction = connection
             .transaction_with_behavior(rusqlite::TransactionBehavior::Immediate)
             .map_err(|_| Error::Storage)?;
-        let mut metadata = state(&transaction)?;
+        let mut metadata = state(&transaction, self.validation_limits)?;
         let receipt = metadata.control_work(control)?;
         if receipt.result.replayed {
             return Ok(receipt);

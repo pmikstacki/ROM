@@ -62,7 +62,7 @@ pub(super) fn validate(c: &Connection) -> Result<()> {
     indexes(c, "query_profile", None, false)
 }
 
-fn table(
+pub(crate) fn table(
     c: &Connection,
     name: &str,
     without_rowid: bool,
@@ -116,8 +116,8 @@ fn table(
     Ok(())
 }
 
-type Primary<'a> = (&'a [&'a str], &'a [&'a str]);
-fn indexes(
+pub(crate) type Primary<'a> = (&'a [&'a str], &'a [&'a str]);
+pub(crate) fn indexes(
     c: &Connection,
     table: &str,
     primary: Option<Primary<'_>>,

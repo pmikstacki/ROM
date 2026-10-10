@@ -50,24 +50,10 @@ impl Runtime {
         if !self.0.storage.supports_reactions() {
             return Err(Error::Unsupported("durable reactions".into()));
         }
-        let permit = execution::acquire(&self.0.admission)?;
+        let permit = self.acquire_action()?;
         self.io(move |runtime| {
             let _permit = permit;
-            let mut completed = 0;
-            for _ in 0..max_steps {
-                runtime.ensure_open()?;
-                let now = runtime.0.clock.now();
-                let WorkResult::Claimed(claim) = runtime
-                    .0
-                    .storage
-                    .reaction_update(WorkUpdate::Claim { now })?
-                else {
-                    break;
-                };
-                runtime.process_claim(*claim)?;
-                completed += 1;
-            }
-            Ok(completed)
+            runtime.process_source_prefix(max_steps)
         })
         .await
     }

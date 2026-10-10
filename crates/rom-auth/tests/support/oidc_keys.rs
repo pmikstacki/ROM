@@ -122,7 +122,7 @@ fn invalid_header_never_fetches_and_invalid_complete_key_sets_never_issue_proof(
     for map in [
         BTreeMap::new(),
         BTreeMap::from([("".into(), signing::public(0))]),
-        BTreeMap::from([("x".repeat(65), signing::public(0))]),
+        BTreeMap::from([("x".repeat(257), signing::public(0))]),
         (0..9)
             .map(|index| (index.to_string(), signing::public(0)))
             .collect(),

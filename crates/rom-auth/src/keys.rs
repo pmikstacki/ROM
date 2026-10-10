@@ -1,6 +1,7 @@
 use crate::{
     AuthError,
     jwt::{DecodingKey, TrustedKeys},
+    key_id::valid_key_id,
 };
 use std::collections::BTreeMap;
 
@@ -21,7 +22,7 @@ impl<K: TrustedKeys> KeyCache<K> {
         }
     }
     pub(crate) fn get(&mut self, kid: &str, now: u64) -> Result<&DecodingKey, AuthError> {
-        if kid.is_empty() || kid.len() > 64 {
+        if !valid_key_id(kid) {
             return Err(AuthError::UnknownKey);
         }
         if now >= self.until || !self.keys.contains_key(kid) {
@@ -33,10 +34,7 @@ impl<K: TrustedKeys> KeyCache<K> {
             }
             self.last_refresh = Some(now);
             let fresh = self.source.fetch()?;
-            if fresh.is_empty()
-                || fresh.len() > 8
-                || fresh.keys().any(|key| key.is_empty() || key.len() > 64)
-            {
+            if fresh.is_empty() || fresh.len() > 8 || fresh.keys().any(|key| !valid_key_id(key)) {
                 return Err(AuthError::Invalid);
             }
             self.keys = fresh;

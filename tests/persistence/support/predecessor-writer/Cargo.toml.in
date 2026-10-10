@@ -1,0 +1,14 @@
+[package]
+name = "rom-predecessor-writer"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+rom = { version = "=0.0.3", path = "@SOURCE_ROOT@/crates/rom" }
+rom-sqlite = { version = "=0.0.3", path = "@SOURCE_ROOT@/crates/rom-sqlite" }
+rom-redb = { version = "=0.0.3", path = "@SOURCE_ROOT@/crates/rom-redb" }
+
+rom-backup = { version = "=0.0.3", path = "@SOURCE_ROOT@/crates/rom-backup" }

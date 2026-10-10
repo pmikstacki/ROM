@@ -21,8 +21,13 @@ const presentationFailures=[
  ["presentation_wrong_field","expected one rename option",5],
  ["presentation_wrong_type","expected one name, version or crate option",3],
 ];
+const capturedValidatorFailures = [
+ ['captured_validator_non_send', 'cannot be sent between threads safely', 9],
+ ['captured_validator_non_sync', 'cannot be shared between threads safely', 9],
+ ['captured_validator_borrowed', 'closure may outlive the current function', 9],
+];
 const manifest='tests/compile/Cargo.toml';
-for(const [name,message,line] of [...presentationFailures,["resource_version_zero","version must be a positive u32 integer",3],["resource_version_duplicate","duplicate version option",3],["resource_version_string","version must be a positive u32 integer",3],["resource_version_float","version must be a positive u32 integer",3],["resource_version_overflow","version must be a positive u32 integer",3],["input_version","Input does not support version",3],['unsupported','Field',5],['serde','rejects independent serde',5],['duplicate','duplicate or empty',6],['wrong_input','mismatched types',6],['wrong_selector','mismatched types',5],['input_unsupported','Field',4],['input_duplicate','duplicate or empty',5],['input_serde','rejects independent serde',4],['input_generic','requires concrete fields',3],['input_duplicate_option','expected one rename',4]]) {
+for(const [name,message,line] of [...presentationFailures,...capturedValidatorFailures,["resource_version_zero","version must be a positive u32 integer",3],["resource_version_duplicate","duplicate version option",3],["resource_version_string","version must be a positive u32 integer",3],["resource_version_float","version must be a positive u32 integer",3],["resource_version_overflow","version must be a positive u32 integer",3],["input_version","Input does not support version",3],['unsupported','Field',5],['serde','rejects independent serde',5],['duplicate','duplicate or empty',6],['wrong_input','mismatched types',6],['wrong_selector','mismatched types',5],['input_unsupported','Field',4],['input_duplicate','duplicate or empty',5],['input_serde','rejects independent serde',4],['input_generic','requires concrete fields',3],['input_duplicate_option','expected one rename',4]]) {
  const result=spawnSync('cargo',['check','--manifest-path',manifest,'--locked','--bin',name,'--message-format=json'],{encoding:'utf8'});
  const diagnostics=result.stdout.split('\n').filter(Boolean).flatMap(l=>{try{const v=JSON.parse(l);return v.reason==='compiler-message'?[v.message]:[];}catch{return [];}});
  const error=diagnostics.find(d=>d.level==='error'&&d.message.includes(message)&&d.spans.some(s=>s.is_primary&&s.file_name.endsWith(`${name}.rs`)&&s.line_start===line));
@@ -44,7 +49,7 @@ if(renamed.status!==0)process.exit(renamed.status??1);
 const versioned=spawnSync('cargo',['run','--manifest-path',manifest,'--locked','--bin','resource_version'],{stdio:'inherit'});
 if(versioned.status!==0)process.exit(versioned.status??1);
 
-for(const name of ['presentation_valid','presentation_shadowed_builtin']) {
+for(const name of ['presentation_valid','presentation_shadowed_builtin','captured_validator_valid']) {
  const result=spawnSync('cargo',['run','--manifest-path',manifest,'--locked','--bin',name],{stdio:'inherit'});
  if(result.status!==0)process.exit(result.status??1);
 }

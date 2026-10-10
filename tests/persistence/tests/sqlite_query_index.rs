@@ -1,5 +1,6 @@
 #[path = "support/legacy_native.rs"]
 mod legacy_native;
+use legacy_native::native_canonical;
 use rom::*;
 use rom_backup::BackupLimits;
 use rom_sqlite::Sqlite;
@@ -214,11 +215,13 @@ fn format_six_upgrade_preserves_retry_epochs_and_does_not_rebind_receipt_origins
     let s = Scratch::new();
     let db = seeded(&s);
     drop(db);
+    let mut state: StorageState = serde_json::from_value(native_canonical::state(
+        false,
+        &s.path("source.db"),
+        StorageLimits::default(),
+    ))
+    .unwrap();
     let c = rusqlite::Connection::open(s.path("source.db")).unwrap();
-    let text: String = c
-        .query_row("SELECT data FROM rom_state WHERE id=1", [], |r| r.get(0))
-        .unwrap();
-    let mut state: StorageState = serde_json::from_str(&text).unwrap();
     let epochs = RetryEpochs {
         current: 4,
         admission_floor: 2,

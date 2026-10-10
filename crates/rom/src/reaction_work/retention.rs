@@ -1,7 +1,7 @@
 //! Retry epoch integrity and whole-root maintenance selection.
 use super::*;
 
-fn completed(record: &WorkRecord) -> bool {
+pub(super) fn completed(record: &WorkRecord) -> bool {
     record.state == WorkState::Done
         && match record.pending.payload {
             WorkPayload::Notification { .. } => record.delivery == Some(DeliveryOutcome::Accepted),

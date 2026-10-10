@@ -31,7 +31,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "npm run preview:components",
+    command: "corepack pnpm run preview:components",
     url: "http://127.0.0.1:43173/rom-studio/",
     reuseExistingServer: false,
     timeout: 20000,

@@ -2,7 +2,7 @@
 	import { Menubar as MenubarPrimitive } from "bits-ui";
 	import MinusIcon from '@lucide/svelte/icons/minus';
 	import CheckIcon from '@lucide/svelte/icons/check';
-	import { cn, type WithoutChildrenOrChild } from "$lib/components/ui/utils.js";
+	import { cn, type WithoutChildrenOrChild } from "../utils.js";
 	import type { Snippet } from "svelte";
 
 	let {

@@ -9,18 +9,21 @@
     descriptor,
     rows,
     onselect,
+    disabled = false,
   }: {
     descriptor: ResourceDescriptor;
     rows: ProjectedView[];
     onselect: (row: ProjectedView, opener?: HTMLButtonElement) => void;
+    disabled?: boolean;
   } = $props();
 </script>
 
 <Table.Root class="text-sm"
   ><Table.Caption>{descriptor.kind} resources</Table.Caption><Table.Header
     ><Table.Row
-      ><Table.Head scope="col">{descriptor.presentation?.title_field ? "Resource" : "ID"}</Table.Head><Table.Head scope="col"
-        >Revision</Table.Head
+      ><Table.Head scope="col"
+        >{descriptor.presentation?.title_field ? "Resource" : "ID"}</Table.Head
+      ><Table.Head scope="col">Revision</Table.Head
       >{#each descriptor.fields as field}<Table.Head scope="col"
           >{descriptor.presentation?.fields?.[field.name]?.label ||
             field.name}</Table.Head
@@ -46,6 +49,7 @@
             class="max-lg:size-9"
             aria-label={`Open ${row.key.id}`}
             title={`Open ${row.key.id}`}
+            {disabled}
             onclick={(event) =>
               onselect(row, event.currentTarget as HTMLButtonElement)}
             ><OpenIcon /><span class="hidden lg:inline">Open {row.key.id}</span

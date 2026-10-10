@@ -1,6 +1,16 @@
 # Source release support boundary
 
-Current release: 0.0.3 passed source, Studio, and persistent preview acceptance on 2026-10-05.
+## Current 0.1.0 source candidate
+
+The workspace declares `0.1.0`. Complete release acceptance remains open.
+Read the [0.1.0 progress report](research/rom-0.1.0-full-feedback-coordination-2026-10-08.md) for recorded checks and remaining work.
+Read `Cargo.toml`, `studio/package.json`, and `extensions/native-alpha-v1.json` for source versions and the extension profile.
+A source version does not establish an accepted artifact or provider support.
+Use the exact source revision, dirty changes, and lockfile identities with every result.
+
+## Last accepted release
+
+Last accepted release: 0.0.3 passed source, Studio, and persistent preview acceptance on 2026-10-05.
 Accepted source: `584c01b614127b3f62799f1a26a1cdf3f734c3dc`.
 Restart acceptance preserves edited and deleted seeded Resources.
 Explicit application acceptance uses WPE 2364 with the locked Playwright 1.63.0 client.
@@ -41,9 +51,17 @@ This release does not specify a support response-time commitment.
 
 ## Data compatibility
 
-Current native storage format is 8. Current archive format is 6.
+Accepted 0.0.3 uses native storage format 8 and archive format 6.
+The unreleased 0.1.0 candidate uses native format 11 and archive format 7.
+Format 9 introduced frozen delayed channel eligibility; format 10 separates native Work records and metadata.
+Format 11 stores journal positions separately and keeps scalar Resource metadata.
+Focused scheduling, archive conversion, populated adapter upgrade and native-layout checks pass.
+Earlier previous-release database-reader rejection passed on copied SQLite and redb fixtures before the format-10 change.
+The [reader report](research/rom-0.1.0-previous-reader-rejection-2026-10-08.md) records source identity, controls, and limits.
+The latest working-source verifier passed; final-package verification, whole-application upgrade and release acceptance remain open.
+The [current release evidence audit](research/rom-0.1.0-current-release-gates-2026-10-08.md) separates current results from historical tests.
 Ordinary open rejects unsupported native markers.
-[Native upgrade](native-upgrade.md) describes explicit conversion from formats 3 through 7.
+[Native upgrade](native-upgrade.md) describes candidate explicit conversion from formats 3 through 10 into format 11.
 [Resource migration](resource-migrations.md) preserves declared historical request codecs and unfinished obligations.
 [Retention](retention.md) requires explicit policy and restore fences.
 
@@ -69,6 +87,20 @@ WASM, dynamic loading, RabbitMQ, Studio, shared tenancy, multiwriter deployment,
 The real-provider fixture does not establish universal OAuth compatibility, human login, or production TLS deployment.
 Process-exit tests do not certify machine power-loss durability.
 Automated author tests do not establish human usability or measured productivity improvement.
+
+## Candidate 0.1.0 identity boundary
+
+The unreleased Host implements a restricted RSA/RS256 provider profile. It does not establish universal OIDC provider interoperability.
+The JWK parser accepts its declared key members and bounded certificate metadata. It rejects other members.
+A key set is limited to 65,536 bytes and eight keys. Certificate metadata does not establish certificate trust.
+This restriction differs from RFC 7517's general rule for unknown JWK members.
+Do not infer broader interoperability from one successful provider fixture.
+The [identity investigation](research/rom-0.1.0-upgrade-identity-boundary-2026-10-09.md) records this limit and the upgrade experiment.
+
+The legacy provider fixture supports the historical application login. It is not a production identity provider.
+The upgrade experiment preserves separate verified principals for the legacy fixture and the current provider.
+Linking both principals to one User does not combine their receipt identities or permit cross-provider result disclosure.
+Whole-application upgrade acceptance remains open.
 
 ## Verification and maintenance
 

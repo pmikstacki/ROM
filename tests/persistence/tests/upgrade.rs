@@ -87,6 +87,7 @@ impl Legacy {
             .push(Intent::new("audit", json!({"message":"retained"})));
         child.reaction_limits = Some(ReactionLimits::default());
         child.reactions.push(PendingWork {
+            not_before: None,
             delivery_profile: rom::DeliveryProfile::AtLeastOnce,
             id: "pending-child".into(),
             cause: Cause {

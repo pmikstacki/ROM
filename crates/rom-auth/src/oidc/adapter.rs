@@ -8,6 +8,8 @@ use jsonwebtoken::{Algorithm, Validation, decode};
 /// Issued lifetime is at most one hour; evidence and cached keys last at most
 /// 30 seconds. The key source has the same eight-key, five-second refresh bounds
 /// as [`crate::jwt::JwtAdapter`]. Trust-source approval belongs to the host.
+/// Key IDs follow [`crate::jwt::TrustedKeys`]: 1 through 256 UTF-8 bytes, without
+/// Unicode control characters, matched exactly without normalization or truncation.
 pub struct OidcIdTokenAdapter<K> {
     authority: String,
     issuer: String,
@@ -106,7 +108,7 @@ impl<K: TrustedKeys> OidcIdTokenAdapter<K> {
             claims
                 .exp
                 .min(self.keys.until())
-                .min(now.saturating_add(30)),
+                .min(now.saturating_add(super::MAX_PROOF_SECONDS)),
         ))
     }
 }

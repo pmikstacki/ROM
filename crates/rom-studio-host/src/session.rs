@@ -26,6 +26,12 @@ pub(crate) struct Session {
     pub(crate) evidence: SessionEvidence,
     cancelled: watch::Sender<bool>,
 }
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub(crate) enum SessionValidity {
+    Current,
+    Expired,
+    Cancelled,
+}
 impl Session {
     pub(crate) fn cookie(&self) -> &str {
         &self.cookie
@@ -38,6 +44,15 @@ impl Session {
     }
     pub(crate) fn expires_at(&self) -> u64 {
         self.expiry
+    }
+    pub(crate) fn validity(&self, now: u64) -> SessionValidity {
+        if *self.cancelled.borrow() {
+            SessionValidity::Cancelled
+        } else if now >= self.expiry {
+            SessionValidity::Expired
+        } else {
+            SessionValidity::Current
+        }
     }
     pub(crate) fn cancellation(&self) -> watch::Receiver<bool> {
         self.cancelled.subscribe()
@@ -106,16 +121,17 @@ impl SessionStore {
         }
         entries.sessions.get(cookie).cloned()
     }
-    pub(crate) fn failed(&self, cookie: &str, error: &Error) {
-        if matches!(error, Error::Denied | Error::Panicked) {
-            self.remove(cookie);
-        }
+    pub(crate) fn failed(&self, cookie: &str, error: &Error) -> bool {
+        matches!(error, Error::Denied | Error::Panicked) && self.remove(cookie)
     }
-    pub(crate) fn remove(&self, cookie: &str) {
+    pub(crate) fn remove(&self, cookie: &str) -> bool {
         if let Ok(mut entries) = self.entries.lock()
             && let Some(session) = entries.sessions.remove(cookie)
         {
             session.cancel();
+            true
+        } else {
+            false
         }
     }
     pub(crate) fn close(&self) {

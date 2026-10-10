@@ -1,7 +1,2 @@
-import Root from "./switch.svelte";
-
-export {
-	Root,
-	//
-	Root as Switch,
-};
+/** Stable Studio facade; generic behavior belongs to ROM UI. */
+export * from "rom-ui/primitives/switch";

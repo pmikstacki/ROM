@@ -8,7 +8,7 @@ import { frontendFixture, fixtureRunner } from '../packages/studio-test-support.
 
 const source = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 export const scratch = name => mkdtempSync(join(process.env.ROM_RELEASE_TEST_TMP ?? '/var/tmp', `rom-artifact-${name}-`));
-export function fixture() {
+export function fixture(version = '0.0.3') {
   const parent = scratch('test');
   const root = join(parent, 'source');
   mkdirSync(root);
@@ -16,7 +16,13 @@ export function fixture() {
     mkdirSync(dirname(join(root, path)), { recursive: true });
     cpSync(join(source, path), join(root, path), { recursive: true });
   }
-  frontendFixture(root, JSON.parse(readFileSync(join(root, 'extensions/native-alpha-v1.json'))).package_version);
+  const profilePath = join(root, 'extensions/native-alpha-v1.json');
+  const profile = JSON.parse(readFileSync(profilePath));
+  const previous = profile.package_version; profile.package_version = version;
+  writeFileSync(profilePath, JSON.stringify(profile));
+  const cargoPath = join(root, 'Cargo.toml');
+  writeFileSync(cargoPath, readFileSync(cargoPath, 'utf8').replace(`version = "${previous}"`, `version = "${version}"`));
+  frontendFixture(root, version);
   writeFileSync(join(root, '.gitignore'), '/dist/\n');
   git(root, ['init', '-q']);
   git(root, ['add', '.']);

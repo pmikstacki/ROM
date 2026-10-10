@@ -12,9 +12,9 @@
   import { draftFromQuery, queryFromDraft } from "../filters/translation.ts";
   import { stringifyWire } from "../client/codec.ts";
   import ResourceTable from "../resources/ResourceTable.svelte";
-  import ResourceForm from "../resources/ResourceForm.svelte";
   import FilterPanel from "../resources/FilterPanel.svelte";
   import ResourceDetails from "./ResourceDetails.svelte";
+  import CreationForm from "./CreationForm.svelte";
   import ResponsiveInspector from "./ResponsiveInspector.svelte";
   import InspectorToggle from "./InspectorToggle.svelte";
   import { resourceLabel } from "../presentation/resource-presentation.ts";
@@ -22,7 +22,6 @@
   import * as Tabs from "../components/ui/tabs/index.js";
   import { Button } from "../components/ui/button/index.js";
   import { Badge } from "../components/ui/badge/index.js";
-  import { Input } from "../components/ui/input/index.js";
   import FilterIcon from "@lucide/svelte/icons/list-filter";
   import PlusIcon from "@lucide/svelte/icons/plus";
   import RefreshIcon from "@lucide/svelte/icons/rotate-cw";
@@ -35,13 +34,14 @@
     controller,
     snapshot,
     descriptor,
+    restoreEpoch = 0,
   }: {
     controller: ApplicationController;
     snapshot: ApplicationState;
     descriptor: ResourceDescriptor;
+    restoreEpoch?: number;
   } = $props();
-  let create = $state(false),
-    id = $state("");
+  let create = $state(false);
   let draft = $state.raw<FilterDraft>(
     untrack(() => draftFromQuery(descriptor, snapshot.query)),
   );
@@ -73,7 +73,16 @@
   const blocked = $derived(
     snapshot.busy ||
       snapshot.pending?.state === "unknown" ||
-      snapshot.pending?.state === "pending",
+      snapshot.pending?.state === "pending" ||
+      !!snapshot.recovery?.state.hasUnresolvedIntent ||
+      snapshot.recovery?.state.phase === "storage_error" ||
+      snapshot.editor?.status === "writing" ||
+      snapshot.editor?.status === "error" ||
+      !!snapshot.creation?.busy ||
+      !!snapshot.creation?.recovery?.state.hasUnresolvedIntent ||
+      snapshot.creation?.recovery?.state.phase === "storage_error" ||
+      snapshot.creation?.editor.status === "writing" ||
+      snapshot.creation?.editor.status === "error",
   );
   const invalid = $derived(
     editorInvalid ||
@@ -149,6 +158,14 @@
     quickOpen = false;
     inspectorOpen = true;
     tab = "filters";
+  }
+  async function navigate(operation: () => Promise<unknown>) {
+    if (blocked) return;
+    try {
+      await operation();
+    } catch (problem) {
+      error = problem instanceof Error ? problem.message : "Navigation failed.";
+    }
   }
 </script>
 
@@ -263,19 +280,12 @@
 </div>
 {#if snapshot.busy}<p role="status">Loading…</p>{/if}
 {#if error}<p role="alert" class="text-sm text-destructive">{error}</p>{/if}
-{#if create}<section
-    class="space-y-4 rounded-lg border bg-card p-4"
-    aria-label="Create Resource"
-  >
-    <label>Resource ID<Input bind:value={id} /></label><ResourceForm
-      {descriptor}
-      mode="create"
-      submit={async (input) => {
-        await controller.mutate(id, null, input);
-        create = false;
-      }}
-    />
-  </section>{/if}
+{#if create}<CreationForm
+    {controller}
+    {snapshot}
+    {descriptor}
+    oncreated={() => (create = false)}
+  />{/if}
 <div
   class={inspectorOpen
     ? "grid items-start gap-4 xl:grid-cols-[minmax(0,1fr)_20rem]"
@@ -285,12 +295,14 @@
     <ResourceTable
       {descriptor}
       rows={snapshot.rows}
+      disabled={blocked}
       onselect={(row, opener) => {
+        if (blocked) return;
         inspectorOpener = opener ?? inspectorTrigger;
         inspectorOpener?.focus();
         inspectorOpen = true;
         tab = "details";
-        void controller.selectRow(row.key.id);
+        void navigate(() => controller.selectRow(row.key.id));
       }}
     />
     <nav
@@ -307,8 +319,8 @@
         class="max-lg:size-9"
         aria-label="First page"
         title="First page"
-        disabled={snapshot.busy || snapshot.page === 1}
-        onclick={() => void controller.firstPage()}
+        disabled={blocked || snapshot.page === 1}
+        onclick={() => void navigate(() => controller.firstPage())}
         ><FirstPageIcon /><span class="hidden lg:inline">First page</span
         ></Button
       >
@@ -318,8 +330,8 @@
         class="max-lg:size-9"
         aria-label="Previous page"
         title="Previous page"
-        disabled={snapshot.busy || !snapshot.hasPrevious}
-        onclick={() => void controller.previousPage()}
+        disabled={blocked || !snapshot.hasPrevious}
+        onclick={() => void navigate(() => controller.previousPage())}
         ><PreviousPageIcon /><span class="hidden lg:inline">Previous page</span
         ></Button
       >
@@ -329,9 +341,9 @@
         class="max-lg:size-9"
         aria-label="Next page"
         title="Next page"
-        disabled={snapshot.busy ||
+        disabled={blocked ||
           snapshot.rows.length < (snapshot.query.limit ?? 50)}
-        onclick={() => void controller.nextPage()}
+        onclick={() => void navigate(() => controller.nextPage())}
         ><NextPageIcon /><span class="hidden lg:inline">Next page</span></Button
       >
     </nav>
@@ -387,6 +399,17 @@
               {descriptor}
               selected={snapshot.selected}
               {blocked}
+              {restoreEpoch}
+              managed={!!snapshot.session}
+              mutationAllowed={snapshot.session?.mutationAllowed ?? true}
+              draftSnapshot={snapshot.editor?.target?.kind ===
+                descriptor.kind &&
+              snapshot.editor.target.id === snapshot.selected.key.id
+                ? snapshot.editor.snapshot
+                : null}
+              draftWriter={snapshot.session
+                ? controller.createDraftWriter(snapshot.selected.key.id)
+                : undefined}
               onmutate={async (expected, operation) => {
                 await controller.mutate(
                   snapshot.selected!.key.id,

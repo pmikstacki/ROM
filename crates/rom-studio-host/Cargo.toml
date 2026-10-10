@@ -12,10 +12,10 @@ repository.workspace = true
 workspace = true
 [dependencies]
 rom = { workspace = true }
-rom-http = { version = "=0.0.3", path = "../rom-http" }
-rom-blob = { version = "=0.0.3", path = "../rom-blob" }
-rom-identity = { version = "=0.0.3", path = "../rom-identity" }
-rom-auth = { version = "=0.0.3", path = "../rom-auth", features = ["oidc"] }
+rom-http = { version = "=0.1.0", path = "../rom-http" }
+rom-blob = { version = "=0.1.0", path = "../rom-blob" }
+rom-identity = { version = "=0.1.0", path = "../rom-identity" }
+rom-auth = { version = "=0.1.0", path = "../rom-auth", features = ["oidc"] }
 axum = { version = "=0.8.9", default-features = false, features = ["http1", "tokio", "json", "query"] }
 futures-util = { version = "=0.3.34", default-features = false, features = ["std"] }
 http-body-util = "=0.1.5"
@@ -29,6 +29,6 @@ base64 = "=0.22.1"
 subtle = "=2.6.1"
 getrandom = "=0.4.3"
 [dev-dependencies]
-rom-backup = { path = "../rom-backup", version = "=0.0.3" }
+rom-backup = { path = "../rom-backup", version = "=0.1.0" }
 rom-sqlite = { workspace = true }
 rom-redb = { workspace = true }

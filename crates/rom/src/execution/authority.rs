@@ -111,10 +111,17 @@ impl Runtime {
                 .await?;
             self.check_actor(&actor)?;
             self.ensure_open()?;
+            #[cfg(test)]
+            super::overload_generation::before_generation_compare(
+                self,
+                super::overload_generation::Boundary::Actor,
+            )
+            .await?;
             if generation == self.0.generation.load(Ordering::SeqCst) {
                 return Ok(actor);
             }
         }
+        self.0.core_overloads.record_actor_generation_exhausted();
         Err(Error::Overloaded)
     }
     pub(crate) fn disclose(

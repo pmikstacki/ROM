@@ -103,6 +103,7 @@ fn work(definition: &str, payload: WorkPayload) -> PendingWork {
     let actor = service();
     PendingWork {
         delivery_profile: rom::DeliveryProfile::AtLeastOnce,
+        not_before: None,
         id: "pending".into(),
         definition: definition.into(),
         version: 1,

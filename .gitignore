@@ -15,3 +15,12 @@
 
 /dist/
 /tests/compile-renamed/target/
+
+# Local agent workspaces and historical evidence stay on disk, outside release source.
+/.superpowers/
+
+# Cargo output for standalone examples and conformance fixtures.
+**/target/
+
+# Local browser execution state.
+/test-results/

@@ -1,0 +1,38 @@
+{
+  "checked_at": "2026-10-08T07:57:52.934Z",
+  "thread_id": "01a111a5-617a-7800-b94f-eb82b11da39d",
+  "host_id": "remote-ssh-codex-managed:7455bafd-bcdf-4924-b743-87f13bd5b771",
+  "updated_at": 1791445000,
+  "returned_turns": 8,
+  "observed_user_message_refs": [
+    {
+      "turn_id": "01a115c2-999b-77b2-a90f-449043de2e9a",
+      "item_id": "01a115ce-a388-7962-b7d4-fb57537d1cd8"
+    },
+    {
+      "turn_id": "01a115c2-999b-77b2-a90f-449043de2e9a",
+      "item_id": "01a115d4-52de-7940-84e1-9f10c22816e2"
+    },
+    {
+      "turn_id": "01a115c2-999b-77b2-a90f-449043de2e9a",
+      "item_id": "01a115d6-8250-7ab0-83fb-9d74c8688fae"
+    },
+    {
+      "turn_id": "01a115c2-999b-77b2-a90f-449043de2e9a",
+      "item_id": "01a115d8-8e0d-7602-b6fa-904b1db8144f"
+    },
+    {
+      "turn_id": "01a115c2-999b-77b2-a90f-449043de2e9a",
+      "item_id": "01a115e5-a77a-7e23-84e3-d10aae3817b0"
+    }
+  ],
+  "has_more": true,
+  "consumer_reported_commit": "86dca6f",
+  "consumer_acknowledgement": false,
+  "raw_messages_published": false,
+  "limits": [
+    "Returned historical turns can omit items; five returned messages do not supersede the prior 47-reference audit.",
+    "Consumer test and deployment statements are reports; the coordinator has not independently reproduced those journeys.",
+    "Older text truncation and uninspected images remain coverage limits."
+  ]
+}

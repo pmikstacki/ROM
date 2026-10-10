@@ -27,6 +27,20 @@ test('existing output retains its bytes and refuses gates', async () => {
   assert.equal(readFileSync(join(f.output, 'keep'), 'utf8'), 'original');
 });
 
+test('committed Rust workspace version mismatch refuses every release gate', async () => {
+  const f = fixture();
+  const path = join(f.root, 'Cargo.toml');
+  const input = readFileSync(path, 'utf8');
+  const version = JSON.parse(readFileSync(join(f.root, 'extensions/native-alpha-v1.json'))).package_version;
+  writeFileSync(path, input.replace(`version = "${version}"`, 'version = "9.9.9"'));
+  git(f.root, ['add', '.']);
+  git(f.root, ['-c', 'user.name=fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-qm', 'mismatched workspace']);
+  let calls = 0;
+  await assert.rejects(produce({ ...f, runner: async (...args) => { calls++; return passed(...args); } }), /workspace package version mismatch/);
+  assert.equal(calls, 0);
+  assert.equal(existsSync(f.output), false);
+});
+
 test('missing Git metadata or obsolete profile refuses gates', async () => {
   for (const profile of [false, true]) {
     const f = fixture();
@@ -103,4 +117,10 @@ test('successful fixture creates complete checksummed artifacts with matching ex
   const archive = result.artifacts.source.path;
   writeFileSync(join(f.output, archive), 'tampered');
   await assert.rejects(verifyArtifacts(f.output), /checksum/);
+});
+
+test('current production version cannot finish the old eight gates without complete operational evidence', async () => {
+ const f=fixture('0.1.0');let calls=0;
+ await assert.rejects(produce({...f,runner:async(...args)=>{calls++;return passed(...args);}}),/release requirement evidence required/);
+ assert.equal(calls,0);assert.equal(existsSync(f.output),false);
 });

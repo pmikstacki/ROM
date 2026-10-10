@@ -5,6 +5,8 @@ description: Use when adding a ROM Resource, custom Field, or revision-checked a
 
 # Author a Resource and action
 
+Use the `0.1.0` source candidate and its matching lockfile. Release acceptance remains open.
+
 Read the [native contract](../../../docs/native-extensions.md) before declaring versions or codecs.
 Use the [bundle procedure](../README.md) to select the supplied source checkout and run `resource` preflight.
 
@@ -21,4 +23,6 @@ Use the [bundle procedure](../README.md) to select the supplied source checkout 
 Completion requires executed canonical, rejection, replay, and unchanged-state assertions through public interfaces.
 Record the tested source and lock identity from the verifier output.
 The example uses a trusted local fixture actor; application authorization still needs an explicit host policy.
+For application composition, use `docs/ai-development.md` in the supplied checkout.
+Its application workflow covers sessions, public projections, and browser mutation recovery.
 Use Resource-owned versions as the contract guide specifies.

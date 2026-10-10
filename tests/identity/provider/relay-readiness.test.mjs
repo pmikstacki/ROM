@@ -1,0 +1,2 @@
+import test from'node:test';import assert from'node:assert/strict';import{requirePendingRelay}from'./relay-readiness.mjs';
+test('a terminated relay cannot spend the provider readiness wait budget',()=>{assert.doesNotThrow(()=>requirePendingRelay(undefined));for(const result of[{exit_code:0,drained:true},{exit_code:1,drained:true},{signal:'SIGTERM',drained:true}])assert.throws(()=>requirePendingRelay(result),/relay exited/);});

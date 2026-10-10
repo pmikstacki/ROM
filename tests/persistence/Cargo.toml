@@ -11,7 +11,7 @@ workspace = true
 [dev-dependencies]
 rom-fields.workspace = true
 rom-conformance.workspace = true
-rom-backup = {version="=0.0.3",path="../../crates/rom-backup"}
+rom-backup = {version="=0.1.0",path="../../crates/rom-backup"}
 rom.workspace = true
 rom-sqlite = { workspace = true, features = ["test-support"] }
 rom-redb = { workspace = true, features = ["test-support"] }
@@ -19,6 +19,6 @@ redb.workspace = true
 rusqlite.workspace = true
 serde_json.workspace = true
 tokio.workspace = true
-rom-identity = { version = "=0.0.3", path = "../../crates/rom-identity" }
-rom-auth = { version = "=0.0.3", path = "../../crates/rom-auth", default-features = false, features = ["oidc"] }
+rom-identity = { version = "=0.1.0", path = "../../crates/rom-identity" }
+rom-auth = { version = "=0.1.0", path = "../../crates/rom-auth", default-features = false, features = ["oidc"] }
 jsonwebtoken = { version = "=11.1.0", default-features = false, features = ["aws_lc_rs", "use_pem"] }

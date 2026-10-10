@@ -8,7 +8,7 @@ use rom_backup::{BackupLimits, MigrationPlan};
 use std::path::Path;
 
 impl Sqlite {
-    /// Apply an explicit schema migration to an offline format-4 through format-7 or current source.
+    /// Apply an explicit schema migration to an offline format-4 through format-8 or current source.
     /// Read the source without changes and publish only to a fresh destination.
     /// The shared plan validates transformed records and rebuilds reference edges.
     /// Publication fences old journal cursors and active work claims.
@@ -56,4 +56,17 @@ fn migrate(
     let snapshot = read_snapshot(source_owner.path(), limits, collect_migration_snapshot)?;
     let snapshot = rom_backup::migrate_snapshot(snapshot, plan, limits)?;
     Sqlite::restore_snapshot(snapshot, destination_owner, limits, before_publish)
+}
+
+#[cfg(test)]
+impl Sqlite {
+    pub(crate) fn migrate_journal_candidate(
+        source: &Path,
+        destination: &Path,
+        plan: &MigrationPlan,
+        limits: BackupLimits,
+        before_publish: impl FnOnce() -> Result<()>,
+    ) -> Result<Self> {
+        migrate(source, destination, plan, limits, before_publish)
+    }
 }

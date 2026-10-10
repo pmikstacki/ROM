@@ -522,6 +522,7 @@ fn stale_external_ack_cannot_finish_new_claim() {
         definition: "channel".into(),
         version: 1,
         service_key: "service".into(),
+        not_before: None,
         delivery_profile: rom::DeliveryProfile::AtLeastOnce,
         payload: WorkPayload::Notification {
             source: Row {

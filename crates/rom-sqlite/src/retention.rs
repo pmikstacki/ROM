@@ -57,3 +57,16 @@ fn retain(
     let storage = Sqlite::restore_snapshot(snapshot, destination_owner, limits, before_publish)?;
     Ok((storage, report))
 }
+
+#[cfg(test)]
+impl Sqlite {
+    pub(crate) fn retain_journal_candidate(
+        source: &Path,
+        destination: &Path,
+        policy: &RetentionPolicy,
+        limits: BackupLimits,
+        before_publish: impl FnOnce() -> Result<()>,
+    ) -> Result<(Self, RetentionReport)> {
+        retain(source, destination, policy, limits, before_publish)
+    }
+}

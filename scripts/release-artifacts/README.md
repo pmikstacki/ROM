@@ -6,12 +6,39 @@ Run the producer from a clean ordinary Git checkout:
 ./scripts/release [OUTPUT_DIR]
 ```
 
-Without an argument, the output is `dist/rom-VERSION-SHORT_REVISION/`.
+For versions 0.1.0 and later, the default output is `../rom-releases/rom-VERSION-SHORT_REVISION/`.
+The completed output must be outside the producer checkout.
+Historical 0.0.x releases keep `dist/rom-VERSION-SHORT_REVISION/`.
 An explicit relative output path is relative to the caller's directory.
-Use an ignored output parent or a parent outside the source checkout.
+Use an output parent outside the source checkout for the public-consumer profile.
+An ignored output parent inside the checkout is permitted only for the historical profile.
 The producer rejects an existing output, including a dangling symbolic link.
 It does not overwrite old flat archives or publish to a registry.
 No argument or environment flag can skip its acceptance commands.
+
+## Required inputs for 0.1.0 and later
+
+The public-consumer profile requires complete operational evidence before production begins.
+Set these four environment variables:
+
+| Variable | Required value |
+| --- | --- |
+| `ROM_RELEASE_REQUIREMENTS_DIRECTORY` | Canonical absolute directory containing `record.json`, executed evidence, and independent reviews for R1–R14. |
+| `ROM_RELEASE_REQUIREMENTS_SHA256` | SHA256 of that exact `record.json`. |
+| `ROM_RELEASE_SQLITE_PROFILE` | Canonical absolute path to the selected SQLite input JSON. |
+| `ROM_RELEASE_SQLITE_PROFILE_SHA256` | SHA256 of that exact input JSON. |
+
+The requirement record must match the committed source identity. Every requirement must be accepted with executed evidence and an independent review.
+Static validation verifies identities and record structure. It does not establish behavior or replace review of the evidence.
+Missing, pending, failed, or mismatched requirements prevent production. These variables cannot skip a gate.
+
+The SQLite input object has exactly three keys: `archive`, `cc`, and `ar`.
+Each value identifies a canonical absolute file path. Compiler and archiver paths must identify executable regular files.
+The archive must be the official SQLite 3.53.4 autoconf archive. Admission verifies its published SHA3-256 digest.
+The builder verifies the C source digest and header identity, then builds a private static library.
+It retains the source archive, licensing reference, commands, logs, and output hashes.
+Native acceptance separately measures the Rust-linked version, source ID, and required compile options.
+A successful C build alone does not satisfy native acceptance.
 
 ## Host requirements
 
@@ -32,7 +59,7 @@ Each Cargo gate receives two build jobs.
 
 ## Fixed acceptance commands
 
-The production entrypoint always executes these commands in order:
+Both Studio profiles execute these first eight commands in order:
 
 ```sh
 ./scripts/check
@@ -63,7 +90,11 @@ It removes the copied inputs and dependency cache before the eighth gate.
 The eighth gate receives this extraction and uses the actual host, backend, provider, Chromium, and WebKit.
 It does not substitute development assets. The producer checks the asset inventory again after the gate.
 
-Each gate has a one-hour deadline and a combined 32-MiB output bound.
+The first eight gates each have a one-hour deadline and a combined 32-MiB output bound.
+Public-consumer gates have separate 1,200-second bounds. Supplemental package and AI commands each have 2,400-second bounds.
+The native preparation shares a 1,200-second deadline across its commands.
+These command limits do not constitute a complete-producer allocation quota or aggregate deadline.
+Admit an aggregate execution budget and monitor disk allocation before starting production.
 The shared Linux process helper retains and terminates its owned process group on a bounded abort.
 The manifest records exact arguments, source directory, timestamps, exit status, and separate output logs.
 The producer checks clean status, HEAD, tree, tracked content, and lock identity before assembly and before publication.
@@ -90,7 +121,14 @@ The manifest hashes its payloads; the checksum file also hashes the manifest and
 The selected skills identity covers workspace Cargo files and Rust/Cargo files under crates, demo, and examples.
 It excludes `tests/persistence`; Git tree and source archive identities remain separate records.
 
-New manifests use version 2 and verification profile `rom-studio-v2`.
+Releases 0.1.0 and later require manifest version 3 and profile `rom-public-consumers-v3`.
+The producer retains operational requirement evidence and independently reviewed references.
+It also executes three additional gates from the verified source extraction: public controls, SQLite recovery, and redb recovery.
+A fresh native recovery host runs against the selected SQLite profile.
+Supplemental acceptance executes the extracted package checker, packaged AI consumer, and named diagnostic tests.
+Execution targets remain outside the final artifact. Selected regular evidence and produced crate archives are retained.
+Source-context mappings preserve the original report bytes; they do not rewrite execution results.
+Older 0.0.x Studio manifests use version 2 and verification profile `rom-studio-v2`.
 They bind the frontend package version and lock identity to the exact extracted source.
 They bind all extracted production asset files to the recorded eighth gate.
 Historical version 1 manifests retain their six-gate `source-only` contract.
@@ -126,7 +164,7 @@ node scripts/check-studio-package.mjs ROM_ROOT OUTPUT_DIR
 This command runs the same fresh locked build and actual-host acceptance on extracted production assets.
 It rejects an existing output directory. It retains package and command evidence.
 It has no argument to skip browsers or substitute an existing build.
-Its success is a Studio package check. It does not replace the producer's complete eight-gate acceptance.
+Its success is a Studio package check. It does not replace complete producer acceptance or the additional 0.1.0 requirements.
 
 ## Verify completed artifacts independently
 

@@ -83,6 +83,7 @@ export function createAttachments(
   async function run() {
     const pending = state.pending;
     if (!pending || !current() || running) return;
+    const earlierUncertain = state.phase === "unknown";
     running = true;
     publish({ phase: "pending", busy: true, error: "" });
     try {
@@ -103,7 +104,7 @@ export function createAttachments(
       publish({ phase: "success", pending: null, result });
       await refresh();
     } catch (error) {
-      const confirmed =
+      const refused =
         error instanceof RemoteError &&
         (error.category === "not_committed" ||
           (error.status > 0 &&
@@ -111,12 +112,14 @@ export function createAttachments(
             !["outcome_unknown", "timeout", "overloaded"].includes(
               error.category,
             )));
+      // A refusal of this attempt cannot resolve an earlier lost acknowledgement.
+      const confirmed = refused && !earlierUncertain;
       publish({
         phase: confirmed ? "error" : "unknown",
         error: message(error),
         pending: confirmed ? null : pending,
-        rows: confirmed ? [] : state.rows,
-        result: confirmed ? null : state.result,
+        rows: refused ? [] : state.rows,
+        result: refused ? null : state.result,
       });
     } finally {
       running = false;

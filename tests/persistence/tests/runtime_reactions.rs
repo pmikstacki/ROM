@@ -318,12 +318,15 @@ async fn revoked_service_stops_without_touching_target() {
 #[tokio::test]
 async fn lost_target_ack_is_done_atomically_and_restart_does_not_repeat() {
     for redb in [false, true] {
-        use std::sync::atomic::AtomicBool;
         let p = path("lost-ack", redb);
-        let fail = Arc::new(AtomicBool::new(false));
+        let fail = Arc::new(AtomicUsize::new(0));
         let f = fail.clone();
         let hook: Arc<dyn Fn(usize) -> Result<()> + Send + Sync> = Arc::new(move |point| {
-            if point == usize::MAX && f.swap(false, Ordering::SeqCst) {
+            if point == usize::MAX
+                && f.try_update(Ordering::SeqCst, Ordering::SeqCst, |remaining| {
+                    remaining.checked_sub(1)
+                }) == Ok(1)
+            {
                 Err(Error::Unknown)
             } else {
                 Ok(())
@@ -363,8 +366,15 @@ async fn lost_target_ack_is_done_atomically_and_restart_does_not_repeat() {
         .await
         .unwrap();
         rt.process_reactions(1).await.unwrap();
-        fail.store(true, Ordering::SeqCst);
+        // Claim now has its own acknowledgement checkpoint. Lose the following
+        // target bundle acknowledgement, preserving this test's original failure phase.
+        fail.store(2, Ordering::SeqCst);
         rt.process_reactions(1).await.unwrap();
+        assert_eq!(
+            fail.load(Ordering::SeqCst),
+            0,
+            "target ACK fault was not reached"
+        );
         rt.shutdown().await.unwrap();
         drop(rt);
         drop(db);

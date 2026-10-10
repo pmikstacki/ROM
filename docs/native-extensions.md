@@ -1,7 +1,9 @@
 # Native alpha extension profile
 
 Profile revision 1 covers trusted Rust extensions compiled with an application.
-The current prepared package set is `0.0.3`, with Rust 1.99.
+The current source package set is `0.1.0`, with Rust 1.99. Release acceptance remains open.
+The last accepted release is `0.0.3`. Its native format is 8 and archive format is 6.
+Use `docs/release-support.md` in the supplied checkout for acceptance status and limits.
 The historical accepted package set was `0.1.0-alpha.1`. Profile revision 1 remains unchanged.
 Record the executed source and lockfile hashes with verification results.
 The machine-readable contract is `extensions/native-alpha-v1.json` in the supplied ROM source tree.
@@ -21,8 +23,8 @@ Resource versions and independent Field versions are not equivalent.
 | Reactions and channels | Positive definition versions and persisted consumer bindings | Incompatible definitions stop old work. Retain payload, identity, and delivery profile during recovery. |
 | Query adapter | Semantics, profile, and encoding versions, all currently 1 | Validate the complete query response contract. Unsupported collection ordering remains `Invalid`. |
 | Operator transport | Operator protocol version 1 | Reject unsupported protocol versions. Unsupported adapter ports remain `Unsupported`. |
-| Native storage | Format 8 | Ordinary open rejects incompatible markers. Use the explicit upgrade path. |
-| Archive | Format 6 | Decode current archives strictly. Use explicit legacy conversion before restore. |
+| Native storage | Format 11 | Ordinary open rejects incompatible markers. Use the explicit upgrade path. |
+| Archive | Format 7 | Decode current archives strictly. Use explicit legacy conversion before restore. |
 | Native source API | Exact alpha package set and executed source identity | Recompile against the selected source package set. This is not a binary ABI. |
 | Author skills | Bundle and profile revision; declared workflow features | Reject an obsolete profile, missing feature, or missing asset before execution. |
 

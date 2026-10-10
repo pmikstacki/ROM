@@ -2,6 +2,6 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 export OPENSPEC_TELEMETRY=0
-npm exec --yes --package=@fission-ai/openspec@1.14.0 -- openspec validate --all --strict
-node --test scripts/packages/*.test.mjs scripts/release-artifacts/*.test.mjs
+corepack pnpm@10.30.0 dlx @fission-ai/openspec@1.14.0 validate --all --strict
+node --test scripts/packages/*.test.mjs tests/ai-flows-installed/*.test.mjs scripts/release-artifacts/*.test.mjs studio/tests/public-controls/*.test.mjs studio/tests/mutation-recovery/*.test.mjs studio/tests/ai-flow-progress/*.test.mjs studio/tests/ai-flow-progress/consumer/src/*.test.mjs tests/identity/provider/*.test.mjs tests/application-recovery/*.test.mjs tests/application-load/*.test.mjs tests/astral-adoption/*.test.mjs
 ./scripts/check-rust

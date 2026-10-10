@@ -82,13 +82,23 @@ pub fn read(
     backend: Backend,
     limits: BackupLimits,
 ) -> Result<(Manifest, Snapshot)> {
-    read_version(
-        path.as_ref(),
-        backend,
-        limits,
-        crate::model::ARCHIVE_VERSION,
-        crate::model::STORAGE_FORMAT,
-    )
+    let (data, h) = read_envelope(path.as_ref(), limits)?;
+    let header: serde_json::Value =
+        serde_json::from_slice(&data[52..52 + h]).map_err(|_| Error::Storage)?;
+    let version = header
+        .get("archive_version")
+        .and_then(serde_json::Value::as_u64);
+    let marker = header
+        .get("storage_format")
+        .and_then(serde_json::Value::as_u64);
+    // Supported native layouts share the canonical archive body and validation.
+    let storage_format = match (version, marker) {
+        (Some(7), Some(9)) => 9,
+        (Some(7), Some(10)) => 10,
+        (Some(7), Some(11)) => 11,
+        _ => return Err(Error::Unsupported("backup format or backend".into())),
+    };
+    decode_version(&data, h, header, backend, limits, 7, storage_format)
 }
 
 pub(crate) fn read_version(
@@ -99,9 +109,29 @@ pub(crate) fn read_version(
     storage_format: u32,
 ) -> Result<(Manifest, Snapshot)> {
     let (data, h) = read_envelope(path, limits)?;
+    let header: serde_json::Value =
+        serde_json::from_slice(&data[52..52 + h]).map_err(|_| Error::Storage)?;
+    decode_version(
+        &data,
+        h,
+        header,
+        backend,
+        limits,
+        archive_version,
+        storage_format,
+    )
+}
+
+fn decode_version(
+    data: &[u8],
+    h: usize,
+    mut header: serde_json::Value,
+    backend: Backend,
+    limits: BackupLimits,
+    archive_version: u32,
+    storage_format: u32,
+) -> Result<(Manifest, Snapshot)> {
     let bytes = &data[52..];
-    let mut header: serde_json::Value =
-        serde_json::from_slice(&bytes[..h]).map_err(|_| Error::Storage)?;
     if header
         .get("archive_version")
         .and_then(serde_json::Value::as_u64)
@@ -113,7 +143,7 @@ pub(crate) fn read_version(
     {
         return Err(Error::Unsupported("backup format or backend".into()));
     }
-    if archive_version < crate::model::ARCHIVE_VERSION {
+    if archive_version < 6 {
         let header = header.as_object_mut().ok_or(Error::Storage)?;
         if header.contains_key("operator_receipts") {
             return Err(Error::Storage);
@@ -128,7 +158,10 @@ pub(crate) fn read_version(
     let snapshot: Snapshot = if archive_version < crate::model::ARCHIVE_VERSION {
         let mut value: serde_json::Value =
             serde_json::from_slice(&bytes[h..]).map_err(|_| Error::Storage)?;
-        crate::legacy_state::upgrade_state(value.get_mut("state").ok_or(Error::Storage)?)?;
+        crate::legacy_state::reject_snapshot_scheduling_fields(&value)?;
+        if archive_version < 6 {
+            crate::legacy_state::upgrade_state(value.get_mut("state").ok_or(Error::Storage)?)?;
+        }
         serde_json::from_value(value).map_err(|_| Error::Storage)?
     } else {
         serde_json::from_slice(&bytes[h..]).map_err(|_| Error::Storage)?

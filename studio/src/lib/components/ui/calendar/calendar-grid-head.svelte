@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Calendar as CalendarPrimitive } from "bits-ui";
-	import { cn } from "$lib/components/ui/utils.js";
+	import { cn } from "../utils.js";
 
 	let {
 		ref = $bindable(null),

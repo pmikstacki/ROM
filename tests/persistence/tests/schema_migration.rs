@@ -181,6 +181,7 @@ fn seed(redb: bool, path: &Path, quantity: &str) -> Seed {
         .push(Intent::new("audit", json!({"message":"unchanged effect"})));
     child.reaction_limits = Some(ReactionLimits::default());
     child.reactions.push(PendingWork {
+        not_before: None,
         delivery_profile: rom::DeliveryProfile::AtLeastOnce,
         id: "notify-child".into(),
         definition: "notify".into(),

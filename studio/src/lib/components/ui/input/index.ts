@@ -1,7 +1,2 @@
-import Root from "./input.svelte";
-
-export {
-	Root,
-	//
-	Root as Input,
-};
+/** Studio compatibility facade for shared input primitives. */
+export * from "rom-ui/primitives/input";

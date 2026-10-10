@@ -19,6 +19,8 @@ type Observer = std::sync::Arc<dyn Fn(usize) -> Result<()> + Send + Sync>;
 pub struct Redb {
     pub(super) db: Database,
     pub(super) ownership: rom::StorageOwnership,
+    pub(super) validation_limits: rom_backup::BackupLimits,
+    pub(super) native_format: u64,
     // The engine field must drop before its native ownership guard.
     _native_owner: rom_backup::NativeOwnership,
     pub(super) uncertain: AtomicBool,
@@ -57,47 +59,31 @@ impl Redb {
         limits: StorageLimits,
         validation_limits: rom_backup::BackupLimits,
     ) -> Result<Self> {
+        Self::open_owned_in_format(owner, limits, validation_limits, FORMAT)
+    }
+    pub(super) fn open_owned_in_format(
+        owner: rom_backup::NativeOwnership,
+        limits: StorageLimits,
+        validation_limits: rom_backup::BackupLimits,
+        native_format: u64,
+    ) -> Result<Self> {
         let path = owner.path();
-        crate::preflight::check(path)?;
+        crate::preflight::check(path, native_format, &limits, validation_limits)?;
         let db = Database::create(path).map_err(|_| Error::Storage)?;
         let read = db.begin_read().map_err(|_| Error::Storage)?;
-        let empty = read
-            .list_tables()
-            .map_err(|_| Error::Storage)?
-            .next()
-            .is_none()
-            && read
-                .list_multimap_tables()
-                .map_err(|_| Error::Storage)?
-                .next()
-                .is_none();
-        if !empty {
-            let meta = read
-                .open_table(META)
-                .map_err(|_| Error::Unsupported("redb format marker missing".into()))?;
-            if meta
-                .get("format")
-                .map_err(|_| Error::Storage)?
-                .map(|x| x.value())
-                != Some(FORMAT)
-            {
-                return Err(Error::Unsupported("redb storage format".into()));
-            }
-            let snapshot = maintenance::snapshot(&read, validation_limits)?;
-            snapshot.state.check_limits(&limits)?;
-            snapshot.validate()?;
-        }
+        let empty =
+            crate::preflight::validate_existing(&read, native_format, &limits, validation_limits)?;
         drop(read);
         if empty {
             let mut tx = db.begin_write().map_err(|_| Error::Storage)?;
             tx.set_durability(Durability::Immediate)
                 .map_err(|_| Error::Storage)?;
-            let state =
-                serde_json::to_string(&StorageState::new(limits)?).map_err(|_| Error::Storage)?;
-            tx.open_table(STATE)
-                .map_err(|_| Error::Storage)?
-                .insert("state", state.as_str())
-                .map_err(|_| Error::Storage)?;
+            let state = StorageState::new(limits.clone())?;
+            if native_format == JOURNAL_FORMAT {
+                crate::native_journal::import(&tx, &state)?;
+            } else {
+                crate::native_state::write(&tx, &state)?;
+            }
             tx.open_table(ROWS).map_err(|_| Error::Storage)?;
             tx.open_table(RECEIPTS).map_err(|_| Error::Storage)?;
             tx.open_table(EVENTS).map_err(|_| Error::Storage)?;
@@ -107,13 +93,21 @@ impl Redb {
             tx.open_table(INCOMING).map_err(|_| Error::Storage)?;
             tx.open_table(META)
                 .map_err(|_| Error::Storage)?
-                .insert("format", FORMAT)
+                .insert("format", native_format)
                 .map_err(|_| Error::Storage)?;
             tx.commit().map_err(|_| Error::Unknown)?;
+            maintenance::snapshot_in_format(
+                &db.begin_read().map_err(|_| Error::Storage)?,
+                validation_limits,
+                maintenance::NativeFormat::Exact(native_format),
+            )?
+            .validate()?;
         }
         Ok(Self {
             db,
             ownership: rom::StorageOwnership::default(),
+            validation_limits,
+            native_format,
             _native_owner: owner,
             uncertain: AtomicBool::new(false),
             commit_gate: std::sync::Mutex::new(()),

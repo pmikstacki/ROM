@@ -77,6 +77,7 @@ async fn run_config(
         let origin=profile.as_ref().map(|value|value.origin.clone()).unwrap_or(format!("http://{}",listener.local_addr()?));
         let mut config=HostConfig::new(&origin,"/rom-studio/",assets,studio_application::host_actor())
             .allow_loopback_http(profile.is_none()).clock(clock.clone()).settings("default")
+            .studio_profile(crate::studio_bootstrap::profile(storage.retry_epochs()?.current)?)
             .blobs(blobs)
             .blob_store_discovery(|actor,name| actor.authority=="local" && actor.principal_kind()==rom::PrincipalKind::Human && name=="local")
             ;

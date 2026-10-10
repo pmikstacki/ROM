@@ -1,7 +1,2 @@
-import Root from "./label.svelte";
-
-export {
-	Root,
-	//
-	Root as Label,
-};
+/** Studio compatibility facade for shared label primitives. */
+export * from "rom-ui/primitives/label";

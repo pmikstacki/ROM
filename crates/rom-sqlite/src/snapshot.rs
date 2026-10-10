@@ -45,7 +45,22 @@ fn has_sidecar(source: &Path, suffix: &str) -> Result<bool> {
 }
 
 pub(super) fn collect_snapshot(c: &Connection, limits: BackupLimits) -> Result<Snapshot> {
-    collect_snapshot_for_format(c, limits, rom_backup::STORAGE_FORMAT)
+    collect_snapshot_for_format(c, limits, crate::native_work::FORMAT)
+}
+pub(crate) fn collect_native_snapshot(
+    c: &Connection,
+    limits: BackupLimits,
+    candidate: bool,
+) -> Result<Snapshot> {
+    collect_snapshot_for_format(
+        c,
+        limits,
+        if candidate {
+            crate::native_work::FORMAT
+        } else {
+            crate::native_work::PREDECESSOR_FORMAT
+        },
+    )
 }
 
 pub(super) fn collect_upgrade_snapshot(
@@ -56,7 +71,7 @@ pub(super) fn collect_upgrade_snapshot(
     let version: u32 = c
         .pragma_query_value(None, "user_version", |r| r.get(0))
         .map_err(|_| Error::Storage)?;
-    let snapshot = collect_supported_snapshot(c, limits, &[3, 4, 5, 6, 7])?;
+    let snapshot = collect_supported_snapshot(c, limits, &[3, 4, 5, 6, 7, 8, 9, 10])?;
     if version == 3 {
         rom_backup::bind_legacy_schema(snapshot, descriptors, limits)
     } else if version >= 6 {
@@ -67,7 +82,7 @@ pub(super) fn collect_upgrade_snapshot(
 }
 
 pub(super) fn collect_migration_snapshot(c: &Connection, limits: BackupLimits) -> Result<Snapshot> {
-    collect_supported_snapshot(c, limits, &[4, 5, 6, 7, rom_backup::STORAGE_FORMAT])
+    collect_supported_snapshot(c, limits, &[4, 5, 6, 7, 8, 9, 10, 11])
 }
 
 fn collect_supported_snapshot(
@@ -88,7 +103,7 @@ fn collect_supported_snapshot(
     Ok(snapshot)
 }
 
-fn validate_inventory(c: &Connection, format: u32) -> Result<()> {
+pub(crate) fn validate_inventory(c: &Connection, format: u32) -> Result<()> {
     let version: u32 = c
         .pragma_query_value(None, "user_version", |r| r.get(0))
         .map_err(|_| Error::Storage)?;
@@ -103,7 +118,27 @@ fn validate_inventory(c: &Connection, format: u32) -> Result<()> {
             ("table", "resources", "resources"),
             ("table", "rom_state", "rom_state"),
         ]
-    } else if matches!(format, 7 | 8) {
+    } else if matches!(format, 10 | 11) {
+        &[
+            ("table", "effects", "effects"),
+            ("table", "events", "events"),
+            ("table", "operator_state", "operator_state"),
+            ("table", "query_keys", "query_keys"),
+            ("index", "query_keys_value", "query_keys"),
+            ("table", "query_kinds", "query_kinds"),
+            ("table", "query_profile", "query_profile"),
+            ("table", "receipts", "receipts"),
+            ("table", "reference_edges", "reference_edges"),
+            ("index", "reference_edges_target", "reference_edges"),
+            ("table", "resources", "resources"),
+            ("table", "rom_state", "rom_state"),
+            ("table", "schemas", "schemas"),
+            ("table", "work_active", "work_active"),
+            ("table", "work_header", "work_header"),
+            ("table", "work_records", "work_records"),
+            ("table", "work_roots", "work_roots"),
+        ]
+    } else if matches!(format, 7..=9) {
         &[
             ("table", "effects", "effects"),
             ("table", "events", "events"),
@@ -130,11 +165,17 @@ fn validate_inventory(c: &Connection, format: u32) -> Result<()> {
             ("table", "schemas", "schemas"),
         ]
     };
+    let mut expected = expected.to_vec();
+    if format == 11 {
+        expected.push(("index", "journal_identity", "journal_positions"));
+        expected.push(("table", "journal_positions", "journal_positions"));
+        expected.sort_by_key(|entry| entry.1);
+    }
     let mut statement = c
         .prepare("SELECT type,name,tbl_name FROM sqlite_master WHERE name NOT GLOB 'sqlite_*' ORDER BY name")
         .map_err(|_| Error::Storage)?;
     let mut rows = statement.query([]).map_err(|_| Error::Storage)?;
-    for &(kind, name, table) in expected {
+    for &(kind, name, table) in &expected {
         let row = rows
             .next()
             .map_err(|_| Error::Storage)?
@@ -173,7 +214,7 @@ fn collect_snapshot_for_format(
 
 /// Explicit rebuild trusts only bounded authoritative records; derived contents are discarded.
 pub(super) fn collect_rebuild_snapshot(c: &Connection, limits: BackupLimits) -> Result<Snapshot> {
-    let snapshot = collect_records(c, limits, rom_backup::STORAGE_FORMAT, false)?;
+    let snapshot = collect_records(c, limits, crate::native_work::FORMAT, false)?;
     snapshot.validate()?;
     Ok(snapshot)
 }
@@ -185,18 +226,32 @@ fn collect_records(
     validate_indexes: bool,
 ) -> Result<Snapshot> {
     validate_inventory(c, format)?;
-    let mut state_stmt = c
-        .prepare("SELECT data FROM rom_state WHERE id=1")
-        .map_err(|_| Error::Storage)?;
-    let mut state_rows = state_stmt.query([]).map_err(|_| Error::Storage)?;
-    let state_row = state_rows
-        .next()
-        .map_err(|_| Error::Storage)?
-        .ok_or(Error::Storage)?;
-    let mut collect = if format < rom_backup::STORAGE_FORMAT {
-        Collector::legacy(text(state_row, 0)?, limits)?
+    let mut collect = if matches!(format, 10 | 11) {
+        let canonical = crate::native_work::reconstruct(c, limits)?;
+        let text = serde_json::to_string(&canonical.state).map_err(|_| Error::Storage)?;
+        let mut collect = Collector::new(&text, limits)?;
+        // Canonical Work payloads are counted once. Derived native projections are extra.
+        // A separate raw-native guard precedes decoding, including whitespace bytes.
+        for bytes in canonical.derived_charges {
+            collect.physical(bytes)?;
+        }
+        collect
     } else {
-        Collector::new(text(state_row, 0)?, limits)?
+        let mut statement = c
+            .prepare("SELECT data FROM rom_state WHERE id=1")
+            .map_err(|_| Error::Storage)?;
+        let mut rows = statement.query([]).map_err(|_| Error::Storage)?;
+        let row = rows
+            .next()
+            .map_err(|_| Error::Storage)?
+            .ok_or(Error::Storage)?;
+        if format < 8 {
+            Collector::legacy(text(row, 0)?, limits)?
+        } else if format == 8 {
+            Collector::previous(text(row, 0)?, limits)?
+        } else {
+            Collector::new(text(row, 0)?, limits)?
+        }
     };
     for table in ["resources", "receipts", "events", "effects"] {
         let sql = match table {

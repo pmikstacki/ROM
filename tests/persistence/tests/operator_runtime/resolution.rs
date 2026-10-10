@@ -51,6 +51,7 @@ fn seed_committed_action(fixture: &Fixture) {
         definition: "copy".into(),
         version: 1,
         service_key: json!(["host", "service", "secret-worker"]).to_string(),
+        not_before: None,
         delivery_profile: DeliveryProfile::AtLeastOnce,
         payload: WorkPayload::Action(serde_json::to_value(invocation).unwrap()),
     };
@@ -106,6 +107,7 @@ fn seed_committed_action(fixture: &Fixture) {
                 channel: "legacy-effect".into(),
                 payload: json!("secret-effect"),
                 delivery_version: None,
+                not_before: None,
             }],
             reactions: vec![],
             reaction_limits: None,

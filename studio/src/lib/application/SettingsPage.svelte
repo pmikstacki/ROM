@@ -13,10 +13,12 @@
     controller,
     snapshot,
     navigationBlocked = false,
+    restoreEpoch = 0,
   }: {
     controller: ApplicationController;
     snapshot: ApplicationState;
     navigationBlocked?: boolean;
+    restoreEpoch?: number;
   } = $props();
   const sections = $derived(settingsSections(snapshot.descriptors));
   const descriptor = $derived(
@@ -66,6 +68,7 @@
         {controller}
         {snapshot}
         {descriptor}
+        {restoreEpoch}
       />{/key}
   {:else}
     <p class="text-sm text-muted-foreground">Choose a Settings section.</p>

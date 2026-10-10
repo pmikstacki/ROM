@@ -1,7 +1,2 @@
-import Root from "./slider.svelte";
-
-export {
-	Root,
-	//
-	Root as Slider,
-};
+/** Studio compatibility facade for shared slider primitives. */
+export * from "rom-ui/primitives/slider";

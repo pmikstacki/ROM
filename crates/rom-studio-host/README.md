@@ -40,3 +40,15 @@ These tests do not prove operating-system signal handling in the demo process. T
 Observation waits check logout and the original Actor lease while current identity binding waits for storage.
 They do not renew an existing stream Actor. Accepted identity checks retain their supervision permit until completion.
 The real-provider integration tests require Node and the installed `demo/provider-fixture` dependencies.
+
+The RS256 JWKS profile verifies keys from RSA `n` and `e` components supplied by the approved issuer endpoint.
+Key IDs use the shared opaque ROM profile: nonempty, at most 256 UTF-8 bytes, and no Unicode control characters.
+Matching preserves exact case and Unicode representation. JOSE does not prescribe this local identifier length limit.
+
+Registered `x5c`, `x5t`, and `x5t#S256` members are bounded unused metadata.
+The host checks their JSON types and encoding syntax. It does not validate certificates, chains, key equality, or certificate thumbprint equality.
+These fields never replace RSA components or establish another trust source. `x5u` and unsupported members are rejected; no certificate URL is fetched.
+Certificate arrays contain one through four strings, each at most 8192 bytes, with at most 16384 text bytes per key.
+Thumbprints use base64url encoding with decoded lengths of 20 or 32 bytes. These checks do not prove their certificate association.
+The complete JWKS response remains limited to 65536 bytes and eight keys.
+Algorithm, use, key-operation and duplicate-key checks remain enforced. These finite limits define ROM's profile, not general JWK or PKIX support.

@@ -11,6 +11,38 @@ pub(crate) struct Assets {
     files: BTreeMap<String, Asset>,
 }
 impl Assets {
+    pub(crate) fn install_bootstrap(
+        &mut self,
+        profile: &crate::StudioBootstrap,
+        limit: usize,
+    ) -> Result<()> {
+        let asset = self.files.get_mut("index.html").ok_or(Error::Storage)?;
+        let html = std::str::from_utf8(&asset.bytes).map_err(|_| Error::Storage)?;
+        if html.contains("rom-studio-auth-profile") || html.matches("</body>").count() != 1 {
+            return Err(Error::Invalid {
+                kind: "studio-bootstrap".into(),
+                field: "HTML mount".into(),
+            });
+        }
+        let script = profile.html()?;
+        let next = html.replace("</body>", &format!("{script}</body>"));
+        let previous = asset.bytes.len();
+        let total = self.files.values().try_fold(0_usize, |sum, entry| {
+            sum.checked_add(entry.bytes.len()).ok_or(Error::TooLarge)
+        })?;
+        if total
+            .checked_sub(previous)
+            .and_then(|bytes| bytes.checked_add(next.len()))
+            .is_none_or(|bytes| bytes > limit)
+        {
+            return Err(Error::TooLarge);
+        }
+        self.files
+            .get_mut("index.html")
+            .ok_or(Error::Storage)?
+            .bytes = next.into_bytes().into();
+        Ok(())
+    }
     pub(crate) fn load(root: &Path, count: usize, bytes: usize) -> Result<Self> {
         if count == 0 || bytes == 0 {
             return Err(Error::TooLarge);

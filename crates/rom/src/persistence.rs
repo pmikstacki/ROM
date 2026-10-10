@@ -100,6 +100,39 @@ pub trait Storage: Send + Sync + 'static {
     fn reaction_update(&self, _update: WorkUpdate) -> Result<WorkResult> {
         Err(Error::Unsupported("durable reactions".into()))
     }
+    /// Apply at most 32 ordered updates in one durable transaction.
+    /// Each update observes preceding transaction-local changes, including revisions,
+    /// root accounting and candidate selection. Return results only after commit acknowledgement.
+    /// Unsupported and confirmed precommit failures publish no part of the batch.
+    /// Unknown means the whole transaction may have committed; never assume rollback.
+    /// For multiple updates, native overrides must bound encoded input with
+    /// validate_work_update_batch and retain the persisted Work policy,
+    /// live-claim fences and per-update validation. Empty and singleton inputs
+    /// preserve the default behavior, including singleton limits and errors.
+    /// The default returns empty for empty input, delegates a singleton unchanged,
+    /// and rejects multiple updates before mutation. It does not emulate atomicity
+    /// through separately committed updates. Transparent wrappers should forward this method.
+    fn reaction_updates_atomic(&self, updates: Vec<WorkUpdate>) -> Result<Vec<WorkResult>> {
+        crate::reaction_work::batch::default_atomic_updates(self, updates)
+    }
+    /// Acknowledge an ordered prefix of at most 32 claims before callbacks run.
+    /// Ordinary Source claims may share a transaction only across distinct roots.
+    /// A first Action, Notification or resolution-only claim remains a singleton.
+    /// Later barriers remain unclaimed. Changed and Idle return no claims after
+    /// acknowledging lifecycle effects. Unknown returns no dispatchable claims.
+    /// The default preserves existing adapters through exactly one Claim update.
+    fn reaction_claim_prefix(&self, now: u64, max_claims: usize) -> Result<Vec<WorkClaim>> {
+        crate::reaction_work::claim_prefix::default_claim_prefix(self, now, max_claims)
+    }
+    /// Sample the persisted claim generation, lease deadline, eligibility and
+    /// retry epoch through a bounded keyed read without changing durable state.
+    /// None means this optional read is unavailable. Runtime compatibility then
+    /// permits only a freshly acknowledged singleton, never a retained group.
+    /// A successful read does not prevent a concurrent reclaim after the sample.
+    /// Transparent wrappers must forward this method together with claim prefixes.
+    fn reaction_claim_live(&self, _claim: &ClaimKey, _now: u64) -> Result<Option<bool>> {
+        Ok(None)
+    }
     /// Trusted host inspection, bounded by the persisted ledger policy.
     fn reaction_records(&self) -> Result<Vec<WorkRecord>> {
         Err(Error::Unsupported("durable reactions".into()))

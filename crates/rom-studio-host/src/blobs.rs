@@ -1,4 +1,5 @@
 //! Authenticated binary transport. BlobService owns accepted work and Resource mutations.
+use crate::auth_diagnostics::{AuthOperation, AuthOutcome, AuthStage};
 use crate::{
     authentication, csrf,
     router::{Shared, no_store},
@@ -36,17 +37,25 @@ pub(crate) async fn authorize(
 ) -> Result<rom::Actor, Box<Response>> {
     let cookie = csrf::session_cookie(headers, "rom_session")
         .map_err(|_| Box::new(authentication::denied(StatusCode::UNAUTHORIZED)))?;
-    let session = shared
-        .sessions
-        .lookup(&cookie, shared.config.clock.now())
-        .ok_or_else(|| Box::new(authentication::denied(StatusCode::UNAUTHORIZED)))?;
+    let session = shared.sessions.lookup(&cookie, shared.config.clock.now());
+    shared.auth.record(
+        AuthOperation::Blob,
+        AuthStage::SessionLookup,
+        if session.is_some() {
+            AuthOutcome::Succeeded
+        } else {
+            AuthOutcome::Denied
+        },
+    );
+    let session =
+        session.ok_or_else(|| Box::new(authentication::denied(StatusCode::UNAUTHORIZED)))?;
     if mutation {
         csrf::check_origin(headers, &shared.config.public_origin)
             .map_err(|_| Box::new(authentication::denied(StatusCode::UNAUTHORIZED)))?;
         csrf::check_token(headers, &session)
             .map_err(|_| Box::new(authentication::denied(StatusCode::FORBIDDEN)))?;
     }
-    authentication::resolve(shared, &cookie)
+    authentication::resolve_tagged(shared, &cookie, AuthOperation::Blob)
         .await
         .map_err(|error| Box::new(authentication::failure(error)))
 }
@@ -103,8 +112,22 @@ pub(crate) async fn reserve(State(shared): State<Arc<Shared>>, request: Request)
         )
         .await
     {
-        Ok(_) => projected(&shared, &actor, &input.id, false).await,
-        Err(error) => failure(error),
+        Ok(_) => {
+            shared.auth.record(
+                AuthOperation::Blob,
+                AuthStage::BlobReserveResult,
+                AuthOutcome::Succeeded,
+            );
+            projected(&shared, &actor, &input.id, false).await
+        }
+        Err(error) => {
+            shared.auth.record(
+                AuthOperation::Blob,
+                AuthStage::BlobReserveResult,
+                blob_outcome(&error),
+            );
+            failure(error)
+        }
     }
 }
 pub(crate) async fn upload(State(shared): State<Arc<Shared>>, request: Request) -> Response {
@@ -122,18 +145,54 @@ pub(crate) async fn upload(State(shared): State<Arc<Shared>>, request: Request) 
     };
     let upload = chunks(request.into_body(), service.limits());
     match service.upload(&actor, &target.id, upload).await {
-        Ok(UploadOutcome::Attached(_)) => projected(&shared, &actor, &target.id, true).await,
+        Ok(UploadOutcome::Attached(_)) => {
+            shared.auth.record(
+                AuthOperation::Blob,
+                AuthStage::BlobUploadResult,
+                AuthOutcome::Succeeded,
+            );
+            projected(&shared, &actor, &target.id, true).await
+        }
         // Provider publication can exist without a confirmed Resource attachment.
         // A receipt is not field-projection authority. Keep it out of browser responses.
-        Ok(UploadOutcome::Unattached { .. }) => failure(Error::Unknown),
-        Err(error) => failure(error),
+        Ok(UploadOutcome::Unattached { cause, .. }) => {
+            let outcome = AuthOutcome::result::<()>(&Err(cause));
+            shared.auth.record(
+                AuthOperation::Blob,
+                AuthStage::BlobUploadUnattached,
+                outcome,
+            );
+            failure(Error::Unknown)
+        }
+        Err(error) => {
+            shared.auth.record(
+                AuthOperation::Blob,
+                AuthStage::BlobUploadResult,
+                blob_outcome(&error),
+            );
+            failure(error)
+        }
     }
 }
 async fn projected(shared: &Shared, actor: &rom::Actor, id: &str, attached: bool) -> Response {
     match shared.runtime.read_projected(actor, "blobs", id).await {
-        Ok(view) => no_store(axum::Json(serde_json::json!({"status": if attached {"attached"} else {"reserved"}, "resource":view})).into_response()),
+        Ok(view) => {
+            shared.auth.record(
+                AuthOperation::Blob,
+                AuthStage::BlobProjectionResult,
+                AuthOutcome::Succeeded,
+            );
+            no_store(axum::Json(serde_json::json!({"status": if attached {"attached"} else {"reserved"}, "resource":view})).into_response())
+        }
         // The mutation may already be committed. Never report this as a pre-invoke rejection.
-        Err(_) => failure(Error::Unknown),
+        Err(cause) => {
+            shared.auth.record(
+                AuthOperation::Blob,
+                AuthStage::BlobProjectionResult,
+                AuthOutcome::result::<()>(&Err(cause)),
+            );
+            failure(Error::Unknown)
+        }
     }
 }
 pub(crate) async fn download(
@@ -265,4 +324,19 @@ pub(crate) fn failure(error: Error) -> Response {
         _ => (StatusCode::INTERNAL_SERVER_ERROR, "internal"),
     };
     no_store((status, axum::Json(serde_json::json!({"error":category}))).into_response())
+}
+
+#[cfg(test)]
+#[path = "blob_outcome_tests.rs"]
+mod outcome_tests;
+
+fn blob_outcome(error: &Error) -> AuthOutcome {
+    match error {
+        Error::Core(cause) => AuthOutcome::result::<()>(&Err(cause.clone())),
+        Error::Denied => AuthOutcome::Denied,
+        Error::Overloaded => AuthOutcome::Overloaded,
+        Error::Closed => AuthOutcome::Closed,
+        Error::Panicked => AuthOutcome::Panicked,
+        _ => AuthOutcome::Other,
+    }
 }

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdirSync, mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, writeFileSync, readFileSync, rmSync, renameSync, symlinkSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { collectRuntimeNotices } from '../../studio/build/notices/collection.mjs';
@@ -9,7 +9,8 @@ import { studioAssets } from './studio-assets.mjs';
 import { assetFixture } from './studio-test-support.mjs';
 
 function fixture() {
-  const root = mkdtempSync(join(tmpdir(), 'rom-runtime-notice-test-'));
+  const workspace = mkdtempSync(join(tmpdir(), 'rom-runtime-notice-test-'));
+  const root = join(workspace, 'studio');
   const put = (path, content) => { mkdirSync(dirname(join(root, path)), { recursive: true }); writeFileSync(join(root, path), content); };
   const license = Buffer.from('MIT License\r\nCopyright fixture\r\n\xc2\xa9\n', 'utf8');
   for (const name of ['svelte-toolbelt', 'vite', 'rolldown', 'tailwindcss', 'compiler-only']) {
@@ -25,8 +26,62 @@ function fixture() {
       [join(root, 'src/lib/components/ui/button/button.svelte')]: { renderedLength: 9 },
       '\0vite/modulepreload-polyfill.js': { renderedLength: 21 } } },
     'assets/main.css': { type: 'asset', fileName: 'assets/main.css', source: '/*! tailwindcss v1.2.3 | MIT License */body{}' } };
-  return { root, put, bundle, license, cleanup: () => rmSync(root, { recursive: true, force: true }) };
+  return { root, put, bundle, license, cleanup: () => rmSync(workspace, { recursive: true, force: true }) };
 }
+
+test('shared installation retains portable module IDs and exact licenses', () => {
+  const f = fixture(), shared = mkdtempSync(join(tmpdir(), 'rom-shared-notices-'));
+  try {
+    renameSync(join(f.root, 'node_modules'), join(shared, 'node_modules'));
+    symlinkSync(join(shared, 'node_modules'), join(f.root, 'node_modules'), 'dir');
+    const emitted = f.bundle['assets/main.js'].modules;
+    delete emitted[join(f.root, 'node_modules/svelte-toolbelt/index.js')];
+    emitted[join(shared, 'node_modules/svelte-toolbelt/index.js') + '?transformed'] = { renderedLength: 11 };
+    const assets = collectRuntimeNotices(f.root, f.bundle);
+    const inventory = JSON.parse(assets.get('third-party-notices.json'));
+    const owner = inventory.owners.find(value => value.name === 'svelte-toolbelt');
+    assert.ok(owner, 'the shared installation must retain its runtime owner');
+    assert.deepEqual(owner.modules, ['node_modules/svelte-toolbelt/index.js?transformed']);
+    assert.deepEqual(assets.get(owner.notices.find(value => value.source === 'LICENSE').path), f.license);
+    assert.equal(JSON.stringify(inventory).includes(shared), false);
+    validateRuntimeNotices(new Map([...assets,
+      ['assets/main.js', Buffer.from(f.bundle['assets/main.js'].code)],
+      ['assets/main.css', Buffer.from(f.bundle['assets/main.css'].source)]]));
+  } finally { f.cleanup(); rmSync(shared, { recursive: true, force: true }); }
+});
+
+test('shared installation still rejects missing licenses, changed identity and external modules', () => {
+  for (const mutation of ['missing-license', 'package-name', 'external']) {
+    const f = fixture(), shared = mkdtempSync(join(tmpdir(), 'rom-shared-notices-'));
+    try {
+      renameSync(join(f.root, 'node_modules'), join(shared, 'node_modules'));
+      symlinkSync(join(shared, 'node_modules'), join(f.root, 'node_modules'), 'dir');
+      if (mutation === 'missing-license') rmSync(join(shared, 'node_modules/svelte-toolbelt/LICENSE'));
+      if (mutation === 'package-name') writeFileSync(join(shared, 'node_modules/svelte-toolbelt/package.json'), JSON.stringify({ name: 'wrong-owner', version: '1.2.3' }));
+      if (mutation === 'external') f.bundle['assets/main.js'].modules[join(shared, 'outside-installation.js')] = { renderedLength: 1 };
+      assert.throws(() => collectRuntimeNotices(f.root, f.bundle), mutation === 'missing-license'
+        ? /missing runtime notice license text/ : mutation === 'package-name'
+          ? /invalid runtime notice package identity/ : /unclassified runtime notice external module/);
+    } finally { f.cleanup(); rmSync(shared, { recursive: true, force: true }); }
+  }
+});
+
+test('package links cannot extend the configured installation boundary', () => {
+  for (const physical of [false, true]) {
+    const f = fixture(), external = mkdtempSync(join(tmpdir(), 'rom-external-package-'));
+    try {
+      writeFileSync(join(external, 'package.json'), JSON.stringify({ name: 'svelte-toolbelt', version: '1.2.3', license: 'MIT' }));
+      writeFileSync(join(external, 'LICENSE'), f.license);
+      writeFileSync(join(external, 'index.js'), 'export const fixture = 1;');
+      rmSync(join(f.root, 'node_modules/svelte-toolbelt'), { recursive: true });
+      symlinkSync(external, join(f.root, 'node_modules/svelte-toolbelt'), 'dir');
+      const modules = f.bundle['assets/main.js'].modules;
+      delete modules[join(f.root, 'node_modules/svelte-toolbelt/index.js')];
+      modules[physical ? join(external, 'index.js') : join(f.root, 'node_modules/svelte-toolbelt/index.js')] = { renderedLength: 11 };
+      assert.throws(() => collectRuntimeNotices(f.root, f.bundle), /unclassified runtime notice (package|external module)/);
+    } finally { f.cleanup(); rmSync(external, { recursive: true, force: true }); }
+  }
+});
 
 test('emitted runtime ownership retains exact license and notice bytes without requiring SPDX', () => {
   const f = fixture();
@@ -198,4 +253,53 @@ test('SVAR owner cannot silently change its source commit or retained license pr
       assert.throws(() => collectRuntimeNotices(f.root, f.bundle), /runtime notice/);
     } finally { f.cleanup(); }
   }
+});
+
+
+test('runtime polyfill ownership resolves rolldown through the installed Vite dependency tree', () => {
+  const f = fixture();
+  try {
+    const virtual = join(f.root, 'node_modules/.pnpm/rolldown@1.2.3/node_modules');
+    mkdirSync(virtual, { recursive: true });
+    renameSync(join(f.root, 'node_modules/rolldown'), join(virtual, 'rolldown'));
+    mkdirSync(join(f.root, 'node_modules/vite/node_modules'), { recursive: true });
+    symlinkSync(join(virtual, 'rolldown'), join(f.root, 'node_modules/vite/node_modules/rolldown'), 'dir');
+    const inventory = JSON.parse(collectRuntimeNotices(f.root, f.bundle).get('third-party-notices.json'));
+    assert.ok(inventory.owners.some(owner => owner.id === 'tool-runtime:rolldown@1.2.3'));
+  } finally { f.cleanup(); }
+});
+
+test('ROM UI styles retain their nested shadcn and animation owners', () => {
+  const f = fixture();
+  try {
+    f.put('node_modules/rom-ui/package.json', JSON.stringify({ name: 'rom-ui', version: '1.2.3', license: 'MIT', exports: { './styles': './src/styles.css' } }));
+    f.put('node_modules/rom-ui/LICENSE', f.license);
+    f.put('node_modules/rom-ui/src/styles.css', '@import "shadcn-svelte/tailwind.css";\n@import "tw-animate-css";');
+    for (const name of ['shadcn-svelte', 'tw-animate-css']) {
+      const directory = 'node_modules/rom-ui/node_modules/' + name;
+      f.put(directory + '/package.json', JSON.stringify({ name, version: '1.2.3', license: 'MIT', exports: name === 'shadcn-svelte' ? { './tailwind.css': './dist/style.css' } : './dist/style.css' }));
+      f.put(directory + '/LICENSE', f.license);
+      f.put(directory + '/dist/style.css', '/* nested CSS */ .fixture {}');
+    }
+    f.put('src/app.css', '@import "rom-ui/styles";');
+    const inventory = JSON.parse(collectRuntimeNotices(f.root, f.bundle).get('third-party-notices.json'));
+    for (const name of ['rom-ui', 'shadcn-svelte', 'tw-animate-css'])
+      assert.ok(inventory.owners.some(owner => owner.name === name && owner.modules.some(id => id.startsWith('generated-css:') && id.includes('sha256='))), name);
+  } finally { f.cleanup(); }
+});
+
+test('shared installation retains portable imported stylesheet IDs', () => {
+  const f = fixture(), shared = mkdtempSync(join(tmpdir(), 'rom-shared-css-'));
+  try {
+    f.put('node_modules/tw-animate-css/package.json', JSON.stringify({ name: 'tw-animate-css', version: '1.2.3', license: 'MIT', exports: './style.css' }));
+    f.put('node_modules/tw-animate-css/LICENSE', f.license);
+    f.put('node_modules/tw-animate-css/style.css', '.fixture {}');
+    f.put('src/app.css', '@import "tw-animate-css";');
+    renameSync(join(f.root, 'node_modules'), join(shared, 'node_modules'));
+    symlinkSync(join(shared, 'node_modules'), join(f.root, 'node_modules'), 'dir');
+    const inventory = JSON.parse(collectRuntimeNotices(f.root, f.bundle).get('third-party-notices.json'));
+    const owner = inventory.owners.find(owner => owner.name === 'tw-animate-css');
+    assert.ok(owner.modules.some(id => id.startsWith('generated-css:node_modules/tw-animate-css/style.css#sha256=')));
+    assert.equal(JSON.stringify(inventory).includes(shared), false);
+  } finally { f.cleanup(); rmSync(shared, { recursive: true, force: true }); }
 });

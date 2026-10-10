@@ -8,7 +8,7 @@ use rom_backup::{BackupLimits, MigrationPlan};
 use std::path::Path;
 
 impl Redb {
-    /// Apply an explicit schema migration to an offline format-4 through format-7 or current source.
+    /// Apply an explicit schema migration to an offline format-4 through format-10 or current source.
     /// Read the source without changes and publish only to a fresh destination.
     /// The shared plan validates transformed records and rebuilds reference edges.
     /// Publication fences old journal cursors and active work claims.
@@ -24,7 +24,7 @@ impl Redb {
     }
 
     /// Test-only interruption point after the staged file is validated, closed and synced.
-    #[cfg(feature = "test-support")]
+    #[cfg(any(test, feature = "test-support"))]
     pub fn migrate_from_observed(
         source: impl AsRef<Path>,
         destination: impl AsRef<Path>,
@@ -55,5 +55,11 @@ fn migrate(
         rom_backup::NativeOwnership::acquire(destination, rom_backup::NativeAccess::Fresh)?;
     let snapshot = read_snapshot(source_owner.path(), limits, NativeFormat::Migration)?;
     let snapshot = rom_backup::migrate_snapshot(snapshot, plan, limits)?;
-    Redb::restore_snapshot(snapshot, destination_owner, limits, before_publish)
+    Redb::restore_snapshot_in_format(
+        snapshot,
+        destination_owner,
+        limits,
+        before_publish,
+        crate::format::FORMAT,
+    )
 }

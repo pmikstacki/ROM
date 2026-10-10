@@ -6,7 +6,13 @@ Declare a resource once. The framework supplies standard storage, operations, en
 
 Actions request changes. The core validates and commits transitions. Events describe committed facts. Reactions can submit further actions through the same core.
 
-**Status: ROM 0.0.3 passed complete local release and persistent preview acceptance.**
+**Status: ROM 0.1.0 is an experimental source release.**
+The owner authorized publication before the remaining release gates passed.
+The complete verifier and the target mixed-load acceptance remain incomplete.
+Read the [0.1.0 release notes](docs/releases/0.1.0.md) before deployment.
+This release does not establish production readiness.
+
+**Historical baseline: ROM 0.0.3 passed complete local release and persistent preview acceptance.**
 The eight-gate producer accepted source revision `584c01b614127b3f62799f1a26a1cdf3f734c3dc`.
 An independent verifier accepted the source, Studio, and skills artifacts.
 The explicit application passed 28 host/browser cases across SQLite/redb and Chromium/WebKit.

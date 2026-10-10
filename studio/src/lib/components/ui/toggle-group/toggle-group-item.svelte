@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ToggleGroup as ToggleGroupPrimitive } from "bits-ui";
-	import { type ToggleVariants, toggleVariants } from "$lib/components/ui/toggle/index.js";
-	import { cn } from "$lib/components/ui/utils.js";
+	import { type ToggleVariants, toggleVariants } from "../toggle/index.js";
+	import { cn } from "../utils.js";
 	import { getToggleGroupCtx } from "./toggle-group.svelte";
 
 	let {

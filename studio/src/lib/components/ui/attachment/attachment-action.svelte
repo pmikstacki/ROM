@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Button, type ButtonProps } from "$lib/components/ui/button/index.js";
-	import { cn } from "$lib/components/ui/utils.js";
+	import { Button, type ButtonProps } from "../button/index.js";
+	import { cn } from "../utils.js";
 
 	let {
 		ref = $bindable(null),

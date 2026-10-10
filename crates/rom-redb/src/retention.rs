@@ -24,7 +24,7 @@ impl Redb {
         )
     }
     /// Test-only interruption point after the staged file is validated, closed and synced.
-    #[cfg(feature = "test-support")]
+    #[cfg(any(test, feature = "test-support"))]
     pub fn retain_from_observed(
         source: impl AsRef<Path>,
         destination: impl AsRef<Path>,
@@ -54,6 +54,12 @@ fn retain(
         rom_backup::NativeOwnership::acquire(destination, rom_backup::NativeAccess::Fresh)?;
     let snapshot = read_snapshot(source_owner.path(), limits, NativeFormat::Current)?;
     let (snapshot, report) = rom_backup::retain_snapshot(snapshot, policy, limits)?;
-    let storage = Redb::restore_snapshot(snapshot, destination_owner, limits, before_publish)?;
+    let storage = Redb::restore_snapshot_in_format(
+        snapshot,
+        destination_owner,
+        limits,
+        before_publish,
+        crate::format::FORMAT,
+    )?;
     Ok((storage, report))
 }

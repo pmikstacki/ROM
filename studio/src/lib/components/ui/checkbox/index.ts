@@ -1,6 +1,2 @@
-import Root from "./checkbox.svelte";
-export {
-	Root,
-	//
-	Root as Checkbox,
-};
+/** Studio compatibility facade for shared checkbox primitives. */
+export * from "rom-ui/primitives/checkbox";

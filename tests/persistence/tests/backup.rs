@@ -122,6 +122,7 @@ fn bundle(id: &str) -> Bundle {
             channel: "audit".into(),
             payload: json!({"private":"intent"}),
             delivery_version: None,
+            not_before: None,
         }],
         reactions: vec![],
         reaction_limits: None,
@@ -130,6 +131,7 @@ fn bundle(id: &str) -> Bundle {
 }
 fn pending(id: &str, row: &Row) -> PendingWork {
     PendingWork {
+        not_before: None,
         delivery_profile: rom::DeliveryProfile::AtLeastOnce,
         id: id.into(),
         cause: Cause {

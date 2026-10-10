@@ -5,6 +5,7 @@ use serde_json::{Value, json};
 /// Decode pre-format-8 native state without accepting newer metadata in an old format.
 /// Existing fields are retained; revisions, profiles and the operator ledger are initialized.
 pub fn decode_legacy_storage_state(mut value: Value) -> Result<StorageState> {
+    reject_scheduling_fields(&value)?;
     upgrade_state(&mut value)?;
     serde_json::from_value(value).map_err(|_| Error::Storage)
 }
@@ -45,5 +46,47 @@ pub(crate) fn upgrade_state(value: &mut Value) -> Result<()> {
         "operator".into(),
         serde_json::to_value(rom::OperatorLedger::default()).map_err(|_| Error::Storage)?,
     );
+    Ok(())
+}
+
+/// Earlier native markers cannot represent a frozen scheduling floor.
+pub(crate) fn reject_scheduling_fields(value: &Value) -> Result<()> {
+    let records = value
+        .get("work")
+        .and_then(|ledger| ledger.get("work"))
+        .and_then(Value::as_object)
+        .ok_or(Error::Storage)?;
+    if records.values().any(|record| {
+        record
+            .get("pending")
+            .and_then(Value::as_object)
+            .is_some_and(|pending| pending.contains_key("not_before"))
+    }) {
+        return Err(Error::Storage);
+    }
+    Ok(())
+}
+
+/// Validate only frozen Intent metadata, not application payload field names.
+pub(crate) fn reject_intent_scheduling_fields(value: &Value) -> Result<()> {
+    if value
+        .as_object()
+        .ok_or(Error::Storage)?
+        .contains_key("not_before")
+    {
+        return Err(Error::Storage);
+    }
+    Ok(())
+}
+
+pub(crate) fn reject_snapshot_scheduling_fields(value: &Value) -> Result<()> {
+    reject_scheduling_fields(value.get("state").ok_or(Error::Storage)?)?;
+    for effect in value
+        .get("effects")
+        .and_then(Value::as_array)
+        .ok_or(Error::Storage)?
+    {
+        reject_intent_scheduling_fields(effect.get("intent").ok_or(Error::Storage)?)?;
+    }
     Ok(())
 }

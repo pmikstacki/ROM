@@ -292,3 +292,38 @@ Implement generic helpers through stable exports and existing semantic contracts
 Run affected component/unit checks and the complete local verifier after structural changes. Record source identity and actual results.
 Repeat with an unrelated consumer using extracted public artifacts. Internal aliases and vendor patches do not establish release acceptance.
 This report and JSON are a shared-file handoff. No direct consumer-thread message or acknowledgement is claimed.
+
+## Renewed consumer coordination: six-turn source check
+
+On 2026-10-07, the coordinator reread six recent Astral Plane turns.
+The check covers 41 user-message references. The thread update marker remains `1791379117`.
+One historical dashboard request lacked a source reference in the maintained intake.
+That reference now maps to `AP-UX-018`; the total remains 32 groups.
+All inspected references map to intake groups or explicit exclusions.
+This does not establish complete untruncated message coverage or inspected image coverage.
+
+The UI, AI flow, and production identity workers received the corrected coverage requirements.
+Each active group needs an implementation mapping, regression evidence, and original-consumer acceptance.
+The shared consumer handoff requests acknowledgement and missing observations with source identity and a minimal reproduction.
+Direct cross-thread messaging is unavailable. Consumer acknowledgement remains absent.
+No consumer deployment or vendor replacement occurred during this synchronization.
+
+A real Studio App test exposed a separate disposable-host metadata gap.
+The host permitted row access but returned no Resource descriptors.
+A regression failed with zero descriptors where one was required.
+The narrow fixture grant now passes on SQLite and redb, including current identity and revocation checks.
+The fixture also exposes its existing receipt probe for standard patch operations.
+Build and Clippy passed for the recovery host. These results do not establish full App or release acceptance.
+Evidence: `/var/tmp/rom-010-recovery-host-discovery-red.log`, `/var/tmp/rom-010-recovery-host-discovery-green.log`, and `/var/tmp/rom-010-recovery-host-discovery-build-clippy.log`.
+
+## Actual App draft regression
+
+The UI worker reproduced the intended draft-persistence failure in Chromium and locked WebKit 2359.
+The installed App used the fresh disposable metadata host and a real database mutation.
+After commit and a dropped acknowledgement, the author entered invalid numeric text.
+After reload and explicit restore, the editor showed the earlier valid integer instead of the invalid draft.
+Evidence: `/var/tmp/rom-app-form-runtime-red-3-20261007/browser.log`.
+This is authoring evidence with release admission disabled. Root has not independently rerun this browser result.
+Earlier locator and fixture epoch failures remain preserved and do not establish this regression.
+The worker is correcting shared form/editor integration for `AP-UX-004` and `AP-UX-005`.
+Original-consumer acceptance remains open.

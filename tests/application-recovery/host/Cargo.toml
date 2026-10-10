@@ -1,0 +1,21 @@
+[package]
+name = "rom-application-recovery-authoring"
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.99"
+publish = false
+[workspace]
+[dependencies]
+rom = { path = "../../../crates/rom" }
+rom-demo = { path = "../../../demo" }
+rom-identity = { path = "../../../crates/rom-identity" }
+rom-studio-host = { path = "../../../crates/rom-studio-host" }
+rom-sqlite = { path = "../../../crates/rom-sqlite" }
+rom-redb = { path = "../../../crates/rom-redb" }
+rom-backup = { path = "../../../crates/rom-backup" }
+rom-blob = { path = "../../../crates/rom-blob" }
+rom-blob-object-store = { path = "../../../crates/rom-blob-object-store" }
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.151"
+futures-util = { version = "=0.3.34", default-features = false, features = ["std"] }
+tokio = { version = "=1.53.1", features = ["rt-multi-thread", "macros", "time", "net"] }

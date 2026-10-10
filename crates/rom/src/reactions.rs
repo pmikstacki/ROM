@@ -3,6 +3,7 @@ mod claims;
 mod declarations;
 mod receipt;
 mod routing;
+mod source_batch;
 mod worker;
 
 pub(crate) use declarations::RegisteredReaction;

@@ -43,6 +43,7 @@ fn snapshot(origin: Option<u32>) -> Snapshot {
             changed: true,
             effects: vec![],
             reactions: vec![PendingWork {
+                not_before: None,
                 delivery_profile: rom::DeliveryProfile::AtLeastOnce,
                 id: "pending".into(),
                 cause: Cause {
@@ -114,7 +115,7 @@ fn archive_four_requires_explicit_upgrade_and_preserves_epochs_and_origins() {
             };
             let manifest =
                 upgrade(source.path(), &target, backend, BackupLimits::default()).unwrap();
-            assert_eq!((manifest.archive_version, manifest.storage_format), (6, 8));
+            assert_eq!((manifest.archive_version, manifest.storage_format), (7, 11));
             let (_, after) = read(&target, backend, BackupLimits::default()).unwrap();
             assert_eq!(serde_json::to_value(after).unwrap(), before);
             assert!(
@@ -203,7 +204,7 @@ fn current_decoder_requires_each_recovery_metadata_field() {
     }
 }
 
-fn operator_snapshot() -> (Snapshot, rom::StorageWorkControl) {
+pub(super) fn operator_snapshot() -> (Snapshot, rom::StorageWorkControl) {
     use rom::operator::{WorkControlOperation, WorkControlRequest, WorkHandle};
     let mut snapshot = snapshot(Some(1));
     let view = snapshot.state.work_snapshot(16, 65536).unwrap();

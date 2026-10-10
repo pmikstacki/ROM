@@ -61,7 +61,17 @@ pub(super) fn recognized(
     parameters: &[Value],
     materialization: bool,
 ) -> Option<bool> {
-    if rusqlite::version() != "3.53.2" {
+    recognized_for_engine(c, sql, parameters, materialization, rusqlite::version())
+}
+
+fn recognized_for_engine(
+    c: &Connection,
+    sql: &str,
+    parameters: &[Value],
+    materialization: bool,
+    version: &str,
+) -> Option<bool> {
+    if !matches!(version, "3.53.2" | "3.53.4") {
         return None;
     }
     let mut statement = c.prepare(&format!("EXPLAIN QUERY PLAN {sql}")).ok()?;
@@ -94,3 +104,7 @@ pub(super) fn recognized(
     }
     Some(index && (lookup == materialization))
 }
+
+#[cfg(test)]
+#[path = "probe/engine_profile_tests.rs"]
+mod engine_profile_tests;

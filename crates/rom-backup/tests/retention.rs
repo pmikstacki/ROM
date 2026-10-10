@@ -45,6 +45,7 @@ fn snapshot(deleted: bool, effect: bool) -> Snapshot {
                 channel: "email".into(),
                 payload: json!({"private":true}),
                 delivery_version: None,
+                not_before: None,
             }]
         } else {
             Vec::new()
@@ -245,6 +246,7 @@ fn invalid_policy_and_limits_reject_without_partial_result() {
 fn unfinished_root_blocks_settlement_and_any_retained_work_blocks_purge() {
     let mut original = snapshot(true, true);
     let work = PendingWork {
+        not_before: None,
         delivery_profile: rom::DeliveryProfile::AtLeastOnce,
         id: "work".into(),
         cause: Cause {
@@ -296,6 +298,7 @@ fn unfinished_root_blocks_settlement_and_any_retained_work_blocks_purge() {
         .enqueue(
             &ReactionLimits::default(),
             vec![PendingWork {
+                not_before: None,
                 delivery_profile: rom::DeliveryProfile::AtLeastOnce,
                 id: "unrelated".into(),
                 cause: Cause {

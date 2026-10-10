@@ -1,7 +1,2 @@
-import Root from "./textarea.svelte";
-
-export {
-	Root,
-	//
-	Root as Textarea,
-};
+/** Studio compatibility facade for shared textarea primitives. */
+export * from "rom-ui/primitives/textarea";

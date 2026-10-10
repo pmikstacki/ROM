@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "authority": "deployment-authority",
+  "recovery": {
+    "namespace": "application-one",
+    "retryEpoch": "18446744073709551615",
+    "maxBytes": 16384,
+    "intentStore": {"name": "explicit-intents", "maxBytes": 20480, "maxSlots": 64, "timeoutMs": 2000},
+    "editorStore": {"name": "explicit-editors", "maxBytes": 20480, "maxSlots": 64, "timeoutMs": 2000}
+  }
+}

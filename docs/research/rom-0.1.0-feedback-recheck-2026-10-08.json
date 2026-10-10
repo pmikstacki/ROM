@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-10-08T07:14:16.264Z",
+  "updated_at": 1791396483,
+  "returned_turns": 8,
+  "observed_reference_count": 47,
+  "new_reference_count": 0,
+  "baseline": "docs/research/rom-0.1.0-feedback-sync-2026-10-08.json",
+  "consumer_acknowledgement": false,
+  "raw_messages_published": false
+}

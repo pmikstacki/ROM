@@ -3,8 +3,9 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { runChild } from '../skills/process.mjs';
 import { reportCommandEvidenceFailure } from './failure-diagnostics.mjs';
+import { COMMAND_TIMEOUT_MS, COMMAND_LOG_BYTES } from './command-limits.mjs';
 
-export const execute = (program, args, options) => runChild(program, args, { ...options, timeout: 3_600_000, maxBytes: 32 * 1024 * 1024 });
+export const execute = (program, args, options) => runChild(program, args, { ...options, timeout: COMMAND_TIMEOUT_MS, maxBytes: COMMAND_LOG_BYTES });
 
 export async function recordedCommand(program, args, root, stage, stem, runner = execute) {
   const started = new Date().toISOString();

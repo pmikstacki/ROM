@@ -479,6 +479,7 @@ checksum = "9ed9a281f7bc9b7576e61468ba615a66a5c8cfdff42420a70aa82701a3b1e292"
 dependencies = [
  "block-buffer 0.10.4",
  "crypto-common 0.1.6",
+ "subtle",
 ]
 
 [[package]]
@@ -730,6 +731,15 @@ name = "heck"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea"
+
+[[package]]
+name = "hmac"
+version = "0.12.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6c49c37c09c17a53d937dfbb742eb3a961d65a994e6bcdcf37e7399d0cc8ab5e"
+dependencies = [
+ "digest 0.10.7",
+]
 
 [[package]]
 name = "http"
@@ -1618,8 +1628,9 @@ dependencies = [
 
 [[package]]
 name = "rom"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
+ "hmac",
  "rayon",
  "rom-derive",
  "serde",
@@ -1629,8 +1640,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "rom-ai"
+version = "0.1.0"
+dependencies = [
+ "rayon",
+ "rom",
+ "rom-redb",
+ "rom-sqlite",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
 name = "rom-auth"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "base64 0.22.1",
  "form_urlencoded",
@@ -1644,7 +1668,7 @@ dependencies = [
 
 [[package]]
 name = "rom-backup"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "rom",
  "serde",
@@ -1654,7 +1678,7 @@ dependencies = [
 
 [[package]]
 name = "rom-blob"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "futures-util",
  "rom",
@@ -1665,7 +1689,7 @@ dependencies = [
 
 [[package]]
 name = "rom-blob-object-store"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "futures-util",
  "object_store",
@@ -1679,7 +1703,7 @@ dependencies = [
 
 [[package]]
 name = "rom-cli"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "clap",
  "reqwest",
@@ -1695,7 +1719,7 @@ dependencies = [
 
 [[package]]
 name = "rom-config"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "config",
  "rom",
@@ -1710,7 +1734,7 @@ dependencies = [
 
 [[package]]
 name = "rom-conformance"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "rom",
  "rom-blob",
@@ -1719,7 +1743,7 @@ dependencies = [
 
 [[package]]
 name = "rom-consumer"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "rom",
  "rom-conformance",
@@ -1730,7 +1754,7 @@ dependencies = [
 
 [[package]]
 name = "rom-demo"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "futures-util",
  "libc",
@@ -1752,7 +1776,7 @@ dependencies = [
 
 [[package]]
 name = "rom-derive"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1761,7 +1785,7 @@ dependencies = [
 
 [[package]]
 name = "rom-fields"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "chrono",
  "rom",
@@ -1772,7 +1796,7 @@ dependencies = [
 
 [[package]]
 name = "rom-http"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "axum",
  "futures-util",
@@ -1786,7 +1810,7 @@ dependencies = [
 
 [[package]]
 name = "rom-identity"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "jsonwebtoken",
  "rom",
@@ -1798,8 +1822,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "rom-openrouter"
+version = "0.1.0"
+dependencies = [
+ "httpdate",
+ "reqwest",
+ "rom",
+ "rom-ai",
+ "rom-redb",
+ "rom-sqlite",
+ "rustls",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
 name = "rom-query-measure"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "dhat",
  "rom",
@@ -1811,18 +1851,35 @@ dependencies = [
 ]
 
 [[package]]
+name = "rom-recovery-host"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "rom",
+ "rom-backup",
+ "rom-http",
+ "rom-redb",
+ "rom-sqlite",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
 name = "rom-redb"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "redb",
  "rom",
  "rom-backup",
+ "serde",
  "serde_json",
+ "sha2",
 ]
 
 [[package]]
 name = "rom-sqlite"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "rom",
  "rom-backup",
@@ -1833,7 +1890,7 @@ dependencies = [
 
 [[package]]
 name = "rom-storage-conformance"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "jsonwebtoken",
  "redb",
@@ -1852,7 +1909,7 @@ dependencies = [
 
 [[package]]
 name = "rom-studio-host"
-version = "0.0.3"
+version = "0.1.0"
 dependencies = [
  "axum",
  "base64 0.22.1",

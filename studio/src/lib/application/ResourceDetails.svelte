@@ -10,20 +10,57 @@
   import CheckboxAdapter from "../renderers/CheckboxAdapter.svelte";
   import { Button } from "../components/ui/button/index.js";
   import ResourceSummary from "../presentation/ResourceSummary.svelte";
+  import type { EditorSnapshot } from "./editor-drafts.ts";
+  import {
+    formFrameDefinition,
+    mergeFormFrames,
+    readFormFrames,
+  } from "../resources/form-draft.ts";
+  import type { ResourceFormSubmission } from "../resources/form-types.ts";
   let {
     descriptor,
     selected,
     blocked,
     onmutate,
     onreload,
+    managed = false,
+    mutationAllowed = true,
+    draftSnapshot = null,
+    draftWriter,
+    restoreEpoch = 0,
   }: {
     descriptor: ResourceDescriptor;
     selected: ProjectedView;
     blocked: boolean;
     onmutate: (expected: bigint, operation: Operation) => Promise<void>;
     onreload: () => void;
+    managed?: boolean;
+    mutationAllowed?: boolean;
+    draftSnapshot?: EditorSnapshot | null;
+    draftWriter?: {
+      stage: (
+        snapshot:
+          EditorSnapshot | ((current: EditorSnapshot | null) => EditorSnapshot),
+        operation: Operation | null,
+      ) => Promise<void>;
+      refuse: () => void;
+    };
+    restoreEpoch?: number;
   } = $props();
-  const draftRevision = untrack(() => selected.revision);
+  const frameDefinition = untrack(() => formFrameDefinition(descriptor));
+  const frames = $derived.by(() => {
+    if (!draftSnapshot)
+      return { resource: null, actions: {} as Record<string, EditorSnapshot> };
+    try {
+      return readFormFrames(draftSnapshot, frameDefinition);
+    } catch {
+      return { resource: null, actions: {} as Record<string, EditorSnapshot> };
+    }
+  });
+  const initialRevision = untrack(() => selected.revision);
+  const draftRevision = $derived(
+    draftSnapshot?.baseRevision ?? initialRevision,
+  );
   const stale = $derived(selected.revision !== draftRevision);
   let deleteConfirm = $state(false);
 </script>
@@ -42,7 +79,24 @@
       <ResourceForm
         {descriptor}
         direct
-        readonly={blocked || stale}
+        readonly={!managed && (blocked || stale)}
+        submitDisabled={blocked || stale || !mutationAllowed}
+        baseRevision={draftRevision}
+        draftSnapshot={frames.resource}
+        {restoreEpoch}
+        onDraftChange={draftWriter
+          ? (next, input: ResourceFormSubmission | null) =>
+              draftWriter!.stage(
+                (current) =>
+                  mergeFormFrames(
+                    current,
+                    { type: "resource" },
+                    next,
+                    frameDefinition,
+                  ),
+                input,
+              )
+          : undefined}
         value={selected.value}
         mode="patch"
         submit={async (input) => {
@@ -51,7 +105,28 @@
       />
       {#each descriptor.action_inputs as action (action.name)}<ActionForm
           {descriptor}
-          readonly={blocked || stale}
+          readonly={!managed && (blocked || stale)}
+          submitDisabled={blocked || stale || !mutationAllowed}
+          baseRevision={draftRevision}
+          draftSnapshot={Object.hasOwn(frames.actions, action.name)
+            ? frames.actions[action.name]
+            : null}
+          {restoreEpoch}
+          onDraftChange={draftWriter
+            ? (next, input) =>
+                draftWriter!.stage(
+                  (current) =>
+                    mergeFormFrames(
+                      current,
+                      { type: "action", name: action.name },
+                      next,
+                      frameDefinition,
+                    ),
+                  input === null
+                    ? null
+                    : { type: "action", input: { name: action.name, input } },
+                )
+            : undefined}
           {action}
           oninvoke={async (input) => {
             await onmutate(draftRevision, {

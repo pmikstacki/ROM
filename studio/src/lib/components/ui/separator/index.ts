@@ -1,7 +1,2 @@
-import Root from "./separator.svelte";
-
-export {
-	Root,
-	//
-	Root as Separator,
-};
+/** Stable Studio facade; generic behavior belongs to ROM UI. */
+export * from "rom-ui/primitives/separator";

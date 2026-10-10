@@ -104,7 +104,10 @@ impl BlobService {
                     .await;
                 match committed {
                     Ok(_) => {
-                        let current = inner.runtime.read::<Blob>(&actor, &id).await?;
+                        let current = match inner.runtime.read::<Blob>(&actor, &id).await {
+                            Ok(current) => current,
+                            Err(cause) => return Ok(UploadOutcome::Unattached { object, cause }),
+                        };
                         if current.revision != initial.revision + 1
                             || current
                                 .value
@@ -164,7 +167,8 @@ impl BlobService {
                     blob.upload_revision
                 };
                 let object = receipt(&id, revision, &blob);
-                if blob.state != BlobState::Detached {
+                let changed = blob.state != BlobState::Detached;
+                if changed {
                     blob.state = BlobState::Detached;
                     blob.upload_revision = revision;
                     inner
@@ -177,7 +181,14 @@ impl BlobService {
                         )
                         .await?;
                 }
-                inner.runtime.read::<Blob>(&actor, &id).await?;
+                if let Err(cause) = inner.runtime.read::<Blob>(&actor, &id).await {
+                    // The committed mutation has no authorized acknowledgement.
+                    return Err(if changed {
+                        Error::Unknown
+                    } else {
+                        Error::Core(cause)
+                    });
+                }
                 Ok(object)
             })
         })

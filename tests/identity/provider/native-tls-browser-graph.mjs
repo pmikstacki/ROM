@@ -1,0 +1,21 @@
+import { createRequire } from 'node:module';
+import { dirname } from 'node:path';
+import { lstatSync, readdirSync, realpathSync, readlinkSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { readNativeTlsFile } from './native-tls-io.mjs';
+const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
+export function inspectNativeTlsBrowserGraph(studio,{maximumFiles=4096,maximumBytes=128*1024**2,maximumDepth=20}={}) {
+ if(realpathSync(studio)!==studio)throw Error('canonical Studio required');
+ for(const [value,max] of [[maximumFiles,4096],[maximumBytes,128*1024**2],[maximumDepth,20]])if(!Number.isSafeInteger(value)||value<1||value>max)throw Error('bounded browser graph limits');
+ const modules=studio+'/node_modules',lockPath=studio+'/package-lock.json';if(realpathSync(modules)!==modules)throw Error('canonical node_modules required');
+ const lockBytes=readNativeTlsFile(lockPath,16*1024**2),lock=JSON.parse(lockBytes),aliases=[],packages=[],files=[];let bytes=0,entries=0;
+ const within=path=>path.startsWith(modules+'/');
+ function alias(path,expected){if(!within(path)||path.split('/').includes('..'))throw Error('browser alias path escape');const stat=lstatSync(path),canonical=realpathSync(path);if(!within(canonical))throw Error('browser package link escape');if(!stat.isDirectory()&&!stat.isSymbolicLink())throw Error('browser package alias type');const canonicalStat=lstatSync(canonical);if(!canonicalStat.isDirectory())throw Error('browser canonical package type');if(expected&&canonical!==expected)throw Error('Node dependency mapping mismatch');aliases.push({path,type:stat.isSymbolicLink()?'symlink':'directory',link:stat.isSymbolicLink()?readlinkSync(path):null,device:stat.dev,inode:stat.ino,canonical,canonical_device:canonicalStat.dev,canonical_inode:canonicalStat.ino});return canonical;}
+ function readPackage(root,name){const path=root+'/package.json',stat=lstatSync(path);if(!stat.isFile()||stat.isSymbolicLink()||stat.size>1048576)throw Error('bounded browser package metadata');const value=JSON.parse(readNativeTlsFile(path,1048576));if(value.name!==name||value.version!==lock.packages?.['node_modules/'+name]?.version)throw Error('browser package name/version mismatch');packages.push({name,version:value.version,root});return value;}
+ function dependency(from,name){const resolver=createRequire(from+'/package.json'),resolved=resolver.resolve(name+'/package.json'),canonical=dirname(realpathSync(resolved));if(!within(canonical))throw Error('Node resolved browser package escape');const paths=resolver.resolve.paths(name);if(!Array.isArray(paths)||paths.length>32)throw Error('bounded Node lookup paths');let found;for(const base of paths){const candidate=base+'/'+name;if(!within(candidate))continue;try{lstatSync(candidate+'/package.json');found=candidate;break;}catch(error){if(!['ENOENT','ENOTDIR'].includes(error.code))throw error;}}if(!found)throw Error('Node dependency alias absent');return alias(found,canonical);}
+ const test=alias(modules+'/@playwright/test');readPackage(test,'@playwright/test');const playwright=dependency(test,'playwright');readPackage(playwright,'playwright');const core=dependency(playwright,'playwright-core');readPackage(core,'playwright-core');
+ function tree(path,depth=0){if(depth>maximumDepth||++entries>maximumFiles)throw Error('browser graph entry/depth bound');const info=lstatSync(path);if(info.isSymbolicLink())throw Error('unexpected internal browser symlink');if(info.isDirectory()){for(const name of readdirSync(path).sort())tree(path+'/'+name,depth+1);}else{if(!info.isFile()||info.size>16*1024**2)throw Error('bounded browser regular file');bytes+=info.size;if(bytes>maximumBytes)throw Error('browser graph byte bound');files.push({path,bytes:info.size,sha256:digest(readNativeTlsFile(path,16*1024**2))});}}
+ for(const p of packages)tree(p.root);
+ return {schema:'rom-native-browser-graph-v1',lock:{path:lockPath,sha256:digest(lockBytes)},aliases,packages,files,bytes,entries};
+}
+export function revalidateNativeTlsBrowserGraph(studio,witness) {const actual=inspectNativeTlsBrowserGraph(studio);if(JSON.stringify(actual)!==JSON.stringify(witness))throw Error('browser alias/content graph changed');return actual;}

@@ -16,6 +16,7 @@ fn state() -> StorageState {
         definition: "mail".into(),
         version: 1,
         service_key: "secret-service".into(),
+        not_before: None,
         delivery_profile: DeliveryProfile::AtLeastOnce,
         payload: WorkPayload::Notification {
             source: Row {

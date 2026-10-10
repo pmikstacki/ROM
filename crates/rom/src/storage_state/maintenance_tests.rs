@@ -32,6 +32,7 @@ fn pending(id: &str, payload: WorkPayload) -> PendingWork {
         },
         definition: "notify".into(),
         version: 4,
+        not_before: None,
         delivery_profile: DeliveryProfile::AtLeastOnce,
         service_key: "service".into(),
         payload,

@@ -2,6 +2,8 @@
 //! Every route is generic across registered Resource kinds. TLS and credential verification
 //! belong to the host. Use `serve` to coordinate stream termination and runtime draining.
 #![forbid(unsafe_code)]
+#[cfg(test)]
+mod admission_boundary_tests;
 mod authentication;
 mod error;
 #[cfg(test)]

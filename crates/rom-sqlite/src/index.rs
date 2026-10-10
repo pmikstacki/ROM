@@ -2,13 +2,13 @@
 mod catalog;
 mod derivation;
 mod encoding;
-mod layout;
+pub(crate) mod layout;
 mod metadata;
 mod planner;
 mod query;
 mod validation;
 
-pub(crate) use catalog::{initialize, rebuild, register, replace};
+pub(crate) use catalog::{initialize, prepare, publish, rebuild, register, replace};
 pub(crate) use encoding::encode;
 pub(crate) use query::query_read;
 #[cfg(feature = "test-support")]

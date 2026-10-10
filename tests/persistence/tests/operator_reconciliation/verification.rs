@@ -48,7 +48,11 @@ fn registration(mode: Verify, calls: Arc<AtomicUsize>) -> ChannelRegistration<St
                 }
             }
         })
-        .verification_timeout(Duration::from_millis(20))
+        // Immediate cases test semantic results; the pending case tests a short deadline.
+        .verification_timeout(match mode {
+            Verify::Timeout => Duration::from_millis(20),
+            _ => Duration::from_secs(2),
+        })
 }
 
 #[tokio::test]
@@ -143,7 +147,8 @@ async fn unresolved_eventual_lookup_miss_cannot_grant_resend_before_later_accept
                         }
                     }
                 }
-            });
+            })
+            .verification_timeout(Duration::from_secs(2));
         let runtime = fixture.runtime(registration, SendMode::Unknown);
         hold(&fixture, &runtime).await;
         let before = fixture.snapshot();
@@ -153,6 +158,7 @@ async fn unresolved_eventual_lookup_miss_cannot_grant_resend_before_later_accept
             .await
             .unwrap();
         assert_eq!(result.outcome, WorkControlOutcome::Unresolved);
+        assert_eq!(calls.load(Ordering::SeqCst), 1);
         assert_eq!(result.version, unknown.expected);
         assert!(!result.replayed);
         assert_eq!(fixture.snapshot(), before);

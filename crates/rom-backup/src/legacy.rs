@@ -67,8 +67,11 @@ pub fn upgrade_v1_archive(
         external_deliveries_included: false,
     };
     archive::check_count(&manifest, limits)?;
-    let original: LegacySnapshot =
+    let original_value: serde_json::Value =
         serde_json::from_slice(&bytes[h..]).map_err(|_| Error::Storage)?;
+    crate::legacy_state::reject_snapshot_scheduling_fields(&original_value)?;
+    let original: LegacySnapshot =
+        serde_json::from_value(original_value).map_err(|_| Error::Storage)?;
     let snapshot = Snapshot {
         state: crate::decode_legacy_storage_state(original.state)?,
         rows: original.rows,
@@ -150,6 +153,17 @@ pub fn upgrade_v5_archive(
     limits: BackupLimits,
 ) -> Result<Manifest> {
     upgrade_catalogued_archive(source.as_ref(), destination.as_ref(), backend, limits, 5, 7)
+}
+
+/// Upgrade archive-6/storage-8 while retaining operator receipts and delivery profiles.
+/// Scheduling metadata is absent in the predecessor and cannot be injected into it.
+pub fn upgrade_v6_archive(
+    source: impl AsRef<Path>,
+    destination: impl AsRef<Path>,
+    backend: Backend,
+    limits: BackupLimits,
+) -> Result<Manifest> {
+    upgrade_catalogued_archive(source.as_ref(), destination.as_ref(), backend, limits, 6, 8)
 }
 
 fn upgrade_catalogued_archive(

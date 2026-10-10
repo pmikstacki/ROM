@@ -1,54 +1,12 @@
+use crate::auth_diagnostics::{AuthOperation, AuthOutcome, AuthStage};
 use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
 use rom::{Error, Result};
 use rom_auth::jwt::DecodingKey;
 use serde::Deserialize;
 use std::collections::BTreeMap;
 
-#[derive(Deserialize)]
-#[serde(deny_unknown_fields)]
-struct KeySet {
-    keys: Vec<Jwk>,
-}
-#[derive(Deserialize)]
-#[serde(deny_unknown_fields)]
-struct Jwk {
-    kid: String,
-    kty: String,
-    n: String,
-    e: String,
-    alg: Option<String>,
-    #[serde(rename = "use")]
-    usage: Option<String>,
-    key_ops: Option<Vec<String>>,
-}
-pub(crate) fn parse_jwks(bytes: &[u8]) -> Result<BTreeMap<String, DecodingKey>> {
-    if bytes.len() > 65_536 {
-        return Err(Error::TooLarge);
-    }
-    let set: KeySet = serde_json::from_slice(bytes).map_err(|_| Error::Denied)?;
-    if set.keys.is_empty() || set.keys.len() > 8 {
-        return Err(Error::Denied);
-    }
-    let mut keys = BTreeMap::new();
-    for jwk in set.keys {
-        if jwk.kid.is_empty()
-            || jwk.kid.len() > 64
-            || jwk.kty != "RSA"
-            || jwk.alg.as_deref().is_some_and(|alg| alg != "RS256")
-            || jwk.usage.as_deref().is_some_and(|usage| usage != "sig")
-            || jwk
-                .key_ops
-                .as_ref()
-                .is_some_and(|ops| ops.as_slice() != ["verify"])
-            || keys.contains_key(&jwk.kid)
-        {
-            return Err(Error::Denied);
-        }
-        let key = DecodingKey::from_rsa_components(&jwk.n, &jwk.e).map_err(|_| Error::Denied)?;
-        keys.insert(jwk.kid, key);
-    }
-    Ok(keys)
-}
+pub(crate) use crate::jwks::parse_jwks;
+
 pub(crate) fn original_expiry(token: &str) -> Result<u64> {
     #[derive(Deserialize)]
     struct Expiry {
@@ -150,6 +108,7 @@ impl Credentials {
             &attempt.nonce,
             &tokens.access_token,
             &code,
+            AuthOperation::Session,
         )
         .await?;
         let expiry = original_expiry(&tokens.id_token)?;
@@ -169,32 +128,119 @@ impl Credentials {
         ))
     }
     pub(crate) async fn current(&self, shared: &Arc<Shared>) -> Result<Actor> {
-        self.cached.lock().await.proof.bind(&shared.runtime).await
+        let cached = self.cached.lock().await;
+        shared.auth.record(
+            AuthOperation::CurrentStream,
+            AuthStage::CredentialWait,
+            AuthOutcome::Succeeded,
+        );
+        let outcome = cached.proof.bind(&shared.runtime).await;
+        shared.auth.record(
+            AuthOperation::CurrentStream,
+            AuthStage::CurrentBind,
+            AuthOutcome::result(&outcome),
+        );
+        outcome
     }
+    #[cfg(test)]
     pub(crate) async fn actor(&self, shared: &Arc<Shared>) -> Result<Actor> {
+        self.actor_observed(shared, AuthOperation::Unspecified)
+            .await
+    }
+    pub(crate) async fn actor_observed(
+        &self,
+        shared: &Arc<Shared>,
+        operation: AuthOperation,
+    ) -> Result<Actor> {
+        let mut cached = self.cached.lock().await;
+        shared
+            .auth
+            .record(operation, AuthStage::CredentialWait, AuthOutcome::Succeeded);
+        // Recheck time after waiting: cached evidence can expire while the lock is held.
         let now = shared.config.clock.now();
         if now >= self.expiry {
+            shared
+                .auth
+                .record(operation, AuthStage::OriginalExpiry, AuthOutcome::Denied);
             return Err(Error::Denied);
         }
-        let mut cached = self.cached.lock().await;
-        if now >= cached.until {
-            cached.proof = verify(
-                shared,
-                &self.activation,
-                &self.token,
-                &self.nonce,
-                &self.access_token,
-                &self.code,
-            )
-            .await?;
-            cached.until = cached
-                .proof
-                .bind(&shared.runtime)
-                .await?
-                .valid_until()
-                .ok_or(Error::Denied)?;
+        let budget = crate::proof_handoff::budget(&shared.config, operation)?;
+        if crate::proof_handoff::short(now, cached.until, budget) {
+            shared
+                .auth
+                .record(operation, AuthStage::RenewDue, AuthOutcome::Succeeded);
+            return self.renew(shared, &mut cached, operation, budget).await;
         }
-        cached.proof.bind(&shared.runtime).await
+        let outcome = cached.proof.bind(&shared.runtime).await;
+        shared.auth.record(
+            operation,
+            AuthStage::CachedBind,
+            AuthOutcome::result(&outcome),
+        );
+        let now = shared.config.clock.now();
+        if now >= self.expiry {
+            shared
+                .auth
+                .record(operation, AuthStage::OriginalExpiry, AuthOutcome::Denied);
+            return Err(Error::Denied);
+        }
+        // Authoritative IO can cross the cached expiry after the initial clock check.
+        // Renew once, retaining actual signature and current identity checks.
+        if matches!(&outcome, Ok(_) | Err(Error::Denied)) && now >= cached.until
+            || outcome.is_ok() && crate::proof_handoff::short(now, cached.until, budget)
+        {
+            shared
+                .auth
+                .record(operation, AuthStage::RenewAfterBind, AuthOutcome::Succeeded);
+            return self.renew(shared, &mut cached, operation, budget).await;
+        }
+        outcome
+    }
+    async fn renew(
+        &self,
+        shared: &Arc<Shared>,
+        cached: &mut Cached,
+        operation: AuthOperation,
+        budget: u64,
+    ) -> Result<Actor> {
+        let verified = verify(
+            shared,
+            &self.activation,
+            &self.token,
+            &self.nonce,
+            &self.access_token,
+            &self.code,
+            operation,
+        )
+        .await;
+        let proof = verified?;
+        let bound = proof.bind(&shared.runtime).await;
+        shared
+            .auth
+            .record(operation, AuthStage::FreshBind, AuthOutcome::result(&bound));
+        let actor = bound?;
+        let until = actor.valid_until().ok_or(Error::Denied)?;
+        let now = shared.config.clock.now();
+        if now >= self.expiry || now >= until {
+            shared.auth.record(
+                operation,
+                if now >= self.expiry {
+                    AuthStage::OriginalExpiry
+                } else {
+                    AuthStage::FreshProofExpiry
+                },
+                AuthOutcome::Denied,
+            );
+            return Err(Error::Denied);
+        }
+        if crate::proof_handoff::short(now, until, budget) {
+            // Fresh evidence cannot reserve this operation margin. Do not loop,
+            // extend its deadline, or fall back to the old cached proof.
+            return Err(Error::Overloaded);
+        }
+        // Publish the verified proof and its deadline together only after successful binding.
+        *cached = Cached { proof, until };
+        Ok(actor)
     }
 }
 
@@ -219,6 +265,7 @@ async fn verify(
     nonce: &str,
     access: &str,
     code: &str,
+    operation: AuthOperation,
 ) -> Result<ActivatedIdentity> {
     let config = shared
         .config
@@ -226,20 +273,29 @@ async fn verify(
         .iter()
         .find(|config| config.authority == activation.authority())
         .ok_or(Error::Denied)?;
-    let keys = parse_jwks(
-        &bounded(
-            shared.client.get(shared.config.jwks_endpoint(config)),
-            shared.config.limits.acquisition_bytes,
+    let acquisition = async {
+        parse_jwks(
+            &bounded(
+                shared.client.get(shared.config.jwks_endpoint(config)),
+                shared.config.limits.acquisition_bytes,
+            )
+            .await?,
         )
-        .await?,
-    )?;
+    }
+    .await;
+    shared.auth.record(
+        operation,
+        AuthStage::KeyAcquisition,
+        AuthOutcome::result(&acquisition),
+    );
+    let keys = acquisition?;
     let now = shared.config.clock.now();
     let activation = activation.clone();
     let token = token.to_owned();
     let nonce = nonce.to_owned();
     let access = access.to_owned();
     let code = code.to_owned();
-    tokio::task::spawn_blocking(move || {
+    let verified = tokio::task::spawn_blocking(move || {
         activation.verify(|authority, provider| {
             OidcIdTokenAdapter::configured(
                 authority,
@@ -259,10 +315,55 @@ async fn verify(
         })
     })
     .await
-    .map_err(|_| Error::Panicked)?
+    .map_err(|_| Error::Panicked)
+    .and_then(|result| result);
+    shared.auth.record(
+        operation,
+        AuthStage::OriginalTokenVerification,
+        AuthOutcome::result(&verified),
+    );
+    verified
 }
-async fn bounded(request: reqwest::RequestBuilder, limit: usize) -> Result<Vec<u8>> {
-    let response = request.send().await.map_err(|_| Error::Denied)?;
+// Retain session context only for a bounded, known acquisition outage. No proof is returned.
+fn acquisition_error(error: reqwest::Error) -> Error {
+    use std::error::Error as StdError;
+    use std::io::ErrorKind;
+    let mut temporary = error.is_timeout();
+    let mut source: Option<&(dyn StdError + 'static)> = Some(&error);
+    for _ in 0..16 {
+        let Some(cause) = source else {
+            return if temporary {
+                Error::Overloaded
+            } else {
+                Error::Denied
+            };
+        };
+        if let Some(io) = cause.downcast_ref::<std::io::Error>() {
+            match io.kind() {
+                ErrorKind::InvalidData | ErrorKind::InvalidInput => return Error::Denied,
+                ErrorKind::ConnectionRefused
+                | ErrorKind::ConnectionReset
+                | ErrorKind::ConnectionAborted
+                | ErrorKind::NotConnected
+                | ErrorKind::TimedOut
+                | ErrorKind::NetworkDown
+                | ErrorKind::NetworkUnreachable
+                | ErrorKind::HostUnreachable => temporary = true,
+                _ => {}
+            }
+        }
+        source = cause.source();
+    }
+    Error::Denied
+}
+
+pub(crate) async fn bounded(request: reqwest::RequestBuilder, limit: usize) -> Result<Vec<u8>> {
+    let response = request.send().await.map_err(acquisition_error)?;
+    if response.status() == reqwest::StatusCode::TOO_MANY_REQUESTS
+        || response.status().is_server_error()
+    {
+        return Err(Error::Overloaded);
+    }
     if !response.status().is_success()
         || response
             .content_length()
@@ -273,7 +374,7 @@ async fn bounded(request: reqwest::RequestBuilder, limit: usize) -> Result<Vec<u
     let mut stream = response.bytes_stream();
     let mut bytes = Vec::new();
     while let Some(chunk) = stream.next().await {
-        let chunk = chunk.map_err(|_| Error::Denied)?;
+        let chunk = chunk.map_err(acquisition_error)?;
         if bytes
             .len()
             .checked_add(chunk.len())
@@ -285,3 +386,26 @@ async fn bounded(request: reqwest::RequestBuilder, limit: usize) -> Result<Vec<u
     }
     Ok(bytes)
 }
+
+#[cfg(test)]
+mod credentials_tests;
+
+#[cfg(test)]
+mod credentials_concurrency_tests;
+
+#[cfg(test)]
+mod auth_diagnostics_tests;
+
+#[cfg(test)]
+mod auth_pipeline_diagnostics_tests;
+
+#[cfg(test)]
+mod session_expiry_tests;
+
+#[cfg(test)]
+#[path = "oidc/proof_handoff_tests.rs"]
+mod proof_handoff_tests;
+
+#[cfg(test)]
+#[path = "oidc/proof_handoff_downstream_tests.rs"]
+mod proof_handoff_downstream_tests;
